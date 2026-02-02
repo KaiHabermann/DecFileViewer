@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.venv/
+__pycache__/
+*.pyc
+
+# Data & Generated Files
+# We exclude the large number of generated images and copies of dkfiles to keep the repo light
+# But for GitHub Pages deployment, these need to be built/present.
+# Usually, we'd commit the source code and have a CI/CD pipeline build the data.
+# However, since the data generation is heavy (parsing 9500 files + images), 
+# you might want to commit the result OR use a separate branch for deployment.
+# For now, let's ignore the intermediate Python artifacts but KEEP the frontend public data 
+# so the page can be deployed directly if built locally.
+
+# If the repo size becomes an issue, add these to gitignore and use a release asset or external storage.
+# frontend/public/images/
+# frontend/public/dkfiles/
+
+# IDE
+.vscode/
+.idea/
+.cursor/
+
+# System
+.DS_Store
+
+# Build
+dist/
+build/
+
+# Decay language
+DecFiles/
+
+# Frontend
+frontend/public/data.json
+frontend/public/images/
+frontend/public/dkfiles/
+
+node_modules/
+frontend/node_modules/
