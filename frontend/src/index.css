@@ -62,6 +62,15 @@ tr:hover {
 .search-container {
   width: 100%;
 }
+.filter-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.physics-wg-filter {
+  display: flex;
+  align-items: center;
+}
 .results-count {
   margin-bottom: 1rem;
   color: #666;
@@ -172,7 +181,7 @@ tr:hover {
   border-bottom: 1px solid #eee;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .modal-header h2 {
@@ -186,6 +195,8 @@ tr:hover {
   font-size: 1.5rem;
   cursor: pointer;
   color: #666;
+  flex-shrink: 0;
+  margin-left: 1rem;
 }
 
 .close-button:hover {

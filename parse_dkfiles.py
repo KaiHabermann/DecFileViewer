@@ -124,6 +124,9 @@ def extract_particles_advanced(descriptor):
 def parse_file(filepath):
     event_type = None
     descriptor = None
+    physics_wg = None
+    responsible = None
+    email = None
     
     try:
         with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
@@ -133,14 +136,22 @@ def parse_file(filepath):
                     event_type = line.split(':', 1)[1].strip()
                 elif line.startswith('# Descriptor:'):
                     descriptor = line.split(':', 1)[1].strip()
+                elif line.startswith('# PhysicsWG:'):
+                    physics_wg = line.split(':', 1)[1].strip()
+                elif line.startswith('# Responsible:'):
+                    responsible = line.split(':', 1)[1].strip()
+                elif line.startswith('# Email:'):
+                    email = line.split(':', 1)[1].strip()
                 
-                if event_type and descriptor:
+                # Continue reading to get all fields (don't break early)
+                # We could optimize by breaking after all fields are found
+                if event_type and descriptor and physics_wg and responsible and email:
                     break
     except Exception as e:
         print(f"Error reading {filepath}: {e}")
-        return None, None
+        return None, None, None, None, None
                 
-    return event_type, descriptor
+    return event_type, descriptor, physics_wg, responsible, email
 
 def generate_decay_dot_files(filepath, filename_no_ext):
     dot_files = []
@@ -227,7 +238,7 @@ def main():
             continue
             
         filepath = os.path.join(DKFILES_DIR, filename)
-        event_type, descriptor = parse_file(filepath)
+        event_type, descriptor, physics_wg, responsible, email = parse_file(filepath)
         
         # Copy the file to public/dkfiles
         try:
@@ -249,7 +260,10 @@ def main():
                 'descriptor': descriptor if descriptor else "No descriptor found",
                 'filename': filename,
                 'particles': particles,
-                'dotFiles': dot_files
+                'dotFiles': dot_files,
+                'physicsWG': physics_wg,
+                'responsible': responsible,
+                'email': email
             })
             count += 1
             if count % 100 == 0:

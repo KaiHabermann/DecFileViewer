@@ -10,6 +10,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState(''); // Global text search
   const [particleSearch, setParticleSearch] = useState(''); // Input for adding particles
   const [selectedParticles, setSelectedParticles] = useState([]); // List of particles to filter by
+  const [selectedPhysicsWG, setSelectedPhysicsWG] = useState(''); // PhysicsWG filter
   
   const [displayLimit, setDisplayLimit] = useState(100);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -19,6 +20,8 @@ function App() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const wrapperRef = useRef(null);
 
+  const [uniquePhysicsWGs, setUniquePhysicsWGs] = useState([]);
+
   useEffect(() => {
     fetch('./data.json')
       .then(res => res.json())
@@ -27,6 +30,15 @@ function App() {
         if (responseData.files) {
           setData(responseData.files);
           setUniqueParticles(responseData.uniqueParticles || []);
+          
+          // Extract unique PhysicsWG values
+          const wgs = new Set();
+          responseData.files.forEach(file => {
+            if (file.physicsWG) {
+              wgs.add(file.physicsWG);
+            }
+          });
+          setUniquePhysicsWGs(Array.from(wgs).sort());
         } else {
           // Fallback for old format if needed
           setData(responseData);
@@ -88,8 +100,12 @@ function App() {
     
     const matchesParticles = selectedParticles.length === 0 || 
       selectedParticles.every(p => itemParticlesLower.includes(p.toLowerCase()));
+    
+    // 3. PhysicsWG Filter
+    const matchesPhysicsWG = selectedPhysicsWG === '' || 
+      item.physicsWG === selectedPhysicsWG;
       
-    return matchesText && matchesParticles;
+    return matchesText && matchesParticles && matchesPhysicsWG;
   });
 
   const displayedData = filteredData.slice(0, displayLimit);
@@ -111,6 +127,15 @@ function App() {
 
   const closeModal = () => {
     setSelectedItem(null);
+  };
+
+  const getGitLabLink = (filename) => {
+    // URL encode the filename for GitLab
+    const encodedFilename = encodeURIComponent(filename)
+      .replace(/\(/g, '%28')
+      .replace(/\)/g, '%29')
+      .replace(/\*/g, '%2A');
+    return `https://gitlab.cern.ch/lhcb-datapkg/Gen/DecFiles/-/blob/master/dkfiles/${encodedFilename}`;
   };
 
   const addParticle = (particle) => {
@@ -135,7 +160,28 @@ function App() {
   return (
     <div className="container">
       <div className="header">
-        <h1>DecFile Viewer</h1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <h1 style={{ margin: 0 }}>DecFile Viewer</h1>
+          <a 
+            href="https://lbeventtype.web.cern.ch/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{
+              padding: '8px 16px',
+              background: '#2196F3',
+              color: 'white',
+              textDecoration: 'none',
+              borderRadius: '4px',
+              fontSize: '0.9rem',
+              fontWeight: '500',
+              transition: 'background 0.2s'
+            }}
+            onMouseOver={e => e.target.style.background = '#1976D2'}
+            onMouseOut={e => e.target.style.background = '#2196F3'}
+          >
+            LHCb EventType Picker
+          </a>
+        </div>
         
         <div className="search-section">
           <div className="search-container">
@@ -148,6 +194,35 @@ function App() {
                   setDisplayLimit(100);
               }}
             />
+          </div>
+
+          <div className="filter-row">
+            <div className="physics-wg-filter">
+              <label htmlFor="physicsWG" style={{ marginRight: '8px', fontWeight: '500' }}>
+                PhysicsWG:
+              </label>
+              <select 
+                id="physicsWG"
+                value={selectedPhysicsWG}
+                onChange={e => {
+                  setSelectedPhysicsWG(e.target.value);
+                  setDisplayLimit(100);
+                }}
+                style={{
+                  padding: '8px 12px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  fontSize: '16px',
+                  minWidth: '200px',
+                  cursor: 'pointer'
+                }}
+              >
+                <option value="">All Working Groups</option>
+                {uniquePhysicsWGs.map(wg => (
+                  <option key={wg} value={wg}>{wg}</option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div className="particle-filter-container" ref={wrapperRef}>
@@ -187,6 +262,11 @@ function App() {
 
         <div className="results-count">
           Showing {displayedData.length} of {filteredData.length} results
+          {selectedPhysicsWG && (
+            <span style={{ marginLeft: '10px', color: '#2196F3' }}>
+              (PhysicsWG: {selectedPhysicsWG})
+            </span>
+          )}
         </div>
       </div>
 
@@ -196,8 +276,9 @@ function App() {
         <table>
           <thead>
             <tr>
-              <th style={{width: '150px'}}>EventType</th>
-              <th style={{width: '300px'}}>Filename</th>
+              <th style={{width: '120px'}}>EventType</th>
+              <th style={{width: '280px'}}>Filename</th>
+              <th style={{width: '120px'}}>PhysicsWG</th>
               <th>Descriptor</th>
             </tr>
           </thead>
@@ -210,6 +291,7 @@ function App() {
               >
                 <td>{item.eventType}</td>
                 <td>{item.filename}</td>
+                <td>{item.physicsWG || '-'}</td>
                 <td style={{fontFamily: 'monospace', fontSize: '0.9em'}}>{item.descriptor}</td>
               </tr>
             ))}
@@ -221,7 +303,23 @@ function App() {
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>{selectedItem.filename}</h2>
+              <div style={{ flex: 1 }}>
+                <h2 style={{ margin: 0, marginBottom: '8px' }}>{selectedItem.filename}</h2>
+                <a 
+                  href={getGitLabLink(selectedItem.filename)} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  style={{ 
+                    fontSize: '0.9rem', 
+                    color: '#2196F3',
+                    textDecoration: 'none'
+                  }}
+                  onMouseOver={e => e.target.style.textDecoration = 'underline'}
+                  onMouseOut={e => e.target.style.textDecoration = 'none'}
+                >
+                  View on GitLab →
+                </a>
+              </div>
               <button className="close-button" onClick={closeModal}>&times;</button>
             </div>
             <div className="modal-body">
@@ -232,6 +330,21 @@ function App() {
                 <strong>Descriptor:</strong> 
                 <div className="descriptor-box">{selectedItem.descriptor}</div>
               </div>
+              {selectedItem.physicsWG && (
+                <div className="info-row">
+                  <strong>PhysicsWG:</strong> {selectedItem.physicsWG}
+                </div>
+              )}
+              {selectedItem.responsible && (
+                <div className="info-row">
+                  <strong>Responsible:</strong> {selectedItem.responsible}
+                </div>
+              )}
+              {selectedItem.email && (
+                <div className="info-row">
+                  <strong>Email:</strong> <a href={`mailto:${selectedItem.email}`} style={{color: '#2196F3'}}>{selectedItem.email}</a>
+                </div>
+              )}
               
               {selectedItem.dotFiles && selectedItem.dotFiles.length > 0 && (
                 <div className="decay-section">
