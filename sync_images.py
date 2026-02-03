@@ -63,7 +63,6 @@ def main():
             count += 1
             
     print(f"Updated {count} entries with images.")
-    
     with open(DATA_FILE, 'w') as f:
         json.dump(data, f, indent=2)
         

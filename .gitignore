@@ -35,6 +35,7 @@ DecFiles/
 # Frontend
 frontend/public/data.json
 frontend/public/images/
+frontend/public/dotfiles/
 frontend/public/dkfiles/
 
 node_modules/

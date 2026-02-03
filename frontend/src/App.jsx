@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import DotViewer from './DotViewer';
 
 function App() {
   const [data, setData] = useState([]);
@@ -19,7 +20,7 @@ function App() {
   const wrapperRef = useRef(null);
 
   useEffect(() => {
-    fetch('/data.json')
+    fetch('./data.json')
       .then(res => res.json())
       .then(responseData => {
         // Handle new data structure
@@ -52,7 +53,7 @@ function App() {
   useEffect(() => {
     if (selectedItem) {
       setLoadingFile(true);
-      fetch(`/dkfiles/${selectedItem.filename}`)
+      fetch(`./dkfiles/${selectedItem.filename}`)
         .then(res => {
           if (!res.ok) throw new Error("File not found");
           return res.text();
@@ -232,13 +233,13 @@ function App() {
                 <div className="descriptor-box">{selectedItem.descriptor}</div>
               </div>
               
-              {selectedItem.images && selectedItem.images.length > 0 && (
-                <div className="images-section">
-                  <h3>Decay Chain Visualization</h3>
-                  <div className="images-container">
-                    {selectedItem.images.map((img, idx) => (
-                      <div key={idx} className="decay-image-wrapper">
-                         <img src={img} alt={`Decay chain ${idx + 1}`} className="decay-image" />
+              {selectedItem.dotFiles && selectedItem.dotFiles.length > 0 && (
+                <div className="decay-section">
+                  <h3>Decay Chain Visualization ({selectedItem.dotFiles.length} {selectedItem.dotFiles.length === 1 ? 'chain' : 'chains'})</h3>
+                  <div className="decay-container">
+                    {selectedItem.dotFiles.map((dotFile, idx) => (
+                      <div key={idx} className="decay-wrapper">
+                         <DotViewer dotFile={dotFile} />
                       </div>
                     ))}
                   </div>

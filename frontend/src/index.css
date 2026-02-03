@@ -227,29 +227,42 @@ tr:hover {
   border: 1px solid #eee;
 }
 
-.images-section {
+.decay-section {
   margin-top: 1.5rem;
   border-top: 1px solid #eee;
   padding-top: 1rem;
 }
 
-.images-container {
+.decay-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-.decay-image-wrapper {
+.decay-wrapper {
   background: white;
   padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  overflow: auto;
 }
 
-.decay-image {
+.dot-viewer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.dot-viewer svg {
   max-width: 100%;
   height: auto;
-  max-height: 300px;
+}
+
+.error {
+  color: #d32f2f;
+  padding: 1rem;
+  background: #ffebee;
+  border-radius: 4px;
+  text-align: center;
 }

@@ -7,7 +7,7 @@ from decaylanguage import DecFileParser, DecayChainViewer
 DKFILES_DIR = 'DecFiles/dkfiles'
 OUTPUT_FILE = 'frontend/public/data.json'
 DECFILES_PUBLIC_DIR = 'frontend/public/dkfiles'
-IMAGES_PUBLIC_DIR = 'frontend/public/images'
+DOT_FILES_DIR = 'frontend/public/dotfiles'
 
 # Regex to capture particles. 
 def extract_particles(descriptor):
@@ -142,8 +142,8 @@ def parse_file(filepath):
                 
     return event_type, descriptor
 
-def generate_decay_images(filepath, filename_no_ext):
-    image_paths = []
+def generate_decay_dot_files(filepath, filename_no_ext):
+    dot_files = []
     try:
         dfp = DecFileParser(filepath)
         dfp.parse()
@@ -151,27 +151,33 @@ def generate_decay_images(filepath, filename_no_ext):
         # Get all defined mothers
         mothers = dfp.list_decay_mother_names()
         
-        # Find root mothers (those that are not daughters of any other particle in the file)
-        # 1. Collect all daughters from all decays in the file
-        all_daughters = set()
-        if hasattr(dfp, '_parsed_decays'):
-            for mother_name, decays in dfp._parsed_decays.items():
-                 for decay in decays:
-                     if 'fs' in decay:
-                         for d in decay['fs']:
-                             all_daughters.add(d)
-        
-        # 2. Identify roots: mothers that are NOT in the set of all daughters
-        # Note: We need to handle aliasing? Usually DecFileParser handles aliases internally.
-        # But mothers list contains the aliased names used in the file.
-        
-        roots = [m for m in mothers if m not in all_daughters]
-        
-        # If no roots found (circular dependency? unlikely in valid decays), fall back to all mothers
-        if not roots and mothers:
-            roots = mothers
+        if not mothers:
+             return dot_files
 
+        
+        non_root = set()
+        for mother in mothers:
+            for mode in dfp.list_decay_modes(mother):
+                for daughter in mode:
+                    non_root.add(daughter)
+        # 2. Identify roots: mothers that are NOT in the set of all daughters
+        roots = [m for m in mothers if m not in non_root]
+        
+        # If no roots found (circular dependency?), fall back to all mothers
+        if not roots and mothers:
+            raise Exception("No roots found")
+            
+        # Generate DOT files for each root
         for mother in roots:
+            safe_mother = mother.replace('/', '_').replace('+', 'p').replace('-', 'm').replace('*', 'st')
+            dot_name = f"{filename_no_ext}_{safe_mother}.dot"
+            output_path = os.path.join(DOT_FILES_DIR, dot_name)
+            
+            # Skip if already exists
+            if os.path.exists(output_path):
+                dot_files.append(f"dotfiles/{dot_name}")
+                continue
+
             try:
                 # Build chain
                 chain = dfp.build_decay_chains(mother)
@@ -179,32 +185,24 @@ def generate_decay_images(filepath, filename_no_ext):
                 # Create viewer
                 dcv = DecayChainViewer(chain)
                 
-                # Define output path
-                # We need to use a safe filename for the image
-                safe_mother = mother.replace('/', '_').replace('+', 'p').replace('-', 'm').replace('*', 'st')
-                image_name = f"{filename_no_ext}_{safe_mother}"
-                output_path_base = os.path.join(IMAGES_PUBLIC_DIR, image_name)
+                # Get the DOT source and save it
+                dot_source = dcv.graph.source
                 
-                # Check if image already exists to save time?
-                # For now, overwrite to ensure correctness
-                if os.path.exists(output_path_base + ".png"):
-                     image_paths.append(f"/images/{image_name}.png")
-                     continue
-
-                # Render (this creates .png automatically if format='png')
-                dcv.graph.render(output_path_base, format='png', cleanup=True)
+                with open(output_path, 'w') as f:
+                    f.write(dot_source)
                 
-                image_paths.append(f"/images/{image_name}.png")
+                dot_files.append(f"dotfiles/{dot_name}")
                 
             except Exception as e:
-                # print(f"Failed to generate image for {mother} in {filename_no_ext}: {e}")
+                # If root fails, maybe it wasn't a valid root or chain build failed.
+                # print(f"Failed to generate DOT for {mother} in {filename_no_ext}: {e}")
                 pass
                 
     except Exception as e:
         # print(f"DecayParser failed for {filepath}: {e}")
         pass
         
-    return image_paths
+    return dot_files
 
 def main():
     data = []
@@ -213,7 +211,7 @@ def main():
     # Ensure output directories exist
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
     os.makedirs(DECFILES_PUBLIC_DIR, exist_ok=True)
-    os.makedirs(IMAGES_PUBLIC_DIR, exist_ok=True)
+    os.makedirs(DOT_FILES_DIR, exist_ok=True)
     
     if not os.path.exists(DKFILES_DIR):
         print(f"Directory {DKFILES_DIR} not found.")
@@ -223,10 +221,6 @@ def main():
     count = 0
     files = os.listdir(DKFILES_DIR)
     total_files = len(files)
-    
-    # Load existing data to preserve progress/avoid re-parsing everything if not needed
-    # But since we changed logic (roots only), we might want to re-run.
-    # To speed up dev, we can check if image exists.
     
     for filename in files:
         if not filename.endswith('.dec'):
@@ -246,16 +240,16 @@ def main():
             particles = extract_particles_advanced(descriptor)
             all_particles.update(particles)
             
-            # Generate images (updated logic)
+            # Generate DOT files for decay chains
             filename_no_ext = os.path.splitext(filename)[0]
-            images = generate_decay_images(filepath, filename_no_ext)
+            dot_files = generate_decay_dot_files(filepath, filename_no_ext)
             
             data.append({
                 'eventType': event_type,
                 'descriptor': descriptor if descriptor else "No descriptor found",
                 'filename': filename,
                 'particles': particles,
-                'images': images
+                'dotFiles': dot_files
             })
             count += 1
             if count % 100 == 0:
