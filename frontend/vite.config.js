@@ -4,7 +4,7 @@ import { writeFileSync } from 'fs'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/LHCbDecFileViewer/',
+  // base: '/LHCbDecFileViewer/',
   plugins: [
     react(),
     {
