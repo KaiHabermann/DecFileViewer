@@ -1,0 +1,66 @@
+# EventType: 25163061 
+#
+# Descriptor: [Lambda_c+ -> p+ K- pi+]cc
+# NickName: incl_b=Lambda_c,pKpi=DecProdCut,ExtraParticles
+#
+# Cuts: LHCbAcceptance
+# Cuts: DaughtersInLHCbAndCutsForLc3pi
+# CutsOptions: LcPtCuts 1.500*GeV DaughtersPtMinCut 150*MeV DaughtersPtMaxCut 150*MeV DaughtersPMinCut 1.00*GeV
+# FullEventCuts: ExtraParticlesInAcceptance
+#
+# InsertPythonCode:
+#
+# from Configurables import ExtraParticlesInAcceptance
+# from GaudiKernel.SystemOfUnits import mm, mrad, MeV
+#
+# stable_b_hadrons = [511, 521, 531, 5122, 541, 5112, 5212, 5222, 5132, 5232, 5312, 5322, 5332, 5142, 5242, 5412, 5342, 5442, 5512, 5522, 5532, 5542, 5554]
+# stable_b_hadrons += [-pid for pid in stable_b_hadrons]
+#
+# Generation(genAlgName).FullGenEventCutTool = "ExtraParticlesInAcceptance"
+# Generation(genAlgName).addTool( ExtraParticlesInAcceptance )
+# Generation(genAlgName).ExtraParticlesInAcceptance.WantedIDs = [211, -211]
+# Generation(genAlgName).ExtraParticlesInAcceptance.NumWanted = 3
+# Generation(genAlgName).ExtraParticlesInAcceptance.RequiredAncestors = stable_b_hadrons
+# Generation(genAlgName).ExtraParticlesInAcceptance.AtLeast = True
+# Generation(genAlgName).ExtraParticlesInAcceptance.ExcludeSignalDaughters = True
+# Generation(genAlgName).ExtraParticlesInAcceptance.AllFromSameB = False
+# Generation(genAlgName).ExtraParticlesInAcceptance.ZPosMax = 200.*mm
+# Generation(genAlgName).ExtraParticlesInAcceptance.PtMin = 240.*MeV
+#
+# EndInsertPythonCode
+
+# Documentation: Inclusive Lc+3pi events from b decays.
+#
+# The 3pi must come from a stable b-hadron and are in LHCb acceptance.
+#
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Racha Cheaib
+# Email: rcheaib@cern.ch
+# Date: 20250121
+# CPUTime: 10 min
+#
+Alias      MyLambda_c+             Lambda_c+
+Alias      Myanti-Lambda_c-        anti-Lambda_c-
+ChargeConj MyLambda_c+             Myanti-Lambda_c-
+#
+Alias      MyK*0                   K*0
+Alias      Myanti-K*0              anti-K*0
+ChargeConj MyK*0                   Myanti-K*0
+#
+Alias      MyLambda(1520)0         Lambda(1520)0
+Alias      Myanti-Lambda(1520)0    anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0         Myanti-Lambda(1520)0
+#
+#
+Decay Lambda_c+sig
+  1.00  p+                 K-      pi+   PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+#
+#
+End
+
+

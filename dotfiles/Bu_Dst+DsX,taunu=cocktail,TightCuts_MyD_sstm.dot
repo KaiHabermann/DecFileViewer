@@ -1,0 +1,19 @@
+// Created by https://github.com/scikit-hep/decaylanguage
+digraph DecayChainGraph {
+	graph [comment="Created by https://github.com/scikit-hep/decaylanguage" engine=dot format=png name=DecayChainGraph rankdir=LR]
+	node [fontname=Helvetica fontsize=11 shape=oval]
+	edge [fontcolor="#4c4c4c" fontsize=11]
+	mother [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#568dba"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyD_s*-</TD></TR></TABLE>> shape=none]
+	dec1205305 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyD_s-</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03b3;</TD></TR></TABLE>> shape=none]
+	mother -> dec1205305 [label=0.942]
+	dec1205306 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">Mytau-</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03bd;&#773;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> shape=none]
+	dec1205305:p0 -> dec1205306 [label=1.0]
+	dec1205307 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03bc;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;<SUB>&#x03c4;</SUB></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;&#773;<SUB>&#x03bc;</SUB></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec1205306:p0 -> dec1205307 [label=1.0]
+	dec1205308 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyD_s-</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03c0;<SUP>0</SUP></TD></TR></TABLE>> shape=none]
+	mother -> dec1205308 [label=0.058]
+	dec1205309 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">Mytau-</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03bd;&#773;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> shape=none]
+	dec1205308:p0 -> dec1205309 [label=1.0]
+	dec1205310 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03bc;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;<SUB>&#x03c4;</SUB></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;&#773;<SUB>&#x03bc;</SUB></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec1205309:p0 -> dec1205310 [label=1.0]
+}

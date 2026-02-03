@@ -1,0 +1,63 @@
+# EventType: 24142002
+#
+# Descriptor: J/psi(1S) -> mu- mu+ 
+#
+# NickName: incl_Jpsi,mm=Prompt,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: J/psi decay to mu+ mu- with phase space model, daughters in acceptance
+# EndDocumentation
+#
+# InsertPythonCode: 
+#
+# # 
+# # -- modify Pythia8 to only generate from Charmonium processes -- #
+# from Configurables import Generation, MinimumBias, Pythia8Production, Inclusive, SignalPlain, SignalRepeatedHadronization, Special
+#
+# Pythia8TurnOffMinbias  = [ "SoftQCD:all     = off" ]
+# Pythia8TurnOffMinbias += [ "Bottomonium:all = off" ]
+# Pythia8TurnOffMinbias += [ "Charmonium:all  =  on" ]
+#
+# gen = Generation(genAlgName)
+# gen.addTool( MinimumBias , name = "MinimumBias" )
+# gen.MinimumBias.ProductionTool = "Pythia8Production"
+# gen.MinimumBias.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.MinimumBias.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Inclusive , name = "Inclusive" )
+# gen.Inclusive.ProductionTool = "Pythia8Production"
+# gen.Inclusive.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Inclusive.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalPlain , name = "SignalPlain" )
+# gen.SignalPlain.ProductionTool = "Pythia8Production"
+# gen.SignalPlain.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalPlain.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalRepeatedHadronization , name = "SignalRepeatedHadronization" )
+# gen.SignalRepeatedHadronization.ProductionTool = "Pythia8Production"
+# gen.SignalRepeatedHadronization.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalRepeatedHadronization.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Special , name = "Special" )
+# gen.Special.ProductionTool = "Pythia8Production"
+# gen.Special.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Special.Pythia8Production.Commands += Pythia8TurnOffMinbias
+# # -- END  -- #
+# EndInsertPythonCode
+#
+# SpecialGeneration: EmbeddedGeneration
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Vsevolod Yeroshenko
+# Email: vsevolod.yeroshenko@cern.ch
+# Date: 20220610
+# CPUTime: <1 min
+#
+Decay J/psisig
+  1.000         mu+        mu-        VLL;
+Enddecay
+#
+End
+#

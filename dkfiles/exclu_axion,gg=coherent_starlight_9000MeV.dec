@@ -1,0 +1,29 @@
+# EventType: 47100210
+#
+# Descriptor: axion -> gamma gamma
+#
+# NickName: exclu_axion,gg=coherent_starlight_9000MeV
+# Cuts: None
+# Documentation: f2togammagamma with STARlight and EvtGen
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import StarLightProduction
+# Generation().Special.ProductionTool = 'StarLightProduction'
+# Generation().Special.addTool(StarLightProduction)
+# Generation().Special.StarLightProduction.Commands += ['PROD_PID = 88']
+# Generation().Special.StarLightProduction.Commands += ['AXION_MASS = 9.0']
+# Generation().Special.StarLightProduction.Decays = True
+# Generation().Special.StarLightProduction.Commands += ['PROD_MODE = 1']
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Murilo Rangel
+# Email: rangel@cern.ch
+# Date: 20220729
+#
+End

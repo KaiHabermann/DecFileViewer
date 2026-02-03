@@ -1,0 +1,72 @@
+# EventType:  27163270
+# This is the decay file for the decay D*+ => ( D0 -> K*(892)~0 (=> K- pi+) GAMMA ) pi+
+# Descriptor: [D*+ => ( D0 => (K*(892)~0 => K- pi+) gamma ) pi+]cc
+#
+# NickName: Dst_D0pi,Kpigamma=TightCut,2
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# Documentation: Dst+ -> (D0 -> K*(892)~0 (-> K- pi+) gamma ) pi+
+# D0 decaying into K*(892)~0  gamma
+# K*(892)~0 decaying into K- pi+
+# All final-state products in the acceptance.
+# Some selection on the soft pion.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+#
+# Tested: Yes
+# Responsible: Luca Hartman
+# Email: luca.hartman@cern.ch
+# Date: 20251110
+# CPUTime: 2 min
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[ D*(2010)+ => ( D0 => (K*(892)~0 => ^K- ^pi+) ^gamma ) ^pi+]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import MeV, GeV   ",
+#     "inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ",
+#     "goodSoftPi = ( GPT > 150 * MeV ) & ( GP > 3.0 * GeV ) & inAcc ",
+#     "Dst        = GDECTREE( '[D*(2010)+ => D0 pi+]CC' ) ",
+#     "Dst_pi     = '[D*(2010)+ => D0 ^pi+]CC'",
+#     "goodDst    = GCHILDCUT ( goodSoftPi , Dst_pi ) ",
+# ]
+# tightCut.Cuts      =    {
+#     '[K+]cc'        : 'inAcc ',
+#     '[pi+]cc'       : 'inAcc ',
+#     '[D*(2010)+]cc' : 'goodDst ',
+#     'gamma'         : 'inAcc & ( 800 * MeV < GPT ) ',
+#     }
+# EndInsertPythonCode
+
+Alias myD0 D0
+Alias myantiD0 anti-D0
+ChargeConj myD0 myantiD0
+Alias      MyK*       K*0
+Alias      Myanti-K*  anti-K*0
+ChargeConj MyK*       Myanti-K*
+#
+Decay D*+sig
+  1.000 myD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay myD0
+  1.0  Myanti-K*        gamma      SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay myantiD0
+
+#
+Decay Myanti-K*
+  1.000     K-    pi+        VSS;
+Enddecay
+CDecay MyK*
+#
+End
+

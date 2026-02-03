@@ -1,0 +1,64 @@
+# EventType: 14545021
+# 
+# Descriptor: [B_c+ => (psi(2S) => (J/psi => p+ anti-p-) pi+ pi-) mu+ nu_mu]cc
+# 
+# NickName: Bc_psi2Smunu,pp=BcVegPy,TightCut
+#
+# Production: BcVegPy
+#
+# Cuts: LoKi::GenCutToolWithDecay/TightCut
+#
+# Documentation: decay of Bc+ => psi(2S) mu+ and nu_mu, forced into psi(2S) to J/psi pi+ pi- and J/psi to ppbar,
+#                using BcVegPy generator and tight cuts on acceptance
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutToolWithDecay
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.Special.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+# gen.Special.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+# #
+# tightCut = gen.Special.TightCut
+# tightCut.SignalPID = 'B_c+'
+# tightCut.Decay = '[(B_c+ => (psi(2S) => (J/psi(1S) => ^p+ ^p~-) pi+ pi-) ^mu+ nu_mu)]CC'
+# tightCut.Preambulo += [
+#     'inAcc   = in_range ( 0.010 , GTHETA , 0.400 ) '
+#     ]
+# tightCut.Cuts = {
+#     '[p+]cc'  : ' ( GPT > 0.4 * GeV ) & inAcc ',
+#     '[mu+]cc' : ' inAcc ',
+#     }
+# 
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Santiago Gómez Arias
+# Email: sgomezar@cern.ch
+# Date: 20190722 
+# CPUTime: <1min 
+#
+Alias      Mypsi(2S)  psi(2S)
+ChargeConj Mypsi(2S)  Mypsi(2S)
+#
+Alias MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+#
+Decay B_c+sig
+  1.000  Mypsi(2S)  mu+           nu_mu               PHOTOS BC_VMN 1;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mypsi(2S)
+  1.000  MyJ/psi    pi+           pi-                 PHOTOS VVPIPI ;
+Enddecay
+#
+Decay MyJ/psi
+  1.000 p+      anti-p-   PHSP;
+Enddecay
+#
+End

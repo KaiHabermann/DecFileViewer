@@ -1,0 +1,34 @@
+# EventType: 11164033
+# 
+# Descriptor: {[[B0]nos -> (D~0 -> pi+ pi-)(rho(770)0 -> pi+ pi-)]cc, [[B0]os -> (D0 -> pi- pi+) (rho(770)0 -> pi+ pi-)]cc}
+# 
+# NickName: Bd_D0rho0,pipi=SSD_CP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# TD CPV
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Mark Whitehead
+# Email: mwhitehe@cern.ch
+# Date: 20221128
+# CPUTime: <1min
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+#
+Decay B0sig
+  1.000 rho0 Myanti-D0 SSD_CP 0.507e12 0.0 1.0 -0.70 1.0 0.0 -1.0 0.0;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Myanti-D0
+  1.000 pi+ pi- PHSP;
+Enddecay
+CDecay MyD0
+End
+#

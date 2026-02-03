@@ -1,0 +1,70 @@
+#EventType: 13464401
+# Descriptor: [ [B_s0 => ^(D~0 => ^K+ ^pi-) ^(eta => pi+ pi- ^(pi0=> ^gamma ^gamma)) ]CC, [B_s0 => ^(D~0 => ^K+ ^pi-) ^(eta => ^pi+ ^pi- ^gamma) ]CC ]
+#
+# NickName: Bs_D0bareta,Kpicocktail=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation().SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[ [B_s0 => ^(D~0 => ^K+ ^pi-) ^(eta => pi+ pi- ^(pi0=> ^gamma ^gamma)) ]CC, [B_s0 => ^(D~0 => ^K+ ^pi-) ^(eta => ^pi+ ^pi- ^gamma) ]CC ]"
+# tightCut.Preambulo += [
+#  "from LoKiCore.functions import in_range"  ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#  "AccCut = in_range ( 0.005 , GTHETA , 0.400 )",
+#  "goodGamma = ( (GPT > 150 * MeV) & AccCut ) ",  
+#  "ErrSuppress = ( GPT > 150 * MeV )"
+# ]
+# tightCut.Cuts = {"gamma" : "goodGamma", "pi+" : "ErrSuppress", "pi-" : "ErrSuppress", \
+# "pi0" : "ErrSuppress", "K+" : "ErrSuppress", "K-" : "ErrSuppress", \
+# "eta" : "ErrSuppress", "D~0" : "ErrSuppress", "D0" : "ErrSuppress"}
+# EndInsertPythonCode
+
+#
+# Documentation: Bs is forced to 4 charged tracks, 
+#                D0bar is forced into K+ pi-, Tight Cuts.
+#                eta can decay to either pi+ pi- gamma
+#                or pi+ pi- (pi0 -> gamma gamma).
+#                The TightCuts are relevant for the gammas,
+#                the others are there to supress the error which
+#                will cause the pipeline to fail.
+# EndDocumentation
+# 
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Hussain Al Saleh
+# Email: halsaleh@cern.ch
+# Date: 20251008
+# CPUTime: <1min
+#
+Alias		MyD0		D0
+Alias		MyantiD0	anti-D0
+Alias		Myeta		eta
+Alias		Mypi0		pi0
+ChargeConj	MyantiD0	MyD0
+ChargeConj	Myeta		Myeta
+ChargeConj	Mypi0		Mypi0
+#
+Decay B_s0sig
+	1.0000	MyantiD0	Myeta		PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyantiD0
+	1.0000	K+		pi-		PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay Myeta
+	0.6666	pi+		pi-	Mypi0	ETA_DALITZ;
+	0.3334	pi+		pi-	gamma	PHSP;
+Enddecay
+#
+Decay Mypi0
+	1.0000	gamma		gamma		PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,86 @@
+# EventType: 12199141
+# NickName: Bu_D0DKS,K3Pi,KPiPi,PiPi=sqDalitz23,TightCut
+# Descriptor: [B- -> (D0 -> K- pi+ pi+ pi-) (D- -> K+ pi- pi-) (K_S0 -> pi+ pi-)]cc
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Decay file for B+- -> D0 (-> K3pi) D- KS. Resonances allowed in D- decay. B- decay with flat 2-3 square Dalitz model and tight generator cuts.
+# EndDocumentation
+# 
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Sample: SignalRepeatedHadronization
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool, ToolSvc, EvtGenDecayWithCutTool
+# from Gauss.Configuration import *
+#
+# ToolSvc().addTool ( EvtGenDecayWithCutTool )
+# evtgen = ToolSvc().EvtGenDecayWithCutTool  
+# evtgen.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+#
+# generation = Generation(genAlgName)
+# signal     = generation.SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# signal.DecayTool = "EvtGenDecayWithCutTool"
+# 
+# tightCut            = signal.TightCut
+# tightCut.Decay      = '^[ B- ==> ^( D0 => ^K- ^pi+ ^pi+ ^pi-) ^( D- => ^K+ ^pi- ^pi-) ^(KS0 => ^pi+ ^pi- )]CC '
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV',
+#     'inAcc          =  in_range ( 0.005 , GTHETA , 0.400 ) ' ,
+#     'inEta          =  in_range ( 1.95  , GETA   , 5.050 ) ' ,
+#     'good_track     =  inAcc & inEta & ( GPT > 190 * MeV ) & in_range ( 3 * GeV , GP , 200 * GeV ) ' ,
+#     "kaon           =  'K-'  == GABSID " , 
+#     "pion           =  'pi-' == GABSID " ,  
+# ]
+# tightCut.Cuts       =    {
+#     '[pi+]cc'       : 'pion & good_track' , 
+#     '[K+]cc'        : 'kaon & good_track' , 
+#     'KS0'           : 'GVEV & ( GFAEVX ( GVZ , 0 ) < 2400.0 * millimeter) ' , 
+#     '[D0]cc'        : 'in_range ( 1.9 , GY , 4.6 ) '             ,
+#     '[D+]cc'        : 'in_range ( 1.9 , GY , 4.6 ) '             ,
+#     '[B+]cc'        : 'in_range ( 1.9 , GY , 4.6 ) '                        ,
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG:   B2OC
+# Tested:      Yes
+# Responsible: Dan Johnson
+# Email: daniel.johnson@cern.ch
+# Date:        20201209
+# CPUTime:     3min
+
+Alias MyD0		D0
+Alias Myanti-D0		anti-D0
+ChargeConj MyD0		Myanti-D0
+#
+Alias MyDm		D-
+Alias MyDp		D+
+ChargeConj	MyDm		MyDp
+#
+Alias myK_S0  K_S0
+ChargeConj myK_S0 myK_S0
+#
+Decay B-sig
+	1.0		MyDm		myK_S0		MyD0 FLATSQDALITZ;
+Enddecay
+CDecay B+sig
+#
+Decay MyD0
+	1.0		K-		pi+   pi+   pi-			LbAmpGen DtoKpipipi;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyDm
+	1.0		K+		pi-		pi-		D_DALITZ;
+Enddecay
+CDecay MyDp
+#
+Decay myK_S0
+	1.0		pi+		pi-				PHSP;
+Enddecay
+#
+End
+

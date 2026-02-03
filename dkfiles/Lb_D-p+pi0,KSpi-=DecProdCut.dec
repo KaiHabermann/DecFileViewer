@@ -1,0 +1,49 @@
+# EventType: 15164531
+#
+# Descriptor: [Lambda_b0 -> (D- -> (KS -> pi+ pi-) pi-) p+ pi0 ]cc
+#
+# NickName: Lb_D-p+pi0,KSpi-=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D- forced KS pi-
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Daniel O'Hanlon
+# Email: dohanlon@cern.ch
+# Date: 20190927
+#
+Alias      MyD-          D-
+Alias      MyD+          D+
+ChargeConj MyD-          MyD+
+#
+Alias      MyPi0      pi0
+ChargeConj MyPi0      MyPi0
+#
+Alias      MyKs       K_S0
+ChargeConj MyKs       MyKs
+#
+Decay Lambda_b0sig
+  1.000    MyD-  p+ MyPi0               PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyD-
+  1.000   MyKs     pi-                  PHSP;
+Enddecay
+CDecay MyD+
+#
+Decay MyPi0
+  1.000 gamma   gamma                  PHSP;
+Enddecay
+#
+Decay MyKs
+  1.000   pi+     pi-         PHSP;
+Enddecay
+#
+End
+#

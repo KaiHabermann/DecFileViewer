@@ -1,0 +1,152 @@
+# EventType: 11244010
+#
+# Descriptor: [B0 -> (psi(2S) -> mu+ mu-) (K*(892)0 -> K+ pi-)]cc
+#
+# ParticleValue: "K*_0(1430)0 149 10311 0 0.845 -0.468 K_0*0 10311 0", "K*_0(1430)~0 150 -10311 0 0.845 -0.468 anti-K_0*0 -10311 0"
+#
+# NickName: Bd_Psi2SKpi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: B0 -> psi(2S) K+ Pi- including several intermediate K*0,
+#     where psi(2S) -> mu+ mu-. Relative proportion of K* resonance
+#     components is taken from Belle paper arXiv:1306.4894v3
+#     Included intermediate state:
+#     K_0(800)0 aka K_0(700)0 aka Kappa is defined as K*_0(1430)0 with
+#     mass of 845 MeV/c^2 and width 468 MeV decaying with PHSP decay model
+#     other K*(892)0, K*(1410)0, K2*(1430)0 and K*(1680)0 resonances are
+#     defined directly.
+#
+#     Tight generator level cuts applied for all particles except pi-,
+#     which increases the statistics with the factor of ~2.
+# EndDocumentation
+#
+# Sample: SignalRepeatedHadronization
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName) 
+# signal     = generation.SignalRepeatedHadronization 
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut   = signal.TightCut
+# tightCut.Decay = '^[(B0|B~0) ==> ^(psi(2S) => ^mu+ ^mu-) ^K+ pi-]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV',
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 )                       ',
+#     'inEta     = in_range ( 1.95  , GETA   , 5.050 )                       ',
+#     'inY       = in_range ( 1.9   , GY     , 4.6   )                       ',
+#     'fastTrack = ( GPT > 180 * MeV ) & in_range( 2.9 * GeV, GP, 210 * GeV )',
+#     'goodTrack = inAcc & inEta & fastTrack                                 ',
+#     'goodPsi   = inY                                                       ',
+#     'longLived = 75 * micrometer < GTIME                                   ',
+#     'goodB     = inY & longLived                                           ',
+# ]
+# tightCut.Cuts = {
+#     '[B0]cc' : 'goodB                          ',
+#     'psi(2S)': 'goodPsi                        ',
+#     '[K+]cc' : 'goodTrack                      ',
+#     '[mu+]cc': 'goodTrack & ( GPT > 500 * MeV )'
+# }
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Slava Matiunin
+# Email: Viacheslav.Matiunin@<no-spam>cern.ch
+# Date: 20211029
+# CPUTime: <1 min
+#
+Define PKHplus 0.159
+Define PKHzero 0.775
+Define PKHminus 0.612
+Define PKphHplus 1.563
+Define PKphHzero 0.000
+Define PKphHminus 2.712
+#
+Alias      Mypsi(2S) psi(2S)
+ChargeConj Mypsi(2S) Mypsi(2S)
+#
+## K*(800)0
+Alias      My1K*0      K_0*0
+Alias      My1anti-K*0 anti-K_0*0
+ChargeConj My1K*0      My1anti-K*0
+#
+## K*(892)0
+Alias      My2K*0      K*0
+Alias      My2anti-K*0 anti-K*0
+ChargeConj My2K*0      My2anti-K*0
+#
+## K*(1410)0
+Alias      My3K*0      K'*0
+Alias      My3anti-K*0 anti-K'*0
+ChargeConj My3K*0      My3anti-K*0
+#
+## K2*(1430)0
+Alias      My4K*0      K_2*0
+Alias      My4anti-K*0 anti-K_2*0
+ChargeConj My4K*0      My4anti-K*0
+#
+## K*(1680)0
+Alias      My5K*0      K''*0
+Alias      My5anti-K*0 anti-K''*0
+ChargeConj My5K*0      My5anti-K*0
+#
+Decay B0sig
+    ## non-resonant
+    0.2500  Mypsi(2S) K+     pi-  PHSP ;
+    ## resonances
+    0.0525  Mypsi(2S) My1K*0      SVS ;
+    0.5779  Mypsi(2S) My2K*0      SVV_HELAMP PKHplus PKphHplus PKHzero PKphHzero PKHminus PKphHminus ;
+    0.0389  Mypsi(2S) My3K*0      SVV_HELAMP PKHplus PKphHplus PKHzero PKphHzero PKHminus PKphHminus ;
+    0.0408  Mypsi(2S) My4K*0      PHSP ;
+    0.0399  Mypsi(2S) My5K*0      SVV_HELAMP PKHplus PKphHplus PKHzero PKphHzero PKHminus PKphHminus ;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mypsi(2S)
+    1.0000  mu+       mu-         PHOTOS VLL ;
+Enddecay
+#
+## K*(800)0
+Decay My1K*0
+    1.0000  K+        pi-         PHSP ;
+Enddecay
+Decay My1anti-K*0
+    1.0000  K-        pi+         PHSP ;
+Enddecay
+#
+## K*(892)0
+Decay My2K*0
+    1.0000  K+        pi-         VSS ;
+Enddecay
+Decay My2anti-K*0
+    1.0000  K-        pi+         VSS ;
+Enddecay
+#
+## K*(1410)0
+Decay My3K*0
+    1.0000  K+        pi-         VSS ;
+Enddecay
+Decay My3anti-K*0
+    1.0000  K-        pi+         VSS ;
+Enddecay
+#
+## K2*(1430)0
+Decay My4K*0
+    1.0000  K+        pi-         TSS ;
+Enddecay
+Decay My4anti-K*0
+    1.0000  K-        pi+         TSS ;
+Enddecay
+#
+## K*(1680)0
+Decay My5K*0
+    1.0000  K+        pi-         VSS ;
+Enddecay
+Decay My5anti-K*0
+    1.0000  K-        pi+         VSS ;
+Enddecay
+#
+End
+#

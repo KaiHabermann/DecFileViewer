@@ -1,0 +1,55 @@
+# EventType: 13614042
+#
+# Descriptor: {[[B_s0]nos -> (tau+ -> mu+ nu_mu anti-nu_tau) (tau- -> mu- anti-nu_mu nu_tau) (phi_3(1850) -> K+ K-)]cc, [[B_s0]os -> (tau+ -> mu+ nu_mu anti-nu_tau) (tau- -> mu- anti-nu_mu nu_tau) (phi_3(1850) -> K+ K-)]cc}
+#
+# NickName: Bs_phitautau,mumuCocktail=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LHCb__ParticlePropertySvc
+# LHCb__ParticlePropertySvc().Particles = [ "phi_3(1850)           160         337       0       1.854        7.57e-24        phi_3(1850)         337     0.0" ]
+# ApplicationMgr().ExtSvc += [ LHCb__ParticlePropertySvc() ]
+# EndInsertPythonCode
+#
+# Documentation: Bs decay to phi/phi3 tau tau, with taus decaying to muons
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20210224
+#
+Alias         Mytau+    tau+
+Alias         Mytau-    tau-
+ChargeConj    Mytau+    Mytau-
+#
+Alias         MyPhi     phi
+ChargeConj    MyPhi     MyPhi
+Alias         MyPhi3    phi_3(1850)
+ChargeConj    MyPhi3    MyPhi3
+#
+Decay B_s0sig
+  0.500       MyPhi      Mytau+    Mytau-       BTOSLLBALL;
+  0.500       MyPhi3     Mytau+    Mytau-       PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000       K+         K-       VSS;
+Enddecay
+#      
+Decay MyPhi3
+  1.000       K+         K-       PHSP;
+Enddecay
+#      
+Decay Mytau+
+  1.00        mu+        nu_mu        anti-nu_tau   TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

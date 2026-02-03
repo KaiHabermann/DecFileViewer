@@ -1,0 +1,61 @@
+# EventType: 27163906
+#
+# Descriptor: [D*+ -> (D0 -> K- pi+) pi+]cc
+#
+# NickName: Dst_D0pi,Kpi=TightCut,4
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: D0 -> K- pi+ from prompt D*+ only, tight cuts to match PIDCalib selection.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal     = generation.SignalPlain
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[D*(2010)+ => ^( D0 => ^K- ^pi+ ) pi+]CC'
+#
+# tightCut.Preambulo += [
+# 	'from GaudiKernel.SystemOfUnits import MeV, GeV',
+#	'goodSoftPion = ( GPT > 175 * MeV ) & ( GP > 2 * GeV ) & in_range (2, GETA, 5)',
+#	'goodD0       = ( GPT > 1.0 * GeV )',
+# 	'goodPion     = ( GPT > 200 * MeV ) & ( GP > 1.5 * GeV )',
+#	'goodETA      = in_range ( 1.6, GETA, 5.1 )', 
+#	'goodDst      =  GCHILDCUT ( goodSoftPion , "[ D*(2010)+ =>  Charm ^pi+ ]CC" )'
+# ]
+# tightCut.Cuts	      = {
+# 	'[D*(2010)+]cc' : 'goodDst           ',
+#	'[D0]cc'        : 'goodD0            ', 
+#	'[K+]cc'        : 'goodETA           ', 
+#	'[pi+]cc'       : 'goodPion & goodETA'
+# } 
+#
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: PID
+# Tested: Yes
+# Responsible: Lorenzo Paolucci
+# Email: lorenzo.paolucci@cern.ch
+# Date: 20210514
+# CPUTime: < 1 min
+#
+Alias      MyD0     D0
+Alias      MyantiD0 anti-D0
+ChargeConj MyD0     MyantiD0
+
+Decay D*+sig
+  1.0   MyD0  pi+   VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.0   K-  pi+     PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End

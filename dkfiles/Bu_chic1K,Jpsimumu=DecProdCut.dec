@@ -1,0 +1,43 @@
+# EventType: 12145069
+#
+# Descriptor: [B+ -> K+ (chi_c1 -> (J/psi(1S) -> mu+ mu-) mu+ mu-)]cc
+#
+# NickName: Bu_chic1K,Jpsimumu=DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ decay to chi_c1 and K+ with SVS model, all daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Vitalii Lisovskyi
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20200224
+# CPUTime: < 1 min
+#
+Alias      MyJpsi  J/psi
+ChargeConj MyJpsi  MyJpsi
+Alias      MyChic1  chi_c1
+ChargeConj MyChic1  MyChic1
+#
+#
+#
+Decay B+sig
+  1.000    MyChic1 K+     SVS;
+Enddecay
+CDecay B-sig
+#
+Decay MyChic1
+  1.000    MyJpsi mu+ mu-       VVP 1.e+6;
+Enddecay
+#
+Decay MyJpsi
+  1.000         mu+        mu-        PHOTOS VLL;
+Enddecay
+#
+End
+#
+
+

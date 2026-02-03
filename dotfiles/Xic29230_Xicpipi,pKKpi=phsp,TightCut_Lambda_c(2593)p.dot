@@ -1,0 +1,23 @@
+// Created by https://github.com/scikit-hep/decaylanguage
+digraph DecayChainGraph {
+	graph [comment="Created by https://github.com/scikit-hep/decaylanguage" engine=dot format=png name=DecayChainGraph rankdir=LR]
+	node [fontname=Helvetica fontsize=11 shape=oval]
+	edge [fontcolor="#4c4c4c" fontsize=11]
+	mother [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#568dba"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">&#x039b;<SUB>c</SUB>(2593)<SUP>+</SUP></TD></TR></TABLE>> shape=none]
+	dec1625510 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03a3;<SUB>c</SUB>(2455)<SUP>++</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	mother -> dec1625510 [label=0.096585366]
+	dec1625511 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03a3;<SUB>c</SUB><SUP>0</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	mother -> dec1625511 [label=0.096585366]
+	dec1625512 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x039b;<SUB>c</SUB><SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	mother -> dec1625512 [label=0.19]
+	dec1625513 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03a3;<SUB>c</SUB>(2455)<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>0</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	mother -> dec1625513 [label=0.096585366]
+	dec1625514 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x039b;<SUB>c</SUB><SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>0</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>0</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	mother -> dec1625514 [label=0.036219512]
+	dec1625515 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x039b;<SUB>c</SUB><SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03b3;</TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	mother -> dec1625515 [label=0.00402439]
+	dec1625516 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03a3;<SUB>c</SUB>(2520)<SUP>++</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	mother -> dec1625516 [label=0.24]
+	dec1625517 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03a3;<SUB>c</SUB>(2520)<SUP>0</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	mother -> dec1625517 [label=0.0]
+}

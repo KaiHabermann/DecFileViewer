@@ -1,0 +1,34 @@
+# EventType: 13524042
+#
+# Descriptor: {[[B_s0]nos -> K+ K- (tau+ -> e+ nu_e nu_tau~) (tau- -> e- nu_e~ nu_tau)]cc, [[B_s0]os -> K+ K- (tau- -> e- nu_e~ nu_tau) (tau+ -> e+ nu_e nu_tau~)]cc}
+#
+# NickName: Bs_KKtautau,ee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bs -> K K tau tau decays, with taus decaying to electrons
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20220318
+#
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+#
+Decay B_s0sig
+   1.000      K+         K-        Mytau+    Mytau-      PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mytau+
+   1.000      e+         nu_e      anti-nu_tau           TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

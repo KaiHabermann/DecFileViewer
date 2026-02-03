@@ -1,0 +1,44 @@
+# EventType:  26165851
+#
+# Descriptor: [Xi_cc+ -> (Xi_c+ -> p+ K- pi+) pi- pi+ ]cc
+#
+# NickName: Xicc_Xic+pipi,pKpi=GenXicc,DecProdCut,WithMinPTv1
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCbAndWithMinPT
+#
+# CutsOptions: MinXiccPT 2500*MeV MinDaughterPT 200*MeV
+#
+# CPUTime: < 1 min
+#
+# ParticleValue: "Xi_cc+ 502 4412 1.0 3.6214  0.80e-13 Xi_cc+ 4412 0.", "Xi_cc~- 503 -4412 -1.0 3.6214  0.80e-13 anti-Xi_cc- -4412 0."
+#
+# Documentation: Xicc decay to Xic+ pi- pi+ by phase space model, Xic+ decay to p+ K- pi+
+# all daughters of Xicc are required to be in the acceptance of LHCb and with minimum PT 200 MeV
+# Xicc is required to be generated with the lifetime of 80fs
+# and the Xicc PT is required to be larger than 2500 MeV.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Dana Bobulska
+# Email: dana.bobulska@cern.ch
+# Date: 20171214
+#
+Alias      MyXic+              Xi_c+
+Alias      MyantiXic-          anti-Xi_c-
+ChargeConj MyXic+              MyantiXic-
+#
+Decay Xi_cc+sig
+  1.000    MyXic+   pi-   pi+                                PHSP;
+Enddecay
+CDecay anti-Xi_cc-sig
+#
+Decay MyXic+
+  1.000        p+        K-        pi+             PHSP;
+Enddecay
+CDecay MyantiXic-
+#
+End
+#

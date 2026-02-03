@@ -1,0 +1,102 @@
+# EventType: 26106185
+#
+# Descriptor: [Xi_c0 -> (Xi- -> (Lambda0 -> p+ pi-) pi-) (KS0 -> pi+ pi-) K+]cc
+# NickName: Xic0_XiKSK=TightCut
+# Cuts: LoKi::GenCutTool/GenSigCut
+# FullEventCuts: LoKi::FullGenEventCut/GenEvtCut
+# ExtraOptions: SwitchOffAllPythiaProcesses
+# InsertPythonCode:
+# from Configurables import (Pythia8Production, ToolSvc, EvtGenDecayWithCutTool, LoKi__GenCutTool, LoKi__FullGenEventCut)
+# Generation().SignalPlain.addTool(Pythia8Production, name="Pythia8Production")
+# Generation().SignalPlain.Pythia8Production.Commands += ["SoftQCD:all=off","HardQCD:hardccbar=on"]
+# Generation().SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool( EvtGenDecayWithCutTool )
+# EvtGenCut = ToolSvc().EvtGenDecayWithCutTool
+# EvtGenCut.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# EvtGenCut.CutTool = "LoKi::GenCutTool/HyperonDTCut"
+# EvtGenCut.addTool(LoKi__GenCutTool,"HyperonDTCut")
+# EvtGenCut.HyperonDTCut.Decay = "[Xi_c0 ==> ^(Xi- => ^(Lambda0 => p+ pi-) pi-) ^(KS0 => pi+ pi-) K+]CC"
+# EvtGenCut.HyperonDTCut.Preambulo += [
+#   "from GaudiKernel.PhysicalConstants import c_light",
+#   "from GaudiKernel.SystemOfUnits import mm, ns"
+#   ]
+# EvtGenCut.HyperonDTCut.Cuts = {
+#   '[Xi-]cc'       : "(GCTAU>0.0019*ns*c_light) & (GCTAU<50*mm)",
+#   '[Lambda0]cc'   : "(GCTAU>0.0044*ns*c_light) & (GCTAU<200*mm)",
+#   'KS0'           : "(GCTAU<45*mm)"
+# }
+# #
+# Generation().SignalPlain.addTool(LoKi__GenCutTool,'GenSigCut')
+# SigCut = Generation().SignalPlain.GenSigCut
+# SigCut.Decay = "[^(Xi_c0 ==> ^(Xi- => ^(Lambda0 => ^p+ ^pi-) ^pi-) ^(KS0 => ^pi+ ^pi-) ^K+)]CC"
+# SigCut.Filter = True
+# SigCut.Preambulo += [
+#   "from LoKiCore.functions import in_range",
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, mm",
+#   "inAcc = in_range(10*mrad,GTHETA,300*mrad)",
+#   "EVZ   = GFAEVX(GVZ,0)",
+#   "OVZ   = GFAPVX(GVZ,0)"
+#  ]
+# SigCut.Cuts = {
+#   '[Xi_c0]cc'   : "(GPT>2.1*GeV) & (EVZ-OVZ>0.6*mm) & (GCHILD(EVZ, (GABSID=='Xi-'))-EVZ>1.8*mm) & inAcc",
+#   '[Xi-]cc'     : "(GPT>770*MeV) & (GCHILD(EVZ, (GABSID=='Lambda0'))-EVZ>1.8*mm) & inAcc",
+#   '[Lambda0]cc' : "(GPT>580*MeV) & inAcc",
+#   'KS0'         : "(GPT>580*MeV) & inAcc",
+#   '[p+]cc'      : "(GP>8.8*GeV) & (GPT>480*MeV) & inAcc",
+#   '[K+]cc'      : "(GP>2.9*GeV) & (GPT>290*MeV) & inAcc",
+#   '[pi+]cc'     : "(GPT>110*MeV) & inAcc"
+# }
+# #
+# Generation().addTool(LoKi__FullGenEventCut,'GenEvtCut')
+# EvtCut = Generation().GenEvtCut
+# EvtCut.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV, mm, mrad",
+#   "EVZ     = GFAEVX(GVZ,0)",
+#   "EVR     = GFAEVX(GVRHO,0)",
+#   "OVZ     = GFAPVX(GVZ,0)",
+#   "goodXic = GSIGNALINLABFRAME & (GABSID=='Xi_c0') & (EVR<6*mm) & (GCHILDCUT((EVR<42*mm) & (EVZ<666*mm), '[Xi_c0 ==> ^Xi- KS0 K+]CC'))"\
+#                 " & (GCHILDCUT((EVZ<2500*mm), '[Xi_c0 ==> (Xi- => ^Lambda0 pi-) KS0 K+]CC')) & (GCHILDCUT((EVZ<2500*mm), '[Xi_c0 ==> Xi- ^KS0 K+]CC'))"
+#  ]
+# EvtCut.Code = "has(goodXic)"
+# EndInsertPythonCode
+#
+# Documentation: For excited Omega spectroscopy. Xi forced to decay in Velo (DDL,LLL), Lambda and KS before TT. Cut efficiency 1%
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Marian Stahl
+# Email: marian.stahl@{nospam}cern.ch
+# Date: 20230903
+# CPUTime: 2 min
+#
+Alias      MyXim          Xi-
+Alias      Myanti-Xip     anti-Xi+
+ChargeConj MyXim          Myanti-Xip
+#
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+#
+Alias      MyKS0          K_S0
+ChargeConj MyKS0          MyKS0
+#
+Decay MyKS0
+  1.0 pi+ pi-             PHSP;
+Enddecay
+#
+Decay MyLambda0
+  1.0 p+ pi-              HELAMP 0.9276 0.0 0.3735 0.0;
+Enddecay
+CDecay MyAntiLambda0
+#
+Decay MyXim
+  1.0 MyLambda0 pi-       HELAMP 0.5442 0.0 0.8390 0.0;
+Enddecay
+CDecay Myanti-Xip
+#
+Decay Xi_c0sig
+  1.0 MyXim MyKS0 K+     PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+End

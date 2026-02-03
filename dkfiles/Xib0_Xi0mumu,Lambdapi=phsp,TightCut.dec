@@ -1,0 +1,93 @@
+# EventType: 16114541
+#
+# Descriptor: [Xi_b0 -> (Xi0 -> (Lambda0 -> p+ pi-) (pi0 -> gamma gamma) )  mu+ mu-]cc
+#
+# NickName: Xib0_Xi0mumu,Lambdapi=phsp,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Rare Xib0 decay to Xi0mumu,  Xi0 forced to go Lambda pi0, Lambda forced to go to p pi. Tight cuts on all particles. ECAL accetpance for the photons computed assuming that the Xi0 decays after flying up to 2.5 meters.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Vitalii Lisovskyi 
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20211022
+# CPUTime:2min
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[(Xi_b0 => ^(Xi0 => ^(Lambda0 => ^p+ ^pi-) ^(pi0 => ^gamma ^gamma)) ^mu+ ^mu-)]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import meter, GeV" ,
+#     "inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )     " ,
+#     "inAccH       =  in_range ( 0.001 , GTHETA , 0.390 )     " ,
+#     "inEcalHole = ( abs ( GPX / GPZ ) < 0.2 / 12.5 ) & ( abs ( GPY / GPZ ) < 0.2 / 12.5 ) " ,
+#     "inEtaL       =  in_range ( 1.5  , GETA   , 5.5 )        " ,
+#     "inEtaLD      =  in_range ( 1.5  , GETA   , 7. )        " ,
+#     "inP_p        =  ( GP > 3.5 *  GeV ) & ( GPT > 0.05 * GeV )",
+#     "inP_pi       =  ( GP > 1.1 *  GeV ) ",
+#     "inP_mu       =  ( GP > 2.  *  GeV ) & ( GPT > 0.05 * GeV )",
+#     "inEcalX      =  abs ( GPX / GPZ ) < 4.5 / 10      " ,
+#     "inEcalY      =  abs ( GPY / GPZ ) < 3.5 / 10      " ,
+#     "goodMuon     =  inAcc & inP_mu & inEtaL  " ,
+#     "goodPion     =  inAccH & inP_pi & inEtaLD" ,
+#     "goodProton   =  inAccH & inP_p  & inEtaLD" ,
+#     "goodPi0   = ( GPT > 50 * MeV )           " ,
+#     "goodGamma = ( 0 < GPZ ) & ( 50 * MeV < GPT ) & inEcalX & inEcalY & ~inEcalHole" ,
+#     "GVZ = LoKi.GenVertices.PositionZ()       " ,
+#     "decay = in_range ( -1. * meter, GFAEVX ( GVZ, 100 * meter ), 2.9 * meter )",
+# ]
+# tightCut.Cuts      =    {
+#     "[Xi0]cc"      : "decay",
+#     "[Lambda0]cc"  : "decay",
+#     "[gamma]cc"    : "goodGamma" ,
+#     "[p+]cc"       : "goodProton",
+#     "[pi-]cc"      : "goodPion" ,
+#     "[pi0]cc"      : "goodPi0" ,
+#     "[mu+]cc"      : "goodMuon"
+#                         }
+# EndInsertPythonCode
+#
+#
+#
+Alias           MyPi0           pi0 
+ChargeConj      MyPi0           MyPi0
+#
+Alias      MyXi0     Xi0
+Alias      Myanti-Xi0 anti-Xi0
+ChargeConj Myanti-Xi0 MyXi0
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+# 
+Decay Xi_b0sig 
+1.000    MyXi0       mu+  mu-      PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyXi0
+1.000     MyLambda  MyPi0           HELAMP   0.571   0.0   0.821   0.0;
+Enddecay
+CDecay Myanti-Xi0
+#
+Decay MyLambda
+1.000   p+          pi-             HELAMP   0.936   0.0   0.351   0.0;
+Enddecay
+CDecay Myanti-Lambda
+#
+Decay MyPi0
+1.000   gamma	    gamma PHSP;
+Enddecay
+#
+End
+#
+

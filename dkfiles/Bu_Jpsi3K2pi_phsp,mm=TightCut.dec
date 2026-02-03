@@ -1,0 +1,97 @@
+# EventType: 12247002
+#
+# Descriptor: [B+ ==> ( J/psi(1S) => mu+ mu- ) K+ K+ pi+ K- pi-]
+#
+# NickName: Bu_Jpsi3K2pi_phsp,mm=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[ ^( B+ ==> ^( J/psi(1S) => mu+ mu- ) ^K+ ^K+ ^pi+ ^K- ^pi-) ]CC'
+# tightCut.Cuts      = {
+#     '[mu+]cc'             : ' goodMuon  ' , 
+#     '[pi+]cc'             : ' goodPion  ' , 
+#     '[K+]cc'              : ' goodKaon  ' , 
+#     'J/psi(1S)'           : ' goodPsi   ' , 
+#     '[B+]cc'              : ' goodB     ' 
+#     }
+# 
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import micrometer              ',
+#     'GY         = LoKi.GenParticles.Rapidity () ## to be 100% sure ', 
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) & in_range ( 1.8 , GETA , 5.2 ) ' , 
+#     'inY        = in_range ( 1.9   , GY     , 4.6   ) ' , 
+#     'longLived  = 75 * micrometer < GTIME             ' , 
+#     'goodMuon   = ( GPT > 500  * MeV ) & ( GP > 6.0 * GeV ) & inAcc ' , 
+#     'goodPion   = ( GPT > 150  * MeV ) & ( GP > 2.5 * GeV ) & inAcc ' , 
+#     'goodKaon   = ( GPT > 150  * MeV ) & ( GP > 2.5 * GeV ) & inAcc ' ,
+#     'goodPsi    =                                             inY   ' ,
+#     'goodB      = longLived                                 & inY   ' 
+#     ]
+#
+# # Generator efficiency histos:
+# #tightCut.XAxis = ( "GPT/GeV" , 0.0 , 100.0 , 400  )
+# #tightCut.YAxis = ( "GY     " , 0.0 ,  10.0 , 100  )
+#
+# EndInsertPythonCode
+#
+# Documentation:  
+#   B+ -> J/psi 3K 2pi final state, 
+#   taking into account the intermediate resonances.  
+#   The tight generator level cuts applied for all 
+#   final state particles, which increases the statistics 
+#   with a good factor factor of ~3.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Dmitry Golubkov 
+# Email: Dmitry.Yu.Golubkov@cern.ch
+# Date: 20250301
+#
+Alias       MyPsi(2S)     psi(2S)
+ChargeConj  MyPsi(2S)   MyPsi(2S)
+#
+Alias       MyJ/psi         J/psi
+ChargeConj  MyJ/psi       MyJ/psi
+#
+Alias      MyRho0        rho0
+ChargeConj MyRho0        MyRho0
+#
+Alias       MyK*0              K*0
+Alias       Myanti-K*0    anti-K*0
+ChargeConj  MyK*0       Myanti-K*0
+#
+Decay B+sig
+  0.0500    MyJ/psi     K+ K+ pi+ K- pi-  PHSP;
+  0.1000    MyJ/psi     K+ pi+ K- MyK*0   PHSP;
+  0.1000    MyJ/psi     K+ K+ K- MyRho0   PHSP;
+  0.7500    MyPsi(2S)   K+ K+ K-          PHSP;
+Enddecay
+CDecay B-sig
+
+Decay MyPsi(2S)
+  1.0000    MyJ/psi     pi+  pi-  VVPIPI ;
+Enddecay
+#
+Decay MyJ/psi
+  1.0000    mu+   mu-       PHOTOS  VLL  ;
+Enddecay
+#
+Decay MyRho0
+  1.000    pi+ pi-                  VSS;
+Enddecay
+#
+Decay       MyK*0
+  1.000     K+  pi-            VSS  ;
+Enddecay
+CDecay      Myanti-K*0
+
+End

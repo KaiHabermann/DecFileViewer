@@ -1,0 +1,47 @@
+# EventType: 12123499
+#
+# Descriptor: [B+ ->(K*(892)+ -> K+ pi0) (phi(1020) -> e+ e-)]cc
+#
+# NickName: Bu_phiKst,ee=DecProdCut
+#
+# Cuts: None
+#
+# Documentation: Phi forced to e+e-, Kst forced to K+pi0, no gen level cuts
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Richard Williams
+# Email: rmwillia@cern.ch
+# Date: 20220804
+#
+Define PKHplus  0.159
+Define PKHzero  0.775
+Define PKHminus 0.612
+Define PKphHplus  1.563
+Define PKphHzero  0.0
+Define PKphHminus 2.712
+#
+Alias      MyPhi	phi
+ChargeConj MyPhi	MyPhi
+
+Alias	   MyKst+	K*+
+Alias	   MyKst-	K*-             	
+ChargeConj MyKst+  	MyKst-
+#
+Decay B+sig
+1.000      MyPhi  MyKst+		SVV_HELAMP PKHplus PKphHplus PKHzero PKphHzero PKHminus PKphHminus;
+Enddecay
+CDecay B-sig
+#
+Decay MyPhi
+  1.000  e+ e-		PHOTOS VLL;
+Enddecay
+Decay MyKst+
+1.000	K+ pi0	VSS;
+Enddecay
+CDecay MyKst-
+#
+End

@@ -1,0 +1,33 @@
+# EventType: 26103196
+#
+# Descriptor: [Xi_c+ -> p+ (KS0 -> pi+ pi-)]cc
+#
+# NickName: Xicp_pKS0,pipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: <1min
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Qi-Le Niu
+# Email:       qniu@cern.ch
+# Date:        20240930
+#
+#
+Alias      MyKS0    K_S0
+ChargeConj MyKS0   MyKS0
+#
+Decay Xi_c+sig
+  1.0  p+  MyKS0  PHSP;
+Enddecay
+CDecay anti-Xi_c-sig
+#
+Decay MyKS0
+  1.000   pi+ pi-  PHSP;
+Enddecay
+#
+End
+#

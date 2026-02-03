@@ -1,0 +1,48 @@
+# EventType: 23103290
+#
+# Descriptor: [D_s+ => pi+ (eta' => pi+ pi- gamma)]cc
+#
+# NickName: Ds+_pietap,pipigamma=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 1 min
+# 
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ D_s+ => ^pi+ ( eta_prime => ^pi+ ^pi- ^gamma )]CC'
+# tightCut.Cuts      =    {
+#     '[pi+]cc' : ' goodPi ',
+#     'gamma' : 'goodGamma'}
+# tightCut.Preambulo += [
+#     'inAcc  = in_range ( 0.005, GTHETA, 0.400 ) ' ,
+#     'goodPi = (GPT > 500 * MeV) & (GP > 1000 * MeV) & inAcc',
+#     'goodGamma = (GPT > 1000 * MeV) & inAcc']
+# EndInsertPythonCode
+#
+# Documentation: Ds+ forced to decay to pi+, eta_prime, then eta_prime decay to pi+, pi-, gamma with tight cuts. 
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Hongjie Mu 
+# Email: hongjie.mu@cern.ch
+# Date: 20191011
+#
+Alias      MyEta'        eta'
+ChargeConj MyEta'        MyEta'
+#
+Decay D_s+sig
+  1.00    pi+ MyEta'           PHSP;
+Enddecay
+CDecay D_s-sig
+#
+Decay MyEta'
+  1.00    pi+  pi- gamma        PHSP;
+Enddecay
+#
+End

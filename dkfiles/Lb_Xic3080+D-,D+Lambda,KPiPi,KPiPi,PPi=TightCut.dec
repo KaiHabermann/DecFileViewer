@@ -1,0 +1,87 @@
+# EventType:  15198132
+# NickName: Lb_Xic3080+D-,D+Lambda,KPiPi,KPiPi,PPi=TightCut
+# Descriptor: [Lambda_b0 -> (Xi_c(2790)+ -> (D+ -> K- pi+ pi+)( Lambda0 -> p+ pi-)) (D- -> K+ pi- pi-) ]cc
+#
+# Cuts: LoKi::GenCutTool/TightCut 
+#
+# Documentation: Lb decays to excited Xi_c(3080)+, with Xi_c(3080)+ decaying to D+ Lambda0.
+# Since Xi_c(3080)+ is not included in EvtGen, we modify Xi_c(2790)+ to replace it.
+# All final state particles are required to be within the tight cut.
+# Lambda_b0 -> (MyXi_c(3080)+ -> (D+ -> K- pi+ pi+)( Lambda0-> p+ pi-)) (D- -> K+ pi- pi-) 
+# EndDocumentation
+#
+# CPUTime:  10 min
+#
+# ParticleValue: "Xi_c(2790)+  1051  104324  1.0  3.0772 2.94305e-24  Xi_c(2790)+  0  0.0", "Xi_c(2790)~-  1052  -104324  -1.0  3.0772 2.94305e-24  anti-Xi_c(2790)-  0  0.0"
+# 
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalPlain.addTool( LoKi__GenCutTool,'TightCut')
+# tightCut = Generation(genAlgName).SignalPlain.TightCut
+# tightCut.Decay = '[Lambda_b0 ==> (Xi_c(2790)+ ==> (D+ ==> ^K- ^pi+ ^pi+) ^( Lambda0 ==> ^p+ ^pi-)) (D- ==> ^K+ ^pi- ^pi-)]CC'
+# tightCut.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import GeV, millimeter',
+#    'GVZ = LoKi.GenVertices.PositionZ()',
+#    'inAcc        = in_range(0.01, GTHETA, 0.400) & in_range(1.9, GETA, 5.1)',
+#    'goodKaon = ( GPT > 0.15 * GeV ) & (GP> 2.*GeV)  & inAcc ' ,
+#    'goodProton = ( GPT > 0.15 * GeV ) & (GP> 2.*GeV)  & inAcc ' ,
+#    'goodpi  = ( GPT > 0.15 * GeV ) & ( GP > 2. * GeV ) & inAcc ',
+#    "goodL0 = (GFAEVX(abs(GVZ),0) < 2500.0 * millimeter) &(GINTREE ( ( 'pi+' == GABSID ) & ( GP > 1.3 * GeV ) )) & (GINTREE ( ( 'p+' == GABSID ) & ( GP > 1.3 * GeV ) ))"
+#]
+# tightCut.Cuts = {
+#    '[pi+]cc'         : 'goodpi',
+#    '[K+]cc'          : 'goodKaon',
+#    '[p+]cc'          : 'goodProton',
+#    '[Lambda0]cc'     : 'goodL0'
+#    }
+# EndInsertPythonCode
+#
+#
+# Date:   20210607
+# Responsible: Tianwen Zhou
+# Email: zhoutw@stu.pku.edu.cn
+# PhysicsWG: Onia
+# Tested: Yes
+
+
+
+Alias MyXi_c(3080)+  Xi_c(2790)+
+Alias My_anti-Xi_c(3080)-  anti-Xi_c(2790)-
+ChargeConj MyXi_c(3080)+ My_anti-Xi_c(3080)-
+
+
+Alias       MyD+          D+
+Alias       MyD-          D-
+ChargeConj  MyD+          MyD-        
+#
+Alias   MyLambda  Lambda0
+Alias   MyAntiLambda  anti-Lambda0
+ChargeConj  MyLambda  MyAntiLambda
+#
+
+Decay       MyD+
+1.000      K-  pi+   pi+      D_DALITZ;
+Enddecay
+CDecay MyD- 
+#
+Decay MyLambda
+1.0   p+   pi-       PHSP;
+Enddecay
+CDecay MyAntiLambda
+#
+Decay MyXi_c(3080)+
+ 1.000  MyD+  MyLambda   PHSP;
+ Enddecay
+ CDecay  My_anti-Xi_c(3080)-
+#
+ Decay Lambda_b0sig
+ 1.000 MyXi_c(3080)+  MyD-   PHSP;
+ Enddecay
+ CDecay anti-Lambda_b0sig
+
+ End
+
+

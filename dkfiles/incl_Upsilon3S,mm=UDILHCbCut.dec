@@ -1,0 +1,29 @@
+# EventType: 18112023
+#
+# Descriptor: Upsilon(3S) -> mu+ mu-
+#
+# NickName: incl_Upsilon3S,mm=UDILHCbCut
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# CutsOptions: SignalPID=200553
+#
+# Documentation: Upsilon(3S) decay to mu+ mu-, radiative mode included, Upsilon(3S) daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: IFT 
+# Tested: Yes
+# Responsible: Xiaolin Wang
+# Email: xiaolin.wang@cern.ch
+# Date: 20240312
+# CPUTime: 1 min
+#
+#
+Decay Upsilon(3S)sig
+  1.000         mu+        mu-        VLL;
+Enddecay
+#
+End
+#

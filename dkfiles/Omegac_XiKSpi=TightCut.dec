@@ -1,0 +1,107 @@
+# EventType: 26106184
+#
+# Descriptor: [Xi_c0 -> (Xi- -> (Lambda0 -> p+ pi-) pi-) (KS0 -> pi+ pi-) pi+]cc
+# NickName: Omegac_XiKSpi=TightCut
+# Cuts: LoKi::GenCutTool/GenSigCut
+# FullEventCuts: LoKi::FullGenEventCut/GenEvtCut
+# ExtraOptions: SwitchOffAllPythiaProcesses
+# ParticleValue: "Xi_c0                 106        4132   0.0      2.69520000      2.680000e-13                     Xi_c0        4132      0.00000000", "Xi_c~0                107       -4132   0.0      2.69520000      2.680000e-13                anti-Xi_c0       -4132      0.00000000", "Xi'_c0                100        4312   0.0      2.76590000      0.000000e+00                    Xi'_c0        4312      0.00000000", "Xi'_c~0               101       -4312   0.0      2.76590000      0.000000e+00               anti-Xi'_c0       -4312      0.00000000"
+# InsertPythonCode:
+# from Configurables import (Pythia8Production, ToolSvc, EvtGenDecayWithCutTool, LoKi__GenCutTool, LoKi__FullGenEventCut)
+# Generation().SignalPlain.addTool(Pythia8Production, name="Pythia8Production")
+# Generation().SignalPlain.Pythia8Production.Commands += ["SoftQCD:all=off","HardQCD:hardccbar=on"]
+# Generation().SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool( EvtGenDecayWithCutTool )
+# EvtGenCut = ToolSvc().EvtGenDecayWithCutTool
+# EvtGenCut.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# EvtGenCut.CutTool = "LoKi::GenCutTool/HyperonDTCut"
+# EvtGenCut.addTool(LoKi__GenCutTool,"HyperonDTCut")
+# EvtGenCut.HyperonDTCut.Decay = "[Xi_c0 ==> ^(Xi- => ^(Lambda0 => p+ pi-) pi-) ^(KS0 => pi+ pi-) pi+]CC"
+# EvtGenCut.HyperonDTCut.Preambulo += [
+#   "from GaudiKernel.PhysicalConstants import c_light",
+#   "from GaudiKernel.SystemOfUnits import mm, ns"
+#   ]
+# EvtGenCut.HyperonDTCut.Cuts = {
+#   '[Xi-]cc'       : "(GCTAU>0.0019*ns*c_light) & (GCTAU<50*mm)",
+#   '[Lambda0]cc'   : "(GCTAU>0.0044*ns*c_light) & (GCTAU<200*mm)",
+#   'KS0'           : "(GCTAU<45*mm)"
+# }
+# #
+# Generation().SignalPlain.addTool(LoKi__GenCutTool,'GenSigCut')
+# SigCut = Generation().SignalPlain.GenSigCut
+# SigCut.Decay = "[^(Xi_c0 ==> ^(Xi- => ^(Lambda0 => ^p+ ^pi-) ^pi-) ^(KS0 => ^pi+ ^pi-) ^pi+)]CC"
+# SigCut.Filter = True
+# SigCut.Preambulo += [
+#   "from LoKiCore.functions import in_range",
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, mm",
+#   "inAcc = in_range(10*mrad,GTHETA,300*mrad)",
+#   "EVZ   = GFAEVX(GVZ,0)",
+#   "OVZ   = GFAPVX(GVZ,0)"
+#  ]
+# SigCut.Cuts = {
+#   '[Xi_c0]cc'   : "(GPT>2.3*GeV) & (EVZ-OVZ>0.9*mm) & (GCHILD(EVZ, (GABSID=='Xi-'))-EVZ>1.8*mm) & (GCHILD(GPT, (GABSID=='pi+'))>290*MeV) & inAcc",
+#   '[Xi-]cc'     : "(GPT>770*MeV) & (GCHILD(EVZ, (GABSID=='Lambda0'))-EVZ>1.8*mm) & inAcc",
+#   '[Lambda0]cc' : "(GPT>580*MeV) & inAcc",
+#   'KS0'         : "(GPT>630*MeV) & inAcc",
+#   '[p+]cc'      : "(GP>8.8*GeV) & (GPT>480*MeV) & inAcc",
+#   '[pi+]cc'     : "(GPT>110*MeV) & inAcc"
+# }
+# #
+# Generation().addTool(LoKi__FullGenEventCut,'GenEvtCut')
+# EvtCut = Generation().GenEvtCut
+# EvtCut.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV, mm, mrad",
+#   "EVZ     = GFAEVX(GVZ,0)",
+#   "EVR     = GFAEVX(GVRHO,0)",
+#   "OVZ     = GFAPVX(GVZ,0)",
+#   "goodOmegac = GSIGNALINLABFRAME & (GABSID=='Xi_c0') & (EVR<6*mm) & (GCHILDCUT((EVR<42*mm) & (EVZ<666*mm), '[Xi_c0 ==> ^Xi- KS0 pi+]CC'))"\
+#                 " & (GCHILDCUT((EVZ<2500*mm), '[Xi_c0 ==> (Xi- => ^Lambda0 pi-) KS0 pi+]CC')) & (GCHILDCUT((EVZ<2500*mm), '[Xi_c0 ==> Xi- ^KS0 pi+]CC'))"
+#  ]
+# EvtCut.Code = "has(goodOmegac)"
+# EndInsertPythonCode
+#
+# Documentation: For excited Omega spectroscopy. Xi forced to decay in Velo (DDL,LLL), Lambda and KS before TT. Have to use Xi_c0 as proxy for Omega_c0. Cut efficiency 0.4%
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Marian Stahl
+# Email: marian.stahl@{nospam}cern.ch
+# Date: 20230903
+# CPUTime: 4 min
+#
+Alias      MyXim          Xi-
+Alias      Myanti-Xip     anti-Xi+
+ChargeConj MyXim          Myanti-Xip
+#
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+#
+Alias      MyKS0          K_S0
+ChargeConj MyKS0          MyKS0
+#
+Decay MyKS0
+  1.0 pi+ pi-             PHSP;
+Enddecay
+#
+Decay MyLambda0
+  1.0 p+ pi-              HELAMP 0.9276 0.0 0.3735 0.0;
+Enddecay
+CDecay MyAntiLambda0
+#
+Decay MyXim
+  1.0 MyLambda0 pi-       HELAMP 0.5442 0.0 0.8390 0.0;
+Enddecay
+CDecay Myanti-Xip
+#
+Decay Xi_c0sig
+  1.0 MyXim MyKS0 pi+     PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+##### Overwrite Xi_c*0 decay, since there's no equivalent Omega_c0 decay (and it's only one produced in Pythia that would decay to Xi_c0)
+Decay Xi_c*0
+  1.0     Xi_c+  pi-      PHSP;
+Enddecay
+CDecay anti-Xi_c*0
+End

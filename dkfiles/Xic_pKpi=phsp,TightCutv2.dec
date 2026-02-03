@@ -1,0 +1,64 @@
+# EventType: 26103091
+#
+# Descriptor: [Xi_c+ -> p+ K- pi+]cc
+#
+# NickName: Xic_pKpi=phsp,TightCutv2
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Decay file for Xi_c+ -> p+ K- pi+, with tight cuts based on 25103029,
+#                but using the proper pythia8 Xic included as per 26103090.
+#                Updated Xic lifetime to LHCb-Paper-2019-008.
+#                
+# ParticleValue: "Xi_c+  108  4232  1.0  2.468 4.570000e-013 Xi_c+ 4232  0","Xi_c~- 109 -4232 -1.0  2.468 4.570000e-013  anti-Xi_c-  -4232   0."
+
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal     = generation.SignalPlain
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[Xi_c+ ==>  ^p+ ^K- ^pi+]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity ()               ' ,
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'fastTrack    =  ( GPT > 300. * MeV ) & ( GP  > 3.0 * GeV )   ' ,
+#     'goodTrack    =  inAcc & inEta & fastTrack                   ' ,
+#     'longLived    =  160. * micrometer < GTIME                    ' ,
+#     'inY          =  in_range ( 1.9   , GY     , 4.6   )         ' ,
+#     'goodXc       =  inY & longLived     & ( GPT > 3.0 * GeV )   ' ,
+#     'Bancestors   =  GNINTREE ( GBEAUTY , HepMC.ancestors )      ' ,
+#     'notFromB     =  0 == Bancestors                             ' ,
+# ]
+# tightCut.Cuts     =    {
+#     '[Xi_c+]cc'      : 'goodXc & notFromB ' ,
+#     '[K+]cc'         : 'goodTrack ' ,
+#     '[pi+]cc'        : 'goodTrack ' ,
+#     '[p+]cc'         : 'goodTrack & ( GP > 9. * GeV ) '
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# CPUTime: 10 min
+# Tested: Yes
+# Responsible: Jacco de Vries
+# Email: j.devries@<no-spam>cern.ch
+# Date: 20200403
+#
+#
+
+Decay Xi_c+sig
+  1.000 p+ K- pi+ PHSPDECAYTIMECUT 0.53;
+Enddecay
+CDecay anti-Xi_c-sig
+
+End
+
+

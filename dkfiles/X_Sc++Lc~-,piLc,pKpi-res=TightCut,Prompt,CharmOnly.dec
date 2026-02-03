@@ -1,0 +1,160 @@
+# EventType: 27297060
+#
+# Descriptor: [X => (Sigma_c++ ==> pi+ (Lambda_c+ ==> p+ K- pi+)) (Lambda_c~- ==> p~- K+ pi-)]CC
+#
+# ParticleValue: "D_s1(2536)+ 765 10433 1.0 4.801527 -0.092 D'_s1+ 10433 0", "D_s1(2536)- 765 -10433 -1.0 4.801527 -0.092 D'_s1- -10433 0"
+#
+# NickName: X_Sc++Lc~-,piLc,pKpi-res=TightCut,Prompt,CharmOnly
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation:
+# X-> Sc++ /\c-, Sc -> /\c pi, /\c -> pKpi;
+# X declared as D_s1(2536)+, but mean and width taken from arXiv:0807.4458;
+# add PDG value of m(Sc) - m(/\c) (plus error) to mean to ensure above threshold;
+# prompt only;
+# only necessary charm processes in Pythia
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool, ToolSvc, EvtGenDecayWithCutTool
+# from Gauss.Configuration import *
+#
+# generation = Generation(genAlgName)
+# signal = generation.SignalPlain
+#
+# signal.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+#
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/LcLongLived"
+# evtgendecay.addTool(LoKi__GenCutTool, 'LcLongLived')
+# evtgendecay.LcLongLived.Decay = '[Meson => (Sigma_c++ ==> pi+ ^(Lambda_c+ ==> p+ K- pi+)) ^(Lambda_c~- ==> p~- K+ pi-)]CC'
+# evtgendecay.LcLongLived.Preambulo += ['from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV']
+# evtgendecay.LcLongLived.Cuts = {'[Lambda_c+]cc': '75 * micrometer < GTIME'}
+#
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = signal.TightCut
+# tightCut.Decay = '[Meson => (Sigma_c++ ==> pi+ ^(Lambda_c+ ==> ^p+ ^K- ^pi+)) ^(Lambda_c~- ==> ^p~- ^K+ ^pi-)]CC'
+# assert evtgendecay.LcLongLived.Decay.replace('^', '') == tightCut.Decay.replace('^', '')
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV',
+#     'inAcc = in_range(0.005, GTHETA, 0.400)',  # DInLHCb charged req.
+#     'fastTrack = (GPT > 220 * MeV) & (GP > 3.0 * GeV)',  # looser than LambdaCForPromptCharm Stripping line
+#     'goodTrack = inAcc & fastTrack',
+#     'Bancestors = GNINTREE(GBEAUTY, HepMC.ancestors)',
+#     'prompt = (0 == Bancestors)',
+#     'goodLc = (GPT > 0.9 * GeV) & prompt',  # looser than LambdaCForPromptCharm Stripping line
+# ]
+# tightCut.Cuts = {
+#     '[Lambda_c+]cc': 'goodLc',
+#     '[K+]cc': 'goodTrack',
+#     '[pi+]cc': 'goodTrack',
+#     '[p+]cc': 'goodTrack & (GP > 9 * GeV)',  # looser than LambdaCForPromptCharm Stripping line
+# }
+#
+# # -- modify Pythia8 to only generate from ccbar processes -- #
+# from Configurables import Generation, MinimumBias, Pythia8Production, Inclusive, SignalPlain, SignalRepeatedHadronization, Special
+#
+# Pythia8TurnOffMinbias = ["SoftQCD:all = off"]
+# Pythia8TurnOffMinbias += ["Bottomonium:all = off"]
+# Pythia8TurnOffMinbias += ["Charmonium:all = off"]
+# Pythia8TurnOffMinbias += ["HardQCD:all = off"]
+# Pythia8TurnOffMinbias += ["HardQCD:hardccbar = on"]
+#
+# gen = Generation(genAlgName)
+# gen.addTool(MinimumBias, name="MinimumBias")
+# gen.MinimumBias.ProductionTool = "Pythia8Production"
+# gen.MinimumBias.addTool(Pythia8Production, name="Pythia8Production")
+# gen.MinimumBias.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool(Inclusive, name="Inclusive")
+# gen.Inclusive.ProductionTool = "Pythia8Production"
+# gen.Inclusive.addTool(Pythia8Production, name="Pythia8Production")
+# gen.Inclusive.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool(SignalPlain, name="SignalPlain")
+# gen.SignalPlain.ProductionTool = "Pythia8Production"
+# gen.SignalPlain.addTool(Pythia8Production, name="Pythia8Production")
+# gen.SignalPlain.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool(SignalRepeatedHadronization, name="SignalRepeatedHadronization")
+# gen.SignalRepeatedHadronization.ProductionTool = "Pythia8Production"
+# gen.SignalRepeatedHadronization.addTool(Pythia8Production, name="Pythia8Production")
+# gen.SignalRepeatedHadronization.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool(Special, name="Special")
+# gen.Special.ProductionTool = "Pythia8Production"
+# gen.Special.addTool(Pythia8Production, name="Pythia8Production")
+# gen.Special.Pythia8Production.Commands += Pythia8TurnOffMinbias
+# # -- END  -- #
+# EndInsertPythonCode
+#
+# CPUTime: < 2 mins
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Michael Wilkinson (Syracuse University)
+# Email: miwilkin@syr.edu
+# Date: 20200427
+#
+
+# Define Sigma_c++
+Alias      MySigma_c++      Sigma_c++
+Alias      Myanti-Sigma_c-- anti-Sigma_c--
+ChargeConj MySigma_c++      Myanti-Sigma_c--
+Alias      MyLambda_c+      Lambda_c+
+Alias      Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+      Myanti-Lambda_c-
+#
+# Define K*(892)
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+# Define Delta++
+Alias      MyDelta++      Delta++
+Alias      Myanti-Delta-- anti-Delta--
+ChargeConj MyDelta++      Myanti-Delta--
+#
+# Define Lambda(1520)0
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+Decay D'_s1+sig
+  1.0000 MySigma_c++     Myanti-Lambda_c- PHSP;
+Enddecay
+CDecay D'_s1-sig
+#
+Decay MySigma_c++
+  1.0000 MyLambda_c+     pi+              PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+Decay MyLambda_c+
+  0.0196 p+              Myanti-K*0       PHSP;
+  0.0108 MyDelta++       K-               PHSP;
+  0.0220 MyLambda(1520)0 pi+              PHSP;
+  0.0350 p+              K-         pi+   PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+  1.0000 K+              pi-              VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyDelta++
+  1.0000 p+              pi+              PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+Decay MyLambda(1520)0
+  1.0000 p+              K-               PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+End
+#

@@ -1,0 +1,56 @@
+# EventType:  27465200 
+# This is the decay file for the decay D*+ -> ( D0 -> K- pi+ eta' ) pi+
+# Descriptor: [D*(2010)+ -> ( D0 -> K- pi+ eta' ) pi+]cc
+#
+# NickName: Dst_D0pi,Kpietapr=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Dst+ -> (D0 -> ( D0 -> K- pi+ eta' (-> pi+ pi- gamma/eta ) ) pi+
+# D0 decaying into K- pi+ eta'
+# eta' decaying into pi+ pi- gamma/eta
+# All final-state products in the acceptance.
+# EndDocumentation 
+#
+# PhysicsWG: Charm
+#
+# Tested: Yes
+# Responsible: Liang Sun
+# CPUTime: < 1 min
+# Email: liang.sun [at] cern.ch
+# Date: 20201127
+#
+Alias myD0 D0
+Alias myantiD0 anti-D0
+ChargeConj myD0 myantiD0
+Alias      Myrho0       rho0
+Alias      Myeta  eta
+Alias      Myetap  eta'
+#
+Decay D*+sig
+  1.000 myD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay myD0
+  1.0  K-  pi+  Myetap                   PHSP;
+Enddecay
+CDecay myantiD0
+
+#
+Decay Myetap
+0.1706     pi+ pi- Myeta                       PHSP; #0.4340*0.3931
+0.2930     Myrho0  gamma                       SVP_HELAMP  1.0 0.0 1.0 0.0;
+Enddecay
+
+Decay Myeta
+1.0     gamma gamma                        PHSP;
+Enddecay
+
+Decay Myrho0
+1.0     pi+ pi-                         VSS;
+Enddecay
+
+#
+End
+

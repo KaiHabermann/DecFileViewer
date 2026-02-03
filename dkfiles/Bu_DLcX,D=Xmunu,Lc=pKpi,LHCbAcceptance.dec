@@ -1,0 +1,88 @@
+# EventType:  12875012
+#
+# Descriptor: [[B-] ==> (anti-Lambda_c- ==> anti-Lambda_0 mu- nu_mu) (Lambda_c+ -> p+ K- pi+) K-]cc
+#
+# NickName: Bu_DLcX,D=Xmunu,Lc=pKpi,LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Sum of Bu decaying to Hc Lambda_c plus X, Lambda_c forced to p K pi, Hc forced to SL. 
+#
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Wren Vetens
+# Email: wsvetens@syr.edu
+# Date: 20250410
+#
+# ParticleValue:   "Xi_c(2815)0          1057      104312   0.0      2.93855000      6.453000e-23               Xi_c(2815)0           0      0.00000000", "Xi_c(2815)~0         1058     -104312  0.0      2.93855000      6.453000e-23          anti-Xi_c(2815)0           0      0.00000000"
+Alias		MyLambda_c+	Lambda_c+
+Alias		MyLambda_c~-	anti-Lambda_c-
+ChargeConj	MyLambda_c+	MyLambda_c~-
+#
+Alias		MyXi_c(2790)0	    Xi_c(2790)0
+Alias		MyAntiXi_c(2790)0	anti-Xi_c(2790)0
+ChargeConj	MyXi_c(2790)0	    MyAntiXi_c(2790)0
+#
+Alias		MyXi_c(2930)0	    Xi_c(2815)0
+Alias		MyAntiXi_c(2930)0	anti-Xi_c(2815)0
+ChargeConj	MyXi_c(2930)0	    MyAntiXi_c(2930)0
+#
+Alias		MySLLambda_c+	Lambda_c+
+Alias		MySLLambda_c~-	anti-Lambda_c-
+ChargeConj	MySLLambda_c+	MySLLambda_c~-
+#
+Alias		MySLXi_c(2790)0	    Xi_c(2790)0
+Alias		MySLAntiXi_c(2790)0	anti-Xi_c(2790)0
+ChargeConj	MySLXi_c(2790)0	    MySLAntiXi_c(2790)0
+#
+Alias		MySLXi_c(2930)0	    Xi_c(2815)0
+Alias		MySLAntiXi_c(2930)0	anti-Xi_c(2815)0
+ChargeConj	MySLXi_c(2930)0	    MySLAntiXi_c(2930)0
+#
+Decay B-sig
+# Baryonic decays
+ 0.00032	MyLambda_c~-	    MySLLambda_c+	K-		PHSP; #PDG, after subtracting off Xi_c(2930) resonance
+ 0.00032	MyLambda_c~-	    MySLLambda_c+	K*-		PHSP; # assume same as above
+ 0.000275   MyXi_c(2790)0	    MySLLambda_c~-			PHSP; #PDGm See Xi_c(2790) decay tree, unlike 2930 this must be forced to Lambda_c final state, hence we scale the PDG value by 0.25
+ 0.00017   MyXi_c(2930)0	    MySLLambda_c~-			PHSP; #PDG
+ 0.00032	MySLLambda_c~-	    MyLambda_c+	K-		    PHSP; #PDG, after subtracting off Xi_c(2930) resonance
+ 0.00032	MySLLambda_c~-	    MyLambda_c+	K*-		    PHSP; # assume same as above
+ 0.000275   MySLXi_c(2790)0	    MyLambda_c~-			PHSP; #PDGm See Xi_c(2790) decay tree, unlike 2930 this must be forced to Lambda_c final state, hence we scale the PDG value by 0.25
+ 0.00017	MySLXi_c(2930)0	    MyLambda_c~-			PHSP; #PDG
+Enddecay
+CDecay B+sig
+#
+Decay MyLambda_c+
+  1.000         p+      K-      pi+          PHSP;
+Enddecay
+CDecay MyLambda_c~-
+# 
+Decay MySLLambda_c+
+  0.0348        Lambda0      mu+      nu_mu          PHSP;
+Enddecay
+CDecay MySLLambda_c~-
+# 
+Decay MyXi_c(2790)0
+ 0.250       MyLambda_c+           K-     PHSP; #Xi_c(2790) also has observed modes into Xi_c gamma and Xi'_c pi. Assume Xi_c gamma occurs instead of uubar pair production which would produce Sigma_c0 anti-K0 if the 2790 were much heavier, meanwhile the Xi'_c pi modes are uubar and ddbar pair production in which the s and c quarks are observers rather than the c and u quarks. Thus, Xi_c+ gamma = Lambda_c+ K- = 1/2 Xi'_c pi by isospin invariance, so BF(Lambda_c+ K-) = 0.25
+Enddecay
+CDecay MyAntiXi_c(2790)0
+#
+Decay MySLXi_c(2790)0
+ 0.250       MySLLambda_c+           K-     PHSP;
+Enddecay
+CDecay MySLAntiXi_c(2790)0
+#
+Decay MyXi_c(2930)0
+ 1.000       MyLambda_c+           K-     PHSP;
+Enddecay
+CDecay MyAntiXi_c(2930)0
+#
+Decay MySLXi_c(2930)0
+ 1.000       MySLLambda_c+           K-     PHSP;
+Enddecay
+CDecay MySLAntiXi_c(2930)0
+#
+End

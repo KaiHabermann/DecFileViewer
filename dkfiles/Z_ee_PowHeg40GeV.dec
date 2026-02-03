@@ -1,0 +1,37 @@
+# EventType: 42122005
+#
+# Descriptor: pp -> (Z0/gamma* -> e+ e-) ... 
+#
+# NickName: Z_ee_PowHeg40GeV
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/ParsInAcc
+#
+# InsertPythonCode:
+# from Configurables import Generation, Special, PowhegProduction
+# Generation(genAlgName).addTool( Special )
+# Generation(genAlgName).Special.addTool( PowhegProduction )
+# Generation(genAlgName).Special.PowhegProduction.Commands += [ "vdecaymode 1", "mass_low  40"]
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "ParsInAcc" )
+# tracksInAcc = Generation(genAlgName).ParsInAcc
+# tracksInAcc.Code = " ( ( count ( isGoodLepton ) > 0 ) ) "
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodLepton   = ( ( 11 == GABSID ) & GCHARGED & ( GTHETA < 400.0*mrad ) & (GTHETA > 10.0*mrad) & ( GPT > 4.*GeV ) )"
+#    ]
+# EndInsertPythonCode
+#
+# ExtraOptions: Zee_powheg
+#
+# CPUTime: < 1 min
+#
+# Documentation:  Z decay into two elecs, and at least one elec must within LHCb acceptance with pT greater than 4 GeV.
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Hang Yin
+# Email: hang.yin@cern.ch
+# Date: 20200911
+#
+End

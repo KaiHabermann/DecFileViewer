@@ -1,0 +1,166 @@
+# 
+#
+# EventType: 12875050
+#
+# Descriptor: {[ B+ ==> nu_mu mu+ (D*(2010)- => (D~0 -> K+ pi-) pi-)]cc}
+#
+# NickName: Bu_Dst+DsX,taunu=cocktail,TightCut,tighter
+# Cuts: 'LoKi::GenCutTool/TightCut'
+# InsertPythonCode:
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#gen = Generation(genAlgName)
+#gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay = "[ (Beauty) ==> ^(D~0 => ^K+ ^pi- ) ^mu+ nu_mu {X} {X} {X} {X} {X} {X} {X} {X} ]CC"
+#tightCut.Preambulo += [
+#  "from LoKiCore.functions import in_range"  ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#  "piKP     = GCHILD(GP,('K+' == GABSID )) + GCHILD(GP,('pi-' == GABSID ))"
+#]
+#tightCut.Cuts      =    {
+# '[pi+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 250. * MeV )" ,
+# '[K-]cc'    : " in_range( 0.010 , GTHETA , 0.400 ) & ( GPT > 250. * MeV )" ,
+# '[mu+]cc'   : " in_range( 2.4 , GETA, 4.0 ) & (GP > 5500. * MeV) ",
+# '[D~0]cc'   : " ( piKP > 15000. * MeV ) "
+#    }
+# EndInsertPythonCode
+#
+# Documentation: Sum of B -> D*+ Ds X modes. Ds -> tau nu, D* -> D0 pi, D0 -> K pi.  Tight generator level cuts. Cuts for B->D*munu/B->D*enu
+# EndDocumentation
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Florian Reiss
+# Email: florian.reiss@cern.ch
+# Date: 20190215
+
+
+Alias             MyD*-       D*-
+Alias             MyD*+       D*+
+ChargeConj        MyD*+       MyD*-
+
+
+Alias             Myanti-D0   anti-D0
+Alias             MyD0        D0
+ChargeConj        MyD0        Myanti-D0
+
+
+Alias             MyD_s+      D_s+
+Alias             MyD_s-      D_s-
+ChargeConj        MyD_s+      MyD_s-
+
+Alias             MyD_s*+      D_s*+
+Alias             MyD_s*-      D_s*-
+ChargeConj        MyD_s*+      MyD_s*-
+
+
+Alias      MyD_0*+         D_0*+
+Alias      MyD_0*-         D_0*-
+ChargeConj MyD_0*+         MyD_0*-
+
+Alias      MyD_0*0         D_0*0
+Alias      MyAntiD_0*0     anti-D_0*0
+ChargeConj MyD_0*0         MyAntiD_0*0
+
+
+
+Alias      MyD'_10         D'_10
+Alias      MyAntiD'_10     anti-D'_10
+ChargeConj MyD'_10         MyAntiD'_10
+
+Alias      MyD_10         D_10
+Alias      MyAntiD_10     anti-D_10
+ChargeConj MyD_10         MyAntiD_10
+
+Alias      MyD_2*0         D_2*0
+Alias      MyAntiD_2*0     anti-D_2*0
+ChargeConj MyD_2*0         MyAntiD_2*0
+
+
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+
+# ---------------
+# DECAY OF THE B+
+# ---------------
+Decay B+sig
+0.0006   MyAntiD'_10  MyD_s+                     SVS;
+0.0012   MyAntiD'_10  MyD_s*+                    SVV_HELAMP 0.48 0.0 0.734 0.0 0.48 0.0;
+0.0012   MyAntiD_10   MyD_s+                     SVS;
+0.0024   MyAntiD_10   MyD_s*+                    SVV_HELAMP 0.48 0.0 0.734 0.0 0.48 0.0;
+0.0042   MyAntiD_2*0  MyD_s+                     STS;
+0.0040   MyAntiD_2*0  MyD_s*+                    PHSP;
+Enddecay
+CDecay B-sig
+
+# ---------------
+# DECAY OF THE D*-
+# ---------------
+Decay MyD*-
+1.000        Myanti-D0 pi-                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay Myanti-D0
+1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+
+
+# -----------------
+# DECAY OF THE DS+-
+# -----------------
+
+Decay MyD_s+
+ 1 Mytau+      nu_tau                              PHOTOS   SLN; 
+Enddecay
+CDecay MyD_s-
+
+
+Decay MyD_s*+
+0.942000000 MyD_s+    gamma                                   VSP_PWAVE; #[Reconstructed PDG2011]
+0.058000000 MyD_s+    pi0                                     VSS; #[Reconstructed PDG2011]
+Enddecay
+CDecay MyD_s*-
+
+Decay MyD_0*+ 
+0.04     MyD*+ pi0 pi0                     PHOTOS PHSP;
+0.08     MyD*+ pi+ pi-                     PHOTOS PHSP;
+Enddecay
+CDecay MyD_0*-
+
+Decay MyD_0*0
+0.08    MyD*+ pi- pi0                      PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_0*0
+
+Decay MyD'_10
+0.500    MyD*+ pi-                         PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAntiD'_10
+
+Decay MyD_10
+0.400    MyD*+ pi-                         PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.0312    MyD_0*+ pi-                      PHOTOS PHSP;
+0.0104    MyD_0*0 pi0                      PHSP;
+Enddecay
+CDecay MyAntiD_10
+
+Decay MyD_2*0
+0.173    MyD*+ pi-                         PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+0.0176    MyD_0*+ pi-                      PHOTOS PHSP;
+0.0059    MyD_0*0 pi0                      PHSP;
+0.008     MyD*+ pi- pi0                    PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_2*0
+
+
+Decay Mytau-
+  1.00      mu-    anti-nu_mu nu_tau        PHOTOS TAULNUNU;
+Enddecay
+CDecay Mytau+
+
+#
+End

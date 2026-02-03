@@ -1,0 +1,78 @@
+# EventType: 27583009
+#
+# Descriptor: [D*+ -> ( D0 -> K- e+ nu_e ) pi+]cc
+#
+# NickName: Dst_D0pi,Kenu=TightCutD02KK
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation:
+#   D0 -> K- e+ nu from prompt D*+ only, tight cuts to match Run3 HLT2 requirements of D02KK
+#   This decay file is intended for studies of peaking background 
+#   in D0->hh CPV measurements.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation() 
+# signal     = generation.SignalPlain 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[D*(2010)+ => ^( D0 ==> ^K- ^e+ nu_e ) ^pi+]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV                                                                                    " ,
+#     "from LoKiCore.math import atan2, sqrt                                                                                                                     " ,
+#     "inAccLoose    =  in_range ( 0.012 , GTHETA , 0.35 ) & in_range ( -0.3  , atan2(GPX , GPZ), 0.3  ) & in_range ( -0.26 , atan2(GPY , GPZ), 0.26 )           " ,
+#     "inAcc         =  in_range ( 0.014 , GTHETA , 0.30 ) & in_range ( -0.28 , atan2(GPX , GPZ), 0.28 ) & in_range ( -0.24 , atan2(GPY , GPZ), 0.24 )           " ,
+#     "fastTrack     =  ( GPT > 775 * MeV ) & ( GP  > 4.85 * GeV )                                                                                               " ,
+#     "goodTrack     =  inAccLoose & fastTrack                                                                                                                   " ,
+#     "longLived     =  GFLIGHT > 0.05 * millimeter                                                                                                              " ,
+#     "GPXKe         =  GCHILD( GPX, ('K+' == GABSID ) ) + GCHILD( GPX, ('e+' == GABSID ) )                                                                      " ,
+#     "GPYKe         =  GCHILD( GPY, ('K+' == GABSID ) ) + GCHILD( GPY, ('e+' == GABSID ) )                                                                      " ,
+#     "GPZKe         =  GCHILD( GPZ, ('K+' == GABSID ) ) + GCHILD( GPZ, ('e+' == GABSID ) )                                                                      " ,
+#     "GPTKe         =  sqrt(GPXKe*GPXKe + GPYKe*GPYKe)                                                                                                          " ,
+#     "GP2Ke         =  GPXKe*GPXKe + GPYKe*GPYKe + GPZKe*GPZKe                                                                                                  " ,
+#     "GTHETAKe      =  atan2( GPTKe, GPZKe )                                                                                                                    " ,
+#     "GEKK          =  GCHILD( GE, ('K+' == GABSID ) ) + sqrt( 493.677*493.677 * MeV * MeV + GCHILD( GP, ('e+' == GABSID ) )*GCHILD( GP, ('e+' == GABSID ) ) )  " ,
+#     "KKinD0MWindow =  sqrt( GEKK*GEKK - GP2Ke ) > 1.65 * GeV                                                                                                   " ,
+#     "inAccKe       =  in_range ( 0.014 , GTHETAKe , 0.30 ) & in_range ( -0.28 , atan2(GPXKe , GPZKe), 0.28 ) & in_range ( -0.24 , atan2(GPYKe , GPZKe), 0.24 ) " ,
+#     "goodD0        =  inAccKe & longLived & KKinD0MWindow & (GPTKe > 1.94 * GeV)                                                                               " ,
+#     "Bancestors    =  GNINTREE ( GBEAUTY , HepMC.ancestors )                                                                                                   " ,
+#     "notFromB      =  0 == Bancestors                                                                                                                          " ,
+#     "goodSlowPion  =  ( GPT > 190 * MeV ) & ( GP > 0.97 * GeV ) & inAcc                                                                                        "
+# ]
+# tightCut.Cuts     =    {
+#     "[D*(2010)+]cc" : "notFromB     " ,
+#     "[D0]cc"        : "goodD0       " ,
+#     "[K-]cc"        : "goodTrack    " , 
+#     "[e+]cc"        : "goodTrack    " ,
+#     "[pi+]cc"       : "goodSlowPion "
+#     }
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Federico Betti
+# Email: federico.betti@cern.ch
+# Date: 20250417
+# CPUTime: < 1 min
+#
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.000 K- e+ nu_e PHOTOS ISGW2;  
+Enddecay
+CDecay MyantiD0
+#
+End
+

@@ -1,0 +1,130 @@
+# EventType: 16268040 
+#
+# Descriptor: [Xi_b0 -> K- (Sigma_b*+ -> (Lambda_b0 -> (Lambda_c+ -> p+ K- pi+) pi- pi+ pi-) pi+)]cc,
+#
+# NickName: Xibstar6327_LbKpi,Lb=Lcpipipi,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# 
+#
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay     = '[Xi_b0 ==> ^K-  (Lambda_b0 ==> (Lambda_c+ ==> ^p+ ^K- ^pi+) ^pi- ^pi+ ^pi-)  ^pi+  ]CC'
+# tightCut.Cuts      =    {
+#     '[K-]cc'   : ' goodKaon ' ,
+#     '[p+]cc'   : ' goodProton ' ,
+#     '[pi-]cc'  : ' goodpi  ' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import GeV',
+#     'inAcc    = in_range ( 0.010 , GTHETA , 0.400 ) ' ,
+#     'goodKaon = ( GPT > 0.09 * GeV ) & ( GP > 1.5 * GeV ) & inAcc ' ,
+#     'goodProton = ( GPT > 0.09 * GeV ) & ( GP > 1.5 * GeV ) & inAcc ' ,
+#     'goodpi  = ( GPT > 0.09 * GeV ) & ( GP > 1.5 * GeV ) & inAcc ' ]
+#
+# EndInsertPythonCode
+#
+# ParticleValue: "Xi_b0  124  5232 0.0 6.32756 2.765597e-22   Xi_b0  5232 0.", "Xi_b~0 125 -5232 0.0 6.32756 2.765597e-22 anti-Xi_b0 -5232 0.", "Sigma_b+ 110  5222  1.0  5.81056000  1.3164e-22  Sigma_b+  5222  0.", "Sigma_b~- 111  -5222  -1.0  5.81056000  1.3164e-22  anti-Sigma_b-  -5222  0.", "Sigma_b*+ 530  5224  1.0  5.8303200  7.002257e-23  Sigma_b*+  5224  0.", "Sigma_b*~- 531  -5224  -1.0  5.8303200  7.002257e-23  anti-Sigma_b*-  -5224  0."
+#
+# Documentation: Xib(6330) decays to LbpiK final state. With resonant contribution from Sigmab->Lbpi. Lb decaying into Lcpi 
+# EndDocumentation
+#
+# PhysicsWG:    Onia
+# CPUTime:      5min
+# Tested: Yes
+# Responsible:  Mengzhen Wang 
+# Email:        Mengzhen.Wang@cern.ch
+# Date:         20200611
+
+Alias      MyLambda_b0        Lambda_b0
+Alias Myanti-Lambda_b0   anti-Lambda_b0
+ChargeConj MyLambda_b0 Myanti-Lambda_b0
+#
+Alias       MyLambda_c+       Lambda_c+
+Alias       Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj  MyLambda_c+       Myanti-Lambda_c- 
+# Define Lambda(1520)0
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+# Define K*0
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+# Define Delta++
+Alias      MyDelta++      Delta++
+Alias      Myanti-Delta-- anti-Delta--
+ChargeConj MyDelta++      Myanti-Delta--
+#
+Alias       MySigma_b+           Sigma_b+
+Alias       Myanti-Sigma_b-           anti-Sigma_b-
+ChargeConj  MySigma_b+           Myanti-Sigma_b- 
+#
+Alias       MySigma_b*+          Sigma_b*+
+Alias       Myanti-Sigma_b*-          anti-Sigma_b*-
+ChargeConj  MySigma_b*+          Myanti-Sigma_b*- 
+#
+Alias       MyJpsi                J/psi
+ChargeConj  MyJpsi               MyJpsi
+
+#
+Decay Xi_b0sig
+  0.333    MyLambda_b0        pi+ K-     PHSP;
+  0.333    MySigma_b+ K-     PHSP;
+  0.333    MySigma_b*+ K-     PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MySigma_b+
+  1.000    MyLambda_b0        pi+ PHSP;
+Enddecay
+CDecay Myanti-Sigma_b- 
+
+#
+Decay MySigma_b*+
+  1.000    MyLambda_b0        pi+ PHSP;
+Enddecay
+CDecay Myanti-Sigma_b*-
+#
+Decay MyLambda_b0
+  1.000     MyLambda_c+ pi- pi+ pi- PHSP ;
+Enddecay
+CDecay Myanti-Lambda_b0
+#
+Decay MyLambda_c+
+    0.02800         p+      K-      pi+          PHSP;
+    0.01065         p+      Myanti-K*0           PHSP;
+    0.00860         MyDelta++ K-                 PHSP;
+    0.00414         MyLambda(1520)0 pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+    0.6657      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyLambda(1520)0
+  0.23   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay MyDelta++
+  1.000 p+ pi+ PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+Decay MyJpsi
+  1.000  mu+      mu-    PHOTOS   VLL;
+Enddecay
+
+#
+End
+#

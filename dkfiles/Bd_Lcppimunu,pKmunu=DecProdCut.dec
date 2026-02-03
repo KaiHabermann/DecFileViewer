@@ -1,0 +1,33 @@
+# EventType: 11576070
+#
+# Descriptor: [B0 -> (anti-Lambda_c- -> anti-p- K+ mu- anti-nu_mu) p+ pi- mu+ nu_mu]cc
+#
+# NickName: Bd_Lcppimunu,pKmunu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 -> Lc- p+ pi- mu+ nu_mu decays, with Lc- -> p- K+ mu- anti-nu_mu. ppKpimumu in acceptance.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: J. Bex
+# Email: joshua.james.bex@cern.ch
+# Date: 20240319
+#
+Alias       MyLcm      anti-Lambda_c-
+Alias       MyLcp      Lambda_c+
+ChargeConj  MyLcm      MyLcp
+#
+Decay B0sig
+  1.000     MyLcm  p+  pi-   mu+   nu_mu       PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyLcm
+  1.000     anti-p-   K+    mu-   anti-nu_mu    PHSP;
+Enddecay
+CDecay MyLcp
+#
+End

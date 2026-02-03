@@ -1,0 +1,26 @@
+# EventType: 12115088
+#
+# Descriptor: [B+ -> K+ mu+ mu- pi+ pi-]cc
+#
+# NickName: B+_K+mmpipi=DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb 
+#
+# Documentation: Decay file for B+ -> mu+ mu- pi+ pi- K+
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Emilio X. Rodriguez
+# Email: emilio.xose.rodriguez.fernandez@cern.ch
+# Date: 20240521
+# CPUTime: <1min
+#
+Decay B+sig
+1.000   K+  mu+  mu-  pi+  pi-  PHSP;             
+Enddecay
+CDecay B-sig
+#
+End
+#

@@ -1,0 +1,80 @@
+# EventType: 26104184
+#
+# Descriptor: [Xi_c0 -> (Lambda0 -> p+ pi-) K- pi+]cc
+#
+# NickName: Xic_LambdaKpi,ppi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut 
+# CPUTime: 3min
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = "[Xi_c0 => ^(Lambda0 => p+ pi-) ^K- ^pi+]CC"
+# tightCut.Preambulo += [
+#  "from math import tan",
+#  "from LoKiCore.math import sqrt,pow2",
+#  "from LoKiCore.functions import in_range"  ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, millimeter"  ,
+#  "minPT_ppi = GMINTREE(GPT, (GABSID=='p+') | (GABSID=='pi+'), HepMC.children)",
+#  "minP_ppi = GMINTREE(GP, (GABSID=='p+') | (GABSID=='pi+'), HepMC.children)",
+#  "inAcc = in_range(10*mrad,GTHETA,400*mrad)",
+#  "EndVertexX = GFAEVX(GVX,0)",
+#  "EndVertexY = GFAEVX(GVY,0)",
+#  "EndVertexZ = GFAEVX(GVZ,0)",
+#  "pChildMomX = GCHILDFUN(GPX,GABSID=='p+')",
+#  "pChildMomY = GCHILDFUN(GPY,GABSID=='p+')",
+#  "pChildMomZ = GCHILDFUN(GPZ,GABSID=='p+')",
+#  "piChildMomX = GCHILDFUN(GPX,GABSID=='pi+')",
+#  "piChildMomY = GCHILDFUN(GPY,GABSID=='pi+')",
+#  "piChildMomZ = GCHILDFUN(GPZ,GABSID=='pi+')",
+#  "EndVertexInAcc = sqrt(pow2(EndVertexX)+pow2(EndVertexY))>(tan(10*mrad)*EndVertexZ)",
+#  "pChildXAtTT = EndVertexX + pChildMomX/pChildMomZ * (2400.0 * millimeter - EndVertexZ)",
+#  "pChildYAtTT = EndVertexY + pChildMomY/pChildMomZ * (2400.0 * millimeter - EndVertexZ)",
+#  "piChildXAtTT = EndVertexX + piChildMomX/piChildMomZ * (2400.0 * millimeter - EndVertexZ)",
+#  "piChildYAtTT = EndVertexY + piChildMomY/piChildMomZ * (2400.0 * millimeter - EndVertexZ)",
+#  "pChildAtTTInAcc = sqrt(pow2(pChildXAtTT)+pow2(pChildYAtTT))>(tan(10.0*mrad)* 2400.0*millimeter)",
+#  "piChildAtTTInAcc = sqrt(pow2(piChildXAtTT)+pow2(piChildYAtTT))>(tan(10.0*mrad)* 2400.0*millimeter)",
+#  "pChildInAcc = ( EndVertexInAcc | pChildAtTTInAcc )",
+#  "piChildInAcc = ( EndVertexInAcc | piChildAtTTInAcc )"
+# ]
+# tightCut.Cuts      =    {
+# '[Xi_c0]cc'   : " (GP > 9.9*GeV) & (GPT > 240*MeV)" ,
+# '[Lambda0]cc'   : "(GP > 5.9*GeV) & (GPT > 240*MeV) & (minP_ppi > 1.9*GeV) & (minPT_ppi > 90*MeV) & (EndVertexZ < 2400.0 * millimeter) & pChildInAcc & piChildInAcc",
+# '[K+]cc'  : " inAcc & (GP > 1.9*GeV) & (GPT > 240*MeV)",
+# '[pi+]cc'   : " inAcc & (GP > 1.9*GeV) & (GPT > 240*MeV)"
+# }
+# EndInsertPythonCode 
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Andrea Merli
+# Email:       andrea.merli@cern.ch
+# Date:        20200604
+#
+
+Alias      MyLambda0      Lambda0
+Alias      Myanti-Lambda0 anti-Lambda0
+ChargeConj MyLambda0      Myanti-Lambda0
+
+Decay MyLambda0
+  1.000   p+          pi-    HELAMP 0.935 0.0 0.356 0.0;
+Enddecay
+#
+Decay Myanti-Lambda0
+  1.000   anti-p-          pi+    HELAMP 0.356 0.0 0.935 0.0;
+Enddecay
+#
+Decay Xi_c0sig
+  1.000  MyLambda0 K- pi+  PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+End 
+#

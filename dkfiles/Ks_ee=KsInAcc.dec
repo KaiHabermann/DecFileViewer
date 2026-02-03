@@ -1,0 +1,43 @@
+# EventType: 34122115
+#
+# Descriptor: K_S0 => e+ e-
+#
+# NickName: Ks_ee=KsInAcc
+#
+# Cuts: 'LoKi::GenCutTool/AccCut'
+#
+# Documentation: K_S0 => e+ e-, with only acceptance cuts at generator level
+# EndDocumentation
+#
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'AccCut' )
+# #
+# accCut = gen.SignalPlain.AccCut
+# accCut.Decay     = '[^(KS0 => e+ e-)]CC'
+# accCut.Preambulo += [
+#      "inAcc         = (in_range( 0.010 , GTHETA , 0.400 ) & in_range( 1.9 , GETA , 5.1 ))",
+# ]
+# accCut.Cuts      =    {
+#     '[KS0]cc'  : ' inAcc ',
+#                         }
+# EndInsertPythonCode
+#
+#
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Miguel Fernandez Gomez
+# Email: miguel.fernandez.gomez@cern.ch
+# Date: 20241121
+#
+Decay K_S0sig
+  1.000       e+     e-              PHSP;
+Enddecay
+#
+End

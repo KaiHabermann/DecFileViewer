@@ -1,0 +1,50 @@
+# EventType: 13514041
+#
+# Descriptor: {[[B_s0]nos -> K+ K- mu+ mu-]cc, [[B_s0]os -> K+ K- mu+ mu-]cc}
+#
+# NickName: Bs_KKmumu=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LoKi__GenCutTool
+#
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "([B_s0 ==> ^K+ ^K- (tau+ ==> ^mu+ nu_mu nu_tau~) (tau- ==> ^mu- nu_mu~ nu_tau)]CC) || ([B_s0 ==> ^K+ ^K- ^mu+ ^mu-]CC)"
+# tightCut.Preambulo += ["from LoKiCore.functions import in_range", "from GaudiKernel.SystemOfUnits import MeV"]
+# tightCut.Cuts = {
+#     '[mu-]cc'     : "(in_range(0.010, GTHETA, 0.400)) & (GP > 2900 * MeV)",
+#     '[K-]cc'      : "(in_range(0.010, GTHETA, 0.400)) & (GP > 2900 * MeV)"
+#   }
+# EndInsertPythonCode
+#
+# Documentation: Bs -> K K mu mu and Bs -> K K tau tau, with taus decaying to muons
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20210510
+#
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+#
+Decay B_s0sig
+  0.500       K+         K-        Mytau+    Mytau-        PHSP;
+  0.500       K+         K-        mu+       mu-           PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mytau+
+  1.000       mu+        nu_mu     anti-nu_tau             TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

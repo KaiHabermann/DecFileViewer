@@ -1,0 +1,76 @@
+#EventType: 11464402
+# Descriptor: [ [B0 => ^(D~0 => ^K+ ^pi-) ^(eta_prime => ^pi+ ^pi- ^(eta=> ^gamma ^gamma)) ]CC, [B0 => ^(D~0 => ^K+ ^pi-) ^(eta_prime => ^(rho(770)0 => ^pi+ ^pi-) ^gamma) ]CC ]
+#
+# NickName: Bd_D0baretap,Kpicocktail=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation().SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[ [B0 => ^(D~0 => ^K+ ^pi-) ^(eta_prime => ^pi+ ^pi- ^(eta => ^gamma ^gamma)) ]CC, [B0 => ^(D~0 => ^K+ ^pi-) ^(eta_prime => ^(rho(770)0 => ^pi+ ^pi-) ^gamma) ]CC ]"
+# tightCut.Preambulo += [
+#  "from LoKiCore.functions import in_range"  ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#  "AccCut = in_range ( 0.005 , GTHETA , 0.400 )",
+#  "goodGamma = ( (GPT > 150 * MeV) & AccCut ) ",
+#  "ErrSuppress = ( GPT > 150 * MeV )"  
+# ]
+# tightCut.Cuts = {"gamma" : "goodGamma", "pi+" : "ErrSuppress", "pi-" : "ErrSuppress", \
+# "K+" : "ErrSuppress","K-" : "ErrSuppress", "rho(770)0" : "ErrSuppress", "eta" : "ErrSuppress",\
+# "eta_prime" : "ErrSuppress", "D~0" : "ErrSuppress", "D0" : "ErrSuppress"}
+# EndInsertPythonCode
+
+#
+# Documentation: Bd is forced to 4 charged tracks, 
+#                D0bar is forced into K+ pi-, TightCuts.
+#                eta_prime can decay to either pi+ pi- (eta -> gamma gamma),
+#                or (rho0 -> pi+ pi-) gamma.
+#                The TightCuts are relevant for the gammas,
+#                the others are there to supress the error
+#                which will cause the pipeline to fail.
+# EndDocumentation
+# 
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Hussain Al Saleh
+# Email: halsaleh@cern.ch
+# Date: 20251008
+# CPUTime: <1min
+#
+Alias		MyD0		D0
+Alias		MyantiD0	anti-D0
+Alias		Myetap		eta'
+Alias		Myeta		eta
+Alias		Myrho0		rho0
+ChargeConj	MyantiD0	MyD0
+ChargeConj	Myetap		Myetap
+ChargeConj	Myeta		Myeta
+ChargeConj	Myrho0		Myrho0
+#
+Decay B0sig
+	1.0000	MyantiD0	Myetap	PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyantiD0
+	1.0000	K+		pi-	PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay Myetap
+	0.6666	pi+	pi-	Myeta	PHSP;
+	0.3334	Myrho0	gamma		PHSP;
+Enddecay
+#
+Decay Myeta
+	1.0000	gamma	gamma		PHSP;
+Enddecay
+#
+Decay Myrho0
+	1.0000	pi+	pi-		VSS;
+Enddecay
+#
+End

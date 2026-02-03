@@ -1,0 +1,92 @@
+# EventType: 13574067
+#
+# Descriptor: {[[B_s0]nos => K- mu+ nu_mu (D~0 -> K0 pi+ e- nu_e~)]cc, [[B_s0]os => K+ mu- nu_mu~ (D0 -> K~0 pi- e+ nu_e)]cc}
+#
+# NickName: Bs_D0Kell1nu,piell2nu=KpiemuInAcc
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+# kpimumuInAcc = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# kpimumuInAcc.Decay = '[B_s0 --> [mu+]CC [e-]CC K- pi+ ...]CC'
+# kpimumuInAcc.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import MeV",
+#     "inAcc         = ( (GPX/GPZ < 0.38) & (GPX/GPZ > -0.38) & (GPY/GPZ < 0.28) & (GPY/GPZ > -0.28) & (GTHETA > 0.01))", 
+#     'onePionInAcc = (GNINTREE( ("pi-"==GABSID) & inAcc & (GP > 1500 * MeV)) >= 1)',
+#     'oneKaonInAcc = (GNINTREE( ("K-"==GABSID) & inAcc & (GP > 1500 * MeV)) >= 1)',
+#     'oneMuonInAcc = (GNINTREE( ("mu-"==GABSID) & inAcc & (GP > 1500 *MeV)) == 1)',
+#     'oneElectronInAcc = (GNINTREE( ("e-"==GABSID) & inAcc & (GP > 1500 * MeV)) == 1)'
+#     ]
+# kpimumuInAcc.Cuts = {
+#     '[B_s0]cc'   : 'onePionInAcc & oneKaonInAcc & oneMuonInAcc & oneElectronInAcc',
+#     }
+#
+# EndInsertPythonCode
+#
+# Documentation: 
+# Series of Bs decays resulting in D0 K ell_1 nu, with D0 -> pi ell_2 nu X, where ell_{1, 2} is an electron or a muon.
+# The decfile contains a series of modes includingtau decays and additional pi0.
+# A kaon, a pion, a muon and an electron are required to be in acceptance.
+# The decfile is intended for background studies for analyses of b -> s tau tau decays with single-prong tau decays.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: H. Tilquin 
+# Email: hanae.tilquin@cern.ch
+# Date: 20250107
+#
+Alias       MyD02mu       D0
+Alias       Myanti-D02mu  anti-D0
+ChargeConj  MyD02mu       Myanti-D02mu
+#
+Alias       MyD02e        D0
+Alias       Myanti-D02e   anti-D0
+ChargeConj  MyD02e        Myanti-D02e 
+#
+Alias       Mytau2mu+     tau+
+Alias       Mytau2mu-     tau-
+ChargeConj  Mytau2mu+     Mytau2mu-
+#
+Alias       Mytau2e+      tau+
+Alias       Mytau2e-      tau-
+ChargeConj  Mytau2e+      Mytau2e-
+#
+Decay B_s0sig
+  0.500     Myanti-D02mu  K-       e+        nu_e         PHSP;
+  0.500     Myanti-D02e   K-       mu+       nu_mu         PHSP;
+  0.022     Myanti-D02mu  K-       Mytau2e+  nu_tau        PHSP;
+  0.022     Myanti-D02e   K-       Mytau2mu+ nu_tau        PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD02mu
+  0.0144    pi-        anti-K0  mu+    nu_mu         PHSP;
+  0.0027    pi-                 mu+    nu_mu         ISGW2;
+  0.0014    pi-        pi0      mu+    nu_mu         PHSP;
+Enddecay
+CDecay Myanti-D02mu
+#
+Decay MyD02e
+  0.0144    pi-        anti-K0  e+    nu_e         PHSP;
+  0.0027    pi-                 e+    nu_e         ISGW2;
+  0.0014    pi-        pi0      e+    nu_e         PHSP;
+Enddecay
+CDecay Myanti-D02e
+#
+Decay Mytau2mu+
+  1.000     mu+        nu_mu    anti-nu_tau          TAULNUNU;
+Enddecay
+CDecay Mytau2mu-
+#
+Decay Mytau2e+
+  1.000     e+         nu_e     anti-nu_tau          TAULNUNU;
+Enddecay
+CDecay Mytau2e-
+#
+End

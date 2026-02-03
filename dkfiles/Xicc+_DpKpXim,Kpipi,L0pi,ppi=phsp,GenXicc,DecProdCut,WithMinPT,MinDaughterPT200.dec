@@ -1,0 +1,66 @@
+# EventType: 26167153
+#
+# Descriptor: [Xi_cc+ -> (D+ -> K- pi+ pi+) K+ (Xi- -> (Lambda0 -> p+ pi-) pi-)]cc
+#
+# NickName: Xicc+_DpKpXim,Kpipi,L0pi,ppi=phsp,GenXicc,DecProdCut,WithMinPT,MinDaughterPT200
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCbAndWithMinPT
+#
+# CutsOptions: MinXiccPT 500*MeV MinDaughterPT 200*MeV
+#
+# CPUTime: < 1 min
+#
+# Documentation: Xicc+ decay to Dp Kp Xim by phase space model, Dp decays by PHSP, Xim decays to (L0 -> p+pi-) pi- by phase space model.
+# All daughters of Xicc+ are required to be in the acceptance of LHCb and with PT>200 MeV 
+# and the Xicc+ PT is required to be larger than 500 MeV.
+# The mass of Xicc is set to be 3738MeV to satisfy the threshold
+# EndDocumentation
+#
+# ParticleValue: "Xi_cc+    502     4412    1.0     3.738   3.335641e-13    Xi_cc+  4412    0.000", "Xi_cc~-    503     -4412  -1.0     3.738  3.335641e-13  anti-Xi_cc-      -4412   0.000"
+#
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: Ziyi Wang, Miroslav Saur
+# Email: ziyi.wang@cern.ch, miroslav.saur@cern.ch
+# Date: 20210914
+#
+Alias      MyDp        D+
+Alias      Myanti-Dp   D-
+ChargeConj MyDp        Myanti-Dp
+#
+Alias      MyXim       Xi-
+Alias      Myanti-Xim  anti-Xi+
+ChargeConj MyXim       Myanti-Xim
+#
+Alias      MyL0        Lambda0
+Alias      Myanti-L0   anti-Lambda0
+ChargeConj MyL0        Myanti-L0
+#
+#
+Decay Xi_cc+sig
+  1.000   MyDp   K+   MyXim           PHSP;
+Enddecay
+CDecay anti-Xi_cc-sig
+#
+#
+Decay MyDp
+  1.000 K- pi+ pi+ PHSP;
+Enddecay
+CDecay Myanti-Dp
+#
+Decay MyXim
+  1.000 MyL0 pi- PHSP;
+Enddecay
+CDecay Myanti-Xim
+#
+Decay MyL0
+  1.000 p+ pi- PHSP;
+Enddecay
+CDecay Myanti-L0
+#
+#
+End
+#

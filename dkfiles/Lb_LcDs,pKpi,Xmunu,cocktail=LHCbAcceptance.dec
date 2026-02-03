@@ -1,0 +1,47 @@
+# EventType: 15894410
+#
+# Descriptor: [[Lambda_b0] -> (Lambda_c+ -> p+ K- pi+) (D_s- -> eta mu- nu_mu~)]cc
+#
+# NickName: Lb_LcDs,pKpi,Xmunu,cocktail=LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Lb to Lc Ds, Lc forced to pKpi, Ds forced to SL, ground state background mode for Lb to Lc mu nu.
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Scott Ely
+# Email: seely@syr.edu
+# Date: 20200623
+#
+Alias		MyD_s+			D_s+
+Alias		MyD_s-			D_s-
+ChargeConj	MyD_s+			MyD_s-
+#
+Alias		MyLambda_c+		Lambda_c+
+Alias		MyLambda_c-		anti-Lambda_c-
+ChargeConj	MyLambda_c+		MyLambda_c-
+#
+Decay Lambda_b0sig
+ 1.0		MyLambda_c+		MyD_s-		PHSP;
+Enddecay
+CDecay anti-Lambda_b0
+#
+Decay MyLambda_c+
+ 1.000         p+      K-      pi+          PHSP;
+Enddecay
+CDecay MyLambda_c-
+#
+Decay MyD_s+
+ 0.00556        mu+       nu_mu         PHOTOS SLN;
+ 0.01831        phi       mu+   nu_mu   PHOTOS ISGW2;
+ 0.02285        eta       mu+   nu_mu   PHOTOS ISGW2;
+ 0.00819        eta'      mu+   nu_mu   PHOTOS ISGW2;
+ 0.00206        anti-K0   mu+   nu_mu   PHOTOS ISGW2;
+ 0.00076        anti-K*0  mu+   nu_mu   PHOTOS ISGW2;
+Enddecay
+CDecay MyD_s-
+#
+End

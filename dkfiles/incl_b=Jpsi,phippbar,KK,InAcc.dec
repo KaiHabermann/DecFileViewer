@@ -1,0 +1,52 @@
+# EventType: 10134010
+#
+# Descriptor: J/psi(1S) => ( phi(1020) -> K+ K- )  p+ p~- 
+#
+# NickName: incl_b=Jpsi,phippbar,KK,InAcc
+#
+# Cuts: DaughtersInLHCb
+# FullEventCuts: LoKi::FullGenEventCut/b2JpsiFilter
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "b2JpsiFilter" )
+# SignalFilter = Generation().b2JpsiFilter
+# SignalFilter.Code = " has(isB2ccTcuts)"
+# SignalFilter.Preambulo += [
+#  "from GaudiKernel.SystemOfUnits import MeV, GeV, mrad",
+#  "inAcc = (in_range(  0.010 , GTHETA , 0.400 ))",
+#  "isB2cc = ((GDECTREE('(Beauty & LongLived) --> J/psi(1S) ...')))",
+#  "ppcuts = (GINTREE( (('p+'  == GID ) & inAcc) ) )",
+#  "pmcuts = (GINTREE( (('p~-' == GID ) & inAcc) ) )",
+#  "Kpcuts = (GINTREE( (('K+'  == GID ) & inAcc) ) )",
+#  "Kmcuts = (GINTREE( (('K-'  == GID ) & inAcc) ) )",
+#  "isB2ccTcuts = (isB2cc & ppcuts & pmcuts & Kpcuts & Kmcuts)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: Jpsi decay to phi p pbar, keep only particles in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Vsevolod Yeroshenko
+# Email: vsevolod.yeroshenko@cern.ch
+# Date: 20231117
+#
+Alias   Myphi  phi
+ChargeConj  Myphi   Myphi
+#
+Decay J/psi
+  1.000    Myphi   p+  anti-p-  PHSP;
+Enddecay
+#
+Decay Myphi
+  1.000  K+      K-    VSS; 
+Enddecay
+#
+End
+#
+

@@ -1,0 +1,44 @@
+# EventType: 14365100
+#
+# Descriptor: [(B_c+ => (D+ ==> K- pi+ pi+) (KS0 => pi+ pi-)) || (B_c+ => (D+ ==> K+ K- pi+) (KS0 => pi+ pi-)) || (B_c+ => (D+ ==> pi- pi+ pi+) (KS0 => pi+ pi-))]CC
+#
+# NickName: Bc_D+KS,pi+pi-=cocktail,BcVegPy,DDalitz,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: B_c+ decaying into D+ KS0 with D+ in CKM-favoured and CKM-suppressed decay modes using Dalitz plot, daughters in the LHCb acceptance.
+# EndDocumentation
+# 
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Gleb Chizhik
+# Email: gleb.chizhik@cern.ch
+# Date: 20250714
+#
+Alias MyD+ D+
+Alias MyD- D-
+ChargeConj MyD+ MyD-
+#
+Alias MyKS K_S0
+ChargeConj MyKS MyKS
+
+Decay B_c+sig
+  1.000		MyD+ MyKS		PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyD+
+  0.09380	K- pi+ pi+		D_DALITZ; # CKM-favoured   mode. Branching fraction is in accordance with PDG-2025
+  0.00968	K+ K- pi+		D_DALITZ; # CKM-suppressed mode. Branching fraction is in accordance with PDG-2025
+  0.00327	pi- pi+ pi+		D_DALITZ; # CKM-suppressed mode. Branching fraction is in accordance with PDG-2025
+Enddecay
+CDecay MyD-
+#
+Decay MyKS
+  1.000		pi+ pi-			PHSP;
+Enddecay
+#
+End

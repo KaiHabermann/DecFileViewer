@@ -1,0 +1,63 @@
+# EventType: 42912023
+#                                                                               
+# Descriptor: pp -> (Z-> mu mu) (j j~)
+#                                                                               
+# NickName: Z_mumujj_j=udsgc_Madgraph
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/TwoLightTwoLeptonFromZ0
+# Production: Madgraph
+#                                                                               
+# InsertPythonCode:
+# # Configure the event type.
+# from Configurables import (Generation, Special)
+# from GaudiKernel import SystemOfUnits
+# from Gaudi.Configuration import importOptions
+#
+# # Generation options.
+# Generation(genAlgName).PileUpTool           = "FixedLuminosityForRareProcess"
+# Generation(genAlgName).DecayTool            = ""
+# Generation(genAlgName).SampleGenerationTool = "Special"
+#
+# # Special options.
+# Generation(genAlgName).addTool(Special)
+# Generation(genAlgName).Special.CutTool        = ""
+# Generation(genAlgName).Special.DecayTool      = ""
+#
+# # Madgraph options.
+# from Configurables import Gauss
+# from GaudiKernel import SystemOfUnits
+# 
+# sampleGenToolsOpts = {
+#     "Commands": [ "define lj g u d s c u~ d~ s~ c~",
+#                   " generate p p > mu+ mu- lj lj [QCD]",
+#                   " set mll_sf 40" # Min invariant mass of l+l- (same flavour) lepton pair
+#              	  ],
+#     "DecEff": 0.35842 # The decfile level efficiency.
+# }
+# Gauss().SampleGenerationToolOptions.update(sampleGenToolsOpts)
+# 
+# # Generation cut
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "TwoLightTwoLeptonFromZ0" )
+# tracksInAcc = Generation(genAlgName).TwoLightTwoLeptonFromZ0
+# tracksInAcc.Code = " ( (count ( isGoodLight ) > 1) & (count ( isGoodLepton ) > 0)) "
+# tracksInAcc.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#     , "isGoodLight   = ( GINTREE( (('u' == GABSID) | ('d' == GABSID) | ('s' == GABSID) | ('c' == GABSID) | ('g' == GABSID)) & ( GTHETA < 400.0*mrad )))"
+#     , "isGoodLepton   = ((  'Z0' == GABSID ) & GINTREE( GLEPTON & ( GTHETA < 400.0*mrad )))"
+# ]
+#
+# EndInsertPythonCode
+#                                                                               
+# Documentation: 2 light jets/gluons and 1 mu from Z in the LHCb Acc. Z min mass cut is applied by Madgraph directly when used as production. Warning: the generation of first event may take a long time due to MadGraph initialization.
+# EndDocumentation                                                              
+#                                                                               
+# PhysicsWG: Exotica                                                            
+# Tested: Yes                                                                   
+# CPUTime: < 1 min                                                              
+# Responsible: Mateusz Goncerz                                                 
+# Email: mateusz.goncerz@cern.ch                                               
+# Date: 20240414                                                                
+#                                                                               
+End
+#

@@ -1,0 +1,75 @@
+# EventType: 13198003
+#
+# Descriptor: ([B_s~0]nos -> [([D~0]cc -> K+ pi-)]CC [([D0]cc -> K- pi+ pi+ pi-)]CC (phi(1020) -> K+ K-))||([B_s~0]os -> [([D~0]cc -> K+ pi-)]CC [([D0]cc -> K- pi+ pi+ pi-)]CC (phi(1020) -> K- K+))||([B_s0]nos -> [([D~0]cc -> K+ pi-)]CC [([D0]cc -> K- pi+ pi+ pi-)]CC (phi(1020) -> K+ K-))||([B_s0]os -> [([D~0]cc -> K+ pi-)]CC [([D0]cc -> K- pi+ pi+ pi-)]CC (phi(1020) -> K- K+))
+#
+# NickName: Bs_D0D0phi,K3Pi=TightCut,AMPGEN
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# 
+# InsertPythonCode:
+##
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool( LoKi__GenCutTool, 'TightCut' )
+##
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = ' ^([B_s~0]nos ==> ^[([D~0]cc => ^K+ ^pi-)]CC ^[([D0]cc => ^K- ^pi+ ^pi+ ^pi-)]CC (phi(1020) => ^K+ ^K-))||^([B_s~0]os ==> ^[([D~0]cc => ^K+ ^pi-)]CC ^[([D0]cc => ^K- ^pi+ ^pi+ ^pi-)]CC (phi(1020) => ^K- ^K+))||^([B_s0]nos ==> ^[([D~0]cc => ^K+ ^pi-)]CC ^[([D0]cc => ^K- ^pi+ ^pi+ ^pi-)]CC (phi(1020) => ^K+ ^K-))||^([B_s0]os ==> ^[([D~0]cc => ^K+ ^pi-)]CC ^[([D0]cc => ^K- ^pi+ ^pi+ ^pi-)]CC (phi(1020) => ^K- ^K+)) '
+# tightCut.Preambulo += [
+#     'inAcc = in_range (0.005, GTHETA , 0.400) & in_range (1.8 , GETA , 5.2)',
+#     'goodFinalState = (GPT > 80 * MeV)',
+#     'goodB = (GPT > 4000 * MeV)',
+#     'goodD0K = (GNINTREE( ("K-"==GABSID) & (GP > 800 * MeV) & goodFinalState & inAcc) > 0.5)',
+#     'goodpi = (GP > 800 * MeV) & goodFinalState & inAcc'
+# ]
+##
+# tightCut.Cuts = {
+#     '[B_s0]cc'  : 'goodB',
+#     '[D0]cc'   : 'goodD0K',
+#     '[K+]cc'   : 'goodFinalState & inAcc',
+#     '[pi+]cc'   : 'goodpi'
+# }
+# EndInsertPythonCode
+#
+# Documentation: Decay file for B_s0 -> D0 Dbar phi, both D0 and Dbar go to K3pi seperately, with generator level cuts on daughter particle P, PT and PT cut on B_s0.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min 
+# Responsible: Jake Amey
+# Email: wq20892@bristol.ac.uk
+# Date: 20210209
+
+
+Alias My_D0_Kpi   		D0
+Alias My_anti-D0_Kpi 	anti-D0
+Alias My_D0_K3pi   		D0
+Alias My_anti-D0_K3pi 	anti-D0
+
+ChargeConj My_anti-D0_Kpi 	My_D0_Kpi
+ChargeConj My_anti-D0_K3pi 	My_D0_K3pi
+
+Alias      MyPhi       phi
+ChargeConj MyPhi       MyPhi
+
+Decay B_s0sig
+  0.5  MyPhi  My_anti-D0_Kpi  My_D0_K3pi        PHSP;
+  0.5  MyPhi  My_anti-D0_K3pi   My_D0_Kpi       PHSP; 
+Enddecay
+CDecay anti-B_s0sig
+
+Decay My_D0_Kpi
+  1.000  K-  pi+                  PHSP;
+Enddecay
+CDecay My_anti-D0_Kpi
+
+Decay My_D0_K3pi
+  1.000  K-  pi+  pi+  pi-       LbAmpGen DtoKpipipi;
+Enddecay
+CDecay My_anti-D0_K3pi
+
+Decay MyPhi
+  1.000        K+        K-                     VSS;
+Enddecay
+
+End

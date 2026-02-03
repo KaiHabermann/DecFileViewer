@@ -1,0 +1,21 @@
+// Created by https://github.com/scikit-hep/decaylanguage
+digraph DecayChainGraph {
+	graph [comment="Created by https://github.com/scikit-hep/decaylanguage" engine=dot format=png name=DecayChainGraph rankdir=LR]
+	node [fontname=Helvetica fontsize=11 shape=oval]
+	edge [fontcolor="#4c4c4c" fontsize=11]
+	mother [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#568dba"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">Myanti-Lambda_c-</TD></TR></TABLE>> shape=none]
+	dec52186 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">p&#773;</TD><TD BORDER="0" CELLPADDING="2">K<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	mother -> dec52186 [label=0.028]
+	dec52187 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">p&#773;</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">MyK*0</TD></TR></TABLE>> shape=none]
+	mother -> dec52187 [label=0.01065]
+	dec52188 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">K<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec52187:p1 -> dec52188 [label=0.6657]
+	dec52189 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">Myanti-Delta--</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">K<SUP>+</SUP></TD></TR></TABLE>> shape=none]
+	mother -> dec52189 [label=0.0086]
+	dec52190 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">p&#773;</TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec52189:p0 -> dec52190 [label=1.0]
+	dec52191 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">Myanti-Lambda(1520)0</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> shape=none]
+	mother -> dec52191 [label=0.00414]
+	dec52192 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">p&#773;</TD><TD BORDER="0" CELLPADDING="2">K<SUP>+</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec52191:p0 -> dec52192 [label=0.23]
+}

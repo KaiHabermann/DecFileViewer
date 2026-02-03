@@ -1,0 +1,107 @@
+# EventType: 28144253
+#
+# Descriptor: chi_c2 -> (X_1(3872) -> (J/psi(1S) -> mu+ mu-) (rho0 -> pi+ pi-)) gamma 
+#
+# ParticleValue: "chi_c2(1P) 765 445 0.0 4.230 -0.055 chi_c2 445 0.1"
+#
+# NickName: Y4260_X3872gamma,Jpsirho=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Decay of prompt Y(4260) state into X(3872) gamma final state
+# - Y(4260) generated as chi_c2(1P) with modified mass/width;
+# - generator level cuts to gain number of events on disk (converted photons will be required);
+# - X3840_D0D0bar=TightCut.dec by Vanya Belyaev took as reference to improve CPU performance (only charmonium production is activated in Pythia8) 
+# EndDocumentation
+# - same generator level cuts of 28144252 (run on same Jpsipipigamma final state)
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+#
+# generation = Generation(genAlgName)
+# signal     = generation.SignalPlain
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut            = signal.TightCut
+# tightCut.Decay      = 'Meson => (X_1(3872) => ^(J/psi(1S) => ^mu+ ^mu-) (rho(770)0 => ^pi+ ^pi-)) ^gamma'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV' ,
+#     'inAcc          =  in_range ( 0.005 , GTHETA , 0.400 )                           ' ,
+#     'inEta          =  in_range ( 1.95  , GETA   , 5.050 )                           ' ,
+#     'inY            =  in_range ( 1.9 , GY , 4.6 )                                   ' ,
+#     'lhcbTrack      =  inAcc & inEta                                                 ' ,
+#     'recoTrack      =  ( GPT > 250 * MeV ) & ( GP > 2.6 * GeV )                      ' , 
+#     'goodJpsi       =  inY & ( GPT > 2.0 * GeV )                                     ' ,
+#     'goodMuon       =  lhcbTrack & recoTrack & ( GP > 5.0 * GeV )                    ' ,
+#     'goodGamma      =  ( GPT > 350 * MeV ) & ( GP > 4.8 * GeV)                       ' ,
+#     'goodPion       =  lhcbTrack & recoTrack & ( GP < 160.0 * GeV )                  ' ]
+# tightCut.Cuts       =    {
+#     'J/psi(1S)'     : 'goodJpsi'  ,
+#     '[mu+]cc'       : 'goodMuon'  ,
+#     'gamma'         : 'goodGamma' ,
+#     '[pi+]cc'       : 'goodPion'  }
+#
+# # -- modify Pythia8 to only generate from Charmonium processes -- #
+# from Configurables import Generation, MinimumBias, Pythia8Production, Inclusive, SignalPlain, SignalRepeatedHadronization, Special
+#
+# Pythia8TurnOffMinbias  = [ "SoftQCD:all     = off" ]
+# Pythia8TurnOffMinbias += [ "Bottomonium:all = off" ]
+# Pythia8TurnOffMinbias += [ "Charmonium:all  =  on" ]
+#
+# gen = Generation(genAlgName)
+# gen.addTool( MinimumBias , name = "MinimumBias" )
+# gen.MinimumBias.ProductionTool = "Pythia8Production"
+# gen.MinimumBias.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.MinimumBias.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Inclusive , name = "Inclusive" )
+# gen.Inclusive.ProductionTool = "Pythia8Production"
+# gen.Inclusive.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Inclusive.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalPlain , name = "SignalPlain" )
+# gen.SignalPlain.ProductionTool = "Pythia8Production"
+# gen.SignalPlain.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalPlain.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalRepeatedHadronization , name = "SignalRepeatedHadronization" )
+# gen.SignalRepeatedHadronization.ProductionTool = "Pythia8Production"
+# gen.SignalRepeatedHadronization.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalRepeatedHadronization.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Special , name = "Special" )
+# gen.Special.ProductionTool = "Pythia8Production"
+# gen.Special.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Special.Pythia8Production.Commands += Pythia8TurnOffMinbias
+# # -- END  -- #
+# EndInsertPythonCode
+#
+# CPUTime: < 1 min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Giovanni Cavallero
+# Email: giovanni.cavallero@cern.ch
+# Date: 20200214
+#
+
+Alias   MyX  X_1(3872)
+Alias   MyJpsi  J/psi
+Alias   MyRho   rho0
+#
+Decay chi_c2sig
+  1.000     MyX     gamma     PHSP;
+Enddecay
+#
+Decay MyX
+  1.000     MyJpsi     MyRho     PHSP;
+Enddecay
+Decay MyJpsi
+  1.000     mu+     mu-     PHOTOS     VLL;
+Enddecay
+Decay MyRho
+  1.000     pi+     pi-     PHOTOS     VSS;
+Enddecay
+#
+End
+#

@@ -1,0 +1,37 @@
+# EventType: 14165091
+#
+# Descriptor: [B_c+ -> (D+ -> K- pi+ pi+) pi+ pi-]cc
+#
+# NickName: Bc_Dpipi,Kpipi=DDalitz,BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: B_c+ decaying into D+, pi+ and pi-. D+ decaying into K-, pi+ and pi+.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Zeqing Mu
+# Email: zeqing.mu@cern.ch
+# Date: 20251017
+#
+Alias      MyD+       D+
+Alias      MyD-       D-
+ChargeConj MyD+       MyD-
+
+Decay B_c+sig
+  1.000   MyD+    pi+      pi-      PHSP;
+Enddecay
+CDecay B_c-sig
+
+Decay MyD+
+  1.000    K-     pi+     pi+         D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+End
+
+

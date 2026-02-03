@@ -1,0 +1,43 @@
+# EventType: 12675030
+#
+# Descriptor: [B- -> (D+ -> K- pi+ pi+) (tau- -> mu- anti-nu_mu nu_tau) pi- anti-nu_tau]cc
+#
+# NickName: Bu_D+pitau,Kpi,muantinunu=DecProdCut
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb, B- forced into D+ tau- pi- pair.tau- forced into mu- anti-nu_mu nu_tau.
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Piet Nogga (University of Bonn)
+# Email: piet.nogga@cern.ch
+# Date: 20240321
+#
+
+Alias      MyD+       D+
+Alias      MyD-       D-
+Alias      myTau-      tau-
+Alias      myTau+      tau+
+ChargeConj MyD+       MyD-
+ChargeConj myTau-     myTau+
+
+#
+Decay B-sig
+  1.00         MyD+ myTau- pi- anti-nu_tau        PHSP;
+Enddecay
+CDecay B+sig
+#
+Decay MyD+
+  1.00         K- pi+ pi+          PHSP;
+Enddecay
+CDecay MyD-
+#
+Decay myTau-
+  1.00         mu- anti-nu_mu nu_tau TAULNUNU;
+Enddecay
+CDecay myTau+
+#
+End
+#

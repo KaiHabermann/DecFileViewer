@@ -1,0 +1,53 @@
+# EventType: 13104089
+#
+# Descriptor: [B_s0 => ( Lambda(1520)0 => p+ K- ) ( anti-Lambda(1520)0 => p~- K+ )]cc
+#
+# NickName: Bs_LstLst,pk=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool as GenCutTool
+# from Configurables import Generation, SignalRepeatedHadronization
+# #
+# Generation(genAlgName).SignalRepeatedHadronization.addTool( GenCutTool , 'TightCut' ) 
+# Generation(genAlgName).SignalRepeatedHadronization.TightCut.Decay = "[B_s0 => ( Lambda(1520)0 => ^p+ ^K- ) ( Lambda(1520)~0 => ^p~- ^K+ )]CC"
+# Generation(genAlgName).SignalRepeatedHadronization.TightCut.Cuts = {
+#     'p+'  : ' ( GPT > 250 * MeV ) & inAcc ',
+#     'p~-' : ' ( GPT > 250 * MeV ) & inAcc ',
+#     'K+'  : ' ( GPT > 250 * MeV ) & inAcc ',
+#     'K-' : ' ( GPT > 250 * MeV ) & inAcc ',
+#     }
+# Generation(genAlgName).SignalRepeatedHadronization.TightCut.Preambulo += [
+#     'inAcc   = in_range ( 0.010 , GTHETA , 0.400 ) '
+#     ]
+#
+# EndInsertPythonCode
+#
+# Documentation: Bs decay to Lst Lst, keep only particles in acceptance, pT cut for tracks
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Vsevolod Yeroshenko
+# Email: vsevolod.yeroshenko@cern.ch
+# Date: 20240313
+#
+Alias      MyLst     Lambda(1520)0
+Alias      MyantiLst anti-Lambda(1520)0
+ChargeConj MyLst     MyantiLst
+#
+Decay B_s0sig
+  1.000    MyLst  MyantiLst      PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyLst
+  1.000  p+      K-    PHSP; 
+Enddecay
+CDecay MyantiLst
+#
+End
+

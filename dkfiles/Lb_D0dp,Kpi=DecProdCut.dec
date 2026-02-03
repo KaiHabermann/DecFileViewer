@@ -1,0 +1,34 @@
+# EventType: 15163001
+#
+# Descriptor: [Lambda_b0 -> (D0 -> pi+ K-) deuteron anti-p-]cc
+#
+# NickName: Lb_D0dp,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: phase space decay, decay products in LHCb acceptance, D0 forced into K- pi+
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: George Lovell
+# Email: george.lovell@cern.ch
+# Date: 20171128
+#
+Alias		MyD0		D0
+Alias		Myanti-D0	anti-D0
+ChargeConj	MyD0		Myanti-D0
+#
+Decay Lambda_b0sig
+  1.000		MyD0	deuteron	anti-p-		PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+Decay MyD0
+  1.000 	pi+	K-				PHSP;
+Enddecay
+CDecay Myanti-D0
+
+#
+End
+#

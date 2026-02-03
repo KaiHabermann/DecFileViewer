@@ -1,0 +1,80 @@
+# EventType: 35103102
+#
+# Descriptor: [Xi- -> (Lambda0 -> p+ pi-) pi-]cc
+# NickName: Xi-_Lambdapi=HELAMP,TightCut
+# Cuts: LoKi::GenCutTool/GenSigCut
+# FullEventCuts: LoKi::FullGenEventCut/GenEvtCut
+# InsertPythonCode:
+# from Configurables import (ToolSvc, EvtGenDecayWithCutTool, LoKi__GenCutTool, LoKi__FullGenEventCut)
+# Generation(genAlgName).SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# EvtGenCut = ToolSvc().EvtGenDecayWithCutTool
+# EvtGenCut.DecayFile = ToolSvc().EvtGenDecay.UserDecayFile
+# EvtGenCut.CutTool = "LoKi::GenCutTool/HyperonDTCut"
+# EvtGenCut.addTool(LoKi__GenCutTool,"HyperonDTCut")
+# EvtGenCut.HyperonDTCut.Decay = "^[Xi- => ^(Lambda0 => p+ pi-) pi-]CC"
+# EvtGenCut.HyperonDTCut.Preambulo += [
+#   "from LoKiCore.functions import in_range",
+#   "from GaudiKernel.SystemOfUnits import mm"
+# ]
+# EvtGenCut.HyperonDTCut.Cuts = {
+#   "[Lambda0]cc" : "in_range(0.02*mm,GCTAU,80*mm)",
+#   "[Xi-]cc"     : "in_range(0.02*mm,GCTAU,100*mm)",
+# }
+# Generation(genAlgName).SignalPlain.addTool(LoKi__GenCutTool,"GenSigCut")
+# SigCut = Generation(genAlgName).SignalPlain.GenSigCut
+# SigCut.Decay = "^[Xi- -> ^(Lambda0 => ^p+ ^pi-) ^pi-]CC"
+# SigCut.Filter = True
+# SigCut.Preambulo += [
+#   "from LoKiCore.functions import in_range",
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, mm",
+#   "inAcc = in_range(10*mrad,GTHETA,400*mrad) & in_range(1.95,GETA,5.05)",
+#   "inY   = in_range(1.9,LoKi.GenParticles.Rapidity(),4.6)",
+#   "EVZ   = GFAEVX(GVZ,0)",
+#   "OVZ   = GFAPVX(GVZ,0)",
+# ]
+# SigCut.Cuts = {
+#   "[Xi-]cc"     : "(GP>7.8*GeV) & (GPT>490*MeV) & inY & in_range(1*mm,EVZ-OVZ,900*mm) & in_range(1*mm,GCHILD(EVZ, (GABSID=='Lambda0'))-EVZ,900*mm)",
+#   "[Lambda0]cc" : "(GP>6.8*GeV) & (GPT>390*MeV) & inY",
+#   "[p+]cc"      : "(GP>5.8*GeV) & (GPT>290*MeV) & inAcc",
+#   "[pi-]cc"     : "(GP>1.9*GeV) & (GPT>95*MeV) & inAcc",
+# }
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut,"GenEvtCut")
+# EvtCut = Generation(genAlgName).GenEvtCut
+# EvtCut.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import mm",
+#   "EVZ                    = GFAEVX(GVZ,0)",
+#   "EVR                    = GFAEVX(GVRHO,0)",
+#   "HyperonsFromLongTracks = GSIGNALINLABFRAME & (GABSID=='Xi-') & (EVR<42*mm) & (EVZ<666*mm) & (GCHILDCUT((EVR<42*mm) & (EVZ<666*mm), '[Xi- => ^Lambda0 pi-]CC'))",
+# ]
+# EvtCut.Code = "has(HyperonsFromLongTracks)"
+# EndInsertPythonCode
+#
+# Documentation: For Run3 trigger line development. Hyperons forced to decay in Velo. Lambda -> p pi helicity amplitude from 2019 combination in PRL 123, 182301.
+#                Xi -> Lambda pi helicity amplitude uses this and current (2020) PDG average for alpha(Lambda)*alpha(Xi) = -0.294 (alpha(Lambda) = 0.721).
+#                Cut efficiency about 0.6%.
+#
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Marian Stahl
+# Email: marian.stahl@{nospam}cern.ch
+# Date: 20201027
+# CPUTime: < 1 min
+#
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+#
+Decay MyLambda0
+  1.0     p+   pi-      HELAMP 0.9276 0.0 0.3735 0.0;
+Enddecay
+CDecay MyAntiLambda0
+#
+Decay Xi-sig
+  1.0     MyLambda0   pi-      HELAMP 0.5442 0.0 0.8390 0.0;
+Enddecay
+CDecay anti-Xi+sig
+#
+End

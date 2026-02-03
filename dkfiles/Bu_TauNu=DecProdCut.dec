@@ -1,0 +1,38 @@
+# EventType: 12503200
+#
+# Descriptor: [B+ -> (tau+ -> pi+ pi+ pi- nu_tau~) nu_tau]cc
+#
+# NickName: Bu_TauNu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file using cuts of DaughtersInLHCb and tau forced into pi+ pi+ pi- nu_tau via CLEO TAUOLA model
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Maarten van Veghel
+# Email: m.van.veghel@cern.ch
+# Date: 20210330
+
+# Tauola steering options
+Define TauolaCurrentOption 0
+Define TauolaBR1 1.0
+#
+Alias		MyTau+	tau+
+Alias		MyTau-	tau-
+ChargeConj	MyTau+	MyTau-
+#
+Decay B+sig
+      1.0	MyTau+	nu_tau	PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyTau+
+      1.0	TAUOLA 5;
+Enddecay
+CDecay MyTau-
+#
+End
+#

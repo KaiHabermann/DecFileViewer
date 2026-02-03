@@ -1,0 +1,40 @@
+# EventType: 14145062
+#
+# Descriptor: [B_c+ -> (psi(2S) -> mu+ mu- ) pi+ pi+ pi-]cc
+#
+# NickName: Bc_psi2Spipipi,mm=BcVegPy,DecProdCut,BCVHAD1
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to psi2S(-> mu+ mu-) pi+ pi+ pi- with BC_VHAD model, SR formfactor set, daughters in acceptance
+# (similar to EventType 14145042 but with psi(2S) and PM formfactor set).
+#
+# The codes of the Bc -> VW formfactor sets used by the model are : 1 = SR, 2 = PM,
+# see https://gitlab.cern.ch/lhcb/Gauss/-/blob/master/Gen/EvtGen/EvtGenModels/EvtBcVHad.hh;
+# for description of the model and the FF sets refer to arXiv:1307.0953 and https://indico.cern.ch/conferenceDisplay.py?confId=225839.
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Dmitrii Pereima
+# Email: Dmitrii.Pereima@cern.ch
+# Date: 20200721
+# CPUTime: < 1 min
+#
+
+Alias       MyPsi     psi(2S)
+ChargeConj  MyPsi     MyPsi
+
+Decay B_c+sig
+ 1.        MyPsi pi+ pi+ pi-           BC_VHAD 1;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyPsi
+1. mu+ mu- VLL;
+Enddecay
+#
+#
+End

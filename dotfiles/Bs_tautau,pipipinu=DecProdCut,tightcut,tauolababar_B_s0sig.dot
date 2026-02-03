@@ -1,0 +1,13 @@
+// Created by https://github.com/scikit-hep/decaylanguage
+digraph DecayChainGraph {
+	graph [comment="Created by https://github.com/scikit-hep/decaylanguage" engine=dot format=png name=DecayChainGraph rankdir=LR]
+	node [fontname=Helvetica fontsize=11 shape=oval]
+	edge [fontcolor="#4c4c4c" fontsize=11]
+	mother [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#568dba"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">B_s0sig</TD></TR></TABLE>> shape=none]
+	dec345660 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">Mytau+</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">Mytau-</TD></TR></TABLE>> shape=none]
+	mother -> dec345660 [label=1.0]
+	dec345661 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec345660:p0 -> dec345661 [label=1.0]
+	dec345662 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec345660:p1 -> dec345662 [label=1.0]
+}

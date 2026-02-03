@@ -1,0 +1,41 @@
+# EventType: 11166110
+#
+# Descriptor: {[[B0]nos => (D~0 -> (KS0 -> pi+ pi-) K+ K-) K+ pi-]cc, [[B0]os => (D0 -> (KS0 -> pi+ pi-) K+ K-) K- pi+]cc}
+#
+# NickName: Bd_D0Kpi,KSKK=BsqDalitz,DDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb 
+#
+# Documentation: B0 decay with flat square Dalitz model, D0 decay with KSKK Dalitz model, daughters in acceptance 
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Matt Kenzie 
+# Email: matthew.kenzie@cern.ch 
+# Date: 20200224
+#
+
+Alias MyD0        D0
+Alias Myanti-D0   anti-D0
+Alias MyKS        K_S0
+ChargeConj MyD0   Myanti-D0
+ChargeConj MyKS   MyKS
+
+
+Decay B0sig
+  1.0   Myanti-D0   K+         pi-  FLATSQDALITZ;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD0
+  1.0   MyKS        K+         K-   D_DALITZ;
+Enddecay
+CDecay Myanti-D0
+
+Decay MyKS
+  1.0   pi+         pi-             PHSP;
+Enddecay
+
+End

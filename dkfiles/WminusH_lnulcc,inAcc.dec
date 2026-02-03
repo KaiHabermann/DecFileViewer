@@ -1,0 +1,66 @@
+# EventType: 40911023
+#
+# Descriptor: pp -> (W- -> l nu_l) (H -> c c~) ... 
+#
+# NickName: WminusH_lnulcc,inAcc
+#
+# Cuts: None
+#
+# FullEventCuts: LoKi::FullGenEventCut/HiggsTypeCut
+# Production: Powheg
+#
+# InsertPythonCode:
+# from Configurables import Generation, Special, PowhegProduction, Pythia8Production
+# sampleGenToolsOpts = {
+#      "Commands": [
+#                   "lhans1 10770",
+#                   "lhans2 10770",
+#                   "hmass 125d0",
+#                   "hwidth 0.407d-2",
+#                   "min_h_mass 10d0",
+#                   "max_h_mass 1000d0",
+#                   "min_w_mass 10d0",
+#                   "max_w_mass 1000d0",
+#                   "idvecbos -24",
+#                   "vdecaymode 2",
+#                   "hdecaymode 0",
+#                  ],
+#      "Process" : "HW",
+#      "NPartons": 2,
+#  }
+# Gauss().SampleGenerationToolOptions.update(sampleGenToolsOpts)
+# 
+# Generation(genAlgName).Special.addTool( PowhegProduction)
+# Generation(genAlgName).Special.PowhegProduction.addTool( Pythia8Production)
+# Generation(genAlgName).Special.PowhegProduction.Pythia8Production.Commands += [
+#     "25:onMode = off",
+#     "25:onIfAny = 4",
+#     "PartonLevel:FSR=on"
+# ]
+# 
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "HiggsTypeCut" )
+# tracksInAcc = Generation(genAlgName).HiggsTypeCut
+# tracksInAcc.Code = "( (count( isGoodCfromHiggs )>1) & (count( isGoodLeptonW )>0) )"
+# tracksInAcc.Preambulo += [                                                                        
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"      
+#     , "isGoodLeptonW    = ( ( 'W-' == GABSID ) & GINTREE( GLEPTON & ( GTHETA < 350.0*mrad ) & (GPT > 10*GeV)) )"                                     
+#     , "isGoodC          = ( ( 'c' == GABSID ) & ( GTHETA < 400.0*mrad ) )"
+#     , "isFromHiggs      = ( 1 == GNINTREE( 'H_10' == GABSID , 0 ) )"
+#     , "isGoodCfromHiggs = ( isGoodC & isFromHiggs )"
+#    ]     
+# EndInsertPythonCode
+#
+# Documentation: Wminus + Higgs boson, 1 lepton with pT > 10 GeV and 2 c quarks in LHCb Acc, POWHEG production mode
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: < 4 min
+# Responsible: Davide Zuliani
+# Email: davide.zuliani@cern.ch
+# Date: 20250402
+#
+End
+#
+

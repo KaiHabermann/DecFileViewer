@@ -1,0 +1,76 @@
+# EventType: 11246162
+#
+# Descriptor: [Beauty -> (phi(1020) -> K+ K-) (KS0 -> pi+ pi-) (J/psi -> mu+ mu-)]cc
+#
+# NickName: Bd_JpsiKsPhi,mm=TightCut,KSVtxCut,cocktail
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# CPUTime: 1 min
+#
+# InsertPythonCode:
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+#
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+#
+# gen.SignalRepeatedHadronization.setProp('MaxNumberOfRepetitions', 5000)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[Beauty ==> ^K+ ^K- ^(KS0 => ^pi+ ^pi-) (J/psi(1S) => ^mu+ ^mu-)]CC'
+# tightCut.Cuts      =    {
+#     '[K+]cc'         : ' inAcc' , 
+#     '[pi+]cc'        : ' inAcc' , 
+#     '[mu+]cc'        : ' inAcc' , 
+#     'KS0'            : ' decayBeforeTT'
+#     }
+#
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter",
+#     "inAcc          = in_range ( 0.005 , GTHETA , 0.400 ) " ,
+#     "decayBeforeTT  = GVEV & ( GFAEVX ( GVZ , 1.e+10 ) < 2400 * millimeter)"
+#     ]
+#
+# EndInsertPythonCode
+#
+# Documentation: KsPhi +some PHSP, inAcceptance, KS0 VTZ < 2.4m
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email:  biplab.dey@.cern.ch
+# Date: 20201119
+#
+Alias       MyJ/psi   J/psi
+ChargeConj  MyJ/psi   MyJ/psi
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Alias      MyK0s  K_S0
+ChargeConj MyK0s  MyK0s
+#
+Decay B0sig
+ 0.7   MyPhi  MyK0s   MyJ/psi PHSP;
+ 0.3   K+ K-  MyK0s   MyJ/psi PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyPhi
+  1.000        K+        K-      VSS;
+Enddecay
+#
+Decay MyK0s
+  1.0   pi+      pi-       PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.0000   mu+   mu-    PHOTOS    PHSP;
+Enddecay
+#
+End

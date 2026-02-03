@@ -1,0 +1,55 @@
+# EventType: 12103281
+#
+# NickName: Bu_a1gamma,rhopi=HighPtGamma,DecProdCut
+#
+# Descriptor: [B+ -> (a_1(1260)+ -> (rho(770)0 -> pi+ pi-) pi+) gamma ]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation(genAlgName).BRadiativeCut
+# radCut.Code = " ( count ( isGoodB ) > 0 ) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "NGoodGamma = GINTREE(('gamma' == GABSID) & (GPT >1.5*GeV))"
+#   , "isGoodB    = (GBEAUTY & NGoodGamma)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: B+->a_1(1270)+ gamma decay, a_1(1270)+ -> (rho0 -> pi+pi-)pi+ decay, Decay products in acceptance,with gamma pt  > 1.5
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Olivier Deschamps
+# Email: odescham@in2p3.fr
+# Date: 20240527
+#
+Alias      Mya_1+      a_1+
+Alias      Mya_1-      a_1-
+ChargeConj Mya_1+      Mya_1-
+#
+Alias      MyRho0      rho0
+ChargeConj MyRho0      MyRho0
+#
+Decay B+sig
+  1.000        Mya_1+     gamma         SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay Mya_1+
+  1.000        MyRho0    pi+              VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay MyRho0
+  1.000        pi+       pi-              VSS;
+Enddecay
+#
+End
+#

@@ -1,0 +1,41 @@
+# EventType: 12101010
+#
+# Descriptor: {[B+ -> (tau+ -> pi+ pi- pi+ anti-nu_tau) (tau- -> pi+ pi- pi- nu_tau) K+]cc}
+#
+# NickName: Bu_Ktautau,3pi3pi=DecProdCut,tauolacleo
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bd decay to K tau tau.
+# Both tau leptons decay in the 3-prong charged pion mode using the Tauola CLEO model.
+# All final-state products in the acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Aravindhan Venkateswaran
+# Email: aravindhan.venkateswaran@cern.ch
+# Date: 20221129
+#
+
+# Tauola steering options
+Define TauolaCurrentOption 0
+Define TauolaBR1 1.0
+#
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+#
+Decay B+sig
+  1.000       K+      Mytau+    Mytau-       BTOSLLBALL;
+Enddecay
+CDecay B-sig
+Decay Mytau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+#
+End

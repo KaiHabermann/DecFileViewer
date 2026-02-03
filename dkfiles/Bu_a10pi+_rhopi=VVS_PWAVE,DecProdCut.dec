@@ -1,0 +1,67 @@
+# EventType: 12203420
+#
+# Descriptor: [B+ -> ( a_1(1260)0 ->  (rho(770)+ -> pi+ pi0) pi-) pi+]CC
+#
+# NickName: Bu_a10pi+_rhopi=VVS_PWAVE,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: a1 forced into rho+ pi-, rho0 pi0
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Daniel O'Hanlon
+# Email: daniel.ohanlon@cern.ch
+# Date: 20181212
+#
+Alias      Mya_10      a_10
+ChargeConj Mya_10      Mya_10
+#
+Alias      MyRho0      rho0
+ChargeConj MyRho0      MyRho0
+#
+Alias      MyRho+      rho+
+Alias      MyRho-      rho-
+ChargeConj MyRho+      MyRho-
+#
+Alias      MyPi0       pi0
+ChargeConj MyPi0       MyPi0
+#
+Alias      Myf0        f_0
+ChargeConj Myf0        Myf0
+Particle   Myf0        0.5  0.5
+#
+Decay B+sig
+  1.000        Mya_10    pi+          SVS;
+Enddecay
+CDecay B-sig
+#
+Decay Mya_10
+  0.4          MyRho0     MyPi0       VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.4          MyRho+     pi-         VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.2          Myf0       MyPi0       VSS;
+Enddecay
+#
+Decay MyRho0
+  1.000        pi+       pi-          VSS;
+Enddecay
+#
+Decay MyRho+
+  1.000        pi+       MyPi0        VSS;
+Enddecay
+Decay MyRho-
+  1.000        pi-       MyPi0        VSS;
+Enddecay
+#
+Decay Myf0
+  1.000        pi+       pi-          PHSP;
+Enddecay
+#
+Decay MyPi0
+  1.000        gamma       gamma      PHSP;
+Enddecay
+#
+End
+#

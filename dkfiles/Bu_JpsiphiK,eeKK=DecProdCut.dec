@@ -1,0 +1,43 @@
+# EventType: 12155040
+#
+# Descriptor: [B+ -> (J/psi -> e+ e-) (phi -> K+ K-) K+]cc
+#
+# NickName: Bu_JpsiphiK,eeKK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B->J/psi phi K, J/psi-> ee, phi-> KK
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Niladri Sahoo	
+# Email: Niladri.Sahoo@cern.ch
+# Date: 20191124
+#
+# CPUTime: < 1min
+#
+
+Alias       MyJ/psi     J/psi
+ChargeConj  MyJ/psi     MyJ/psi
+
+Alias       MyPhi       phi
+ChargeConj  MyPhi       MyPhi
+
+#  PDG Id = 521
+Decay B+sig
+ 1.0000   MyJ/psi MyPhi K+           PHSP;
+Enddecay
+CDecay B-sig
+
+#  PDG Id = 333
+Decay MyPhi
+ 1.0000    K+ K-                 PHSP;
+Enddecay
+
+#  PDG Id = 443
+Decay MyJ/psi
+  1.0000   e+   e-                PHOTOS VLL;
+Enddecay
+
+End

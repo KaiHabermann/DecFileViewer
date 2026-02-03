@@ -1,0 +1,40 @@
+# EventType: 15336110
+# 
+# Descriptor: [[Lambda_b0 ==> (eta_c(1S) ==> (KS0 ==> pi+ pi-) K+ pi-) p+ K-]CC, [Lambda_b0 ==> (eta_c(1S) ==> (KS0 ==> pi+ pi-) K- pi+) p+ K-]CC]
+# 
+# NickName: Lb_etacpK,KsKpi=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Liming Zhang
+# Email: liming.zhang@cern.ch
+# Date: 20240618
+#
+#
+Alias Myetac eta_c
+ChargeConj Myetac Myetac
+Alias   My_K_S0  K_S0
+ChargeConj  My_K_S0   My_K_S0
+#
+Decay Lambda_b0sig
+  1.000 Myetac   p+ K-    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Myetac
+  0.500 My_K_S0   K+   pi-     PHSP;
+  0.500 My_K_S0   K-   pi+     PHSP;
+Enddecay
+#
+Decay My_K_S0
+  1.000     pi+       pi-    PHSP; 
+Enddecay
+#
+End
+#

@@ -1,0 +1,62 @@
+# EventType: 11144091
+#
+# Descriptor: [B0 -> (psi(2S) -> mu+ mu- ) pi+ pi-]cc
+#
+# NickName: Bd_psi2Spipi,mm=phsp,DecProdCut,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# CPUTime: < 1 min
+#
+# Documentation: B0 forced into psi2S and two pions. L0(Di)Muon TOS emulated on the psi(2S)
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jascha Grabowski
+# Email: Jascha.Peter.Grabowski@cern.ch
+# Date: 20181214
+#
+# InsertPythonCode:
+##
+# from Configurables import LoKi__GenCutTool
+# from Configurables import SignalPlain
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# signal = gen.SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+##
+# tightCut = signal.TightCut
+# tightCut.Decay = '[ B0 => ^( psi(2S) => ^mu+ ^mu- ) ^pi+ ^pi- ]CC'
+##
+##tightCut.Cuts = {
+#   '[pi+]cc'       : ' good_pion ' ,
+#   '[mu+]cc'       : ' good_muon ' ,
+#   'psi(2S)'       : ' (l0muon | l0dimuon) '
+#   }
+##
+# tightCut.Preambulo += [
+#    "from GaudiKernel.SystemOfUnits import GeV",
+#    "inAcc_charged  = in_range ( 0.010 , GTHETA , 0.400 )" ,
+#    "inEta          = in_range ( 1.8   , GETA   , 5.1   )" ,
+#
+#    "good_pion      = ('pi+' == GABSID) & inAcc_charged" ,
+#    "good_muon      = ( 'mu+' == GABSID ) & inAcc_charged &  inEta" ,
+#
+#    "l0muon         = GINTREE(good_muon &  (GPT > 1.3 * GeV))",
+#    "l0dimuon       = (2 == GNINTREE(good_muon)) & (GCHILD(GPT, 'mu+' == GID) * GCHILD(GPT, 'mu-' == GID) > 2.0 * GeV * GeV)"
+#    ]
+# EndInsertPythonCode
+
+Alias      Mypsi2S  psi(2S)
+ChargeConj Mypsi2S  Mypsi2S
+#
+#
+Decay B0sig
+  1.000    Mypsi2S  pi+ pi- PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mypsi2S
+  1.000         mu+       mu-    PHOTOS        VLL;
+Enddecay
+End

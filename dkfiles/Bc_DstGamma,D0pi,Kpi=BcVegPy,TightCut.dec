@@ -1,0 +1,72 @@
+# EventType: 14163233
+#
+# Descriptor: [B_c+ -> (D*(2010)+ -> (D0 -> K- pi+) pi+) gamma]cc
+#
+# NickName: Bc_DstGamma,D0pi,Kpi=BcVegPy,TightCut 
+#
+# Production: BcVegPy
+#
+# Cuts: LoKi::GenCutToolWithDecay/TightCut
+#
+# Documentation: Bc+ -> (Dst+ -> (D0 -> K- pi+) pi+) gamma, gamma PT > 1.8 GeV
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutToolWithDecay
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.Special.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+# gen.Special.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+# #
+# tightCut = gen.Special.TightCut
+# tightCut.SignalPID = 'B_c+'
+# tightCut.Decay = '^[B_c+ => (D*(2010)+ => (D0 => ^K- ^pi+) ^pi+) gamma]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     "inAcc          = in_range ( 0.005 , GTHETA , 0.400 ) " ,
+#     "inEcalX        =   abs ( GPX / GPZ ) < 4.5  / 12.5",
+#     "inEcalY        =   abs ( GPY / GPZ ) < 3.5  / 12.5",
+#     "inEcalHole     = ( abs ( GPX / GPZ ) < 0.25 / 12.5 ) & ( abs ( GPY / GPZ ) < 0.25 / 12.5 )",
+#     "InEcal         = inEcalX & inEcalY & ~inEcalHole ",
+#     "goodPhoton     = ('gamma' == GABSID) & ( GPT > 1.8 * GeV ) & InEcal",
+#     ]
+# tightCut.Cuts     =    {
+#     '[K+]cc'         : ' inAcc' , 
+#     '[pi+]cc'        : ' inAcc' , 
+#     '[B_c+]cc'       : ' GINTREE(goodPhoton)',
+#     }
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email: biplab.dey@.cern.ch 
+# Date: 20240527
+# CPUTime: < 1 min
+#
+Alias      MyD*-        D*-
+Alias      MyD*+        D*+
+ChargeConj MyD*-        MyD*+
+#
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+#
+Decay B_c+sig
+  1.000        MyD*+   gamma  PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyD*+
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.0   K-  pi+    PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End

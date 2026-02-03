@@ -1,0 +1,37 @@
+# EventType: 11104220
+#
+# Descriptor: [B0 -> (eta' -> pi+ pi- gamma) (rho0 -> pi+ pi-)]cc
+#
+# NickName: Bd_etaprho0,pi+pi-g,pi+pi-=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: eta' forced into pi+ pi- gamma, rho0 to pi+ pi-, multi-body decays uniformly in phase space
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Jeremy Dalseno
+# Email: jeremy.peter.dalseno@cern.ch
+# Date: 20200406
+
+Alias		MyEta'	eta'
+Alias		Myrho0	rho0
+ChargeConj	MyEta'	MyEta'
+ChargeConj	Myrho0	Myrho0
+
+Decay B0sig
+      1.0	Myrho0	MyEta'	SVS;
+Enddecay
+CDecay anti-B0sig
+
+Decay Myrho0
+      1.0	pi+	pi-	VSS;
+Enddecay
+
+Decay MyEta'
+      1.0	pi+	pi-	gamma	PHSP;
+Enddecay
+
+End

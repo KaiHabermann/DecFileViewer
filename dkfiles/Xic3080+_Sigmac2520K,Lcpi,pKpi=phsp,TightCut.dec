@@ -1,0 +1,90 @@
+# EventType: 26165094
+#
+# Descriptor: [Xi_c+ -> (  Sigma_c*++ -> (Lambda_c+ -> p+ K- pi+) pi+) K- ]cc
+#
+# NickName: Xic3080+_Sigmac2520K,Lcpi,pKpi=phsp,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: 5 min
+#
+# Documentation: (prompt) Excited Xi_c+ decay according to phase space decay model with tight cuts.
+#                 Mass = 3077 MeV and Width = 3.6 MeV
+#                 Xi_c+ is used to mimic Xic**+
+# EndDocumentation
+#
+# ParticleValue: "Xi_c+                 108        4232   1.0      3.0770000      1.8280000e-22                     Xi_c+        4232      0.02000000", "Xi_c~-                109       -4232  -1.0      3.0770000      1.8280000e-22                anti-Xi_c-       -4232      0.020000000"
+# 
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName) 
+# signal     = generation.SignalPlain 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[Xi_c+ => (Sigma_c*++ ==> ^(Lambda_c+ ==> ^p+ ^K- ^pi+) pi+) ^K-]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity () ## to be sure ' , 
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'fastTrack    =  ( GPT > 220 * MeV ) & ( GP  > 3.0 * GeV )   ' , 
+#     'goodTrack    =  inAcc & inEta                               ' ,     
+#     'goodLc       =  ( GPT > 0.9 * GeV )   ' ,
+# ]
+# tightCut.Cuts     =    {
+#     '[Lambda_c+]cc'  : 'goodLc   ' ,
+#     '[K+]cc'         : 'goodTrack & fastTrack' , 
+#     '[pi+]cc'        : 'goodTrack & fastTrack' , 
+#     '[p+]cc'         : 'goodTrack & fastTrack & ( GP > 9 * GeV ) '
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Marco Pappagallo
+# Email:       marco.pappagallo@cern.ch
+# Date: 20190701
+#
+Alias MySigma_c++ Sigma_c*++
+Alias Myanti-Sigma_c-- anti-Sigma_c*--
+ChargeConj MySigma_c++ Myanti-Sigma_c--
+Alias MyLambda_c+     Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+    Myanti-Lambda_c-
+#
+Decay Xi_c+sig
+  1.000        MySigma_c++ K-           PHSP;
+Enddecay
+CDecay anti-Xi_c-sig
+#
+Decay MySigma_c++
+1.0000    MyLambda_c+  pi+                     PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+Decay MyLambda_c+
+  1.000         p+      K-      pi+     PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+##### Overwrite forbidden decays
+Decay Xi'_c+
+0.1000    Lambda0   K-    pi+   pi+         PHSP;
+0.0800    Sigma0  K-    pi+   pi+         PHSP;
+Enddecay
+#
+Decay anti-Xi'_c-
+0.1000    anti-Lambda0  K+    pi-   pi-        PHSP;
+0.0800    anti-Sigma0  K+    pi-   pi-        PHSP;
+Enddecay
+#
+#
+Decay Xi_c*+
+0.5000    Sigma_c+  pi0                     PHSP;
+0.5000    Sigma_c+  gamma                   PHSP;
+Enddecay
+CDecay anti-Xi_c*-
+#
+End 

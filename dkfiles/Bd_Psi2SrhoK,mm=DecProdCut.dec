@@ -1,0 +1,53 @@
+# EventType: 11144480 
+#
+# Descriptor: [B0 -> (psi(2S) -> mu+ mu-) (rho(770)- -> pi- (pi0 -> gamma gamma)) K+]cc
+#
+# NickName: Bd_Psi2SrhoK,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 decays to Psi(2S)(to mu+ mu-) and Rho-(to pi0 pi-) K+ 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Salil Joshi
+# Email: salil.joshi@ncbj.gov.pl
+# Date: 20240524
+# CPUTime:< 1 min
+#
+#
+Alias       Mypsi(2S)  psi(2S)
+ChargeConj  Mypsi(2S)  Mypsi(2S)
+#
+#
+Alias      Mypi0       pi0
+ChargeConj Mypi0       Mypi0
+#
+#
+Alias      MyRho-     rho-
+Alias      MyRho+     rho+
+ChargeConj MyRho-    MyRho+
+#
+#
+Decay B0sig
+  1.00000   Mypsi(2S)  MyRho-  K+      PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyRho-
+  1.000      pi-    Mypi0              VSS;
+Enddecay
+CDecay MyRho+
+#
+Decay Mypi0
+  1.000      gamma   gamma            PHSP;
+Enddecay
+#
+Decay Mypsi(2S)
+  1.00000     mu+ mu-               PHOTOS VLL;
+Enddecay
+#
+#
+End
+#

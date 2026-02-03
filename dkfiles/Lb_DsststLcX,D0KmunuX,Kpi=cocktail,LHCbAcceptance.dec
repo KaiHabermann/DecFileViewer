@@ -1,0 +1,76 @@
+# EventType: 15594514
+# Descriptor: [Lambda_b0 => (D_s1(2536)- -> (D*(2007)~0 => (D~0-> K+ pi-) pi0)  K-) (Lambda_c+ -> Lambda0 nu_mu mu+)]cc
+# NickName: Lb_DsststLcX,D0KmunuX,Kpi=cocktail,LHCbAcceptance
+# CPUTime: < 1 min
+# Cuts: LHCbAcceptance
+#
+# Documentation:  Forced Lambda_b decay to a combination of Ds**Lambda_c. Force the Lambda_c to a semileptonic decay.
+#                 For background study of semileptonic Bs->(Ds**->KKpi)MuNu decays.
+#                 Requires that the mu from charm and the 4 charged hadrons from other charm are in acc.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Alejandro Rodriguez
+# Email: a.rodriguez.alvarez@cern.ch
+# Date: 20250429
+#
+Alias      MyLambda_c+       Lambda_c+
+Alias      Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+       Myanti-Lambda_c-
+#
+Alias      MyD'_s1+      D'_s1+
+Alias      MyD'_s1-      D'_s1-
+ChargeConj MyD'_s1+      MyD'_s1-
+#
+Alias      MyD_s2*+      D_s2*+
+Alias      MyD_s2*-      D_s2*-
+ChargeConj MyD_s2*+      MyD_s2*-
+#
+Alias      MyD*0         D*0
+Alias      Myanti-D*0     anti-D*0
+ChargeConj MyD*0         Myanti-D*0
+#
+Alias      MyD0       D0
+Alias      Myanti-D0  anti-D0
+ChargeConj MyD0       Myanti-D0
+#
+Decay Lambda_b0sig
+  0.01100    MyLambda_c+       MyD'_s1-           PHSP;
+  0.01100    MyLambda_c+       MyD_s2*-           PHSP; 
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  0.03500         mu+     nu_mu   Lambda0       PHOTOS PHSP;
+  0.01000         mu+     nu_mu   Sigma0        PHOTOS PHSP;
+  0.01000         mu+     nu_mu   Sigma*0       PHOTOS PHSP;
+  0.00600         mu+     nu_mu   n0            PHOTOS PHSP;
+  0.00400         mu+     nu_mu   Delta0        PHOTOS PHSP;
+  0.01200         mu+     nu_mu   p+      pi-   PHOTOS PHSP;
+  0.01200         mu+     nu_mu   n0      pi0   PHOTOS PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyD'_s1+
+  1.0 MyD*0  K+       	    VVS_PWAVE 0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyD'_s1-
+#
+Decay MyD_s2*+
+  1.0 MyD0  K+                TSS;
+Enddecay
+CDecay MyD_s2*-
+#
+Decay MyD*0
+  0.647 MyD0  pi0               PHOTOS VSS;
+  0.353 MyD0  gamma             PHOTOS VSP_PWAVE;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD0
+  1.0   K-  pi+               PHOTOS PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End

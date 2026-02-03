@@ -1,0 +1,37 @@
+# EventType: 23103480
+#
+# Descriptor: [D_s+ -> ( omega -> pi+ pi- (pi0 -> gamma gamma)) K+]cc
+#
+# NickName: Ds+_omegaK,pipipi0,gg=DecProdCut
+#
+# Cuts: DaughtersInLHCb 
+#
+# Documentation: Forces a D_s+ to ( omega -> pi+ pi- (pi0 -> gamma gamma) ) K+ with decay products in LHCb acceptance 
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Giulia Tuci
+# Email: giulia.tuci@cern.ch
+# Date: 20210930
+#
+Alias       my_omega   omega
+ChargeConj  my_omega   my_omega
+Alias       my_pi0   pi0
+ChargeConj  my_pi0   my_pi0
+#
+Decay  D_s+sig
+  1.000     my_omega   K+    PHOTOS PHSP ;
+Enddecay
+CDecay D_s-sig
+#
+Decay  my_omega
+  1.000     pi+     pi-     my_pi0     PHOTOS OMEGA_DALITZ;
+Enddecay
+#
+Decay my_pi0
+1.000    gamma  gamma     PHSP;
+Enddecay
+#
+End

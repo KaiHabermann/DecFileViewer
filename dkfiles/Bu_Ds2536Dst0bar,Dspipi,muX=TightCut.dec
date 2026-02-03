@@ -1,0 +1,97 @@
+# EventType: 12897481
+# NickName: Bu_Ds2536Dst0bar,Dspipi,muX=TightCut
+# Descriptor: [B+ -> ( D*(2007)~0 -> ( D~0 -> mu- nu_mu~ X ) X ) (D_s1(2536)+ -> (D_s+ -> K+ K- pi+) pi+ pi-)]cc
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#Generation().SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+#tightCut = Generation().SignalRepeatedHadronization.TightCut
+#tightCut.Decay = '^[B+ -> ( D*(2007)~0 -> ( D~0 => ^mu- nu_mu~ {X} {X} {X} {X} {X} {X} ) {X} ) (D_s1(2536)+ => ^(D_s+ => ^K+ ^K- ^pi+) ^pi+ ^pi-) {gamma} ]CC'
+#tightCut.Preambulo += [
+#    'GVZ = LoKi.GenVertices.PositionZ()',
+#    'from GaudiKernel.SystemOfUnits import millimeter',
+#    'inAcc        = (in_range(0.005, GTHETA, 0.400) & in_range ( 1.8 , GETA , 5.2))',
+#    'goodK        = in_range( 2. * GeV , GP , 200 * GeV) & (GPT >  80 * MeV)',
+#    'goodPi       = in_range( 2. * GeV , GP , 200 * GeV) & (GPT >  80 * MeV)',
+#]
+#tightCut.Cuts = {
+#    '[K+]cc'        : 'inAcc & goodK',
+#    '[pi+]cc'       : 'inAcc & goodPi', 
+#    '[mu+]cc'       : 'in_range( 0.010 , GTHETA , 0.400 ) & (GP > 2500 * MeV)', 
+#    '[B+]cc'        : 'GALL', 
+#    '[D_s+]cc'      : 'GALL', 
+#    }
+#EndInsertPythonCode
+#
+# Documentation: 
+#    Decay file for B+ => D*(2007)0bar D_s1(2536)+
+#    D_s1(2536) decays to D_s+ pi+ pi- via phase space. 
+#    D_s+ resonant decay forced. 
+#    Semileptinic decay of D0bar from D*(2007). 
+# EndDocumentation
+# CPUTime: < 1 min
+# 
+# Date:   20230606
+# Responsible: Anton Poluektov
+# Email: anton.poluektov@cern.ch
+# PhysicsWG: B2SL
+# Tested: Yes
+#
+Alias My_D+    D+
+Alias My_D-    D-
+ChargeConj My_D+   My_D-
+#
+Alias My_D0        D0
+Alias My_anti-D0   anti-D0
+ChargeConj My_D0   My_anti-D0
+#
+Alias My_D_s-    D_s-
+Alias My_D_s+    D_s+
+ChargeConj  My_D_s-    My_D_s+
+#
+Alias My_Ds2536        D'_s1+
+Alias My_anti-Ds2536   D'_s1-
+ChargeConj My_Ds2536     My_anti-Ds2536
+#
+Alias My_Dst0     D*0
+Alias My_anti-Dst0 anti-D*0
+ChargeConj My_Dst0 My_anti-Dst0
+#
+Decay My_Ds2536
+  1.0 My_D_s+ pi+ pi- PHSP;
+Enddecay
+CDecay My_anti-Ds2536
+#
+Decay My_Dst0
+0.647    My_D0 pi0             VSS;
+0.353    My_D0 gamma           VSP_PWAVE;
+Enddecay
+CDecay My_anti-Dst0
+#
+Decay My_D0
+  0.019800000 K*-     mu+     nu_mu                           PHOTOS  ISGW2;
+  0.033100000 K-      mu+     nu_mu                           PHOTOS  ISGW2;
+  0.000815539 K_1-    mu+     nu_mu                           PHOTOS  ISGW2;
+  0.001374504 K_2*-   mu+     nu_mu                           PHOTOS  ISGW2;
+  0.002370000 pi-     mu+     nu_mu                           PHOTOS  ISGW2;
+  0.002015940 rho-    mu+     nu_mu                           PHOTOS  ISGW2;
+  0.001007970 anti-K0 pi-     mu+     nu_mu                   PHOTOS   PHSP;
+  0.000549802 K-      pi0     mu+     nu_mu                   PHOTOS   PHSP;
+Enddecay
+CDecay My_anti-D0
+#
+Decay My_D_s+
+  1.0   K+  K-   pi+   D_DALITZ;
+Enddecay
+CDecay My_D_s-
+#
+Decay B-sig
+  1.000 My_Dst0 My_anti-Ds2536 PHSP;
+Enddecay
+CDecay B+sig
+#
+End

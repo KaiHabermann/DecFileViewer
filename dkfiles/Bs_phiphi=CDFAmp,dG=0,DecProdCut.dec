@@ -1,0 +1,39 @@
+# EventType: 13104016
+#
+# Descriptor: [B_s0 -> (phi(1020) -> K+ K-) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bs_phiphi=CDFAmp,dG=0,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: phi forced to K+ K-, decay products in acceptance
+# No direct CPV, uses CDF result hep-ex:1107.4999v1
+# This file has equal lifetimes for light and heavy B_s0 states. The value of 
+# the Bs lifetime is chosen as to match a previous simulation used by the 
+# phi_s analysis with 2015 and 2016 data produced with dkfiles/Bs_Jpsiphi,mm=CPV,update2012,dG=0,DecProdCut.dec.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Mary Richardson-Slipper
+# Email: mary.richardson-slipper@cern.ch
+# Date: 20221010
+# CPUTime: <1min
+#
+# Re-Define deltaGamma (overrules ParticlePropertyTable)
+# ParticleValue: "B_s0  75  531  0.0  5.36630  1.512e-12  B_s0  531  0.00", "B_s~0  76  -531  0.0  5.36630  1.512e-12  anti-B_s0  -531  0.00", "B_s0H  99996  530  0.0  5.36677  1.512e-12  B_s0H  0  0.00", "B_s0L  99997  350  0.0  5.36677  1.512e-12  B_s0L  0  0.00"
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B_s0sig
+  1.0000       MyPhi     MyPhi    PVV_CPLH 0 1 0.536 2.71 0.590 0.0 0.604 2.39;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

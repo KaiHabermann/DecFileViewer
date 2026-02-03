@@ -1,0 +1,65 @@
+# EventType: 15576101
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> ( Lambda0 -> p+ pi- ) pi+) mu- anti-nu_mu pi+ pi-]cc
+#
+# NickName: Lb_Lcpipimunu,Lambdapi=TightCut,LambdaLLDD
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Lb -> Lc pi pi mu nu_mu, Lc -> Lambda pi. To study Lambda only reconstructible as T-tracks. Loose kinematic cuts on tracks not from Lambda decay. For Lambda require it to decay before 2.7m. TTb location taken from https://s3.cern.ch/inspire-prod-files-6/6df78a71e5ae11f5152c518ee6c70d7a   
+# EndDocumentation
+#
+# InsertPythonCode:
+##
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut  = Generation().SignalPlain.TightCut
+# tightCut.Decay = "[ Lambda_b0 ==>  (Lambda_c+ ==> ^(Lambda0 ==> p+ pi- ) ^pi+)  {X} {X} ^mu- nu_mu~ ^pi+ ^pi- ]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range",
+# "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, mm",
+# "inAcc = in_range(10*mrad,GTHETA,400*mrad)",
+# "EVZ   = GFAEVX(GVZ,0)",
+#  ]
+# tightCut.Cuts      =    {
+#'[pi+]cc'  : "inAcc & ( GP > 2000 * MeV )",
+#'[mu-]cc'  : "inAcc",
+#'[Lambda0]cc'  : "( EVZ < 2700 * mm ) & (GCHILDCUT(inAcc, '[Lambda0 => ^p+ pi-]CC')) & (GCHILDCUT(inAcc, '[Lambda0 => p+ ^pi-]CC'))",
+# }  
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Mengzhen Wang 
+# Email: mengzhen.wang@cern.ch
+# Date:  20230110 
+# CPUTime: 10 min
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+#
+Decay Lambda_b0sig
+  1.0		MyLambda_c+	pi+	pi-	mu-	anti-nu_mu	PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda0
+  1.0     p+   pi-      PHSP;
+Enddecay
+CDecay MyAntiLambda0
+#
+Decay MyLambda_c+
+  1.0     MyLambda0   pi+      PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End

@@ -1,0 +1,68 @@
+# EventType: 27185929
+#            
+# Descriptor: [D*_s+ -> (D_s+ -> K- K+ pi+) (A' -> e+ e-)]cc
+#
+# NickName: Dsstp_DspA,KKpi=TightCut,ee,prompt,mA=62MeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# signal = Generation().SignalPlain
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+#
+# tightCut = signal.TightCut
+# tightCut.Decay = '^[D*_s+ => ^(D_s+ ==> ^K- ^K+ ^pi+) ^(H_30 => ^e+ ^e-)]CC'
+# tightCut.Preambulo += [
+#   'from GaudiKernel.SystemOfUnits import MeV',
+#   ]
+# tightCut.Cuts = {
+#   '[D*_s+]cc'       : '(GPT >  2000 * MeV)',
+#   '[D_s+]cc'        : '(GPT >  1900 * MeV)',
+#   'H_30'            : '(GPT >  80 * MeV)',
+#   '[K-]cc'          : '(GP >  900 * MeV) & (GPT > 140 * MeV) & (in_range(0.010, GTHETA, 0.400))',
+#   '[pi+]cc'         : '(GP >  900 * MeV) & (GPT > 140 * MeV) & (in_range(0.010, GTHETA, 0.400))',
+#   '[e+]cc'          : '(GP >  1200 * MeV) & (GPT > 40 * MeV)  & (in_range(0.010, GTHETA, 0.400))'
+#   }
+#
+# EndInsertPythonCode
+#
+# Documentation:
+# D*_s+ -> D_s+ A decay file with prompt dark photon A.
+# H_30 models the dark photon with small lifetime to ensure prompt decay.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Carlos Cocha
+# Email: carlos.eduardo.cocha.toapaxi@cern.ch
+# Date: 20250419
+#
+# ParticleValue: "H_30 89 36 0.0 0.062 1e-20 A0 36 0"
+
+Alias      MyD_s-       D_s-
+Alias      MyD_s+       D_s+
+ChargeConj MyD_s+       MyD_s-
+
+Alias      MyA         A0
+ChargeConj MyA         MyA
+
+##
+Decay D_s*+sig
+1.00 MyD_s+  MyA      PHSP;
+Enddecay
+CDecay D_s*-sig
+#
+Decay MyD_s+
+1.00 K-  K+  pi+      PHSP;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyA
+1.00 e+  e-           PHSP;
+Enddecay
+#
+End
+

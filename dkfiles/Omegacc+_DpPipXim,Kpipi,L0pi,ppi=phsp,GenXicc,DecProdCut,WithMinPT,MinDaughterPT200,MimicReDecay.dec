@@ -1,0 +1,66 @@
+# EventType: 26167151
+#
+# Descriptor: [Xi_cc+ -> (D+ -> K- pi+ pi+) pi+ (Xi- -> (Lambda0 -> p+ pi-) pi-)]cc
+#
+# NickName: Omegacc+_DpPipXim,Kpipi,L0pi,ppi=phsp,GenXicc,DecProdCut,WithMinPT,MinDaughterPT200,MimicReDecay
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCbAndWithMinPT
+#
+# CutsOptions: MinXiccPT 500*MeV MinDaughterPT 200*MeV
+#
+# CPUTime: < 1 min
+#
+# Documentation: Omegacc+ decay to Dp pip Xim by phase space model, Xim decays to (L0 -> p+pi-) pi- by phase space model.
+# All daughters of Omegacc+ are required to be in the acceptance of LHCb and with PT>200 MeV 
+# and the Omegacc+ PT is required to be larger than 500 MeV.
+# Use Xicc+ to mimic Omegacc+ for Re-Decay
+# EndDocumentation
+#
+# ParticleValue: "Xi_cc+    502     4412    1.0     3.738   1.60e-13    Xi_cc+  4412    0.000", "Xi_cc~-    503     -4412  -1.0     3.738   1.60e-13  anti-Xi_cc-      -4412   0.000"
+#
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: Ziyi Wang, Miroslav Saur
+# Email: ziyi.wang@cern.ch, miroslav.saur@cern.ch
+# Date: 20210914
+#
+Alias      MyDp        D+
+Alias      Myanti-Dp   D-
+ChargeConj MyDp        Myanti-Dp
+#
+Alias      MyXim       Xi-
+Alias      Myanti-Xim  anti-Xi+
+ChargeConj MyXim       Myanti-Xim
+#
+Alias      MyL0        Lambda0
+Alias      Myanti-L0   anti-Lambda0
+ChargeConj MyL0        Myanti-L0
+#
+#
+Decay Xi_cc+sig
+  1.000   MyDp   pi+   MyXim           PHSP;
+Enddecay
+CDecay anti-Xi_cc-sig
+#
+#
+Decay MyDp
+  1.000 K- pi+ pi+ PHSP;
+Enddecay
+CDecay Myanti-Dp
+#
+Decay MyXim
+  1.000 MyL0 pi- PHSP;
+Enddecay
+CDecay Myanti-Xim
+#
+Decay MyL0
+  1.000 p+ pi- PHSP;
+Enddecay
+CDecay Myanti-L0
+#
+#
+End
+#

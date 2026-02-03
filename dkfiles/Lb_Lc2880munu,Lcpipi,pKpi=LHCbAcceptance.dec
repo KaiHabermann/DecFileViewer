@@ -1,0 +1,46 @@
+# EventType: 15576021
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c(2625)+ -> (Lambda_c+ -> p+ K- pi+) pi- pi+) anti-nu_mu mu-]cc
+#
+# NickName: Lb_Lc2880munu,Lcpipi,pKpi=LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Lb decaying to Lambda_c(2880) mu- anti-nu_mu. Lc2880 exists in evtgen, but may not be used with baryonlnu
+# so we use a Lc2625 with mass set to the Lc2880 pdg mass.
+#
+# EndDocumentation
+#
+# CPUTime: < 1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Scott Ely
+# Email: seely@syr.edu
+# Date: 20180813
+#
+# ParticleValue: "Lambda_c(2625)+ 104124   104124   1.0   2.88163 1.134849e-22  Lambda_c(2625)+ 0 1.0e-004", "Lambda_c(2625)~- -104124   -104124   -1.0   2.88163 1.134849e-22  anti-Lambda_c(2625)- 0 1.0e-004"
+#
+Alias		MyLambda_c+			Lambda_c+
+Alias		MyAntiLambda_c-			anti-Lambda_c-
+ChargeConj	MyLambda_c+			MyAntiLambda_c-
+#
+Alias		MyLambda_c(2625)+		Lambda_c(2625)+
+Alias		MyAntiLambda_c(2625)-		anti-Lambda_c(2625)-
+ChargeConj	MyLambda_c(2625)+		MyAntiLambda_c(2625)-
+#
+Decay Lambda_b0sig
+ 1.00	 MyLambda_c(2625)+	mu-	anti-nu_mu	Lb2Baryonlnu 1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c(2625)+
+ 1.0     MyLambda_c+		pi+	pi-	PHSP;
+Enddecay
+CDecay MyAntiLambda_c(2625)-
+#
+Decay MyLambda_c+
+ 1.0     p+	K-	pi+	PHSP;
+Enddecay
+CDecay MyAntiLambda_c-
+#
+End

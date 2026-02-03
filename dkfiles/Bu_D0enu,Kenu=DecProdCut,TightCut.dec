@@ -1,0 +1,76 @@
+# EventType: 12583023
+#
+# Descriptor: [B+ -> (D~0 -> K+ e- anti-nu_e) e+ nu_e]cc
+#
+# NickName: Bu_D0enu,Kenu=DecProdCut,TightCut
+#
+# Documentation: D chain background for B+ -> Kee for RK at high q2. m(ee) > 3674 MeV, pt > 200 MeV
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Alex Marshall
+# Email: alex.marshall@cern.ch
+# Date: 20210518
+# CPUTime: 2 min
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation(genAlgName)
+#
+# gen.SignalRepeatedHadronization.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/HighVisMass"
+# evtgendecay.addTool( LoKi__GenCutTool,'HighVisMass')
+# evtgendecay.HighVisMass.Decay = "[^(B+ ==> (D~0 ==> K+ e- nu_e~) e+ nu_e)]CC"
+# evtgendecay.HighVisMass.Preambulo += [
+#     "massCut = GMASS('e-'==GID,'e+'==GID) > 3674 * MeV"
+# ]
+# evtgendecay.HighVisMass.Cuts = {
+#     '[B+]cc'             : " massCut "
+# }
+#
+# Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+#
+# tightCut.Decay     = "[(B+ ==> (D~0 ==> ^K+ ^e- nu_e~) ^e+ nu_e)]CC"
+#
+# tightCut.Preambulo += [
+#     "from LoKiCore.functions import in_range",
+#     "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#     "inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) "]
+#
+# tightCut.Cuts      =    {
+#     '[e-]cc'             : " inAcc & ( GPT > 200 * MeV )  " ,
+#     '[K+]cc'             : " inAcc & ( GPT > 200 * MeV )  " ,
+#     '[e+]cc'             : " inAcc & ( GPT > 200 * MeV )  "
+# }
+#
+# EndInsertPythonCode
+#
+#
+Alias           My_D0           D0
+Alias           My_anti-D0      anti-D0
+ChargeConj      My_D0           My_anti-D0
+#
+Decay B+sig
+1.000        My_anti-D0     e+  nu_e               PHOTOS ISGW2;
+Enddecay
+CDecay B-sig
+#
+#
+Decay My_anti-D0
+1.000        K+        e-      anti-nu_e           PHOTOS ISGW2;
+Enddecay
+CDecay My_D0
+#	
+End
+#

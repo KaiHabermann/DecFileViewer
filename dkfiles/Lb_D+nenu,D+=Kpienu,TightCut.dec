@@ -1,0 +1,58 @@
+# EventType: 15584040
+#
+# Descriptor: [Lambda_b0 -> (D+ -> K- pi+ e+ nu_e) e- anti-nu_e n0]cc
+#
+# NickName: Lb_D+nenu,D+=Kpienu,TightCut
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Lakshan Madhan
+# Email: lakshan.madhan@cern.ch
+# Date: 20240729
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 2 min
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.@Production.addTool ( LoKi__GenCutTool , 'TightCut' )
+# kpieeInAcc = gen.@Production.TightCut
+# kpieeInAcc.Decay = '[^(Lambda_b0 ==> ^e+ ^e- nu_e nu_e~ K- pi+ n0)]CC'
+# kpieeInAcc.Preambulo += [
+#     'inAcc        = (in_range(0.010, GTHETA, 0.400))',
+#     'onePionInAcc = (GNINTREE( ("pi-"==GABSID) & inAcc) >= 1)',
+#     'oneKaonInAcc = (GNINTREE( ("K-"==GABSID) & inAcc) >= 1)'
+#     ]
+# kpieeInAcc.Cuts = {
+#     '[Lambda_b0]cc' : 'onePionInAcc & oneKaonInAcc',
+#     '[e+]cc'       : 'inAcc'
+#     }
+#
+# EndInsertPythonCode
+#
+#
+# Documentation: Lb->D+ne with D+->Kpienu and DecProdCut
+#  		 background studies for Lb->pktautau and Lb->pKtaumu, D+ decay based on 21523020
+# EndDocumentation
+#
+#
+#
+Alias      MyD+       D+
+Alias      MyD-       D-
+ChargeConj MyD+       MyD-
+#
+Decay Lambda_b0sig
+  1.000     MyD+ e- anti-nu_e n0 PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyD+
+1.00	K-	pi+	e+	nu_e	PHOTOS  DToKpienu;
+Enddecay
+CDecay MyD-
+#
+End

@@ -1,0 +1,39 @@
+# EventType: 11402600
+#
+# Descriptor: [B0 -> (eta' -> X) (eta -> X)]cc
+#
+# NickName: Bd_etapeta,etap=Cocktail,eta=Cocktail,DecProdCut,EqProd
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: eta' forced into pi+ pi- gamma and eta pi+ pi-, eta into gamma gamma and pi+ pi- pi0, multi-body decays uniformly in phase space, equal production for all 6 decay combinations
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Jeremy Dalseno
+# Email: jeremy.peter.dalseno@cern.ch
+# Date: 20200406
+
+Alias		MyEta'	eta'
+Alias           MyEta   eta
+ChargeConj	MyEta'	MyEta'
+ChargeConj      MyEta   MyEta
+
+Decay B0sig
+      1.0	MyEta'	MyEta	PHSP;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyEta'
+      0.333333333	pi+	pi-	gamma	PHSP;
+      0.666666667	MyEta	pi+	pi-	PHSP;
+Enddecay
+
+Decay MyEta
+      0.5	gamma	gamma	PHSP;
+      0.5	pi+	pi-	pi0	PHSP;
+Enddecay
+
+End

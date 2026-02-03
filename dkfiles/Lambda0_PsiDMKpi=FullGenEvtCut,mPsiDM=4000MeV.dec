@@ -1,0 +1,49 @@
+# EventType: 15502006
+#
+# Descriptor: [Lambda_b0 -> K+ pi- H_30 ]cc
+#
+# NickName: Lambda0_PsiDMKpi=FullGenEvtCut,mPsiDM=4000MeV
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/LbtoKpiDM
+# 
+# Documentation:
+#    Decay a L0 to K pi and a redefined H_30 for our need, acting the latter as stable Dark Matter candidate with a mass of 4.0 GeV.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: 2 min
+# Responsible: Saul Lopez 
+# Email: saul.lopez.solino@cern.ch
+# Date: 20210927
+#
+#
+# InsertPythonCode:
+# from Configurables import LHCb__ParticlePropertySvc, LoKi__GenCutTool
+# LHCb__ParticlePropertySvc().Particles = [
+# "H_30     89       36      0.0     4.000000        1.000000e+16    A0      36      0.00"
+# ]
+# ## Generator level cuts:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "LbtoKpiDM" )
+# tracksInAcc = Generation(genAlgName).LbtoKpiDM
+# tracksInAcc.Code = " count ( isGoodLb ) > 0 "
+# ### - HepMC::IteratorRange::descendants   4
+# tracksInAcc.Preambulo += [ "from GaudiKernel.SystemOfUnits import GeV, mrad" 
+#                          , "inAcc = in_range(1.9, GETA, 5.0)"
+#                          , "isGoodKaon = ( ( GPT > 0.3*GeV ) & inAcc & ( 'K+' == GABSID ) )"
+#                          , "isGoodPi   = ( ( GPT > 0.3*GeV ) & inAcc & ( 'pi+' == GABSID) )"
+#                          , "isGoodLb   = ( ( 'Lambda_b0' == GABSID ) & ( GNINTREE( isGoodKaon, 1 ) > 0 ) & ( GNINTREE( isGoodPi, 1 ) > 0 ) )" ]
+# EndInsertPythonCode
+#
+Alias  MyH_30     A0
+Alias  Myanti-H_30    A0
+ChargeConj MyH_30   Myanti-H_30
+#
+Decay Lambda_b0sig
+    1.000   MyH_30    K+    pi-    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End

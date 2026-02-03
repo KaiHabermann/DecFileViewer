@@ -1,0 +1,50 @@
+# This is the decay file for the decay B_s2*0 => (B+ => (D~0 -> K0 pi+ pi-) mu+ nu_mu) K-
+#
+# EventType: 17574081
+#
+# Descriptor: [B_s2*0 -> K- (B+ -> D~0 mu+ nu_mu)]cc
+#
+# NickName: Bs2st_BuK,D0munu,Kpipi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ExtraOptions: D0muInAcc
+# Documentation: decay B_s2*0 => K- (B+ -> (D~0 -> K0 pi+ pi-) mu+ nu_mu), backgroud for B_s2*0 => K- (B+ -> rho0 mu nu)
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Maria Poliakova
+# Email: mpolyako@syr.edu
+# Date: 20190626
+#
+##############
+#
+Alias      MyB      B+
+Alias      MyantiB  B-
+ChargeConj MyB      MyantiB
+Alias      MyD      D0
+Alias      MyantiD  anti-D0
+ChargeConj MyD      MyantiD
+#
+Decay B_s2*0sig
+1.0000    MyB   K-              TSS;
+Enddecay
+CDecay anti-B_s2*0sig
+#
+Decay MyB
+1.0000     MyantiD  mu+ nu_mu         PHOTOS  ISGW2;
+Enddecay
+CDecay MyantiB
+#
+Decay MyD
+1.0000     K0  pi+ pi-      D_DALITZ;
+Enddecay
+CDecay MyantiD
+#
+End
+#
+
+
+

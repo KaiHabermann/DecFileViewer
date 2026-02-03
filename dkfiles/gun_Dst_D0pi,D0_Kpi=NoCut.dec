@@ -1,0 +1,62 @@
+# EventType: 59963001
+#
+# Descriptor: [D*+ -> (D0 -> K- pi+) pi+]cc
+#
+# NickName: gun_Dst_D0pi,D0_Kpi=NoCut
+#
+# Cuts: None
+#
+# ParticleValue: "D*(2010)+ 65 413  1.0 2.01026000 7.892230e-21 D*+ 413  0.000000"
+#
+# Documentation: Particle Gun D*+ in D0 pi+, D0 forced to K-pi+.
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import ParticleGun, FlatNParticles, FlatPtRapidity
+# pgun = ParticleGun()
+#
+# pgun.SignalPdgCode = 413
+#
+# pgun.EventType = 59963001
+#
+# pgun.ParticleGunTool = "FlatPtRapidity"
+# pgun.addTool( FlatPtRapidity , name = "FlatPtRapidity" )
+# pgun.FlatPtRapidity.SampleMass = False
+# #pgun.FlatPtRapidity.MassRange_min = 2010.26
+# #pgun.FlatPtRapidity.MassRange_max = 2010.26
+# pgun.FlatPtRapidity.PtMin = 0.
+# pgun.FlatPtRapidity.PtMax = 12000.
+# pgun.FlatPtRapidity.RapidityMin = 1.8
+# pgun.FlatPtRapidity.RapidityMax = 5.2
+# pgun.DecayTool = "EvtGenDecay"
+# pgun.FlatPtRapidity.PdgCodes = [ 413, -413 ]
+# pgun.NumberOfParticlesTool = "FlatNParticles"
+# pgun.addTool( FlatNParticles , name = "FlatNParticles" )
+#
+# EndInsertPythonCode
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Lorenzo Paolucci
+# Email: lorenzo.paolucci@cern.ch
+# Date: 20210415
+#
+##
+Alias my_D0  D0
+Alias my_anti-D0 anti-D0
+ChargeConj my_D0 my_anti-D0
+
+Decay D*+sig
+  1.0 my_D0 pi+   VSS;
+Enddecay
+CDecay D*-sig
+
+Decay my_D0
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay my_anti-D0
+
+End

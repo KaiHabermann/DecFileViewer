@@ -1,0 +1,53 @@
+# EventType: 27163286
+#
+# Descriptor: [D_s1(2460)+ -> (D_s+ ->  K+ K- pi+ ) gamma ]cc
+
+# NickName: Ds2460_Dsgamma,KKpi,Dalitz,NoAcc=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ ^( D_s1(2460)+ =>  ( D_s+ => K+ K- pi+ ) gamma ) ]CC'
+# tightCut.Cuts      =    {
+#     '[D_s1(2460)+]cc': ' goodDs1 ' , 
+#     } 
+#
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV' 
+#     ,"goodDs1 =  in_range ( 0.005 , GTHETA , 0.700 ) "
+#     ] 
+#
+# EndInsertPythonCode
+#
+# Documentation: D_s1(2460) decaying into Ds gamma without acceptance cut in the daughters. Ds + gamma eta range limited
+# EndDocumentation
+#
+# CPUTime:  < 2 min
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible:     Jose Ivan Cambon Bouzas
+# Email: joseivan.cambon.bouzas@usc.es
+# Date: 20251120
+#
+Alias        MyD_s-         D_s-
+Alias        MyD_s+         D_s+
+ChargeConj   MyD_s+         MyD_s-
+
+#
+Decay D_s1+sig
+ 1.000       MyD_s+         gamma   VSP_PWAVE;
+Enddecay
+CDecay D_s1-sig
+#
+Decay  MyD_s+
+ 1.000       K+      K-      pi+    D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+End
+

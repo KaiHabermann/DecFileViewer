@@ -1,0 +1,21 @@
+// Created by https://github.com/scikit-hep/decaylanguage
+digraph DecayChainGraph {
+	graph [comment="Created by https://github.com/scikit-hep/decaylanguage" engine=dot format=png name=DecayChainGraph rankdir=LR]
+	node [fontname=Helvetica fontsize=11 shape=oval]
+	edge [fontcolor="#4c4c4c" fontsize=11]
+	mother [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#568dba"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">B_s0sig</TD></TR></TABLE>> shape=none]
+	dec1422035 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyPhi1680</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03b3;</TD></TR></TABLE>> shape=none]
+	mother -> dec1422035 [label=1.0]
+	dec1422036 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyK*-</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">K<SUP>+</SUP></TD></TR></TABLE>> shape=none]
+	dec1422035:p0 -> dec1422036 [label=0.5]
+	dec1422037 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">K<SUP>-</SUP></TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">Mypi0</TD></TR></TABLE>> shape=none]
+	dec1422036:p0 -> dec1422037 [label=1.0]
+	dec1422038 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03b3;</TD><TD BORDER="0" CELLPADDING="2">&#x03b3;</TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec1422037:p1 -> dec1422038 [label=1.0]
+	dec1422039 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyK*+</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">K<SUP>-</SUP></TD></TR></TABLE>> shape=none]
+	dec1422035:p0 -> dec1422039 [label=0.5]
+	dec1422040 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">K<SUP>+</SUP></TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">Mypi0</TD></TR></TABLE>> shape=none]
+	dec1422039:p0 -> dec1422040 [label=1.0]
+	dec1422041 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03b3;</TD><TD BORDER="0" CELLPADDING="2">&#x03b3;</TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec1422040:p1 -> dec1422041 [label=1.0]
+}

@@ -1,0 +1,41 @@
+# EventType: 22162010
+#
+# Descriptor: [D0 -> K- pi+]cc
+#
+# NickName: D0_Kpi=DecProdCut,NoPileUp,pthatmin15
+#
+# Cuts: DaughtersInLHCb
+# Production:Pythia8
+#
+# InsertPythonCode:
+# from Gaudi.Configuration import importOptions
+# importOptions('$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py')
+# from Configurables import Pythia8Production
+# Generation().SignalPlain.addTool(Pythia8Production)
+# Generation().SignalPlain.Pythia8Production.Commands+=[
+#     "HardQCD:all = on",
+#     "PhaseSpace:pTHatMin = 15.0"]
+#
+# # Keep 2 -> 2 hard process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = (
+#     "( GBARCODE >= 1 ) & ( GBARCODE <= 6 )")
+#
+# EndInsertPythonCode
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Ibrahim Chahrour
+# Email: chahrour@umich.edu
+# Date: 20221202
+#
+Decay D0sig
+  0.0390   K-  pi+   PHSP;
+Enddecay
+CDecay anti-D0sig
+#
+End

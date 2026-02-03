@@ -1,0 +1,46 @@
+# EventType: 23513401
+#
+# Descriptor: [D_s+ -> ( tau+ -> mu+ (eta' -> pi+ pi- (eta -> gamma gamma)) ) nu_tau]cc
+#
+# NickName: Ds_taunu,etaprimemu,pipieta,gg=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  
+#   Forces a Ds+ to ( tau+ -> mu+ (eta_prime -> pi+ pi- (pi0 -> gamma gamma)) ) nu_tau with daughters in LHCb acceptance  
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Giulia Tuci
+# Email: giulia.tuci@cern.ch
+# Date: 20210930
+#
+Alias myTau+ tau+
+Alias myTau- tau-
+ChargeConj myTau+ myTau-
+Alias       my_eta'   eta'
+ChargeConj  my_eta'   my_eta'
+Alias       my_eta   eta
+ChargeConj  my_eta   my_eta
+#
+Decay  D_s+sig
+  1.000     myTau+   nu_tau    	SLN;
+Enddecay
+CDecay D_s-sig
+#
+Decay myTau+
+  1.000       mu+  my_eta'    PHSP;
+Enddecay
+CDecay myTau-
+#
+Decay  my_eta'
+  1.000     pi+      pi-    my_eta  PHOTOS PHSP ;
+Enddecay
+#
+Decay  my_eta
+  1.000     gamma gamma   PHSP ;
+Enddecay
+#
+End

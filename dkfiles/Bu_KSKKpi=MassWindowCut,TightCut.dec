@@ -1,0 +1,65 @@
+# EventType: 12105164
+#
+# Descriptor: [B+ -> (KS0 -> pi+ pi-) pi+ K+ K-]cc
+#
+# NickName: Bu_KSKKpi=MassWindowCut,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation:
+# Flat phase space in the analysis region of B+ -> Kst+ phi.
+# TightCut.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[B+ ==> ^(KS0 ==> pi+ pi-) ^pi+ ^K+ ^K-]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import centimeter" ,
+#     "inAcc = in_range ( 0.010, GTHETA, 0.400 ) & in_range   ( 1.8 , GETA , 5.0 )", 
+#     "goodForRich = in_range ( 3.0 * GeV , GP , 150 * GeV )",
+#     "ksInAcc = in_range ( 2 , GETA , 5 )",
+#     "ksPion =  in_range ( 1.6 , GETA ,  5.2 ) & in_range ( 2 * GeV , GP ,  150 * GeV )",
+#     "bothPI =  2 == GNINTREE (  ( 'pi+' == GABSID )   & ksPion )",
+#     "ksTT   =  GVEV & ( GFAEVX ( GVZ , 1.e+10 ) < 240 * centimeter )",
+#     "good_KS = ksInAcc & bothPI & ksTT",
+#     "had_pt = GPT > 300 * MeV",
+# ]
+# tightCut.Cuts      =    {
+#     '[pi+]cc'       : 'inAcc & goodForRich & had_pt',
+#     '[K+]cc'        : 'inAcc & goodForRich & had_pt',
+#     '[KS0]cc'       : 'good_KS & had_pt',
+# }
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: <2min
+# Responsible: Yanxi Wu
+# Email: yanxi.wu@cern.ch
+# Date: 20250211
+#
+Define m12_min 0.0   # The model will take at least m1+m2
+Define m12_max 1.25   # Must be in GeV/c^2
+Define m34_min 0.0   # The model will take at least m1+m2
+Define m34_max 2.00   # Must be in GeV/c^2
+#
+Alias      MyK_S0    K_S0
+ChargeConj MyK_S0    MyK_S0
+#
+Decay B+sig
+  1.000 MyK_S0 pi+ K+ K- FOURBODYPHSP m12_min m12_max m34_min m34_max;
+Enddecay
+CDecay B-sig
+#
+Decay MyK_S0
+  1.000       pi+      pi-                                 PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,39 @@
+#EventType: 30000242
+#
+#Descriptor: pp => deuteron X
+#
+#NickName: deuteron_in_acc
+#
+# CPUTime: < 1 min
+#
+#Cuts: None
+#FullEventCuts: LoKi::FullGenEventCut/DeuteronInAcc
+#
+# Production: Pythia8
+#
+#InsertPythonCode:
+#from Configurables import LoKi__FullGenEventCut
+#Generation(genAlgName).addTool(LoKi__FullGenEventCut, 'DeuteronInAcc')
+#cutTool = Generation(genAlgName).DeuteronInAcc
+#cutTool.Code = 'count(DeuteronInAcc) == 1'
+#cutTool.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import ns, GeV',
+#    'GP = LoKi.GenParticles.Momentum()',
+#    'isDeuteron = (GABSID == 1000010020)',
+#    'thresholdP = (GP > 15.0*GeV)',
+#    'inAcc = in_range( 0.010 , GTHETA , 0.300 )',
+#    'DeuteronInAcc = ((isDeuteron) & (thresholdP) & (inAcc))'
+#    ]
+#EndInsertPythonCode
+#
+#Documentation: min bias generated, and then required to have a deuteron with with p > 15 GeV in the acceptance
+#EndDocumentation
+#
+#PhysicsWG: EW
+#Tested: Yes
+#Responsible: William Barter 
+#Email: william.barter@cern.ch
+#Date: 20190205
+#
+End
+

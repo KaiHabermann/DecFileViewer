@@ -1,0 +1,144 @@
+# EventType: 12463003
+#
+# Descriptor: [B+ -> (D*- -> (anti-D0 -> pi+ pi-) pi-) pi+ pi+ pi0]cc
+#
+# NickName: Bu_DstX,cocktail,D0pi,pipi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Secondary D*+ -> D0 (-> pi- pi+) pi+ decays with B- parent, tight cuts to match the requirements of the
+#                Run-3 prompt HLT2 lines.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# signal = Generation(genAlgName).SignalRepeatedHadronization
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = signal.TightCut
+# tightCut.Decay = '[ [B+]cc --> (D*(2010)- => (D~0 => pi+ pi-) pi-) ... ]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import micrometer, MeV, GeV                    ',
+#     'from LoKiCore.math import atan2                                               ',
+#     'inAccLoose   =  in_range ( 0.012 , GTHETA , 0.35 ) & in_range ( -0.3  , atan2(GPX , GPZ), 0.3  ) & in_range ( -0.26 , atan2(GPY , GPZ), 0.26 ) ',
+#     'inAcc        =  in_range ( 0.014 , GTHETA , 0.30 ) & in_range ( -0.28 , atan2(GPX , GPZ), 0.28 ) & in_range ( -0.24 , atan2(GPY , GPZ), 0.24 ) ',
+#     'fastTrack    =  ( GPT > 775 * MeV ) & ( GP  > 4.85 * GeV )',
+#     'goodTrack    =  inAccLoose & fastTrack',
+#     'goodD0       =  inAcc & ( GPT > 1.94 * GeV ) & ( 2 == GNINTREE( goodTrack ) ) & ( "D0" == GABSID )',
+#     'goodSlowPion =  ( GPT > 190 * MeV ) & ( GP > 0.97 * GeV ) & inAcc',
+#     'goodDst      =  ( GCHILDCUT(goodD0, "[ D*(2010)+ =>  ^D0 pi+ ]CC") ) & ( GCHILDCUT(goodSlowPion, "[ D*(2010)+ =>  D0 ^pi+ ]CC") )',
+#     'goodB        =  GINTREE( goodDst )'
+# ]
+# tightCut.Cuts     =    {
+#     '[B+]cc' : 'goodB'
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Tommaso Pajero
+# Email: tommaso.pajero@cern.ch
+# Date: 20241002
+# CPUTime: < 1 min
+#
+# ------------------------------------------------------------------------------
+Alias      MyDs2536     D'_s1+
+Alias      MyAntiDs2536 D'_s1-
+ChargeConj MyDs2536     MyAntiDs2536
+# ------------------------------------------------------------------------------
+Alias      My2460      D_2*0
+Alias      MyAnti2460  anti-D_2*0
+ChargeConj My2460      MyAnti2460
+# ------------------------------------------------------------------------------
+Alias      My2430      D'_10
+Alias      MyAnti2430  anti-D'_10
+ChargeConj My2430      MyAnti2430
+# ------------------------------------------------------------------------------
+Alias      My2420      D_10
+Alias      MyAnti2420  anti-D_10
+ChargeConj My2420      MyAnti2420
+# ------------------------------------------------------------------------------
+Alias      MyD*+    D*+
+Alias      MyD*-    D*-
+ChargeConj MyD*+    MyD*-
+# ------------------------------------------------------------------------------
+Alias      MyD0     D0
+Alias      MyantiD0 anti-D0
+ChargeConj MyD0     MyantiD0
+# ------------------------------------------------------------------------------
+Decay B+sig
+    0.013       MyD*-   pi+         pi+     pi0             PHSP; # [PDG 2024, pdgid S041.12] 0.015 minus the BF just below
+    0.002       MyD*-   rho+        pi+                     PHSP; # from DECAY.DEC (not measured yet)
+    # -----------------------------------------------------------
+    0.008778    anti-D*0  MyD*+     K0                      PHSP; # [PDG 2024, pdgid S041.331] 0.0917 minus the contribution below
+    0.000392    anti-D*0  MyDs2536                          PHSP; # [PDG 2024, pdgid S041.483]
+    # -----------------------------------------------------------
+    0.005       anti-D*0  MyD*+     K*0                     PHSP; # from DECAY.DEC (not measured yet)
+    # -----------------------------------------------------------
+    0.00284     MyAnti2420          e+      nu_e            ISGW2; # [PDG 2024]
+    0.00284     MyAnti2420          mu+     nu_mu           ISGW2; # [PDG 2024]
+    0.00152     MyAnti2430          e+      nu_e            ISGW2; # [PDG 2024] Total BF of B+ -> D*- pi+ l+ nu minus the other resonant components
+    0.00152     MyAnti2430          mu+     nu_mu           ISGW2; # [PDG 2024] Total BF of B+ -> D*- pi+ l+ nu minus the other resonant components
+    0.00106     MyAnti2460          e+      nu_e            ISGW2; # [PDG 2024]
+    0.00106     MyAnti2460          mu+     nu_mu           ISGW2; # [PDG 2024]
+    # -----------------------------------------------------------
+    0.003626    anti-D0   MyD*+     K0                      PHSP; # [PDG 2024, pdgid S041.330] 0.00381 minus the contribution below
+    0.0001824   anti-D0   MyDs2536                          PHSP; # [PDG 2024, pdgid S041.566] corrected for BF(D*+ K0) / BF(D*0 K+) = 0.85, as S041.482 is less precise
+    # -----------------------------------------------------------
+    0.00256     MyD*-   pi+         pi+     pi+     pi-     PHSP; # [PDG 2024, pdgid S041.141]
+    0.0025      MyD*+   anti-D0     K*0                     PHSP; # from DECAY.DEC (not measured yet)
+    # -----------------------------------------------------------
+    0.000811    MyAnti2420          pi+                     PHSP; # https://inspirehep.net/literature/1765144, scaled to match the total BF of D*- pi+ pi+ [PDG 2024, pdgid S041.2], pdgid S041.580
+    0.000338    MyAnti2430          pi+                     PHSP; # https://inspirehep.net/literature/1765144, scaled to match the total BF of D*- pi+ pi+ [PDG 2024, pdgid S041.2], pdgid S041.739
+    0.000201    MyAnti2460          pi+                     PHSP; # https://inspirehep.net/literature/1765144, scaled to match the total BF of D*- pi+ pi+ [PDG 2024, pdgid S041.2]
+    # -----------------------------------------------------------
+    0.00132     MyD*-   D*+         K+                      PHSP; # [PDG 2024, pdgid S041.339]
+    0.00132     D*-     MyD*+       K+                      PHSP; #   -> x2 to account for double D* in the final state
+    0.001       MyD*-   D*+         K*+                     PHSP; # from DECAY.DEC (not measured yet)
+    0.001       D*-     MyD*+       K*+                     PHSP; #   -> x2 to account for double D* in the final state
+    0.00081     anti-D*0  MyD*+                             SVV_HELAMP 0.56 0.0 0.96 0.0 0.47 0.0; # decay model from DECAY.DEC
+    0.00063     MyD*+   D-          K+                      PHSP; # [PDG 2024, pdgid S041.337]
+    0.00060     MyD*-   D+          K+                      PHSP; # [PDG 2024, pdgid S041.338]
+    0.0005      MyD*+   D-          K*+                     PHSP; # from DECAY.DEC (not measured yet)
+    0.0005      MyD*-   D+          K*+                     PHSP; # from DECAY.DEC (not measured yet)
+    0.00039     MyD*+   anti-D0                             SVS;  # [PDG 2024, pdgid S041.438]
+    0.000082    MyD*-   K+          pi+                     PHSP; # [PDG 2024, pdgid S041.705]
+    0.000006    MyD*+   K*0                                 SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;  # from DECAY.DEC (not measured yet)
+    0.000006    MyD*+   K0                                  SVS;                                 # from DECAY.DEC (not measured yet)
+    0.0000005   MyD*+   pi0                                 SVS;                                 # from DECAY.DEC (not measured yet)
+    0.0000005   MyD*+   rho0                                SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;  # from DECAY.DEC (not measured yet)
+Enddecay
+CDecay B-sig
+# ------------------------------------------------------------------------------
+Decay MyDs2536
+  1.0  MyD*+        K0      VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyAntiDs2536
+# ------------------------------------------------------------------------------
+Decay My2460
+  1.0  MyD*+        pi-     TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAnti2460
+# ------------------------------------------------------------------------------
+Decay My2430
+  1.0  MyD*+        pi-     VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAnti2430
+# ------------------------------------------------------------------------------
+Decay My2420
+  1.0  MyD*+        pi-     VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyAnti2420
+# ------------------------------------------------------------------------------
+Decay MyD*-
+  1.0   MyantiD0    pi-     VSS;
+Enddecay
+CDecay MyD*+
+# ------------------------------------------------------------------------------
+Decay MyantiD0
+  1.0   pi+         pi-     PHSP;
+Enddecay
+CDecay MyD0
+# ------------------------------------------------------------------------------
+End

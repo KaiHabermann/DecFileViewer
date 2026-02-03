@@ -1,0 +1,32 @@
+# EventType: 47102000
+#
+# Descriptor: rho(770)0 -> pi+ pi-
+#
+# NickName: exclu_rho,pipi=coherent_starlight
+# Cuts: None
+# Documentation: rhotopipi with STARlight
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import Generation, Special, StarLightProduction
+# Generation(genAlgName).SampleGenerationTool = 'Special'
+# Generation(genAlgName).addTool(Special)
+# Generation(genAlgName).Special.CutTool = ''
+# Generation(genAlgName).Special.ProductionTool = 'StarLightProduction'
+# Generation(genAlgName).Special.addTool(StarLightProduction)
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['PROD_PID = 113']
+# Generation(genAlgName).Special.StarLightProduction.Decays = True
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['PROD_MODE = 3']
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Albert Bursche
+# Email: bursche@cern.ch
+# Date: 20210308
+
+#
+End

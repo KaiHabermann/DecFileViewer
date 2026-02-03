@@ -1,0 +1,69 @@
+# EventType: 15176067 
+# 
+# Descriptor: [Lambdab_b0 -> (Lambda_c+ -> p+ K- pi+) (J/psi(1S) -> mu+ mu-) pi-]cc
+# 
+# NickName: Lb_LcJpsipi,pKpimumupi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation()
+#
+# gen.SignalPlain.addTool(LoKi__GenCutTool ,'TightCut')
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay   = '[^(Lambda_b0 ==> ^(Lambda_c+ ==> p+ K- pi+) ^(J/psi(1S) ==> mu+ mu-) pi- )]CC'
+# tightCut.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import millimeter, centimeter',
+#    'inAcc    = in_range ( 1.80 , GETA , 5.10 )' ,
+#    'goodProton = ( GPT > 0.10 * GeV ) & inAcc ' ,
+#    'goodKaon = ( GPT > 0.10 * GeV ) & inAcc ' ,
+#    'goodPionFromLc = ( GPT > 0.10 * GeV ) & inAcc ' ,
+#    'goodMuon = ( GPT > 0.10 * GeV ) & inAcc ' ,
+#    'goodPionFromLb = ( GPT > 0.10 * GeV ) & inAcc ' ,
+#    'goodLc = (GNINTREE(("p+" == GABSID) & goodProton) > 0) & (GNINTREE(("K+" == GABSID) & goodKaon) > 0) & (GNINTREE(("pi+" == GABSID) & goodPionFromLc) > 0 )',
+#    'goodJpsi = (GNINTREE(("mu+" == GABSID) & goodMuon) > 0)',
+#    'goodLb = (GFAEVX(GVZ, 0) - GFAPVX(GVZ, 0) > 0.8 * millimeter) & (GPT > 0.10 * GeV) & (GNINTREE(("pi+"==GABSID) & goodPionFromLb, HepMC.children) > 0)'
+# ]
+# tightCut.Cuts      =    {
+#    '[Lambda_b0]cc'  : 'goodLb',
+#    '[J/psi(1S)]cc' : 'goodJpsi',
+#    '[Lambda_c+]cc'  : 'goodLc'
+#  }
+#  EndInsertPythonCode
+#
+# Documentation: Lb -> Lc Jpsi pi with Lc (to p+ K+ pi-), Jpsi (to mu+ mu-)
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: 12min
+# Responsible: Kai Kang
+# Email: kai.kang@cern.ch
+# Date: 20230717
+#
+
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+#
+Decay Lambda_b0sig
+ 1.000        MyLambda_c+ MyJ/psi pi-     PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+ 1.000 p+      K-      pi+                PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyJ/psi
+ 1.000      mu+  mu-                       VLL;
+Enddecay
+End

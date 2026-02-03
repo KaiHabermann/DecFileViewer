@@ -1,0 +1,50 @@
+# EventType: 12713404
+#
+# Descriptor: [B+ -> omega(782) mu+ nu_mu]cc
+#
+# NickName: Bu_omegamunu,pipiX=TightCut,BCL,run3
+#
+# Documentation: Decay file for [B+ -> omega(782) mu+ nu_mu]cc with BCL form factors. omega(782) -> pi+ pi- X.
+# FF values from a combined fit on LCSR prediction (1203.1359) and measurements from Belle (1306.2781) and BaBar (1205.6245)
+# EndDocumentation
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName).SignalRepeatedHadronization
+# gen.addTool( LoKi__GenCutTool, "TightCut" )
+# SignalFilter = gen.TightCut
+# SignalFilter.Decay = "[B+ =>  ((omega(782) --> ^pi+ ^pi- pi0) || (omega(782) --> ^pi+ ^pi-)) ^mu+ nu_mu]CC"
+# SignalFilter.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import  GeV",
+#   "inAcc                = in_range ( 0.005 , GTHETA , 0.400 ) &  in_range ( 1.9 , GETA , 5.1 )", 
+#   "muCuts               = (GP > 5 * GeV) &  (GPT > 1.2 * GeV) & inAcc",
+#   "piCuts               = (GP > 1.5 * GeV) & (GPT > 0.05 * GeV) & inAcc",
+#   ]
+# SignalFilter.Cuts =  { "[mu+]cc" : "muCuts",
+#                        "[pi+]cc" : "piCuts" }
+# EndInsertPythonCode
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible:   Michel De Cian
+# Email: michel.de.cian@cern.ch
+# Date: 20251127
+#
+Alias      MyOmega  omega
+ChargeConj MyOmega  MyOmega
+#
+Decay B+sig
+  1.    MyOmega        mu+    nu_mu    PHOTOS  BTOXELNU BCL -0.963 1.849 0.242 0.269 -0.039 0.250 0.517 -0.045 0.304 -0.920 1.901;
+Enddecay
+CDecay B-sig
+#
+Decay MyOmega
+  0.893        pi-      pi+      pi0   PHOTOS OMEGA_DALITZ;
+  0.0153       pi-      pi+            PHOTOS VSS;
+Enddecay
+#
+End
+#

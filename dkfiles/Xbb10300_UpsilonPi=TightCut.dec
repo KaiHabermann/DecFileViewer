@@ -1,0 +1,75 @@
+# EventType: 18114070
+# 
+# Descriptor:  [chi_b2(1P) => ( B_c+ => ( Upsilon(1S) => mu+ mu- ) pi+ )  e-]CC  
+# 
+# NickName: Xbb10300_UpsilonPi=TightCut
+#
+# Cuts: None 
+#
+# ExtraOptions: Upsilon
+#
+# ParticleValue: "B_c+       112   541  1 10.3    1.5e-12 B_c+     541 0.0" ,  "B_c-       113  -541 -1 10.3    1.5e-12 B_c-     541 0.0" ,  "chi_b2(1P) 114 555  0 10.45  -0.0005 chi_b2 555 0.0"
+#
+# Documentation:
+#    - Stable long-lived bbubardbar tetraquark decaying into Upsoilon pi+. 
+#    - mass = 10.3 GeV, lifetime = 1.5ps 
+#    - Inspired by arXiv:2101.09891v1 [hep-ph] for this version)
+#    - Tight generator level cuts are applied via decay tool 
+#    - (modified) chi_b2 is used as proxy for production (+ fake electron)
+#    - (modified) Bc+ is used as proxy for tetraquark lifetime and decay
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutToolWithDecay
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.Special.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+# gen.Special.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+# #
+# tightCut = gen.Special.TightCut
+# tightCut.SignalPID = 'chi_b2(1P)'
+# tightCut.Decay =  "[ chi_b2(1P) => ( B_c+ => ^( Upsilon(1S) => ^mu+ ^mu- ) ^pi+ )  e-]CC"
+# tightCut.Preambulo += [
+#     'inAcc   = in_range ( 0.010 , GTHETA , 0.400 ) ' , 
+#     'inEta   = in_range ( 1.9   , GETA   , 5.0   ) ' ,
+#     ]
+# tightCut.Cuts = {
+#     '[pi+]cc'     : ' ( GPT > 190 * MeV )                      & inAcc & inEta ',
+#     '[mu+]cc'     : ' ( GPT > 900 * MeV ) & ( GP > 2.9 * GeV ) & inAcc & inEta ',
+#     'Upsilon(1S)' : ' in_range ( 1.9 , GY , 4.9 ) ' 
+#     }
+# 
+# EndInsertPythonCode
+#
+# Tested: Yes
+# PhysicsWG: Onia
+# CPUTime: <1min
+# Responsible: Vanya Belyaev
+# Email: Ivan.Belyaev@itep.ru 
+# Date: 20210308
+#
+Alias      MyXbb+      B_c+ 
+Alias      MyXbb-      B_c- 
+ChargeConj MyXbb+      MyXbb-
+
+Alias      myUpsilon   Upsilon
+ChargeConj myUpsilon   myUpsilon
+
+Decay chi_b2sig
+  0.5 MyXbb+  e-   PHSP ; 
+  0.5 MyXbb-  e+   PHSP ; 
+Enddecay
+#
+
+Decay MyXbb+ 
+  1.000  myUpsilon pi+   PHSP ; 
+Enddecay
+CDecay MyXbb- 
+
+Decay myUpsilon
+  1.000     mu+    mu-   VLL ;
+Enddecay
+#
+End
+#

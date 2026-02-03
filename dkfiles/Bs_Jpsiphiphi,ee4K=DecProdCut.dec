@@ -1,0 +1,41 @@
+# EventType: 13156011
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> e+ e-) (phi(1020) -> K+ K-) (phi(1020) -> K+ K-) ]cc
+#
+# NickName: Bs_Jpsiphiphi,ee4K=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  Bs decay to J/psi(e+ e-) phi(K+ K-) phi(K+ K-) all the decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Niladri Sahoo
+# Email: Niladri.Sahoo@cern.ch
+# Date: 20241120
+# CPUTime: <1min
+#
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+Alias       MyPhi        phi
+ChargeConj  MyPhi        MyPhi
+#
+#
+#
+Decay B_s0sig
+  1.0   MyJ/psi   MyPhi   MyPhi   PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJ/psi
+  1.0000   e+   e-   VLL;
+Enddecay
+#
+Decay MyPhi
+  1.0000   K+   K-   VSS;
+Enddecay
+#
+#
+End

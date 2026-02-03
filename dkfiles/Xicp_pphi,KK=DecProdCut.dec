@@ -1,0 +1,33 @@
+# EventType: 26103097
+#
+# Descriptor: [Xi_c+ -> p+ (phi(1020) -> K+ K-)]cc
+#
+# NickName: Xicp_pphi,KK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: <1min
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Qi-Le Niu
+# Email:       qniu@cern.ch
+# Date:        20241103
+#
+#
+Alias       MyPhi   phi
+ChargeConj  MyPhi   MyPhi
+#
+Decay Xi_c+sig
+  1.0  p+  MyPhi  PHSP;
+Enddecay
+CDecay anti-Xi_c-sig
+#
+Decay MyPhi
+  1.000    K+    K-    VSS;
+Enddecay
+#
+End
+#

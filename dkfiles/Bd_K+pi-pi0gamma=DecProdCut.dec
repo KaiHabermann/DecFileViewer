@@ -1,0 +1,32 @@
+# EventType: 11102651
+#
+# Descriptor: [B0 -> K+ pi- pi0 gamma]cc
+#
+# NickName: Bd_K+pi-pi0gamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  Pi0 forced to decay into gamma gamma, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Daniel O'Hanlon
+# Email: daniel.ohanlon@cern.ch
+# Date: 20181217
+#
+#
+Alias      Mypi0   pi0
+ChargeConj Mypi0   Mypi0
+#
+Decay B0sig
+1.000        K+          pi-       Mypi0       gamma     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mypi0
+1.000        gamma       gamma     PHSP;
+Enddecay
+#
+End

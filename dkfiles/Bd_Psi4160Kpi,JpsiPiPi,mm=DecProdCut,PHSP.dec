@@ -1,0 +1,42 @@
+# EventType: 11146067
+#
+# Descriptor: [B0 -> (psi(4160) -> (J/psi(1S) -> mu+ mu-) pi+ pi-) pi- K+]cc
+#
+# NickName: Bd_Psi4160Kpi,JpsiPiPi,mm=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 decays to psi(4160)(to Jpsi(to mu+ mu-) and pi+ pi-) and K+ pi- with phase space model
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Salil Joshi
+# Email: salil.joshi@ncbj.gov.pl
+# Date: 20230824
+# CPUTime:< 1 min
+#
+#
+Alias       Mypsi(4160)  psi(4160)
+ChargeConj  Mypsi(4160)  Mypsi(4160)
+#
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+#
+#
+Decay B0sig
+  1.00000   Mypsi(4160)  pi-  K+     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mypsi(4160)
+  1.00000   MyJ/psi  pi+  pi-        PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.00000   mu+ mu-              PHOTOS VLL;
+Enddecay
+#
+End
+#

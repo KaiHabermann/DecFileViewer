@@ -1,0 +1,38 @@
+# EventType: 11144452
+#
+# Descriptor: [B0 -> (J/psi(1S) -> mu+ mu-) (omega(1420) -> pi+ pi- pi0) ]cc
+#
+# NickName: Bd_Jpsiomega1420,mm,pipipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0-> Jpsi omega(1420) decay, Jpsi->mu mu  omega(1420)-> pi+pi-pi0  decay, Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Qiaohong.Li
+# Email: qiaohong.li@cern.ch
+# Date: 20200609
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+Alias      Myomega2S  omega(2S)
+ChargeConj Myomega2S  Myomega2S
+#
+Decay B0sig
+1.000         MyJ/psi    Myomega2S        SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyJ/psi
+1.000         mu+         mu-          PHOTOS VLL;
+Enddecay
+#
+Decay Myomega2S
+ 1.000   pi+ pi- pi0          PHSP;
+Enddecay
+#
+End
+#

@@ -1,0 +1,44 @@
+# EventType:  23103222
+# This is the decay file for the decay Ds+ -> K+ -> eta_prime (rho (-> pi+ pi-) GAMMA)
+# Descriptor: [Ds+ -> K+ (eta_prime -> (rho(770)0 -> pi+ pi-) gamma)]cc
+#
+# NickName: Ds+_etaprimeK,rhogamma=DecProd
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Ds+ -> K+ (eta_prime -> (rho -> pi+ pi-) gamma)
+# Ds+ decaying into K+ eta_prime
+# eta_prime decaying into rho gamma
+# rho decaying into pi+ pi-
+# All final-state products in the acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+#
+# Tested: Yes
+# Responsible: Luca Hartman
+# Email: luca.hartman@cern.ch
+# Date: 20251110
+# CPUTime: 2 min
+#
+
+Alias      Myeta'        eta'
+ChargeConj Myeta'        Myeta'
+Alias      Myrho0  rho0
+ChargeConj Myrho0  Myrho0
+#
+Decay D_s+sig
+  1.000 K+  Myeta'   PHOTOS PHSP;
+Enddecay
+CDecay D_s-sig
+#
+Decay Myeta'
+  1.000    Myrho0  gamma        SVP_HELAMP  1.0 0.0 1.0 0.0;
+Enddecay
+#
+Decay Myrho0
+  1.000    pi+   pi-        PHOTOS VSS;
+Enddecay
+#
+End
+

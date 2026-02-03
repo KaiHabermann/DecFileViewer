@@ -1,0 +1,44 @@
+# EventType: 15576024
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c(2625)+ -> (Lambda_c+ -> p+ K- pi+) pi- pi+) anti-nu_mu mu-]cc
+#
+# NickName: Lb_Lc3000munu,Lcpipi,pKpi=LHCbAcceptance_Nonresonance
+# Cuts: LHCbAcceptance
+#
+# Documentation: Lb decaying to Lambda_c+ pi- pi_ mu- anti-nu_mu. We want to generate a broad resonance of Lc+pi-pi+, namely non-resonance spectrum. So we modify the Lc2625 mass into Lc3000 with very broad width and use with Lb2Baryonlnu.
+#
+# EndDocumentation
+#
+# CPUTime: < 1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Hang Pham
+# Email: hpham02@syr.edu
+# Date: 20240404
+#
+# ParticleValue: "Lambda_c(2625)+ 104124   104124   1.0   3.000  -0.4  Lambda_c(2625)+ 0 0.8", "Lambda_c(2625)~- -104124   -104124   -1.0   3.000  -0.4  anti-Lambda_c(2625)- 0 0.8"
+#
+Alias		MyLambda_c+			Lambda_c+
+Alias		MyAntiLambda_c-			anti-Lambda_c-
+ChargeConj	MyLambda_c+			MyAntiLambda_c-
+#
+Alias		MyLambda_c(2625)+		Lambda_c(2625)+
+Alias		MyAntiLambda_c(2625)-		anti-Lambda_c(2625)-
+ChargeConj	MyLambda_c(2625)+		MyAntiLambda_c(2625)-
+#
+Decay Lambda_b0sig
+ 1.0     MyLambda_c(2625)+	mu-	anti-nu_mu		 Lb2Baryonlnu 1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c(2625)+
+ 1.0     MyLambda_c+		pi+	pi-	PHSP;
+Enddecay
+CDecay MyAntiLambda_c(2625)-
+#
+Decay MyLambda_c+
+ 1.0     p+	K-	pi+	PHSP;
+Enddecay
+CDecay MyAntiLambda_c-
+#
+End

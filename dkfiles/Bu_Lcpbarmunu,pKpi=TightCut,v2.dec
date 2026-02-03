@@ -1,0 +1,59 @@
+# EventType: 12575070
+#
+# Descriptor: [ B- =>  (Lambda_c+ ==> p+ K- pi+) anti-p-  mu- anti-nu_mu   ]cc
+#
+# NickName: Bu_Lcpbarmunu,pKpi=TightCut,v2
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime:  3 min
+#
+# Documentation: B- ==> Lc pbar mu nu_mu with Lc ==> p K pi for R(Lc) analysis 
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation(genAlgName).SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut  = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[ B- ==>  ^(Lambda_c+ ==> ^p+ ^K- ^pi+ ) p~- ^mu- nu_mu~ ]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range"  ,
+# "from GaudiKernel.SystemOfUnits import GeV, MeV",
+# "pipiKP     = GCHILD(GP,1) + GCHILD(GP,2) + GCHILD(GP,3)" ,
+# "pipiKPT     = GCHILD(GPT,1) + GCHILD(GPT,2) + GCHILD(GPT,3)" 
+#  ]
+# tightCut.Cuts      =    {
+#'[p+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 150 * MeV )" ,
+#'[pi+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 150 * MeV )" ,
+#'[K+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 150 * MeV )" ,
+#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) & (GP > 2500 * MeV) ",
+#'[Lambda_c+]cc' : "(pipiKP > 15000 *MeV) & (pipiKPT > 2300 *MeV)"
+#   }
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Iaroslava Bezshyiko
+# Email: iaroslava.bezshyiko@cern.ch
+# Date:   20190722
+
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+
+
+Decay B-sig
+  1.0    MyLambda_c+    anti-p-    mu-  anti-nu_mu     PHOTOS  PHSP;
+Enddecay
+CDecay B+sig
+
+
+Decay MyLambda_c+
+# Lc->pKpi:
+  1.0         p+      K-      pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End

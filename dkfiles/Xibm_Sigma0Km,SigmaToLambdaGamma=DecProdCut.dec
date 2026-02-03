@@ -1,0 +1,44 @@
+# EventType: 16103333
+#
+# Descriptor: [Xi_b- -> (Sigma0 -> (Lambda0 -> p+ pi-) gamma) K-]cc
+#
+# NickName: Xibm_Sigma0Km,SigmaToLambdaGamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Xibm To Sigma0 Km, Sigma0 forced to Lambda0 gamma, Lambda0 forced to p pi, daughters in acceptance
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Miroslav Saur
+# Email: miroslav.saur@cern.ch
+# Date: 20241011
+#
+#
+Alias MySigma0       Sigma0
+Alias Myanti-Sigma0  anti-Sigma0
+ChargeConj MySigma0  Myanti-Sigma0
+#
+Alias MyLambda0       Lambda0
+Alias Myanti-Lambda0  anti-Lambda0
+ChargeConj MyLambda0  Myanti-Lambda0
+#
+Decay Xi_b-sig
+  1.000    MySigma0    K-    PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MySigma0
+  1.0000    MyLambda0  gamma   PHSP;
+Enddecay
+CDecay Myanti-Sigma0
+#
+Decay MyLambda0
+  1.000    p+   pi-    PHSP;
+Enddecay
+CDecay Myanti-Lambda0
+#
+End

@@ -1,0 +1,99 @@
+# EventType: 28144052
+# 
+# Descriptor:  chi_c2(1P) => (J/psi(1S) => mu+ mu-) mu+ mu- 
+# 
+# NickName: chic2_Jpsimumu=TightCut 
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Decay of (prompt) chi_c2(1P) state into J/psi mu+mu- final state 
+#  - tight cuts for the J/psi mesons and all four final state muons are applied 
+#  - very nice trick by Michael Wilkinson is used: 
+#    - only charmonium production is activated for Pythia8
+#  - CPU performance is  <1seconds/event  (355 seconds/400 events) 
+#  - integrated efficiency for generator-level cuts is (3.48+-0.24)% as reported in GeneratorLog.xml
+#  - efficiency for generator-level cuts is (6.73+-0.32)% 
+# EndDocumentation
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool, ToolSvc, EvtGenDecayWithCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal     = generation.SignalPlain
+#
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut            = signal.TightCut
+# tightCut.Decay      = 'chi_c2(1P) ==> ^(J/psi(1S) => ^mu+ ^mu-) ^mu+ ^mu-'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV',
+#     'inAcc          =  in_range ( 0.005 , GTHETA , 0.400 )                     ' ,
+#     'inEta          =  in_range ( 1.95  , GETA   , 5.050 )                     ' ,
+#     'fastMuon       =  ( GPT > 140 * MeV ) & ( GP > 2.8 * GeV )                ' , 
+#     'stripMuon      =  ( GPT > 490 * MeV ) & ( GP > 2.8 * GeV )                ' , 
+#     'goodMuon       =  inAcc & inEta & fastMuon                                ' ,
+#     'muFromJpsi     =  inAcc & inEta & stripMuon & ( "mu+" == GABSID )         ' ,
+#     'inY            =  in_range ( 1.9 , GY , 4.6   )                           ' ,
+#     'goodJpsi       =  inY & ( 2 == GNINTREE ( muFromJpsi ) )                  ' ]
+# tightCut.Cuts       =    {
+#     '[mu+]cc'       : 'goodMuon' ,
+#     'J/psi(1S)'     : 'goodJpsi' ,
+#     }
+# # Generator efficiency histos:
+# tightCut.XAxis = ( "GPT/GeV" , 0.0 , 25.0 , 25 )
+# tightCut.YAxis = ( "GY"      , 2.0 ,  4.5 , 10 )
+# # 
+# # -- modify Pythia8 to only generate from Charmonium processes -- #
+# from Configurables import Generation, MinimumBias, Pythia8Production, Inclusive, SignalPlain, SignalRepeatedHadronization, Special
+#
+# Pythia8TurnOffMinbias  = [ "SoftQCD:all     = off" ]
+# Pythia8TurnOffMinbias += [ "Bottomonium:all = off" ]
+# Pythia8TurnOffMinbias += [ "Charmonium:all  =  on" ]
+#
+# gen = Generation(genAlgName)
+# gen.addTool( MinimumBias , name = "MinimumBias" )
+# gen.MinimumBias.ProductionTool = "Pythia8Production"
+# gen.MinimumBias.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.MinimumBias.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Inclusive , name = "Inclusive" )
+# gen.Inclusive.ProductionTool = "Pythia8Production"
+# gen.Inclusive.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Inclusive.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalPlain , name = "SignalPlain" )
+# gen.SignalPlain.ProductionTool = "Pythia8Production"
+# gen.SignalPlain.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalPlain.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalRepeatedHadronization , name = "SignalRepeatedHadronization" )
+# gen.SignalRepeatedHadronization.ProductionTool = "Pythia8Production"
+# gen.SignalRepeatedHadronization.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalRepeatedHadronization.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Special , name = "Special" )
+# gen.Special.ProductionTool = "Pythia8Production"
+# gen.Special.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Special.Pythia8Production.Commands += Pythia8TurnOffMinbias
+# # -- END  -- #
+# EndInsertPythonCode
+#
+# PhysicsWG:   Onia
+# CPUTime: < 1 min
+# Tested:      Yes
+# Responsible: Vanya BELYAEV 
+# Email:       Ivan.Belyaev@itep.ru
+# Date:        20181115
+#
+Alias      MyJpsi        J/psi 
+#
+Decay  chi_c2sig
+  1.0  MyJpsi mu+ mu-  TVP 1.e+6 ;
+Enddecay
+#
+Decay  MyJpsi
+  1.0  mu+ mu-         VLL ;
+Enddecay
+#
+End
+#

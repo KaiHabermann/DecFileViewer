@@ -1,0 +1,35 @@
+# EventType: 23663000
+#
+# Descriptor: [D_s+ -> ( tau+ -> pi+ pi- pi+ anti-nu_tau) nu_tau]cc
+#
+# NickName: Ds_taunu,3pi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  
+#   Forces a D_s+ -> ( tau+ -> pi+ pi- pi+ anti-nu_tau) nu_tau with daughters in LHCb acceptance  
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Chen Chen
+# Email: chen.chen@cern.ch
+# Date: 20230425
+#
+Alias myTau+ tau+
+Alias myTau- tau-
+ChargeConj myTau+ myTau-
+#
+Decay  D_s+sig
+  1.000     myTau+   nu_tau    	SLN;
+Enddecay
+CDecay D_s-sig
+#
+Decay myTau+
+  # pi+ pi- pi+ anti-nu_tau
+  0.0902 TAUOLA 5;
+  0.0449 TAUOLA 8;
+Enddecay
+CDecay myTau-
+End

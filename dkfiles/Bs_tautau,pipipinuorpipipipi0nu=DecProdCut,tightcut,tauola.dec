@@ -1,0 +1,46 @@
+# EventType: 13100006
+# 
+# Descriptor: [B_s0 -> (tau+ -> pi+ pi- pi+ (pi0) anti-nu_tau) (tau- -> pi+ pi- pi- (pi0) nu_tau)]cc 
+# 
+# NickName: Bs_tautau,pipipinuorpipipipi0nu=DecProdCut,tightcut,tauola
+# 
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts 
+# 
+# ExtraOptions: B2XTau 
+# 
+# Documentation: Bs decay to 2 tau leptons with a phasespace model. 
+# Each tau lepton decays either to the pi+ pi- pi+ nu_tau or pi+ pi- pi+ pi0 nu_tau mode using the Tauola model.
+# All final-state products in the acceptance. 
+# Similar to 13506002, but with different tau decay model (tau->3pi tau -> 3pipi0). 
+# EndDocumentation 
+# 
+# PhysicsWG: RD 
+# 
+# CPUTime: < 1 min 
+# Tested: Yes 
+# Responsible: Alexandre Brea 
+# Email: abrearod@cern.ch 
+# Date: 20251127
+# 
+
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias Mytau+ tau+ 
+Alias Mytau- tau- 
+ChargeConj Mytau+ Mytau- 
+#
+Decay B_s0sig
+ 1.000 Mytau+ Mytau- PHSP;
+Enddecay
+CDecay anti-B_s0sig 
+#
+Decay Mytau-
+  9.31        TAUOLA 5;
+  4.62        TAUOLA 8;
+Enddecay
+CDecay Mytau+ 
+# 
+#
+End

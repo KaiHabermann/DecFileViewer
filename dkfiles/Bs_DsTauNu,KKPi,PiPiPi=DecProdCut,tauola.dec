@@ -1,0 +1,55 @@
+# EventType: 13563000
+# 
+# Descriptor: [B_s0 -> (D_s- -> K+ K- pi-) (tau+ -> pi+ pi- pi+ anti-nu_tau ) nu_tau]cc 
+# 
+# NickName: Bs_DsTauNu,KKPi,PiPiPi=DecProdCut,tauola
+# Cuts:  DaughtersInLHCb
+#
+# Documentation:
+# Bs decay to Ds tau nu tau
+# Ds decays into K+ K- and charged pion
+# Tau decays in the 3 charged pions  channel
+# EndDocumentation
+#
+# PhysicsWG:  B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Carmen Giugliano
+# Email: carmen.giugliano@cern.ch
+# Date: 20191122
+#
+
+Alias      MyD_s+     D_s+
+Alias      MyD_s-     D_s-
+ChargeConj MyD_s+     MyD_s-
+
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau-   MyTau+
+
+
+#
+# ---------------
+# Decay of the Bs
+# ---------------
+Decay B_s0sig
+  1.000     MyD_s-     MyTau+  nu_tau      PHSP;
+Enddecay
+CDecay anti-B_s0sig
+# -----------------
+# Decay of the Ds+-
+# -----------------
+Decay MyD_s-
+  1.000 K- K+ pi- D_DALITZ;
+Enddecay
+CDecay MyD_s+
+# -----------------
+# Decay of the Tau-
+# -----------------
+Decay MyTau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay MyTau+
+#
+End
+#

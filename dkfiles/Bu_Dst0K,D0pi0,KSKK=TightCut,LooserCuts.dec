@@ -1,0 +1,79 @@
+# EventType: 12165565
+#
+# Descriptor: [B+ -> K+ (anti-D*0 -> (anti-D0 -> (K_S0 -> pi+ pi-) K+ K-) (pi0 -> gamma gamma))]cc
+#
+# NickName: Bu_Dst0K,D0pi0,KSKK=TightCut,LooserCuts
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+#tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+#tightCut.Decay = '^[B+ => ^(D*(2007)~0 -> ^(D~0 => ^(KS0 => ^pi+ ^pi-) ^K+ ^K-) ^(pi0 -> ^gamma ^gamma)) ^K+]CC'
+# tightCut.Preambulo += [
+#     'GVZ = LoKi.GenVertices.PositionZ() ' ,
+#     'from GaudiKernel.SystemOfUnits import millimeter',
+#     'inAcc        = (in_range (0.005, GTHETA, 0.400))',
+#     'goodB        = (GP > 25000 * MeV) & (GPT > 1500 * MeV) & (GTIME > 0.05 * millimeter)',
+#     'goodD        = (GP > 10000 * MeV) & (GPT > 500 * MeV)',
+#     'goodKS       = (GP > 4000 * MeV) & (GPT > 250 * MeV)',
+#     'goodDDaugK   = (GNINTREE (("K+"  == GABSID) & (GP > 1000 * MeV) & inAcc, 1) > 1.5)',
+#     'goodKsDaugPi = (GNINTREE (("pi+" == GABSID) & (GP > 1750 * MeV) & inAcc, 1) > 1.5)',
+#     'goodBachK    = (GNINTREE (("K+"  == GABSID) & (GP > 4000 * MeV) & (GPT > 400 * MeV) & inAcc, 1) > 0.5)'
+# ]
+# tightCut.Cuts      =    {
+#     '[B+]cc'         : 'goodB  & goodBachK',
+#     '[D0]cc'         : 'goodD  & goodDDaugK',
+#     '[KS0]cc'        : 'goodKS & goodKsDaugPi',
+#     '[pi+]cc'        : 'inAcc'
+#     }
+#EndInsertPythonCode
+#
+# Documentation: B+ forced to D*0 K+, D*0 forced to D0 pi0, D0 forced PHSP decay to KS K+ K-
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Mikkel Bjoern
+# Email: mikkel.bjoern@physics.ox.ac.uk
+# Date: 20190604
+# CPUTime: <1min
+#
+Alias MyD*0       D*0
+Alias Myanti-D*0  anti-D*0
+ChargeConj MyD*0  Myanti-D*0
+Alias MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj MyD0   Myanti-D0
+Alias myK_S0      K_S0
+ChargeConj myK_S0 myK_S0
+Alias MyPi0      pi0
+ChargeConj MyPi0  MyPi0
+##
+Decay B+sig
+  1.000     Myanti-D*0  K+               SVS;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-D*0
+1.000    Myanti-D0  MyPi0                      VSS;
+Enddecay
+CDecay MyD*0
+#
+Decay Myanti-D0
+  1.000     myK_S0 K+  K-        PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay myK_S0
+  1.000     pi+  pi-                      PHSP;
+Enddecay
+#
+Decay MyPi0
+  1.000   gamma gamma                PHSP;
+Enddecay
+#
+End

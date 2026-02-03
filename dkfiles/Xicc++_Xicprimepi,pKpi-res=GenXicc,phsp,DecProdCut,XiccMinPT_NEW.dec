@@ -1,0 +1,61 @@
+# EventType:  26164261
+#
+# Descriptor: [Xi_cc++ -> (Xi'_c+ -> (Xi_c+ -> p+ K- pi+) gamma) pi+ ]cc
+#
+# NickName: Xicc++_Xicprimepi,pKpi-res=GenXicc,phsp,DecProdCut,XiccMinPT_NEW
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCbAndWithMinPT
+#
+# CutsOptions: MinXiccPT 2000*MeV
+#
+# CPUTime: < 1 min
+#
+# Documentation: Xicc++ decay to Xi'_c+ p+ by phase space model, Xi_c resonances included.
+# all daughters of Xicc are required to be in the acceptance of LHCb 
+# and the Xicc PT is required to be larger than 2000 MeV. 
+# This file 26164261 = 26164260 + CDecay of Xi'_c+
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Wenqian Huang
+# Email: wenqian.huang@cern.ch
+# Date: 20201027
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias MyXi_c+  Xi_c+
+Alias Myanti-Xi_c-  anti-Xi_c-
+ChargeConj MyXi_c+  Myanti-Xi_c-
+#
+Alias MyXi'_c+     Xi'_c+
+Alias Myanti-Xi'_c-  anti-Xi'_c-
+ChargeConj MyXi'_c+    Myanti-Xi'_c-
+#
+Decay Xi_cc++sig
+  1.000    MyXi'_c+   pi+           PHSP;
+Enddecay
+CDecay anti-Xi_cc--sig
+#
+Decay MyXi'_c+
+  1.000    gamma  MyXi_c+               PHSP;
+Enddecay
+CDecay Myanti-Xi'_c-
+#
+Decay MyXi_c+
+  0.116000000 p+      Myanti-K*0                  PHSP;
+  0.094000000 p+      K-      pi+                 PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+#

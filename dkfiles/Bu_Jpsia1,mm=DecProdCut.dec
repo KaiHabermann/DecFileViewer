@@ -1,0 +1,46 @@
+# EventType: 12145030
+#
+# Descriptor: [B+ -> (J/psi(1S) -> mu+ mu-) (a_1(1260)+ -> pi+ (rho(770)0 -> pi+ pi-)) ]cc
+#
+# NickName: Bu_Jpsia1,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Includes final states radiation, DaughtersInLHCb
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Jibo He
+# Email: jibo.he@cern.ch
+# Date: 20171215
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+Alias      Mya_1+ a_1+
+Alias      Mya_1- a_1-
+ChargeConj Mya_1+ Mya_1-
+Alias      Myrho0 rho0
+ChargeConj Myrho0 Myrho0
+#
+Decay B+sig
+  1.000  MyJ/psi  Mya_1+  SVV_HELAMP 0.5 0.0 1.0 0.0 0.5 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+Decay Mya_1+
+  1.000  Myrho0  pi+   VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay Myrho0
+  1.000        pi-      pi+                    VSS;
+Enddecay
+#
+End
+

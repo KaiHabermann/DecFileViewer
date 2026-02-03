@@ -1,0 +1,34 @@
+# EventType: 14103121
+#
+# Descriptor: [B_c+ -> pi+ (K_S0 -> pi+ pi-)]cc
+#
+# NickName: Bc_Kspi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Decay file using BcVegPy and cuts of BcDaughtersInLHCb, Ks forced into pi+ pi-
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: <1min
+# Tested: Yes
+# Responsible: Jeremy Dalseno
+# Email: jeremy.peter.dalseno@cern.ch
+# Date: 20200309
+
+Alias		MyKs	K_S0
+ChargeConj	MyKs	MyKs
+
+Decay B_c+sig
+      1.0	pi+	MyKs	PHSP;
+Enddecay
+CDecay B_c-sig
+
+Decay MyKs
+      1.0	pi+	pi-	PHSP;
+Enddecay
+
+End

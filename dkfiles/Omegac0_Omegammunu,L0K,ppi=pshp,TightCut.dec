@@ -1,0 +1,85 @@
+# EventType: 26514184
+#
+# Descriptor: [Xi_c0 -> (Omega- -> (Lambda0 -> p+ pi-) K-) mu+ nu_mu]cc
+#
+# NickName: Omegac0_Omegammunu,L0K,ppi=pshp,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation()
+#
+# gen.SignalPlain.addTool(LoKi__GenCutTool ,'TightCut')
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay   = '[(Xi_c0 => (Omega- => (Lambda0 => ^p+ ^pi-) ^K-) ^mu+ nu_mu)]CC'
+# tightCut.Preambulo += [
+#     'inAcc    = in_range ( 1.80 , GETA , 5.10 ) ' ,
+#     'goodMuon = ( GPT > 0.05 * GeV ) &( GP > 2.5 * GeV ) & inAcc ' ,
+#     'goodProton = ( GPT > 0.05 * GeV ) & in_range ( 4 * GeV, GP, 160 * GeV )  & inAcc ' ,
+#     'goodPion = ( GPT > 0.05 * GeV ) & ( GP > 1 * GeV ) & inAcc ' ,
+#     'goodKaon = ( GPT > 0.05 * GeV ) & ( GP > 1 * GeV ) & inAcc '
+#     ]
+# tightCut.Cuts      =    {
+#     '[mu-]cc'  : ' goodMuon ' ,
+#     '[p+]cc'   : ' goodProton ' ,
+#     '[K+]cc'   : ' goodKaon ' ,
+#     '[pi+]cc'  : ' goodPion '
+#     }
+# EndInsertPythonCode
+#
+# CPUTime: 2 min
+#
+# Documentation: Omega_c0 decay according to phase space decay model.
+# Redefined Xi_c0 mimics Omega_c0 with Mass = 2695.2 MeV 
+# EndDocumentation
+#
+# ParticleValue: "Xi_c0 106 4132  0.0 2.6952 2.68e-13 Xi_c0 4132 0.000", "Xi_c~0 107 -4132 0.0 2.6952 2.68e-13 anti-Xi_c0 -4132 0.000"
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: Miroslav Saur, Ziyi Wang, Yang-Jie Su, Patrik Adlarson
+# Email: yangjie@cern.ch, patrik.harri.adlarson@cern.ch
+# Date: 20220602
+#
+#
+Alias      MyL0     Lambda0
+Alias      MyantiL0 anti-Lambda0
+ChargeConj MyL0     MyantiL0
+#
+Alias      MyOmega-        Omega-
+Alias      Myanti-Omega+   anti-Omega+
+ChargeConj MyOmega-        Myanti-Omega+
+#
+#
+Decay Xi_c0sig
+  1.000 MyOmega- mu+ nu_mu   PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+#
+Decay MyOmega-
+  1.000 MyL0 K- PHSP;
+Enddecay
+CDecay Myanti-Omega+
+#
+Decay MyL0
+  1.000        p+      pi-      PHSP;
+Enddecay
+CDecay MyantiL0
+#
+####### Overwrite forbidden decays
+Decay Xi'_c0
+1.0000    gamma     Sigma_c0                PHSP;
+Enddecay
+CDecay anti-Xi'_c0
+#
+Decay Xi_c*0
+0.5000    Sigma_c0  pi0                     PHSP;
+0.5000    Sigma_c0  gamma                   PHSP;
+Enddecay
+CDecay anti-Xi_c*0
+#
+End
+#

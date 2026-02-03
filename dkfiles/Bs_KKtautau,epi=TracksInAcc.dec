@@ -1,0 +1,47 @@
+# EventType: 13524463
+#
+# Descriptor: {[[B_s0]nos -> K+ K- (tau+ -> e+ nu_e nu_tau~) (tau- -> pi- nu_tau)]cc, [[B_s0]os -> K+ K- (tau- -> e- nu_e~ nu_tau) (tau+ -> pi+ nu_tau~)]cc}
+#
+# NickName: Bs_KKtautau,epi=TracksInAcc
+#
+# Cuts: DaughtersInLHCb
+# ExtraOptions: TracksInAcc
+# 
+# Documentation: Bs -> K K tau(-> e nu nu) tau(-> pi nu) decays
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20230507
+#
+Alias          Mytau_pi+   tau+
+Alias          Mytau_pi-   tau-
+ChargeConj     Mytau_pi+   Mytau_pi-
+#
+Alias          Mytau_e+   tau+
+Alias          Mytau_e-   tau-
+ChargeConj     Mytau_e+   Mytau_e-
+#
+Decay B_s0sig
+   0.500       K+         K-        Mytau_pi+    Mytau_e-      PHSP;
+   0.500       K+         K-        Mytau_e+     Mytau_pi-     PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mytau_pi+
+   0.1082       pi+                  anti-nu_tau               TAUSCALARNU;
+   0.2549       pi+       pi0        anti-nu_tau               TAUHADNU -0.108 0.775 0.149 1.364 0.400;
+   0.0926       pi+       pi0   pi0  anti-nu_tau               TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay Mytau_pi-
+#
+Decay Mytau_e+
+   1.000       e+         nu_e      anti-nu_tau               TAULNUNU;
+Enddecay
+CDecay Mytau_e-
+#
+End

@@ -1,0 +1,117 @@
+# EventType: 13204324
+#
+# Descriptor: [B_s0 -> (KS0 -> pi+ pi-) pi+ K- gamma]cc
+#
+# NickName: Bs_KsK+pi-gamma=TightCut,mKshhCut,KSVtxCut,cocktail
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# CPUTime: 1 min
+#
+# InsertPythonCode:
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+#
+# gen = Generation(genAlgName) 
+# gen.SignalRepeatedHadronization.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+#
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/mKshhCut"
+# evtgendecay.addTool( LoKi__GenCutTool ,'mKshhCut')
+# evtgendecay.mKshhCut.Decay = "[ Beauty ==>  gamma K+ pi- KS0]CC" 
+# evtgendecay.mKshhCut.Cuts  = {'[B_s0]cc' : ' (mKshhCut) '}
+# evtgendecay.mKshhCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter",
+#     "CS         = LoKi.GenChild.Selector",
+#     "mKshhCut   = ( GMASS( CS('[Beauty ==>  gamma ^K+ pi- KS0]CC'), CS('[Beauty ==>  gamma K+ ^pi- KS0]CC'),CS('[Beauty ==>  gamma K+ pi- ^KS0]CC')) < 2.0 * GeV )"
+#     ]
+#
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[B_s0 ==>  gamma ^K+ ^pi- ^(KS0 => ^pi+ ^pi-)]CC'
+# tightCut.Cuts      =    {
+#     '[pi+]cc'        : ' inAcc' , 
+#     '[K+]cc'         : ' inAcc' , 
+#     '[B_s0]cc'       : ' GINTREE(goodPhoton)' ,
+#     'KS0'            : ' decayBeforeTT' 
+#     }
+#
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter",
+#     "inEcalX       =   abs ( GPX / GPZ ) < 4.5  / 12.5",
+#     "inEcalY       =   abs ( GPY / GPZ ) < 3.5  / 12.5",
+#     "inEcalHole    = ( abs ( GPX / GPZ ) < 0.25 / 12.5 ) & ( abs ( GPY / GPZ ) < 0.25 / 12.5 )",
+#     "InEcal        = inEcalX & inEcalY & ~inEcalHole ",
+#     "inAcc         = in_range ( 0.005 , GTHETA , 0.400 ) " , 
+#     "goodPhoton    = ('gamma' == GABSID) & ( GPT > 1.8 * GeV ) & InEcal", 
+#     "decayBeforeTT = GVEV & ( GFAEVX ( GVZ , 1.e+10 ) < 2400 * millimeter)"
+#     ]
+#
+# EndInsertPythonCode
+#
+# Documentation: Bs->KsKpig, PHSP + broad phi(1680) cocktail, m(KsKpi)< 2.0 GeV, with gamma PT > 1.8, Ks z-vertex before TT
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email:  biplab.dey@.cern.ch
+# Date: 20201119
+#
+Alias      MyK0s          K_S0
+ChargeConj MyK0s          MyK0s
+#
+Alias      MyPhi1680      phi(1680)
+Alias      Myanti-Phi1680 phi(1680)
+ChargeConj MyPhi1680      Myanti-Phi1680
+#
+Alias      MyK*-          K*-
+Alias      MyK*+          K*+
+ChargeConj MyK*-          MyK*+
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0    
+ChargeConj MyK*0          Myanti-K*0
+#
+LSNONRELBW MyPhi1680
+BlattWeisskopf MyPhi1680 0.0
+Particle MyPhi1680 1.6 0.18
+ChangeMassMin MyPhi1680 1.2
+ChangeMassMax MyPhi1680 2.35
+#
+LSNONRELBW Myanti-Phi1680
+BlattWeisskopf Myanti-Phi1680 0.0
+Particle Myanti-Phi1680 1.6 0.18
+ChangeMassMin Myanti-Phi1680 1.2
+ChangeMassMax Myanti-Phi1680 2.35
+#
+Decay B_s0sig
+  0.95  gamma MyK0s  pi- K+       PHSP;
+  0.05  gamma MyPhi1680           PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi1680
+  0.5   MyK*-    K+       PHSP;
+  0.5   MyK0s  MyK*0       PHSP;
+Enddecay
+CDecay Myanti-Phi1680
+#
+Decay MyK*0
+  1.0   K+    pi-       PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK*-
+  1.0   MyK0s   pi-       PHSP;
+Enddecay
+CDecay MyK*+
+#
+Decay MyK0s
+  1.000   pi+         pi-       PHSP;
+Enddecay
+#
+End

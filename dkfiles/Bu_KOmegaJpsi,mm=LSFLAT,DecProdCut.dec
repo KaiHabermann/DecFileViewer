@@ -1,0 +1,44 @@
+# EventType: 12145067
+# 
+# Descriptor: [B+ -> (J/psi(1S) -> mu+ mu-) K+ (omega(782) -> mu+ mu-)]cc
+# 
+# NickName: Bu_KOmegaJpsi,mm=LSFLAT,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: Decay file for B+ -> K+ (Omega -> mu+ mu-) (Jpsi -> mu+ mu-), flat dimuon lineshape. 
+# EndDocumentation
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Vitalii Lisovskyi
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20200224
+# CPUTime: < 1 min
+#
+#
+Alias MyJpsi J/psi
+ChargeConj MyJpsi MyJpsi
+Alias MyW omega
+ChargeConj MyW MyW
+#
+LSFLAT MyW
+ChangeMassMin MyW 0.2115
+ChangeMassMax MyW 1.688
+#
+Decay B+sig
+  1.000    MyJpsi    MyW    K+    PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyJpsi
+  1.000    mu+    mu-   PHOTOS   VLL;
+Enddecay
+#
+Decay MyW
+1.000    mu+ mu-   PHOTOS VLL;
+Enddecay
+#
+#
+End
+#

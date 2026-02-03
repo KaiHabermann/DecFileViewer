@@ -1,0 +1,121 @@
+# EventType: 12245061
+#
+# Descriptor: [B+ -> (J/psi(1S) -> mu+ mu-) (K_1(1400)+ -> (phi(1020) -> K+ K-) K+)]cc
+#
+# ParticleValue: "K_1(1400)+ 317 20323 +1 1.793 -0.365 K'_1+ 20323 0.522", "K_1(1400)- 317 -20323 -1 1.793 -0.365 K'_1- -20323 0.522", "K*(1410)+ 318 100323 +1 1.968 -0.396 K'*+ 100323 0.566", "K*(1410)- 318 -100323 -1 1.968 -0.396 K'*- -100323 0.566", "K*_2(1430)+ 319 325 +1 1.773 -0.188 K_2*+ 325 0.202", "K*_2(1430)- 319 -325 -1 1.773 -0.188 K_2*- -325 0.202"
+#
+# NickName: Bu_jpsikkk,Kstar=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: B+ decay to J/psi(-> mu+ mu-) K+ K- K+ with several K*+ -> phiK+ resonances that observed in B+ -> J/psi phi K+ decays: LHCb-PAPER-2016-018 see https://arxiv.org/pdf/1606.07895.pdf for details
+# Included intermediate states: 
+#     K_1(1650)+  defined as K_1(1400)+  with mass of 1.793 GeV/c^2 and width 365 MeV decaying with VVS_PWAVE model with S-wave magnitude
+#     K'_1(1650)+ defined as K*(1410)+   with mass of 1.968 GeV/c^2 and width 396 MeV decaying with VVS_PWAVE model with S-wave magnitude
+#     K_2(1770)+  defined as K*_2(1430)+ with mass of 1.773 GeV/c^2 and width 188 MeV decaying with PHSP model
+#     K*(1680)+   from particle table    with mass of 1.718 GeV/c^2 and width 320 MeV decaying with PARTWAVE model with P-wave magnitude
+#     The efficiency from GeneratorLog.xml is (8.1 +- 0.5) %
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName) 
+# signal     = generation.SignalRepeatedHadronization 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[B+ ==> ^(J/psi(1S) => ^mu+ ^mu-) ^K+ ^K- ^K+]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'inY          =  in_range ( 1.9   , GY     , 4.6   )         ' , 
+#     'fastTrack    =  ( GPT > 180 * MeV ) & ( GP  > 3.0 * GeV )   ' , 
+#     'goodTrack    =  inAcc & inEta & fastTrack                   ' , 
+#     'goodPsi      =  inY                                         ' ,         
+#     'longLived    =  75 * micrometer < GTIME                     ' , 
+#     'goodB        =  inY & longLived                             ' ,
+# ]
+# tightCut.Cuts     =    {
+#     '[B+]cc'         : 'goodB     ' ,
+#     'J/psi(1S)'      : 'goodPsi   ' , 
+#     '[K+]cc'         : 'goodTrack ' , 
+#     '[mu+]cc'        : 'goodTrack & ( GPT > 500 * MeV ) '
+#     }
+#
+# # Generator efficiency histos:
+# tightCut.XAxis = ( "GPT/GeV" , 1.0 , 20.0 , 38  )
+# tightCut.YAxis = ( "GY     " , 2.0 ,  4.5 , 10  )
+#
+# EndInsertPythonCode
+#   
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Dmitrii Pereima
+# Email: Dmitrii.Pereima@cern.ch
+# Date: 20240613
+# CPUTime: < 1 min
+#
+Alias       MyJpsi       J/psi
+ChargeConj  MyJpsi       MyJpsi
+#
+Alias       MyPhi        phi
+ChargeConj  MyPhi        MyPhi
+#
+Alias       MyK1_1650+   K'_1+ 
+Alias       MyK1_1650-   K'_1-
+ChargeConj  MyK1_1650+   MyK1_1650-
+#
+Alias       MyK1'_1650+  K'*+ 
+Alias       MyK1'_1650-  K'*-
+ChargeConj  MyK1'_1650+  MyK1'_1650-
+# 
+Alias       MyK1770+     K_2*+ 
+Alias       MyK1770-     K_2*-
+ChargeConj  MyK1770+     MyK1770-
+#
+Alias       MyK1680+     K''*+ 
+Alias       MyK1680-     K''*-
+ChargeConj  MyK1680+     MyK1680-
+#
+Decay B+sig
+ 0.150      MyJpsi K+ K+ K-           PHSP;
+ 0.200      MyJpsi MyPhi K+           PHSP;
+ 0.150      MyJpsi MyK1_1650+         PHSP;
+ 0.300      MyJpsi MyK1'_1650+        PHSP;
+ 0.100      MyJpsi MyK1770+           PHSP;
+ 0.100      MyJpsi MyK1680+           PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyPhi
+1.     K+       K-            VSS;
+Enddecay
+#
+Decay  MyK1_1650+
+1.     MyPhi    K+            VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK1_1650-
+#
+Decay  MyK1'_1650+
+1.     MyPhi    K+            VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK1'_1650-
+#
+Decay  MyK1770+
+1.     MyPhi    K+            PHSP;
+Enddecay
+CDecay MyK1770-
+#
+Decay  MyK1680+
+1.     MyPhi    K+            PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK1680-
+#
+Decay MyJpsi
+1.     mu+      mu-           VLL;
+Enddecay
+#
+End

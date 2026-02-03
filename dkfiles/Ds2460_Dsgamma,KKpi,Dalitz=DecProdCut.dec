@@ -1,0 +1,36 @@
+# EventType: 27163285
+#
+# Descriptor: [D_s1(2460)+ -> (D_s+ ->  K+ K- pi+ ) gamma ]cc
+#
+# NickName: Ds2460_Dsgamma,KKpi,Dalitz=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D_s1(2460) decaying into Ds gamma with Dec Prod cuts for DsJ production vs multiplicity analysis
+# EndDocumentation
+#
+# CPUTime:  < 2 min
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible:     Jose Ivan Cambon Bouzas
+# Email: joseivan.cambon.bouzas@usc.es
+# Date: 20250321
+#
+Alias        MyD_s-         D_s-
+Alias        MyD_s+         D_s+
+ChargeConj   MyD_s+         MyD_s-
+
+#
+Decay D_s1+sig
+ 1.000       MyD_s+         gamma   VSP_PWAVE;
+Enddecay
+CDecay D_s1-sig
+#
+Decay  MyD_s+
+ 1.000       K+      K-      pi+    D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+End
+

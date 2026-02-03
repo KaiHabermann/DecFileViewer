@@ -1,0 +1,107 @@
+# EventType: 13694052
+#
+# Descriptor: {[[B_s0]nos -> (anti-D0 -> K+ mu- anti-nu_mu) (D0 -> K- mu+ nu_mu)]cc, [[B_s0]os -> (anti-D0 -> K+ mu- anti-nu_mu) (D0 -> K- mu+ nu_mu)]cc}
+#
+# NickName: Bs_DD,Kmunu,KmunuCocktail=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LoKi__GenCutTool
+#
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "([(B_s0) ==> (Charm ==> ^K+ ^mu- nu_mu~ {X} {X} {X}) (Charm ==> ^K- ^mu+ nu_mu {X} {X} {X})]CC)"
+# tightCut.Preambulo += ["from LoKiCore.functions import in_range", "from GaudiKernel.SystemOfUnits import MeV"]
+# tightCut.Cuts      =    {
+#     '[mu-]cc'     : "(in_range(0.01, GTHETA, 0.4)) & (GP > 2900 * MeV)",
+#     '[K-]cc'      : "(in_range(0.01, GTHETA, 0.4)) & (GP > 2900 * MeV)"
+#   }
+# EndInsertPythonCode
+#
+# Documentation: semi-leptonic B_s0 -> D0 D0 and B_s0 -> D+ D- decays
+# EndDocumentation
+#
+# PhysicsWG: RD
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20210525
+#
+Alias            MyD*+          D*+
+Alias            MyD*-          D*-
+ChargeConj       MyD*+          MyD*-
+#
+Alias            MyD*0          D*0
+Alias            Myanti-D*0     anti-D*0
+ChargeConj       MyD*0          Myanti-D*0
+#
+Alias            MyD+           D+
+Alias            MyD-           D-
+ChargeConj       MyD+           MyD-
+#
+Alias            MyD0           D0
+Alias            Myanti-D0      anti-D0
+ChargeConj       MyD0           Myanti-D0
+#
+Alias            MyK*+          K*+
+Alias            MyK*-          K*-
+ChargeConj       MyK*+          MyK*-
+#
+Alias            MyK*0          K*0
+Alias            Myanti-K*0     anti-K*0
+ChargeConj       MyK*0          Myanti-K*0
+#
+Decay B_s0sig
+  0.125          MyD0           Myanti-D0                         PHSP;
+  0.125          MyD*0          Myanti-D0                         SVS;
+  0.125          Myanti-D*0     MyD0                              SVS;
+  0.125          MyD*0          Myanti-D*0                        PHSP;
+  0.125          MyD+           MyD-                              PHSP;
+  0.125          MyD*+          MyD-                              SVS;
+  0.125          MyD*-          MyD+                              SVS;
+  0.125          MyD*+          MyD*-                             PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD*+
+  0.677          MyD0           pi+                               VSS;
+  0.307          MyD+           pi0                               PHSP;
+  0.016          MyD+           gamma                             PHSP;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD*0
+  0.647          MyD0           pi0                               VSS;
+  0.353          MyD0           gamma                             VSP_PWAVE;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD+
+  0.365          K-             pi+     mu+         nu_mu         PHSP;
+  0.352          Myanti-K*0             mu+         nu_mu         ISGW2;
+  0.010          K-      pi0    pi+     mu+         nu_mu         PHSP;
+Enddecay
+CDecay MyD-
+#
+Decay MyD0
+  0.341          K-             mu+     nu_mu                     ISGW2;
+  0.189          MyK*-          mu+     nu_mu                     ISGW2;
+  0.160          K-      pi0    mu+     nu_mu                     PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyK*+
+  1.000          K+             pi0                               VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyK*0
+  1.000          K+             pi-                               VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End

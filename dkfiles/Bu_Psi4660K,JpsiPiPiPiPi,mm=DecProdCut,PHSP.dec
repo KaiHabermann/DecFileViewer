@@ -1,0 +1,46 @@
+# EventType: 12147000
+#
+# Descriptor: [B+ -> (psi(2S) -> (J/psi(1S) -> mu+ mu-) pi+ pi-) pi+ pi- K+]cc
+#
+# NickName: Bu_Psi4660K,JpsiPiPiPiPi,mm=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ decays to psi(2S)(to Jpsi(to mu+ mu-) and pi+ pi-), pi+ pi- and K+ with phase space model 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Salil Joshi
+# Email: salil.joshi@ncbj.gov.pl
+# Date: 20230824
+# CPUTime:< 1 min
+#
+#
+#
+#
+#
+Alias       Mypsi(2S)  psi(2S)
+ChargeConj  Mypsi(2S)  Mypsi(2S)
+#
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+#
+#
+Decay B+sig
+  1.00000   Mypsi(2S)  pi+  pi-     K+         PHSP;
+Enddecay
+CDecay B-sig
+#
+#
+Decay Mypsi(2S)
+  1.00000   MyJ/psi    pi+  pi-        PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.00000   mu+      mu-               PHOTOS VLL;
+Enddecay
+#
+End
+#

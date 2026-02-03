@@ -1,0 +1,55 @@
+# EventType: 39122948
+#
+# Descriptor: [pi0 -> gamma e+ e-]
+#
+# NickName: pi0_gammaee=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation:
+# For fitting truth-matched m(gamma e+ e-) for dark-photon/true-muonium search in
+# pi0 -> gamma (A' -> e+ e-)
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# signal = Generation(genAlgName).SignalPlain
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+#
+# tightCut = signal.TightCut
+# tightCut.Decay = '^[pi0 => ^gamma ^e+ ^e-]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import MeV",
+#     "inAcc = in_range(0.010, GTHETA, 0.400)",
+#     "diePX = GCHILD(GPX, ('e+' == GID)) + GCHILD(GPX, ('e-' == GID))",
+#     "diePY = GCHILD(GPY, ('e+' == GID)) + GCHILD(GPY, ('e-' == GID))",
+#     "diePT = (diePX**2 + diePY**2)**0.5",
+#     "fidE = (GPT > 500 * MeV) & (GP > 3000 * MeV)",
+#     "fidG = (GPT > 500 * MeV)",
+#     "fidA = (diePT > 1000 * MeV)",
+#     "fidH = (GPT > 1000 * MeV)",
+#     "goodE = (fidE) & (inAcc)",
+#     "goodG = (fidG) & (inAcc)",
+#     "goodH = (fidH) & (fidA)",
+# ]
+# tightCut.Cuts = {
+#     '[e+]cc': 'goodE',
+#     'gamma': 'goodG',
+#     'pi0': 'goodH',
+# }
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: 2 min
+# Responsible: Michael K. Wilkinson
+# Email: michael.k.wilkinson@cern.ch
+# Date: 20241009
+
+Decay pi0sig
+      1.0 e+ e- gamma PI0_DALITZ;
+Enddecay
+
+End

@@ -1,0 +1,40 @@
+# EventType: 11166009
+#
+# Descriptor: [B0 -> (D- -> K+ pi- pi-) (phi(1020) -> K- K+) pi+]cc
+#
+# NickName: Bd_Dphipi,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D- forced to K+ pi- pi- phi(1020) forced to K- K+ decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: ShuangZheng
+# Email: shzheng@cern.ch
+# Date: 20240625
+# CPUTime: < 1 min
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+Alias      MyPhi       phi
+ChargeConj MyPhi       MyPhi
+#
+Decay B0sig
+  1.000     MyPhi       MyD-       pi+        PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  1.000        K+        pi-         pi-           D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+Decay MyPhi
+  1.000        K-        K+                     VSS;
+Enddecay
+#
+End
+

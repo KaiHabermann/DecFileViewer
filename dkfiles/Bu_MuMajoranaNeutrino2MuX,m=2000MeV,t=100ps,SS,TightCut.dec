@@ -1,0 +1,65 @@
+# $Id: Bu_MuMajoranaNeutrino2MuX,m=2000MeV,t=100ps,SS,TightCut.dec $
+#
+# This is the decay file for the decay Bu => Majorana_Neutrino (=> Mu- X) Mu-
+#
+# EventType: 12312043
+#
+# Descriptor: { B+ => (Higgs0 => mu+ X) mu+, B- => (Higgs0 => mu- X) mu- }
+#
+# NickName: Bu_MuMajoranaNeutrino2MuX,m=2000MeV,t=100ps,SS,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+# from Configurables import GiGaPhysListModular, GiGaHiggsParticles, LoKi__GenCutTool
+#
+# ParticlePropertySvc().Particles = [ "H_10 87 25 0.0000 2.0000 1.0000e-10 Higgs0 25 0.0000" ]
+# ApplicationMgr().ExtSvc += [ ParticlePropertySvc() ]
+#
+# gigaHiggsPart = GiGaHiggsParticles()
+# gigaHiggsPart.Higgses = ["H_10"]
+# GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]
+# #
+## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ## ##
+# #
+# Generation(genAlgName).SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay      = '[ (B+ => (LongLived => ^mu+ X) ^mu+) , (B- => (LongLived => ^mu- X) ^mu-) ]'
+# tightCut.Preambulo += [
+#     'inAcc          =  in_range( 0.010 , GTHETA , 0.400 )         '
+# ]
+# tightCut.Cuts       =    {
+#           '[mu+]cc' : 'inAcc'
+# }
+# EndInsertPythonCode
+#
+#
+# Documentation: File for B+ => Majorana_Neutrino (=> Mu+ X) Mu+
+# EndDocumentation
+#
+# PhysicsWG:   Exotica
+# Tested:      Yes
+# Responsible: Federico Leo Redi
+# Email:       fredi@cern.ch
+# Date:        20210514
+# CPUTime:     <1min
+#
+Alias      MyHNL       Higgs0
+Alias      Myanti-HNL  Higgs0
+ChargeConj MyHNL       Myanti-HNL
+#
+Decay B+sig
+1.0000	MyHNL	mu+    PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyHNL
+0.2899	pi-	mu+	PHSP;
+0.7101	rho-	mu+	PHSP;
+Enddecay
+CDecay Myanti-HNL
+#
+End
+#

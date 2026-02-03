@@ -1,0 +1,292 @@
+# 
+#
+# EventType: 12685412
+#
+# Descriptor: {[ B+ ==> nu_e e+ (D*(2010)- => (D~0 -> K+ pi-) pi-)]cc}
+#
+# NickName: Bu_Dst+DX,eX=cocktail,TightCut,RDstTaueCuts,Update2025
+# Cuts: 'LoKi::GenCutTool/TightCut'
+# InsertPythonCode:
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#gen = Generation()
+#gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay = "[ (Beauty) ==> ^(D~0 => ^K+ ^pi- ) ^e+ nu_e {X} {X} {X} {X} {X} {X} {X} {X} ]CC"
+#tightCut.Preambulo += [
+#  "from LoKiCore.functions import in_range"  ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#]
+#tightCut.Cuts      =    {
+# '[pi+]cc'   : " ( GTHETA > 0.01 ) & ( ( GPX / GPZ ) < 0.34 ) & ( ( GPY / GPZ ) < 0.34 ) & ( ( GPX / GPZ ) > - 0.34 ) & ( ( GPY / GPZ ) > - 0.34 ) & ( GPT > 250 * MeV ) & ( GP > 4500 * MeV ) & ( GP < 300000 * MeV )" ,
+# '[K-]cc'    : " ( GTHETA > 0.01 ) & ( ( GPX / GPZ ) < 0.34 ) & ( ( GPY / GPZ ) < 0.34 ) & ( ( GPX / GPZ ) > - 0.34 ) & ( ( GPY / GPZ ) > - 0.34 ) & ( GPT > 250 * MeV ) & ( GP > 4500 * MeV ) & ( GP < 300000 * MeV )" ,
+# '[e+]cc'    : " ( GTHETA > 0.01 ) & ( ( GPX / GPZ ) < 0.34 ) & ( ( GPY / GPZ ) < 0.34 ) & ( ( GPX / GPZ ) > - 0.34 ) & ( ( GPY / GPZ ) > - 0.34 ) &  in_range( 2.05 , GETA, 4.25 ) & ( GP > 2000 * MeV)",
+# '[D~0]cc'   : " ( GP > 15000. * MeV ) "
+#    }
+# EndInsertPythonCode
+#
+# Documentation: Sum of B -> D*+ D X modes. D -> e X, D* -> D0 pi, D0 -> K pi. Tight generator level cuts for use in R(D*)_taue and B->D*enu Angular analysis
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Ching-Hua Li
+# Email: chinghua.li@cern.ch
+# Date: 20250722
+#
+
+
+Alias             MyD*-       D*-
+Alias             MyD*+       D*+
+ChargeConj        MyD*+       MyD*-
+
+Alias             MyOtherD*-       D*-
+Alias             MyOtherD*+       D*+
+ChargeConj        MyOtherD*+       MyOtherD*-
+
+Alias             Myanti-D0   anti-D0
+Alias             MyD0        D0
+ChargeConj        MyD0        Myanti-D0
+
+Alias             MyD*0       D*0
+Alias             Myanti-D*0       anti-D*0
+ChargeConj        MyD*0        Myanti-D*0
+
+Alias             MyOtherD0        D0
+Alias             MyOtheranti-D0   anti-D0
+ChargeConj        MyOtherD0        MyOtheranti-D0
+
+Alias             MyD_s+      D_s+
+Alias             MyD_s-      D_s-
+ChargeConj        MyD_s+      MyD_s-
+
+Alias             MyD_s*+      D_s*+
+Alias             MyD_s*-      D_s*-
+ChargeConj        MyD_s*+      MyD_s*-
+
+Alias      MyD+         D+
+Alias      MyD-         D-
+ChargeConj MyD+         MyD-
+
+Alias      MyD_1+         D_1+
+Alias      MyD_1-         D_1-
+ChargeConj MyD_1+         MyD_1-
+
+Alias      MyD'_1+         D'_1+
+Alias      MyD'_1-         D'_1-
+ChargeConj MyD'_1+         MyD'_1-
+
+Alias      MyD_2*+         D_2*+
+Alias      MyD_2*-         D_2*-
+ChargeConj MyD_2*+         MyD_2*-
+
+Alias      MyD_0*+         D_0*+
+Alias      MyD_0*-         D_0*-
+ChargeConj MyD_0*+         MyD_0*-
+
+Alias      MyD_0*0         D_0*0
+Alias      MyAntiD_0*0     anti-D_0*0
+ChargeConj MyD_0*0         MyAntiD_0*0
+
+Alias      MyD'_s1+         D'_s1+
+Alias      MyD'_s1-         D'_s1-
+ChargeConj MyD'_s1-         MyD'_s1+
+
+
+Alias      MyD'_10         D'_10
+Alias      MyAntiD'_10     anti-D'_10
+ChargeConj MyD'_10         MyAntiD'_10
+
+Alias      MyD_10         D_10
+Alias      MyAntiD_10     anti-D_10
+ChargeConj MyD_10         MyAntiD_10
+
+Alias      MyD_2*0         D_2*0
+Alias      MyAntiD_2*0     anti-D_2*0
+ChargeConj MyD_2*0         MyAntiD_2*0
+
+
+# ---------------
+# DECAY OF THE B+
+# ---------------
+#
+# We adjust the following BRs to reflect the probability of charm meson -> electron + anything.
+# D_s+ -> e X : 5.4 %   D0 -> e X : 6.49 %  D+ -> e X : 16.07 %
+Decay B+sig
+# with D_s+ -> e : X 1.0
+0.0006   MyAntiD'_10  MyD_s+                     SVS;
+0.0012   MyAntiD'_10  MyD_s*+                    SVV_HELAMP 0.48 0.0 0.734 0.0 0.48 0.0;
+0.0012   MyAntiD_10   MyD_s+                     SVS;
+0.0024   MyAntiD_10   MyD_s*+                    SVV_HELAMP 0.48 0.0 0.734 0.0 0.48 0.0;
+0.0042   MyAntiD_2*0  MyD_s+                     STS;
+0.0040   MyAntiD_2*0  MyD_s*+                    PHSP;
+# Exclude the following decays since they don't produce D*-
+#0.017    anti-D*0    MyD_s*+             SVV_HELAMP 0.48 0.0 0.734 0.0 0.48 0.0;
+#0.007    anti-D*0    MyD_s+              SVS;
+#0.0076   MyD_s*+     anti-D0         SVS;
+
+# with D0 -> e : X 1.2 (parce que 6.49/5.4 ~ 1.2)
+0.000276   MyD'_s1+     MyOtheranti-D0                 SVS;
+0.00048   MyD'_s1+     Myanti-D*0                SVV_HELAMP 0.48 0.0 0.734 0.0 0.48 0.0;
+0.00096   MyD*+        Myanti-D*0                 SVV_HELAMP 0.48 0.0 0.734 0.0 0.48 0.0;
+0.00047   MyD*+        MyOtheranti-D0                  SVS;
+0.01104  MyD*+        Myanti-D*0  K0             PHSP;
+
+# with D+ -> e : X 3.0 (parce que 16.07/5.4 ~ 3.0)
+0.00189   MyD*+        MyD-  K+              PHSP;
+0.00180  MyD*-        MyD+  K+              PHSP;
+
+# with 0.66 D0 -> e and 0.33 D+ -> e : X 1.78
+0.00117  MyD*+        MyOtherD*-  K+             PHSP;
+0.00117  MyOtherD*+        MyD*-  K+             PHSP;
+0.00047   MyD*+  MyOtherD*-  K*+                 PHSP;
+0.00047   MyOtherD*+  MyD*-  K*+                 PHSP;
+  
+Enddecay
+CDecay B-sig
+
+# ---------------
+# DECAY OF THE D*-
+# ---------------
+Decay MyD*-
+1.000        Myanti-D0 pi-                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay Myanti-D0
+1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+
+
+# -----------------
+# DECAY OF THE DS+-
+# -----------------
+Decay MyD_s+
+ 0.023400000 phi     e+      nu_e                           PHOTOS  ISGW2; #[Reconstructed PDG2025]
+ 0.022700000 eta     e+      nu_e                           PHOTOS  ISGW2; #[Reconstructed PDG2025]
+ 0.008100000 eta'    e+      nu_e                           PHOTOS  ISGW2; #[Reconstructed PDG2025]
+ 0.002880000 K0      e+      nu_e                           PHOTOS  ISGW2; #[Reconstructed PDG2025]
+ 0.002050000 K*0     e+      nu_e                           PHOTOS  ISGW2; #[Reconstructed PDG2025]
+Enddecay
+CDecay MyD_s-
+
+
+Decay MyOtherD*-
+  0.6770    MyOtheranti-D0 pi-                        VSS;
+  0.3070    MyD-      pi0                        VSS;
+  0.0160    MyD-      gamma                      VSP_PWAVE;
+Enddecay
+CDecay MyOtherD*+
+#
+Decay MyD-
+0.054000000 K*0     e-      anti-nu_e                       PHOTOS    ISGW2; # PDG2025
+0.088100000 K0      e-      anti-nu_e                       PHOTOS    ISGW2; # PDG2025
+0.002773020 K_10    e-      anti-nu_e                       PHOTOS    ISGW2; # Keep same as in 2010 version
+0.002927076 K_2*0   e-      anti-nu_e                       PHOTOS    ISGW2; # Keep same as in 2010 version
+0.003720000 pi0     e-      anti-nu_e                       PHOTOS    ISGW2; # PDG2025
+0.001110000 eta     e-      anti-nu_e                       PHOTOS    ISGW2; # PDG2025
+0.000200000 eta'    e-      anti-nu_e                       PHOTOS    ISGW2; # PDG2025
+0.001870000 rho0    e-      anti-nu_e                       PHOTOS    ISGW2; # PDG2025
+0.001690000 omega   e-      anti-nu_e                       PHOTOS    ISGW2; # PDG2025
+0.003500000 K+      pi-     e-      anti-nu_e               PHOTOS   PHSP;   # PDG2025 (subtracted K*)+tiny bit to have sum=1
+0.001200122 K0      pi0     e-      anti-nu_e               PHOTOS   PHSP;   # Keep same as in 2010 version+tiny bit to have sum=1
+Enddecay
+CDecay MyD+
+#
+Decay MyOtherD0
+0.021600000 K*-     e+      nu_e                            PHOTOS   ISGW2; # PDG2025
+0.035400000 K-      e+      nu_e                            PHOTOS   ISGW2; # PDG2025
+0.000760000 K_1-    e+      nu_e                            PHOTOS   ISGW2; # PDG2025
+0.001100000 K_2*-   e+      nu_e                            PHOTOS   ISGW2; # Small decrease as this is unmeasured
+0.002910000 pi-     e+      nu_e                            PHOTOS   ISGW2; # PDG2025
+0.001460000 rho-    e+      nu_e                            PHOTOS   ISGW2; # PDG2025
+0.001080000 anti-K0 pi-     e+      nu_e                    PHOTOS   PHSP;  # PDG2014 subtracting K* (decreased due large uncertaity ) 
+0.000400000 K-      pi0     e+      nu_e                    PHOTOS   PHSP;  # PDG2014 subtracting K* (decreased due large uncertaity )
+Enddecay
+CDecay MyOtheranti-D0
+
+
+Decay MyD_s*+
+0.942000000 MyD_s+    gamma                                   VSP_PWAVE; #[Reconstructed PDG2011]
+0.058000000 MyD_s+    pi0                                     VSS; #[Reconstructed PDG2011]
+Enddecay
+CDecay MyD_s*-
+
+Decay MyD*0
+0.619000000 MyOtherD0      pi0                                     VSS; #[Reconstructed PDG2011]
+0.381000000 MyOtherD0      gamma                                   VSP_PWAVE; #[Reconstructed PDG2011]
+Enddecay
+CDecay Myanti-D*0
+
+SetLineshapePW MyD_1+ MyD*+ pi0 2
+SetLineshapePW MyD_1- MyD*- pi0 2
+SetLineshapePW MyD_2*+ MyD*+ pi0 2
+SetLineshapePW MyD_2*- MyD*- pi0 2
+
+Decay MyD'_1+
+0.250     MyD*+ pi0                        PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD'_1-
+
+Decay MyD_1+
+0.200    MyD*+ pi0                         PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.0208    MyD_0*0 pi+                      PHOTOS PHSP;
+0.0156    MyD_0*+ pi0                      PHOTOS PHSP;
+Enddecay
+CDecay MyD_1-
+
+Decay MyD_2*+
+0.087    MyD*+ pi0                         PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+0.0117    MyD_0*0 pi+                      PHOTOS PHSP;
+0.0088    MyD_0*+ pi0                      PHOTOS PHSP;
+0.004     MyD*+ pi0 pi0                    PHOTOS PHSP;
+0.008     MyD*+ pi+ pi-                    PHOTOS PHSP;
+Enddecay
+CDecay MyD_2*-
+
+Decay MyD_0*+ 
+0.04     MyD*+ pi0 pi0                     PHOTOS PHSP;
+0.08     MyD*+ pi+ pi-                     PHOTOS PHSP;
+Enddecay
+CDecay MyD_0*-
+
+Decay MyD_0*0
+0.08    MyD*+ pi- pi0                      PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_0*0
+
+Decay MyD'_10
+0.500    MyD*+ pi-                         PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAntiD'_10
+
+Decay MyD_10
+0.400    MyD*+ pi-                         PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.0312    MyD_0*+ pi-                      PHOTOS PHSP;
+0.0104    MyD_0*0 pi0                      PHSP;
+Enddecay
+CDecay MyAntiD_10
+
+Decay MyD_2*0
+0.173    MyD*+ pi-                         PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+0.0176    MyD_0*+ pi-                      PHOTOS PHSP;
+0.0059    MyD_0*0 pi0                      PHSP;
+0.008     MyD*+ pi- pi0                    PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_2*0
+
+#Ds(2536)
+Decay MyD'_s1+
+0.5000   MyD*+ K0                      VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+#0.5000   MyD*0 K+                            VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+#0.0000   gamma MyD_s*+                       PHSP;
+#0.0000   gamma MyD_s+                        PHSP;
+Enddecay
+CDecay MyD'_s1-
+
+
+#
+End
+

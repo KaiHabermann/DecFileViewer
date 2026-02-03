@@ -1,0 +1,43 @@
+# EventType: 28144061
+#
+# Descriptor: eta_c -> (J/psi(1S) -> mu+ mu-) (phi -> K+ K-) 
+#
+# NickName: X4160,Jpsiphi=DecProdCut,InAcc 
+#
+# Cuts: DaughtersInLHCb
+# 
+# CPUTime: < 10 min
+#
+# ParticleValue: "eta_c(1S)             128         441   0.0      4.156      4.735e-24                     eta_c         441      1.40000000"
+#
+# Documentation: X4160 decay to Jpsi phi with  daughters in acceptance  
+# eta_c is used for this X4160 generation.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Qingnian Xu 
+# Email: qingnian.xu@cern.ch 
+# Date: 20190103
+#
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+Alias      Myphi   phi
+ChargeConj Myphi   Myphi
+#
+#
+Decay eta_csig
+  1.000         MyJ/psi   Myphi        PHSP; 
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+   mu-   PHOTOS VLL;
+Enddecay
+#
+Decay Myphi
+  1.000     K+ K-                    PHSP;
+Enddecay 
+#
+End
+#

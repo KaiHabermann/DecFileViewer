@@ -1,0 +1,56 @@
+# EventType: 12583050
+#
+# Descriptor: [B+ -> (D~0 -> pi+ e- anti-nu_e) pi+]cc
+#
+# NickName: Bu_D0pi,pienu=DecProdCut,ptCut200MeV
+#
+# Documentation: B->D cascade background from b->s(d)ee analyses, with decay product pT>200 MeV
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Harry Cliff
+# Email: harry.victor.cliff@cern.ch
+# Date: 20230808
+# CPUTime: <1 min
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation().SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+# tightCut = Generation().SignalRepeatedHadronization.TightCut
+#
+# tightCut.Decay     = "[(B+ ==> (D~0 ==> ^pi+ ^e- nu_e~) ^pi+)]CC"
+# tightCut.Cuts      =    {
+#     '[e-]cc'             : " inAcc & ( GPT > 200 * MeV )  " ,
+#     '[pi+]cc'             : " inAcc & ( GPT > 200 * MeV )  "
+# }
+# tightCut.Preambulo += [
+#     "from LoKiCore.functions import in_range",
+#     "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#     "inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) "]
+#
+# EndInsertPythonCode
+#
+#
+#
+Alias           My_D0           D0
+Alias           My_anti-D0      anti-D0
+ChargeConj      My_D0           My_anti-D0
+#
+Decay B+sig
+1.000        My_anti-D0     pi+               PHSP;
+Enddecay
+CDecay B-sig
+#
+#
+Decay My_anti-D0
+1.000        pi+        e-      anti-nu_e           PHOTOS ISGW2;
+Enddecay
+CDecay My_D0
+#	
+End
+#

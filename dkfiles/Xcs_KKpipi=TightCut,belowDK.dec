@@ -1,0 +1,54 @@
+#
+# EventType: 27104040
+#
+# Descriptor: [D*_2(2460)0 -> K- K- pi+ pi+]cc
+#
+# NickName: Xcs_KKpipi=TightCut,belowDK
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# ParticleValue: "D*_2(2460)0 170 425 0.0 2.321 1.00e-12 D_2*0 425 0.000e+000","D*_2(2460)~0 166 -425 0.0 2.321 1.00e-12 anti-D_2*0 -425 0.000e+000"
+#
+# Documentation: Search for tetraquark X_cs (c s ubar dbar) weakly decaying into K- K- pi+ pi+, predicted by 1709.02571
+# EndDocumentation 
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ D*_2(2460)0 -> K- K- pi+ pi+ ]CC'
+# tightCut.Cuts      =    {
+#     '[K-]cc'       : ' goodKaon' , 
+#     '[pi+]cc'        : ' goodPion  ' , 
+#     '[D*_2(2460)0]cc' : ' goodD20' }
+# tightCut.Preambulo += [
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodKaon= ( GPT > 0.2 * GeV ) & ( GP > 2. * GeV ) & inAcc ' , 
+#     'goodPion = ( GPT > 0.2 * GeV ) & ( GP > 2. * GeV ) & inAcc ' , 
+#     'goodD20= ~GHAS (GBEAUTY, HepMC.ancestors) ' ]
+#
+# EndInsertPythonCode
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: Zhenwei Yang
+# Email: zhenwei.yang@cern.ch
+# Date: 20180201
+
+#
+Decay D_2*0sig 
+  1.00  K- K- pi+ pi+         PHSP;
+Enddecay
+CDecay anti-D_2*0sig
+#
+
+End
+
+#
+#
+#

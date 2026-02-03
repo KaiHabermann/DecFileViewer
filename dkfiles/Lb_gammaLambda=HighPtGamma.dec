@@ -1,0 +1,49 @@
+# EventType: 15102320
+#
+# Descriptor: [Lambda_b0 -> (Lambda0 -> p+ pi-) gamma]cc
+#
+# NickName: Lb_gammaLambda=HighPtGamma
+#
+# Cuts: LHCbAcceptance
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation(genAlgName).BRadiativeCut
+# radCut.Code = " ( count ( isGoodB ) > 0 ) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "NGoodGamma = GINTREE(('gamma' == GABSID) & (GPT >1.5*GeV))"
+#   , "isGoodB    = (GBEAUTY & NGoodGamma & GDECTREE('[Lambda_b0 => Lambda0 gamma]CC'))"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: [Lambda_b0 -> (Lambda0 -> p+ pi-) gamma]cc applied LHCbAcceptance High PT generation level cuts 
+#          
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Brij Kishor Jashal (IFIC)
+# Email: brij@cern.ch
+# Date: 20190301
+# CPUTime: <1min
+#
+Alias      MyLambda0      Lambda0
+Alias      Myanti-Lambda0 anti-Lambda0
+ChargeConj MyLambda0      Myanti-Lambda0
+
+Decay Lambda_b0sig
+  1.000    MyLambda0         gamma HELAMP 0.   0.  1.   0.;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda0
+  1.000   p+          pi-        HELAMP .906   0.  .423   0.;
+Enddecay
+CDecay Myanti-Lambda0
+End
+#
+

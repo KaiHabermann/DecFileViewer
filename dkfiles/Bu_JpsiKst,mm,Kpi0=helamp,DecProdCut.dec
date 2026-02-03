@@ -1,0 +1,57 @@
+# EventType: 12143411
+#
+# Descriptor: [B+ -> (J/psi(1S) -> mu+ mu-) (K*(892)+ -> K+ (pi0 -> gamma gamma))]cc
+#
+# NickName: Bu_JpsiKst,mm,Kpi0=helamp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  DaughtersInLHCb
+# Uses amplitudes from Belle https://inspirehep.net/literature/680703
+# similar to 12145101 and 12145102.
+# EndDocumentation
+#
+# CPUTime: <1 min
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Matthew Monk
+# Email: matthew.david.monk@cern.ch
+# Date: 20251112
+#
+Define PKHplus  0.159
+Define PKHzero  0.775
+Define PKHminus 0.612
+Define PKphHplus  1.563
+Define PKphHzero  0.0
+Define PKphHminus 2.712
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+Alias      MyK*+   K*+
+Alias      MyK*-   K*-
+ChargeConj MyK*+   MyK*-
+Alias      Mypi0   pi0
+ChargeConj Mypi0   Mypi0
+#
+Decay B+sig
+  1.000     MyJ/psi  MyK*+             SVV_HELAMP PKHplus PKphHplus PKHzero PKphHzero PKHminus PKphHminus;
+Enddecay
+Decay B-sig
+1.000       MyJ/psi  MyK*-             SVV_HELAMP PKHminus PKphHminus PKHzero PKphHzero PKHplus PKphHplus;
+Enddecay
+#
+Decay MyJ/psi
+  1.000     mu+      mu-               PHOTOS  VLL;
+Enddecay
+#
+Decay MyK*+
+1.000       K+       Mypi0             VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay Mypi0
+  1.0  gamma         gamma             PHSP;
+Enddecay
+#
+End
+

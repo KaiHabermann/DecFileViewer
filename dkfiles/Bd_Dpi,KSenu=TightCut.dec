@@ -1,0 +1,71 @@
+# EventType: 11584110
+#
+# Descriptor: [B0 -> (D- -> (KS0 -> pi+ pi-) e- anti-nu_e) pi+]cc
+# NickName: Bd_Dpi,KSenu=TightCut
+#
+# Documentation: D chain background for B0 -> KSee, with decay products in acceptance
+# EndDocumentation
+# 
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: John Smeaton
+# Email: john.smeaton@cern.ch
+# Date: 20210312
+# CPUTime: <1min
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+#
+# decay = '^[ Beauty => ( D+ => ^( KS0 => pi+ pi- ) ^e+ nu_e ) ^pi- ]CC'
+# tightCut.Decay = decay
+#
+# tightCut.Preambulo += [
+#     		     "from LoKiCore.functions import in_range",
+#     		     "from GaudiKernel.SystemOfUnits import GeV, MeV",
+# 		     "inAcc = in_range ( 0.005 , GTHETA , 0.400 ) ",
+#		     "visEner = (GE - GCHILD(GE,'nu_e'==GABSID))",
+#		     "visMomX = (GPX - GCHILD(GPX,'nu_e'==GABSID))",
+#		     "visMomY = (GPY - GCHILD(GPY,'nu_e'==GABSID))",
+#		     "visMomZ = (GPZ - GCHILD(GPZ,'nu_e'==GABSID))",
+#		     "visMassSq = (visEner**2 - visMomX**2 - visMomY**2 - visMomZ**2)",
+#		     "massCut = (visMassSq > (4400*MeV)**2)",
+#		     ]
+#
+# tightCut.Cuts = {
+#     		'[e-]cc'             : " inAcc & ( GPT > 200 * MeV )  " ,
+#     		'[pi+]cc'            : " inAcc & ( GPT > 200 * MeV )" ,
+#     		'[KS0]cc'            : " inAcc & ( GPT > 200 * MeV )  " ,
+#     		'Beauty'             : " massCut "
+#		}
+#
+# EndInsertPythonCode
+#
+#
+Alias		MyD-	D-
+Alias 		MyD+	D+
+ChargeConj	MyD-	MyD+
+#
+Alias		MyKS	K_S0
+ChargeConj	MyKS	MyKS
+#
+Decay B0sig
+1.000 		MyD- pi+		PHOTOS PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+1.000		MyKS e- anti-nu_e	PHOTOS ISGW2;
+Enddecay
+CDecay MyD+
+#
+Decay MyKS
+1.000		pi+ pi-			PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,605 @@
+# EventType: 13699600
+#
+# Descriptor: [B_s0 -> (D*_s+ -> (D_s+ -> pi+ pi+ pi+ pi- pi- pi0) gamma) MyD_s*-]cc
+#
+# NickName: Bs_DD,3piX=cocktail,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# Documentation: Bs to DD and excited states of D mesons. Charms go to any possible 3 charged pion final state.
+#                Generator cuts to ensure both charms produce 3pi final state.
+# EndDocumentation
+# 
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[B_s0 => ^(Charm) ^(Charm)]CC"
+# tightCut.Preambulo += [
+#   'from LoKiCore.functions import in_range'  ,
+#   'from GaudiKernel.SystemOfUnits import GeV, MeV',
+#   'goodcharm   = (GNINTREE(("pi+"==GABSID) & ( GPT > 240 * MeV ) & (GP > 1800 * MeV) & in_range( 0.010 , GTHETA , 0.400 ) & (GNINTREE(("K0" == GABSID), HepMC.ancestors)==0), HepMC.descendants) > 2.5)']
+# tightCut.Cuts  = {
+#  '[D+]cc'           : 'goodcharm',
+#  '[D*(2010)+]cc'    : 'goodcharm',
+#  '[D0]cc'           : 'goodcharm',
+#  '[D*(2007)0]cc'    : 'goodcharm',
+#  '[D_s+]cc'         : 'goodcharm',
+#  '[D*_s+]cc'        : 'goodcharm',}
+# EndInsertPythonCode
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: <5min
+# Responsible: Aravindhan Venkateswaran
+# Email: aravindhan.venkateswaran@epfl.ch
+# Date: 20240802
+#
+# Aliases
+#
+Alias MyD0 D0
+Alias Myanti-D0 anti-D0
+ChargeConj MyD0 Myanti-D0
+#
+Alias MyD*0 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+#
+Alias MyD+ D+
+Alias MyD- D-
+ChargeConj MyD+ MyD-
+#
+Alias MyD*+ D*+
+Alias MyD*- D*-
+ChargeConj MyD*+ MyD*-
+#
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+#
+Alias MyD_s*+ D_s*+
+Alias MyD_s*- D_s*-
+ChargeConj MyD_s*+ MyD_s*-
+#
+# f'_0 -> pi+ pi-
+Alias Myf'_0 f'_0
+ChargeConj Myf'_0 Myf'_0
+#
+# f'_1(1420) -> a0(980)- pi+
+Alias Myf'_1 f'_1 #f1(1420) -> a0(980)- pi+
+ChargeConj Myf'_1 Myf'_1
+#
+# a1+ -> rho0 pi+
+Alias Mya_1+ a_1+
+Alias Mya_1- a_1-
+ChargeConj Mya_1+ Mya_1-
+#
+# K*- -> KS0 pi-
+Alias MyK*-_f K*-
+Alias MyK*+_f K*+
+ChargeConj MyK*-_f MyK*+_f
+#
+# eta -> pi+ pi- pi0
+Alias Myeta_f eta
+ChargeConj Myeta_f Myeta_f
+#
+# a1+ -> f0(500) pi+, f0(500) -> pi+ pi-
+Alias MyAlta_1+ a_1+
+Alias MyAlta_1- a_1-
+ChargeConj MyAlta_1+ MyAlta_1-
+#
+#tau -> 3pi(pi0)  nu
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+#
+# K_1(1270)-  -> K- pi+ pi-
+Alias MyK_1+ K_1+
+Alias MyK_1- K_1-
+ChargeConj MyK_1+ MyK_1-
+#
+# K'_10 -> KS0bar pi+ pi-
+Alias MyK'_10 K'_10
+Alias Myanti-K'_10 anti-K'_10
+ChargeConj MyK'_10 Myanti-K'_10
+#
+# a0(980)+ -> eta pi+
+Alias Mya_0+ a_0+
+Alias Mya_0- a_0-
+ChargeConj Mya_0+ Mya_0-
+#
+# K_0*+ -> KS0 pi+
+Alias MyK_0*+ K_0*+
+Alias MyK_0*- K_0*-
+ChargeConj MyK_0*+ MyK_0*-
+#
+# K_1(1270)+ -> KS0 pi+ pi0
+Alias MyK_1_f+ K_1+
+Alias MyK_1_f- K_1-
+ChargeConj MyK_1_f+ MyK_1_f-
+#
+# omega -> 2piX
+Alias Myomega_2piX omega
+ChargeConj Myomega_2piX Myomega_2piX
+#
+# a0(980)0 ->eta pi0
+Alias Mya_00 a_00
+ChargeConj Mya_00 Mya_00
+#
+# omega -> pi+ pi- pi0
+Alias Myomega omega
+ChargeConj Myomega Myomega
+#
+#f0(500) -> pi+ pi-
+Alias MyOwnsigma_0 sigma_0 
+ChargeConj MyOwnsigma_0 MyOwnsigma_0
+#
+# eta -> 2piX
+Alias Myeta_2piX eta
+ChargeConj Myeta_2piX Myeta_2piX
+#
+# K*0 -> K+ pi-
+Alias MyK*0_f K*0
+Alias Myanti-K*0_f anti-K*0
+ChargeConj MyK*0_f Myanti-K*0_f
+#
+# phi -> K+ K-
+Alias Myphi phi
+ChargeConj Myphi Myphi
+#
+# f0 -> pi+ pi-
+Alias Myf_0 f_0
+ChargeConj Myf_0 Myf_0
+#
+# eta' -> 2piX
+Alias Myeta'_2piX eta'
+ChargeConj Myeta'_2piX Myeta'_2piX
+#
+# eta !-> 2piX
+Alias Myeta_not2piX eta
+ChargeConj Myeta_not2piX Myeta_not2piX
+#
+#  K*0 -> KS0 pi0
+Alias MyK*0_f1 K*0
+Alias Myanti-K*0_f1 anti-K*0
+ChargeConj MyK*0_f1 Myanti-K*0_f1
+#
+
+#
+Decay B_s0sig
+0.440 MyD_s+ MyD_s- PHSP;
+0.695 MyD_s*+ MyD_s- PHSP; # assumed Ds*+ Ds- and Ds+ Ds*- have the same branching fraction
+0.695 MyD_s+ MyD_s*- PHSP;
+1.440 MyD_s*+ MyD_s*- PHSP;
+
+0.028 MyD- MyD_s+ PHSP;
+0.039 MyD*- MyD_s+ PHSP; # assumed D*-Ds+ and D-Ds*+ have the same branching fraction
+0.039 MyD- MyD_s*+ PHSP;
+0.078 MyD*- MyD_s*+ PHSP; # assumed equal to D*Ds + DDs*
+
+0.0220 MyD+ MyD- PHSP;
+0.0042 MyD*+ MyD- PHSP; # assumed D*+ D- and D+D*- to have the same branching fraction
+0.0042 MyD+ MyD*- PHSP;
+0.0214 MyD*+ MyD*- PHSP;
+
+0.019 Myanti-D0 MyD0 PHSP;
+0.019 Myanti-D*0 MyD0 PHSP; # assumed D0D0 D*0D0 and D0D*0 to have the same branching fraction
+0.019 Myanti-D0 MyD*0 PHSP;
+0.038 Myanti-D*0 MyD*0 PHSP; # assumed equal to D*0D0 + D0D*0
+Enddecay
+CDecay anti-B_s0sig
+
+#
+Decay MyD*0
+0.647 MyD0 pi0 VSS;
+0.353 MyD0 gamma VSP_PWAVE;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD*+
+0.677 MyD0 pi+ VSS;
+0.307 MyD+ pi0 VSS;
+0.016 MyD+ gamma VSP_PWAVE;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD_s*+
+0.936 MyD_s+ gamma VSP_PWAVE;
+0.0577 MyD_s+ pi0 VSS;
+Enddecay
+CDecay MyD_s*-
+
+#################### D+ -> 3piX ##########################
+# B(eta -> 2piX) = 0.271 = B(eta -> 1piX)
+# B(eta' -> 2piX) = 0.432
+# B(omega -> 2piX) = 0.908
+
+Decay MyD+
+
+0.71 K0 pi+ Myeta_2piX PHSP;  # Gamma_71 (PDG 2022) * 2 = 2.62, * B(eta -> 2piX)
+0.16 K0 pi+ Myeta'_2piX PHSP; # Gamma_72 (PDG 2022) * 2 = 0.38, * B(eta' -> 2piX)
+
+# Breakup of Gamma_74 (PDG 2021) D+ -> Ks0 2pi+ pi-, broken up in 2008 PDG. Inclusive = 3.1% (which gets *2)
+
+# Gamma_68(2008) D+ -> Ks0 a1+ = 1.8% has agreement b/w ANJOS and COFFMAN
+# Gamma_69(2008) D+ -> K1(1400) pi+ has disagreement. ANJOS does not see it, COFFMAN does
+# Gamma_70(2008) D+ -> K*(892)- pi+ pi+ also has disagreement. ANJOS sees it, COFFMAN does not
+# Gamma_71(2008) D+ -> Ks0 rho0 pi+ is almost completely dominated by Gamma_68, D+ -> Ks0 a1+, a1+ -> rho0 pi+. So this is ignored
+# Gamma_72(2008) D+ -> Ks0 rho0 pi+ 3body is tiny and has a 100% error. So this is ignored
+# Gamma_73(2008) D+ -> Ks0 2pi+ pi- NR = 0.36 is seen by both ANJOS and COFFMAN. 
+
+# So we assign 3.1 - 1.8 - 0.36 = 0.94 broken up equally among Gamma_69 and Gamma_70
+
+3.6 Mya_1+ K0  SVS;        #Gamma_68 (2008 PDG) * 2
+0.94 Myanti-K'_10 pi+ SVS; #(Total - Gamma_68 - Gamma_73)*0.5 (2008 PDG) * 2, K1(1400) -> KS0bar pi+ pi-
+0.94 MyK*-_f pi+ pi+ PHSP; #(Total - Gamma_68 - Gamma_73)*0.5 (2008 PDG) * 2, K*- -> KS0 pi- *
+0.72 K0 pi+ pi+ pi- PHSP;  #Gamma_73 (2008 PDG) * 2
+#
+
+0.036 K- pi+ pi+ Myeta_2piX PHSP; #Gamma_75 (PDG 2021) = 0.135 * B(eta -> 1piX)
+0.066 K0 pi+ pi0 Myeta_2piX PHSP; #Gamma_76 (PDG 2021)*2 = 0.244 * B(eta -> 2piX)
+
+# Breakup of Gamma_77 (PDG 2021) D+ -> K- 3pi+ pi-
+
+# Rescaling slightly so that sum is equal to inclusive number 0.57 (interference effects)
+# Following breakup according to Table 2 in arxiv:0211056
+# Since 3 body K* rho pi is dominated by 2 body a1+ K* mode, I am simply replacing Gamma_79 by Gamma_80
+# but with Gamma_79’s number
+
+0.123 Myanti-K*0_f pi+ pi+ pi- PHSP;                           #Gamma_78 (PDG 2021) rescaled, K*0 forced to K- pi+
+0.235 Mya_1+ Myanti-K*0_f  SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; #Gamma_79 (PDG 2021) rescaled, a1 forced to rho0 pi+, K*0 forced to K- pi+
+0.176 K- rho0 pi+ pi+ PHSP;                                    #Gamma_82 (PDG 2021) rescaled
+0.041 K- pi+ pi+ pi+ pi- PHSP;                                 #Gamma_83 (PDG 2021) rescaled
+# 
+#
+0.58 Mya_1+ pi0 SVS;                               #Half of Gamma_101 (PDG 2021), a1 forced to rho0 pi+
+0.58 rho+ rho0 SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; #Other half of Gamma_101 (PDG 2021)
+#
+
+0.166 pi+ pi+ pi+ pi- pi- PHSP;        #Gamma_102 (PDG 2021)
+0.102 Myeta_2piX pi+ PHSP;             #Gamma_103 (PDG 2021) = 0.377 * B(eta->2piX) 
+0.056 Myeta_2piX pi+ pi0 PHSP;         #Gamma_104 (PDG 2021) = 0.205 * B(eta->2piX)
+0.341 eta pi+ pi+ pi- PHSP;            #Gamma_105 (PDG 2021), all eta decays
+0.087 Myeta_2piX pi+ pi0 pi0 PHSP;     #Gamma_106 (PDG 2021) = 0.320 * B(eta->2piX)
+0.02 Myeta_2piX Myeta_2piX pi+ PHSP;  #Gamma_107 (PDG 2021) = 0.296 * B(eta->2piX) * B(eta->2piX)
+0.12 Myeta_not2piX Myeta_2piX pi+ PHSP; #Gamma_107 (PDG 2021) = 0.296 * (1-B(eta->2piX)) * B(eta->2piX) * 2
+0.354 Myomega_2piX pi+ pi0 PHSP;       #Gamma_109 (PDG 2021) = 0.390 * B(omega->2piX)
+0.214 Myeta'_2piX pi+  PHSP;           #Gamma_110 (PDG 2021) = 0.497 * B(eta'->2piX)
+0.069 Myeta'_2piX pi+ pi0 PHSP;        #Gamma_111 (PDG 2021) = 0.16  * B(eta'->2piX)
+
+Enddecay
+CDecay MyD-
+
+# Sum D -> 3piX BF = 10.761%   OLD(10.431%)
+# Biggest modes:
+# D+ -> a1+ K0 (~36 % of total)
+# D+ -> K1(1400) pi+ (~9% of total)
+# D+ -> K*- pi+ pi+  (~9% of total)
+# D+ -> K0 pi+ eta   (~7% of total)
+# D+ -> a1+ pi0      (~6% of total)
+# D+ -> rho+ rho0    (~6% of total)
+################END D+ -> 3piX ###########################
+
+#################### D0 -> 2/3piX ##########################
+# B(eta -> 2piX) = 0.271 = B(eta -> 1piX)
+# B(eta' -> 2piX) = 0.432
+# B(omega -> 2piX) = 0.908
+
+# 3piX modes are marked by [3piX] in comment
+# The distinction between 3piX and 2piX modes is made because the 2piX decays can combine with a pion from D*+ -> D0 pi+, D0 -> 2piX, and form a 3piX bkg.
+ 
+Decay MyD0
+
+1.26 rho0 K0  SVS;      #Gamma_40 (PDG 2021 update)*2
+0.24 K0 Myf_0 PHSP;     #Gamma_43 (PDG 2021 update) *2, f0 -> pi+ pi-
+0.56 K0 Myf'_0 PHSP;    #Gamma_44 (PDG 2021 update) *2, f0(1370) -> pi+ pi-
+3.28 MyK*-_f pi+ SVS;   #Gamma_46 (PDG 2021 update) *2. K*- -> KS0 pi-
+0.534 MyK_0*- pi+ PHSP; #Gamma_47 (PDG 2021 update)*2, K0*(1430)- -> KS0 pi-
+
+# Breakup of Gamma_71 (PDG 2021 update) D0 -> K- 2pi+ pi- 
+# Gamma_71 inclusive is 8.23
+# it is split into Gamma_72 (inclusive) = 6.87, Gamma_77 = 0.39, Gamma_81 = 1.81. 
+# Due to interference effects, these add up to 9.07, greater than the inclusive 8.23
+# So I rescale Gamma_72 to 6.23, Gamma_77 to 0.35, Gamma_81 to 1.64 to maintain relative proportions and have it sum to 8.23
+
+# Gamma_72 further splits into Gamma_73 = 0.61, Gamma_74 = 1.01, Gamma_76 = 4.32 (before rescaling)
+# Rescale Gamma_72 to 0.63, Gamma_73 to 1.13, Gamma_75 to 4.47, so they sum to 6.23
+
+0.63 K- pi+ rho0 PHSP;                                     #Gamma_73 (PDG 2021 update) Rescaled                         [3piX]
+1.13 Myanti-K*0_f rho0 SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; #Gamma_74 (PDG 2021 update) Rescaled, K*0bar -> K- pi+       [3piX]
+4.47 Mya_1+ K-  SVS;                                       #Gamma_76 (PDG 2021 update) Rescaled, a1 -> rho0 pi+         [3piX]
+0.35 MyK_1- pi+ SVS;                                       #Gamma_77 (PDG 2021 update), K1(1270) -> K- pi+ pi- Rescaled [3piX]
+1.64 K- pi+ pi+ pi- PHSP;                                  #Gamma_81 (PDG 2021 update), Rescaled                        [3piX]
+#
+
+# Breakup of Gamma_82 (PDG 2021 update) D0 -> Ks0 pi+ pi- pi0 Inclusive = 5.2%*2
+0.254 Myeta_f K0  PHSP;                                #Gamma_83 (PDG 2021 update) Rescaled then *2, eta forced to pi+ pi- pi0
+2.16 Myomega K0  SVS;                                  #Gamma_84 (PDG 2021 update) Rescaled and then *2, omega forced to pi+ pi- pi0
+4.58 MyK*-_f rho+ SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;  #Gamma_71 (2008 PDG)Rescaled then *2, K*- -> KS0 pi-
+0.48 MyK_1_f- pi+ SVS;                                 #Gamma_72(2008 PDG) Rescaled then *2, K1(1270) -> KS0 pi- pi0
+0.52 Myanti-K*0_f1 pi+ pi- PHSP;                       #Gamma_73 (2008 PDG) Rescaled then *2, K*0 -> KS0 pi0
+2.4 K0 pi+ pi- pi0 PHSP;                               #Gamma_74(2008 PDG)Rescaled  then *2
+#
+
+#Breakup of Gamma_86 (PDG 2021 update) D0 -> K- 2pi+ pi- pi0 4.3%
+
+1.3 Myanti-K*0_f pi+ pi- pi0 PHSP;                            #Gamma_87 (PDG 2021 update), K*0bar -> K- pi+                         [3piX]
+2.15 K- pi+ Myomega PHSP;                                     #Gamma_88-Gamma_89 (PDG 2021 update), omega -> pi+ pi- pi0            [3piX]
+0.65 Myanti-K*0_f Myomega SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; #Gamma_89 (PDG 2021 update), K*0bar -> K- pi+, omega -> pi+ pi- pi0   [3piX]
+0.2 K- pi+ pi+ pi- pi0 PHSP;                                  #Adding by hand to get to 4.3%                                        [3piX]
+#
+
+0.54 K0 Myeta_2piX pi0 PHSP;       #Gamma_90 (PDG 2021 update)*2 = 2.02 * B(eta -> 2piX)
+0.51 K- pi+ Myeta_2piX PHSP;       #Gamma_93 (PDG 2021 update) = 1.88 * B(eta -> 2piX)      [3piX]
+0.12 K- pi+ pi0 Myeta_2piX PHSP;   #Gamma_97 (PDG 2021 update) = 0.449 * B(eta -> 2piX)     [3piX]
+0.15 K0 pi+ pi- Myeta_2piX PHSP;   #Gamma_98 (PDG 2021 update)*2 = 0.56 * B(eta -> 2piX)    [3piX]
+0.41 K0 pi+ pi- Myeta_not2piX PHSP;#Gamma_98 (PDG 2021 update)*2 = 0.56 * (1-B(eta -> 2piX))
+# 0.095 K0 pi0 pi0 Myeta_2piX PHSP;  #Gamma_99 (PDG 2021 update)*2 = 0.352 * B(eta -> 2piX)
+0.22 K0 rho0 pi+ pi- PHSP;         #Gamma_101 (PDG 2021 update)*2                           [3piX]
+0.32 MyK*-_f rho0 pi+ PHSP;        #Gamma_103 (PDG 2021 update)*2, K*- forced to KS0 pi-    [3piX]
+
+# 0.043 K0 Myeta_f1 PHSP;             #Part of Gamma_107(PDG 2021 update), with eta going only to pi+ pi- gamma *2, Remaining part is in #Gamma_83
+# 0.13 Myanti-K*0_f1 Myeta_2piX SVS; #Gamma_111 (PDG 2021 update)*1/3, K*0 -> K0 pi0 = 0.47 * B(eta -> 2piX)  
+0.28 K- pi+ Myeta'_2piX PHSP;      #Gamma_114 (PDG 2021 update) = 0.643 * B(eta' -> 2piX)                     [3piX]
+0.22 K0 Myeta'_2piX pi0 PHSP;      #Gamma_115 (PDG 2021 update)*2 = 0.504 * B(eta' -> 2piX)
+# Gamma_108 (PDG 2021 update), Gamma_112 (PDG 2021 update) too small, ignoring
+
+# Pionic modes
+1.01 rho+ pi- SVS;    #Gamma_134 (PDG 2021 update)
+0.386 rho0 pi0 SVS;   #Gamma_135 (PDG 2021 update)
+0.515 rho- pi+ SVS;   #Gamma_136 (PDG 2021 update)
+
+0.117 pi+ pi+ pi- pi- PHSP;                         #Gamma_151 - Gamma_152 - Gamma_164  (PDG 2021 update)    [3piX]
+0.454 Mya_1+ pi- SVS;                               #Gamma_152 (PDG 2021 update)                             [3piX]
+0.185 rho0 rho0 SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; #Gamma_164 (PDG 2021 update)                             [3piX]
+
+1.02 pi+ pi- pi0 pi0 PHSP;     #Gamma_178 (PDG 2021 update)
+
+#0.05 Myomega_2piX Myeta_2piX PHSP;    #Gamma_173 (PDG 2021 update) = 0.198 * B(omega->2piX) * B(eta->2piX)   [3piX]
+#0.13 Myomega_2piX Myeta_not2piX PHSP; #Gamma_173 (PDG 2021 update) = 0.198 * B(omega->2piX) * B(eta !-> 2piX)
+
+0.42 pi+ pi+ pi- pi- pi0 PHSP;       #Gamma_182  (PDG 2021 update), ignoring the breakup into Gamma_183 & Gamma_184, too small  [3piX]
+0.09 pi+ pi- pi0 Myeta_2piX PHSP;    #Gamma_187 (PDG 2021 update) = 0.323 * B(eta -> 2piX)                                      [3piX]
+0.23 pi+ pi- pi0 Myeta_not2piX PHSP; #Gamma_187 (PDG 2021 update) = 0.323 * B(eta !-> 2piX)
+
+#0.015 Myeta_2piX Myeta_2piX PHSP;   #Gamma_191 (PDG 2021 update) = 0.21 * B(eta->2piX)^2                 [3piX]
+#0.08 Myeta_2piX Myeta_not2piX PHSP; #Gamma_191 (PDG 2021 update) = 0.21 * B(eta->2piX)*B(eta!->2piX)*2
+
+#0.01 Myeta_2piX Myeta'_2piX PHSP;    #Gamma_194 (PDG 2021 update) = 0.10 * B(eta->2piX) * B(eta'->2piX)  [3piX]
+#0.01 Myeta_2piX Myeta'_not2piX PHSP; #Gamma_194 (PDG 2021 update) = 0.10 * B(eta->2piX) * B(eta'!->2piX)
+#0.04 Myeta_not2piX Myeta'_2piX PHSP; #Gamma_194 (PDG 2021 update) = 0.10 * B(eta!->2piX) * B(eta'->2piX)
+
+0.247 K+ K- pi+ pi- PHSP;     #Gamma_230 (PDG 2021 update)
+0.212 K0 K0 pi+ pi- PHSP;     #Gamma_257 (PDG 2021 update)*4
+0.310 K+ K- pi+ pi- pi0 PHSP; #Gamma_261 (PDG 2021 update)
+
+Enddecay
+CDecay Myanti-D0
+
+#Sum D0 -> 2piX BF = 37.4%
+#Sum D0 -> 3piX BF = 15.4%
+
+# Biggest 3piX modes:
+# D0 -> K- 2pi+ pi- (~52% of total 3piX)
+#   of which D+ -> a1+ K- (~28% of total 3piX)
+# D0 -> K- 2pi+ pi- pi0 (~27% of total 3piX)
+#   of which D+ -> K- pi+ (omega->pi+pi-pi0) (~14% of total 3piX)
+#################END D0 -> 2/3piX ##########################
+
+#####################
+#
+# B(eta -> 2piX) = 0.271 = B(eta -> 1piX)
+# B(eta' -> 2piX) = 0.432
+# B(omega -> 2piX) = 0.908
+
+# '**' denote the new modes added by AV 
+
+#################### D+s -> 2/3piX ##########################
+Decay MyD_s+
+
+# Leptonic and semileptonic modes
+0.74 Mytau+ nu_tau SLN; #Gamma_21 (PDG 2022) [5.32] * B(tau -> 3piX) [13.93%] , ** #TODO: Correct by tau->3pi BF?
+
+#Hadronic modes with a KKbar pair
+
+#Gamma_67 (2022) Ds+ -> K+ K- 2pi+ pi- is dominated by two body Ds -> a1+ phi, so I assign the exclusive number entirely to this submode (Gamma_70)
+0.86 Mya_1+ Myphi SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; #Gamma_67 (PDG 2022) , a1->rho pi, phi -> KK
+0.312 K0 K0 pi+ pi+ pi- PHSP;                         #Gamma_74 (PDG 2022) *4 
+
+# Hadronic modes without K’s   
+
+#1.08 pi+ pi- pi+ PHSP; #Gamma_76 (2022), **
+
+#Breakup of Ds+ -> 2pi+ pi- pi0
+0.46 Myeta_2piX pi+ PHSP;      #Gamma_86 (PDG 2022) = 1.68 * B(eta -> 2piX)
+0.17 Myomega_2piX pi+ SVS;     #Gamma_87 (PDG 2022) = 0.192 * B(omega->2piX)
+
+0.79 pi+ pi+ pi+ pi- pi- PHSP; #Gamma_88 (PDG 2022) 
+
+# Breakup of Ds+ -> 2pi+ pi- 2pi0
+# PDG is confusing for Ds+ -> eta rho+, Ds+ -> eta pi+ pi0
+# The modes are listed as independent, but they clearly cannot be, rho+ goes to pi+ pi0 100% of the time
+# CLEO measure B(Ds+ -> eta rho+) = (8.9 +/- 0.8)%
+# measure B(Ds+ -> eta pi+ pi0)    = (9.5 +/- 0.5)%
+# of which         B(Ds+ -> eta rho+)  = (7.4 +/- 0.6)%
+#                  B(Ds+ -> a0 pi, a0 -> eta pi)   = (2.2 +/- 0.4)%
+
+# So I average CLEO and BES3 for B(Ds+ -> eta rho+) to get 8.15%
+
+2.21 rho+ Myeta_2piX SVS;     	#Gamma_90 (PDG 2022) with my own averaging = 8.15 * B(eta -> 2piX)
+0.3 Mya_0+ pi0 PHSP;            #Half of Gamma_81 (PDG 2021 update), a0+ -> eta pi+ = 1.1 * B(eta -> 2piX)
+0.3 Mya_00 pi+ PHSP;            #Other half of Gamma_81 (PDG 2021 update), a00 -> eta pi0 = 1.1 * B(eta -> 2piX)
+2.54 Myomega_2piX pi+ pi0 PHSP; #Gamma_82 (PDG 2021 update) = 2.8 * B(omega->2piX)
+
+# ** NEW Breakup of Gamma_93 (2022) Ds+ -> 2pi+ pi- eta Total = 3.12% (BES3 https://arxiv.org/pdf/2106.13536.pdf)
+# PDG2022 is buggy here. Lists submodes that don't belong, and doesn't list some modes that should
+
+1.73 Mya_1+ eta SVS;         #Gamma_94 (PDG 2022)
+#0.25 MyAlta_1+ eta SVS;      #Gamma_95 (PDG 2022) a_1+ should go to f0(500) pi+ here which in LHCb is called sigma_0 I think, and the sigma_0 should go to pi+ pi-.
+0.21 rho0 Mya_0+ SVS;        #Gamma_97 (PDG 2022)
+0.15 Mya_0- pi+ pi+ PHSP;    #Not mentioned in PDG 2022, but in BES3 table. [a0- pi+] should be in S-wave. Not sure how to put into DECFILE
+0.11 Mya_0+ pi- pi+ PHSP;    #Not mentioned in PDG 2022, but in BES3 table. [a0+ pi-] should be in S-wave. Not sure how to put into DECFILE
+0.19 Myf_0 eta pi+ PHSP;     #Not mentioned in PDG 2022, but in BES3 table. [f0(980) eta] should be in S-wave. Not sure how to put into DECFILE
+#0.40 Mysigma_0 eta pi+ PHSP; #Not mentioned in PDG 2022, but in BES3 table. [f0(500) eta] should be in S-wave. Not sure how to put into DECFILE
+0.08 Myf'_1 pi+ SVS;         #Gamma_100 +Gamma_101 (PDG 2022), f1(1420) -> a0(980)- pi+, a(980)- -> eta pi-. Number tweaked so that sum of submodes adds to 3.12%
+
+
+3.09 pi+ pi+ pi+ pi- pi- pi0 PHSP; #Gamma_83 - (Gamma_84*B(omega->pi+pi-pi0)) - (Gamma_85*(B(eta’->pi+pi- eta)*B(eta -> pi+ pi- pi0)))
+1.6 omega pi+ pi+ pi- PHSP;        #Gamma_84 (PDG 2021 update), all omega decays. We don't need omega to go to 2piX here
+1.7 Myeta'_2piX pi+ PHSP; 		   #Gamma_85 (PDG 2021 update) = 3.94 * B(eta' -> 2piX)
+
+# PDG 2021 again lists Gamma_88 Ds+ -> eta’ rho+ and D+ -> eta’ pi+ pi0 independently.
+# CLEO paper for measurement of Ds+ -> eta’ pi+ pi0 says that m(pi+ pi0) is selected only in rho region.
+# So let us only keep Gamma_88 and ignore Gamma_89
+2.5 rho+ Myeta'_2piX SVS; #Gamma_88 (PDG 2021 update) = 5.8 * B(eta' -> 2piX)
+0.6 K0 pi+ pi+ pi- PHSP;  #Gamma_104 (PDG 2021 update) *2
+
+Enddecay
+CDecay MyD_s-
+
+#Sum Ds+ -> 3piX BF = 22.37% # 17.4%
+#New 22.37%?
+#################### End of D+s -> 2/3piX ##########################
+
+#Decays of all the other intermediate resonances
+#
+# f'_0 -> pi+ pi-
+Decay Myf'_0
+1.0 pi+ pi- PHSP;
+Enddecay
+#
+# f'_1(1420) -> a0(980)- pi+, a0(980)+ -> eta pi+
+Decay Myf'_1
+0.5 Mya_0- pi+ VSS;
+0.5 Mya_0+ pi- VSS;
+Enddecay
+#
+#
+Decay Mya_1+
+1.0 rho0 pi+ VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+# K*- -> KS0 pi-
+Decay MyK*-_f
+1.0 K_S0 pi- VSS;
+Enddecay
+CDecay MyK*+_f
+#
+#
+Decay Myeta_f
+1.0 pi+ pi- pi0 PHSP;
+Enddecay
+#
+#a1+ -> f(0)500 pi+, f(0)500 -> pi+ pi-. f(0)500 is called sigma_0 in LHCb
+Decay MyAlta_1+
+1.0 MyOwnsigma_0 pi+ VSS;
+Enddecay
+CDecay MyAlta_1-
+#
+# tau -> 3pi (pi0) nu
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+Decay Mytau-
+  9.31        TAUOLA 5;
+  4.62        TAUOLA 8;
+Enddecay
+CDecay Mytau+
+#
+# K_1(1270)-  -> K- pi+ pi-
+Decay MyK_1+
+1.0 K+ pi+ pi- PHSP;
+Enddecay
+CDecay MyK_1-
+#
+# K'_10 -> KS0bar pi+ pi-
+Decay MyK'_10
+1.0 K_S0 pi+ pi- PHSP;
+Enddecay
+CDecay Myanti-K'_10
+#
+# a0(980)+ -> eta pi+
+Decay Mya_0+
+1.0 eta pi+ PHSP;
+Enddecay
+CDecay Mya_0-
+#
+# K_0*+ -> KS0 pi+
+Decay MyK_0*+
+1.0 K_S0 pi+ PHSP;
+Enddecay
+CDecay MyK_0*-
+#
+# K_1(1270)+ -> KS0 pi+ pi0
+Decay MyK_1_f-
+1.0 K_S0 pi- pi0 PHSP;
+Enddecay
+CDecay MyK_1_f+
+#
+#
+Decay Myomega_2piX
+0.892 pi- pi+ pi0 OMEGA_DALITZ;
+0.0153 pi- pi+ VSS;
+Enddecay
+#
+# a0(980)0 ->eta pi0
+Decay Mya_00
+1.0 eta pi0 PHSP;
+Enddecay
+#
+# omega -> pi+ pi- pi0
+Decay Myomega
+1.0 pi+ pi- pi0 OMEGA_DALITZ;
+Enddecay
+#
+# f0(500) -> pi+ pi-
+Decay MyOwnsigma_0
+1.00 pi+ pi- PHSP;
+Enddecay
+#
+#
+Decay Myeta_2piX
+0.2292 pi- pi+ pi0 ETA_DALITZ;
+0.0422 gamma pi- pi+ PHSP;
+Enddecay
+#
+# K*0 -> K+ pi-
+Decay MyK*0_f
+1.0 K+ pi- VSS;
+Enddecay
+CDecay Myanti-K*0_f
+#
+# phi -> K+ K-
+Decay Myphi
+1.0 K+ K- VSS;
+Enddecay
+#
+# f0 -> pi+ pi-
+Decay Myf_0
+1.0 pi+ pi- PHSP;
+Enddecay
+#
+#
+Decay Myeta'_2piX
+0.115 pi+ pi- Myeta_2piX PHSP; #B(eta'->pi+pi- eta)=0.425 * B(eta -> 2piX)
+0.06  pi0 pi0 Myeta_2piX PHSP; #B(eta'->pi0 pi0 eta)=0.224 * B(eta -> 2piX)
+0.295 rho0 gamma SVP_HELAMP 1.0 0.0 1.0 0.0;
+0.023 Myomega_2piX gamma SVP_HELAMP 1.0 0.0 1.0 0.0; #B(eta' -> omega gamma) = 0.0252 * B(omega -> 2piX)
+Enddecay
+#
+#
+Decay Myeta_not2piX #Copied from DECAY.DEC
+0.3931 gamma gamma PHSP; #[Reconstructed PDG2011]
+0.3257 pi0 pi0 pi0 PHSP; #[Reconstructed PDG2011]
+Enddecay
+#
+# K*0 -> KS0 pi0
+Decay MyK*0_f1
+1.0 K_S0 pi0 VSS;
+Enddecay
+CDecay Myanti-K*0_f1
+#
+End
+

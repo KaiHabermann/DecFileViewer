@@ -1,0 +1,77 @@
+# EventType: 11144006
+#
+# Descriptor: [B0 -> (J/psi(1S) ->  mu+ mu-) (K*(892)0 -> K+ pi-)]cc
+#
+# NickName: Bd_JpsiKst,update2012,dgog0.004,mm=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# ParticleValue: "B0H  99998  510  0.0  5.27958000  1.5159e-12  B0H  0   0.000000e+000", "B0L  99999  150  0.0  5.27958000  1.5220e-12  B0L  0   0.000000e+000"
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.@Production.addTool( LoKi__GenCutTool, 'TightCut')
+# tightCut = gen.@Production.TightCut
+# tightCut.Decay = '^[B0 -> (J/psi(1S) => ^mu+ ^mu-) (K*(892)0 -> ^K+ ^pi-)]CC'
+# tightCut.Preambulo += [
+#   'from GaudiKernel.SystemOfUnits import picosecond',
+#   'from GaudiKernel.PhysicalConstants import c_light',
+#   'inAcc  = in_range(0.005, GTHETA, 0.400) & in_range(1.8, GETA, 5.1)',
+#   'goodB  = (GTIME > (0.2 * picosecond * c_light))',
+# ] 
+# tightCut.Cuts = {
+#   '[B0]cc' : 'goodB',
+#   '[mu+]cc': 'inAcc',
+#   '[mu-]cc': 'inAcc',
+#   '[K+]cc' : 'inAcc',
+#   '[pi-]cc': 'inAcc',
+# }
+# EndInsertPythonCode
+#
+# Documentation: Bd -> J/PsiKst with non-zero deltaGammaD and lifetime/geometry cuts
+# Updated values for the amplitudes and betas as measured by LHCb using 2011+2012 data (https://arxiv.org/pdf/1509.00400.pdf).
+# dgog value based on theory prediction https://arxiv.org/pdf/1511.09466.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Daniel Magdalinski
+# Email: daniel.magdalinski@cern.ch
+# Date: 20250902
+#
+# CPUTime: < 1 min
+#
+#
+Define Hp 0.654
+Define Hz 0.743
+Define Hm 0.141
+Define pHp -3.141
+Define pHz 0.0
+Define pHm -1.581
+#
+Alias      MyJ/psi    J/psi
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+ChargeConj MyJ/psi    MyJ/psi
+#
+Decay B0sig
+  1.000         MyJ/psi   MyK*0          SVV_HELAMP Hp pHp Hz pHz Hm pHm;
+Enddecay
+Decay anti-B0sig
+  1.000         MyJ/psi   Myanti-K*0     SVV_HELAMP Hm pHm Hz pHz Hp pHp;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+       mu-            PHOTOS VLL;
+Enddecay
+#
+Decay MyK*0
+  1.000         K+        pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End

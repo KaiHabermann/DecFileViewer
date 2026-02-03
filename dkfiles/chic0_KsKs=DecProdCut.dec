@@ -1,0 +1,31 @@
+# EventType: 28104130
+#
+# Descriptor: chi_c0(1P) -> (KS0 -> pi+ pi-) (KS0 -> pi+ pi-)
+#
+# NickName: chic0_KsKs=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: chi_c0 decays into two KS, requiring products to be in LHCb acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Giulia Tuci
+# Email: giulia.tuci@cern.ch
+# Date: 20220530
+#
+#
+Alias      MyK0s   K_S0
+ChargeConj MyK0s   MyK0s
+#
+Decay chi_c0sig
+  1.000         MyK0s   MyK0s       PHSP;
+Enddecay
+#
+Decay MyK0s
+  1.000    pi+          pi-           PHSP;
+Enddecay
+End
+#

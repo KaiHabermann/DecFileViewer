@@ -1,0 +1,47 @@
+# EventType: 23103064
+#
+# Descriptor: [D_s+ -> pi- pi+ K+]cc
+#
+# NickName: Ds+_pi-pi+K+=phsp,TightCut3
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[ D_s+ => ^pi- ^pi+ ^K+]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import millimeter,ns" ,
+#     "inAcc = in_range ( 0.010, GTHETA, 0.400 ) " , 
+#     "pioncuts = ( (GPT > 250 * MeV) & ( GP > 2000 * MeV))",
+#     "kaoncuts = ( (GPT > 250 * MeV) & ( GP > 2600 * MeV))",
+#     "Dcuts = ( (GPT > 2500 * MeV) & ( GP > 12000 * MeV) & (GTIME > 0.0002 * ns) & (GNINTREE( (GPT > 400 * MeV) ) > 1.5) & (GNINTREE( (GPT > 1000 * MeV) ) > 0.5) & (GSUMTREE( GPT, ('K+' == GABSID) | ('pi+' == GABSID)) > 3000 * MeV) )"
+# ]
+# tightCut.Cuts      =    {
+#     '[K+]cc'  : ' inAcc & kaoncuts',
+#     '[pi+]cc'  : ' inAcc & pioncuts',
+#     '[D_s+]cc'   : 'Dcuts'
+#                         }
+# EndInsertPythonCode
+#
+# Documentation: Decay products in acceptance, phase space decay model, P and PT cuts on D and daughters (v2)
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Nathan Jurik
+# Email: nathan.jurik@cern.ch
+# Date: 20240821
+#
+# CPUTime: <1min
+#
+Decay D_s+sig
+  1.000        pi-        pi+        K+         PHSP;
+Enddecay
+CDecay D_s-sig
+#
+End

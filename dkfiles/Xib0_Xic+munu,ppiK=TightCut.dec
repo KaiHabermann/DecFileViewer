@@ -1,0 +1,57 @@
+# EventType: 16574040
+#
+# Descriptor:  [Xi_b0 -> (Xi_c+ -> p+ K- pi+) anti-nu_mu mu-]cc
+#
+# NickName: Xib0_Xic+munu,ppiK=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.addTool( SignalRepeatedHadronization )
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[ Xi_b0 => (Xi_c+ => ^p+  ^K- ^pi+ ) ^mu- nu_mu~ ]CC'
+# tightCut.Cuts      =    {
+#     '[mu-]cc'  : ' goodMuon ' ,
+#     '[p+]cc'   : ' goodProton ' ,
+#     '[K+]cc'   : ' goodKaon ' ,
+#     '[pi+]cc'  : ' goodPion ' }
+# tightCut.Preambulo += [
+#     'inAcc    = in_range ( 1.9 , GETA , 5.1 ) ' ,
+#     'goodMuon = ( GPT > 0.6 * GeV ) & ( GP > 4 * GeV ) & inAcc ' ,
+#     'goodProton = ( GPT > 0.2 * GeV ) & ( GP > 6 * GeV ) & inAcc ' ,
+#     'goodPion = ( GPT > 0.2 * GeV ) & ( GP > 1.8 * GeV ) & inAcc ' ,
+#     'goodKaon = ( GPT > 0.2 * GeV ) & ( GP > 1.8 * GeV ) & inAcc ' ]
+# EndInsertPythonCode
+#
+# Documentation: This is the decay file to generate  Xi_b0 -> (Xi_c+ -> ^p+  ^K- ^pi+ ) ^mu- nu_mu~
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Daniele Marangotto
+# Email: daniele.marangotto@cern.ch
+# Date: 20201217
+# CPUTime: < 1 min
+#
+Alias      MyXi_c+         Xi_c+
+Alias      MyXi_c-	   anti-Xi_c-
+ChargeConj MyXi_c+         MyXi_c-
+#
+# actuall decay
+#
+Decay Xi_b0sig
+  1.0000    MyXi_c+        mu-  anti-nu_mu        PHOTOS    PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyXi_c+
+  1.0000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay MyXi_c-
+
+End
+
+

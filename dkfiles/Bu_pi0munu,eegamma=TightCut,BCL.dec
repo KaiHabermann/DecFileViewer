@@ -1,0 +1,46 @@
+# EventType: 12513400
+#
+# Descriptor: [B+ => (pi0 => e+ e- gamma) nu_mu mu+]cc 
+#
+# NickName: Bu_pi0munu,eegamma=TightCut,BCL
+#
+# Documentation: Decay file for the decay B+ -> pi0 mu+ nu_mu with BCL from factor. Tight cut on the muon only.
+# EndDocumentation
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation().SignalRepeatedHadronization
+# gen.addTool( LoKi__GenCutTool, "TightCut" )
+# SignalFilter = gen.TightCut
+# SignalFilter.Decay = "[B+ => pi0 ^mu+ nu_mu]CC"
+# SignalFilter.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import  GeV",
+#   "inAcc                = in_range ( 0.005 , GTHETA , 0.400 ) &  in_range ( 1.9 , GETA , 5.1 )", 
+#   "muCuts               = (GP > 5 * GeV) &  (GPT > 1.2 * GeV) & inAcc",
+#   ]
+# SignalFilter.Cuts =  { "[mu+]cc" : "muCuts" }
+# EndInsertPythonCode
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Martino Borsato
+# Email: martino.borsato@cern.ch
+# Date: 20221014
+#
+Alias      MyPi0  pi0
+ChargeConj MyPi0  MyPi0
+#
+Decay B+sig
+  1.000   MyPi0   mu+  nu_mu     PHOTOS BTOXELNU BCL 0.419 -0.495 -0.43 0.22 0.510 -1.700 1.53 4.52;
+Enddecay
+CDecay B-sig
+#
+Decay MyPi0
+  1.        e+         e-       gamma   PI0_DALITZ;
+Enddecay
+#
+End
+#

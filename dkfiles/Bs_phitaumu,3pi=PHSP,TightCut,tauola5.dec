@@ -1,0 +1,65 @@
+# EventType: 13516000
+#
+# Descriptor: {[B_s0 -> (phi(1020) -> K+ K-) (tau+ -> pi+ pi- pi+ anti-nu_tau) mu-]cc, [B_s0 -> (phi(1020) -> K+ K-) mu+ (tau- -> pi+ pi- pi- nu_tau)]cc}
+#
+# NickName: Bs_phitaumu,3pi=PHSP,TightCut,tauola5
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#gen = Generation(genAlgName)
+#gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay = "([ (Beauty) ==>  (phi(1020) => ^K+ ^K-)   (tau+ ==> ^pi+ ^pi- ^pi+ nu_tau~) ^mu- ]CC) || ([ (Beauty) ==>  (phi(1020) => ^K+ ^K-)   (tau- ==> ^pi- ^pi+ ^pi- nu_tau) ^mu+ ]CC)"
+#tightCut.Preambulo += [
+#  "from LoKiCore.functions import in_range"  ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV"  
+#]
+#tightCut.Cuts      =    {
+# '[pi+]cc'   : " in_range( 0.010 , GTHETA , 0.400 ) & ( GPT > 250 * MeV )  " ,
+# '[K-]cc'   : "  in_range( 0.010 , GTHETA , 0.400 )  & ( GPT > 250 * MeV )" ,
+# '[mu-]cc'   : "  in_range( 0.010 , GTHETA , 0.400 )  & ( GPT > 250 * MeV )" 
+#    }
+# EndInsertPythonCode
+#
+# Documentation: Bs decay with PHSP, phi forced to K+ K-, tau to 3pi with tauola. Tight cuts on charged daughters.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Matt Rudolph
+# Email: matthew.scott.rudolph@cern.ch
+# Date: 20190806
+#
+
+Define TauolaCurrentOption 0
+Define TauolaBR1 1.0
+
+
+Alias         Mytau+  tau+
+Alias         Mytau-  tau-
+ChargeConj    Mytau+  Mytau-
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B_s0sig
+  0.5000       MyPhi     Mytau+  mu-        PHSP;
+  0.5000       MyPhi     mu+  Mytau-        PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+Decay Mytau-
+  1.00  TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+End
+

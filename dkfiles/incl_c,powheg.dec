@@ -1,0 +1,50 @@
+# EventType: 20000011 
+#
+# Descriptor: pp => [<Xc>]cc ... 
+#
+# NickName: incl_c,powheg
+# Sample: Special
+#
+#
+# Cuts: None
+#
+# FullEventCuts: LoKi::FullGenEventCut/twocinAcc
+#
+# InsertPythonCode:
+# Generation(genAlgName).SampleGenerationTool = "Special"
+# from Configurables import Special, PowhegProductioncc, Pythia8Production
+# Generation(genAlgName).addTool( Special )
+# Generation(genAlgName).Special.ProductionTool = "PowhegProductioncc"
+# Generation(genAlgName).Special.addTool( PowhegProductioncc () )
+# Generation(genAlgName).Special.PowhegProductioncc.qmass =  1.5
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "twocinAcc" )
+# tracksInAcc = Generation(genAlgName).twocinAcc
+# tracksInAcc.Code = " (count ( isGoodC)>1) "
+# tracksInAcc.Preambulo += [                                                                        
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"                                           
+#     , "isGoodC   = ((  'c' == GABSID ) & GINTREE( GCHARM & ( GTHETA < 350.0*mrad ) & (GPT > 0*GeV) ))"
+#    ]      
+# Generation(genAlgName).Special.PileUpProductionTool = "Pythia8Production"
+# Generation(genAlgName).PileUpTool = "FixedLuminosityForRareProcess"
+# Generation(genAlgName).Special.addTool( Pythia8Production () )
+# Generation(genAlgName).Special.ReinitializePileUpGenerator = False
+# Generation(genAlgName).Special.Pythia8Production.Tuning = "LHCbDefault.cmd"
+# EndInsertPythonCode
+#
+#
+# Documentation: 2 c quarks in LHCb Acc, POWHEG production mode
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: 2 min
+# Responsible: Marcin Kucharczyk, Bartek Rachwal
+# Email: marcin.kucharczyk@cern.ch, bartlomiej.rachwal@cern.ch
+# Date: 20141117
+#
+End
+#
+
+
+

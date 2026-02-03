@@ -1,0 +1,42 @@
+# EventType: 13674400
+#
+# Descriptor: {[[B_s0]nos -> (D_s+ -> pi+ K+ K-) (D- -> anti-nu_mu mu- pi0)]cc,[[B_s0]os -> (D_s- -> pi- K- K+) (D+ -> nu_mu mu+ pi0)]cc}
+#
+# NickName: Bs_DsD-,piKK,pi0munu=DecProdCut
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb, Bs forced into Ds+ D-. Ds+ forced into pi+ K+ K-. D- forced into pi0 mu nu.
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Piet Nogga (University of Bonn)
+# Email: piet.nogga@cern.ch
+# Date: 20240321
+#
+
+Alias      MyDsp        D_s+
+Alias      MyDsm   	D_s-
+Alias      MyDm     D-
+Alias      MyDp     D+
+ChargeConj MyDsp       MyDsm
+ChargeConj MyDm        MyDp
+#
+Decay anti-B_s0sig
+  1.00         MyDsp MyDm        PHSP;
+Enddecay
+CDecay B_s0sig
+#
+Decay MyDsp
+  1.00        pi+ K+ K-          PHSP;
+Enddecay
+CDecay MyDsm
+#
+Decay MyDm
+1.00          anti-nu_mu mu- pi0    PHSP;
+Enddecay
+CDecay MyDp
+#
+End
+#

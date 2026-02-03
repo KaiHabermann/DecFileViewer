@@ -1,0 +1,65 @@
+# EventType: 13774232
+# Descriptor: {[[B_s0]nos => (D_s- => K+ K- pi-) nu_mu mu+]cc, [[B_s0]os => (D_s+ => K- K+ pi+) anti_nu_mu mu-]cc}
+# NickName: Bs_Dstaunu=Ds+Dsst=ISGW2,mu3hInAcc
+# Cuts: BeautyTomuCharmTo3h
+# CutsOptions: MuonPMin 2.5*GeV HadronPtMin 0.25*GeV HadronPMin 4.5*GeV
+# FullEventCuts: LoKi::FullGenEventCut/TightCuts
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "TightCuts" )
+# tightCuts = Generation(genAlgName).TightCuts
+# tightCuts.Code = "( count ( DsDaughPt ) > 0 )"
+# tightCuts.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import GeV",
+# "DsDaughPt     = (('D_s-' == GABSID) & (GCHILD(GPT,('K+'==GABSID))+GCHILD(GPT,('K-'==GABSID))+GCHILD(GPT,('pi-'==GABSID)) > 2.0*GeV))"
+#  ]
+# EndInsertPythonCode
+#
+# CPUTime: <1 min 
+# Documentation: Sum of Ds and Ds* tau nu_tau
+#                Requires that the mu from tau and the 3h from charm are in acc. 
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Stefano Cali
+# Email: stefano.cali@cern.ch
+# Date: 20190611
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Alias      Mytau+     tau+
+Alias      Mytau-     tau-
+ChargeConj Mytau+     Mytau-
+#
+Decay B_s0sig
+  #such that the Ds*/Ds = 2.42
+  0.0231   MyD_s-     Mytau+    nu_tau       PHOTOS  ISGW2; 
+  0.0505   MyD_s*-    Mytau+    nu_tau       PHOTOS  ISGW2;
+ Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s+
+  0.0545     K+    K-     pi+          PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+  0.935   MyD_s+  gamma               PHOTOS VSP_PWAVE;
+  0.058   MyD_s+  pi0                 PHOTOS VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay Mytau+
+  0.1731     mu+  nu_mu   anti-nu_tau  PHOTOS  TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

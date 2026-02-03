@@ -1,0 +1,318 @@
+# EventType: 15204015
+# 
+# Descriptor: [Lambda_b0 => p+ K- pi+ pi-]cc
+# 
+# NickName: Lb_pKpipi=tightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation().SignalPlain.addTool( LoKi__GenCutTool,'TightCut')
+# tightCut = Generation().SignalPlain.TightCut
+# tightCut.Decay = '^[Lambda_b0 ==> ^p+ ^K- ^pi+ ^pi-]CC'
+# tightCut.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV',
+#    'inAcc        = in_range (0.005, GTHETA, 0.400) & in_range ( 2.0 , GETA , 5.0)',
+#    'goodLb       = (GP > 25000 * MeV) & (GPT > 1500 * MeV)',
+#    'goodP        = in_range ( 8.0 * GeV , GP , 300 * GeV) & (GPT >  200 * MeV)',
+#    'goodK        = in_range ( 1.5 * GeV , GP , 400 * GeV) & (GPT >  200 * MeV)',
+#    'goodPi       = in_range ( 1.5 * GeV , GP , 400 * GeV) & (GPT >  200 * MeV)',
+#    'LbFD    =    GTIME > 50 * micrometer',
+# ]
+# tightCut.Cuts = {
+#    '[Lambda_b0]cc'   : 'goodLb & LbFD',
+#    '[K+]cc'   : 'inAcc & goodK',
+#    '[pi+]cc'  : 'inAcc & goodPi',
+#    '[p+]cc'   : 'inAcc & goodP',
+# } 
+#
+# EndInsertPythonCode
+#
+#
+# Documentation: Daughters in LHCb acceptance with some tight cut. 
+# Acc
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Xinchen Dai 
+# Email: xdai@cern.ch
+# Date: 20220414
+# CPUTime: 3 min
+#
+#
+
+
+#
+Alias MyN(1440)0 N(1440)0
+Alias Myanti-N(1440)0 anti-N(1440)0
+ChargeConj MyN(1440)0 Myanti-N(1440)0
+#
+Alias MyN(1520)0 N(1520)0
+Alias Myanti-N(1520)0 anti-N(1520)0
+ChargeConj MyN(1520)0 Myanti-N(1520)0
+#
+Alias MyN(1535)0 N(1535)0
+Alias Myanti-N(1535)0 anti-N(1535)0
+ChargeConj MyN(1535)0 Myanti-N(1535)0
+#
+Alias MyN(1440)+ N(1440)+
+Alias Myanti-N(1440)- anti-N(1440)-
+ChargeConj MyN(1440)+ Myanti-N(1440)-
+#
+Alias MyN(1535)+ N(1535)+
+Alias Myanti-N(1535)- anti-N(1535)-
+ChargeConj MyN(1535)+ Myanti-N(1535)-
+#
+Alias MyN(1700)+ N(1700)+
+Alias Myanti-N(1700)- anti-N(1700)-
+ChargeConj MyN(1700)+ Myanti-N(1700)-
+#
+Alias MyN(1720)+ N(1720)+
+Alias Myanti-N(1720)- anti-N(1720)-
+ChargeConj MyN(1720)+ Myanti-N(1720)-
+#
+Alias MyN(1900)+ N(1900)+
+Alias Myanti-N(1900)- anti-N(1900)-
+ChargeConj MyN(1900)+ Myanti-N(1900)-
+#
+Alias MyN(1650)0 N(1650)0
+Alias Myanti-N(1650)0 anti-N(1650)0
+ChargeConj MyN(1650)0 Myanti-N(1650)0
+#
+Alias MyN(1720)0 N(1720)0
+Alias Myanti-N(1720)0 anti-N(1720)0
+ChargeConj MyN(1720)0 Myanti-N(1720)0
+#
+Alias MyN(2090)0 N(2090)0
+Alias Myanti-N(2090)0 anti-N(2090)0
+ChargeConj MyN(2090)0 Myanti-N(2090)0
+#
+Alias MyDelta1232++ Delta++
+Alias Myanti-Delta1232-- anti-Delta--
+ChargeConj MyDelta1232++ Myanti-Delta1232--
+#
+Alias MyDelta12320 Delta0
+Alias Myanti-Delta12320 anti-Delta0
+ChargeConj MyDelta12320 Myanti-Delta12320
+#
+Alias MyLambda(1405)0 Lambda(1405)0
+Alias Myanti-Lambda(1405)0 anti-Lambda(1405)0
+ChargeConj MyLambda(1405)0 Myanti-Lambda(1405)0
+#
+Alias MyLambda(1520)0 Lambda(1520)0
+Alias Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0 Myanti-Lambda(1520)0
+#
+Alias MyLambda(1600)0 Lambda(1600)0
+Alias Myanti-Lambda(1600)0 anti-Lambda(1600)0
+ChargeConj MyLambda(1600)0 Myanti-Lambda(1600)0
+#
+Alias MyLambda(1690)0 Lambda(1690)0
+Alias Myanti-Lambda(1690)0 anti-Lambda(1690)0
+ChargeConj MyLambda(1690)0 Myanti-Lambda(1690)0
+#
+Alias MyLambda(1800)0 Lambda(1800)0
+Alias Myanti-Lambda(1800)0 anti-Lambda(1800)0
+ChargeConj MyLambda(1800)0 Myanti-Lambda(1800)0
+#
+Alias MyLambda(1890)0 Lambda(1890)0
+Alias Myanti-Lambda(1890)0 anti-Lambda(1890)0
+ChargeConj MyLambda(1890)0 Myanti-Lambda(1890)0
+#
+Alias MyK_11400   K'_1+
+Alias Myanti-K_11400 K'_1-
+ChargeConj MyK_11400 Myanti-K_11400
+#
+Alias MyK_11270   K_1+
+Alias Myanti-K_11270 K_1-
+ChargeConj MyK_11270 Myanti-K_11270
+#
+Alias Myrho0 rho0
+ChargeConj Myrho0 Myrho0
+#
+Alias Myf0980 f_0 
+ChargeConj Myf0980 Myf0980
+#
+Alias Myf21270 f_2 
+ChargeConj Myf21270 Myf21270
+#
+Alias Myf01370 f'_0 
+ChargeConj Myf01370 Myf01370
+#
+Alias MyK*0 K*0
+Alias Myanti-K*0 anti-K*0
+ChargeConj MyK*0 Myanti-K*0
+#
+Alias MyK*1430 K_0*0
+Alias Myanti-K*1430 anti-K_0*0
+ChargeConj MyK*1430 Myanti-K*1430
+#
+Decay Lambda_b0sig
+  0.030 MyN(1440)0  Myanti-K*0     PHSP;
+  0.110 MyN(1440)0  Myanti-K*1430     PHSP;
+  0.012 MyN(1520)0  Myanti-K*0     PHSP;
+  0.031 MyN(1520)0  Myanti-K*1430     PHSP;
+  0.023 MyN(1535)0  Myanti-K*0     PHSP;
+  0.095 MyN(1535)0  Myanti-K*1430     PHSP;
+  0.016 MyN(1650)0  Myanti-K*0     PHSP;
+  0.071 MyN(1650)0  Myanti-K*1430     PHSP;
+  0.022 MyN(1720)0  Myanti-K*0     PHSP;
+  0.045 MyN(1720)0  Myanti-K*1430     PHSP;
+##################################################
+  0.0147 MyLambda(1405)0  Myf0980     PHSP;
+  0.0334 MyLambda(1520)0  Myf0980     PHSP;
+  0.0188 MyLambda(1520)0  Myf21270     PHSP;
+  0.0276 MyLambda(1600)0  Myf0980     PHSP;
+  0.0246 MyLambda(1800)0  Myf0980     PHSP;
+  0.0225 MyLambda(1800)0  Myf01370    PHSP;
+  0.0100 MyLambda(1890)0  Myf0980     PHSP;
+##################################################
+  0.0900 Myanti-K_11400  p+      PHSP;
+  0.0152 Myanti-K_11270  p+      PHSP;
+##################################################
+  0.027 MyN(1440)+  K-      PHSP;
+  0.01 MyN(1535)+  K-      PHSP;
+  0.0161 MyN(1700)+  K-      PHSP;
+  0.0884 MyN(1720)+  K-      PHSP;
+  0.0100 MyN(1900)+  K-      PHSP;
+  0.0508 MyDelta1232++  K-  pi-  PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyK*0
+  1.000    K+          pi-         PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK*1430
+  1.000    K+          pi-         PHSP;
+Enddecay
+CDecay Myanti-K*1430
+#
+Decay Myrho0
+  1.000    pi+          pi-         PHSP;
+Enddecay
+#
+Decay Myf0980
+  1.000    pi+          pi-         PHSP;
+Enddecay
+#
+Decay Myf21270
+  1.000    pi+          pi-         PHSP;
+Enddecay
+#
+Decay Myf01370
+  1.000    pi+          pi-         PHSP;
+Enddecay
+#
+Decay MyK_11270
+  1.000    K+          pi+       pi-       PHSP;
+Enddecay
+CDecay Myanti-K_11270
+#
+Decay MyK_11400
+  1.000    K+          pi+       pi-       PHSP;
+Enddecay
+CDecay Myanti-K_11400
+#
+Decay MyDelta1232++
+  1.000 p+             pi+        PHSP;
+Enddecay
+CDecay Myanti-Delta1232--
+#
+Decay MyDelta12320
+  1.000 p+             pi-        PHSP;
+Enddecay
+CDecay Myanti-Delta12320
+#
+Decay MyN(1520)0
+  1.000 p+             pi-        PHSP;
+Enddecay
+CDecay Myanti-N(1520)0
+#
+Decay MyN(1535)0
+  1.000 p+             pi-        PHSP;
+Enddecay
+CDecay Myanti-N(1535)0
+#
+Decay MyN(1535)+
+  1.000 p+    pi+         pi-        PHSP;
+Enddecay
+CDecay Myanti-N(1535)-
+#
+Decay MyN(1700)+
+  1.000  p+    pi+         pi-        PHSP;
+Enddecay
+CDecay Myanti-N(1700)-
+#
+Decay MyN(1720)+
+  1.000  p+      pi+         pi-        PHSP;
+Enddecay
+CDecay Myanti-N(1720)-
+#
+Decay MyN(1900)+
+  1.000  p+      pi+         pi-        PHSP;
+Enddecay
+CDecay Myanti-N(1900)-
+#
+Decay MyN(1440)+
+  1.000  p+    pi+         pi-        PHSP;
+Enddecay
+CDecay Myanti-N(1440)-
+#
+Decay MyN(1440)0
+  1.000 p+             pi-        PHSP;
+Enddecay
+CDecay Myanti-N(1440)0
+#
+Decay MyN(1650)0
+  1.000 p+             pi-        PHSP;
+Enddecay
+CDecay Myanti-N(1650)0
+#
+Decay MyN(1720)0
+  1.000 p+             pi-        PHSP;
+Enddecay
+CDecay Myanti-N(1720)0
+#
+Decay MyN(2090)0
+  1.000 p+             pi-        PHSP;
+Enddecay
+CDecay Myanti-N(2090)0
+#
+Decay MyLambda(1405)0
+  1.000 p+             K-        PHSP;
+Enddecay
+CDecay Myanti-Lambda(1405)0
+#
+Decay MyLambda(1520)0
+  1.000 p+             K-        PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay MyLambda(1600)0
+  1.000 p+             K-        PHSP;
+Enddecay
+CDecay Myanti-Lambda(1600)0
+#
+Decay MyLambda(1690)0
+  1.000 p+             K-        PHSP;
+Enddecay
+CDecay Myanti-Lambda(1690)0
+#
+Decay MyLambda(1800)0
+  1.000 p+             K-        PHSP;
+Enddecay
+CDecay Myanti-Lambda(1800)0
+#
+Decay MyLambda(1890)0
+  1.000 p+             K-        PHSP;
+Enddecay
+CDecay Myanti-Lambda(1890)0
+#
+End
+#

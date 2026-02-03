@@ -1,0 +1,36 @@
+# EventType: 11504431
+#
+# Descriptor: {[[B0]nos -> K+ pi- (tau+ -> pi+ anti-nu_tau) (tau- -> pi- nu_tau)]cc, [[B0]os -> K- pi+ (tau+ -> pi+ anti-nu_tau) (tau- -> pi- nu_tau)]cc}
+#
+# NickName: Bd_Kpitautau,pipi=TracksInAcc
+#
+# Cuts: DaughtersInLHCb
+# ExtraOptions: TracksInAcc
+#
+# Documentation: B0 -> K pi tau tau, with taus decaying to a pion and a neutrino
+# EndDocumentation
+# 
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20230507
+#
+Alias        Mytau+   tau+
+Alias        Mytau-   tau-
+ChargeConj   Mytau+   Mytau-
+# 
+Decay B0sig
+   1.000     K+       pi-     Mytau+     Mytau-     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mytau+
+   0.1082       pi+                  anti-nu_tau               TAUSCALARNU;
+   0.2549       pi+       pi0        anti-nu_tau               TAUHADNU -0.108 0.775 0.149 1.364 0.400;
+   0.0926       pi+       pi0   pi0  anti-nu_tau               TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay Mytau-
+#
+End

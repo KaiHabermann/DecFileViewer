@@ -1,0 +1,45 @@
+# EventType: 13166115 
+# 
+# Descriptor: {[[B_s0]nos -> (anti-Lambda_c- -> anti-p- K+ pi-)  (Lambda0 -> p+ pi-) pi+]cc, [[B_s0]os -> (anti-Lambdai_c- -> anti-p- K+ pi-)  (Lambda0 -> p+ pi-) pi+]cc}
+# 
+# NickName: Bs_LambdacbarLambdapi+,pbarKpi=DecProdCut,ppi=DecProdCut
+#
+# Documentation: Decay Bs0 to a Lambdacbar Lambda pi+ with oscillations
+# EndDocumentation
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# CPUTime: < 1 min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Fernanda Goncalves Abrantes 
+# Email: goncalvf@cern.ch
+# Date: 20231109
+#
+Alias       MyLambda       Lambda0
+Alias       MyantiLambda   anti-Lambda0
+ChargeConj  MyLambda       MyantiLambda
+#
+Alias       MyLambdac       Lambda_c+
+Alias       MyantiLambdac   anti-Lambda_c-
+ChargeConj  MyLambdac       MyantiLambdac
+#
+Decay B_s0sig
+  1.000     MyantiLambdac    MyLambda    pi+      PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyantiLambdac
+  1.000     anti-p-          K+          pi-               PHSP;
+Enddecay
+CDecay MyLambdac
+#
+Decay MyLambda
+  1.000     p+          pi-               PHSP;
+Enddecay
+CDecay MyantiLambda
+#
+End
+#
+

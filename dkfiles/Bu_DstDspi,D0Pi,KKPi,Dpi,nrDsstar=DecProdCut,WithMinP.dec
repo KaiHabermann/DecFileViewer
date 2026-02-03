@@ -1,0 +1,60 @@
+# EventType: 12197280
+# NickName: Bu_DstDspi,D0Pi,KKPi,Dpi,nrDsstar=DecProdCut,WithMinP
+# Descriptor: {[B- -> (D*(2010)+ -> (D0 -> K- pi+) pi+) (D*_s- -> (D_s- -> K+ K- pi-) gamma) pi-]cc}
+#
+# Documentation:  Decay file for B+- => D*+- D_s-+ pi+- with D*pi nr Ds* decays
+# Daughters in LHCb WithMinP
+# EndDocumentation
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10. MinTrackP 2900*MeV
+# 
+#
+# PhysicsWG: B2OC
+#
+# Responsible: Raul Rabadan
+# Email: raul.iraq.rabadan.trejo@cern.ch
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Date:   20200806
+#
+Alias MyD0   D0
+Alias Myanti-D0 anti-D0
+Alias MyDs+   D_s+
+Alias MyDs-   D_s-
+Alias MyD*+  D*+
+Alias MyD*-  D*-
+Alias MyDs*+ D_s*+
+Alias MyDs*- D_s*-
+ChargeConj Myanti-D0 MyD0
+ChargeConj MyDs- MyDs+
+ChargeConj MyD*- MyD*+
+ChargeConj MyDs*+ MyDs*-
+
+Decay MyD0
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay Myanti-D0
+
+Decay MyDs-
+  1.0 K+ K- pi- D_DALITZ;
+Enddecay
+CDecay MyDs+
+
+Decay MyD*+
+  1.0 MyD0 pi+  VSS;
+Enddecay
+CDecay MyD*-
+
+Decay MyDs*+ 
+1.0 MyDs+ gamma  VSP_PWAVE;
+Enddecay
+CDecay MyDs*-
+
+Decay B-sig
+1.0 MyD*+ pi- MyDs*- PHSP;
+Enddecay
+CDecay B+sig
+
+End

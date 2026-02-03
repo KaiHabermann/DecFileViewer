@@ -1,0 +1,145 @@
+# EventType: 15466026
+# Descriptor: [Lambda_b0 -> (Lambda_c(2625)+ -> (Lambda_c+ -> p+ K- pi+) pi+ pi-)  pi- pi+ pi-]cc
+#
+# NickName: Lb_Lc2625pipipi,Lcpipi,pKpi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ Lambda_b0 ==> ( Lambda_c(2625)+ ==> (Lambda_c+ ==> p+ K- pi+ ) pi+ pi- )  pi- pi- pi+ ]CC'
+# tightCut.Preambulo += [
+#   "from LoKiCore.functions import in_range",
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#   "goodTrack = in_range(0.010, GTHETA, 0.400) & ( GPT > 130 * MeV ) & ( GP  > 1200 * MeV )",
+#   "goodLc = ('Lambda_c+' == GABSID) & (3 == GNINTREE(goodTrack))",
+#   "goodLb = GINTREE(goodLc) & (GNINTREE(goodTrack) >= 3)"
+#  ]
+# tightCut.Cuts = {
+#  "[Lambda_b0]cc" : "goodLb"
+# }
+# EndInsertPythonCode
+#
+#
+# Documentation: Lb->Lc3pi decay taking into account both resonances for the Lc
+# and the 3pi part. Two modes using Lc* resonances are also added.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Racha Cheaib
+# Email: rcheaib@cern.ch
+# Date: 20250102
+# CPUTime: 5min
+#
+Alias      MyLambda_c+             Lambda_c+
+Alias      Myanti-Lambda_c-        anti-Lambda_c-
+ChargeConj MyLambda_c+             Myanti-Lambda_c-
+#
+Alias      MySigma_c++             Sigma_c++
+Alias      Myanti-Sigma_c--        anti-Sigma_c--
+ChargeConj MySigma_c++             Myanti-Sigma_c--
+#
+Alias      MySigma_c0             Sigma_c0
+Alias      Myanti-Sigma_c0        anti-Sigma_c0
+ChargeConj MySigma_c0             Myanti-Sigma_c0
+#
+#
+Alias      MySigma_c*++             Sigma_c*++
+Alias      Myanti-Sigma_c*--        anti-Sigma_c*--
+ChargeConj MySigma_c*++             Myanti-Sigma_c*--
+#
+Alias      MySigma_c*0             Sigma_c*0
+Alias      Myanti-Sigma_c*0        anti-Sigma_c*0
+ChargeConj MySigma_c*0             Myanti-Sigma_c*0
+#
+Alias      MyLambda_c(2625)+       Lambda_c(2625)+
+Alias      Myanti-Lambda_c(2625)-  anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+       Myanti-Lambda_c(2625)-
+#
+Alias      MyK*0                   K*0
+Alias      Myanti-K*0              anti-K*0
+ChargeConj MyK*0                   Myanti-K*0
+#
+Alias      MyLambda(1520)0         Lambda(1520)0
+Alias      Myanti-Lambda(1520)0    anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0         Myanti-Lambda(1520)0
+#
+Alias      Mya_1-                  a_1-
+Alias      Mya_1+                  a_1+
+ChargeConj Mya_1+                  Mya_1-
+#
+Alias      Myf_2                   f_2
+ChargeConj Myf_2                   Myf_2
+#
+#
+Decay Lambda_b0sig
+  0.63    MyLambda_c(2625)+        Mya_1-         PHSP;
+  0.135   MyLambda_c(2625)+        rho0  pi-      PHSP;
+  0.09    MyLambda_c(2625)+        Myf_2 pi-      PHSP;
+  0.045   MyLambda_c(2625)+        pi-   pi+  pi- PHSP;
+
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  0.02800 p+                 K-      pi+   PHSP;
+  0.016   p+                 Myanti-K*0    PHSP;
+  0.00860 Delta++            K-            PHSP;
+  0.00414 MyLambda(1520)0    pi+           PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda_c(2625)+
+0.034200000 MySigma_c++ pi-                                   PHSP;
+0.034600000 MySigma_c0 pi+                                    PHSP;
+0.600000000 MyLambda_c+ pi+     pi-                           PHSP;
+0.330000000 MyLambda_c+ pi0 pi0                                PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+#
+Decay MySigma_c++
+1. MyLambda_c+ pi+                           PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+Decay MySigma_c0
+1. MyLambda_c+ pi-                         PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+#
+Decay MySigma_c*++
+1. MyLambda_c+ pi+                           PHSP;
+Enddecay
+CDecay Myanti-Sigma_c*--
+#
+Decay MySigma_c*0
+1. MyLambda_c+ pi-                           PHSP;
+Enddecay
+CDecay Myanti-Sigma_c*0
+#
+Decay MyK*0
+  0.6667 K+                  pi-           VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Mya_1+
+  1.000   rho0               pi+           VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay Myf_2
+  1.000  pi+                 pi-           TSS ;
+Enddecay
+#
+Decay MyLambda(1520)0
+  1.0   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+#
+End
+#

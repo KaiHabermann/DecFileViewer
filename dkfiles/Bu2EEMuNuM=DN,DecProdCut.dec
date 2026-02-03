@@ -1,0 +1,26 @@
+# EventType: 12513026
+#
+# Descriptor: [B+ -> e- e+ nu_mu mu+]cc
+#
+# NickName: Bu2EEMuNuM=DN,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: decay B^+ -> e^- e^+ nu_mu mu^+ in the SM 
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Pierre Mayencourt
+# Email: pierre.mayencourt@epfl.ch
+# Date: 20251110
+#
+#
+noPhotos
+Decay B+sig
+   1.000   e-  e+  nu_mu  mu+   BLLNUL 0.026  0.01  2.9;
+Enddecay
+CDecay B-sig
+#
+End

@@ -1,0 +1,38 @@
+# EventType: 15574092
+#
+# Descriptor: [Lambda_b0 -> (D0 -> K- e+ nu_e) mu- anti-nu_mu p+]cc
+#
+# NickName: Lb_D0pmunu,D0=Kenu,DecProdCut
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Lakshan Madhan
+# Email: lakshan.madhan@cern.ch
+# Date: 20240729
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 2 min
+#
+# Documentation: Lb->D0pmu with D0->Kenu and DecProdCut
+#  		 background studies for Lb->pktautau and Lb->pKtaumu
+# EndDocumentation
+#
+#
+#
+Alias      MyD       D0
+Alias      MyDbar    anti-D0
+ChargeConj MyD       MyDbar
+#
+Decay Lambda_b0sig
+  1.000     MyD mu- anti-nu_mu p+ PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyD
+  1.000     K- e+ nu_e         ISGW2;  
+Enddecay
+CDecay MyDbar
+#
+End
+

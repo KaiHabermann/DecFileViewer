@@ -1,0 +1,86 @@
+# EventType: 16466045
+# NickName: Xib0_Xic+3pi,pKpi,PDG24=TightCut 
+# Descriptor: [Xi_b0 -> (Xi_c+ -> p+ K- pi+) pi- pi+ pi-]cc
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# ParticleValue: "Xi_b0   124   5232  0.0  5.7919  1.480000e-012  Xi_b0   5232  0.000000e+000",  "Xi_b~0  125  -5232  0.0  5.7919  1.480000e-012  anti-Xi_b0  -5232  0.000000e+000", "Xi_c+  108  4232  1.0  2.46771 4.530000e-013 Xi_c+ 4232  0", "Xi_c~- 109 -4232 -1.0  2.46771 4.530000e-013  anti-Xi_c-  -4232   0."
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# 
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay     = '[Xi_b0 ==> (Xi_c+ ==> ^p+  ^K- ^pi+ ) ^pi- ^pi+ ^pi- ]CC'
+# tightCut.Cuts      =    {
+#     '[K-]cc'   : ' goodHad ' ,
+#     '[p+]cc'   : ' goodHad ' ,
+#     '[pi-]cc'  : ' goodPion  ' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import GeV',
+#     'inAcc    = in_range ( 0.010 , GTHETA , 0.400 ) ' ,
+#     'goodHad = ( GPT > 0.1 * GeV ) & ( GP > 1.2 * GeV ) & inAcc ' ,
+#     'goodPion = ( GPT > 0.1 * GeV ) & ( GP > 0.5 * GeV ) & inAcc ']
+# EndInsertPythonCode
+#
+# Documentation: Decay file for [Xi_b0 -> (Xi_c+ -> p+ K- pi+) 3pi-]cc 
+# EndDocumentation
+#
+# Email: biplab.dey@cern.ch
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible:  Biplab Dey
+# Date: 20241123
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias      MyXi_c+         Xi_c+
+Alias      MyXi_c-         anti-Xi_c-
+ChargeConj MyXi_c+         MyXi_c-
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias      MyK_0*0    K_0*0
+Alias      Myanti-K_0*0 anti-K_0*0
+ChargeConj MyK_0*0   Myanti-K_0*0 
+#
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay Xi_b0sig
+  0.58    MyXi_c+            Mya_1-         PHSP;
+  0.14    MyXi_c+            rho0  pi-      PHSP;
+  0.16    MyXi_c+            Myf_2  pi-    PHSP;
+  0.12    MyXi_c+            pi+ pi-  pi-    PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyXi_c+
+  0.5    p+   K-  pi+    PHSP;
+  0.5    p+   Myanti-K*0                           PHSP;
+Enddecay
+CDecay MyXi_c-
+#
+Decay Myf_2
+  1.0000  pi+ pi-                                  TSS ;
+Enddecay
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End

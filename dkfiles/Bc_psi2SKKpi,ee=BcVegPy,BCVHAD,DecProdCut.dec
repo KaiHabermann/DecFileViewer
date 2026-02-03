@@ -1,0 +1,35 @@
+# EventType: 14155030
+#
+# Descriptor: [B_c+ -> (psi(2S) -> e+ e- ) K+ K- pi+]cc
+#
+# NickName: Bc_psi2SKKpi,ee=BcVegPy,BCVHAD,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to psi(2S)(to e+ e- ) K+ K- pi+ with VVPIPI model, daughters in acceptance. 
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Harry Cliff
+# Email: harry.victor.cliff@cern.ch
+# Date: 20230427
+# CPUTime: < 1 min
+#
+
+Alias       Mypsi2S   psi(2S)
+ChargeConj  Mypsi2S   Mypsi2S
+
+Decay B_c+sig
+ 1.000     Mypsi2S K+ K- pi+       	BC_VHAD 2;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mypsi2S
+  1.000     e+       e-             PHOTOS   VLL;
+Enddecay
+#
+#
+End

@@ -1,0 +1,147 @@
+# EventType: 15896032
+# Descriptor: [Lambda_b0 --> (D_s- -> (tau- -> pi- pi+ pi-  nu_tau ) anti-nu_tau) (Lambda_c+ => p+ K- pi+)]cc
+# NickName: Lb_LcDs,ppiK,semileptonic=TightCut
+# Cuts: 'LoKi::GenCutTool/TightCut'
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = "[Lambda_b0 --> (Lambda_c+ ==> p+ K- pi+) (D_s- -> (tau- => pi- pi+ pi-  nu_tau ) nu_tau~) ...]CC"
+# tightCut.Preambulo += [
+#   "from LoKiCore.functions import in_range",
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#   "goodTrack = in_range(0.010, GTHETA, 0.400) & ( GPT > 130 * MeV ) & ( GP  > 1200 * MeV )",
+#   "goodLc = ('Lambda_c+' == GABSID) & (3 == GNINTREE(goodTrack))",
+#   "goodLb = GINTREE(goodLc) & (GNINTREE(goodTrack) >= 3)"
+#  ]
+# tightCut.Cuts = {
+#  "[Lambda_b0]cc" : "goodLb"
+# }
+# EndInsertPythonCode
+
+# Documentation: This is the decay file to generate Lambda_b0 => (Lambda_c+ => ^p+  ^K- ^pi+ )  (D_s-=> (tau- => 2pi- pi+ nu_tau ) nu_tau~. 
+# EndDocumentation
+# #
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Racha Cheaib
+# Email: rcheaib@cern.ch
+# Date: 20250118
+# CPUTime: <5min
+#
+#
+## Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias           MyD_s+          D_s+
+Alias           MyD_s-          D_s-
+ChargeConj      MyD_s+          MyD_s-
+#
+Alias           MyD_s*+         D_s*+
+Alias           MyD_s*-         D_s*-
+ChargeConj      MyD_s*+         MyD_s*-
+#
+Alias           MyD_s*(2317)+   D_s0*+
+Alias           MyD_s*(2317)-   D_s0*-
+ChargeConj      MyD_s*(2317)+   MyD_s*(2317)-
+#
+#
+Alias           MyD_s*(2457)+   D_s1+
+Alias           MyD_s*(2457)-   D_s1-
+ChargeConj      MyD_s*(2457)+   MyD_s*(2457)-
+#
+Alias           MyD_s*(2536)+   D'_s1+
+Alias           MyD_s*(2536)-   D'_s1-
+ChargeConj      MyD_s*(2536)+   MyD_s*(2536)-
+#
+Alias           MyD_2*0         D_2*0
+Alias           Myanti-D_2*0    anti-D_2*0
+ChargeConj      MyD_2*0         Myanti-D_2*0
+#
+Alias           MyMainLc+     Lambda_c+
+Alias           MyMainLc-     anti-Lambda_c-
+ChargeConj      MyMainLc+     MyMainLc-
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+Decay Lambda_b0sig
+ 0.378           MyMainLc+         MyD_s-              PHSP;
+ 0.171           MyMainLc+         MyD_s*-             PHSP;
+ 0.032           MyMainLc+         MyD_s*(2317)-       PHSP;
+ 0.199           MyMainLc+         MyD_s*(2457)-       PHSP;
+ 0.001           MyMainLc+         MyD_s*(2536)-       PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+#
+Decay MyMainLc+
+ 0.02800         p+      K-      pi+          PHSP;
+ 0.016           p+      Myanti-K*0           PHSP;
+ 0.00860         Delta++ K-                   PHSP;
+ 0.00414         MyLambda(1520)0 pi+          PHSP;
+Enddecay
+CDecay MyMainLc-
+#
+Decay MyD_s-
+  1.00  Mytau-    anti-nu_tau                             SLN; 
+Enddecay
+CDecay MyD_s+
+#
+Decay Mytau-
+ 0.5 TAUOLA 5;
+ 0.5 TAUOLA 8;
+Enddecay
+CDecay Mytau+
+#
+Decay MyK*0
+  1.0        K+      pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyLambda(1520)0
+  1.0   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+
+Decay MyD_s*+
+ 0.942         MyD_s+  gamma                   VSP_PWAVE;
+ 0.058         MyD_s+  pi0                     PHSP;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s*(2317)+
+ 1.000         MyD_s+  pi0                     PHSP;
+Enddecay
+CDecay MyD_s*(2317)-
+#
+Decay MyD_s*(2457)+
+ 0.18           MyD_s+          gamma           VSP_PWAVE;
+ 0.48           MyD_s*+         pi0             PHSP;
+ 0.043          MyD_s+          pi+     pi-     PHSP;
+ 0.022          MyD_s+          pi0     pi0     PHSP;
+ 0.04           MyD_s*(2317)+   gamma           VSP_PWAVE;
+Enddecay
+CDecay MyD_s*(2457)-
+#
+Decay MyD_s*(2536)+
+ 0.25           MyD_s+          pi+     pi-     PHSP;
+ 0.125          MyD_s+          pi0     pi0     PHSP;
+ 0.1            MyD_s*+         gamma           PHSP;
+Enddecay
+CDecay MyD_s*(2536)-
+#
+End

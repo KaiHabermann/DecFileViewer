@@ -1,0 +1,36 @@
+# EventType: 30100201
+#
+# Descriptor: f_2 -> gamma gamma
+#
+# NickName: exclu_f2_1270,gg=coherent_starlight_evtGen
+# Cuts: None
+# Documentation: f2togammagamma with STARlight and EvtGen
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import Generation, Special, StarLightProduction
+# Generation(genAlgName).SampleGenerationTool = 'Special'
+# Generation(genAlgName).addTool(Special)
+# Generation(genAlgName).Special.CutTool = ''
+# Generation(genAlgName).Special.ProductionTool = 'StarLightProduction'
+# Generation(genAlgName).Special.addTool(StarLightProduction)
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['PROD_PID = 225']
+# Generation(genAlgName).Special.StarLightProduction.Decays = False
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['PROD_MODE = 1']
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Albert Bursche
+# Email: bursche@cern.ch
+# Date: 20200428
+
+Decay f_2
+  1.00       gamma gamma   PHSP;
+Enddecay
+
+#
+End

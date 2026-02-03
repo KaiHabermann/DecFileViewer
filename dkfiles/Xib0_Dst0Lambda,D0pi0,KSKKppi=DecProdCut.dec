@@ -1,0 +1,64 @@
+# EventType: 16166542
+#
+# Descriptor: [Xi_b0 => (D*(2007)0 -> (D0 -> (KS0 -> pi+ pi-) K+ K-) pi0) (Lambda0 -> p+ pi-)]cc
+#
+# NickName: Xib0_Dst0Lambda,D0pi0,KSKKppi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: < 1 min
+#
+# Documentation:
+#  Xi_b0 -> Lambda0 D*(2007)0 with PHSP two-body model;
+#  D*(2007)0 forced to D0 pi0;
+#  D0 forced to (KS0 -> pi+ pi-) K+ K- in phase space (PHSP);
+#  Lambda0 forced to p+ pi-; final state particles in LHCb acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes 
+# Responsible: Boan Shi
+# Email: bshi@cern.ch
+# Date: 20251113
+#
+Alias      MyD*0        D*0
+Alias      Myanti-D*0   anti-D*0
+Alias      MyD0         D0
+Alias      Myanti-D0    anti-D0
+Alias      MyLambda     Lambda0
+Alias      MyAntiLambda anti-Lambda0
+Alias      MyKS         K_S0
+
+ChargeConj MyD*0        Myanti-D*0
+ChargeConj MyD0         Myanti-D0
+ChargeConj MyLambda     MyAntiLambda
+
+#
+# Xi_b0 -> Lambda0 D*0 (PHSP)
+#
+Decay Xi_b0sig
+  1.000   MyD*0      MyLambda      PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+
+
+Decay MyD*0
+  1.000   MyD0       pi0         VSS;
+Enddecay
+CDecay Myanti-D*0
+
+
+Decay MyD0
+  1.000   MyKS  K+   K-           PHSP;
+Enddecay
+CDecay Myanti-D0
+
+Decay MyKS
+  1.000   pi+   pi-               PHSP;
+Enddecay
+
+Decay MyLambda
+  1.000   p+         pi-           PHSP;
+Enddecay
+CDecay MyAntiLambda
+
+End

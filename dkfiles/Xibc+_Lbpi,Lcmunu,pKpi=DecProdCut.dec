@@ -1,0 +1,71 @@
+# EventType:  16675061
+#
+# Descriptor: [ Xi_bc+ -> ( Lambda_b0 ->  (Lambda_c+ -> p+ K- pi+)  mu- anti_nu_mu) pi+ ]cc
+#
+# NickName: Xibc+_Lbpi,Lcmunu,pKpi=DecProdCut
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCbAndWithMinPT
+#
+# CutsOptions: MinXiccPT 2000*MeV MinDaughterPT 200*MeV
+#
+# CPUTime: < 1 min
+#
+# ParticleValue: " Xi_bc+ 532 5242 1.0 6.90000000 0.400000e-12 Xi_bc+ 5242 0.00000000", " Xi_bc~- 533 -5242 -1.0 6.90000000 0.400000e-12 anti-Xi_bc- -5242 0.00000000"
+#
+# Documentation: Xibc+ decay to Lambd_b0 and pi, then semi-leptonic decay of Lambda_b0 -> Lc mu nu 
+# all daughters of Omegacc are required to be in the acceptance of LHCb and with minimum PT 200 MeV
+# Xi_bc+ is required to be generated with the lifetime of 400fs and mass of 6900 MeV
+# Xi_bc+ PT is required to be larger than 2000 MeV.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes 
+# Responsible: Hang Yin
+# Email: hyin@cern.ch 
+# Date: 20201217
+#
+Alias MyLambda_b0           Lambda_b0
+Alias Myanti-Lambda_b0      anti-Lambda_b0
+ChargeConj MyLambda_b0      Myanti-Lambda_b0
+Alias MyLambda_c+           Lambda_c+
+Alias Myanti-Lambda_c-      anti-Lambda_c-
+ChargeConj MyLambda_c+      Myanti-Lambda_c-
+Alias MyK*0                 K*0
+Alias Myanti-K*0            anti-K*0
+ChargeConj MyK*0            Myanti-K*0
+Alias MyLambda(1520)0       Lambda(1520)0
+Alias Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0  Myanti-Lambda(1520)0
+#
+Decay Xi_bc+sig
+  1.0    MyLambda_b0    pi+  PHSP;
+Enddecay
+CDecay anti-Xi_bc-sig
+#
+Decay MyLambda_b0
+  1.0    MyLambda_c+    mu-  anti-nu_mu     PHOTOS   Lb2Baryonlnu  1 1 1 1;
+Enddecay
+CDecay Myanti-Lambda_b0
+#
+Decay MyLambda_c+
+# Lc->pKpi:
+  0.02800         p+      K-      pi+          PHSP;
+  0.016           p+      Myanti-K*0           PHSP;
+  0.00860         Delta++ K-                   PHSP;
+  0.00414         MyLambda(1520)0 pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+  1.0             K+      pi-                  VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyLambda(1520)0
+  1.0             p+      K-                   PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+End

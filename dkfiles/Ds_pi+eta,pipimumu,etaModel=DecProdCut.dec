@@ -1,0 +1,33 @@
+# EventType: 23115030
+# 
+# Descriptor: [D_s+ => (eta => pi+ pi- mu+ mu-) pi+]cc
+# 
+# NickName: Ds_pi+eta,pipimumu,etaModel=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1 min
+# Responsible: Miguel Fernandez Gomez
+# Email: miguel.fernandez.gomez@cern.ch
+# Date: 20211209
+#
+#
+#
+Alias MyEta eta
+ChargeConj MyEta MyEta
+#
+Decay D_s+sig
+  1.000   MyEta pi+   PHOTOS PHSP;
+Enddecay
+CDecay D_s-sig
+#
+Decay MyEta
+  1.000 mu+ mu- pi+ pi- ETA_LLPIPI;
+Enddecay
+End
+#

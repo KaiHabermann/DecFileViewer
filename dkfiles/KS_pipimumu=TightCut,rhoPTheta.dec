@@ -1,0 +1,56 @@
+# EventType: 34114021
+#
+# Descriptor: K_S0 -> pi+ pi- mu+ mu-
+#
+# NickName: KS_pipimumu=TightCut,rhoPTheta
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: K_S0 -> pi+ pi- mu+ mu- tight generator cut
+#  * KS0 endvertex z in [-1m,0.8m]
+#  * KS0 endvertex radial cut at 38mm
+#  * KS0 P cut at 10 GeV/c
+#  * KS0 Theta in [0.01rad, 0.1rad]
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = 'KS0 => pi+ pi- mu+ mu-'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import meter, millimeter, GeV, mrad" ,
+#     "GVX = LoKi.GenVertices.PositionX() " ,
+#     "GVY = LoKi.GenVertices.PositionY() " ,
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,
+#     "vx    = GFAEVX ( GVX, 100 * meter ) " ,
+#     "vy    = GFAEVX ( GVY, 100 * meter ) " ,
+#     "rho2  = vx**2 + vy**2 " ,
+#     "rhoK  = rho2 < (38 * millimeter )**2 " ,
+#     "decay = in_range ( -1 * meter, GFAEVX ( GVZ, 100 * meter ), 0.8 * meter ) ",
+#     "KS_P = GP > 10 * GeV",
+#     "KS_TightAcc = in_range(10*mrad, GTHETA, 100*mrad)"
+# ]
+# tightCut.Cuts      =    {
+#     'KS0'  : ' decay & rhoK & KS_P & KS_TightAcc',
+#                         }
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Luis Miguel Garcia Martin
+# Email: lgarciam@cern.ch
+# Date: 20230426
+#
+Decay K_S0sig
+  1.000       pi+ pi- mu+ mu-    PHSP;
+Enddecay
+#
+End
+

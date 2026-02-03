@@ -1,0 +1,85 @@
+# EventType: 15296010
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ K- pi+) (D~0 ->  K+ pi-) pi-]cc
+# NickName: Lb_LcD0barpi,pKpi,Kpi=DecProdCut
+# Cuts: DaughtersInLHCb
+# #
+# Documentation: Lb -> Lc D~0 pi with semi-realistic Lc -> p K pi model and an attempt to model the Lb -> Lc D~0 pi decay.
+# EndDocumentation
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: 6 min
+# Responsible: Chencheng Feng
+# Email: chencheng.feng@cern.ch
+# Date: 20241118
+# #
+Alias      MyLambda_c+           Lambda_c+
+Alias      Myanti-Lambda_c-      anti-Lambda_c-
+ChargeConj MyLambda_c+           Myanti-Lambda_c-
+#
+Alias      MyDst(2010)+  D*+
+Alias      MyDst(2010)-  D*-
+ChargeConj MyDst(2010)+  MyDst(2010)-
+#
+Alias      MyD0                  D0
+Alias      Myanti-D0             anti-D0
+ChargeConj MyD0                  Myanti-D0
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+Alias      MyK*0                 K*0
+Alias      Myanti-K*0            anti-K*0
+ChargeConj MyK*0                 Myanti-K*0
+#
+Alias      MyDelta++             Delta++
+Alias      Myanti-Delta--        anti-Delta--
+ChargeConj MyDelta++             Myanti-Delta--
+#
+## to mitigate effective loss of statistics when reweighting
+
+Decay  Lambda_b0sig
+  0.25  MyLambda_c+ Myanti-D0 pi-   PHSP;
+  0.75  MyLambda_c+ MyDst(2010)-    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+
+#
+Decay  MyDst(2010)-
+  1    Myanti-D0 pi-  PHSP;
+Enddecay
+CDecay MyDst(2010)+
+#
+
+Decay Myanti-D0
+  1 K+ pi- PHSP;
+Enddecay
+CDecay MyD0
+#
+# Define Lambda_c+ decay
+
+Decay MyLambda_c+
+  0.0350 p+              K-         pi+ PHSP;
+  0.0198 p+              Myanti-K*0     PHSP;
+  0.0109 MyDelta++       K-             PHSP;
+  0.0220 MyLambda(1520)0 pi+            PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda(1520)0
+  1 p+ K- PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay MyK*0
+  1 K+ pi-  VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyDelta++
+  1 p+ pi+  PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+End

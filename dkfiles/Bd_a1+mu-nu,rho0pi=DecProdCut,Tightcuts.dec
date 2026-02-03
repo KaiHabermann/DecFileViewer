@@ -1,0 +1,49 @@
+# EventType: 11514020
+#
+# Descriptor: {[[B0]nos -> (a_1(1260)+ -> pi+ (rho(770)0 -> pi+ pi-)) mu- anti-nu_mu]cc, [[B0]os -> (a_1(1260)- -> pi- (rho(770)0 -> pi- pi+)) mu+ nu_mu]cc}
+#
+# NickName: Bd_a1+mu-nu,rho0pi=DecProdCut,Tightcuts
+#
+# Cuts:  DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTau
+#
+# Documentation: 
+# - Bd to a1 mu nu decay taken from Bd to pi mu nu (see Bd_pimunu=DecProdCut.dec)
+# - a1 forced into rho0 pi+
+# - generator level cut efficiency is (6.7 + 1.0)%
+# 
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Julien Cogan
+# Email: cogan@cppm.in2p3.fr
+# Date: 20181130
+#
+
+Alias      Mya_1+      a_1+
+Alias      Mya_1-      a_1-
+ChargeConj Mya_1+      Mya_1-
+Alias      Myrho0      rho0
+ChargeConj Myrho0      Myrho0
+#
+Decay B0sig
+  1.000       Mya_1+      mu-   anti-nu_mu         PHOTOS ISGW2;
+Enddecay
+Decay anti-B0sig
+  1.000       Mya_1-      mu+   nu_mu              PHOTOS ISGW2;
+Enddecay
+#
+Decay Mya_1+
+  1.000        Myrho0      pi+             VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay Myrho0
+  1.000        pi-      pi+                    VSS;
+Enddecay
+#
+End
+

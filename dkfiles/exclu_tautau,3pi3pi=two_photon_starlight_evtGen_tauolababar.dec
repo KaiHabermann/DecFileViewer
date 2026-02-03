@@ -1,0 +1,77 @@
+# EventType: 40506001 
+#
+# Descriptor: gamma gamma -> (tau+ -> pi+ pi- pi+ anti-nu_tau) (tau- -> pi+ pi- pi- nu_tau)
+#
+# NickName: exclu_tautau,3pi3pi=two_photon_starlight_evtGen_tauolababar
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/cepInAcc
+# Production: Starlight
+
+# Documentation: tau pair production from two photon with STARlight and random of taus
+# EndDocumentation
+#
+# CPUTime: 2 min
+#
+
+# InsertPythonCode:
+# 
+# from Configurables import Generation, Special, StarLightProduction, LoKi__FullGenEventCut
+# Generation(genAlgName).DecayTool = 'EvtGenDecay'
+#
+#
+# Generation(genAlgName).SampleGenerationTool = 'Special'
+# Generation(genAlgName).addTool(Special)
+# Generation(genAlgName).Special.CutTool = ''
+# Generation(genAlgName).Special.DecayTool = ''
+# Generation(genAlgName).Special.ProductionTool = 'StarLightProduction'
+# Generation(genAlgName).Special.addTool(StarLightProduction)
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['PROD_PID = 15']
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['PROD_MODE = 1']
+# 
+#
+# # Generation(genAlgName).FullGenEventCutTool = 
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut, 'cepInAcc') 
+#  
+# cepInAcc = Generation(genAlgName).cepInAcc
+# cepInAcc.Code = " ( count(goodTau) == 2 ) "
+# 
+# cepInAcc.Preambulo += [
+#     "inEta    = in_range ( 1.95 , GETA , 5.050 )",
+#     "goodpi   = ( ( GABSID == 211 ) & inEta )",
+#     #"goodMu  = ( ( GABSID == 13  ) & inEta )",
+#     "goodTau = ( (GABSID == 15) & ( GNINTREE( goodpi, 1 ) >= 3 ) )"
+#      ]
+#
+#
+#
+# # Keep the CEP process in MCParticles.
+# # from Configurables import GenerationToSimulation
+# # GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Lakshan Madhan
+# Email: lakshan.madhan@cern.ch
+# Date: 20230505
+#
+#
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias        Mytau+    tau+
+Alias        Mytau-    tau-
+#
+#
+Decay Mytau-
+  1.00        TAUOLA 5;
+Enddecay
+
+Decay Mytau+
+  1.00        TAUOLA 5;
+Enddecay
+#
+End

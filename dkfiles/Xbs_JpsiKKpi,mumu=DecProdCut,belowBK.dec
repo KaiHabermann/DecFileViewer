@@ -1,0 +1,34 @@
+# EventType: 17145046
+#
+# Descriptor: [B_1(L)+ -> (J/psi(1S) -> mu+ mu- ) K+ K+ pi-]cc
+#
+# NickName: Xbs_JpsiKKpi,mumu=DecProdCut,belowBK
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "B_1(L)+    195   10523   1.0   5.6370000      1.5000e-15      B_1+       10523      0.000000e+000", "B_1(L)-               199      -10523  -1.0      5.6370000      1.5000e-15              B_1-      -10523      0.000000e+000"
+#
+# Documentation: Search for tetraquark Xbs(bbar sbar u d)+ weakly decaying to J/psi K+ K+ pi- predicted by 1709.02571. 
+# EndDocumentation
+#
+# CPUTime: < 1 min 
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Zhenwei Yang
+# Email: zhenwei.yang@cern.ch
+# Date: 20180201
+#
+Alias      MyJ/psi  J/psi
+#
+Decay B_1+sig
+1.000   MyJ/psi  K+ K+ pi-            PHSP;
+Enddecay
+CDecay B_1-sig
+#
+Decay MyJ/psi
+  1.000         mu+         mu-          PHOTOS VLL;
+Enddecay
+#
+End
+

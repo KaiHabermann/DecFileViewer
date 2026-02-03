@@ -1,0 +1,81 @@
+
+# $Id: Bu_MuMajoranaNeutrino2MuPi,m=500MeV,t=16ns,TightCut.dec  $
+#
+# This is the decay file for the decay B+ -> Majorana_Neutrino (-> Mu+ Pi-) Mu+, with CC preserving same sign muon
+#
+# EventType: 12113951
+#
+# Descriptor: [B+ ->  (Higgs0 -> mu+ pi-) mu+]cc
+#
+# NickName: Bu_MuMajoranaNeutrino2MuPi,m=500MeV,t=16ns,TightCut
+#
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+#from Configurables import Gauss, PrintMCTree, PrintMCDecayTreeTool, HistogramPersistencySvc, NTupleSvc, DumpHepMCDecay, DumpHepMCTree, GaussMonitor__CheckLifeTimeHepMC, GaussMonitor__CheckLifeTimeMC, GiGa, GiGaPhysListModular, GiGaHiggsParticles, GenerationToSimulation, PythiaProduction
+#
+#
+#
+#ParticlePropertySvc().Particles = [ "H_10     87      25  0.0        0.500   16.000e-9      Higgs0   25   0.000000e+000" ]
+#ApplicationMgr().ExtSvc    += [ ParticlePropertySvc() ]
+#
+#gigaHiggsPart = GiGaHiggsParticles()
+#gigaHiggsPart.Higgses = ["H_10"] # H_10, H_20, H_30
+#GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]#
+#
+# generation = Generation(genAlgName)
+# signal     = generation.SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[B+ =>  mu+ ^(H_10 => mu+ pi-)]CC'
+# tightCut.Preambulo += [
+#     'inAcc        =  in_range ( 0.0 , GTHETA , 0.400 )         ' ,
+# 	  ]
+# tightCut.Cuts     =    {
+#     '[H_10]cc'      : 'inAcc' ,
+#     }
+#
+#EndInsertPythonCode
+#
+#
+#
+# Documentation: File for B+ -> Majorana_Neutrino (-> Mu+ Pi-) Mu+, with CC preserving same sign muon
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Simone Libralon
+# Email: simone.libralon@cern.ch
+# Date:   20241002
+# CPUTime: <1min
+
+Alias      MyHNL  Higgs0
+Alias      Myanti-HNL  Higgs0
+#
+#
+Decay B+sig
+  1.000    MyHNL  mu+    PHSP;
+Enddecay
+#
+Decay B-sig
+  1.000    Myanti-HNL  mu-    PHSP;
+Enddecay
+#
+#
+Decay MyHNL
+  1.000    mu+    pi-    PHSP;
+Enddecay
+#
+Decay Myanti-HNL
+  1.000    mu-    pi+    PHSP;
+Enddecay
+#
+#
+End
+#
+
+
+

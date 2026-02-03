@@ -1,0 +1,34 @@
+# EventType: 16104044
+#
+# Descriptor: [Xi_b0 -> (anti-K*0 -> K- pi+) p+ K-]cc
+#
+# NickName: Xib0_anti-KstK-p+,pi+K-=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay from Xib0 to anti-K*0 K- p+, with anti-K*0 decaying into K- pi+
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: George Hallett
+# Email: ghallett@cern.ch
+# Date: 20240502
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+#
+Decay Xi_b0sig
+  1.000       K-       p+      Myanti-K*0      PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay Myanti-K*0
+  1.000     K-        pi+      PHSP;
+Enddecay
+CDecay MyK*0
+#
+End
+

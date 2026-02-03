@@ -1,0 +1,45 @@
+# EventType: 23101800
+#
+# Descriptor: [ D_s+ -> p+ n~0 ]cc
+#
+# NickName: Ds_pn0bar=DecProd,SoftCut
+#
+# Cuts: LoKi::GenCutTool/SoftCut
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool(LoKi__GenCutTool, 'SoftCut')
+# Cut = gen.SignalPlain.SoftCut
+# Cut.Decay = '[ D_s+ => ^p+ ^n~0 ]CC'
+# Cut.Preambulo += [
+#    "from GaudiKernel.SystemOfUnits import  MeV",
+#    "inAcc = in_range ( 0.010, GTHETA, 0.380 ) & in_range (   2 , GETA ,  5 )",
+#    "daughcuts = ( (GPT > 200 * MeV) & (GP > 1000 * MeV) )",
+# ]
+# Cut.Cuts = {
+#   '[n~0]cc': 'inAcc & daughcuts ',
+#   '[p+]cc': 'inAcc & daughcuts',
+# }
+#
+# EndInsertPythonCode
+#
+# Documentation: phase space decay, decay products in LHCb acceptance and with soft selection.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Juan Leite
+# Email: juan.baptista.leite@cern.ch
+# Date: 20241113
+#
+Decay D_s+sig
+  1.000    p+   anti-n0    PHSP;
+Enddecay
+CDecay D_s-sig
+#
+End
+

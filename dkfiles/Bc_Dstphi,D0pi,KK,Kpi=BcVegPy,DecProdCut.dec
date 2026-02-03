@@ -1,0 +1,52 @@
+# EventType: 14165058
+#
+# Descriptor: [B_c+ => (D*(2010)+ => ((D0 => K- pi+) pi+)) (phi(1020) => K+ K-)]CC
+#
+# NickName: Bc_Dstphi,D0pi,KK,Kpi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: B_c+ decaying into D*+ phi, with D*+ decaying into K- pi+ pi+ through D0 pi+, in the LHCb acceptance.
+# EndDocumentation
+# 
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Gleb Chizhik
+# Email: gleb.chizhik@cern.ch
+# Date: 20250714
+#
+Alias MyD*+ D*+
+Alias MyD*- D*-
+ChargeConj MyD*+ MyD*-
+#
+Alias MyD0 D0
+Alias My-anti-D0 anti-D0
+ChargeConj MyD0 My-anti-D0
+#
+Alias MyPhi phi
+ChargeConj MyPhi MyPhi
+
+Decay B_c+sig
+  1.000		MyD*+ MyPhi		PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyD*+
+  1.000		MyD0 pi+		VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.000		K- pi+			PHSP;
+Enddecay
+CDecay My-anti-D0
+#
+Decay MyPhi
+  1.000		K+ K-			VSS;
+Enddecay
+#
+End
+

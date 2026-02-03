@@ -1,0 +1,55 @@
+# EventType: 12105313
+# 
+# Descriptor: [B+ -> (K*+ -> Ks pi+) (eta' -> (rho0 -> pi+ pi-) gamma)]cc
+# 
+# NickName: Bu_EtapKst+,rhogamma,Kspi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Kst+ to KSpi and etaprime to rho0gamma(SVP_HELAMP). No CP Violation. Daughters in LHCb.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Pablo Baladron Rodriguez
+# Email: pablo.baladron.rodriguez@cern.ch
+# Date: 20210619
+# CPUTime: < 1 min
+
+Alias      MyKst+    K*+
+Alias      MyKst-    K*-
+ChargeConj MyKst+    MyKst-
+Alias      MyKs      K_S0
+ChargeConj MyKs      MyKs
+Alias       myeta'  eta'
+Alias       myrho0  rho0
+ChargeConj  myeta'  myeta'
+ChargeConj  myrho0  myrho0
+
+
+#
+Decay B+sig
+  1.000     MyKst+    myeta'      PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyKst+
+  1.000  MyKs pi+                        VSS;
+Enddecay
+CDecay MyKst-
+#
+Decay MyKs
+  1.000   pi+     pi-         PHSP;
+Enddecay
+#
+Decay   myeta'
+  1.000    myrho0    gamma      SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+#
+Decay   myrho0
+  1.000     pi+     pi-          VSS;
+Enddecay
+#
+End
+
+

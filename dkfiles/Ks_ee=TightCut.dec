@@ -1,0 +1,50 @@
+# EventType: 34122101
+#
+# Descriptor: K_S0 => e+ e-
+#
+# NickName: Ks_ee=TightCut
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# Documentation: K_S0 => e+ e-, tight generator cut
+#  * KS0 endvertex wrt production z < 0.8 m    
+#  * KS0 endvertex wrt production radial cut at 38mm
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = 'KS0 => e+ e-'
+# tightCut.Preambulo += [
+#     "GVX = LoKi.GenVertices.PositionX() " ,
+#     "GVY = LoKi.GenVertices.PositionY() " ,
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,
+#     "from GaudiKernel.SystemOfUnits import meter, millimeter, GeV" ,
+#     "vx      = GFAEVX ( GVX, 100 * meter ) " ,    
+#     "vy      = GFAEVX ( GVY, 100 * meter ) " ,
+#     "vz      = GFAEVX ( GVZ, 100 * meter ) " ,
+#     "rho2    = vx**2 + vy**2 " ,
+#     "rhoK  =  rho2 < (38 * millimeter )**2 " , 
+#     "decay =  vz <   (0.8 * meter ) ",
+# ]
+# tightCut.Cuts      =    {
+#     'KS0'  : ' decay & rhoK ',
+#                         }
+# EndInsertPythonCode
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Miguel Ramos Pernas
+# Email: miguel.ramos.pernas@cern.ch
+# Date: 20211013
+#
+Decay K_S0sig
+  1.000       e+     e-              PHSP;
+Enddecay
+#
+End

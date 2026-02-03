@@ -1,0 +1,37 @@
+# EventType: 12165043
+#
+# Descriptor: [B- -> (D0 -> K+ pi- pi- pi+) K- ]cc
+#
+# NickName: Bu_D0K,piKpipi=DecProdCut,AmpGen
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: 
+#   This is the decay file for the decay B- -> D0 ( -> K+ pi- pi- pi+) K-
+#   D0 decay following AmpGen LHCb model DtopiKpipi, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Tim Evans
+# Email: timothy.david.evans@cern.ch
+# Date: 20200203
+#
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+
+#
+Decay B-sig
+  1.000     MyD0  K-               PHSP;
+Enddecay
+CDecay B+sig
+#
+Decay MyD0
+  1.000        K+       pi-     pi-        pi+         LbAmpGen DtopiKpipi;
+Enddecay
+CDecay Myanti-D0
+#
+End

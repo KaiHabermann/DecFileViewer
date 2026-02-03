@@ -1,0 +1,50 @@
+# EventType: 17164221
+#
+# Descriptor: [B*_s0 -> ([B_s0]nos -> (D_s- -> K+ K- pi-) pi+, [B_s0]os -> (D_s+ -> K+ K- pi+) pi-) gamma]cc
+#
+# NickName: Bsst_Bs0gamma,Dspi,KKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Excited Bs Spectroscopy
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: 2 min
+# Responsible: Yiheng Luo
+# Email: yiheng.luo@cern.ch
+# Date: 20240902
+#
+Alias B_s*0sig  B_s*0
+Alias anti-B_s*0sig anti-B_s*0
+ChargeConj B_s*0sig anti-B_s*0sig
+#
+Alias MyBs     B_s0
+Alias MyantiBs anti-B_s0
+ChargeConj MyBs      MyantiBs
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Decay MyBs
+  1.000     MyD_s-     pi+      PHSP;
+Enddecay
+CDecay MyantiBs
+#
+Decay MyD_s-
+  1.000        K-        K+        pi-             D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+Decay B_s*0sig
+1.0000     MyBs      gamma      PHSP;
+Enddecay
+#
+Decay anti-B_s*0sig
+1.0000     MyantiBs  gamma      PHSP;
+Enddecay
+#
+End
+

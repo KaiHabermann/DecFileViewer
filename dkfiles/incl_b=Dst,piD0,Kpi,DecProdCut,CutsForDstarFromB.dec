@@ -1,0 +1,44 @@
+# EventType: 27163972
+#
+# Descriptor: [D*+ -> (D0 -> K- pi+) pi+]cc
+# Cuts: DaughtersInLHCbAndCutsForDstarFromB
+# CutsOptions: D0PtCuts 1.000*GeV DaughtersPtMinCut 200*MeV DaughtersPtMaxCut 200*MeV DaughtersPMinCut 2.000*GeV SoftPiPtCut 100*MeV
+# FullEventCuts: ExtraParticlesInAcceptance
+#
+# CPUTime: < 1 min
+#
+# NickName: incl_b=Dst,piD0,Kpi,DecProdCut,CutsForDstarFromB
+# Documentation: Inclusive D*+ events from b decays, D*+ forced to the decay chain D0(Kpi)pi for particle ID purposes, Daughters in LHCb Acceptance and generator cuts
+# EndDocumentation
+#
+# InsertPythonCode:
+# 
+# from Configurables import ExtraParticlesInAcceptance
+# stable_b_hadrons = [511, 521, 531, 5122, 541, 5112, 5212, 5222, 5132, 5232, 5312, 5322, 5332, 5142, 5242, 5412, 5342, 5442, 5512, 5522, 5532, 5542, 5554]
+# stable_b_hadrons += [-pid for pid in stable_b_hadrons]
+# Generation().FullGenEventCutTool = "ExtraParticlesInAcceptance"
+# Generation().addTool( ExtraParticlesInAcceptance )
+# Generation().ExtraParticlesInAcceptance.RequiredAncestors = stable_b_hadrons
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Adlene Hicheur
+# Email: hicheur@if.ufrj.br
+# Date: 20240206
+#
+Alias my_D0  D0
+Alias my_anti-D0 anti-D0
+ChargeConj my_D0 my_anti-D0
+
+Decay D*+sig
+  1.0 my_D0 pi+   VSS;
+Enddecay
+CDecay D*-sig
+
+Decay my_D0
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay my_anti-D0
+End
+

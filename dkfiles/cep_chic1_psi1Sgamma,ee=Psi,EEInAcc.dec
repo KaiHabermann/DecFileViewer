@@ -1,0 +1,57 @@
+# EventType: 49152114
+#
+# Descriptor: chi_c1 -> (psi(1S) -> e+ e-) gamma
+# NickName: cep_chic1_psi1Sgamma,ee=Psi,EEInAcc
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/cepInAcc
+# Production: SuperChic2
+#
+# InsertPythonCode:
+#
+# # SuperChic2 options.
+# from Configurables import SuperChic2Production
+# Generation(genAlgName).Special.addTool(SuperChic2Production)
+# Generation(genAlgName).Special.SuperChic2Production.Commands += [
+#     "SuperChic2:proc  = 22",     # Chi_c1[psi(1S)[mu,mu],gamma] production
+#     "SuperChic2:decays = false", # Turn off SuperChic2 decays.
+#     "SuperChic2:mmin   = 2.0"]   # QCD-induced processes must have mmin > 2 GeV
+#
+# # Cuts on the chi_c1(1P).
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut, "cepInAcc")
+# cepInAcc = Generation(genAlgName).cepInAcc
+# cepInAcc.Code = "( count( goodChic ) == 1 )"
+# cepInAcc.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#     "inAcc       = in_range ( 1.95 , GETA , 5.050 ) ",
+#     "goodEplus  = GINTREE( ( GID == -11 ) & inAcc )",
+#     "goodEminus = GINTREE( ( GID ==  11 ) & inAcc )",
+#     "goodChic = ( ( GABSID == 20443 ) & goodEplus & goodEminus )"]
+#
+# # Keep the CEP process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+# Documentation:
+# Central exclusive production of chi_c1[psi(1S)[e e] gamma] with electrons in the acceptance
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: 2 min
+# Responsible: Cristina Sanchez Gras
+# Email: cristina.sanchez.gras@cern.ch
+# Date: 20201012
+#
+Alias MyJpsi J/psi
+ChargeConj MyJpsi MyJpsi
+
+Decay chi_c1
+1.000 MyJpsi gamma VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+
+Decay MyJpsi
+1.000 e+ e- PHOTOS VLL;
+Enddecay
+End

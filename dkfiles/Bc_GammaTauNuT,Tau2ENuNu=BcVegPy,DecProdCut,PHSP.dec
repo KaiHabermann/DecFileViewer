@@ -1,0 +1,37 @@
+# EventType: 14521202
+#
+# Descriptor: [B_c+ => gamma (tau+ => e+ nu_e anti-nu_tau) nu_tau]cc
+#
+# NickName: Bc_GammaTauNuT,Tau2ENuNu=BcVegPy,DecProdCut,PHSP
+#
+# Documentation: Decay file for Bc => tau nu gamma with tau => e nu nu. Produced as a background for the Bc => e nu gamma signal. 
+#                Bc decayed with phase-space model. tau => e nu nu decayed with TAULNUNU model. Daughters in acceptance.
+# EndDocumentation
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Alice Moro
+# Email: a.moro23@campus.unimib.it
+# Date: 20250306
+#
+Alias		MyTau+	tau+
+Alias		MyTau-	tau-
+ChargeConj	MyTau+	MyTau-
+#
+Decay B_c+sig
+      1.0	MyTau+	nu_tau	gamma PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyTau+
+      1.0   e+         nu_e      anti-nu_tau    TAULNUNU;
+Enddecay
+CDecay MyTau-
+#
+End
+#

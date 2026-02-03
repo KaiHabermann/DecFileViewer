@@ -1,0 +1,23 @@
+# EventType: 39114030
+#
+# Descriptor: eta -> mu+ mu- mu+ mu-
+#
+# NickName: eta_4mu_doubledalitz=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# Documentation: Decay file for eta -> mu+ mu- mu+ mu- via double dalitz with daughters in LHCb
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Christian A. Coronel
+# Email: christian.andres.coronel@cern.ch
+# Date: 20250305
+# CPUTime: < 1 min
+
+Decay etasig
+1.000   mu+    mu-    mu+    mu-       PYTHIA 13;
+Enddecay
+#
+End
+#

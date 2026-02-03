@@ -1,0 +1,62 @@
+# EventType: 15576401
+#
+# Descriptor: [Lambda_b0 -> (D_s- -> K+ K- mu- anti-nu_mu pi0) (Lambda_c+ -> p+ pi- mu+ nu_mu)]cc
+#
+# NickName: Lb_DsLc,Ds=KKmunupi,Lc=ppimunu=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.@Production.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.@Production.TightCut
+# tightCut.Decay = "([Lambda_b0 --> K+ K- mu- p+ pi- mu+ ...]CC)"
+# tightCut.Preambulo += ["from LoKiCore.functions import in_range",
+#                        "good_charged = ( in_range ( 0.010 , GTHETA , 0.400 ) & (('K+' == GABSID) | ('mu+' == GABSID) | ('p+' == GABSID) | ('pi-' == GABSID)))"]
+# tightCut.Cuts = {'[Lambda_b0]cc' : "( 4 <= GNINTREE ( good_charged ) )"}
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Gediminas Sarpis
+# Email: gediminas.sarpis@cern.ch
+# Date: 20240507
+#
+# CPUTime: < 2 min
+#
+# Documentation: Lb->D_s-Lambda_c+ with D_s- -> KKmunupi and Lambda_c+ -> ppimunu
+#        background studies for Lb->pKtaumu
+# EndDocumentation
+#
+#
+#
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+#
+Decay Lambda_b0sig
+  1.000     MyD_s- MyLambda_c+ PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyD_s-
+  1.000     K+ K- pi0 mu- anti-nu_mu         PHSP;
+Enddecay
+CDecay MyD_s+
+#
+Decay MyLambda_c+
+  1.000     p+ pi- mu+ nu_mu             PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+#
+End

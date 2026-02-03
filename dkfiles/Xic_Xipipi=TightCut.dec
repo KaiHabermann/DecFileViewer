@@ -1,0 +1,72 @@
+# EventType: 26105198
+#
+# Descriptor: [Xi_c+ -> (Xi- -> (Lambda0 -> p+ pi-) pi-) pi+ pi+]cc
+#
+# NickName: Xic_Xipipi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# CPUTime: 14min
+#
+# Documentation:
+# Phase-space decay of Xic+ to Xi- pi+ pi+ with tight generator cuts.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+#
+# tightCut = Generation().SignalPlain.TightCut
+# tightCut.Decay     = '^[Xi_c+ => ^(Xi- => ^(Lambda0 => ^p+ pi-) pi-) pi+ pi+]CC'
+# tightCut.Preambulo += [
+#    'GVZ           =  LoKi.GenVertices.PositionZ()',
+#    'from GaudiKernel.SystemOfUnits import GeV, MeV, millimeter ',
+#    'inAcc         =  (in_range ( 0.010 , GTHETA , 0.400 )) ',
+#    'inEta         =  (in_range ( 1.8  , GETA   , 5.2 )) ' ,    
+#    'endZ          =  (GFAEVX(abs(GVZ), 0) < 2500.0 * millimeter)',
+#    'XicDaugPi      =  (GNINTREE( ("pi+"==GABSID) & (GP > 1.8 * GeV) & (GPT > 150 * MeV) & inAcc & inEta, 1) > 1.5) ',
+#    'XiDaugPi     =  (GNINTREE( ("pi+"==GABSID) & (GP > 1.8 * GeV), 1) > 0.5) ',
+#    'LamDaugPi     =  (GNINTREE( ("pi+"==GABSID) & (GP > 1.8 * GeV), 1) > 0.5) ',
+#    'protonMom     =  ( GP > 5.0 * GeV ) & ( GPT > 200 * MeV ) ',
+#    'goodXic        =  ( GP > 15.0 * GeV ) ',
+#    'goodXi       =  ( GP > 9 * GeV )',
+#    'goodLam       =  ( GP > 8 * GeV ) & ( GPT > 200 * MeV ) & endZ '
+# ]
+# tightCut.Cuts = {
+#    '[Xi_c+]cc': 'goodXic & XicDaugPi ',
+#     '[Xi-]cc': ' goodXi & XiDaugPi ',
+#    '[Lambda0]cc': 'goodLam & LamDaugPi ',
+#    '[p+]cc': 'protonMom '
+# }
+#
+# EndInsertPythonCode
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Sergio Jaimes
+# Email:       sergio.jaimes@cern.ch
+# Date:        20230216
+#
+Alias      MyXim      Xi-
+Alias      Myanti-Xip anti-Xi+
+ChargeConj MyXim      Myanti-Xip
+
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+
+Decay MyLambda0
+  1.000     p+   pi-  PHSP;
+Enddecay
+CDecay MyAntiLambda0
+#
+Decay MyXim
+  1.000     MyLambda0   pi-  PHSP;
+Enddecay
+CDecay Myanti-Xip
+#
+Decay Xi_c+sig
+  1.0  MyXim  pi+ pi+  PHSP;
+Enddecay
+CDecay anti-Xi_c-sig
+End 

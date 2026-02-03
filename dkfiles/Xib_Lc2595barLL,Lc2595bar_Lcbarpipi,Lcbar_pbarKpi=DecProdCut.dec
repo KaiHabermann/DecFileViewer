@@ -1,0 +1,64 @@
+# EventType: 16169130
+#
+# Descriptor: [Xi_b- -> (Lambda_c(2595)~- -> (Lambda_c~- -> p~- K+ pi-) pi+ pi-) (Lambda0 ->  p+ pi-) (Lambda0 -> p+ pi-)]cc
+#
+# NickName: Xib_Lc2595barLL,Lc2595bar_Lcbarpipi,Lcbar_pbarKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+#    Xib- decays to anti-Lambdac(2595) Lambda Lambda,
+#   This decay is used as background for Sexaquark DM searches where Lambda Lambda is a background for the sexaquark S (uuddss)
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Ellinor Eckstein, Xabier Cid Vidal
+# Email: ellinor.eckstein@cern.ch, xabier.cid.vidal@cern.ch
+# Date: 20231004
+#
+#
+Alias      MyLambda_c(2593)+       Lambda_c(2593)+
+Alias      Myanti-Lambda_c(2593)-       anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+       Myanti-Lambda_c(2593)-
+#
+Alias       MyLambda_c+        Lambda_c+
+Alias  Myanti-Lambda_c-        anti-Lambda_c-
+ChargeConj      MyLambda_c+    Myanti-Lambda_c-
+#
+Alias   MyLambda01       Lambda0
+Alias   Myanti-Lambda01   anti-Lambda0
+ChargeConj  MyLambda01      Myanti-Lambda01
+#
+Alias   MyLambda02       Lambda0
+Alias   Myanti-Lambda02   anti-Lambda0
+ChargeConj  MyLambda02      Myanti-Lambda02
+
+
+Decay Xi_b-sig
+    1.000   Myanti-Lambda_c(2593)-   MyLambda01     MyLambda02      PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay Myanti-Lambda_c(2593)-
+    1.000      Myanti-Lambda_c-  pi+    pi-    PHSP;
+Enddecay
+CDecay MyLambda_c(2593)+
+#
+Decay Myanti-Lambda_c-
+    1.000       anti-p-  K+  pi-      PHSP;
+Enddecay
+CDecay MyLambda_c+
+#
+Decay MyLambda01
+    1.000   p+  pi-     PHSP;
+Enddecay
+CDecay  Myanti-Lambda01
+#
+Decay MyLambda02
+    1.000   p+  pi-     PHSP;
+Enddecay
+CDecay  Myanti-Lambda02
+#
+End

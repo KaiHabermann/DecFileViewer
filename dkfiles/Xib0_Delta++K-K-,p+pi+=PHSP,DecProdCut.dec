@@ -1,0 +1,35 @@
+# EventType: 16104043
+#
+# Descriptor: [Xi_b0  -> (Delta++ -> p+ pi+) K- K-]cc
+#
+# NickName: Xib0_Delta++K-K-,p+pi+=PHSP,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Delta(1232)++ forced to p+ pi+ decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: George Hallett
+# Email: ghallett@cern.ch
+# Date: 20240502
+#
+#
+Alias      MyDelta++      Delta++
+Alias      MyDelta--      anti-Delta--
+ChargeConj MyDelta++      MyDelta--
+#
+Decay Xi_b0sig
+  1.000      K-      K-      MyDelta++   PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyDelta++
+  1.000        p+      pi+              PHSP;
+Enddecay
+CDecay MyDelta--
+#
+End
+

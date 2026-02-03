@@ -1,0 +1,42 @@
+# EventType: 41922003
+#
+# Descriptor: pp -> [mu+ nu_mu e- nu_e~]cc ... 
+#
+# NickName:  WW_lnul,lnul=1l15GeV_MG5_NLO
+# Production: Madgraph
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 15*GeV LeptonIsFromMother true NumberOfbquarks -1 
+#
+# InsertPythonCode:
+# #Configure the event type.
+# from Configurables import Gauss, Generation, MadgraphProduction
+# from GaudiKernel import SystemOfUnits
+# from Gaudi.Configuration import importOptions
+#
+# Generation(genAlgName).Special.addTool(MadgraphProduction)
+#
+# # Madgraph options.
+# #Generation(genAlgName).Special.addTool(MadgraphProduction)
+# sampleGenToolsOpts = {
+#     "Commands": ["import model loop_sm",
+#                  "generate p p > mu+ vm e- ve~ [QCD]",
+#                  "add process p p > mu- vm~ e+ ve [QCD]"
+#                         ],
+#      "DecEff": 0.33}
+# Gauss().SampleGenerationToolOptions.update(sampleGenToolsOpts)
+# EndInsertPythonCode
+# CPUTime: < 5 min
+# Documentation: 1 lepton with pT > 15 GeV aMC@NLO, Gen cuts to select the WW diagram 
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Gabe Nowak
+# Email: ganowak@cern.ch
+# Date: 20240703
+#
+End
+#
+

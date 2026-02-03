@@ -1,0 +1,42 @@
+# EventType: 16103000
+#
+# Descriptor: [Sigma_b- -> (Xi_b0 -> H_30 p~- K+) pi-]cc
+#
+# NickName: Xibst-_Xib0pi-,Sp-K+=DecProdCut,mS=1875MeV
+# 
+# Documentation:
+#   Decay a Sigma_b- to a Xi_b0 ( -> H_30 p- K+) and pi-
+#   Sigma_b- as stand in for Xi*_b- as its not known to pythia
+#   H_30 as stand in for a Sexaquark (uuddss) as stable DM candidate
+# EndDocumentation
+# 
+# 
+# Cuts: DaughtersInLHCb
+# 
+#  ParticleValue: " Sigma_b-   114   5112 -1.0  5.95533  2.506e-21       Sigma_b-   5112  0.000000e+00", " Sigma_b~+  115  -5112  1.0  5.95533  2.506e-21  anti-Sigma_b+  -5112  0.000000e+00", "H_30     89       36      0.0     1.875        1.000000e+16    A0      36      0.00"
+# 
+# 
+# CPUTime: <1min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Ellinor Eckstein
+# Email: ellinor.eckstein@cern.ch
+# Date: 20230403
+#
+Alias       MyXi_b0      Xi_b0
+Alias       Myanti-Xi_b0 anti-Xi_b0
+ChargeConj  MyXi_b0      Myanti-Xi_b0
+
+
+# Force Sigma_b- (stand in for Xi*_b-) to decay to Xi_b0 pi-:
+Decay Sigma_b-sig
+1.000   MyXi_b0  pi-     PHSP;
+Enddecay
+CDecay anti-Sigma_b+sig 
+#
+Decay MyXi_b0
+1.000   A0  anti-p-   K+      PHSP;
+Enddecay
+CDecay  Myanti-Xi_b0
+#
+End

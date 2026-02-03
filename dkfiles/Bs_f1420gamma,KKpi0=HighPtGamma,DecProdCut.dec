@@ -1,0 +1,46 @@
+# EventType: 13102601
+#
+# Descriptor: [B_s0 -> (f'_1 -> K+ K- pi0) gamma]cc
+#
+# NickName: Bs_f1420gamma,KKpi0=HighPtGamma,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation(genAlgName).BRadiativeCut
+# radCut.Code = " ( count ( isGoodB ) > 0 ) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "NGoodGamma = GINTREE(('gamma' == GABSID) & (GPT >1.5*GeV))"
+#   , "isGoodB    = (GBEAUTY & NGoodGamma)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: f1(1420) forced into K+ K- pi0 with PHSP, decay products in acceptance, with gamma PT > 1.5
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Carla Marin
+# Email:  carla.marin@cern.ch
+# Date: 20190604
+# CPUTime: <1min
+#
+Alias      Myf1   f'_1
+ChargeConj Myf1   Myf1
+#
+Decay B_s0sig
+  1.0000       Myf1     gamma              SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myf1
+  1.000        K+        K-        pi0                 PHSP;
+Enddecay
+#
+End
+

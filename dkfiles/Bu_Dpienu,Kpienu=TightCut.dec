@@ -1,0 +1,51 @@
+# EventType: 12585041
+#
+# Descriptor: [B+ -> (D- -> K+ pi- e- anti-nu_e) pi+ e+ nu_e]cc
+# NickName: Bu_Dpienu,Kpienu=TightCut
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: D chain background for B+ -> Kpipiee. The visible mass is required to be larger than 4500 MeV and the visible daughters as required to be inside the LHCb acceptance
+# EndDocumentation
+#
+# InsertPythonCode:
+#from Configurables import LoKi__GenCutTool
+#from GaudiKernel.SystemOfUnits import MeV
+#Generation(genAlgName).SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+#tightCut  = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+#tightCut.Decay    = "[^(B+ => ^(D- => ^K+ ^pi- ^e- ^nu_e~) ^pi+ ^e+ ^nu_e)]CC"
+#tightCut.Cuts     = {
+#   '[B+]cc'  : "GINTREE((GID == 'pi+') & (ACC)) & GINTREE((GID == 'pi-') & (ACC)) & GINTREE((GID == 'e+') & (ACC)) & GINTREE((GID == 'e-') & (ACC)) & GINTREE((GABSID == 'K+') & (ACC)) & (BM2 > 20250000.)",
+#   }
+#tightCut.Preambulo += [
+#   "BPX2 = (GCHILD(GPX,'K+' == GABSID) + GCHILD(GPX,'pi+' == GID) + GCHILD(GPX,'pi-' == GID) + GCHILD(GPX,'e+' == GID) + GCHILD(GPX,'e-' == GID))**2",
+#   "BPY2 = (GCHILD(GPY,'K+' == GABSID) + GCHILD(GPY,'pi+' == GID) + GCHILD(GPY,'pi-' == GID) + GCHILD(GPY,'e+' == GID) + GCHILD(GPY,'e-' == GID))**2",
+#   "BPZ2 = (GCHILD(GPZ,'K+' == GABSID) + GCHILD(GPZ,'pi+' == GID) + GCHILD(GPZ,'pi-' == GID) + GCHILD(GPZ,'e+' == GID) + GCHILD(GPZ,'e-' == GID))**2",
+#   "BPE2 = (GCHILD(GE,'K+' == GABSID) + GCHILD(GE,'pi+' == GID) + GCHILD(GE,'pi-' == GID) + GCHILD(GE,'e+' == GID) + GCHILD(GE,'e-' == GID))**2",
+#   "BM2  = (BPE2 - BPX2 - BPY2 - BPZ2)",
+#   "ACC  = in_range(0.0075, GTHETA, 0.400)",
+#   ]
+# EndInsertPythonCode
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Tobias Tekampe
+# Email: ttekampe@cern.ch
+# Date: 20180110
+# CPUTime: 8 min 
+#
+Alias        MyD-         D-
+Alias        MyD+         D+
+ChargeConj   MyD+         MyD-
+#	
+Decay B+sig
+1.000        MyD- pi+ e+  nu_e          PHOTOS GOITY_ROBERTS;
+Enddecay
+CDecay B-sig
+#
+Decay MyD-
+1.000        K+ pi- e-  anti-nu_e       PHSP;
+Enddecay
+CDecay MyD+
+#	
+End
+#

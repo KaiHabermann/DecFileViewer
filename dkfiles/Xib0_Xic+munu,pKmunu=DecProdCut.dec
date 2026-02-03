@@ -1,0 +1,33 @@
+# EventType: 16574041
+#
+# Descriptor: [Xi_b0 -> (Xi_c+ -> p+ K- mu+ nu_mu) mu- anti-nu_mu]cc
+#
+# NickName: Xib0_Xic+munu,pKmunu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Xib0 -> Xic+ mu- anti-nu_mu decays, with Xic+ -> p+ K- mu+ nu_mu. pKmumu in acceptance.
+# EndDocumentation
+#
+# CPUTime: < 2 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: J. Bex
+# Email: joshua.james.bex@cern.ch
+# Date: 20250311
+#
+Alias       MyXicp      Xi_c+
+Alias       MyXicm      anti-Xi_c-
+ChargeConj  MyXicp      MyXicm
+#
+Decay Xi_b0sig
+  1.000     MyXicp   mu-   anti-nu_mu         PHOTOS   PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyXicp
+  1.000     p+   K-    mu+   nu_mu          PHSP;
+Enddecay
+CDecay MyXicm
+#
+End

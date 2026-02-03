@@ -1,0 +1,162 @@
+# EventType: 15494506
+# 
+# Descriptor: {[Lambda_b0 -> (Lambda_c+ -> p+ K- pi+) (D- --> pi- pi+ pi- ...) ... ]cc}
+# NickName: Lb_LcDminus,DminustohhhNneutrals=TightCut
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = "[Lambda_b0 --> (Lambda_c+ ==> p+ K- pi+) pi- pi+ pi- ...]CC"
+# tightCut.Preambulo += [
+#   "from LoKiCore.functions import in_range",
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#   "goodTrack = in_range(0.010, GTHETA, 0.400) & ( GPT > 130 * MeV ) & ( GP  > 1200 * MeV )",
+#   "goodLc = ('Lambda_c+' == GABSID) & (3 == GNINTREE(goodTrack))",
+#   "goodLb = GINTREE(goodLc) & (GNINTREE(goodTrack) >= 3)"
+#  ]
+# tightCut.Cuts = {
+#  "[Lambda_b0]cc" : "goodLb"
+# }
+# EndInsertPythonCode
+#
+# Documentation: Lb -> LcD-X decay file for with D- decaying in at least three
+# pions.
+# EndDocumentation
+#
+# CPUTime: 5 min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Racha Cheaib
+# Email: rcheaib@cern.ch
+# Date: 20250208
+#
+#
+
+
+Alias           MyLambda_c+     Lambda_c+
+Alias           MyLambda_c-     anti-Lambda_c-
+ChargeConj      MyLambda_c+     MyLambda_c-
+#
+Alias           MyLambda(1520)0       Lambda(1520)0
+Alias           Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj      MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+Alias           MyD*+             D*+
+Alias           MyD*-             D*-
+ChargeConj      MyD*+             MyD*-
+#
+Alias           MyD+              D+
+Alias           MyD-              D-
+ChargeConj      MyD+              MyD-
+#
+Alias           Myeta             eta
+ChargeConj      Myeta             Myeta
+#
+Alias           MyK*0             K*0
+Alias           Myanti-K*0        anti-K*0
+ChargeConj      MyK*0             Myanti-K*0
+#
+Alias           Myphi             phi
+ChargeConj      Myphi             Myphi
+#
+#
+Alias           Mya_1+            a_1+
+Alias           Mya_1-            a_1-
+ChargeConj      Mya_1+            Mya_1-
+#
+Decay Lambda_b0sig
+ 0.00015   MyLambda_c+      MyD*-                            PHSP;
+ 0.   MyLambda_c+      MyD-                             PHSP;
+ 0.00005   MyLambda_c+      MyD-  K0                         PHSP;
+ 0.00323   MyLambda_c+      MyD*- K0                         PHSP;
+ 0.00001   MyLambda_c+      MyD-  K*0                        PHSP;
+ 0.00016   MyLambda_c+      MyD*- K*0                        PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+ 0.02800 p+                K-      pi+                       PHSP;
+ 0.016   p+                Myanti-K*0                        PHSP;
+ 0.00860 Delta++           K-                                PHSP;
+ 0.00414 MyLambda(1520)0   pi+                               PHSP;
+Enddecay
+CDecay MyLambda_c-
+#
+Decay MyD-
+0.014900000 K_S0    pi-                                     PHSP;
+0.012715913 Mya_1-  K_S0                                    SVS;
+0.027090862 K'_10   pi-                                     SVS;
+0.069900000 K_S0    pi-     pi0                             D_DALITZ;
+0.001247859 K_S0    rho0    pi-                             PHSP;
+0.003851416 K0      omega   pi-                             PHSP;
+0.007032686 K+      rho-    pi-                             PHSP;
+0.009274210 K*+     pi-     pi-                             PHSP;
+0.001101505 K*0     rho0    pi-                             PHSP;
+0.003851416 K*0     omega   pi-                             PHSP;
+0.031200000 K_S0    pi-     pi-     pi+                     PHSP;
+0.005700000 K+      pi-     pi-     pi-     pi+             PHSP;
+0.006701464 K0      pi-     pi-     pi+     pi0             PHSP;
+0.004600000 K_S0    K_S0    K-                              PHSP;
+0.001948078 Myphi   pi-                                     SVS;
+0.003523600 Myphi   pi-     pi0                             PHSP;
+0.016000000 K*-     K_S0                                    SVS;
+0.000770283 K*-     K+      pi-                             PHSP;
+0.000770283 K-      K*+     pi-                             PHSP;
+0.000770283 K*-     K0      pi0                             PHSP;
+0.000770283 K*0     anti-K0 pi-                             PHSP;
+0.000770283 K0      anti-K*0 pi-                            PHSP;
+0.000830000 rho0    pi-                                     SVS;
+0.002440000 pi-     pi+     pi-                             PHSP;
+0.011600000 pi-     pi+     pi-     pi0                     PHSP;
+0.003430000 Myeta     pi-                                   PHSP;
+0.004400000 eta'    pi-                                     PHSP;
+0.000374532 Myeta     pi-     pi0                           PHSP;
+0.000627165 Myeta     pi-     pi+     pi-                   PHSP;
+0.000418110 Myeta     pi-     pi0     pi0                   PHSP;
+0.001660000 pi+     pi-     pi+     pi-     pi-             PHSP;
+0.004557000 K*0     Mya_1-                                  PHSP;
+0.001740000 K-      K_S0    pi+     pi-                     PHSP;
+0.002380000 K_S0    K+      pi-     pi-                     PHSP;
+0.000230000 K+      K-      pi+     pi-     pi-             PHSP;
+0.000240000 K+      K-      K_S0    pi-                     PHSP;
+0.001720000 K+      rho0    pi-     pi-                     PHSP;
+0.001600000 eta'    pi-     pi0                             PHSP;
+Enddecay
+CDecay MyD+
+#
+Decay MyD*+
+ 0.67     MyD+    pi0                                     VSS;
+ 0.33      MyD+    gamma                                   PHSP;
+Enddecay
+CDecay MyD*-
+#
+Decay MyK*0
+  1.0        K+      pi-                                 VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyLambda(1520)0
+  1.0   p+     K-                                           PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay Myphi
+  1.0   pi+ pi- pi0                                      PHI_DALITZ;
+Enddecay
+#
+Decay Myeta
+  0.85        pi-     pi+     pi0                           ETA_DALITZ;
+  0.15        pi-     pi+     gamma                         PHSP;
+Enddecay
+#
+Decay Mya_1+
+  1.0 rho0 pi+                                             VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+End

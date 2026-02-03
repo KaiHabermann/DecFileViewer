@@ -1,0 +1,78 @@
+# EventType: 26196941
+#
+# Descriptor: [Sigma_c*++ -> (Lambda_c+ -> p+ K- pi+) (D+ -> K- pi+ pi+)]cc
+#
+# NickName: Pcc4600,LcD+,pkpi=TightCut,InAcc
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Sample: SignalRepeatedHadronization
+#
+# ParticleValue: "Sigma_c*++ 488 4224 2.0 4.600 6.591074e-23 Sigma_c*++ 4224 0.00" , "Sigma_c*~-- 489 -4224 -2.0 4.600 6.591074e-23 anti-Sigma_c*-- -4224 0.00"
+#
+# Documentation: Pc decay to Lambda_c^+ D+ in PHSP model with daughters in LHCb Acceptance
+# Sigma_c*++ used for the generation. Neutrals flag is set to 9 to allow numbering.
+#
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation()
+# signal     = generation.SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[Sigma_c*++ => ^(Lambda_c+ ==> ^p+ ^K- ^pi+) ^(D+ => ^K- ^pi+ ^pi+)]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity () ## to be sure ' ,
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'fastTrack    =  ( GPT > 220 * MeV ) & ( GP  > 3.0 * GeV )   ' ,
+#     'goodTrack    =  inAcc & inEta                               ' ,
+#     'goodLc       =  ( GPT > 0.9 * GeV )   ' ,
+#     'goodDp       =  ( GPT > 0.9 * GeV )   ' ,
+# ]
+# tightCut.Cuts     =    {
+#     '[Lambda_c+]cc'  : 'goodLc   ' ,
+#     '[K-]cc'         : 'goodTrack & fastTrack' ,
+#     '[pi+]cc'        : 'goodTrack & fastTrack' ,
+#     '[p+]cc'         : 'goodTrack & fastTrack & ( GP > 9 * GeV ) ',
+#     '[D+]cc'         : 'goodDp' ,
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG:   Onia
+# Tested:      Yes
+# Responsible: Gary Robertson
+# Email:       gary.robertson@cern.ch
+# Date:        20220224
+# CPUTime:     <1min
+#
+#
+Alias        MyDp     D+
+Alias        MyDm     D-
+ChargeConj   MyDp    MyDm
+#
+Alias        MyLambda_c+         Lambda_c+
+Alias   anti-MyLambda_c-    anti-Lambda_c-
+ChargeConj   MyLambda_c+   anti-MyLambda_c-
+#
+Decay Sigma_c*++sig
+ 1.000       MyLambda_c+    MyDp    PHSP;
+Enddecay
+CDecay anti-Sigma_c*--sig
+#
+Decay MyLambda_c+
+ 1.000       p+        K-        pi+    PHSP;
+Enddecay
+CDecay anti-MyLambda_c-
+#
+Decay MyDp
+ 1.000       K-        pi+       pi+    PHSP;
+Enddecay
+CDecay MyDm
+#
+End
+#

@@ -1,0 +1,34 @@
+# EventType: 21511401
+#
+# Descriptor: [D+ -> (pi0 -> gamma gamma) mu+ nu_mu]cc
+#
+# NickName: D_pi0munu,gammagamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Carlos Cocha, Martino Borsato
+# Email: carlos.eduardo.cocha.toapaxi@cern.ch, martino.borsato@cern.ch
+# Date: 20240523
+#
+# CPUTime: < 2 min
+#
+# Documentation: D -> pi0munu and DecProdCut
+#                for background studies in tau -> mu gamma
+# EndDocumentation
+#
+#
+Alias      MyPi0       pi0
+ChargeConj MyPi0       MyPi0
+#
+Decay D+sig
+  1.000     MyPi0 mu+ nu_mu       PHOTOS ISGW2;
+Enddecay
+CDecay D-sig
+#
+Decay MyPi0
+  1.000     gamma gamma           PHOTOS  PHSP;
+Enddecay
+#
+End

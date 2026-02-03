@@ -1,0 +1,34 @@
+# EventType: 13522030 
+#
+# Descriptor: {[[B_s0]nos => K- (tau+ -> e+ nu_e anti-nu_tau) nu_tau]cc, [[B_s0]os => K+ (tau- -> e- anti-nu_e nu_tau) nu_tau]cc}
+#
+# NickName: Bs_Ktaunu,enunu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay B_s0 -> K- tau+ nu_tau with tau+ -> e+ nu_e anti-nu_tau
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Francesco Polci
+# Email: francesco.polci@cern.ch
+# Date: 20241212
+Alias      MyTau-      tau-
+Alias      MyTau+      tau+
+ChargeConj MyTau+      MyTau-
+#
+#
+Decay B_s0sig
+1.000   K-    MyTau+  nu_tau        PHOTOS ISGW2;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyTau+   
+1.000    e+   nu_e    anti-nu_tau      PHOTOS TAULNUNU; 
+Enddecay 
+CDecay MyTau-
+#
+End
+#

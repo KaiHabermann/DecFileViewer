@@ -1,0 +1,127 @@
+# EventType: 15498205
+# Descriptor: [Lambda_b0 -> (Sigma_c++ -> (Lambda_c+ -> p+ K- pi+) pi+) (D*_s- -> (D_s- -> K- K+ pi-) gamma) pi-]cc
+# 
+# NickName: Lb_SigmacpipiDsst,Lcpi,KKpi=DecProdCut
+# Cuts: DaughtersInLHCb
+# Documentation: Decay Lambda_b0 -> ( Sigma_c++ -> (Lambda_c+ -> ^p+  ^K- ^pi+ ) pi+) pi- D*_s including intermediate states.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Federica Borgato, Anna Lupato
+# Email: federica.borgato@cern.ch, alupato@cern.ch
+# Date: 20240621
+# CPUTime: <1 min
+#
+Alias           MySigma_c++       Sigma_c++
+Alias           Myanti-Sigma_c--  anti-Sigma_c--
+ChargeConj      MySigma_c++       Myanti-Sigma_c--
+#
+Alias           MyMainLc+         Lambda_c+
+Alias           MyMainLc-         anti-Lambda_c-
+ChargeConj      MyMainLc+         MyMainLc-
+#
+Alias           MyD_s+            D_s+
+Alias           MyD_s-            D_s-
+ChargeConj      MyD_s+            MyD_s-
+#
+Alias           MyD_s*+           D_s*+
+Alias           MyD_s*-           D_s*-
+ChargeConj      MyD_s*+           MyD_s*-
+#
+Alias           MyD_s*(2317)+     D_s0*+
+Alias           MyD_s*(2317)-     D_s0*-
+ChargeConj      MyD_s*(2317)+     MyD_s*(2317)-
+#
+Alias           MyD_s*(2457)+     D_s1+
+Alias           MyD_s*(2457)-     D_s1-
+ChargeConj      MyD_s*(2457)+     MyD_s*(2457)-
+#
+Alias           MyD_s*(2536)+     D'_s1+
+Alias           MyD_s*(2536)-     D'_s1-
+ChargeConj      MyD_s*(2536)+     MyD_s*(2536)-
+#
+Alias           MyD(2010)+        D*+
+Alias           MyD(2010)-        D*-
+ChargeConj      MyD(2010)+        MyD(2010)-
+#
+Alias           MyDelta++             Delta++
+Alias           Myanti-Delta--        anti-Delta--
+ChargeConj      MyDelta++             Myanti-Delta--
+#
+Alias           MyLambda(1520)0       Lambda(1520)0
+Alias           Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj      MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+Decay Lambda_b0sig
+  0.378            MySigma_c++          pi-         MyD_s*-             PHSP;
+  0.032            MySigma_c++          pi-         MyD_s*(2317)-       PHSP;
+  0.18             MySigma_c++          pi-         MyD_s*(2457)-       PHSP;
+  0.02             MySigma_c++          pi-         MyD_s*(2536)-       PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MySigma_c++
+  1.0000    MyMainLc+  pi+                   PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+Decay MyMainLc+
+  0.03500 p+              K-         pi+ PHSP;
+  0.01980 p+              anti-K*0       PHSP;
+  0.01090 MyDelta++       K-             PHSP;
+  0.02200 MyLambda(1520)0 pi+            PHSP;
+Enddecay
+CDecay MyMainLc-
+#
+Decay MyD_s*-
+  93.5  MyD_s- gamma  VSP_PWAVE;
+  5.8   MyD_s- pi0    VSS;
+  0.67  MyD_s- e+ e-  PHSP;
+Enddecay
+CDecay MyD_s*+
+#
+Decay MyD_s-
+  1. K- K+ pi- D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+Decay MyD_s*(2317)+
+  1.         MyD_s+    pi0                     PHSP;
+Enddecay
+CDecay MyD_s*(2317)-
+#
+Decay MyD_s*(2457)+
+  0.18   MyD_s+    gamma                       VSP_PWAVE;
+  0.48   MyD_s*+    pi0                        PHSP;
+  0.043  MyD_s+ pi0 pi0                        PHSP;
+  0.037  MyD_s*(2317)+ gamma                   VSP_PWAVE;
+Enddecay
+CDecay MyD_s*(2457)-
+#
+#BR from PDG 2020
+Decay MyD_s*(2536)+
+  0.85   MyD(2010)+   K0             PHSP;
+  0.028  D+           pi-     K+     PHSP;
+Enddecay
+CDecay MyD_s*(2536)-
+#
+Decay MyD(2010)+
+  0.677  D0   pi+         PHSP;
+  0.307  D+   pi0         PHSP;
+  0.016  D+   gamma       PHSP;
+Enddecay
+CDecay MyD(2010)-
+#
+Decay MyLambda(1520)0
+  1.0   p+     K-        PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay MyDelta++
+  1 p+ pi+  PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+End
+

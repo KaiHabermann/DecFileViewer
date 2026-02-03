@@ -1,0 +1,52 @@
+# EventType: 13196210
+#
+# Descriptor: [B_s0 => (D*_s+ => (gamma|pi0) (D_s+ => pi+ pi- pi+)) (D*_s- => (gamma|pi0) (D_s- => pi- pi+ pi-))]CC
+#
+# NickName: Bs_DsstDsst,3pi3pi=DDALITZ,B2XTauNoNeutralCut
+#
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTauNoNeutralCut
+#
+# Documentation: B_s0 -> Ds* Ds* with Ds decays by D_Dalitz, with generator level cut p>2000MeV, pt>250MeV, no cut on neutral particles
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Ya Zhao
+# Email: ya.zhao@cern.ch
+# Date: 20251202
+# CPUTime: < 1min
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+Alias      MyD_s+     D_s+
+Alias      MyD_s-     D_s-
+ChargeConj MyD_s+     MyD_s-
+
+# ---------------
+# Decay of the Bs
+# ---------------
+Decay B_s0sig
+  1.0000     MyD_s*+     MyD_s*-     SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B_s0sig
+
+# -----------------
+# Decay of the Ds*+
+# -----------------
+Decay MyD_s*+
+  0.9360     MyD_s+  gamma      VSP_PWAVE;
+  0.0577     MyD_s+  pi0        VSS;
+Enddecay
+CDecay MyD_s*-
+
+# ---------------
+# Decay of the Ds
+# ---------------
+Decay MyD_s+
+  1.0     pi+         pi-        pi+     D_DALITZ;
+Enddecay
+CDecay MyD_s-
+End

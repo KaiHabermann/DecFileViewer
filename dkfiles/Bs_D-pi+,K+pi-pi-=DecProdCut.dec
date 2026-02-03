@@ -1,0 +1,35 @@
+# EventType: 13264053
+#
+# Descriptor: {[[B_s0]nos -> (D- => K+ pi- pi-) pi+]cc, [[B_s0]os -> (D+ => K- pi+ pi+) pi-]cc}
+#
+# NickName: Bs_D-pi+,K+pi-pi-=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# B_s0 decay to D- (K+pi-pi-) pi+ with Dalitz resonances for the D- decay.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Michał Mazurek
+# Email: michal.mazurek@cern.ch
+# Date: 20250215
+# CPUTime: < 1 min
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+#
+Decay B_s0sig
+  1.000     MyD-      pi+          PHSP;
+Enddecay
+CDecay anti-B_s0sig
+# D_DALITZ includes resonances contributions (K*(892), K*(1430), K*(1680))
+Decay MyD-
+  1.000    K+        pi-    pi-          D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End
+

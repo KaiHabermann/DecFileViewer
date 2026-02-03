@@ -1,0 +1,26 @@
+# EventType: 26103094
+#
+# Descriptor: [Xi_c+ -> p+ K+ K-]cc
+#
+# NickName: Xicp_pKK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: <1min
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Qi-Le Niu
+# Email:       qniu@cern.ch
+# Date:        20240930
+#
+#
+Decay Xi_c+sig
+  1.0  p+  K+  K-  PHSP;
+Enddecay
+CDecay anti-Xi_c-sig
+#
+End
+#

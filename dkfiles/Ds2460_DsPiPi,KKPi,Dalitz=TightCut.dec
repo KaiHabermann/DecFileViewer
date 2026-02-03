@@ -1,0 +1,53 @@
+# EventType: 27165080
+#
+# Descriptor: [D_s1+ -> (D_s+ -> K- K+ pi+) pi+ pi-]cc
+#
+# NickName: Ds2460_DsPiPi,KKPi,Dalitz=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ D_s1(2460)+ => (D_s+ => ^K+ ^K- ^pi+ ) ^pi+ ^pi- ]CC'
+# tightCut.Cuts      =    {
+#     '[K+]cc'         : ' goodKaon ' , 
+#     '[pi+]cc'        : ' goodPion ' } 
+#
+# tightCut.Preambulo += [
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodKaon   = ( GPT > 0.25 * GeV ) & ( GP > 3.0 * GeV ) & inAcc ' , 
+#     'goodPion   = ( GPT > 0.20 * GeV ) & ( GP > 1.9 * GeV ) & inAcc ' ] 
+#
+# EndInsertPythonCode
+#
+#
+# Documentation: Ds2460+ decays to Ds pi+ pi-, Ds to K- K+ pi+ using Dalitz models
+# EndDocumentation
+#
+# PhysicsWG:   Charm 
+# Tested:      Yes
+# Responsible: Ziyi Wang
+# Email:       ziyi.wang@cern.ch
+# Date: 20240126
+# CPUTime: 3 min
+#
+Alias My_Ds-    D_s-
+Alias My_Ds+    D_s+
+ChargeConj  My_Ds-    My_Ds+
+#
+Decay D_s1+sig
+  1.000   My_Ds+ pi+ pi-  PHSP;
+Enddecay
+CDecay D_s1-sig
+#
+Decay My_Ds+
+  1.000   K- K+  pi+   D_DALITZ;
+Enddecay
+CDecay My_Ds-
+#
+End

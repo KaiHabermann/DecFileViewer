@@ -1,0 +1,29 @@
+# EventType: 18114001
+#
+# Descriptor: Upsilon(1S) -> mu+ mu- mu+ mu-
+#
+# NickName: incl_Upsilon1S,4m=DecProdCut
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Upsilon decay to four muons, daughters in acceptance
+# EndDocumentation
+#
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Vitalii Lisovskyi
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20201113
+# CPUTime: <1 min
+# Tested: Yes
+#
+#
+Decay Upsilonsig
+  1.000         mu+  mu-  mu+  mu-      PHSP;
+Enddecay
+#
+End
+#

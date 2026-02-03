@@ -1,0 +1,118 @@
+# EventType: 15298015 
+# 
+# Descriptor: [Lambda_b0 -> (Lambda_c+ --> p+ K- pi+) (D_s- ==> K+ K- pi-) pi+ pi-]cc
+# 
+# NickName: Lb_LcDspipi,pKpi,KKpi=TightCut,LowLcpipiMass2680MeV,EvtGenCut 
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+#
+# gen = Generation()
+# gen.SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+#
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/LowLcpipiMass"
+# evtgendecay.addTool(LoKi__GenCutTool ,'LowLcpipiMass')
+# evtgendecay.LowLcpipiMass.Decay   = '[^(Beauty => (Lambda_c+ --> p+ K- pi+) (D_s- ==> K+ K- pi-) pi+ pi-)]CC'
+# evtgendecay.LowLcpipiMass.Cuts    = { '[Lambda_b0]cc' : "mLcpipi" }
+# evtgendecay.LowLcpipiMass.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import MeV",
+#     "CS         = LoKi.GenChild.Selector",
+#     "mLcpipi  = ( ( GMASS ( CS('[(Beauty => ^(Lambda_c+ --> p+ K- pi+) (D_s- ==> K+ K- pi-) pi+ pi-)]CC') , CS('[(Beauty => (Lambda_c+ --> p+ K- pi+) (D_s- ==> K+ K- pi-) ^pi+ pi-)]CC') , CS('[(Beauty => (Lambda_c+ --> p+ K- pi+) (D_s- ==> K+ K- pi-) pi+ ^pi-)]CC') ) ) <2680 * MeV ) " 
+#     ]
+#
+# gen.SignalPlain.addTool(LoKi__GenCutTool ,'TightCut')
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay   = '[Beauty => (Lambda_c+ --> ^p+ ^K- ^pi+) (D_s- ==> ^K+ ^K- ^pi-) ^pi+ ^pi-]CC'
+#
+#
+# tightCut.Cuts    =    {
+#	'[p+]cc' : "inAcc",
+#	'[pi+]cc': "inAcc",
+#	'[K+]cc' : "inAcc",
+# 	}
+# tightCut.Preambulo += [
+#     "inAcc = in_range(0.005 , GTHETA , 0.400)" 
+#     ]
+#
+# EndInsertPythonCode
+#
+# Documentation:
+# 	Decay file for Lb -> Lc+ Ds- pi+ pi-, 
+# 	Lc+ decays to p K- pi+, and Ds- decays to K+ K- pi-,
+# 	decay products in acceptance. 
+# 	Maximum m(Lc pi pi) is 2680 MeV.
+# 	K*0, Delta++ and Lambda(1520)0 resonances are included in Lambda_c decay.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: 2 min
+# Responsible: Kunpeng Yu
+# Email: kunpeng.yu@cern.ch
+# Date: 20231028
+#
+Alias      MyD_s-               D_s-
+Alias      Myanti-D_s+          D_s+
+ChargeConj MyD_s-               Myanti-D_s+
+#
+Alias      MyLambda_c+          Lambda_c+
+Alias      Myanti-Lambda_c-     anti-Lambda_c-
+ChargeConj MyLambda_c+          Myanti-Lambda_c-
+#
+Alias      MyK*0                K*0
+Alias      Myanti-K*0           anti-K*0
+ChargeConj MyK*0                Myanti-K*0
+#
+Alias      MyDelta++            Delta++
+Alias      Myanti-Delta--       anti-Delta--
+ChargeConj MyDelta++            Myanti-Delta--
+#
+Alias      MyLambda(1520)0      Lambda(1520)0
+Alias      Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+#
+Decay Lambda_b0sig
+ 1.00 MyLambda_c+	MyD_s- pi+ pi-	 PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyD_s-
+ 1.00 K-	K+	pi-		PHSP;
+Enddecay
+CDecay Myanti-D_s+
+#
+Decay MyLambda_c+
+ 0.17 MyDelta++	K-			PHSP;
+ 0.21 Myanti-K*0	p+		PHSP;
+ 0.08 MyLambda(1520)0	pi+		PHSP;
+ 0.54 p+		K-	pi+	PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+ 1.00 K+	pi-			PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyDelta++
+ 1.00 p+	pi+			PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+Decay MyLambda(1520)0
+ 1.00 p+	K-			PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+End
+
+
+

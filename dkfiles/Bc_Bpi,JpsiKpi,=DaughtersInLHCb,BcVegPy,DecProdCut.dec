@@ -1,0 +1,44 @@
+# EventType: 14145006
+#
+# Descriptor: [B_c+ -> (B0 -> (J/psi(1S) -> mu+ mu-) K+ pi-) pi+]cc
+#
+# NickName: Bc_Bpi,JpsiKpi,=DaughtersInLHCb,BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: B_c+ decaying into B0, pi+, B0 decaying into Jpsi K+ pi-, Jpsi decaying into mu+ mu-.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Zeqing Mu
+# Email: zeqing.mu@cern.ch
+# Date: 20251213
+#
+Alias      MyB0   B0
+Alias      Myanti-B0    anti-B0
+ChargeConj MyB0   Myanti-B0
+#
+Alias MyJpsi J/psi
+ChargeConj MyJpsi MyJpsi
+#
+Decay B_c+sig
+  1.000   MyB0    pi+     PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyB0
+  1.000    MyJpsi     K+     pi-       PHSP;
+Enddecay
+CDecay Myanti-B0
+#
+Decay MyJpsi
+  1.000         mu+       mu-            PHOTOS VLL;
+Enddecay
+#
+End
+
+

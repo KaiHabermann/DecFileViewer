@@ -1,0 +1,118 @@
+# EventType: 12575093 
+#
+# Descriptor: [B+ -> (Ds- -> pi+ pi+ mu- anti-nu_mu)  K+ e+ nu_e]cc
+#
+# NickName: Bu_DsKell1nu,pipiell2nu,ell=e,mu=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LoKi__GenCutTool
+#
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[B+ --> K+ pi- [e+]CC [mu-]CC ... ]CC"
+# tightCut.Preambulo += [ 
+#     "from GaudiKernel.SystemOfUnits import MeV",
+#     "inAcc         = ( (GPX/GPZ < 0.38) & (GPX/GPZ > -0.38) & (GPY/GPZ < 0.28) & (GPY/GPZ > -0.28) & (GTHETA > 0.01))", 
+#     "good_kaon     = inAcc & (GP > 1500 * MeV) & ('K+' == GABSID)" ,
+#     "good_pion     = inAcc & (GP > 1500 * MeV) & ('pi+' == GABSID)" ,
+#     "good_muon     = inAcc & (GP > 1500 * MeV) & ('mu+' == GABSID)" , 
+#     "good_electron = inAcc & (GP > 1500 * MeV) & ('e+' == GABSID)" , ]
+# tightCut.Cuts = {'[B+]cc' : "( 1 == GNINTREE ( good_kaon ) ) & ( 1 <= GNINTREE ( good_pion ) ) & ( 1 == GNINTREE ( good_muon ) )  & ( 1 == GNINTREE ( good_electron ) )"}
+# EndInsertPythonCode
+#
+# Documentation: 
+# Series of semi-leptonic B+ decays resulting in Ds K ell_1 nu with Ds -> pi pi ell_2 nu, where ell_{1, 2} can be a muon or an electron.
+# The decfile contains a series of modes including tau decays and additional pi0.
+# A kaon, a pion, a muon and an electron are required to be in acceptance.
+# The decfile is intended for background studies for analyses of b -> s tau tau decays with single-prong tau decays.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20250116
+#
+Alias      MyD_s-2mu     D_s-
+Alias      MyD_s+2mu     D_s+
+ChargeConj MyD_s+2mu     MyD_s-2mu
+#
+Alias      MyD_s-2e      D_s-
+Alias      MyD_s+2e      D_s+
+ChargeConj MyD_s+2e      MyD_s-2e
+#
+Alias      MyD_s*+2mu    D_s*+
+Alias      MyD_s*-2mu    D_s*-
+ChargeConj MyD_s*+2mu    MyD_s*-2mu
+#
+Alias      MyD_s*+2e     D_s*+
+Alias      MyD_s*-2e     D_s*-
+ChargeConj MyD_s*+2e     MyD_s*-2e 
+#
+Alias      MyK*+          K*+
+Alias      MyK*-          K*-
+ChargeConj MyK*+          MyK*-
+#
+Alias      Mytau2mu+      tau+
+Alias      Mytau2mu-      tau-
+ChargeConj Mytau2mu+      Mytau2mu-
+#
+Alias      Mytau2e+       tau+
+Alias      Mytau2e-       tau-
+ChargeConj Mytau2e+       Mytau2e-
+#
+Decay B+sig 
+  0.133    MyD_s-2mu  K+   e+        nu_e      PHSP;
+  0.129    MyD_s*-2mu K+   e+        nu_e      PHSP;
+  0.133    MyD_s-2e   K+   mu+       nu_mu     PHSP;
+  0.129    MyD_s*-2e  K+   mu+       nu_mu     PHSP;
+  0.006    MyD_s-2mu  K+   Mytau2e+  nu_tau    PHSP;
+  0.006    MyD_s*-2mu K+   Mytau2e+  nu_tau    PHSP;
+  0.006    MyD_s-2e   K+   Mytau2mu+ nu_tau    PHSP;
+  0.006    MyD_s*-2e  K+   Mytau2mu+ nu_tau    PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD_s+2mu
+  0.500     pi+ pi-        mu+       nu_mu     PHSP;
+Enddecay
+CDecay MyD_s-2mu
+#
+Decay MyD_s+2e
+  0.500     pi+ pi-        e+        nu_e      PHSP;
+Enddecay
+CDecay MyD_s-2e
+#
+Decay MyD_s*+2mu
+  0.936   MyD_s+2mu  gamma                     VSP_PWAVE;
+  0.058   MyD_s+2mu  pi0                       VSS;
+Enddecay
+CDecay MyD_s*-2mu
+#
+Decay MyD_s*+2e
+  0.936   MyD_s+2e   gamma                     VSP_PWAVE;
+  0.058   MyD_s+2e   pi0                       VSS;
+Enddecay
+CDecay MyD_s*-2e
+#
+Decay MyK*+
+  1.000          K+             pi0            VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay Mytau2mu+
+  0.1739         mu+     nu_mu  anti-nu_tau    TAULNUNU;
+Enddecay
+CDecay Mytau2mu-
+#
+Decay Mytau2e+
+  0.1782         e+     nu_e  anti-nu_tau      TAULNUNU;
+Enddecay
+CDecay Mytau2e-
+#
+End

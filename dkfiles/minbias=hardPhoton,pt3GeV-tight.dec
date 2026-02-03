@@ -1,0 +1,34 @@
+# EventType: 30000052
+#
+# Descriptor: pp => ?
+#
+# NickName: minbias=hardPhoton,pt3GeV-tight
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/GammasFromMBInAcceptance
+# 
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "GammasFromMBInAcceptance" )
+# GammasInAcc = Generation(genAlgName).GammasFromMBInAcceptance
+# GammasInAcc.Code = " ( count ( isGoodPi0 ) > 1 ) | ( count ( isGoodGamma ) > 1 ) "
+# ### - HepMC::IteratorRange::descendants   4
+# GammasInAcc.Preambulo += [
+#       "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#       "inAcceptance          = ( GTHETA < 400.0*mrad ) & ( GTHETA > 5.0*mrad )",
+#       "kinematicCut          = (GPT > 3*GeV)",
+#       "isGoodPi0             = ( 'pi0' == GID ) & inAcceptance & kinematicCut",
+#       "isGoodGamma           = ( 'gamma' == GID ) & inAcceptance & kinematicCut",
+#     ]
+# EndInsertPythonCode
+# Documentation: minimum bias
+# EndDocumentation
+# CPUTime: < 1 min
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Adrian Casais Vidal
+# Email: adrian.casais.vidal@cern.ch
+# Date:   20191213
+#
+End

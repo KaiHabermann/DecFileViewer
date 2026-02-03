@@ -1,0 +1,41 @@
+# EventType: 11102273
+#
+# NickName: Bd_ppbargamma=phsp,HighPtGamma,DecProdCut
+#
+# Descriptor: [B0 -> p+ anti-p- gamma]cc 
+#
+# Cuts: DaughtersInLHCb
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation().BRadiativeCut
+# radCut.Code = " ( count ( isGoodB ) > 0 ) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "NGoodGamma = GINTREE(('gamma' == GABSID) & (GPT >1.5*GeV))"
+#   , "isGoodB    = (GBEAUTY & NGoodGamma)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: B0->ppbargamma decay, phase-space, Decay products in acceptance, with gamma PT > 1.5 GeV
+# EndDocumentation
+# 
+# PhysicsWG: RD 
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Olivier Deschamps
+# Email: odescham@in2p3.fr
+# Date: 20251020
+#
+#
+#
+Decay B0sig
+  1.000       p+ anti-p- gamma                   PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#

@@ -1,0 +1,47 @@
+# EventType: 11146035
+#
+# Descriptor: [B0 -> (J/psi(1S) -> mu+ mu-) (phi -> K+ K-) K+ pi-]cc
+#
+# NickName: Bd_JpsiphiKpi,mmKK,WithMinP=DecProdCut
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+# CutsOptions: MinTrackP 2000*MeV
+#
+# Documentation:  Bd decay to Jpsi(to mu+ mu-), phi(to K+ K-) K+ pi-
+# Daughters in LHCb WithMinP.
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+#
+# Responsible: Raul Rabadan
+# Email: raul.iraq.rabadan.trejo@cern.ch
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Date: 20210528
+
+
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+Alias       MyPhi        phi
+ChargeConj  MyPhi        MyPhi
+
+#
+#
+Decay B0sig
+  1.0   MyJ/psi   MyPhi   K+   pi-  PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyJ/psi
+  1.0000   mu+  mu-                 VLL;
+Enddecay
+#
+Decay MyPhi
+  1.0000   K+   K-                  VSS;
+Enddecay
+
+#
+#
+End

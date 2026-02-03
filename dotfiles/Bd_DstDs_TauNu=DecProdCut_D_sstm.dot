@@ -1,0 +1,19 @@
+// Created by https://github.com/scikit-hep/decaylanguage
+digraph DecayChainGraph {
+	graph [comment="Created by https://github.com/scikit-hep/decaylanguage" engine=dot format=png name=DecayChainGraph rankdir=LR]
+	node [fontname=Helvetica fontsize=11 shape=oval]
+	edge [fontcolor="#4c4c4c" fontsize=11]
+	mother [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#568dba"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">D<SUB>s</SUB><SUP>*-</SUP></TD></TR></TABLE>> shape=none]
+	dec306656 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">D<SUB>s</SUB><SUP>-</SUP></TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03b3;</TD></TR></TABLE>> shape=none]
+	mother -> dec306656 [label=0.942]
+	dec306657 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">&#x03c4;<SUP>-</SUP></TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03bd;&#773;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> shape=none]
+	dec306656:p0 -> dec306657 [label=1.0]
+	dec306658 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec306657:p0 -> dec306658 [label=1.0]
+	dec306659 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">D<SUB>s</SUB><SUP>-</SUP></TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03c0;<SUP>0</SUP></TD></TR></TABLE>> shape=none]
+	mother -> dec306659 [label=0.058]
+	dec306660 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">&#x03c4;<SUP>-</SUP></TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03bd;&#773;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> shape=none]
+	dec306659:p0 -> dec306660 [label=1.0]
+	dec306661 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec306660:p0 -> dec306661 [label=1.0]
+}

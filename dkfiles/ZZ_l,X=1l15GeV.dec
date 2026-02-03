@@ -1,0 +1,24 @@
+# EventType: 42912000
+#
+# Descriptor: pp -> (Z0 -> l+ l- ) (Z0 -> ...) ... 
+#
+# NickName: ZZ_l,X=1l15GeV
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 15*GeV LeptonIsFromMother true NumberOfbquarks -1
+#
+# ExtraOptions: ZZlX=1l15GeV
+#
+# CPUTime: < 1 min
+#
+# Documentation: One lepton from ZZ decay with pT > 15 GeV 
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Menglin Xu
+# Email: mexu@cern.ch
+# Date: 20220629
+End
+#

@@ -1,0 +1,66 @@
+# EventType: 11196008
+#
+# Descriptor: [B0-> (Ds+ -> pi- pi+ pi+) (D- -> K+ K- pi-)]cc
+#
+# NickName: Bd_Ds+D-,pipipi,KKpi=DDALITZ,DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation:  B0->Ds+D- and D decaying by D_Dalitz
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Philipp Ibis
+# Email: philipp.ibis@cern.ch
+# Date: 20191118
+
+
+# --------------------
+# DEFINE THE D+ AND D-
+# --------------------
+Alias      MyD+  D+
+Alias      MyD-  D-
+ChargeConj MyD+  MyD-
+
+
+# ------------------------
+# DEFINE THE D_s+ AND D_s-
+# ------------------------
+Alias      MyD_s+ D_s+
+Alias      MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+
+
+# ---------------
+# DECAY OF THE B0
+# ---------------
+Decay B0sig
+  1.000     MyD_s+       MyD-            PHSP;
+Enddecay
+CDecay anti-B0sig
+
+
+# ---------------
+# DECAY OF THE D-
+# ---------------
+Decay MyD-
+  1.000  K+  K- pi-                    D_DALITZ;
+Enddecay
+CDecay MyD+
+
+
+# -----------------
+# DECAY OF THE D_s-
+# -----------------
+Decay MyD_s-
+  1.000  pi-  pi- pi+                    D_DALITZ;
+Enddecay
+CDecay MyD_s+
+
+
+End
+

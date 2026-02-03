@@ -1,0 +1,73 @@
+# EventType: 13774012
+#
+# Descriptor: {[[B_s0] => (D_s*- => (D_s- => K- K+ pi-) gamma) mu+ nu_mu]cc, [[B_s0]os => (D_s*+ => (D_s+ => K+ K- pi+) gamma) mu- anti_nu_mu]cc}
+#
+# NickName: Bs_Dsmunu=cocktail,bcl,bgl,hqet2,LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: D(*(*))_s mu nu_mu, includes resonances in Ds decay
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+#
+# CPUTime: < 4 min
+# Tested: Yes
+# Responsible: Wren Vetens
+# Email: wsvetens@cern.ch
+# Date: 20240925
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Alias      MyD_s1+    D_s1+
+Alias      MyD_s1-    D_s1-
+ChargeConj MyD_s1-    MyD_s1+
+#
+Alias      MyD_s0*+   D_s0*+
+Alias      MyD_s0*-   D_s0*-
+ChargeConj MyD_s0*+   MyD_s0*-
+#
+Decay B_s0sig
+  0.0520   MyD_s*-    mu+    nu_mu       PHOTOS BTOXELNU BGL 0.0339 0.005 0.01258 -0.008 0.00009 -0.066; # form factors from https://journals.aps.org/prd/abstract/10.1103/PhysRevD.105.094506
+  0.0231   MyD_s-     mu+    nu_mu       PHOTOS BTOXELNU BCL 0.66574 -3.23599 -0.07478 0.0 0.66574 -0.25944 -0.10636 0.0; # form factors from https://journals.aps.org/prd/abstract/10.1103/PhysRevD.101.074513
+  0.0036   MyD_s0*-   mu+    nu_mu       PHOTOS HQET2 0.40 -0.91; # form factors from https://journals.aps.org/prd/abstract/10.1103/PhysRevD.87.034033
+  0.0084   MyD_s1-    mu+    nu_mu       PHOTOS HQET2 -1.14 -0.19 -0.43 -0.29; # form factors from https://journals.aps.org/prd/abstract/10.1103/PhysRevD.87.034033
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s+
+  0.055     K+    K-     pi+          PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+  0.9360   MyD_s+  gamma               PHOTOS VSP_PWAVE;
+  0.0577   MyD_s+  pi0                 PHOTOS VSS;
+  0.0067   MyD_s+  e+ e-               PHOTOS PHSP;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s1+
+  0.48   MyD_s*+ pi0                  PHOTOS VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.18   MyD_s+  gamma                PHOTOS VSP_PWAVE;
+  0.043  MyD_s+  pi+ pi-              PHOTOS PHSP;
+  0.014  MyD_s+  pi0 pi0              PHOTOS PHSP;
+  0.037  MyD_s0*+ gamma               PHOTOS VSP_PWAVE;
+Enddecay
+CDecay MyD_s1-
+#
+Decay MyD_s0*+
+  0.900   MyD_s+   pi0                 PHOTOS PHSP;
+  0.050   gamma  MyD_s*+               PHOTOS SVP;
+  0.033   MyD_s+   pi+ pi-             PHOTOS PHSP;
+  0.017   MyD_s+   pi0 pi0             PHOTOS PHSP;
+Enddecay
+CDecay MyD_s0*-
+#
+End

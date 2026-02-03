@@ -1,0 +1,54 @@
+# EventType: 13144406
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) (omega(782) -> pi+ pi- (pi0 -> gamma gamma))]cc
+#
+# NickName: Bs_Jpsiomega,mm=SVV,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, No CP violation, pi0 forced to gamma gamma, SVV model keep the same to Bd_Jpsiomega,mm=DecProdCut
+# EndDocumentation
+#
+# CPUTime:< 1 min
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Ganrong Wang (CCNU)
+# Email: ganrong.wang@cern.ch
+# Date: 20211104
+#
+Define Hp 0.159
+Define Hz 0.775
+Define Hm 0.612
+Define pHp 1.563
+Define pHz 0.0 
+Define pHm 2.712
+#
+Alias       MyJ/psi  J/psi
+Alias       Myomega  omega
+Alias       Mypi0    pi0
+ChargeConj  MyJ/psi  MyJ/psi
+ChargeConj  Myomega  Myomega
+ChargeConj  Mypi0    Mypi0
+#
+Decay B_s0sig
+  1.000         MyJ/psi     Myomega      SVV_HELAMP Hp pHp Hz pHz Hm pHm;
+Enddecay
+#
+Decay anti-B_s0sig
+  1.000         MyJ/psi     Myomega      SVV_HELAMP Hm pHm Hz pHz Hp pHp;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+         mu-          PHOTOS VLL;
+Enddecay
+#
+Decay Myomega
+  1.000         pi-      pi+     Mypi0     OMEGA_DALITZ;
+Enddecay
+#
+Decay Mypi0
+  1.000         gamma       gamma        PHSP;
+Enddecay
+#
+End	

@@ -1,0 +1,50 @@
+# EventType: 14165101
+#
+# Descriptor: [B_c+ -> (B+ -> ( D0 -> K+ pi- ) pi+) (KS0 -> pi+ pi-) ]cc
+#
+# NickName: Bc_BuKS,D0pi,Kpi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decays, uses BcVegPy generator.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Yuhao Wang
+# Email:  yuhaow@cern.ch
+# Date: 20241211
+#
+Alias      MyB+      B+
+Alias      MyB-      B-
+ChargeConj MyB+      MyB-
+Alias      MyKS      K_S0
+ChargeConj MyKS      MyKS
+Alias      MyD0      D0
+Alias      MyantiD0  anti-D0
+ChargeConj MyD0      MyantiD0
+#
+Decay B_c+sig
+  1.000    MyB+    MyKS   PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyB+
+  1.000    MyD0    pi+    PHSP;
+Enddecay
+CDecay MyB-
+#
+Decay MyD0
+  1.000    K+      pi-    PHSP;
+Enddecay
+CDecay MyantiD0
+#
+Decay MyKS
+  1.000    pi+     pi-    PHSP;
+Enddecay
+#
+End
+

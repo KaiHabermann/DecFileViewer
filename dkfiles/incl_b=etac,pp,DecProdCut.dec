@@ -1,0 +1,42 @@
+# EventType: 10132061
+#
+# Descriptor: eta_c(1S) => anti-p- p+ 
+#
+# NickName: incl_b=etac,pp,DecProdCut
+#
+# Cuts: None
+#
+# Documentation: b->(eta_c->ppbar) X, daughters in acceptance
+# EndDocumentation
+#
+# FullEventCuts: LoKi::FullGenEventCut/b2EtacFilter
+# Sample: RepeatDecay.Inclusive
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "b2EtacFilter" )
+# SignalFilter = Generation().b2EtacFilter
+# SignalFilter.Code = " has(isB2ccTcuts)"
+# SignalFilter.Preambulo += [
+#  "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#  "inAcc = (in_range(  0.010 , GTHETA , 0.400 ))",
+#  "isB2cc = ((GDECTREE('(Beauty) --> eta_c(1S) ...')))",
+#  "fromEtac = 0 != GNINTREE('eta_c(1S)'== GABSID , HepMC.ancestors )",
+#  "ppcuts = (GINTREE( (('p+' == GID ) & inAcc & fromEtac) ) )",
+#  "pmcuts = (GINTREE( (('p~-' == GID ) & inAcc & fromEtac) ) )",
+#  "isB2ccTcuts = (isB2cc & ppcuts & pmcuts)"
+#    ]
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Raoul Henderson
+# Email: raoul.henderson@cern.ch
+# Date: 20251028
+# CPUTime: < 1 min
+#
+Decay eta_c
+  1.000         p+  anti-p-      PHSP;
+Enddecay
+#
+End

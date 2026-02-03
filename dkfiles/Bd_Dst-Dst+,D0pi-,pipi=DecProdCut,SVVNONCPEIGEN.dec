@@ -1,0 +1,66 @@
+# EventType: 11196095
+#
+# Descriptor: [B0 -> (D*(2010)+ -> (D0 -> pi- pi+) pi+) (D*(2010)- -> (D~0 -> pi+ pi-) pi-)]cc
+#
+# NickName: Bd_Dst-Dst+,D0pi-,pipi=DecProdCut,SVVNONCPEIGEN
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  B0->D*+D*- with CPV and SVV. Daughters in LHCb.
+# P(1) = deltaM = 0.5065e12       (PDG2023)
+# P(2) = beta = 0.3874631             (HFLAV CKM 2022)
+# P(3) = AHplus = 0.6076          (calculated from Belle 1207.5611v2)
+# P(4) = AHnull = 0.7899          (calculated from Belle 1207.5611v2)
+# P(5) = AHminus = 0.0823         (calculated from Belle 1207.5611v2)
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Jan Langer
+# Email: jan.langer@tu-dortmund.de
+# Date: 20231108
+# CPUTime: < 1 min
+
+Define dM 0.5065e12
+Define beta 0.3874631
+Define AHplus 0.6076
+Define AHnull 0.7899
+Define AHminus 0.0823
+
+# -------------------------
+# THEN DEFINE THE D*+ AND D*-
+# -------------------------
+Alias      MyD*+       D*+
+Alias      MyD*-       D*-
+ChargeConj MyD*+       MyD*-
+# -------------------------
+# THEN DEFINE THE D0 AND D~0
+# -------------------------
+Alias       MyD0        D0
+Alias       Myanti-D0   anti-D0
+ChargeConj  MyD0       Myanti-D0
+
+# ---------------
+# DECAY OF THE B0
+# ---------------
+Decay B0sig
+  1.000                   MyD*+ MyD*-   SVV_NONCPEIGEN dM beta 0 AHplus 0 AHnull 0 AHminus 0 AHminus 0 AHnull 0 AHplus 0;
+Enddecay
+CDecay anti-B0sig
+
+# ---------------
+# DECAY OF THE D*
+# ---------------
+Decay MyD*-
+  1.000        Myanti-D0 pi-                    VSS;
+Enddecay
+CDecay MyD*+
+
+# ---------------
+# DECAY OF THE D0
+# ---------------
+Decay Myanti-D0
+  1.0        pi+        pi-                   PHSP;
+Enddecay
+CDecay MyD0
+#
+End

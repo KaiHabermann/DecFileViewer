@@ -1,0 +1,25 @@
+# EventType: 15124021
+#
+# Descriptor: [Lambda_b0 -> p+ pi- e+ e-]cc
+#
+# NickName: Lb_ppiee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Non-resonant phase space decay of Lb -> p+ pi- e+ e-, decay products in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Lukas Calefice
+# Email: lukas.calefice@cern.ch
+# Date: 20240212
+# CPUTime: < 1min
+
+Decay Lambda_b0sig
+  1.000    p+   pi-  e+ e-        PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#

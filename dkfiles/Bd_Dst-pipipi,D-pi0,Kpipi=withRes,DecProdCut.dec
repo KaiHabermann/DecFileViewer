@@ -1,0 +1,165 @@
+# EventType: 11266421
+#
+# Descriptor: {[[B0]nos -> (D*(2010)- => (D- => K+ pi- pi-) pi0) pi+ pi- pi+]cc, [[B0]os -> (D*(2010)+ => (D+ => K- pi+ pi+) pi0) pi- pi+ pi-]cc}
+#
+# NickName: Bd_Dst-pipipi,D-pi0,Kpipi=withRes,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes resonances in B0 and D- decays
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: D. Craik
+# Email: dcraik@cern.ch
+# Date: 20240112
+# CPUTime: 2 mins
+#
+#
+Alias      Mya1+          a_1+
+Alias      Mya1-          a_1-
+ChargeConj Mya1+          Mya1-
+#
+LSNONRELBW Mya1+
+BlattWeisskopf Mya1+ 0.0
+Particle Mya1+ 1.17 0.50
+ChangeMassMin Mya1+ 0.772
+ChangeMassMax Mya1+ 3.41
+#
+LSNONRELBW Mya1-
+BlattWeisskopf Mya1- 0.0
+Particle Mya1- 1.17 0.50
+ChangeMassMin Mya1- 0.772
+ChangeMassMax Mya1- 3.41
+#
+Alias      Mysigma        sigma_0
+ChargeConj Mysigma        Mysigma
+#
+Alias      Myrho          rho0
+ChargeConj Myrho          Myrho
+#
+Alias      Myf2           f_2
+ChargeConj Myf2           Myf2   
+#
+Alias      My2420         D_10
+Alias      My2420b        anti-D_10
+ChargeConj My2420         My2420b
+#
+Alias      My2430         D'_10
+Alias      My2430b        anti-D'_10
+ChargeConj My2430         My2430b
+#
+Alias      My2600         D*(2S)0
+Alias      My2600b        anti-D*(2S)0
+ChargeConj My2600         My2600b
+#
+LSNONRELBW My2600
+BlattWeisskopf My2600 0.0
+Particle My2600 2.600 0.050
+ChangeMassMin My2600 2.149
+ChangeMassMax My2600 4.64
+#
+LSNONRELBW My2600b
+BlattWeisskopf My2600b 0.0
+Particle My2600b 2.600 0.050
+ChangeMassMin My2600b 2.149
+ChangeMassMax My2600b 4.64
+#
+Alias      My2550+        D(2S)+
+Alias      My2550-        D(2S)-
+ChargeConj My2550+        My2550-
+#
+LSNONRELBW My2550+
+BlattWeisskopf My2550+ 0.0
+Particle My2550+ 2.570 0.030
+ChangeMassMin My2550+ 2.289
+ChangeMassMax My2550+ 4.79
+#
+LSNONRELBW My2550-
+BlattWeisskopf My2550- 0.0
+Particle My2550- 2.570 0.030
+ChangeMassMin My2550- 2.289
+ChangeMassMax My2550- 4.79
+#
+Alias      MyD*+           D*+
+Alias      MyD*-           D*-
+ChargeConj MyD*+           MyD*-
+#
+Alias      MyD+           D+
+Alias      MyD-           D-
+ChargeConj MyD+           MyD-
+
+Decay B0sig
+#D (3pi)**
+0.10  MyD*-   pi+   pi+   pi-  PHSP;
+0.68  Mya1+   MyD*-            SVV_HELAMP 0.200 0.0 0.866 0.0 0.458 0.0;
+0.015 MyD*-    pi+   Mysigma   PHSP;
+0.03  MyD*-    pi+   Myrho     PHSP;
+0.015 MyD*-    pi+   Myf2      PHSP;
+#D** pi
+0.01  My2550- pi+             PHSP;
+#D** (pipi)**
+0.004 My2420b Mysigma         PHSP;
+0.01  My2420b Myrho           PHSP;
+0.011 My2420b Myf2            PHSP;
+0.015 My2430b Mysigma         PHSP;
+0.04  My2430b Myrho           PHSP;
+0.045 My2430b Myf2            PHSP;
+0.004 My2600b Mysigma         PHSP;
+0.01  My2600b Myrho           PHSP;
+0.011 My2600b Myf2            PHSP;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD*-
+1.0  MyD-  pi0                VSS;
+Enddecay
+CDecay MyD*+
+
+Decay MyD-
+1.0  K+  pi-  pi-             D_DALITZ;
+Enddecay
+CDecay MyD+
+
+#RESONANCES
+Decay My2550-
+1.0 MyD*-  pi+  pi-              PHSP;
+Enddecay
+CDecay My2550+
+
+Decay Mya1+
+0.07  Mysigma  pi+            PHSP;
+0.90  Myrho pi+               VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.03  Myf2  pi+               PHSP;
+Enddecay
+CDecay Mya1-
+
+Decay My2420b
+1.0  MyD*-  pi+                PHSP;
+Enddecay
+CDecay My2420
+
+Decay My2430b
+1.0  MyD*-  pi+                PHSP;
+Enddecay
+CDecay My2430
+
+Decay My2600b
+1.0  MyD*-  pi+                PHSP;
+Enddecay
+CDecay My2600
+
+Decay Mysigma
+1.0  pi+  pi-                 PHSP;
+Enddecay
+
+Decay Myf2
+1.0  pi+  pi-                 TSS;
+Enddecay
+
+Decay Myrho
+1.0  pi+  pi-                 VSS;
+Enddecay
+
+End

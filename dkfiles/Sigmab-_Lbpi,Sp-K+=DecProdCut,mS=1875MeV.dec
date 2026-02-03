@@ -1,0 +1,40 @@
+# EventType: 16103002
+#
+# Descriptor: [Sigma_b- -> (Lambda_b0 -> H_30 p~- K+) pi-]cc
+#
+# NickName: Sigmab-_Lbpi,Sp-K+=DecProdCut,mS=1875MeV
+# 
+# Documentation:
+#   Decay a Sigma_b- to a Lambda_b0 ( -> H_30 p- K+) and pi-
+#   H_30 as stand in for a Sexaquark (uuddss) as stable DM candidate
+# EndDocumentation
+# 
+# 
+# Cuts: DaughtersInLHCb
+# 
+# ParticleValue: "H_30     89       36      0.0     1.875        1.000000e+16    A0      36      0.00"
+# 
+# 
+# CPUTime: <1min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Ellinor Eckstein
+# Email: ellinor.eckstein@cern.ch
+# Date: 20230414
+#
+Alias       MyLambda_b0      Lambda_b0
+Alias       Myanti-Lambda_b0 anti-Lambda_b0
+ChargeConj  MyLambda_b0      Myanti-Lambda_b0
+
+
+Decay Sigma_b-sig
+1.000   MyLambda_b0  pi-     PHSP;
+Enddecay
+CDecay anti-Sigma_b+sig 
+#
+Decay MyLambda_b0
+1.000   A0  anti-p-   K+      PHSP;
+Enddecay
+CDecay  Myanti-Lambda_b0
+#
+End

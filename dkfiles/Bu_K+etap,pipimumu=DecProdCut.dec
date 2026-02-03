@@ -1,0 +1,33 @@
+# EventType: 12115070
+# 
+# Descriptor: [B+ -> (eta' -> pi+ pi- mu+ mu-) K+]cc
+# 
+# NickName: Bu_K+etap,pipimumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1 min
+# Responsible: Xabier Cid Vidal
+# Email: xabier.cid.vidal@cern.ch
+# Date: 20190212
+#
+#
+#
+Alias MyEtap eta'
+ChargeConj MyEtap MyEtap
+#
+Decay B+sig
+  1.000   MyEtap K+   PHOTOS PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyEtap
+  1.000 pi+ pi- mu+ mu- PHOTOS PHSP;
+Enddecay
+End
+#

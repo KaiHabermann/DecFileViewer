@@ -1,0 +1,55 @@
+#EventType: 12405012
+
+# Descriptor: [(B+ => pi+ pi+ pi+ pi- pi-) || (B+ => (f_1 => (rho0=>pi+ pi-) pi+ pi-) pi+) || (B+ => (f_2 => pi+ pi- pi+ pi-) pi+) || (B+ => (f_0(1500) => pi+ pi- pi+ pi-) pi+)]CC
+#
+# NickName: Bu_fpi,pipipipi==cocktail,PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1min
+# Responsible: Ranyu Zhang
+# Email: razhang@cern.ch
+# Date: 20250727
+#
+Alias    Myf_1    f_1
+ChargeConj    Myf_1    Myf_1
+#
+Alias    Myf_2    f_2
+ChargeConj    Myf_2    Myf_2
+#
+Alias    Myf_0    f_0(1500)
+ChargeConj    Myf_0    Myf_0
+#
+Alias      Myrho0     rho0
+ChargeConj Myrho0     Myrho0
+#
+Decay B+sig
+0.25   pi+      pi+     pi+     pi-     pi-  PHSP;
+0.25  Myf_1 pi+ SVS;
+0.25  pi+  Myf_2 PHSP;
+0.25  pi+  Myf_0 PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Myf_2
+1.00  pi+     pi+     pi-     pi-  PHSP;
+Enddecay
+#
+Decay Myf_1
+1.00  Myrho0   pi+     pi-  PHSP;
+Enddecay
+#
+Decay Myf_0
+1.00  pi+     pi+     pi-     pi-  PHSP;
+Enddecay
+#
+Decay Myrho0
+1.00   pi+      pi-       VSS;
+Enddecay
+#
+End

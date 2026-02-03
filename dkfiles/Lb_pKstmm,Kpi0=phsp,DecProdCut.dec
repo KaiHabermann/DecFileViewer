@@ -1,0 +1,37 @@
+# EventType: 15114401  
+#
+# Descriptor: [Lambda_b0 -> (K*(892)- -> K- pi0) p+ mu+ mu-]cc
+#
+# NickName: Lb_pKstmm,Kpi0=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Four-body Lambda_b0 to  p K* mu mu decay with generic phase space       
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes 
+# Responsible: Vitalii Lisovskyi (and Yasmine Amhis)
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20210715
+#
+
+Alias MyKst+ K*+
+Alias MyKst- K*-
+ChargeConj MyKst+ MyKst-
+
+
+Decay Lambda_b0sig
+  1.000  MyKst- p+  mu+ mu- PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyKst-
+ 1.0 K- pi0 VSS;
+Enddecay
+CDecay MyKst+
+
+End
+#

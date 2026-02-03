@@ -1,0 +1,86 @@
+# EventType: 15663000
+#
+# Descriptor: {[Lambda_b0 ==> (D0 -> K- pi+) (tau- -> pi- pi+ pi- nu_tau) anti-nu_tau]cc}
+#
+# NickName: Lb_Lcsttauunu,D0p=cocktail,3pinu3pipi0nu,tauolababar,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Sample: SignalRepeatedHadronization
+#
+# ParticleValue: "Lambda_c(2625)+ 104124 104124 1.0 2.856 9.00e-024 Lambda_c(2625)+ 0 1.0e-004", "Lambda_c(2625)~- -104124 -104124 -1.0 2.856 9.00e-024 anti-Lambda_c(2625)- 0 1.0e-004"
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal = generation.SignalRepeatedHadronization
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = signal.TightCut
+# tightCut.Decay = '[ ( (Beauty & LongLived) --> (D0 => K- pi+) pi- pi+ ...) ]CC'
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,'inAcc = ( 0 < GPZ )  &  ( 200 * MeV < GPT ) & ( 1200 * MeV < GP ) & in_range ( 1.8 , GETA , 5.0 ) & in_range ( 0.005 , GTHETA , 0.400 )'
+#     ,"goodD0 = GINTREE(( 'D0'  == GABSID ) & (GP>8000*MeV) & (GPT>1000*MeV) & ( GNINTREE(( 'K-' == GABSID ) & ( GPT > 1400*MeV ) & ( GP > 4000*MeV ) & inAcc, HepMC.descendants) == 1 ) & ( GNINTREE(( 'pi+' == GABSID ) & ( GPT > 200*MeV ) & ( GP > 1600*MeV ) & inAcc, HepMC.descendants) == 1 ))"
+#     ,"nPiB = GCOUNT(('pi+' == GABSID) & inAcc & ( GNINTREE ( ('KS0' == GABSID) | ('KL0' == GABSID), HepMC.parents)==0 ), HepMC.descendants)"
+#     ,"goodB = ( ( GNINTREE(  ( 'D0'==GABSID ) , HepMC.descendants) == 1 ) & ( nPiB >= 4) )"
+# ]
+# tightCut.Cuts = {
+#     '[D0]cc': 'goodD0',
+#     '[Lambda_b0]cc': 'goodB'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: Lambda_b0 -> D0 p tau nu, with D0 -> K-pi+. Improve the description of the D0p mass distribution by
+# forcing the D0p to go through a MODIFIED LAMBDA_C(2625)+, as the only suitable spin 3/2 state. Mass of 2856 MeV and width of 73.1
+# EndDocumentation
+# PhysicsWG: B2SL
+# CPUTime: 10 min
+# Tested: Yes
+# Responsible: Ricardo Vazquez Gomez
+# Email: rvazquez@cern.ch
+# Date: 20210421
+#
+#
+# Tauola steering options
+# # The following forces the tau to decay into 3 charged pions (not pi+2pi0)
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         Mytau+            tau+
+Alias         Mytau-            tau-
+ChargeConj    Mytau+            Mytau-
+#
+Alias MyLambda_c2625+       Lambda_c(2625)+
+Alias Myanti-Lambda_c2625-  anti-Lambda_c(2625)-
+ChargeConj MyLambda_c2625+  Myanti-Lambda_c2625-
+#
+Alias      MyD0       D0
+Alias      MyD0bar    anti-D0
+ChargeConj MyD0       MyD0bar
+#
+Decay MyLambda_c2625+
+  1.0      MyD0 p+ PHSP;
+Enddecay
+CDecay Myanti-Lambda_c2625-
+#
+Decay MyD0
+  1.0      K- pi+ PHSP;
+Enddecay
+CDecay MyD0bar
+#
+Decay Lambda_b0sig
+ 1.0    MyLambda_c2625+    Mytau-  anti-nu_tau     PHOTOS   Lb2Baryonlnu  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mytau-
+  0.6666        TAUOLA 5;
+  0.3333        TAUOLA 8;
+Enddecay
+CDecay Mytau+
+#
+End
+
+

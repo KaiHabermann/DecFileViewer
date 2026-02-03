@@ -1,0 +1,46 @@
+# EventType: 23163032
+#
+# Descriptor: [D_s+ -> K+ K- pi+]cc
+#
+# NickName: Ds_KKpi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation(genAlgName).SignalPlain.TightCut
+# tightCut.Decay = '^[D_s+ => ^K+ ^K- ^pi+]CC'
+# tightCut.Preambulo += [
+#   'from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter',
+#   'inAcc         =  in_range ( 0.005 , GTHETA , 0.400 )',
+#   'goodD        =  (GTIME > 0.15 * millimeter)',
+#]
+# tightCut.Cuts = {
+#   '[D_s+]cc': 'goodD',
+#   '[K+]cc': 'inAcc',
+#   '[K-]cc': 'inAcc',
+#   '[pi+]cc': 'inAcc',
+# }
+# EndInsertPythonCode
+# Documentation:
+# Ds to KKpi decay using Dalitz decay model.
+# Daughters in LHCb and D Lifetime cut
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Sara Celani
+# CPUTime: < 1 min
+# Email: sara.celani@cern.ch
+# Date: 20250210
+#
+Decay D_s+sig
+  1.000        K+        K-        pi+             D_DALITZ;
+Enddecay
+CDecay D_s-sig
+#
+End
+

@@ -1,0 +1,54 @@
+#EventType: 15144062
+#
+# Descriptor: [Lambda_b0 -> K- (J/psi -> mu+ mu-) p+]cc 
+# 
+# NickName: Lb_JpsiKp,mumu,PPTcuts=TightCut
+# 
+# Cuts: LoKi::GenCutTool/TightCut 
+# 
+# InsertPythonCode: 
+# from Configurables import LoKi__GenCutTool 
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalPlain.addTool(LoKi__GenCutTool,'TightCut') 
+# tightCut = Generation(genAlgName).SignalPlain.TightCut 
+# tightCut.Decay     = '^[Lambda_b0 ==>  ( J/psi(1S) ==> mu+ mu- ) K- p+ ]CC' 
+# tightCut.Preambulo += [
+#    "from GaudiKernel.SystemOfUnits import  GeV", 
+#    "inAcc        = in_range ( 0.010 , GTHETA , 0.400 ) &  in_range ( 1.9 , GETA , 5.1 )" ,
+#    "muon_kine    = ( GP > 5 * GeV ) & ( GPT > 1   * GeV   ) " , 
+#    "kaon_kine    = ( GP > 7 * GeV ) & ( GPT > 0.300 * GeV   ) " ,
+#    "has_mu_plus  = GINTREE ( ( 'mu+' == GID ) & muon_kine & inAcc ) " ,
+#    "has_mu_minus = GINTREE ( ( 'mu-' == GID ) & muon_kine & inAcc) " ,
+#    "has_K_plus   = GINTREE ( ( 'K+'  == GID ) & kaon_kine & inAcc) " ,
+#    "has_K_minus  = GINTREE ( ( 'K-'  == GID ) & kaon_kine & inAcc) " ,
+#  ]
+# tightCut.Cuts = {
+#    'Beauty' : '(has_mu_plus & has_K_minus) | (has_mu_minus & has_K_plus) | (has_mu_minus & has_K_minus) | (has_mu_plus & has_K_plus)'
+#  } 
+# EndInsertPythonCode 
+# 
+# Documentation: High momentum Kmu events from Lb -> J/psi(1S) K p decays, only one muon in acceptance
+# EndDocumentation 
+# 
+# PhysicsWG: B2SL 
+# Tested: Yes 
+# CPUTime:< 2min
+# Responsible: Svende Braun
+# Email: svende.braun@cern.ch 
+# Date: 20190409
+#
+Alias MyJ/psi J/psi 
+ChargeConj MyJ/psi MyJ/psi 
+# 
+Decay MyJ/psi
+  1.00000  mu+        mu-                               PHOTOS VLL ;
+Enddecay
+#
+Decay Lambda_b0sig
+0.0032  p+ MyJ/psi   K-					PHSP ;
+Enddecay
+CDecay anti-Lambda_b0sig 
+# 
+End
+#
+

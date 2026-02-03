@@ -1,0 +1,55 @@
+# EventType: 11198080
+# 
+# Descriptor: [B0 -> D+ D- K+ pi-]cc
+# 
+# NickName: Bd_DDKpi,Kpipi=TightCut,mKpiCut850MeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#  
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay   = '[^( (Beauty & LongLived) => ^(D+ => ^K- ^pi+ ^pi+) ^(D- => ^K+ ^pi- ^pi-) ^K+ ^pi- )]CC'
+# tightCut.Cuts    =    {
+#     '[K+]cc'     : "inAcc",
+#     '[pi-]cc'    : "inAcc",
+#     '(Beauty & LongLived)'     : "MassKpi" }
+# tightCut.Preambulo += [
+#     "CS      = LoKi.GenChild.Selector",
+#     "inAcc   = in_range ( 0.005 , GTHETA , 0.400 ) " ,
+#     "MassKpi = ( GMASS( CS('[( (Beauty & LongLived) => D+ D- ^K+ pi-)]CC'), CS('[( (Beauty & LongLived) => D+ D- K+ ^pi-)]CC') )<850 * MeV )"
+#     ]
+# EndInsertPythonCode
+#
+# Documentation: Decay products in acceptance,
+# Maximum m(Kpi) of 850 MeV.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Chen Chen
+# Email: chen.chen@cern.ch
+# Date: 20190210
+# CPUTime: <1min
+
+Alias My_D+   D+
+Alias My_D-   D-
+ChargeConj My_D- My_D+
+
+Decay My_D-
+  1.0 K+ pi- pi- D_DALITZ;
+Enddecay
+CDecay My_D+
+
+Decay B0sig
+  1.0 My_D+ My_D- K+ pi- PHSP;
+Enddecay
+CDecay anti-B0sig
+
+#
+End
+#

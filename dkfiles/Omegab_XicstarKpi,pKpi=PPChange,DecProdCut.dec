@@ -1,0 +1,48 @@
+# EventType: 16165430
+#
+# Descriptor: [Xi_b- -> (Xi*_c -> pi0 (Xi_c+ -> p+ K- pi+)) K- pi-]cc
+#
+# NickName: Omegab_XicstarKpi,pKpi=PPChange,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "Xi_b- 122 5132 -1.0 6.050 1.5e-012 Xi_b- 5132 0.000000e+000", "Xi_b~+ 123 -5132 1.0 6.050 1.5e-012 anti-Xi_b+ -5132 0.000000e+000"    
+#
+# Documentation: Search for the new decay mode. Xib used instead of Omegab.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: 1min
+# Responsible: Roberta Cardinale
+# Email:  roberta.cardinale@cern.ch
+# Date: 20230628
+#
+Alias MyXi_c+     Xi_c+
+Alias Myanti-Xi_c- anti-Xi_c-
+ChargeConj MyXi_c+    Myanti-Xi_c-
+#
+Alias MyXi_c*+     Xi_c*+
+Alias Myanti-Xi_c*- anti-Xi_c*-
+ChargeConj MyXi_c*+    Myanti-Xi_c*-
+#
+Decay Xi_b-sig
+  1.0    MyXi_c*+   K-  pi-                  PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyXi_c*+
+  1.000    pi0  MyXi_c+               PHSP;
+Enddecay
+#
+CDecay Myanti-Xi_c*-
+#
+Decay MyXi_c+
+  1.000         p+      K-      pi+     PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+
+#
+
+End
+

@@ -1,0 +1,53 @@
+# EventType: 15168177
+#
+# Descriptor: [Lambda_b0 -> (Lambda0 -> p+ pi-) (Lambda0 -> p+ pi-) (Lambda_c~- -> p~- K+ pi-) K+]cc
+#
+# NickName: Lb_2L0KLc=DecProdCut
+#
+# Documentation:
+#   Decay a Lambda_b0 to two Lambda0, a K+, and a Lambda_c-.
+#   Lambda0 decays to p+ pi-.
+#   Lambda_c- decays to p- K+ pi- (three-body phase space).
+# EndDocumentation
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: <1min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Brais Fernández Rodiño
+# Email: brais@cern.ch
+# Date: 20250920
+#
+Alias       MyLambda_c-       anti-Lambda_c-
+Alias       MyLambda_c+       Lambda_c+
+ChargeConj  MyLambda_c-       MyLambda_c+
+#
+Alias       MyLambda_0_1      Lambda0
+Alias       Myanti-Lambda_0_1 anti-Lambda0
+ChargeConj  MyLambda_0_1      Myanti-Lambda_0_1
+#
+Alias       MyLambda_0_2      Lambda0
+Alias       Myanti-Lambda_0_2 anti-Lambda0
+ChargeConj  MyLambda_0_2      Myanti-Lambda_0_2
+#
+Decay Lambda_b0sig
+1.000   MyLambda_0_1  MyLambda_0_2  MyLambda_c-  K+  PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_0_1
+1.000   p+  pi-   PHSP;
+Enddecay
+CDecay Myanti-Lambda_0_1
+#
+Decay MyLambda_0_2
+1.000   p+  pi-   PHSP;
+Enddecay
+CDecay Myanti-Lambda_0_2
+#
+Decay MyLambda_c-
+1.000   anti-p-  K+  pi-   PHSP;
+Enddecay
+CDecay MyLambda_c+
+#
+End

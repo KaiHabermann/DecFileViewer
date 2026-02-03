@@ -1,0 +1,27 @@
+# EventType: 24114002
+#
+# Descriptor: J/psi -> mu+ mu- mu+ mu-
+#
+# NickName: incl_Jpsi,4m=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Jpsi decay to four muons, daughters in acceptance
+# EndDocumentation
+#
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Vitalii Lisovskyi
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20201030
+# CPUTime: <1 min
+# Tested: Yes
+#
+#
+Decay J/psisig
+  1.000         mu+  mu-  mu+  mu-      PHSP;
+Enddecay
+#
+End
+#

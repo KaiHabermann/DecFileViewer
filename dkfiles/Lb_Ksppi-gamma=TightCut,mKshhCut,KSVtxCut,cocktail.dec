@@ -1,0 +1,157 @@
+# EventType: 15204374
+#
+# Descriptor: [Lambda_b0 -> (KS0 -> pi+ pi-) gamma p+ pi-]cc
+#
+# NickName: Lb_Ksppi-gamma=TightCut,mKshhCut,KSVtxCut,cocktail 
+#
+# Cuts: LoKi::GenCutTool/TightCut 
+# CPUTime: 2 min
+#
+# InsertPythonCode:
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+#
+# gen = Generation(genAlgName) 
+# gen.SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+#
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/mKshhCut"
+# evtgendecay.addTool( LoKi__GenCutTool ,'mKshhCut')
+# evtgendecay.mKshhCut.Decay = "[ Beauty ==>  gamma p+ pi- KS0]CC"
+# evtgendecay.mKshhCut.Cuts  = {'[Lambda_b0]cc' : ' mKshhCut '}
+# evtgendecay.mKshhCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter",
+#     "CS         = LoKi.GenChild.Selector",
+#     "mKshhCut   = ( GMASS( CS('[Beauty ==>  gamma ^p+ pi- KS0]CC'), CS('[Beauty ==>  gamma p+ ^pi- KS0]CC'),CS('[Beauty ==>  gamma p+ pi- ^KS0]CC')) < 3.0 * GeV )"
+#     ]
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut = gen.SignalPlain.TightCut
+#
+# tightCut.Decay     = '[ Lambda_b0 ==>  gamma ^p+ ^pi- ^(KS0 => ^pi+ ^pi-)]CC'
+# tightCut.Cuts      =    {
+#     '[pi+]cc'        : ' inAcc' , 
+#     '[p+]cc'         : ' inAcc' , 
+#     'KS0'            : ' decayBeforeTT' , 
+#     '[Lambda_b0]cc'  : ' GINTREE(goodPhoton)'} 
+#
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter",
+#     "inEcalX       =   abs ( GPX / GPZ ) < 4.5  / 12.5",
+#     "inEcalY       =   abs ( GPY / GPZ ) < 3.5  / 12.5",
+#     "inEcalHole    = ( abs ( GPX / GPZ ) < 0.25 / 12.5 ) & ( abs ( GPY / GPZ ) < 0.25 / 12.5 )",
+#     "InEcal        = inEcalX & inEcalY & ~inEcalHole ",
+#     "inAcc         = in_range ( 0.005 , GTHETA , 0.400 ) " , 
+#     "goodPhoton    = ('gamma' == GABSID) & ( GPT > 1.8 * GeV ) & InEcal", 
+#     "decayBeforeTT = GVEV & ( GFAEVX ( GVZ , 1.e+10 ) < 2400 * millimeter)"
+#     ]
+#
+# from Configurables import LHCb__ParticlePropertySvc
+# LHCb__ParticlePropertySvc().Particles = [ 
+#  ###                    GEANTID   PDGID   CHARGE   MASS(GeV)       TLIFE(s)             EVTGENNAME           PYTHIAID   MAXWIDTH
+#  "N(1520)0              404        1214   0.0      1.52000000      5.723584e-24              N(1520)0        0          0.00",
+#  "N(1520)~0             405       -1214   0.0      1.52000000      5.723584e-24         anti-N(1520)0        0          0.00",
+# ]
+#
+# EndInsertPythonCode
+#
+# Documentation: cocktail of PHSP and K*- p, N*0 KS, Sigma+ pi-,  pi/pi in acceptance, m(Ksppi) < 3 GeV, Ks z-vertex before TT
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email:  biplab.dey@.cern.ch
+# Date: 20201119
+#
+Alias      MyK0s          K_S0
+ChargeConj MyK0s          MyK0s
+#
+Alias      MyK*-      K*-
+Alias      MyK*+      K*+
+ChargeConj MyK*+      MyK*-
+#
+Alias      Myanti-S       anti-Sigma*+
+Alias      MyS            Sigma*-
+ChargeConj Myanti-S       MyS
+#
+Alias      MyN            N(1520)0
+Alias      Myanti-N       anti-N(1520)0
+ChargeConj MyN            Myanti-N
+#
+Alias      MyL            Lambda(1820)0
+Alias      Myanti-L       anti-Lambda(1820)0
+ChargeConj MyL            Myanti-L
+#
+LSNONRELBW MyL
+BlattWeisskopf MyL 0.0
+Particle MyL 1.95 0.35
+ChangeMassMin MyL 1.6
+ChangeMassMax MyL 4.0
+#
+LSNONRELBW MyS
+BlattWeisskopf MyS 0.0
+Particle MyS 1.65 0.3
+ChangeMassMin MyS 1.45
+ChangeMassMax MyS 4.0
+#
+LSNONRELBW MyN
+BlattWeisskopf MyN 0.0
+Particle MyN 1.5 0.3
+ChangeMassMin MyN 1.15
+ChangeMassMax MyN 4.0
+#
+LSNONRELBW Myanti-L
+BlattWeisskopf Myanti-L 0.0
+Particle Myanti-L 1.95 0.35
+ChangeMassMin Myanti-L 1.6
+ChangeMassMax Myanti-L 4.0
+#
+LSNONRELBW Myanti-S
+BlattWeisskopf Myanti-S 0.0
+Particle Myanti-S 1.65 0.3
+ChangeMassMin Myanti-S 1.45
+ChangeMassMax Myanti-S 4.0
+#
+LSNONRELBW Myanti-N
+BlattWeisskopf Myanti-N 0.0
+Particle Myanti-N 1.5 0.3
+ChangeMassMin Myanti-N 1.15
+ChangeMassMax Myanti-N 4.0
+#
+Decay Lambda_b0sig
+  0.9   gamma p+  pi-    MyK0s         PHSP;
+  0.1   gamma MyL                      PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyL
+  0.33 p+ MyK*-      PHSP; 
+  0.33 Myanti-S pi-  PHSP;
+  0.34 MyN MyK0s     PHSP;
+Enddecay
+CDecay Myanti-L
+#
+Decay Myanti-S
+  1.0  p+  MyK0s     PHSP;
+Enddecay
+CDecay MyS
+#
+Decay MyN
+  1.0  p+  pi-       PHSP;
+Enddecay
+CDecay Myanti-N
+#
+Decay MyK*-
+  1.0   pi- MyK0s    PHSP;
+Enddecay
+CDecay MyK*+
+#
+Decay MyK0s
+  1.000   pi+   pi-  PHSP;
+Enddecay
+#
+End

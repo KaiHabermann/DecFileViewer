@@ -1,0 +1,54 @@
+# EventType: 13142223
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> mu+ mu-) gamma]cc
+#
+# NickName: Bs_Jpsigamma,mm=HighPtGamma,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut 
+#
+# Documentation: Jpsi  to mu+ mu-, decay products in acceptance, with gamma PT > 0.8GeV
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool , 'TightCut' )
+#
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '[(B_s0 => (J/psi(1S) => ^mu+ ^mu-) ^gamma)]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV                      ",
+#     "inAcc = in_range (0.005 , GTHETA , 0.400 )                      ",
+#     "isGoodgamma = ( GPT > 0.8  *  GeV ) & inAcc                     ",
+#     "isGoodMuon  = (GPT > 0.3 * GeV) & inAcc                         "]
+# 
+# tightCut.Cuts = {
+#     "[mu+]cc" : "isGoodMuon                                          ",
+#     "[mu-]cc" : "isGoodMuon                                          ",
+#     "[gamma]cc" : "isGoodgamma                                       "
+#     
+# }
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Dongliang Zhang , Haodong Mao
+# Email: dongliang.zhang@cern.ch
+# Date: 20211026
+# CPUTime: 2 min
+#
+Alias      MyJpsi   J/psi
+ChargeConj MyJpsi   MyJpsi
+#
+Decay B_s0sig
+  1.0000       MyJpsi    gamma              SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyJpsi
+  1.000        mu+        mu-               PHOTOS VLL;
+Enddecay
+#
+End

@@ -1,0 +1,59 @@
+# EventType: 15166461
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ K- pi+ pi0 pi0) pi+ pi- pi-]cc
+#
+# NickName: Lb_Lcpipipi,pKpipipi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation()
+#
+# gen.SignalPlain.addTool(LoKi__GenCutTool ,'TightCut')
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay   = '[^(Lambda_b0 ==> ^(Lambda_c+ ==> p+ K- pi+ pi0 pi0) pi- pi+ pi-)]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, centimeter',
+#     'inAcc    = in_range ( 1.80 , GETA , 5.10 )' ,
+#     'goodProton = ( GPT > 0.45 * GeV ) & in_range ( 8 * GeV, GP, 160 * GeV ) & inAcc ' ,
+#     'goodKaon = ( GPT > 0.45 * GeV ) & ( GP > 2.9 * GeV )  & inAcc ' ,
+#     'goodPionFromLc = ( GPT > 0.45 * GeV ) & ( GP > 2.9 * GeV ) & inAcc ' ,
+#     'goodPionFromLb = ( GPT > 0.10 * GeV ) & ( GP > 1.0 * GeV ) & inAcc ' ,
+#     'goodLc = (GNINTREE(("p+" == GABSID) & goodProton) > 0) & (GNINTREE(("K+" == GABSID) & goodKaon) > 0) & (GNINTREE(("pi+" == GABSID) & goodPionFromLc) > 0 )',
+#     'goodLb = (GFAEVX(GVZ, 0) - GFAPVX(GVZ, 0) > 0.8 * millimeter) & (GPT > 0.19 * GeV) & (GNINTREE(("pi+"==GABSID) & goodPionFromLb, HepMC.children) > 2)'
+#     ]
+# tightCut.Cuts      =    {
+#     '[Lambda_b0]cc'  : 'goodLb',
+#     '[Lambda_c+]cc'  : 'goodLc'
+#     }
+# EndInsertPythonCode
+#
+# CPUTime: 8min
+#
+# Documentation: Lb->Lc3pi decay in PHSP models. This channel is backgrounds channel for Lc->p K mu nu.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Yang-Jie Su
+# Email: yangjie.su@cern.ch
+# Date: 20230103
+#
+Alias      MyLambda_c+             Lambda_c+
+Alias      Myanti-Lambda_c-        anti-Lambda_c-
+ChargeConj MyLambda_c+             Myanti-Lambda_c-
+#
+Decay Lambda_b0sig
+  1.0   MyLambda_c+        pi-   pi+  pi- PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.0   p+                 K-      pi+   pi0 pi0 PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End

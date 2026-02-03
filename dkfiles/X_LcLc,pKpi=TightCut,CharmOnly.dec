@@ -1,0 +1,109 @@
+# EventType: 28196040
+#
+# Descriptor: MyX -> (Lambda_c+ -> p+ K+ pi-) (anti-Lambda_c- -> anti-p- K- pi+)
+#
+# ParticleValue: "chi_c1(1P)    765         20443   0.0      4.634      7.15447826086957e-24    chi_c1      20443      0"
+#
+# NickName: X_LcLc,pKpi=TightCut,CharmOnly
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: TightCut based on code from Vanya Belyaev (Ivan.Belyaev@<no-spam>itep.ru), X-> /\c /\c, /\c -> pKpi; X declared as chi_c1(1P), but mean and width taken from arXiv:0807.4458
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool, ToolSvc, EvtGenDecayWithCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal     = generation.SignalPlain
+#
+# signal.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+#
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/LcLongLived"
+# evtgendecay.addTool(LoKi__GenCutTool ,'LcLongLived')
+# evtgendecay.LcLongLived.Decay     = 'Meson =>  ^( Lambda_c+ ==> ^p+ ^K- ^pi+)   ^( Lambda_c~- ==> ^p~- ^K+ ^pi- )'
+# evtgendecay.LcLongLived.Preambulo += [ 'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV' ]
+# evtgendecay.LcLongLived.Cuts      = { '[Lambda_c+]cc' : '75 * micrometer < GTIME' }
+#
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = evtgendecay.LcLongLived.Decay
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity () ## to be sure ' ,
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'fastTrack    =  ( GPT > 220 * MeV ) & ( GP  > 3.0 * GeV )   ' ,
+#     'goodTrack    =  inAcc & inEta & fastTrack                   ' ,
+#     'inY          =  in_range ( 1.9   , GY     , 4.6   )         ' ,
+#     'goodLc       =  GPT > 0.9 * GeV                             ' ,  # removed inY requirement and moved longLived to EvtGenDecayWithCutTool
+# ]
+# tightCut.Cuts     =    {
+#     '[Lambda_c+]cc'  : 'goodLc ' ,
+#     '[K+]cc'         : 'goodTrack ' ,
+#     '[pi+]cc'        : 'goodTrack ' ,
+#     '[p+]cc'         : 'goodTrack & ( GP > 9 * GeV ) '
+#     }
+# # -- modify Pythia8 to only generate from Charmonium processes -- #
+# from Configurables import Generation, MinimumBias, Pythia8Production, Inclusive, SignalPlain, SignalRepeatedHadronization, Special
+#
+# Pythia8TurnOffMinbias = [ "SoftQCD:all = off" ]
+# Pythia8TurnOffMinbias += [ "Bottomonium:all = off" ]
+# Pythia8TurnOffMinbias += [ "Charmonium:all = on" ]
+#
+# gen = Generation(genAlgName)
+# gen.addTool( MinimumBias , name = "MinimumBias" )
+# gen.MinimumBias.ProductionTool = "Pythia8Production"
+# gen.MinimumBias.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.MinimumBias.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Inclusive , name = "Inclusive" )
+# gen.Inclusive.ProductionTool = "Pythia8Production"
+# gen.Inclusive.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Inclusive.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalPlain , name = "SignalPlain" )
+# gen.SignalPlain.ProductionTool = "Pythia8Production"
+# gen.SignalPlain.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalPlain.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalRepeatedHadronization , name = "SignalRepeatedHadronization" )
+# gen.SignalRepeatedHadronization.ProductionTool = "Pythia8Production"
+# gen.SignalRepeatedHadronization.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalRepeatedHadronization.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Special , name = "Special" )
+# gen.Special.ProductionTool = "Pythia8Production"
+# gen.Special.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Special.Pythia8Production.Commands += Pythia8TurnOffMinbias
+# # -- END  -- #
+# EndInsertPythonCode
+#
+# CPUTime: < 1 min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Michael Wilkinson (Syracuse University)
+# Email: miwilkin@syr.edu
+# Date: 20180917
+#
+
+Alias      MyLambda_c+      Lambda_c+
+Alias      Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+      Myanti-Lambda_c-
+
+#
+Decay chi_c1sig
+  1.00     MyLambda_c+ Myanti-Lambda_c-     PHSP;
+Enddecay
+#
+Decay MyLambda_c+
+  1.00     p+          K-               pi+ PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End
+#

@@ -1,0 +1,38 @@
+# EventType: 16166044
+# 
+# Descriptor: [Xi_b0 -> (Xi_c+ -> Xi0 pi+ pi+ pi-) pi+ pi- pi-]cc
+# 
+# NickName: Xib0_Xic+pipipi,Xi0pipipi=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+#   Xib0 -> Xic+ pi+ pi- pi- and Xi_c+ -> Xi0 pi+ pi+ pi-
+#   Background study to investigate anti S (Sexaquark uuddss) interaction with matter
+#   There will be background from anti Xi
+#   Need both cc to understand differences in Xi and anti Xi
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Ellinor Eckstein
+# Email: ellinor.eckstein@cern.ch
+# Date: 20230605
+#
+Alias      MyXi_c+              Xi_c+
+Alias      Myanti-Xi_c-         anti-Xi_c-
+ChargeConj MyXi_c+              Myanti-Xi_c-
+#
+Decay Xi_b0sig
+    1.00    MyXi_c+	    pi+   pi-   pi-		PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyXi_c+
+    1.000   Xi0     pi-   pi+   pi+   PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+#
+End
+

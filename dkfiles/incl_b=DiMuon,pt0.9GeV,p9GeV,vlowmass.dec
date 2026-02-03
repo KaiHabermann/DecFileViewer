@@ -1,0 +1,38 @@
+# EventType: 10012035
+#
+# Descriptor:  pp =>  ( Xb -> mu+ ... )  ( Xb -> mu- ... )
+#
+# NickName: incl_b=DiMuon,pt0.9GeV,p9GeV,vlowmass
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: LoKi::FullGenEventCut/TwoBotomToMu
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 5 min
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "TwoBotomToMu" )
+# TwoBotomToMu = Generation(genAlgName).TwoBotomToMu
+# TwoBotomToMu.Code = "count(invmass)>0"
+#
+# TwoBotomToMu.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad, mm"
+#      , "goodMuP = ( ('mu+' == GID ) & (GPT > 0.9 * GeV) & (GP > 9 * GeV) & in_range( 1.8, GETA, 5.1 ) & (GNINTREE( GBEAUTY, HepMC.parents )==1) )"
+#      , "goodMuM = ( ('mu-' == GID ) & (GPT > 0.9 * GeV) & (GP > 9 * GeV) & in_range( 1.8, GETA, 5.1 ) & (GNINTREE( GBEAUTY, HepMC.parents )==1) )"
+#      , "invmass = ( GMASS(goodMuP, goodMuM) > 2 * GeV )"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: Two beauty particles decaying into muon and something else. The muons have to be within the LHCb acceptance. Muon level cuts, min pT 0.9GeV for both, min P 9 GeV.
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible: Imanol Corredoira
+# Email: imanol.corredoira.fernandez@cern.ch
+# Date: 20250226
+#
+End
+#

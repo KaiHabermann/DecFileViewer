@@ -1,0 +1,48 @@
+# EventType: 12513092
+#
+# Descriptor: [B+ -> pi+ pi- mu+ nu_mu]cc
+#
+# NickName: Bu_pipimunu=DecProdCut,HighVisMass,EvtGenCut
+#
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+# #
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation()
+#
+# gen.SignalRepeatedHadronization.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/HighVisMass"
+# evtgendecay.addTool(LoKi__GenCutTool ,'HighVisMass')
+# evtgendecay.HighVisMass.Decay   = '[^(B+ => pi+ pi- mu+ nu_mu)]CC'
+# evtgendecay.HighVisMass.Cuts    = { '[B+]cc' : "visMass" }
+# evtgendecay.HighVisMass.Preambulo += ["visMass  = ( ( GMASS ( 'mu+' == GABSID , 'pi+' == GID, 'pi-' == GID ) ) > 4200 * MeV ) " ]
+#
+# EndInsertPythonCode
+#
+# Documentation: Decay file for B+ -> pi+ pi- mu+ nu_mu (PHSP with High Visible Mass cut on 3 body mass > 4.2 GeV)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Marcus Madurai
+# Email:       marcus.madurai@cern.ch
+# Date:        20250804
+#
+#
+Decay B+sig
+1.000       pi+       pi-       mu+       nu_mu       PHOTOS PHSP;
+Enddecay
+CDecay B-sig
+#
+End
+#

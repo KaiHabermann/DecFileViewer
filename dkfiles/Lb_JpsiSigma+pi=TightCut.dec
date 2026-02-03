@@ -1,0 +1,82 @@
+# EventType: 15344400
+#
+# Descriptor: [Lambda_b0 -> (J/psi(1S) -> mu+ mu-) Sigma+ pi-]cc
+# NickName: Lb_JpsiSigma+pi=TightCut
+# Cuts: LoKi::GenCutTool/GenSigCut
+# FullEventCuts: LoKi::FullGenEventCut/GenEvtCut
+# InsertPythonCode:
+# from Configurables import (ToolSvc, EvtGenDecayWithCutTool, LoKi__GenCutTool, LoKi__FullGenEventCut)
+# Generation(genAlgName).SignalPlain.addTool(LoKi__GenCutTool,'GenSigCut')
+# Generation(genAlgName).SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool( EvtGenDecayWithCutTool )
+# EvtGenCut = ToolSvc().EvtGenDecayWithCutTool
+# EvtGenCut.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# EvtGenCut.CutTool = "LoKi::GenCutTool/HyperonDTCut"
+# EvtGenCut.addTool(LoKi__GenCutTool,"HyperonDTCut")
+# EvtGenCut.HyperonDTCut.Decay = "[Lambda_b0 ==> J/psi(1S) ^Sigma+ pi-]CC"
+# EvtGenCut.HyperonDTCut.Preambulo += [ "from GaudiKernel.SystemOfUnits import mm" ]
+# EvtGenCut.HyperonDTCut.Cuts = { '[Sigma+]cc' : "(GCTAU>0.08*mm)" }
+# SigCut = Generation(genAlgName).SignalPlain.GenSigCut
+# SigCut.Decay = "[^(Lambda_b0 ==> (J/psi(1S) => ^mu+ ^mu-) ^Sigma+ ^pi-)]CC"
+# SigCut.Filter = True
+# SigCut.Preambulo += [
+#   "from LoKiCore.functions import in_range",
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, mm",
+#   "inAcc = in_range(10*mrad,GTHETA,400*mrad) & in_range(1.95,GETA,5.05)",
+#   "inY   = in_range(1.9,LoKi.GenParticles.Rapidity(),4.6)",
+#   "EVZ   = GFAEVX(GVZ,0)",
+#   "OVZ   = GFAPVX(GVZ,0)"
+#  ]
+# SigCut.Cuts = {
+#   '[Lambda_b0]cc' : "(GP>31*GeV) & (GPT>3.9*GeV) & (EVZ-OVZ>0.1*mm) & (GCHILD(EVZ, (GABSID=='Sigma+'))-EVZ>14*mm) & inY",
+#   '[mu+]cc'       : "(GP>4.9*GeV) & (GPT>490*MeV) & inAcc",
+#   '[Sigma+]cc'    : "inAcc",
+#   '[pi-]cc'       : "(GP>4.9*GeV) & (GPT>290*MeV) & inAcc"
+# }
+# #
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut,'GenEvtCut')
+# EvtCut = Generation(genAlgName).GenEvtCut
+# EvtCut.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import mm",
+#   "EVZ    = GFAEVX(GVZ,0)",
+#   "EVR    = GFAEVX(GVRHO,0)",
+#   "OVZ    = GFAPVX(GVZ,0)",
+#   "goodLb = GSIGNALINLABFRAME & (GABSID=='Lambda_b0') & (GCHILDCUT((EVR>7*mm), '[Lambda_b0 ==> J/psi(1S) ^Sigma+ pi-]CC'))"
+#  ]
+# EvtCut.Code = "has(goodLb)"
+# EndInsertPythonCode
+#
+# Documentation: Lb -> J/psi Sigma+ pi- PHSP decay to study Sigma+ reconstruction as Velo track.
+#                Sigma+ forced to p pi0 and n pi+ using decay asymmetry paraters quoted in the PDG. Cut efficiency ~ 5%.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Marian Stahl
+# Email: marian.stahl@{nospam}cern.ch
+# Date: 20210409
+# CPUTime: 12 min
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+Alias      MySigma+      Sigma+
+Alias      MyantiSigma-  anti-Sigma-
+ChargeConj MyantiSigma-  MySigma+
+#
+Decay Lambda_b0sig
+  1  MyJ/psi MySigma+ pi-  PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1  mu+ mu-  PHOTOS VLL;
+Enddecay
+#
+Decay MySigma+
+  0.515  p+ pi0  HELAMP 0.1 0.0 0.995 0.0;
+  0.485  n0 pi+  HELAMP 0.73 0.0 0.68 0.0;
+Enddecay
+CDecay MyantiSigma-
+#
+End

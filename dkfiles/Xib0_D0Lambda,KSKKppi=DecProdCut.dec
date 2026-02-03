@@ -1,0 +1,49 @@
+# EventType: 16166144
+#
+# Descriptor: [Xi_b0 -> (D0 -> (KS0 -> pi+ pi-) K+ K-) (Lambda0 -> p+ pi-)]cc
+#
+# NickName: Xib0_D0Lambda,KSKKppi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: < 1 min
+#
+# Documentation: KS0 forced into pi+ pi-, D0 -> KS0 K+ K-;
+#                Lambda forced to p+ pi-, decay products required in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes 
+# Responsible: Boan Shi
+# Email: bshi@cern.ch
+# Date: 20251113
+#
+Alias      MyD0          D0
+Alias      Myanti-D0     anti-D0
+ChargeConj MyD0          Myanti-D0
+
+Alias      MyLambda      Lambda0
+Alias      MyAntiLambda  anti-Lambda0
+ChargeConj MyLambda      MyAntiLambda
+
+Alias      myK_S0        K_S0        
+#
+Decay Xi_b0sig
+  1.000    MyD0  MyLambda              PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyD0
+  1.000    myK_S0  K+   K-            PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay myK_S0
+  1.000    pi+    pi-                   PHSP;
+Enddecay
+#
+Decay MyLambda
+  1.000    p+     pi-                   PHSP;
+Enddecay
+CDecay MyAntiLambda
+#
+End

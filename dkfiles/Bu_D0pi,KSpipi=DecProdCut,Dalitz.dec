@@ -1,0 +1,41 @@
+# EventType: 12165121
+#
+# Descriptor: [B+ -> (D~0 -> (KS0 -> pi+ pi-) pi+ pi-) pi+]cc
+#
+# NickName: Bu_D0pi,KSpipi=DecProdCut,Dalitz
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# B+ decay D0(K0s(pi+ pi) pi- pi+) pi+ . D0 decayed following Dalitz model
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Pablo Baladron Rodriguez
+# Email: pablo.baladron.rodriguez@cern.ch
+# Date: 20230203
+# CPUTime: 2 min
+#
+Alias MyD0        D0
+Alias Myanti-D0   anti-D0
+Alias myK_S0  K_S0
+ChargeConj        MyD0       Myanti-D0
+ChargeConj myK_S0 myK_S0
+##
+Decay B+sig
+1.000     Myanti-D0  pi+               PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD0
+1.000     myK_S0 pi+  pi-        D_DALITZ;
+Enddecay
+CDecay Myanti-D0
+#
+Decay myK_S0
+1.000     pi+  pi-                      PHSP;
+Enddecay
+#
+End
+

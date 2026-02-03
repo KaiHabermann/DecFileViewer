@@ -1,0 +1,69 @@
+# EventType: 11168110
+#
+# Descriptor: [[[B0]nos -> (D~0 -> (KS0 -> pi+ pi-) pi+ pi-) pi+ pi- pi+ pi-]CC, [[B0]os -> (D0 => (KS0 -> pi- pi+) pi- pi+) pi- pi+ pi- pi+]CC]
+#
+# NickName: Bd_D0pipipipi,KSpipi=TightCut,PHSP
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '^[Beauty ==> ^(D~0 ==> ^(KS0 ==> ^pi+ ^pi-) ^pi+ ^pi-) ^pi+ ^pi- ^pi+ ^pi-]CC'
+# tightCut.Preambulo += [
+#     'GVZ = LoKi.GenVertices.PositionZ() ' ,
+#     'from GaudiKernel.SystemOfUnits import millimeter',
+#     'inAcc        = (in_range (0.005, GTHETA, 0.400))',
+#     'goodB        = (GP > 55000 * MeV) & (GPT > 5000 * MeV) & (GTIME > 0.135 * millimeter)',
+#     'goodD        = (GP > 20000 * MeV) & (GPT > 2000 * MeV)',
+#     'goodKS       = (GFAEVX(abs(GVZ), 0) < 2500.0 * millimeter)',
+#     'goodDDaugPi  = (GNINTREE (("pi+" == GABSID) & (GP > 2000 * MeV) & inAcc, 4) > 3.5)',
+#     'goodKsDaugPi = (GNINTREE (("pi+" == GABSID) & (GP > 2000 * MeV) & inAcc, 4) > 1.5)',
+#     'goodBachPia  = (GNINTREE (("pi+" == GABSID) & (GP > 2000 * MeV) & (GPT > 100 * MeV) & inAcc, 4) > 4.5)',
+#     'goodBachPic  = (GNINTREE (("pi+" == GABSID) & (GP > 2000 * MeV) & (GPT > 300 * MeV) & inAcc, 4) > 1.5)'
+# ]
+# tightCut.Cuts      =    {
+#     '[B0]cc'         : 'goodB  & goodBachPia  & goodBachPic',
+#     '[D0]cc'         : 'goodD  & goodDDaugPi',
+#     '[KS0]cc'        : 'goodKS & goodKsDaugPi',
+#     '[pi+]cc'        : 'inAcc'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: B0 to D0 4pi, with D0 to KS pi pi. Decay products in LHCb acceptance 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: George Lovell
+# Email: george.lovell@cern.ch
+# Date: 20190405
+#
+
+Alias             MyD0        D0
+Alias             anti-MyD0   anti-D0
+ChargeConj        MyD0        anti-MyD0
+#
+Alias      MyK_S0    K_S0
+ChargeConj MyK_S0    MyK_S0
+
+Decay B0sig
+  1.00       anti-MyD0    pi+    pi-   pi+   pi-           PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD0
+  1.000    MyK_S0    pi+     pi-    PHSP;
+Enddecay
+CDecay anti-MyD0
+#
+Decay MyK_S0
+  1.000    pi+ pi-        PHSP;
+Enddecay
+#
+End
+#

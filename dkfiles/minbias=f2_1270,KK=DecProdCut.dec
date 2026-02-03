@@ -1,0 +1,58 @@
+# EventType: 30000080
+#
+# Descriptor: pp -> ((f_2 -> K+ K-) + X) ...
+# NickName: minbias=f2_1270,KK=DecProdCut
+# Cuts: None
+# Production: Pythia8
+#
+# InsertPythonCode:
+# # Switch off all Pythia 6 and Pythia 8 options.
+# from Gaudi.Configuration import importOptions
+# importOptions( "$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py" )
+# 
+# # Pythia 8 options.
+# from Configurables import Pythia8Production
+# Generation(genAlgName).MinimumBias.addTool( Pythia8Production )
+# Generation(genAlgName).MinimumBias.Pythia8Production.Commands += [
+#     'SoftQCD:all=off' ,
+#     'HardQCD:all=on',
+#     'PhaseSpace:pTHatMin=100',
+#     '335:onMode = off',
+#     '335:onIfMatch= -321 321',
+#     '10331:onMode = off',
+#     '10331:onIfMatch = -321 321',
+#     '225:onMode = off',
+#     '225:onIfMatch = -321 321']
+# 
+# # Cuts.
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).FullGenEventCutTool = "LoKi::FullGenEventCut/twoToTwoInAcc"
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "twoToTwoInAcc" )
+# twoToTwoInAcc = Generation(genAlgName).twoToTwoInAcc
+# twoToTwoInAcc.Code = "( count ( out ) > 0 )"
+# twoToTwoInAcc.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#     "inAcc = ( ( GTHETA < 400.0*mrad ) & ( GTHETA > 13.0*mrad ) & ( GP > 0.2*GeV ) )",
+#     "kkdecay = ( GNINTREE( ( GABSID == 321 ) & ( inAcc ) & ( GPT > 0.1*GeV ) ) == 2 )",
+#     "out = ( ( GABSID == 225 ) & ( kkdecay ) & ( inAcc ) )"]
+# 
+# # Keep 2 -> 2 hard process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = (
+#     "( GBARCODE >= 1 ) & ( GBARCODE <= 6 )")
+# EndInsertPythonCode
+#
+# Documentation:
+# f_2(1270) -> K+ K- production, f2(1270) in acceptance,
+# EndDocumentation
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Cesar da Silva
+# Email: cldasilv@cern.ch
+# Date: 20251107
+#
+End
+

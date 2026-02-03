@@ -1,0 +1,85 @@
+# EventType:  16164415
+# NickName:   Sigmab0st_Lbpi0,Lcpi=TightCutv2
+# Descriptor: [Sigma_b0 => (Lambda_b0 => (Lambda_c+ ==> p+ K- pi+ ) pi-) (pi0 => gamma gamma)]CC
+#
+# Documentation: 
+#   Search for Sigma_b*0 -> Lambda_b pi0, with Lambda_b0->Lambda_c pi
+# EndDocumentation
+#
+# ParticleValue: "Sigma_b0  112  5212 0.0 5.832 -0.010   Sigma_b0  5212 0.000", "Sigma_b~0 113 -5212 0.0 5.832 -0.010 anti-Sigma_b0 -5212 0.000"
+#
+# Sample: SignalRepeatedHadronization
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+## InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool, ToolSvc
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal     = generation.SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut            = signal.TightCut
+# tightCut.Decay      = '[Sigma_b0 ==> ^( Lambda_b0 => ^( Lambda_c+ ==> ^p+ ^K- ^pi+ ) ^pi- ) (pi0 => ^gamma ^gamma)]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV',
+#     'inAcc          =  in_range ( 0.005 , GTHETA , 0.400 )                      ' ,
+#     'inEta          =  in_range ( 1.95  , GETA   , 5.050 )                      ' ,
+#     'fastTrack      =  ( GPT > 190 * MeV ) & ( GP > 3.0 * GeV )                 ' , 
+#     'goodTrack      =  inAcc & inEta & fastTrack                                ' ,
+#     'inY            =  in_range ( 1.9   , GY , 4.6   )                          ' ,
+#     'inEcalX        =  abs ( GPX / GPZ ) < 4.5 / 12.5                           ' ,
+#     'inEcalY        =  abs ( GPY / GPZ ) < 3.5 / 12.5                           ' ,
+#     'inEcalHole     = (abs ( GPX / GPZ ) < 0.25 / 12.5) & (abs ( GPY / GPY ) < 0.25 / 12.5)' ,
+#     'goodGamma      = ( 0 < GPZ ) & ( 150 * MeV < GPT ) & inEcalX & inEcalY & ~inEcalHole' 
+# ]
+# tightCut.Cuts       =    {
+#     '[p+]cc'        : 'fastTrack  & ( GP > 8 * GeV )' ,
+#     '[K+]cc'        : 'goodTrack' ,
+#     '[pi+]cc'       : 'goodTrack' ,
+#     '[Lambda_c+]cc' : 'inY' ,
+#     '[Lambda_b0]cc' : 'inY' ,
+#     'gamma'         : 'goodGamma'
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+#
+# CPUTime:      5min
+# Responsible:  Marco Pappagallo
+# Email:        marco.pappagallo@cern.ch
+# Tested:       Yes    
+# Date:         20250424
+#
+Alias      MyLambda_b0        Lambda_b0
+Alias Myanti-Lambda_b0   anti-Lambda_b0
+ChargeConj MyLambda_b0 Myanti-Lambda_b0
+#
+Alias      MyLambda_c+        Lambda_c+
+Alias Myanti-Lambda_c-   anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#                                                                                                                                                                                                                                            
+Alias      Mypi0   pi0
+ChargeConj Mypi0   Mypi0
+#
+Decay Sigma_b0sig
+  1.000    MyLambda_b0        Mypi0     PHSP;
+Enddecay
+CDecay anti-Sigma_b0sig
+#
+Decay MyLambda_b0
+  1.000    MyLambda_c+        pi-         PHSP;
+Enddecay
+CDecay Myanti-Lambda_b0
+#
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#                                                                                                                                                                                                                                            
+Decay Mypi0
+  1.000     gamma      gamma               PHSP;
+Enddecay
+#
+End
+#

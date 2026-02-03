@@ -1,0 +1,98 @@
+# EventType: 11465000
+#
+# Descriptor: [ [B0]cc --> (D*(2010)- => ( D~0 => K+ pi- pi+ pi- ) pi-) ... ]CC
+#
+# NickName: Bd_DstX,cocktail,D0pi,K3pi=TightCut,AmpGen
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: secondary D*+ -> D0 (-> K- pi+ pi- pi+) decays with B0 parent, cuts to match loosest of Run1/Run2/2024 HLT2 requirements of prompt D->K3Pi
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# signal     = Generation().SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[ [B0]cc --> (D*(2010)- ==> ( D~0 ==> K+ pi- pi+ pi- ) pi-) ... ]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import micrometer, MeV, GeV ',
+#     'from LoKiCore.math import atan2                            ',
+#     'inAccLoose   =  in_range ( 0.012 , GTHETA , 0.35 ) & in_range ( -0.3  , atan2(GPX , GPZ), 0.3  ) & in_range ( -0.26 , atan2(GPY , GPZ), 0.26 ) ',
+#     'inAcc        =  in_range ( 0.014 , GTHETA , 0.30 ) & in_range ( -0.28 , atan2(GPX , GPZ), 0.28 ) & in_range ( -0.24 , atan2(GPY , GPZ), 0.24 ) ',
+#     'goodTrack    =  inAccLoose & ( GPT > 0.97*250. * MeV ) ',
+#     'goodD0       =  GNINTREE( goodTrack ) == 4 ',
+#     'goodSlowPion =  inAcc & ( GPT > 0.97*200. * MeV ) ',
+#     'goodDst      =  GINTREE( goodD0 ) & GCHILDCUT ( goodSlowPion , "[ D*(2010)+ =>  Charm ^pi+ ]CC" ) ',
+#     'goodB        =  GINTREE( goodDst ) '
+# ]
+# tightCut.Cuts     =    {
+#     '[B0]cc' : 'goodB',
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Niall McHugh
+# Email: niall.mchugh@glasgow.ac.uk
+# Date: 20250530
+# CPUTime: < 1 min
+#
+Alias      MyD*+    D*+
+Alias      MyD*-    D*-
+ChargeConj MyD*+    MyD*-
+#
+Alias      MyD0     D0
+Alias      MyantiD0 anti-D0
+ChargeConj MyD0     MyantiD0
+#
+Decay B0sig
+    5.05001 MyD*-        mu+        nu_mu                           PHOTOS HQET2 1.122 0.921 1.270 0.852; #rho^2 (ha1 unchanged) R1 R2; HFLAG Spring 2019; normalisation factor ha1 has no impact on kinematics
+    5.05    MyD*-        e+         nu_e                            PHOTOS HQET2 1.122 0.921 1.270 0.852; #rho^2 (ha1 unchanged) R1 R2; HFLAG Spring 2019; normalisation factor ha1 has no impact on kinematics
+    1.57    MyD*-        tau+       nu_tau                          ISGW2;
+    0.274   MyD*-        pi+                                        SVS;
+    1.5     MyD*-        pi+        pi0                             PHSP;
+    0.68    rho+         MyD*-                                      SVV_HELAMP  0.317 0.19 0.936 0.0 0.152 1.47;
+    0.0212  MyD*-        K+                                         SVS;
+    0.03    MyD*-        K0         pi+                             PHSP;
+    0.033   MyD*-        K*+                                        SVV_HELAMP  0.283 0.0 0.932 0.0 0.228 0.0;
+    0.129   MyD*-        K+         anti-K*0                        PHSP;
+    0.721   MyD*-        pi+        pi+        pi-                  PHSP;
+    0.57    MyD*-        rho0       pi+                             PHSP;
+    1.30    MyD*-        a_1+                                       SVV_HELAMP 0.200 0.0 0.866 0.0 0.458 0.0;
+    0.047   MyD*-        K+         pi-        pi+                  PHSP;
+    1.76    MyD*-        pi+        pi+        pi-        pi0       PHSP;
+    0.47    MyD*-        pi+        pi+        pi+    pi-    pi-    PHSP;
+    0.246   MyD*-        omega      pi+                             PHSP;
+    0.80    MyD*-        D_s+                                       SVS;
+    1.77    D_s*+        MyD*-                                      SVV_HELAMP 0.4904 0.0 0.7204 0.0 0.4904 0.0;
+    0.15    MyD*-        D_s0*+                                     SVS;
+    0.93    MyD*-        D_s1+                                      SVV_HELAMP 0.4904 0. 0.7204 0. 0.4904 0.;
+    0.083   MyD*-        D'_s1+                                     PHSP;
+    0.080   MyD*-        D*+                                        SVV_HELAMP 0.56 0.0 0.96 0.0 0.47 0.0;
+    0.080   D*-          MyD*+                                      SVV_HELAMP 0.56 0.0 0.96 0.0 0.47 0.0;
+    0.061   MyD*+        D-                                         SVS;
+    0.247   MyD*-        D0         K+                              PHSP;
+    1.06    MyD*-        D*0        K+                              PHSP;
+    0.18    MyD*-        D+         K0                              PHSP;
+    0.47    D-           MyD*+      K0                              PHSP;
+    0.81    MyD*-        D*+        K0                              PHSP;
+    0.81    D*-          MyD*+      K0                              PHSP;
+    0.14    MyD*-        p+         anti-n0                         PHSP;
+    0.047   MyD*-        p+         anti-p-    pi+                  PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+  1.0   MyantiD0    pi-     VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay MyantiD0
+  1.0   K+ pi- pi+ pi-     LbAmpGen DtoKpipipi;
+Enddecay
+CDecay MyD0
+#
+End

@@ -1,0 +1,52 @@
+# EventType: 11511002
+#
+# Descriptor: [B0 -> Xu- mu+ nu_mu]cc
+#
+# NickName: Bd_Xumunu=TightCut,ForB2RhoMuNu
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Decay file for  B0 -> Xu- mu+ nu
+# EndDocumentation
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName).SignalRepeatedHadronization
+# gen.addTool( LoKi__GenCutTool, "TightCut" )
+# SignalFilter = gen.TightCut
+# SignalFilter.Decay = "^( [Beauty --> (Xu+ --> pi+ pi- ...) mu-  ...]CC )"
+# SignalFilter.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import  GeV",
+#   "inAcc                = in_range ( 0.005 , GTHETA , 0.400 ) &  in_range ( 1.9 , GETA , 5.1 )", 
+#   "muCuts               = (0 < GNINTREE ( ('mu-' == GABSID ) & (GP > 5 * GeV) &  (GPT > 1.2 * GeV)  & inAcc))",
+#   "piPlusCuts           = (0 < GNINTREE ( ('pi+' == GID ) & (GP > 1.5 * GeV) & (GPT > 0.35 * GeV)  & inAcc ))",
+#   "piMinusCuts          = (0 < GNINTREE ( ('pi-' == GID ) & (GP > 1.5 * GeV) & (GPT > 0.35 * GeV)  & inAcc ))",
+#   "piMaxPT              = (GMAXTREE( GPT, ('pi+' == GABSID) & inAcc & (GP > 1.5 * GeV)) > 0.85 * GeV )",
+#   "piMaxP               = (GMAXTREE( GP, ('pi+' == GABSID) & inAcc & (GPT > 0.35 * GeV)) > 4.5 * GeV )",
+#   "allcuts              = ( muCuts & piPlusCuts & piMinusCuts & piMaxPT & piMaxP )"
+#   ]
+# SignalFilter.Cuts =  { "Beauty" : "allcuts" }
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: B2SL
+# CPUTime: 2.5 min
+# Tested: Yes
+# Responsible: Maria Poliakova
+# Email: mpolyako@syr.edu
+# Date: 20200812
+#
+#
+#
+Decay B0sig
+#
+#
+1.00   Xu-   mu+  nu_mu         VUB 4.8 1.29 0.22 1 0.3 1.0;
+#
+#
+Enddecay
+CDecay anti-B0sig
+#
+#
+End
+#
+

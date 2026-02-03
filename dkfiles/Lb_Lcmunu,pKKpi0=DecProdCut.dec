@@ -1,0 +1,43 @@
+# EventType: 15574240
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ (phi -> K+ K-) pi0) mu- anti-nu_mu]cc
+#
+# NickName: Lb_Lcmunu,pKKpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Lb -> Lc mu nu_mu with Lc -> p K K pi0
+#                with phase space model
+#                with children in the LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Mengzhen Wang 
+# Email:       mengzhen.wang@cern.ch
+# Date:        20180301
+
+Alias MyLambda_c+       Lambda_c+
+Alias MyLambda_c-       anti-Lambda_c-
+
+ChargeConj MyLambda_c+  MyLambda_c-
+
+Decay Lambda_b0sig
+  1.0 MyLambda_c+ mu- anti-nu_mu PHOTOS BaryonPCR 1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Alias Myphi phi
+
+Decay Myphi
+  0.489000 K+ K- VSS;
+Enddecay
+
+Decay MyLambda_c+
+  1.0 p+ Myphi pi0 PHSP;
+Enddecay
+CDecay MyLambda_c-
+
+End

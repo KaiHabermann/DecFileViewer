@@ -1,0 +1,51 @@
+# EventType: 13144025
+#
+# Descriptor: {[[B_s0]nos -> (J/psi(1S) -> mu+ mu-) (K*(892)~0 -> K- pi+)]cc, [[B_s0]os -> (J/psi(1S) -> mu+ mu-) (K*(892)0 -> K+ pi-)]cc}
+#
+# NickName: Bs_JpsiKst,update2012,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, no CP violation, daughters in acceptance.
+# Updated values for the amplitudes and betas as measured by LHCb using 2011+2012 data (https://arxiv.org/pdf/1509.00400.pdf).
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Jie Wu
+# Email: j.wu@cern.ch
+# Date: 20220614
+#
+# CPUTime: < 1 min
+#
+Define Hp 0.187
+Define Hz 0.705
+Define Hm 0.684
+Define pHp 0.785
+Define pHz 0.0
+Define pHm 2.960
+#
+Alias      MyJ/psi    J/psi
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+ChargeConj MyJ/psi    MyJ/psi
+#
+Decay B_s0sig
+  1.000         MyJ/psi   Myanti-K*0          SVV_HELAMP Hp pHp Hz pHz Hm pHm;
+Enddecay
+Decay anti-B_s0sig
+  1.000         MyJ/psi   MyK*0     SVV_HELAMP Hm pHm Hz pHz Hp pHp;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+       mu-            PHOTOS VLL;
+Enddecay
+#
+Decay MyK*0
+  1.000         K+        pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+

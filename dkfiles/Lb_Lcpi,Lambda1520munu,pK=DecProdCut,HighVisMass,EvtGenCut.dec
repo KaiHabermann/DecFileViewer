@@ -1,0 +1,69 @@
+# EventType: 15574005
+# 
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> (Lambda(1520)0 -> p+ K-) mu+ nu_mu)  pi-]cc
+# 
+# NickName: Lb_Lcpi,Lambda1520munu,pK=DecProdCut,HighVisMass,EvtGenCut
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+# #
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation()
+#
+# gen.SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/HighVisMass"
+# evtgendecay.addTool(LoKi__GenCutTool ,'HighVisMass')
+# evtgendecay.HighVisMass.Decay   = '[^(Lambda_b0 => (Lambda_c+ => (Lambda(1520)0 => p+ K-) mu+ nu_mu) pi-)]CC'
+# evtgendecay.HighVisMass.Cuts    = { '[Lambda_b0]cc' : "visMass" }
+# evtgendecay.HighVisMass.Preambulo += ["visMass  = ( ( GMASS ( 'pi-' == GABSID , 'mu+' == GABSID, 'p+' == GABSID, 'K-' == GABSID ) ) > 4500 * MeV ) " ]
+#
+# EndInsertPythonCode
+#
+# Documentation: Adapted from "Lb_Lcenu,L0enu=DecProdCut,HighVisMass,EvtGenCut.dec".
+# Semi-leptonic Lambda B decay into Lc pi. Lc decays to Lambda1520 mu+ nu.
+# Generator level cut applied to have a visible mass larger than 4.5 GeV.
+# Semileptonic background for Lb->Lambda(1520)emu.
+# EndDocumentation
+#
+# CPUTime: 2 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Dan Thompson   
+# Email: dan.thompson@cern.ch
+# Date: 20211125
+#
+#
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias      MyLambda(1520)0      Lambda(1520)0
+Alias      Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+#
+###
+Decay Lambda_b0sig
+  1.000    MyLambda_c+        pi-     PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000   MyLambda(1520)0 mu+ nu_mu          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda(1520)0
+  1.000   p+          K-        PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+End
+#

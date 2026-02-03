@@ -1,0 +1,32 @@
+# EventType: 13114009
+#
+# Descriptor: [B_s0 -> (phi -> K+ K-) mu+ mu-]cc
+#
+# NickName: Bs_phimumu=PHSP,FLATLT,DecProdCut
+# CPUTime: < 1 min
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: the B_s0 -> (phi -> K+ K-) mu^+ mu^- decay using a phase-space model with a flat decay-time. Max. lifetime set to 12 ps.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Sebastian Schmitt (MIT)
+# Email: s.schmitt@cern.ch
+# Date: 20250917
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B_s0sig
+   1.000   MyPhi  mu+  mu-   PHSPFLATLIFETIME 12;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 PHSP;
+Enddecay
+#
+End

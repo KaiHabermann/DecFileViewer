@@ -1,0 +1,64 @@
+# EventType: 27163474
+#
+# Descriptor: [D*+ -> (D0 -> pi- pi+ pi0) pi+]cc
+#
+# NickName: Dst_D0pi,pipipi0=TightCut,Dalitz
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation:
+#   This is the decay file for the decay D* -> D0 pi+
+#   D0 decays to pi- pi+ pi0 with a D* tag.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Niall McHugh
+# Email: n.mchugh.1@research.gla.ac.uk
+# Date: 20210514
+# CPUTime: <1min
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[D*(2010)+ => ^( D0 => pi+ pi- ( pi0 -> gamma gamma ) ) ^pi+]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import MeV, GeV, millimeter     ',
+#     'inAcc       = ( in_range( 0.005, GTHETA, 0.400 ) & in_range( 1.8, GETA, 5.2 ) )',
+#     'inCaloAcc   = ( in_range(0.000, abs(GPX/GPZ), 0.300) & in_range(0.000, abs(GPY/GPZ), 0.250) & (GPZ > 0) )',
+#     'inAccGamma  = ( ("gamma"==GABSID) & inAcc & inCaloAcc )',
+#     'goodD0Pi0   = ( ("pi0"==GABSID) & (GPT > 350 * MeV) & GCHILDCUT( inAccGamma, 1 ) & GCHILDCUT( inAccGamma, 2 ) )',
+#     'goodD0Pip   = ( ("pi+"==GID) & (GPT > 485 * MeV) & (GP > 1.9 * GeV) & inAcc )',
+#     'goodD0Pim   = ( ("pi-"==GID) & (GPT > 485 * MeV) & (GP > 1.9 * GeV) & inAcc )',
+#     'highPTPipm  = ( ("pi+"==GABSID) & (GPT > 1.65 * GeV) )',
+#     'goodD0      = ( (GTIME > 0.045 * millimeter) & (GPT > 2.7 * GeV) & GINTREE(highPTPipm) & GINTREE(goodD0Pim) & GINTREE(goodD0Pip) & GINTREE(goodD0Pi0) )',
+#     'goodDst     = ( (GPT > 2.9 * GeV) )',
+#     'goodPiSoft  = ( GCHILDCUT( ( (GPT > 290 * MeV) & inAcc ) , "[D*(2010)+ => Charm ^pi+]CC") )'
+# ]
+# tightCut.Cuts      =    {
+#     '[pi+]cc'  : 'inAcc',
+#     '[D0]cc'   : 'goodD0',
+#     '[D*(2010)+]cc'  : 'goodPiSoft & goodDst'
+#     }
+# EndInsertPythonCode
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.000   pi+ pi- pi0  D_DALITZ;
+Enddecay
+CDecay MyantiD0
+#
+End
+ 

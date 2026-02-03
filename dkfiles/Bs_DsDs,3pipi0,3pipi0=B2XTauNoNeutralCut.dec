@@ -1,0 +1,45 @@
+# EventType: 13196413
+#
+# Descriptor: [B_s0 => (D_s+ => pi+ pi- pi+ pi0) (D_s- => pi- pi+ pi- pi0)]CC
+#
+# NickName: Bs_DsDs,3pipi0,3pipi0=B2XTauNoNeutralCut
+#
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2XTauNoNeutralCut
+#
+# Documentation: B_s0 -> DsDs, both Ds -> 3pipi0, with generator level cut p>2000MeV, pt>250MeV, no cut on neutral particles
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Ya Zhao
+# Email: ya.zhao@cern.ch
+# Date: 20251202
+# CPUTime: < 1min
+#
+
+# -------------------------
+# DEFINE THE Ds+ AND Ds-
+# -------------------------
+Alias      MyD_s+     D_s+
+Alias      MyD_s-     D_s-
+ChargeConj MyD_s+     MyD_s-
+
+# ---------------
+# Decay of the Bs
+# ---------------
+Decay B_s0sig
+  1.000    MyD_s+    MyD_s-    PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+# -----------------
+# Decay of the Ds+
+# -----------------
+Decay MyD_s+
+  1.000    pi+    pi-    pi+    pi0    PHSP;
+Enddecay
+CDecay MyD_s-
+
+End

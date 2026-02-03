@@ -1,0 +1,48 @@
+# EventType: 12153420
+#
+# Descriptor: [B+ ->  (J/psi(1S) -> e+ e-) (K*(892)+ -> K+ pi0) ]cc
+#
+# NickName: Bu_JpsiKst,ee,Kpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ ->  (J/psi(1S) -> e+ e-) (K*(892)+ -> K+ pi0) 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Harry Cliff
+# Email: harry.victor.cliff@cern.ch
+# Date: 20230606
+# CPUTime: < 1 min
+#
+
+Alias      MyJ/psi    J/psi
+Alias      MyK*+      K*+
+Alias      MyK*-      K*-
+ChargeConj MyK*+      MyK*-
+ChargeConj MyJ/psi    MyJ/psi
+Alias       Mypi0    pi0
+#
+Decay B+sig
+  1.000         MyJ/psi   MyK*+          SVV_HELAMP PKHplus PKphHplus PKHzero PKphHzero PKHminus PKphHminus;
+Enddecay
+Decay B-sig
+  1.000         MyJ/psi   MyK*-		 SVV_HELAMP PKHplus PKphHplus PKHzero PKphHzero PKHminus PKphHminus;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         e+       e-            PHOTOS VLL;
+Enddecay
+#
+Decay MyK*+
+  1.000         K+        Mypi0            VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay Mypi0  
+ 1.000         gamma       gamma        PHSP; 
+Enddecay
+#
+End
+

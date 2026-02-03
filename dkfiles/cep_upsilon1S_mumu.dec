@@ -1,0 +1,41 @@
+# EventType: 49112001
+#
+# Descriptor: upsilon(1S) -> mu+ mu-
+# NickName: cep_upsilon1S_mumu
+# Production: SuperChic2
+# Cuts: None
+# Documentation: Central exclusive production of upsilon(1S)->mu+ mu-, with Superchic and EvtGen
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# from Configurables import SuperChic2Production
+# Generation().Special.addTool(SuperChic2Production)
+# Generation().Special.SuperChic2Production.Commands += [
+#     "SuperChic2:proc    = 51",   # Upsilon(1S)[mu,mu] photoproduction
+#     "SuperChic2:ymin   = 1.5",   # General cuts on the central system min-rapidity
+#     "SuperChic2:ymax   = 5.5",   # General cuts on the central system max-rapidity
+#     "SuperChic2:gencuts = true", # Flag to determine if the cuts below on pseudorapidity will be placed
+#     "SuperChic2:etaamin = 1.8", # mu+ min-pseudorapidity
+#     "SuperChic2:etaamax = 5.2", # mu+ max-pseudorapidity
+#     "SuperChic2:etabmin = 1.8", # mu- min-pseudorapidity
+#     "SuperChic2:etabmax = 5.2"] # mu- max-pseudorapidity
+#
+# # Keep the CEP process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Xiaolin Wang
+# Email: xiaolin.wang@cern.ch
+# Date: 20230222
+
+Decay Upsilon
+  1.000         mu+ mu-          PHOTOS VLL;
+Enddecay
+#
+End

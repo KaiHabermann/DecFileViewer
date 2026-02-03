@@ -1,0 +1,92 @@
+# EventType: 12245054
+#
+# Descriptor: [B+ -> (J/psi -> mu+ mu-) (K_1+ -> K+ (rho0 -> pi+ pi-)) ]
+#
+# NickName: Bu_JpsiKpipi,mm,K1cocktail=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: 1 min
+#
+# Documentation: B+->JpsiK+pipi, Kres as PHSP + K1(1270) ->K*pi and rhoK, to be reweighted back to PHSP 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email:  biplab.dey@.cern.ch
+# Date: 20200423
+#
+Alias      MyK_1+       K_1+
+Alias      MyK_1-       K_1-
+ChargeConj MyK_1+       MyK_1-
+#
+Alias       MyK*0      K*0
+Alias       Myanti-K*0   anti-K*0
+ChargeConj  MyK*0        Myanti-K*0
+#
+Alias      Myrho0     rho0
+ChargeConj Myrho0     Myrho0
+#
+Alias       MyJ/psi   J/psi
+ChargeConj  MyJ/psi   MyJ/psi
+#
+
+LSNONRELBW Myrho0
+BlattWeisskopf Myrho0 0.0
+Particle Myrho0 0.775 0.15
+ChangeMassMin Myrho0 0.2
+ChangeMassMax Myrho0 2.0
+
+LSNONRELBW MyK_1+
+BlattWeisskopf MyK_1+ 0.0
+Particle MyK_1+ 1.272 0.15
+ChangeMassMin MyK_1+ 0.5
+ChangeMassMax MyK_1+ 3.6
+
+LSNONRELBW MyK_1-
+BlattWeisskopf MyK_1- 0.0
+Particle MyK_1- 1.272 0.15
+ChangeMassMin MyK_1- 0.5
+ChangeMassMax MyK_1- 3.6
+
+LSNONRELBW MyK*0
+BlattWeisskopf MyK*0 0.0
+Particle MyK*0 0.892 0.06
+ChangeMassMin MyK*0 0.5
+ChangeMassMax MyK*0 3.5
+
+LSNONRELBW Myanti-K*0
+BlattWeisskopf Myanti-K*0 0.0
+Particle Myanti-K*0 0.892 0.06
+ChangeMassMin Myanti-K*0 0.5
+ChangeMassMax Myanti-K*0 3.5
+
+
+Decay B+sig
+ 0.34   MyJ/psi K+ pi+ pi- PHSP;
+ 0.66   MyJ/psi MyK_1+ PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyK_1+
+  0.5   MyK*0  pi+       PHSP;
+  0.5   K+   Myrho0       PHSP;
+Enddecay
+CDecay MyK_1-
+#
+Decay MyK*0
+  1.0   K+    pi-      PHSP;
+Enddecay
+CDecay Myanti-K*0 
+#
+Decay Myrho0
+  1.0   pi+      pi-       PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.0000   mu+   mu-   PHOTOS    PHSP;
+Enddecay
+#
+
+End

@@ -1,0 +1,76 @@
+# EventType: 11104422  
+#
+# Descriptor: [B0 -> (K*(892)0 -> K+ pi-) (phi(1020) -> pi+ pi- pi0)]
+#
+# NickName: Bd_phiKst0,3pi,k+pi-=DecProdCut,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName) 
+# gen.SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '[^(B0 ==> ^(K*(892)0 => ^K+ ^pi-) ^(phi(1020) -> ^pi+ ^pi- ^pi0) )]CC'
+#
+# tightCut.Cuts      =    {
+#    '[B0]cc'           : 'goodB' ,
+#    '[phi(1020)]cc'    : 'goodPhi ',
+#    '[K*(892)0]cc'     : 'goodKst ',
+#    '[K+]cc'           : 'goodTrack ' ,
+#    '[pi+]cc'          : 'goodTrack ' ,
+#    '[pi-]cc'          : 'goodTrack ' ,
+#    '[pi0]cc'          : 'goodTrack '  }
+# tightCut.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import ns, GeV, MeV, mrad',
+#    'inAcc      = in_range ( 0.01 , GTHETA , 0.400 ) ' ,
+#    'goodB      = ( GP > 5 *GeV ) & (GPT > 500 *MeV) & (GTIME > 0. *ns) ' ,
+#    'goodPhi    = ( GPT > 500  *MeV )  ' ,
+#    'goodKst    = ( GPT > 500  *MeV )  ' ,
+#    'goodTrack  = ( GPT > 250  *MeV )  & inAcc ' ]
+#
+# EndInsertPythonCode
+#
+# Documentation: No CP violation. Note: phi decays to pi+ pi- pi0, with pi0 reconstructed via gamma gamma in LHCb acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Longfei Ji
+# Email: longfei.ji@cern.ch
+# Date: 20250330  
+#
+Define Hp 0.69
+Define Hz 0.72
+Define Hm 0.03
+Define pHp 1.39
+Define pHz 0.0
+Define pHm -0.74
+#
+Alias      MyPhi       phi
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj MyPhi       MyPhi
+ChargeConj MyK*0       Myanti-K*0
+# 
+Decay B0sig
+  1.000    MyPhi	MyK*0   SVV_HELAMP Hp pHp Hz pHz Hm pHm; 
+Enddecay
+
+Decay anti-B0sig
+  1.000    MyPhi	Myanti-K*0   SVV_HELAMP Hm pHm Hz pHz Hp pHp;
+Enddecay
+#
+Decay MyPhi
+  1.000         pi+          pi-          pi0           PHSP;
+Enddecay
+# 
+Decay MyK*0
+  1.000     K+    pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+#

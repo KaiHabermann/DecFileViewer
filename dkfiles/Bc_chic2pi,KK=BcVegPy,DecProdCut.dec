@@ -1,0 +1,35 @@
+# EventType: 14133050
+#
+# Descriptor: [B_c+ -> (chi_c2 -> K+ K-) pi+]cc
+#
+# NickName: Bc_chic2pi,KK=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Chi_c2(1P) forced to K+ K-, using BcVegPy generator and cuts of BcDaughtersInLHCb.
+# EndDocumentation
+# 
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime:< 1 min
+# Responsible: Tianyu Shi
+# Email: tianyu.shi@cern.ch
+# Date: 20251127
+#
+
+Alias      Mychi_c2   chi_c2
+ChargeConj Mychi_c2   Mychi_c2
+#
+Decay B_c+sig
+  1.0000       Mychi_c2   pi+              PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mychi_c2
+  1.0     K+   K-                  PHSP;
+Enddecay
+#
+End
+

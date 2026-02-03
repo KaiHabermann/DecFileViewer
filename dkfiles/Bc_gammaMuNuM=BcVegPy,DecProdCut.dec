@@ -1,0 +1,27 @@
+# EventType: 14511200
+#
+# Descriptor: [B_c+ => gamma nu_mu mu+]cc
+#
+# NickName: Bc_gammaMuNuM=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: B_c+ => gamma nu_mu mu+ decay file. Model from leading order calculation in Phys. Rev. D61, 114510 (2000) done for B+. Minimum gamma energy in B rest frame set at 0.2 GeV. Form factor parameters R=1/lambda_B=3.0/GeV and m_b=5.0 GeV (they do not matter for the E_gamma spectrum). Fourth argument set to 0 so that F_A = F_V. DughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Martino Borsato
+# Email: martino.borsato@cern.ch
+# Date: 20221012
+#
+#
+Decay B_c+sig
+   1.0000 mu+ nu_mu gamma LNUGAMMA 0.2 3.0 5.0 0;
+Enddecay
+CDecay B_c-sig
+#
+End

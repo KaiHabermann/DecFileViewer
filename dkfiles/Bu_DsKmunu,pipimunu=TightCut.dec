@@ -1,0 +1,86 @@
+# EventType: 12575092 
+#
+# Descriptor: [B+ -> (Ds- -> pi+ pi+ mu- anti-nu_mu)  K+ mu+ nu_mu]cc
+#
+# NickName: Bu_DsKmunu,pipimunu=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LoKi__GenCutTool
+#
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[B+ --> K+ pi- mu+ mu- ... ]CC"
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import MeV",
+#     "inAcc     = ( (GPX/GPZ < 0.38) & (GPX/GPZ > -0.38) & (GPY/GPZ < 0.28) & (GPY/GPZ > -0.28) & (GTHETA > 0.01))", 
+#     "good_kaon = inAcc & (GP > 1500 * MeV) & ('K+' == GABSID)" ,
+#     "good_pion = inAcc & (GP > 1500 * MeV) & ('pi+' == GABSID)" ,
+#     "good_muon = inAcc & (GP > 1500 * MeV) & ('mu+' == GABSID)" , ]
+# tightCut.Cuts = {'[B+]cc' : "( 1 == GNINTREE ( good_kaon ) ) & ( 1 <= GNINTREE ( good_pion ) ) & ( 2 == GNINTREE ( good_muon ) )"}
+# EndInsertPythonCode
+#
+# Documentation: 
+# Series of semi-leptonic B+ decays resulting in Ds K mu nu with Ds -> pi pi mu nu.
+# The decfile contains a series of modes including tau decays and additional pi0.
+# A kaon, a pion and two muons are required to be in acceptance.
+# The decfile is intended for background studies for analyses of b -> s tau tau decays with single-prong tau decays.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20250116
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Alias      MyK*+      K*+
+Alias      MyK*-      K*-
+ChargeConj MyK*+      MyK*-
+#
+Alias      Mytau+     tau+
+Alias      Mytau-     tau-
+ChargeConj Mytau+     Mytau-
+#
+Decay B+sig 
+  0.133    MyD_s-  K+   mu+      nu_mu      PHSP;
+  0.129    MyD_s*- K+   mu+      nu_mu      PHSP;
+  0.006    MyD_s-  K+   Mytau+   nu_tau     PHSP;
+  0.006    MyD_s*- K+   Mytau+   nu_tau     PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD_s+
+  0.500     pi+ pi-     mu+      nu_mu      PHSP;
+
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+  0.936     MyD_s+  gamma                   VSP_PWAVE;
+  0.058     MyD_s+  pi0                     VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyK*+
+  1.000     K+             pi0              VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay Mytau+
+  1.000     mu+     nu_mu  anti-nu_tau      TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

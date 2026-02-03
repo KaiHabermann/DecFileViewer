@@ -1,0 +1,76 @@
+# EventType: 13402610
+#
+# Descriptor: [B_s0 -> (phi(1020) -> pi+ pi- ... ) gamma]cc
+#
+# NickName: Bs_phigamma,pipiX=HighPtGamma,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation().BRadiativeCut
+# radCut.Code = " ( count ( isGoodB ) > 0 ) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "NGoodGamma = GINTREE(('gamma' == GABSID) & (GPT >1.5*GeV))"
+#   , "isGoodB    = (GBEAUTY & NGoodGamma)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: phi decays to subdominant (pi+pi- {+gamma's) modes, decay products in acceptance, with radiative gamma PT > 1.5
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Olivier Deschamps
+# Email:  odescham@in2p3.fr
+# Date: 20251017
+#
+Alias      MyPhi    phi
+Alias      MyEta    eta
+Alias      Myf_0    f_0
+Alias      MyOmega  omega
+ChargeConj MyPhi   MyPhi
+ChargeConj MyEta   MyEta
+ChargeConj Myf_0   Myf_0
+ChargeConj MyOmega MyOmega
+
+Decay B_s0sig
+  1.0000       MyPhi     gamma              SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B_s0sig
+
+# Phi decays to subdominant (pi+pi- X) modes - the dominant rhopi + pi+pi-pi0 decay mode is described in a specific  decfile (13102631)
+### Total 0.39% (compared to rhopi 15.24% BRvis=1.3e-6)
+
+Decay   MyPhi
+0.003581600 MyEta     gamma   VSP_PWAVE; 
+0.000031500 MyEta     e+ e-   PHSP;      
+0.000214800 Myf_0     gamma   PHSP;      
+0.000074000 pi+       pi-     PHSP;      
+0.000042700 MyOmega   pi0     PHSP;      
+0.000041000 pi+  pi-  gamma   PHSP;      
+Enddecay
+# 
+Decay MyEta
+0.227400000 pi-     pi+     pi0            ETA_DALITZ;  
+0.046000000 gamma   pi-     pi+            PHSP;        
+Enddecay
+# 
+Decay Myf_0
+0.6667              pi+    pi-             PHSP;
+Enddecay
+# 
+Decay MyOmega
+0.892000000 pi-     pi+  pi0               OMEGA_DALITZ; 
+0.015300000 pi-     pi+                    VSS;          
+0.00150     pi+     pi-  gamma             PHSP;         
+Enddecay
+#
+End
+
+

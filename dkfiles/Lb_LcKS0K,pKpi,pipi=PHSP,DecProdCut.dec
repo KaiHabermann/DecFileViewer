@@ -1,0 +1,42 @@
+# EventType: 15166141
+# 
+# Descriptor: [Lb_b0 -> (Lambda_c+ -> p+ K- pi+) (KS0 -> pi+ pi-) K-]cc
+# 
+# NickName: Lb_LcKS0K,pKpi,pipi=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb -> Lc KS0 K with Lc -> p K pi, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Yunxuan Song
+# Email: yunxuan.song@cern.ch
+# Date: 20251111
+#
+
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias MyKS0 K_S0
+ChargeConj MyKS0 MyKS0
+#
+Decay Lambda_b0sig
+1.000        MyLambda_c+ MyKS0 K-     PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000         p+      K-      pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+
+#
+Decay MyKS0
+  1.000         pi+     pi-     PHSP;
+Enddecay
+
+End

@@ -1,0 +1,61 @@
+# EventType: 11304165
+#
+# Descriptor: {[B0 -> K+ pi- (K_S0 -> pi+ pi-)]cc, [B0 -> K- pi+ (K_S0 -> pi+ pi-)]cc}
+#
+# NickName: Bd_KpiKs=sqDalitz,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 1 min 
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '^[ Beauty ==> ^K+ ^pi- ^KS0]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import centimeter" ,
+#     "inAcc = in_range ( 0.010, GTHETA, 0.400 ) & in_range   ( 1.8 , GETA , 5.0 )", 
+#     "goodForRich = in_range ( 3.0 * GeV , GP , 150 * GeV )",
+#     "BPT = GPT > 1500 *  MeV",
+#     "ksInAcc = in_range ( 2 , GETA , 5 )",
+#     "ksPion =  in_range ( 1.6 , GETA ,  5.2 ) & in_range ( 2 * GeV , GP ,  150 * GeV )",
+#     "bothPI =  2 == GNINTREE (  ( 'pi+' == GABSID )   & ksPion )",
+#     "ksTT   =  GVEV & ( GFAEVX ( GVZ , 1.e+10 ) < 240 * centimeter )",
+#     "good_KS = ksInAcc & bothPI & ksTT"
+# ]
+# tightCut.Cuts      =    {
+#     '[pi+]cc'  : 'inAcc & goodForRich',
+#     '[K+]cc'   : 'inAcc & goodForRich',
+#     '[KS0]cc'  : 'good_KS',
+#     '[B0]cc'   : 'BPT'
+#                         }
+# EndInsertPythonCode
+#
+# Documentation: Flat on square Dalitz plot, K0s forced into pi+ pi-, acceptance and PT cuts on B and daughters
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Xuesong Liu
+# Email: xuesong.liu@cern.ch
+# Date: 20181119
+#
+Alias      MyKs    K_S0
+ChargeConj MyKs    MyKs
+#
+Decay B0sig
+  0.500        K+     pi-      MyKs       FLATSQDALITZ;
+  0.500        K-     pi+      MyKs       FLATSQDALITZ;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKs
+  1.000        pi+      pi-                 PHSP;
+Enddecay
+#
+End
+

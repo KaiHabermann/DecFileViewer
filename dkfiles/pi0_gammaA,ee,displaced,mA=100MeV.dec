@@ -1,0 +1,64 @@
+# EventType: 39122947
+#
+# Descriptor: [pi0 -> gamma (A' -> e+ e-)]
+#
+# NickName: pi0_gammaA,ee,displaced,mA=100MeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation:
+# For efficiency studies for dark-photon/true-muonium search in
+# pi0 -> gamma (A' -> e+ e-)
+# H_30 redefined to have suitable mass and lifetime to model displaced dark photon
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# signal = Generation().SignalPlain
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+#
+# tightCut = signal.TightCut
+# tightCut.Decay = "^[pi0 => ^gamma ^(H_30 => ^e+ ^e-)]CC"
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import MeV",
+#     "inAcc = in_range(0.010, GTHETA, 0.400)",
+#     "fidE = (GPT > 500 * MeV) & (GP > 3000 * MeV)",
+#     "fidG = (GPT > 500 * MeV)",
+#     "fidA = (GPT > 1000 * MeV)",
+#     "fidH = (GPT > 1000 * MeV)",
+#     "goodE = (fidE) & (inAcc)",
+#     "goodG = (fidG) & (inAcc)",
+#     "goodA = (fidA)",
+#     "goodH = (fidH)",
+# ]
+# tightCut.Cuts = {
+#     "[e+]cc": "goodE",
+#     "gamma": "goodG",
+#     "H_30": "goodA",
+#     "pi0": "goodH",
+# }
+#
+# EndInsertPythonCode
+#
+# ParticleValue: "H_30 89 36 0.0 0.1 1e-12 A0 36 0"
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: 1 min
+# Responsible: Michael K. Wilkinson
+# Email: michael.k.wilkinson@cern.ch
+# Date: 20230227
+
+Alias       MyA   A0
+ChargeConj  MyA   MyA
+
+Decay pi0sig
+      1.0	gamma MyA	PHSP;
+Enddecay
+
+Decay MyA
+      1.0	e+    e-	PHSP;
+Enddecay
+
+End

@@ -1,0 +1,32 @@
+# EventType: 12125190
+#
+# Descriptor: [B+ -> anti-Lambda0 p+ e+ e-]cc
+# NickName: Bu_Lambdapbaree=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Non resonant B+ -> anti-Lambda0 p+ e+ e-, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Lukas Calefice
+# Email: lukas.calefice@cern.ch
+# Date: 20210413
+# CPUTime: < 1min 
+#
+Alias MyLambda0       Lambda0
+Alias Myanti-Lambda0  anti-Lambda0
+ChargeConj MyLambda0  Myanti-Lambda0
+#
+Decay B+sig
+  1.000        Myanti-Lambda0        p+        e+        e-        PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyLambda0
+    1.000     p+   pi-     HELAMP   0.936   0.0   0.351   0.0;
+Enddecay
+CDecay Myanti-Lambda0
+#
+End

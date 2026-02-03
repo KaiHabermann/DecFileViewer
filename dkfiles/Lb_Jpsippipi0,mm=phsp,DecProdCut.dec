@@ -1,0 +1,39 @@
+# EventType: 15144431 
+#
+# Descriptor: [Lambda_b0 -> p+ pi- (J/psi(1S) -> mu+ mu-) (pi0 -> gamma gamma) ]cc
+#
+# NickName: Lb_Jpsippipi0,mm=phsp,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda_b0 to three-body p+pi-pi0 J/psi with J/psi to dimuons.
+# EndDocumentation
+#
+# CPUTime: 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: yuxi
+# Email:  yuxi@cern.ch
+# Date: 20241212
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+Alias      Mypi0         pi0
+ChargeConj Mypi0         Mypi0
+#
+Decay Lambda_b0sig
+  1.000    MyJ/psi  p+ pi- Mypi0              PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                    PHOTOS  VLL;
+Enddecay
+#
+Decay Mypi0
+  1.0  gamma gamma  PHSP;
+Enddecay
+#
+End
+#

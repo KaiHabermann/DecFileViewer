@@ -1,0 +1,98 @@
+# EventType: 12265065
+#
+# Descriptor: [B+ -> (D_1(2420)0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) pi-) pi+]cc
+#
+# NickName: Bu_Dst+pi-pi-,D0pi,Kpi=cocktail,DecProdCut
+#
+# ParticleValue: "D(2S)0 761 100421 0.0 2.549 0.39891648252903295e-23 D(2S)0 0 0.00000000" , "D(2S)~0 762 -100421 0.0 2.549 0.39891648252903295e-23 anti-D(2S)0 0 0.00000000" , "D*(2640)0 763 100423 0.0 2.627 0.4668171604063151e-23 D*(2S)0 0 0.00000000" , "D*(2640)~0 764 -100423 0.0 2.627 0.4668171604063151e-23 anti-D*(2S)0 0 0.00000000"
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# decay file for B+ -> (X => (D- =>  K+ pi- pi-) pi+) pi+
+# prefered name Bu_Dst+pi-pi-,D0pi,Kpi=cocktail,DecProdCut.dec
+#  DaughtersInLHCb
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1 min
+# Responsible: Hangyi Wu
+# Email: hangyi.wu@cern.ch
+# Date: 20220123
+#
+Alias        MyD*+          D*+
+Alias        MyD*-          D*-
+ChargeConj   MyD*+          MyD*-
+#
+Alias        MyD0           D0
+Alias        MyAnti-D0      anti-D0
+ChargeConj   MyD0           MyAnti-D0
+#
+Alias        MyD2420         D_10
+Alias        MyAnti-D2420    anti-D_10
+ChargeConj   MyD2420         MyAnti-D2420
+#
+Alias        MyD2430         D'_10
+Alias        MyAnti-D2430    anti-D'_10
+ChargeConj   MyD2430         MyAnti-D2430
+#
+Alias        MyD_2*0        D_2*0
+Alias        MyAnti-D_2*0   anti-D_2*0
+ChargeConj   MyD_2*0        MyAnti-D_2*0
+#
+Alias        MyD2550        D(2S)0
+Alias        MyAnti-D2550   anti-D(2S)0
+ChargeConj   MyD2550        MyAnti-D2550
+#
+Alias        MyD2600        D*(2S)0
+Alias        MyAnti-D2600   anti-D*(2S)0
+ChargeConj   MyD2600        MyAnti-D2600
+#
+Decay B+sig
+  8.42     MyAnti-D2420    pi+           PHOTOS SVS;
+  3.51     MyAnti-D2430    pi+           PHOTOS SVS;
+  2.08     MyAnti-D_2*0    pi+           PHOTOS STS;
+  0.72     MyAnti-D2550    pi+           PHOTOS PHSP;
+  0.68     MyAnti-D2600    pi+           PHOTOS SVS;
+  0.44     MyD*-           pi+     pi+   PHOTOS PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD2420
+  1.0      MyD*+      pi-           PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyAnti-D2420
+#
+Decay MyD2430
+  1.0      MyD*+      pi-           PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAnti-D2430
+#
+Decay MyD_2*0
+  1.0      MyD*+      pi-           PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAnti-D_2*0
+#
+Decay MyD2550
+  1.0      MyD*+      pi-           PHOTOS PHSP;
+Enddecay
+CDecay MyAnti-D2550
+#
+Decay MyD2600
+  1.0      MyD*+      pi-           PHOTOS PHSP;
+Enddecay
+CDecay MyAnti-D2600
+#
+Decay MyD*+
+  1.0      MyD0       pi+           PHOTOS VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.0      K-         pi+           PHOTOS PHSP;
+Enddecay
+CDecay MyAnti-D0
+#
+End
+#

@@ -1,0 +1,39 @@
+# EventType: 27165901
+#
+# Descriptor: [D*(2010)+ -> (D0 -> (KS0 -> pi+ pi-) (KS0 -> pi+ pi-)) pi+]cc
+#
+# NickName: Dst_D0pi,KSKS=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D*+-tagged D0 decays into two KS, requiring products to be in LHCb acceptance 
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Giulia Tuci
+# Email: giulia.tuci@cern.ch
+# Date: 20191211
+#
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+#
+Alias      MyK0s   K_S0
+ChargeConj MyK0s   MyK0s
+#
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+#
+Decay MyD0
+  1.0   MyK0s        MyK0s   PHSP;
+Enddecay
+CDecay MyantiD0
+#
+Decay MyK0s
+  1.000    pi+          pi-           PHSP;
+Enddecay
+End

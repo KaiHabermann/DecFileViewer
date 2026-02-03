@@ -1,0 +1,25 @@
+# EventType: 31111201
+#
+# Descriptor: [tau- -> mu- gamma]cc
+#
+# NickName: tau_mugamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase space decay model (asking for electron conversion with SplitSim)
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible:     David BACHER
+# Email:  david.lukas.bacher@cern.ch
+# Date:   20230118
+# CPUTime: < 1 min
+#
+Decay tau-sig
+  1.000       mu-  gamma              PHSP;
+Enddecay
+CDecay tau+sig
+#
+End
+
