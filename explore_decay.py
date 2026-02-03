@@ -1,7 +1,7 @@
 from decaylanguage import DecFileParser
 import os
 
-test_file = 'DecFiles/dkfiles/tau+_anti-p-mu+mu+=FromB.dec'
+test_file = 'DecFiles/dkfiles/Bc_Bsenu,Jpsiphi=BcVegPy,DecProdCut.dec'
 
 print(f"Parsing {test_file}...")
 dfp = DecFileParser(test_file)
@@ -13,7 +13,6 @@ print(f"Mothers: {mothers}")
 # Find all daughters used in the file
 all_daughters = set()
 for mother in mothers:
-    decays = dfp.dict_decays2copy[mother] if mother in dfp.dict_decays2copy else dfp._parsed_decays.get(mother, [])
     # _parsed_decays structure is list of dicts: {'bf': ..., 'fs': [...], ...}
     # dict_decays2copy maps alias to original? No, it handles CDecay/CopyDecay.
     
@@ -31,6 +30,10 @@ for mother in mothers:
                  all_daughters.add(daughter)
 
 print(f"All daughters: {all_daughters}")
-
-roots = [m for m in mothers if m not in all_daughters]
+print(f"Aliasses: {dfp.dict_aliases()}")
+roots = [m for m in mothers if m not in all_daughters and "sig" in m]
 print(f"Roots: {roots}")
+
+for root in roots:
+    print(f"Root: {root}")
+    print(dfp.expand_decay_modes(root))

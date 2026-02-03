@@ -28,7 +28,7 @@ def extract_particles(descriptor):
         if not token: continue
         
         # Rule: Filter out common syntax keywords
-        if token.lower() in ['cc', 'os', 'ss', 'pp', 'photos', 'pythia']:
+        if token in ['cc', 'os', 'ss', 'pp', 'photos', 'pythia']:
             continue
 
         # Rule: A particle name will never start with a special character except ~ or ^
@@ -76,50 +76,7 @@ def split_joined_particles(token):
                  
         i += 1
         
-    return potential_particles
-
-# Improved version with better tokenization for missing spaces
-def extract_particles_advanced(descriptor):
-    if not descriptor:
-        return []
-
-    # Pre-processing to ensure separation around syntax characters
-    s = descriptor.replace('=>', ' => ').replace('->', ' -> ')
-    
-    for char in ['[', ']', '(', ')', '{', '}', ',', ';']:
-        s = s.replace(char, f' {char} ')
-        
-    # Now split by whitespace
-    raw_tokens = s.split()
-    
-    particles = set()
-    for token in raw_tokens:
-        # Remove any remaining syntax chars
-        if token in ['=>', '->', '[', ']', '(', ')', '{', '}', ',', ';', '...']:
-            continue
-            
-        # Rule: Filter out keywords
-        if token.lower() in ['cc', 'os', 'ss', 'pp', 'photos', 'pythia', 'evtgen', 'jetset']:
-            continue
-            
-        # Rule: Particle name never starts with special char except ~ or ^
-        if not (token[0].isalnum() or token[0] in ['~', '^']):
-            continue
-
-        if token.isdigit():
-            continue
-            
-        # Try to split joined particles
-        split_tokens = split_joined_particles(token)
-        
-        for p in split_tokens:
-            if not p: continue
-             # Re-verify the split parts are valid
-            if not (p[0].isalnum() or p[0] in ['~', '^']):
-                continue
-            particles.add(p.lower())
-
-    return list(particles)
+    return potential_particles    
 
 def parse_file(filepath):
     event_type = None
@@ -155,6 +112,7 @@ def parse_file(filepath):
 
 def generate_decay_dot_files(filepath, filename_no_ext):
     dot_files = []
+    roots = []
     try:
         dfp = DecFileParser(filepath)
         dfp.parse()
@@ -163,7 +121,7 @@ def generate_decay_dot_files(filepath, filename_no_ext):
         mothers = dfp.list_decay_mother_names()
         
         if not mothers:
-             return dot_files
+             return dot_files, None, []
 
         
         non_root = set()
@@ -172,12 +130,19 @@ def generate_decay_dot_files(filepath, filename_no_ext):
                 for daughter in mode:
                     non_root.add(daughter)
         # 2. Identify roots: mothers that are NOT in the set of all daughters
-        roots = [m for m in mothers if m not in non_root]
+        roots = [m for m in mothers if m not in non_root and "sig" in m]
         
         # If no roots found (circular dependency?), fall back to all mothers
         if not roots and mothers:
             raise Exception("No roots found")
-            
+        all_particles = set(mothers)
+        all_particles.update(non_root)
+        aliases = dfp.dict_aliases()
+        particles = [
+            aliases.get(p, p) for p in all_particles
+        ]
+        particles = list(set(particles))
+        particles = list(filter(lambda x: "ChargeConj" not in x and "sig" not in x, particles))
         # Generate DOT files for each root
         for mother in roots:
             safe_mother = mother.replace('/', '_').replace('+', 'p').replace('-', 'm').replace('*', 'st')
@@ -211,9 +176,16 @@ def generate_decay_dot_files(filepath, filename_no_ext):
                 
     except Exception as e:
         # print(f"DecayParser failed for {filepath}: {e}")
-        pass
-        
-    return dot_files
+        particles = []
+
+    if len(roots) == 1:
+        descriptor_ = dfp.expand_decay_modes(roots[0])
+        if isinstance(descriptor_, list) and len(descriptor_) == 1:
+            return dot_files, descriptor_[0], particles
+        else:
+            return dot_files, None, particles
+    else:
+        return dot_files, None, []
 
 def main():
     data = []
@@ -247,14 +219,16 @@ def main():
             pass
 
         if event_type:
-            # Use advanced extraction
-            particles = extract_particles_advanced(descriptor)
-            all_particles.update(particles)
-            
             # Generate DOT files for decay chains
             filename_no_ext = os.path.splitext(filename)[0]
-            dot_files = generate_decay_dot_files(filepath, filename_no_ext)
-            
+            dot_files, new_descriptor, particles = generate_decay_dot_files(filepath, filename_no_ext)
+
+            if new_descriptor:
+                descriptor = new_descriptor
+                
+            if new_descriptor:
+                all_particles.update(particles)
+
             data.append({
                 'eventType': event_type,
                 'descriptor': descriptor if descriptor else "No descriptor found",
@@ -280,7 +254,7 @@ def main():
 
     # Sort by EventType for nicer display/debugging
     data.sort(key=lambda x: x['eventType'])
-    
+
     output_data = {
         'files': data,
         'uniqueParticles': sorted(list(all_particles))
