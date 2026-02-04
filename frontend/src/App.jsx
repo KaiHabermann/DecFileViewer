@@ -12,6 +12,10 @@ function App() {
   const [selectedParticles, setSelectedParticles] = useState([]); // List of particles to filter by
   const [selectedPhysicsWG, setSelectedPhysicsWG] = useState(''); // PhysicsWG filter
   
+  // Sorting states
+  const [sortField, setSortField] = useState(null); // 'eventType' or 'date'
+  const [sortOrder, setSortOrder] = useState(null); // 'asc', 'desc', or null
+  
   const [displayLimit, setDisplayLimit] = useState(100);
   const [selectedItem, setSelectedItem] = useState(null);
   const [fileContent, setFileContent] = useState('');
@@ -84,8 +88,8 @@ function App() {
     }
   }, [selectedItem]);
 
-  // Filter logic
-  const filteredData = data.filter(item => {
+  // Filter and sort logic
+  let filteredData = data.filter(item => {
     // 1. Text Search (Global)
     const matchesText = 
       searchTerm === '' ||
@@ -107,6 +111,28 @@ function App() {
       
     return matchesText && matchesParticles && matchesPhysicsWG;
   });
+
+  // Apply sorting
+  if (sortField && sortOrder) {
+    filteredData = [...filteredData].sort((a, b) => {
+      let aVal, bVal;
+      
+      if (sortField === 'eventType') {
+        aVal = a.eventType || '';
+        bVal = b.eventType || '';
+      } else if (sortField === 'date') {
+        // Date is in YYYYMMDD format, so string comparison works
+        aVal = a.date || '';
+        bVal = b.date || '';
+      }
+      
+      if (sortOrder === 'asc') {
+        return aVal.localeCompare(bVal);
+      } else {
+        return bVal.localeCompare(aVal);
+      }
+    });
+  }
 
   const displayedData = filteredData.slice(0, displayLimit);
 
@@ -149,6 +175,23 @@ function App() {
 
   const removeParticle = (particle) => {
     setSelectedParticles(selectedParticles.filter(p => p !== particle));
+    setDisplayLimit(100);
+  };
+
+  const handleSort = (field) => {
+    if (sortField === field) {
+      // Cycle through: asc -> desc -> null
+      if (sortOrder === 'asc') {
+        setSortOrder('desc');
+      } else if (sortOrder === 'desc') {
+        setSortField(null);
+        setSortOrder(null);
+      }
+    } else {
+      // New field, start with ascending
+      setSortField(field);
+      setSortOrder('asc');
+    }
     setDisplayLimit(100);
   };
 
@@ -276,8 +319,21 @@ function App() {
         <table>
           <thead>
             <tr>
-              <th style={{width: '120px'}}>EventType</th>
-              <th style={{width: '280px'}}>Filename</th>
+              <th 
+                style={{width: '120px', cursor: 'pointer', userSelect: 'none'}}
+                onClick={() => handleSort('eventType')}
+                title="Click to sort"
+              >
+                EventType {sortField === 'eventType' && (sortOrder === 'asc' ? '▲' : '▼')}
+              </th>
+              <th 
+                style={{width: '100px', cursor: 'pointer', userSelect: 'none'}}
+                onClick={() => handleSort('date')}
+                title="Click to sort"
+              >
+                Date {sortField === 'date' && (sortOrder === 'asc' ? '▲' : '▼')}
+              </th>
+              <th style={{width: '240px'}}>Filename</th>
               <th style={{width: '120px'}}>PhysicsWG</th>
               <th>Descriptor</th>
             </tr>
@@ -290,6 +346,7 @@ function App() {
                 className="clickable-row"
               >
                 <td>{item.eventType}</td>
+                <td>{item.date ? `${item.date.substring(0,4)}-${item.date.substring(4,6)}-${item.date.substring(6,8)}` : '-'}</td>
                 <td>{item.filename}</td>
                 <td>{item.physicsWG || '-'}</td>
                 <td style={{fontFamily: 'monospace', fontSize: '0.9em'}}>{item.descriptor}</td>

@@ -84,6 +84,7 @@ def parse_file(filepath):
     physics_wg = None
     responsible = None
     email = None
+    date = None
     
     try:
         with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
@@ -99,16 +100,18 @@ def parse_file(filepath):
                     responsible = line.split(':', 1)[1].strip()
                 elif line.startswith('# Email:'):
                     email = line.split(':', 1)[1].strip()
+                elif line.startswith('# Date:'):
+                    date = line.split(':', 1)[1].strip()
                 
                 # Continue reading to get all fields (don't break early)
                 # We could optimize by breaking after all fields are found
-                if event_type and descriptor and physics_wg and responsible and email:
+                if event_type and descriptor and physics_wg and responsible and email and date:
                     break
     except Exception as e:
         print(f"Error reading {filepath}: {e}")
-        return None, None, None, None, None
+        return None, None, None, None, None, None
                 
-    return event_type, descriptor, physics_wg, responsible, email
+    return event_type, descriptor, physics_wg, responsible, email, date
 
 def generate_decay_dot_files(filepath, filename_no_ext):
     dot_files = []
@@ -210,7 +213,7 @@ def main():
             continue
             
         filepath = os.path.join(DKFILES_DIR, filename)
-        event_type, descriptor, physics_wg, responsible, email = parse_file(filepath)
+        event_type, descriptor, physics_wg, responsible, email, date = parse_file(filepath)
         
         # Copy the file to public/dkfiles
         try:
@@ -237,7 +240,8 @@ def main():
                 'dotFiles': dot_files,
                 'physicsWG': physics_wg,
                 'responsible': responsible,
-                'email': email
+                'email': email,
+                'date': date
             })
             count += 1
             if count % 100 == 0:
