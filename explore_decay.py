@@ -1,7 +1,7 @@
 from decaylanguage import DecFileParser
 import os
 
-test_file = 'DecFiles/dkfiles/Bc_Bsenu,Jpsiphi=BcVegPy,DecProdCut.dec'
+test_file = 'DecFiles/dkfiles/Bd_ccKS,Jpsipipi,mm=TightCut.dec'
 
 print(f"Parsing {test_file}...")
 dfp = DecFileParser(test_file)
