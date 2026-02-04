@@ -4,6 +4,7 @@ import DotViewer from './DotViewer';
 function App() {
   const [data, setData] = useState([]);
   const [uniqueParticles, setUniqueParticles] = useState([]);
+  const [metadata, setMetadata] = useState(null);
   const [loading, setLoading] = useState(true);
   
   // Search states
@@ -34,6 +35,7 @@ function App() {
         if (responseData.files) {
           setData(responseData.files);
           setUniqueParticles(responseData.uniqueParticles || []);
+          setMetadata(responseData.metadata || null);
           
           // Extract unique PhysicsWG values
           const wgs = new Set();
@@ -225,6 +227,28 @@ function App() {
             LHCb EventType Picker
           </a>
         </div>
+        
+        {metadata && (
+          <div className="metadata-info">
+            <span style={{ marginRight: '20px' }}>
+              📊 Processed: <strong>{new Date(metadata.processedAt).toLocaleString()}</strong>
+            </span>
+            {metadata.gitCommitShortHash && (
+              <span>
+                📦 DecFiles commit: <a 
+                  href={`https://gitlab.cern.ch/lhcb-datapkg/Gen/DecFiles/-/commit/${metadata.gitCommitHash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: '#2196F3', textDecoration: 'none', fontFamily: 'monospace' }}
+                  onMouseOver={e => e.target.style.textDecoration = 'underline'}
+                  onMouseOut={e => e.target.style.textDecoration = 'none'}
+                >
+                  {metadata.gitCommitShortHash}
+                </a>
+              </span>
+            )}
+          </div>
+        )}
         
         <div className="search-section">
           <div className="search-container">

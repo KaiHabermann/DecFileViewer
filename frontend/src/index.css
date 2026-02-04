@@ -56,6 +56,15 @@ tr:hover {
 .header {
   margin-bottom: 2rem;
 }
+.metadata-info {
+  padding: 10px 15px;
+  background: #f8f9fa;
+  border-left: 4px solid #2196F3;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
 .search-section {
   display: flex;
   flex-direction: column;

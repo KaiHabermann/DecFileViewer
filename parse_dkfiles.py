@@ -2,6 +2,8 @@ import os
 import json
 import re
 import shutil
+import subprocess
+from datetime import datetime
 from decaylanguage import DecFileParser, DecayChainViewer
 
 DKFILES_DIR = 'DecFiles/dkfiles'
@@ -190,9 +192,46 @@ def generate_decay_dot_files(filepath, filename_no_ext):
     else:
         return dot_files, None, []
 
+def get_git_commit_hash(directory):
+    """Get the latest git commit hash from a directory."""
+    try:
+        result = subprocess.run(
+            ['git', 'rev-parse', 'HEAD'],
+            cwd=directory,
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+        if result.returncode == 0:
+            return result.stdout.strip()
+    except Exception as e:
+        print(f"Could not get git hash: {e}")
+    return None
+
+def get_git_commit_short_hash(directory):
+    """Get the short git commit hash from a directory."""
+    try:
+        result = subprocess.run(
+            ['git', 'rev-parse', '--short', 'HEAD'],
+            cwd=directory,
+            capture_output=True,
+            text=True,
+            timeout=5
+        )
+        if result.returncode == 0:
+            return result.stdout.strip()
+    except Exception as e:
+        print(f"Could not get git short hash: {e}")
+    return None
+
 def main():
     data = []
     all_particles = set()
+    
+    # Get metadata
+    processing_timestamp = datetime.utcnow().isoformat() + 'Z'
+    git_hash = get_git_commit_hash(DKFILES_DIR)
+    git_short_hash = get_git_commit_short_hash(DKFILES_DIR)
     
     # Ensure output directories exist
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
@@ -260,6 +299,13 @@ def main():
     data.sort(key=lambda x: x['eventType'])
 
     output_data = {
+        'metadata': {
+            'processedAt': processing_timestamp,
+            'gitCommitHash': git_hash,
+            'gitCommitShortHash': git_short_hash,
+            'totalFiles': len(data),
+            'totalParticles': len(all_particles)
+        },
         'files': data,
         'uniqueParticles': sorted(list(all_particles))
     }
@@ -268,6 +314,8 @@ def main():
         json.dump(output_data, f, indent=2)
         
     print(f"Done. Processed {len(data)} files. Found {len(all_particles)} unique particles. Saved to {OUTPUT_FILE}")
+    print(f"Git commit: {git_short_hash or 'N/A'}")
+    print(f"Processed at: {processing_timestamp}")
 
 if __name__ == '__main__':
     main()
