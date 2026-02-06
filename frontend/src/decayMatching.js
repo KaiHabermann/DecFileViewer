@@ -307,7 +307,9 @@ function findMatches(decayStructure, filterObject) {
             }
             return getWeight(decayStructure);
         }
-        return 0;
+        else {
+            return daughters.reduce((acc, daughter) => acc + findMatches(daughter, filterObject), 0);
+        }
 
     }
     return 0;
