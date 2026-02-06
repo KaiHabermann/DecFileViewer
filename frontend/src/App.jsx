@@ -123,7 +123,9 @@ function App() {
   const [loadingFile, setLoadingFile] = useState(false);
   
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
   const wrapperRef = useRef(null);
+  const particleInputRef = useRef(null);
 
   const [uniquePhysicsWGs, setUniquePhysicsWGs] = useState([]);
 
@@ -306,7 +308,14 @@ function App() {
     }
     setParticleSearch('');
     setShowSuggestions(false);
+    setSelectedSuggestionIndex(-1);
     setDisplayLimit(100);
+    // Keep focus on input after adding
+    setTimeout(() => {
+      if (particleInputRef.current) {
+        particleInputRef.current.focus();
+      }
+    }, 0);
   };
 
   const removeFilter = (filterToRemove) => {
@@ -324,6 +333,7 @@ function App() {
   // Handle input changes and detect decay mode triggers
   const handleParticleSearchChange = (value) => {
     setShowSuggestions(true);
+    setSelectedSuggestionIndex(-1); // Reset selection when typing
     
     // Check if user typed -> or => (only if not already in decay mode)
     if (!decayMode) {
@@ -378,14 +388,44 @@ function App() {
     
     if (decayMode) {
       // We're in decay mode, complete the decay
-      let allDaughters = [...decayDaughters];
+      let allDaughters = [];
+      
+      // Process existing daughters (they might be formatted decay strings or simple particles)
+      for (const d of decayDaughters) {
+        if (typeof d === 'string') {
+          // Check if it's a formatted decay string (contains ->)
+          const parsedDecay = parseDecayString(d);
+          if (parsedDecay) {
+            allDaughters.push(parsedDecay);
+          } else {
+            // It's a simple particle
+            const normalized = normalizeParticleName(d);
+            if (normalized) {
+              allDaughters.push(normalized);
+            }
+          }
+        } else if (Array.isArray(d)) {
+          // It's already a decay structure
+          allDaughters.push(d);
+        }
+      }
       
       if (input) {
-        // Parse the input as daughters (split by spaces)
-        const newDaughters = input.split(/\s+/)
-          .map(d => normalizeParticleName(d.trim()))
-          .filter(d => d);
-        allDaughters = [...allDaughters, ...newDaughters];
+        // Try to parse the entire input as a decay first
+        const parsedDecay = parseDecayString(input);
+        if (parsedDecay) {
+          allDaughters.push(parsedDecay);
+        } else {
+          // Parse the input as daughters (split by spaces)
+          const newDaughters = input.split(/\s+/)
+            .map(d => {
+              // Try parsing each part as a decay
+              const parsed = parseDecayString(d.trim());
+              return parsed || normalizeParticleName(d.trim());
+            })
+            .filter(d => d);
+          allDaughters = [...allDaughters, ...newDaughters];
+        }
       }
       
       if (decayMother && allDaughters.length > 0) {
@@ -420,6 +460,45 @@ function App() {
     setDecayMother('');
     setDecayDaughters([]);
     setParticleSearch('');
+    setSelectedSuggestionIndex(-1);
+  };
+
+  // Handle double-click on a filter to edit it
+  const handleFilterDoubleClick = (filter) => {
+    if (Array.isArray(filter) && filter.length > 0) {
+      // It's a decay - enter decay mode with the existing decay
+      setDecayMode(true);
+      setDecayMother(filter[0]);
+      // Extract all direct daughters (flatten sub-decays)
+      const daughters = filter.slice(1).map(d => {
+        if (Array.isArray(d)) {
+          // For sub-decays, we'll just use the mother particle for now
+          // Or we could format it as a string representation
+          return formatFilter(d);
+        }
+        return d;
+      });
+      setDecayDaughters(daughters);
+      setParticleSearch('');
+      // Remove the filter so user can re-add it after editing
+      removeFilter(filter);
+      // Focus the input
+      setTimeout(() => {
+        if (particleInputRef.current) {
+          particleInputRef.current.focus();
+        }
+      }, 0);
+    } else if (typeof filter === 'string') {
+      // It's a particle - put it in the search input
+      setParticleSearch(filter);
+      removeFilter(filter);
+      // Focus the input
+      setTimeout(() => {
+        if (particleInputRef.current) {
+          particleInputRef.current.focus();
+        }
+      }, 0);
+    }
   };
 
   // Handle adding a particle in decay mode (when clicking suggestion)
@@ -431,6 +510,13 @@ function App() {
         setDecayDaughters([...decayDaughters, normalized]);
         setParticleSearch('');
         setShowSuggestions(false);
+        setSelectedSuggestionIndex(-1);
+        // Keep focus on input
+        setTimeout(() => {
+          if (particleInputRef.current) {
+            particleInputRef.current.focus();
+          }
+        }, 0);
       }
     } else {
       addFilter(particle);
@@ -457,6 +543,44 @@ function App() {
   const particleSuggestions = uniqueParticles.filter(p => 
     p.toLowerCase().includes(particleSearch.toLowerCase())
   ).slice(0, 10); // Limit to top 10 matches
+
+  // Handle keyboard navigation in suggestions
+  const handleSuggestionKeyDown = (e) => {
+    if (!showSuggestions || particleSuggestions.length === 0) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleAddFromInput();
+      }
+      return;
+    }
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSelectedSuggestionIndex(prev => 
+        prev < particleSuggestions.length - 1 ? prev + 1 : prev
+      );
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSelectedSuggestionIndex(prev => prev > 0 ? prev - 1 : -1);
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (selectedSuggestionIndex >= 0 && selectedSuggestionIndex < particleSuggestions.length) {
+        // Select the highlighted suggestion
+        handleAddParticleInDecayMode(particleSuggestions[selectedSuggestionIndex]);
+      } else {
+        // No suggestion selected, use current input
+        handleAddFromInput();
+      }
+    } else if (e.key === 'Escape') {
+      if (decayMode) {
+        e.preventDefault();
+        exitDecayMode();
+      } else {
+        setShowSuggestions(false);
+        setSelectedSuggestionIndex(-1);
+      }
+    }
+  };
   
   // Helper function to format a filter for display
   const formatFilter = (filter) => {
@@ -565,10 +689,17 @@ function App() {
           <div className="particle-filter-container" ref={wrapperRef}>
             <div className="selected-particles">
               {selectedFilters.map((filter, idx) => (
-                <span key={idx} className="particle-tag" style={{ 
-                  fontFamily: Array.isArray(filter) ? 'monospace' : 'inherit',
-                  fontSize: Array.isArray(filter) ? '0.85em' : 'inherit'
-                }}>
+                <span 
+                  key={idx} 
+                  className="particle-tag" 
+                  style={{ 
+                    fontFamily: Array.isArray(filter) ? 'monospace' : 'inherit',
+                    fontSize: Array.isArray(filter) ? '0.85em' : 'inherit',
+                    cursor: 'pointer'
+                  }}
+                  onDoubleClick={() => handleFilterDoubleClick(filter)}
+                  title="Double-click to edit"
+                >
                   {formatFilter(filter)}
                   <button onClick={() => removeFilter(filter)}>&times;</button>
                 </span>
@@ -608,6 +739,7 @@ function App() {
                     transition: 'all 0.2s'
                   }}>
                     <input
+                      ref={particleInputRef}
                       type="text"
                       placeholder={decayMode 
                         ? `Add daughters (e.g. K+ K-)... Press Enter to finish` 
@@ -615,15 +747,7 @@ function App() {
                       value={particleSearch}
                       onChange={e => handleParticleSearchChange(e.target.value)}
                       onFocus={() => setShowSuggestions(true)}
-                      onKeyDown={e => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault();
-                          handleAddFromInput();
-                        } else if (e.key === 'Escape' && decayMode) {
-                          e.preventDefault();
-                          exitDecayMode();
-                        }
-                      }}
+                      onKeyDown={handleSuggestionKeyDown}
                       className="particle-input"
                       style={{ 
                         flex: 1,
@@ -671,8 +795,16 @@ function App() {
             </div>
             {showSuggestions && particleSearch && (
               <ul className="suggestions-list">
-                {particleSuggestions.map(p => (
-                  <li key={p} onClick={() => handleAddParticleInDecayMode(p)}>
+                {particleSuggestions.map((p, idx) => (
+                  <li 
+                    key={p} 
+                    onClick={() => handleAddParticleInDecayMode(p)}
+                    style={{
+                      backgroundColor: idx === selectedSuggestionIndex ? '#e3f2fd' : 'transparent',
+                      cursor: 'pointer'
+                    }}
+                    onMouseEnter={() => setSelectedSuggestionIndex(idx)}
+                  >
                     {p}
                   </li>
                 ))}
