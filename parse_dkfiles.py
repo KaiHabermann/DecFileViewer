@@ -57,6 +57,7 @@ def remove_sig_suffix(particle_name):
         return particle_name
     
     # Remove 'sig' suffix (case-insensitive)
+    particle_name = particle_name.strip()
     if particle_name.lower().endswith('sig'):
         return particle_name[:-3]
     return particle_name
