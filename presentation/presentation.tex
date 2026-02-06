@@ -1,0 +1,116 @@
+\documentclass[aspectratio=169]{beamer}
+\usetheme{Copenhagen}
+\usecolortheme{seahorse}
+\useinnertheme{rounded}
+
+% Custom colors
+\definecolor{primaryblue}{RGB}{33, 150, 243}
+\definecolor{accentorange}{RGB}{255, 152, 0}
+\setbeamercolor{structure}{fg=primaryblue}
+\setbeamercolor{block title}{bg=primaryblue,fg=white}
+\setbeamercolor{block body}{bg=primaryblue!10,fg=black}
+
+% Remove navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+% Title page
+\title{DecFile Viewer}
+\subtitle{A Searchable Interface for LHCb DecFiles}
+\author{Kai Habermann}
+\date{\today}
+
+\begin{document}
+
+% Title frame
+\begin{frame}
+\titlepage
+\end{frame}
+
+% Slide 1: Problem Statement
+\begin{frame}
+\frametitle{The Problem: Finding Files in GitLab}
+
+\begin{columns}[T]
+\begin{column}{0.6\textwidth}
+\begin{block}{GitLab Search Limitation}
+Only filenames are searchable
+\end{block}
+
+\vspace{0.3cm}
+\begin{itemize}
+    \item DecFiles contain complex physics information
+    \item Information not always reflected in filenames:
+    \begin{itemize}
+        \item Decay chains (B0 $\to$ K$^+$ K$^-$)
+        \item Event types and descriptors
+        \item Physics Working Groups
+    \end{itemize}
+\end{itemize}
+\end{column}
+
+\begin{column}{0.35\textwidth}
+\begin{block}{Example}
+Looking for $B^0 \to J/\psi K_S^0 \pi^+ \pi^-$ is not straightforward in GitLab
+\end{block}
+
+\vspace{0.3cm}
+\begin{block}{Solution}
+A searchable interface that indexes file contents, not just filenames
+\end{block}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+% Slide 2: Screenshot
+\begin{frame}
+\frametitle{DecFile Viewer Interface}
+
+\begin{center}
+% TODO: Replace with actual screenshot
+% \includegraphics[width=0.85\textwidth]{screenshot.png}
+\begin{block}{}
+\centering
+\textit{[Screenshot placeholder - Add your screenshot here]}
+\end{block}
+\end{center}
+
+\vspace{0.4cm}
+\begin{center}
+\small
+\textit{The DecFile Viewer provides an intuitive interface for searching and browsing DecFiles}
+\end{center}
+
+\end{frame}
+
+% Slide 3: Capabilities
+\begin{frame}
+\frametitle{Key Features}
+
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\begin{block}{Search Capabilities}
+\begin{itemize}
+    \item EventType, Descriptor, Filename
+    \item Particle names (J/psi, B0, etc.)
+    \item Decay chains (B0 $\to$ K$^+$ K$^-$)
+    \item Physics Working Group
+\end{itemize}
+\end{block}
+\end{column}
+
+\begin{column}{0.5\textwidth}
+\begin{block}{Visual Decay Graphs}
+\begin{itemize}
+    \item Interactive visualizations
+    \item Easy to understand complex decay topologies
+    \item Multiple decay chains displayed
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\end{document}
+

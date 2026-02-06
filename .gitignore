@@ -40,3 +40,16 @@ frontend/public/dkfiles/
 
 node_modules/
 frontend/node_modules/
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.nav
+*.out
+*.pdf
+*.snm
+*.toc
+*.vrb
+*.synctex.gz
+*.fdb_latexmk
+*.fls
