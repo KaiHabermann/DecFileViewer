@@ -286,6 +286,7 @@ function nodeName(decayStructure) {
     return decayStructure[0];
 }
 
+// TODO: Add branching with reset
 function findMatches(decayStructure, filterObject) {
     if (!(typeof decayStructure === 'string')){
         const mother = nodeName(decayStructure);
