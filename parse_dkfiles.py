@@ -82,88 +82,19 @@ def clean_descriptor(descriptor):
     cleaned = re.sub(pattern, replace_sig, descriptor, flags=re.IGNORECASE)
     return cleaned
 
-def build_decay_structure(mother, dfp, aliases, visited=None):
-    """
-    Build a decay structure as a nested list.
-    Format: [mother, daughter1, daughter2, [subdecay_mother, ...], ...]
-    Uses aliases to normalize particle names and removes 'sig' suffixes.
-    """
-    if visited is None:
-        visited = set()
-    
-    # Apply alias to mother name and remove sig suffix
-    mother_alias = aliases.get(mother, mother)
-    mother_alias = remove_sig_suffix(mother_alias)
-    
-    # Avoid infinite recursion (check both original and aliased name)
-    if mother in visited or mother_alias in visited:
-        return None
-    visited.add(mother)
-    visited.add(mother_alias)
-    
-    try:
-        modes = dfp.list_decay_modes(mother)
-        if not modes:
-            return None
-        
-        # For now, take the first mode (could be extended to handle multiple modes)
-        mode = modes[0]
-        
-        structure = [mother_alias]
-        
-        for daughter in mode:
-            # Check if this daughter is itself a mother (sub-decay)
-            # Use original name to check against list_decay_mother_names()
-            if daughter in dfp.list_decay_mother_names():
-                # Build sub-structure with original name
-                sub_structure = build_decay_structure(daughter, dfp, aliases, visited.copy())
-                if sub_structure:
-                    structure.append(sub_structure)
-                else:
-                    # If sub-structure build failed, use aliased name and remove sig
-                    daughter_alias = aliases.get(daughter, daughter)
-                    daughter_alias = remove_sig_suffix(daughter_alias)
-                    structure.append(daughter_alias)
-            else:
-                # Apply alias to daughter name for final state particles and remove sig
-                daughter_alias = aliases.get(daughter, daughter)
-                daughter_alias = remove_sig_suffix(daughter_alias)
-                structure.append(daughter_alias)
-        
-        return structure
-    except Exception:
-        return None
 
-def get_all_decay_structures(dfp, aliases, mode_index=None):
-    """
-    Get all decay structures from all mothers.
-    Uses aliases to normalize particle names.
-    If mode_index is specified, only use that decay mode (for handling splits).
-    Returns a list of decay structures.
-    """
-    decay_structures = []
-    mothers = dfp.list_decay_mother_names()
-    
-    for mother in mothers:
-        try:
-            modes = dfp.list_decay_modes(mother)
-            if not modes:
-                continue
-            
-            # If mode_index is specified, only use that mode; otherwise use first mode
-            if mode_index is not None and mode_index < len(modes):
-                mode = modes[mode_index]
-            else:
-                mode = modes[0]
-            
-            # Build structure for this specific mode
-            structure = build_decay_structure_for_mode(mother, mode, dfp, aliases)
-            if structure:
-                decay_structures.append(structure)
-        except:
-            continue
-    
-    return decay_structures
+def build_decay_structure_for_chain(root,chain, dfp, aliases):
+    structure = [root]
+    print(chain)
+    for daughter in chain["fs"]:
+        if isinstance(daughter, dict):
+            for d in daughter:
+                print(f"{root} -> {d}")
+                structure.append(build_decay_structure_for_chain(d, daughter[d], dfp, aliases))
+        else:
+            structure.append(aliases.get(daughter, daughter))
+    return structure
+
 
 def build_decay_structure_for_mode(mother, mode, dfp, aliases, visited=None):
     """
@@ -171,21 +102,14 @@ def build_decay_structure_for_mode(mother, mode, dfp, aliases, visited=None):
     Format: [mother, daughter1, daughter2, [subdecay_mother, ...], ...]
     Uses aliases to normalize particle names and removes 'sig' suffixes.
     """
-    if visited is None:
-        visited = set()
-    
     # Apply alias to mother name and remove sig suffix
     mother_alias = aliases.get(mother, mother)
     mother_alias = remove_sig_suffix(mother_alias)
     
-    # Avoid infinite recursion (check both original and aliased name)
-    if mother in visited or mother_alias in visited:
-        return None
-    visited.add(mother)
-    visited.add(mother_alias)
-    
     try:
-        structure = [mother_alias]
+        structures = [
+            [mother_alias]
+        ]
         
         for daughter in mode:
             # Check if this daughter is itself a mother (sub-decay)
@@ -195,27 +119,49 @@ def build_decay_structure_for_mode(mother, mode, dfp, aliases, visited=None):
                 daughter_modes = dfp.list_decay_modes(daughter)
                 if daughter_modes:
                     # Build sub-structure with first mode of daughter
-                    sub_structure = build_decay_structure_for_mode(daughter, daughter_modes[0], dfp, aliases, visited.copy())
-                    if sub_structure:
-                        structure.append(sub_structure)
-                    else:
-                        # If sub-structure build failed, use aliased name and remove sig
-                        daughter_alias = aliases.get(daughter, daughter)
-                        daughter_alias = remove_sig_suffix(daughter_alias)
-                        structure.append(daughter_alias)
-                else:
+                    new_structures = []
+                    for daughter_mode in daughter_modes:
+                        sub_structures = build_decay_structure_for_mode(daughter, daughter_mode, dfp, aliases)
+                        if sub_structures:
+                            for sub_structure in sub_structures:
+                                for structure in structures:
+                                    structure_copy = structure.copy()
+                                    structure_copy.append(sub_structure)
+                                    new_structures.append(structure_copy)
+                    structures = new_structures # replace structures with new structures
+            else:
+                # Apply alias to daughter name for final state particles and remove sig
+                for structure in structures:
                     daughter_alias = aliases.get(daughter, daughter)
                     daughter_alias = remove_sig_suffix(daughter_alias)
                     structure.append(daughter_alias)
-            else:
-                # Apply alias to daughter name for final state particles and remove sig
-                daughter_alias = aliases.get(daughter, daughter)
-                daughter_alias = remove_sig_suffix(daughter_alias)
-                structure.append(daughter_alias)
         
-        return structure
-    except Exception:
+        return structures
+    except Exception as e:
         return None
+
+def parse_decay_descriptor(s):
+    tokens = s.split()
+    stack = [[]]
+
+    for tok in tokens:
+        if tok == '(':
+            new_list = []
+            stack[-1].append(new_list)
+            stack.append(new_list)
+        elif tok == ')':
+            stack.pop()
+        elif tok == '->':
+            # ignore arrows
+            continue
+        else:
+            stack[-1].append(tok)
+
+    if len(stack) != 1:
+        raise ValueError("Unbalanced parentheses")
+
+    return stack[0]
+
 
 def generate_decay_dot_files(filepath, filename_no_ext):
     dot_files = []
@@ -255,9 +201,9 @@ def generate_decay_dot_files(filepath, filename_no_ext):
         # Filter out ChargeConj particles, but keep particles that had 'sig' (now removed)
         particles = list(filter(lambda x: "ChargeConj" not in x, particles))
         
-        # Get all decay structures (using aliases)
-        # We'll build structures for each mode if there are multiple modes
-        decay_structures = get_all_decay_structures(dfp, aliases)
+        # # Get all decay structures (using aliases)
+        # # We'll build structures for each mode if there are multiple modes
+        # decay_structures = get_all_decay_structures(dfp, aliases)
         
         # Generate DOT files for each root
         for mother in roots:
@@ -304,53 +250,16 @@ def generate_decay_dot_files(filepath, filename_no_ext):
     if len(roots) == 1 and dfp is not None:
         root = roots[0]
         try:
-            descriptor_ = dfp.expand_decay_modes(root)
+            descriptors = dfp.expand_decay_modes(root)
             root_modes = dfp.list_decay_modes(root)
-            
-            # Normalize descriptor_ to always be a list
-            if isinstance(descriptor_, list):
-                descriptor_list = descriptor_
-            elif descriptor_:
-                descriptor_list = [descriptor_]
-            else:
-                descriptor_list = []
-            
-            # Build decay structures for each mode (even if there's only one)
-            for mode_idx, desc in enumerate(descriptor_list):
-                if desc and mode_idx < len(root_modes):
-                    cleaned_desc = clean_descriptor(desc)
-                    descriptors.append(cleaned_desc)
-                    # Build structures starting from root with this specific mode
-                    root_mode = root_modes[mode_idx]
-                    root_structure = build_decay_structure_for_mode(root, root_mode, dfp, aliases)
-                    # Also get all other structures (non-root mothers)
-                    other_structures = []
-                    for mother in dfp.list_decay_mother_names():
-                        if mother != root:
-                            try:
-                                modes = dfp.list_decay_modes(mother)
-                                if modes:
-                                    struct = build_decay_structure_for_mode(mother, modes[0], dfp, aliases)
-                                    if struct:
-                                        other_structures.append(struct)
-                            except:
-                                pass
-                    # Combine root structure with other structures
-                    mode_structures = []
-                    if root_structure:
-                        mode_structures.append(root_structure)
-                    mode_structures.extend(other_structures)
-                    all_mode_structures.append(mode_structures)
-            
-            # Always wrap decay_structures as a list of lists (even for single mode)
-            if all_mode_structures:
-                decay_structures = all_mode_structures
-            elif decay_structures:
-                # If we have decay_structures but no descriptors (fallback case)
-                # Wrap the existing structures in a list to maintain consistent structure
-                decay_structures = [decay_structures]
-        except:
+
+            decay_structures = []
+            for mode in root_modes:
+                decay_structures.extend(build_decay_structure_for_mode(root, mode, dfp, aliases))
+
+        except Exception as e:
             # If exception, wrap existing decay_structures in a list if they exist
+
             if decay_structures and (not decay_structures or not isinstance(decay_structures[0] if decay_structures else None, list)):
                 decay_structures = [decay_structures] if decay_structures else []
     
@@ -407,6 +316,8 @@ def main():
     parser = argparse.ArgumentParser(description='Parse DecFiles and generate data.json')
     parser.add_argument('-n', '--num-files', type=int, default=None,
                         help='Limit the number of files to parse (useful for testing)')
+    parser.add_argument('-f', '--file', type=str, default=None,
+                        help='Parse a specific file')
     args = parser.parse_args()
     
     data = []
@@ -437,7 +348,8 @@ def main():
     for filename in files:
         if not filename.endswith('.dec'):
             continue
-        
+        if args.file and filename != args.file:
+            continue
         # Check if we've reached the limit
         if args.num_files and count >= args.num_files:
             print(f"Reached limit of {args.num_files} files. Stopping.")
