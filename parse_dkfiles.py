@@ -120,7 +120,7 @@ def build_decay_structure_for_mode(mother, mode, dfp, aliases, visited=None):
                 if daughter_modes:
                     # Build sub-structure with first mode of daughter
                     new_structures = []
-                    for daughter_mode in daughter_modes[:1]:
+                    for daughter_mode in daughter_modes[:]:
                         sub_structures = build_decay_structure_for_mode(daughter, daughter_mode, dfp, aliases)
                         if sub_structures:
                             for sub_structure in sub_structures:
@@ -141,7 +141,9 @@ def build_decay_structure_for_mode(mother, mode, dfp, aliases, visited=None):
         return None
 
 
-def generate_decay_dot_files(filepath, filename_no_ext):
+global_decy_structure_list = []
+
+def generate_decay_dot_files(filepath, filename_no_ext, cutoff):
     dot_files = []
     roots = []
     decay_structures = []
@@ -237,6 +239,21 @@ def generate_decay_dot_files(filepath, filename_no_ext):
             
             descriptors = descriptors[:len(decay_structures)]
             decay_structures = [decay_structures]
+            global_decy_structure_list.append((
+                len(descriptors),
+                filename_no_ext
+            ))
+            if len(descriptors) > cutoff:
+                print(f"Cut off {root} with {len(descriptors)} decays")
+                decay_structures = [[
+                    [remove_sig_suffix(root) ] + [aliases.get(m,m) for m in mode] for mode in root_modes]
+                    ]
+                print(decay_structures)
+                descriptors = [
+                    f"{remove_sig_suffix(root)} -> {' '.join([
+                        aliases.get(m,m) for m in  mode[1:]])}" for mode in decay_structures[0]
+                ]
+                print(f"Descriptors: {descriptors}")
 
         except Exception as e:
             # If exception, wrap existing decay_structures in a list if they exist
@@ -299,6 +316,8 @@ def main():
                         help='Limit the number of files to parse (useful for testing)')
     parser.add_argument('-f', '--file', type=str, default=None,
                         help='Parse a specific file')
+    parser.add_argument('-c', '--cutoff', type=int, default=200,
+                        help='Cutoff for the number of decays in the decay structure')
     args = parser.parse_args()
     
     data = []
@@ -348,7 +367,7 @@ def main():
         if event_type:
             # Generate DOT files for decay chains
             filename_no_ext = os.path.splitext(filename)[0]
-            dot_files, new_descriptors, particles, decay_structures = generate_decay_dot_files(filepath, filename_no_ext)
+            dot_files, new_descriptors, particles, decay_structures = generate_decay_dot_files(filepath, filename_no_ext, args.cutoff)
 
             # Handle multiple descriptors
             if new_descriptors:
@@ -409,6 +428,11 @@ def main():
     print(f"Done. Processed {len(data)} files. Found {len(all_particles)} unique particles. Saved to {OUTPUT_FILE}")
     print(f"Git commit: {git_short_hash or 'N/A'}")
     print(f"Processed at: {processing_timestamp}")
+
+    sorted_global_decy_structure_list = sorted(global_decy_structure_list, key=lambda x: x[0], reverse=True)
+    print(f"Top 30 longest decay structures:")
+    for i, (length, filename) in enumerate(sorted_global_decy_structure_list[:30]):
+        print(f"{i+1}. {length} decays in {filename}")
 
 if __name__ == '__main__':
     main()
