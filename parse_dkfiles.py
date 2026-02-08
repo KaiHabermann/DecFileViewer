@@ -236,6 +236,7 @@ def generate_decay_dot_files(filepath, filename_no_ext):
                 decay_structures.extend(build_decay_structure_for_mode(root, mode, dfp, aliases))
             
             descriptors = descriptors[:len(decay_structures)]
+            decay_structures = [decay_structures]
 
         except Exception as e:
             # If exception, wrap existing decay_structures in a list if they exist
