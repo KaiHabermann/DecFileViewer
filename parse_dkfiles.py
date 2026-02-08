@@ -398,14 +398,14 @@ def main():
             if count % 100 == 0:
                 print(f"Processed {count}/{total_files} files...")
 
-            # Incremental save every 500 files
-            if count % 500 == 0:
-                 temp_output = {
-                    'files': data,
-                    'uniqueParticles': sorted(list(all_particles))
-                 }
-                 with open(OUTPUT_FILE, 'w') as f:
-                    json.dump(temp_output, f, indent=2)
+            # # Incremental save every 500 files
+            # if count % 500 == 0:
+            #      temp_output = {
+            #         'files': data,
+            #         'uniqueParticles': sorted(list(all_particles))
+            #      }
+            #      with open(OUTPUT_FILE, 'w') as f:
+            #         json.dump(temp_output, f, indent=2)
 
     # Sort by EventType for nicer display/debugging
     data.sort(key=lambda x: x['eventType'])
