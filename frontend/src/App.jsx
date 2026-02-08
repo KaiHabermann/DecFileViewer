@@ -252,12 +252,30 @@ function App() {
         // Date is in YYYYMMDD format, so string comparison works
         aVal = a.date || '';
         bVal = b.date || '';
+      } else if (sortField === 'descriptor') {
+        // Count the number of descriptors
+        const aDescriptors = Array.isArray(a.descriptor) ? a.descriptor : 
+                           (a.descriptors || [a.descriptor || '']);
+        const bDescriptors = Array.isArray(b.descriptor) ? b.descriptor : 
+                           (b.descriptors || [b.descriptor || '']);
+        aVal = aDescriptors.length;
+        bVal = bDescriptors.length;
       }
       
-      if (sortOrder === 'asc') {
-        return aVal.localeCompare(bVal);
+      if (sortField === 'descriptor') {
+        // Numeric comparison for descriptor count
+        if (sortOrder === 'asc') {
+          return aVal - bVal;
+        } else {
+          return bVal - aVal;
+        }
       } else {
-        return bVal.localeCompare(aVal);
+        // String comparison for other fields
+        if (sortOrder === 'asc') {
+          return aVal.localeCompare(bVal);
+        } else {
+          return bVal.localeCompare(aVal);
+        }
       }
     });
   }
@@ -852,7 +870,13 @@ function App() {
               </th>
               <th style={{width: '240px'}}>Filename</th>
               <th style={{width: '120px'}}>PhysicsWG</th>
-              <th>Descriptor</th>
+              <th 
+                style={{cursor: 'pointer', userSelect: 'none'}}
+                onClick={() => handleSort('descriptor')}
+                title="Click to sort by number of descriptors"
+              >
+                Descriptor {sortField === 'descriptor' && (sortOrder === 'asc' ? '▲' : '▼')}
+              </th>
             </tr>
           </thead>
           <tbody>
