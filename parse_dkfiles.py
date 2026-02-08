@@ -120,7 +120,7 @@ def build_decay_structure_for_mode(mother, mode, dfp, aliases, visited=None):
                 if daughter_modes:
                     # Build sub-structure with first mode of daughter
                     new_structures = []
-                    for daughter_mode in daughter_modes:
+                    for daughter_mode in daughter_modes[:1]:
                         sub_structures = build_decay_structure_for_mode(daughter, daughter_mode, dfp, aliases)
                         if sub_structures:
                             for sub_structure in sub_structures:
@@ -139,28 +139,6 @@ def build_decay_structure_for_mode(mother, mode, dfp, aliases, visited=None):
         return structures
     except Exception as e:
         return None
-
-def parse_decay_descriptor(s):
-    tokens = s.split()
-    stack = [[]]
-
-    for tok in tokens:
-        if tok == '(':
-            new_list = []
-            stack[-1].append(new_list)
-            stack.append(new_list)
-        elif tok == ')':
-            stack.pop()
-        elif tok == '->':
-            # ignore arrows
-            continue
-        else:
-            stack[-1].append(tok)
-
-    if len(stack) != 1:
-        raise ValueError("Unbalanced parentheses")
-
-    return stack[0]
 
 
 def generate_decay_dot_files(filepath, filename_no_ext):
@@ -256,6 +234,8 @@ def generate_decay_dot_files(filepath, filename_no_ext):
             decay_structures = []
             for mode in root_modes:
                 decay_structures.extend(build_decay_structure_for_mode(root, mode, dfp, aliases))
+            
+            descriptors = descriptors[:len(decay_structures)]
 
         except Exception as e:
             # If exception, wrap existing decay_structures in a list if they exist
@@ -423,7 +403,7 @@ def main():
     }
 
     with open(OUTPUT_FILE, 'w') as f:
-        json.dump(output_data, f, indent=2)
+        json.dump(output_data, f)
         
     print(f"Done. Processed {len(data)} files. Found {len(all_particles)} unique particles. Saved to {OUTPUT_FILE}")
     print(f"Git commit: {git_short_hash or 'N/A'}")
