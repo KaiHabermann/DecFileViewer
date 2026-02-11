@@ -97,6 +97,9 @@ function parseDecayString(decayStr) {
 
 
 function App() {
+  const [releases, setReleases] = useState([]);
+  const [selectedRelease, setSelectedRelease] = useState(null);
+  const [loadingReleases, setLoadingReleases] = useState(true);
   const [data, setData] = useState([]);
   const [uniqueParticles, setUniqueParticles] = useState([]);
   const [metadata, setMetadata] = useState(null);
@@ -129,9 +132,53 @@ function App() {
 
   const [uniquePhysicsWGs, setUniquePhysicsWGs] = useState([]);
 
+  // Load releases list first
   useEffect(() => {
-    fetch('./data.json')
-      .then(res => res.json())
+    fetch('./releases.json')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Failed to load releases');
+        }
+        return res.json();
+      })
+      .then(releasesList => {
+        if (Array.isArray(releasesList) && releasesList.length > 0) {
+          setReleases(releasesList);
+          // Use the last element (newest release) as default
+          setSelectedRelease(releasesList[releasesList.length - 1]);
+        } else {
+          // Fallback: try to load from root data.json if releases.json is empty or invalid
+          console.warn('No releases found, falling back to root data.json');
+          setSelectedRelease(null);
+        }
+        setLoadingReleases(false);
+      })
+      .catch(err => {
+        console.error("Failed to load releases:", err);
+        // Fallback: try to load from root data.json
+        setSelectedRelease(null);
+        setLoadingReleases(false);
+      });
+  }, []);
+
+  // Load data when release is selected
+  useEffect(() => {
+    if (loadingReleases) {
+      return; // Wait for releases to load first
+    }
+
+    setLoading(true);
+    const dataPath = selectedRelease 
+      ? `./${selectedRelease}/data.json`
+      : './data.json';
+    
+    fetch(dataPath)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`Failed to load data for release: ${selectedRelease || 'default'}`);
+        }
+        return res.json();
+      })
       .then(responseData => {
         // Handle new data structure
         if (responseData.files) {
@@ -157,7 +204,7 @@ function App() {
         console.error("Failed to load data:", err);
         setLoading(false);
       });
-  }, []);
+  }, [selectedRelease, loadingReleases]);
 
   useEffect(() => {
     // Click outside to close suggestions
@@ -173,7 +220,11 @@ function App() {
   useEffect(() => {
     if (selectedItem) {
       setLoadingFile(true);
-      fetch(`./dkfiles/${selectedItem.filename}`)
+      const filePath = selectedRelease
+        ? `./${selectedRelease}/dkfiles/${selectedItem.filename}`
+        : `./dkfiles/${selectedItem.filename}`;
+      
+      fetch(filePath)
         .then(res => {
           if (!res.ok) throw new Error("File not found");
           return res.text();
@@ -190,7 +241,7 @@ function App() {
     } else {
       setFileContent('');
     }
-  }, [selectedItem]);
+  }, [selectedItem, selectedRelease]);
 
   // Filter and sort logic
   let filteredData = data.filter(item => {
@@ -614,27 +665,63 @@ function App() {
   return (
     <div className="container">
       <div className="header">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '1rem' }}>
           <h1 style={{ margin: 0 }}>DecFile Viewer</h1>
-          <a 
-            href="https://lbeventtype.web.cern.ch/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            style={{
-              padding: '8px 16px',
-              background: '#2196F3',
-              color: 'white',
-              textDecoration: 'none',
-              borderRadius: '4px',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-              transition: 'background 0.2s'
-            }}
-            onMouseOver={e => e.target.style.background = '#1976D2'}
-            onMouseOut={e => e.target.style.background = '#2196F3'}
-          >
-            LHCb EventType Picker
-          </a>
+          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
+            {!loadingReleases && releases.length > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <label htmlFor="release-select" style={{ fontWeight: '500', fontSize: '0.9rem' }}>
+                  Release:
+                </label>
+                <select 
+                  id="release-select"
+                  value={selectedRelease || ''}
+                  onChange={e => {
+                    setSelectedRelease(e.target.value);
+                    setSelectedItem(null); // Clear selected item when changing release
+                    setDisplayLimit(100); // Reset display limit
+                  }}
+                  style={{
+                    padding: '8px 12px',
+                    border: '1px solid #ccc',
+                    borderRadius: '4px',
+                    fontSize: '16px',
+                    minWidth: '150px',
+                    cursor: 'pointer',
+                    background: 'white'
+                  }}
+                >
+                  {releases.map((release, index) => {
+                    const isLatest = index === releases.length - 1;
+                    return (
+                      <option key={release} value={release}>
+                        {release}{isLatest ? ' (Latest)' : ''}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+            )}
+            <a 
+              href="https://lbeventtype.web.cern.ch/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{
+                padding: '8px 16px',
+                background: '#2196F3',
+                color: 'white',
+                textDecoration: 'none',
+                borderRadius: '4px',
+                fontSize: '0.9rem',
+                fontWeight: '500',
+                transition: 'background 0.2s'
+              }}
+              onMouseOver={e => e.target.style.background = '#1976D2'}
+              onMouseOut={e => e.target.style.background = '#2196F3'}
+            >
+              LHCb EventType Picker
+            </a>
+          </div>
         </div>
         
         {metadata && (
@@ -845,8 +932,10 @@ function App() {
         </div>
       </div>
 
-      {loading ? (
-        <div className="loading">Loading data...</div>
+      {(loadingReleases || loading) ? (
+        <div className="loading">
+          {loadingReleases ? 'Loading releases...' : 'Loading data...'}
+        </div>
       ) : (
         <table>
           <thead>
@@ -958,11 +1047,17 @@ function App() {
                 <div className="decay-section">
                   <h3>Decay Chain Visualization ({selectedItem.dotFiles.length} {selectedItem.dotFiles.length === 1 ? 'chain' : 'chains'})</h3>
                   <div className="decay-container">
-                    {selectedItem.dotFiles.map((dotFile, idx) => (
-                      <div key={idx} className="decay-wrapper">
-                         <DotViewer dotFile={dotFile} />
-                      </div>
-                    ))}
+                    {selectedItem.dotFiles.map((dotFile, idx) => {
+                      // Prepend release path to dotfile if we have a selected release
+                      const dotFilePath = selectedRelease
+                        ? `./${selectedRelease}/${dotFile}`
+                        : `./${dotFile}`;
+                      return (
+                        <div key={idx} className="decay-wrapper">
+                          <DotViewer dotFile={dotFilePath} />
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}

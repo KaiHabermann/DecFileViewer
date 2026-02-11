@@ -33,10 +33,7 @@ build/
 DecFiles/
 
 # Frontend
-frontend/public/data.json
-frontend/public/images/
-frontend/public/dotfiles/
-frontend/public/dkfiles/
+frontend/public/
 
 node_modules/
 frontend/node_modules/
