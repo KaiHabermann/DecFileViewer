@@ -1,0 +1,49 @@
+# EventType: 10163000
+#
+# Descriptor: [D*+ -> (D0 -> K- pi+) pi+]cc
+# Cuts: LHCbAcceptance
+# FullEventCuts: LoKi::FullGenEventCut/b2DstarFilter
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "b2DstarFilter" )
+# SignalFilter = Generation().b2DstarFilter
+# SignalFilter.Code = " has(isB2Dstar)"
+# SignalFilter.Preambulo += [
+#  "isDstar = (GINTREE ('D*(2010)+' == GABSID ))",
+#  "isB2Dstar = isDstar"
+#    ]
+# EndInsertPythonCode
+#
+# NickName: incl_b=Dst,piD0,Kpi,InAcc
+# Documentation: Inclusive D*+ events from b decays, D*+ forced to the decay chain D0(Kpi)pi for particle ID purposes
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Adlene Hicheur
+# Email: hicheur@if.ufrj.br
+# Date: 20230303
+#
+Alias my_D0  D0
+Alias my_anti-D0 anti-D0
+ChargeConj my_D0 my_anti-D0
+Alias         MyD*+   D*+
+Alias         MyD*- D*-
+ChargeConj    MyD*+ MyD*-
+
+Decay D*+
+  1.0 my_D0 pi+   VSS;
+Enddecay
+CDecay D*-
+
+
+Decay my_D0
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay my_anti-D0
+End
+

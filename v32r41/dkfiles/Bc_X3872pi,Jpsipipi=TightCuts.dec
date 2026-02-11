@@ -1,0 +1,96 @@
+# EventType: 14245083
+# 
+# Descriptor: [B_c+ -> (psi(2S) -> (J/psi(1S) -> mu+ mu- ) pi+ pi- ) pi+ ]cc
+#
+# NickName: Bc_X3872pi,Jpsipipi=TightCuts
+#
+# Production: BcVegPy
+#
+# Cuts: LoKi::GenCutToolWithDecay/TightCut
+#
+# Documentation: The  Bc decay with pion, intermediate X(3872) and psi(2S) forced into J/psi pi+ pi-, J/psi forced to mu+ mu-. 
+#                 Decays produced with BcVegPy generator. 
+#                 Daughter in acceptance and TightCuts are used. The efficiency is (2.95 +- 0.09)% from Generation log 
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutToolWithDecay
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.Special.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+# gen.Special.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+# #
+# tightCut = gen.Special.TightCut
+# tightCut.SignalPID = 'B_c+'
+# tightCut.Decay = '^[B_c+ ==> ( ( X_1(3872) | psi(2S) ) ==> ^( J/psi(1S) => ^mu+ ^mu- ) ^pi+ ^pi- ) ^pi+]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'inAcc        = in_range ( 0.005 , GTHETA , 0.400 ) ' ,
+#     'inEta        = in_range ( 1.9   , GETA   , 5.00  ) ' ,
+#     'inY          = in_range ( 1.9   , GY     , 4.6   ) ' , 
+#     'goodTrack    = inAcc & inEta                       ' ,  
+#     'longLived    = 75 * micrometer < GTIME             ' ,    
+#     'goodBc       = inY & longLived                     ' ,
+#     'goodPsi      = inY                                 ' ,  
+#     ]
+# tightCut.Cuts     =    {
+#     '[pi+]cc'        : 'goodTrack & ( GP  >   2.5 * GeV ) & ( GPT  >   130 * MeV ) ' , 
+#     '[mu+]cc'        : 'goodTrack & ( GP  >   3.0 * GeV ) & ( GPT  >   450 * MeV ) ' ,
+#     '[B_c+]cc'       : 'goodBc    ' ,
+#     'J/psi(1S)'      : 'goodPsi   ' , 
+#     }
+#
+#
+# # Generator efficiency histos:
+# tightCut.XAxis = ( "GPT/GeV" , 1.0 , 20.0 , 38  )
+# tightCut.YAxis = ( "GY     " , 2.0 ,  4.5 , 10  )
+#
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Dmitrii Pereima
+# Email: Dmitrii.Pereima@cern.ch
+# Date: 20240214
+# CPUTime: < 1 min
+#
+Alias      MyJpsi        J/psi
+ChargeConj MyJpsi        MyJpsi
+#
+Alias      MyPsi2S       psi(2S)
+ChargeConj MyPsi2S       MyPsi2S
+#
+Alias      MyX3872       X_1(3872)
+ChargeConj MyX3872       MyX3872
+#
+Alias      MyRho0        rho0
+ChargeConj MyRho0        MyRho0
+#
+Decay B_c+sig
+  0.500    MyPsi2S      pi+   SVS;
+  0.500    MyX3872      pi+   SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyPsi2S
+  1.000    MyJpsi pi+  pi-   VVPIPI;
+Enddecay
+#
+Decay MyX3872
+  1.000    MyJpsi  MyRho0     HELAMP 0.707107 0  0.707107 0  0.707107 0  0 0  -0.707107 0  -0.707107 0  -0.707107 0;
+Enddecay
+#
+Decay MyJpsi
+  1.000    mu+ mu-           PHOTOS VLL;
+Enddecay
+#
+Decay MyRho0
+1.000      pi+ pi-           VSS;
+Enddecay
+#
+End
+#
+

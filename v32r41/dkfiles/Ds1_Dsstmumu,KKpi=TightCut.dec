@@ -1,0 +1,63 @@
+# EventType: 27375261
+#
+# Descriptor: [D_s1(2536)+ -> (D*_s+ -> (D_s+ -> K+ K- pi+) [gamma, pi0]) mu+ mu- ]cc
+#
+# NickName: Ds1_Dsstmumu,KKpi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ D_s1(2536)+ => (D*_s+ => (D_s+ => ^K+ ^K- ^pi+ ) ( gamma | pi0 )) ^mu+ ^mu- ]CC'
+# tightCut.Cuts      =    {
+#     '[K+]cc'         : ' goodKaon ' , 
+#     '[pi+]cc'        : ' goodPion ' , 
+#     '[mu+]cc'        : ' goodMuon ' } 
+#
+# tightCut.Preambulo += [
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodKaon   = ( GPT > 0.25 * GeV ) & ( GP > 1.9 * GeV ) & inAcc ' , 
+#     'goodPion   = ( GPT > 0.25 * GeV ) & ( GP > 1.9 * GeV ) & inAcc ' , 
+#     'goodMuon   = inAcc' ] 
+#
+# EndInsertPythonCode
+#
+# Documentation: Resolution studies
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: 2 min
+# Responsible:     Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20190228
+#
+Alias        MyD_s*+        D_s*+
+Alias        MyD_s*-        D_s*-
+ChargeConj   MyD_s*-        MyD_s*+
+Alias MyD_s- D_s-
+Alias MyD_s+ D_s+
+ChargeConj MyD_s+ MyD_s-
+#
+Decay D'_s1+sig
+1.0000     MyD_s*+   mu+   mu-      PHSP;
+Enddecay
+CDecay D'_s1-sig
+#
+Decay MyD_s*+
+  0.935        MyD_s+     gamma           VSP_PWAVE;
+  0.058        MyD_s+     pi0             VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s+
+  1.000        K-        K+        pi+             D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+End

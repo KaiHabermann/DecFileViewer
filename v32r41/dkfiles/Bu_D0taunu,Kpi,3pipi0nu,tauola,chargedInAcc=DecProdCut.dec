@@ -1,0 +1,46 @@
+# EventType: 12562010
+#
+# Descriptor: [B+ -> (anti-D0 -> K+ pi-) (tau+ -> pi+ pi- pi+ pi0 anti-nu_tau) nu_tau]cc
+#
+# NickName: Bu_D0taunu,Kpi,3pipi0nu,tauola,chargedInAcc=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# Documentation: B+ to D0 tau nu, with D0 -> K pi and tau -> 3pi pi0 nu.
+# TAUOLA used for the tau -> 3pi pi0 nu. The pi0 is not forced into the acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible:  Beatriz Garcia Plana, Antonio Romero Vidal
+# Email: beatriz.garcia.plana@cern.ch, antonio.romero@usc.es
+# Date: 20180203
+#
+Alias         MyD0	   D0
+Alias         Myanti-D0	   anti-D0
+ChargeConj    MyD0   	   Myanti-D0
+#
+Alias         MyTau-	   tau-
+Alias         MyTau+   	   tau+
+ChargeConj    MyTau- 	   MyTau+
+#
+Decay B+sig
+  1.000       Myanti-D0    MyTau+        nu_tau             ISGW2;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-D0
+  1.00        K+   pi-     PHSP;
+Enddecay
+CDecay MyD0
+#    
+Decay MyTau-
+# tau -> pi- pi+ pi- pi0 nu_tau
+  1.00	      TAUOLA 8;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

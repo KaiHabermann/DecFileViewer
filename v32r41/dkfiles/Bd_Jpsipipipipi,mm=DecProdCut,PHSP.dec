@@ -1,0 +1,39 @@
+# EventType: 11146080
+#
+# Descriptor: [B0 -> (J/psi(1S) -> mu+ mu-) pi+ pi- pi+ pi-]cc
+#
+# NickName: Bd_Jpsipipipipi,mm=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 Jpsi(to mu+ mu-) and pi+ pi- pi+ pi- phase space model 
+# 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Salil Joshi
+# Email: salil.joshi@ncbj.gov.pl
+# Date: 20240327
+# CPUTime:< 1 min
+#
+#
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+#
+Decay B0sig
+  1.00000   MyJ/psi pi+ pi- pi+ pi-     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+#
+Decay MyJ/psi
+  1.00000   mu+         mu-         PHOTOS VLL;
+Enddecay
+#
+#
+#
+End
+#
+

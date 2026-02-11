@@ -1,0 +1,186 @@
+# EventType: 28496041
+#
+# Descriptor: chi_c1(1P) -> ( D_s1(2536)+ =>  ( D0 | D+ ) ( D*(2007)0 | D*(2010)+ ) e- )  
+#
+# ParticleValue: "chi_c1(1P)  765  20443  0.0 3.890 -2.e-3      chi_c1   20443 0"  , "D_s1(2536)+ 765  10433  1.0 3.876 -2.e-3      D'_s1+   10433 0" , "D_s1(2536)- 765 -10433 -1.0 3.876 -2.e-3      D'_s1-  -10433 0" , "D*(2007)0   765    423  0   2.00685 -55.4e-6  D*0        423 0" , "D*(2007)~0  765   -423  0   2.00685 -55.4e-6  anti-D*0  -423 0" 
+#
+# NickName: X3876_DDstar=TightCut2
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Decay of new narrow charged X+ state into DD* just at the threshold
+#  - it is a fixed version of the 28496040 :
+#     - change the cuts
+#     - redefine the width of D*0 to be 55.4keV
+#
+#  - D_s1(2536)+ is used as proxy for X+
+#  - mass of D_s1 is set to be 3.876 (just above D0D*+ threshold) and with of 2 MeV
+#  - to get "charmonium-like" spectrum for charged X, a tricj is used :
+#  - X+ is generated in the decay of chi_c1(1P) -> X+ e-
+#  - the mass of chi_c1 is set to be 3.890 GeV with a width of 2 MeV
+#  - X+ decays into D0D*+ and  D+D*0 pairs
+#  - D* decays according to PDG into Dpi and Dgamma
+#  - D0 decays into K- pi+
+#  - D+ decays into K- pi+ pi+ usinng Dalitz decay model
+#  - tight cuts for the D0/D+ mesons and all final state stable particles are applied 
+#  - two very nice tricks by Michael Wilkinson are used: 
+#    - only charmonium production is activated for Pythia8
+#    - D+ lifetime cut for D0/D+ is applied via EvtGenDecayWithCutTool
+#  - CPU performance is  ~1.6seconds/event  (655 seconds/400 events) 
+#  - integrated efficiency for generator-level cuts is (5.05+-0.36)% as reported in GeneratorLog.xml
+#  - efficiency for D+ lifetime cuts     is (38.48+-0.48)% (must be between 63 and 13%)
+#  - efficiency for generator-level cuts is (10.66+-0.50)% 
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool, ToolSvc, EvtGenDecayWithCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal     = generation.SignalPlain
+#
+# signal.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool ( EvtGenDecayWithCutTool )
+# evtgen = ToolSvc().EvtGenDecayWithCutTool 
+# 
+# evtgen.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgen.CutTool   = "LoKi::GenCutTool/CharmLongLived"
+# evtgen.addTool( LoKi__GenCutTool , 'CharmLongLived' )
+# long_lived =  evtgen.CharmLongLived 
+# long_lived.Decay      = '[ chi_c1(1P) => ( X+ => ^( D0 | D+ ) ^( D*(2010)+ | D*(2007)0 ) )   e- ]CC'
+# long_lived.Preambulo += [ 'from GaudiKernel.SystemOfUnits import micrometer ' ,
+#                           'ctau_cut = 75 * micrometer < GTIME '               ]
+# long_lived.Cuts       = { '[D0]cc'        : 'ctau_cut'  ,
+#                           '[D+]cc'        : 'ctau_cut'  ,
+#                           '[D*(2007)0]cc' : 'GCHILDCUT ( ctau_cut ,   "D0" == GABSID   )'  ,
+#                           '[D*(2010)+]cc' : 'GCHILDCUT ( ctau_cut , ( "D0" == GABSID ) | ( "D+" == GABSID ) )' }
+# # Generator efficiency histos (must be flat here)
+# long_lived.XAxis = ( "GPT/GeV" , 0.0 , 25.0 , 25 )
+# long_lived.YAxis = ( "GY"      , 2.0 ,  4.5 , 10 )
+#
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut            = signal.TightCut
+# tightCut.Decay      = "[chi_c1(1P) =>  ( X+ => ^( D0 | D+ ) ^( D*(2010)+ | D*(2007)0 ) ) e- ]CC"
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV           ' ,
+#     'inAcc          =  in_range ( 0.005 , GTHETA , 0.400 )                            ' ,
+#     'inEta          =  in_range ( 1.95  , GETA   , 5.050 )                            ' ,
+#     'fastTrack      =  ( GPT > 220 * MeV ) & ( GP > 3.0 * GeV )                       ' ,
+#     'goodTrack      =  inAcc & inEta & fastTrack                                      ' ,
+#     'inY            =  in_range ( 1.9   , GY     , 4.6   )                            ' ,
+#     'goodCharm      =  inY & ( GPT > 0.9 * GeV ) & ( 75 * micrometer < GTIME )        ' , 
+#     'goodD0         =  goodCharm &  ( 2 == GNINTREE (  goodTrack , HepMC.children ) ) ' ,
+#     'goodDplus      =  goodCharm &  ( 3 == GNINTREE (  goodTrack , HepMC.children ) ) ' ,
+#     'D0             =  "D0" == GABSID ', 
+#     'Dplus          =  "D+" == GABSID ', 
+#     "goodDst0       =  GCHILDCUT ( goodD0 , D0  ) ",
+#     "goodDstP       =  switch    ( GINTREE ( D0 ) , GCHILDCUT( goodD0 , D0 ) , GCHILDCUT ( goodDplus , Dplus ) ) "
+#     ]
+# tightCut.Cuts       =    {
+#     '[D0]cc'        : 'goodD0'    ,
+#     '[D+]cc'        : 'goodDplus' ,
+#     '[D*(2010)+]cc' : 'goodDstP'  ,
+#     '[D*(2007)0]cc' : 'goodDst0'  ,
+#     }
+# # Generator efficiency histos:
+# tightCut.XAxis = ( "GPT/GeV" , 0.0 , 25.0 , 25 )
+# tightCut.YAxis = ( "GY"      , 2.0 ,  4.5 , 10 )
+# 
+# # -- modify Pythia8 to only generate from Charmonium processes -- #
+# from Configurables import Generation, MinimumBias, Pythia8Production, Inclusive, SignalPlain, SignalRepeatedHadronization, Special
+#
+# Pythia8TurnOffMinbias  = [ "SoftQCD:all     = off" ]
+# Pythia8TurnOffMinbias += [ "Bottomonium:all = off" ]
+# Pythia8TurnOffMinbias += [ "Charmonium:all  =  on" ]
+#
+# gen = Generation(genAlgName)
+# gen.addTool( MinimumBias , name = "MinimumBias" )
+# gen.MinimumBias.ProductionTool = "Pythia8Production"
+# gen.MinimumBias.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.MinimumBias.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Inclusive , name = "Inclusive" )
+# gen.Inclusive.ProductionTool = "Pythia8Production"
+# gen.Inclusive.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Inclusive.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalPlain , name = "SignalPlain" )
+# gen.SignalPlain.ProductionTool = "Pythia8Production"
+# gen.SignalPlain.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalPlain.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalRepeatedHadronization , name = "SignalRepeatedHadronization" )
+# gen.SignalRepeatedHadronization.ProductionTool = "Pythia8Production"
+# gen.SignalRepeatedHadronization.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalRepeatedHadronization.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Special , name = "Special" )
+# gen.Special.ProductionTool = "Pythia8Production"
+# gen.Special.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Special.Pythia8Production.Commands += Pythia8TurnOffMinbias
+# # -- END  -- #
+# EndInsertPythonCode
+#
+# CPUTime: < 1 min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Vanya BELYAEV
+# Email: Ivan.Belyaev@itep.ru
+# Date: 20200512
+#
+
+Alias      My-D+               D+
+Alias      My-D-               D-
+Alias      My-D*+              D*+
+Alias      My-D*-              D*-
+Alias      My-D*0              D*0
+Alias      My-anti-D*0         anti-D*0
+
+Alias      My-Ds+              D'_s1+
+Alias      My-Ds-              D'_s1-
+Alias      My-D0               D0
+Alias      My-anti-D0     anti-D0
+
+ChargeConj My-D+             My-D-
+ChargeConj My-Ds+            My-Ds-
+ChargeConj My-D*+            My-D*-
+ChargeConj My-D0             My-anti-D0
+ChargeConj My-D*0            My-anti-D*0
+
+#
+Decay  chi_c1sig
+  0.5  My-Ds+  e-  PHSP     ;
+  0.5  My-Ds-  e+  PHSP     ;
+Enddecay
+#
+Decay  My-Ds+
+  0.5  My-D0 My-D*+      PHSP ;
+  0.5  My-D+ My-D*0      PHSP ;
+Enddecay
+CDecay My-Ds-
+#
+Decay  My-D*+
+  0.677  My-D0 pi+      VSS        ;
+  0.307  My-D+ pi0      VSS        ;
+  0.016  My-D+ gamma    VSP_PWAVE  ;
+Enddecay
+CDecay My-D*-
+#
+Decay  My-D*0
+  0.647  My-D0 pi0      VSS        ;
+  0.353  My-D0 gamma    VSP_PWAVE  ;
+Enddecay
+CDecay My-anti-D*0
+#
+Decay  My-D0
+  1.5  K- pi+ PHSP     ;
+Enddecay
+CDecay My-anti-D0
+#
+Decay  My-D+
+  1.5  K- pi+ pi+ D_DALITZ ;
+Enddecay
+CDecay My-D-
+#
+End
+

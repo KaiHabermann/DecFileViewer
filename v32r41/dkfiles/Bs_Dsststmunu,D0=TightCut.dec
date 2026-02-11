@@ -1,0 +1,101 @@
+# EventType: 13574452 
+#
+# Descriptor: {[[B_s0]nos -> (D_s1(2536)- -> (D*(2007)~0 -> (D~0-> K+ mu- anti-nu_mu) pi0) K-) mu+ nu_mu]cc, [[B_s0]os -> (D_s1(2536)- -> (D*(2007)~0 -> (D~0-> K+ mu- anti-nu_mu) pi0) K-) mu+ nu_mu]cc}
+#
+# NickName: Bs_Dsststmunu,D0=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LoKi__GenCutTool
+#
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "([(B_s0) ==> ((Strange) ==> ((Charm) ==> ^K+ ^mu- nu_mu~ {pi0} {pi0} {gamma}) ^K-) ^mu+ nu_mu]CC) || ([(B_s0) ==> ((Strange) ==> ((Charm) ==> ^K+ ^mu- nu_mu~ {pi0} {pi0} {gamma}) ^K-) (tau+ ==> ^mu+ nu_mu nu_tau~) nu_tau]CC)"
+# tightCut.Preambulo += ["from LoKiCore.functions import in_range", "from GaudiKernel.SystemOfUnits import MeV"]
+# tightCut.Cuts      =    {
+#     '[mu-]cc'     : "(in_range(0.01, GTHETA, 0.4)) & (GP > 2900 * MeV)",
+#     '[K-]cc'      : "(in_range(0.01, GTHETA, 0.4)) & (GP > 2900 * MeV)"
+#   }
+# EndInsertPythonCode
+#
+# Documentation: semi-leptonic B_s0 -> D_s** mu nu decays
+# EndDocumentation
+#
+# PhysicsWG: RD
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20210406
+#
+Alias            MyD_s2*+       D_s2*+
+Alias            MyD_s2*-       D_s2*-
+ChargeConj       MyD_s2*+       MyD_s2*-
+#
+Alias            MyD'_s1+       D'_s1+
+Alias            MyD'_s1-       D'_s1-
+ChargeConj       MyD'_s1+       MyD'_s1-
+#
+Alias            MyD*0          D*0
+Alias            Myanti-D*0     anti-D*0
+ChargeConj       MyD*0          Myanti-D*0
+#
+Alias            MyD0           D0
+Alias            Myanti-D0      anti-D0
+ChargeConj       MyD0           Myanti-D0
+#
+Alias            MyK*+          K*+
+Alias            MyK*-          K*-
+ChargeConj       MyK*+          MyK*-
+#
+Alias            Mytau+         tau+
+Alias            Mytau-         tau-
+ChargeConj       Mytau+         Mytau-
+#
+#
+Decay B_s0sig 
+  0.250          MyD'_s1-       mu+     nu_mu                     ISGW2;
+  0.250          MyD'_s1-       Mytau+  nu_tau                    ISGW2; 
+  0.250          MyD_s2*-       mu+     nu_mu                     ISGW2; 
+  0.250          MyD_s2*-       Mytau+  nu_tau                    ISGW2; 
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD'_s1+
+  1.000          MyD*0          K+                                VVS_PWAVE 0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyD'_s1-
+#
+Decay MyD_s2*+ 
+  0.900          MyD0           K+                                TSS; 
+  0.100          MyD*0          K+                                TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD_s2*-
+#
+Decay MyD*0
+  0.647          MyD0           pi0                               VSS;
+  0.353          MyD0           gamma                             VSP_PWAVE;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD0 
+  0.341          K-             mu+     nu_mu                     ISGW2;
+  0.189          MyK*-          mu+     nu_mu                     ISGW2;
+  0.160          K-     pi0     mu+     nu_mu                     PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyK*+
+  1.000          K+             pi0                               VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay Mytau+
+  1.000          mu+    nu_mu   anti-nu_tau                       TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

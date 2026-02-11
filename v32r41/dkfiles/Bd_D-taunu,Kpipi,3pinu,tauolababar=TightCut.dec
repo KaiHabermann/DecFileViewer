@@ -1,0 +1,72 @@
+# EventType: 11563002
+#
+# Descriptor: {[[B0]nos ->(D- -> K+ pi- pi-) (tau+ -> pi+ pi- pi+ anti-nu_tau) nu_tau]cc, [[B0]os -> (D+ -> K- pi+ pi+) (tau- -> pi- pi+ pi- nu_tau) anti-nu_tau]cc}
+#
+# NickName: Bd_D-taunu,Kpipi,3pinu,tauolababar=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal = generation.SignalRepeatedHadronization
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = signal.TightCut
+# tightCut.Decay = '[( [B0]cc => ^(D+ => K- pi+ pi+) ^(tau- => pi- pi+ pi- nu_tau) nu_tau~ ) ]CC'
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,"CS  = LoKi.GenChild.Selector"
+#     ,'goodDp = ( (GP>12000*MeV) & (GPT>1500*MeV) & ( (GCHILD(GPT,("K+" == GABSID )) > 1400*MeV) & (GCHILD(GP,("K+" == GABSID )) > 5000*MeV) & in_range ( 0.010 , GCHILD(GTHETA,("K+" == GABSID )) , 0.400 ) ) & ( (GCHILD(GPT,CS("[D+ => K- ^pi+ pi+ ]CC")) > 200*MeV) & (GCHILD(GP,CS("[D+ => K- ^pi+ pi+ ]CC")) > 1600*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[D+ => K- ^pi+ pi+ ]CC")) , 0.400 ) ) & ( (GCHILD(GPT,CS("[D+ => K- pi+ ^pi+ ]CC")) > 200*MeV) & (GCHILD(GP,CS("[D+ => K- pi+ ^pi+ ]CC")) > 1600*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[D+ => K- pi+ ^pi+ ]CC")) , 0.400 ) )  )'
+#     ,'goodTau = ( ( (GCHILD(GPT,CS("[tau- => ^pi- pi+ pi- nu_tau ]CC")) > 200*MeV) & (GCHILD(GP,CS("[tau- => ^pi- pi+ pi- nu_tau ]CC")) > 1200*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[tau- => ^pi- pi+ pi- nu_tau]CC")), 0.400 ) ) & ( (GCHILD(GPT,CS("[tau- => pi- ^pi+ pi- nu_tau ]CC")) > 200*MeV) & (GCHILD(GP,CS("[tau- => pi- ^pi+ pi- nu_tau ]CC")) > 1200*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[tau- => pi- ^pi+ pi- nu_tau ]CC")) , 0.400 ) ) & ( (GCHILD(GPT,CS("[tau- => pi- pi+ ^pi- nu_tau]CC")) > 200*MeV) & (GCHILD(GP,CS("[tau- => pi- pi+ ^pi- nu_tau]CC")) > 1200*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[tau- => pi- pi+ ^pi- nu_tau]CC")) , 0.400 ) ) )'
+# ]
+# tightCut.Cuts = {
+#      '[D+]cc': 'goodDp'
+#     ,'[tau-]cc': 'goodTau'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: B0 -> D- tau nu, with D- -> K pi pi.
+# Tau lepton decays in the 3-prong charged pion mode using the Tauola BaBar model.
+# Daughters in LHCb Acceptance and passing StrippingB0d2DTauNuForB2XTauNuAllLines cuts.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+#
+# CPUTime: < 2 min
+# Tested: Yes
+# Responsible: Antonio Romero Vidal, Alessandra Gioventu
+# Email: antonio.romero@usc.es, alessandra.gioventu@cern.ch
+# Date: 20210621
+#
+# Tauola steering options
+# The following forces the tau to decay into 3 charged pions (not pi+2pi0)
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         MyD+		D+
+Alias         MyD-  		D-
+ChargeConj    MyD+       	MyD-
+#
+Alias         MyTau+    	tau+
+Alias         MyTau-     	tau-
+ChargeConj    MyTau+     	MyTau-
+#
+Decay B0sig
+  1.000       MyD-     MyTau+   nu_tau   ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  1.000       K+       pi-      pi-      D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+Decay MyTau-
+  1.0000        TAUOLA 5;
+Enddecay
+CDecay MyTau+
+#
+End
+#

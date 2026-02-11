@@ -1,0 +1,45 @@
+# EventType:  26165852
+#
+# Descriptor: [Omega_cc+ -> (Omega_c0 -> p+ K- K- pi+) pi+ ]cc
+#
+# NickName: Omegacc_Omegac0pi,pKKpi=GenXicc,DecProdCut,WithMinPTv1
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCbAndWithMinPT
+#
+# CutsOptions: MinXiccPT 2500*MeV MinDaughterPT 200*MeV
+#
+# CPUTime: < 1 min
+#
+# ParticleValue: "Omega_cc+ 510 4432 1.0 3.738 0.80e-13 Omega_cc+ 4432 0.", "Omega_cc~- 511 -4432 -1.0 3.738 0.80e-13 anti-Omega_cc- -4432 0.", "Omega_c0 104 4332 0.0 2.6952 2.5e-13 Omega_c0 4332 0.", "Omega_c~0 105 -4332 0.0 2.6952 2.5e-13 anti-Omega_c0 -4332 0."
+#
+# Documentation: Omegacc decay to Omegac0 pi+ by phase space model, Omegac0 decay to p+ K- K- pi+
+# all daughters of Omegacc are required to be in the acceptance of LHCb and with minimum PT 200 MeV
+# Omegac0 is required to be generated with the lifetime of 250fs
+# Omegacc is required to be generated with the lifetime of 80fs and mass of 3738 MeV
+# Omegacc PT is required to be larger than 2500 MeV.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Dana Bobulska
+# Email: dana.bobulska@cern.ch
+# Date: 20171214
+#
+Alias      MyOmega_c0        Omega_c0
+Alias      Myanti-Omega_c0   anti-Omega_c0
+ChargeConj MyOmega_c0        Myanti-Omega_c0
+#
+Decay Omega_cc+sig
+ 1.000    MyOmega_c0    pi+                                PHSP;
+Enddecay
+CDecay anti-Omega_cc-sig
+#
+Decay MyOmega_c0
+ 1.000        p+        K-        K-        pi+             PHSP;
+Enddecay
+CDecay Myanti-Omega_c0
+#
+End
+#

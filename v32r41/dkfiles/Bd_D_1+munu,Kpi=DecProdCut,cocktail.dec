@@ -1,0 +1,50 @@
+# EventType: 11774420
+#
+# Descriptor: {[[B0]nos -> (D_1(2420)+ -> (D*(2007)0 -> (D0 -> K- pi+) pi0) pi+) mu- anti-nu_mu]cc || [[B0]nos -> (D_1(2420)+ -> (D*(2007)0 -> (D0 -> K- pi+) gamma) pi+) mu- anti-nu_mu]cc , [[B0]os -> (D_1(2420)- -> (D*(2007)~0 -> (D~0 -> K+ pi-) pi0) pi-) mu+ nu_mu]cc || [[B0]os -> (D_1(2420)- -> (D*(2007)~0 -> (D~0 -> K+ pi-) gamma) pi-) mu+ nu_mu]cc}
+#
+# NickName: Bd_D_1+munu,Kpi=DecProdCut,cocktail
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb, B0 forced into D_10+ mu- anti-nu_mu. D_10+ forced into D*0 pi+. D*0 forced into D0gamma or D0pi0. D0 forced into K- pi+. Serves as Feeddown mode for SL analysis.
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Piet Nogga (University of Bonn)
+# Email: piet.nogga@cern.ch
+# Date: 20250402
+#
+
+Alias      MyD0       D0
+Alias      MyantiD0   anti-D0
+Alias      MyD*0      D*0
+Alias      MyantiD*0  anti-D*0
+Alias      MyD*1      D_1+
+Alias      MyantiD*1  D_1-
+ChargeConj MyD0       MyantiD0
+ChargeConj MyD*0      MyantiD*0
+ChargeConj MyD*1      MyantiD*1
+#
+Decay anti-B0sig
+  1.00         MyD*1 mu- anti-nu_mu        ISGW2;
+Enddecay
+CDecay B0sig
+#
+Decay MyD*1
+  1.000   MyD*0 pi+               PHSP;
+Enddecay
+CDecay MyantiD*1
+#
+Decay MyD*0
+  0.619    MyD0  pi0               VSS;
+  0.381    MyD0  gamma             VSP_PWAVE;
+Enddecay
+CDecay MyantiD*0
+#
+Decay MyD0
+  1.00         K- pi+          PHSP;
+Enddecay
+CDecay MyantiD0
+End
+#

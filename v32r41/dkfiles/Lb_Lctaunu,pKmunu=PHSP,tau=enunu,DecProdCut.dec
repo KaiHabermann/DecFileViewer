@@ -1,0 +1,49 @@
+# EventType: 15574026
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ K- mu+ nu_mu)  (tau- -> e- anti-nu_e nu_tau) anti-nu_tau ]cc
+# 
+# NickName: Lb_Lctaunu,pKmunu=PHSP,tau=enunu,DecProdCut
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Lb->Lctau with Lc-> pKmunu, tau->e and DecProdCut
+#  		 background studies for Lb->pktautau and Lb->pKtaumu
+# EndDocumentation
+#
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Lakshan Madhan   
+# Email: lakshan.madhan@cern.ch
+# Date: 20240726
+#
+#
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias        Mytau+    tau+
+Alias        Mytau-    tau-
+ChargeConj   Mytau+    Mytau-
+#
+###
+Decay Lambda_b0sig
+  1.000    MyLambda_c+        Mytau-  anti-nu_tau     PHOTOS   BaryonPCR  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000   p+ K- mu+ nu_mu         PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay Mytau+
+  1.000     e+          nu_e      anti-nu_tau    TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+#
+End
+#

@@ -1,0 +1,29 @@
+# EventType: 18312004
+#
+# Descriptor: Upsilon(1S) => e+ mu-
+#
+# NickName: incl_Upsilon,emu=DecProdCut
+
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Upsilon(1S) decay to e+ mu-, radiative mode included, Upsilon(1S) daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: F Wilson
+# Email: Fergus.Wilson@stfc.ac.uk
+# Date: 20211021
+#
+#
+Decay Upsilonsig
+  0.5         e-        mu+        VLL;
+  0.5         e+        mu-        VLL;
+Enddecay
+#
+End
+#

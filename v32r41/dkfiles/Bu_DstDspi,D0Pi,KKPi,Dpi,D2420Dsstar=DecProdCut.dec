@@ -1,0 +1,117 @@
+# EventType: 12297270
+# NickName: Bu_DstDspi,D0Pi,KKPi,Dpi,D2420Dsstar=DecProdCut
+# Descriptor: {[B- -> (D_10 ->(D*(2010)+ -> (D0 -> K- pi+) pi+) pi-) (D_s- -> K+ K- pi-)]cc}
+#
+# Cuts: DaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+# Documentation:  Decay file for B+- => D*+- D_s-+ pi+- with D**(2420) Ds* decays
+# EndDocumentation
+# CPUTime: < 1 min
+# 
+# Date:   20171024
+#
+# Responsible: Guy Wormser
+# Email: guy.wormser@cern.ch
+# PhysicsWG: B2OC
+#
+# Tested: Yes
+Alias MyD2420 D_10
+Alias MyD2460 D_2*0
+Alias MyD2430 D'_10
+Alias MyantiD2420 anti-D_10
+Alias MyantiD2460 anti-D_2*0
+Alias MyantiD2430 anti-D'_10 
+Alias MyD0   D0
+Alias Myanti-D0 anti-D0
+Alias MyDs+   D_s+
+Alias MyDs-   D_s-
+Alias MyD*+  D*+
+Alias MyD*-  D*-
+Alias MyDs*+ D_s*+
+Alias MyDs*- D_s*-
+Alias MyD2S0 D(2S)0
+Alias MyantiD2S0 anti-D(2S)0
+Alias MyDs0*+ D_s0*+
+Alias MyDs0*- D_s0*-
+Alias MyDs1+ D_s1+
+Alias MyDs1- D_s1- 
+ChargeConj Myanti-D0 MyD0
+ChargeConj MyDs- MyDs+
+ChargeConj MyD*- MyD*+
+ChargeConj MyD2420 MyantiD2420
+ChargeConj MyD2430 MyantiD2430
+ChargeConj MyD2460 MyantiD2460
+ChargeConj MyD2S0 MyantiD2S0
+ChargeConj MyDs*+ MyDs*-
+ChargeConj MyDs0*- MyDs0*+
+ChargeConj MyDs1- MyDs1+
+
+
+Decay MyD0
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay Myanti-D0
+
+Decay MyDs-
+  1.0 K+ K- pi- D_DALITZ;
+Enddecay
+CDecay MyDs+
+
+Decay MyD*+
+  1.0 MyD0 pi+  VSS;
+Enddecay
+CDecay MyD*-
+
+Decay MyDs*+ 
+0.942 MyDs+ gamma  VSP_PWAVE;
+0.058 MyDs+ pi0  VSS;
+Enddecay
+CDecay MyDs*-
+
+Decay MyDs0*+
+1.0 MyDs+ pi0  PHSP; 
+Enddecay 
+CDecay MyDs0*-
+
+ Decay MyDs1+  
+0.8 MyDs*+ pi0  VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.2 MyDs+ gamma  VSP_PWAVE;
+Enddecay
+CDecay MyDs1-
+
+Decay MyD2420
+1.0 MyD*+ pi-  VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyantiD2420
+
+#SetLineshapePW D_10 D*+ pi- 2 
+#SetLineshapePW anti-D_10 D*- pi+ 2  
+#SetLineshapePW D_2*0 D*+ pi- 2
+#SetLineshapePW anti-D_2*0 D*- pi+ 2  
+
+Decay MyD2460 
+1.0 MyD*+ pi-  TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyantiD2460
+
+Decay MyD2430 
+1.0 MyD*+ pi-   VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyantiD2430
+
+Decay MyD2S0
+1.0 MyD*+ pi- SVS;
+Enddecay
+CDecay MyantiD2S0
+
+
+
+
+
+
+Decay B-sig 
+1.00 MyD2420 MyDs*-   SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay B+sig
+
+End

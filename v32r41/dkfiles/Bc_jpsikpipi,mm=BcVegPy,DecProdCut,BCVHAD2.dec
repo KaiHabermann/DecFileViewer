@@ -1,0 +1,40 @@
+# EventType: 14145064
+#
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu- ) K+ pi+ pi-]cc
+#
+# NickName: Bc_jpsikpipi,mm=BcVegPy,DecProdCut,BCVHAD2
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to J/psi(-> mu+ mu-) K+ pi+ pi- with BC_VHAD model, SR formfactor set, daughters in acceptance
+# (similar to EventType 14145042).
+#
+# The codes of the Bc -> VW formfactor sets used by the model are : 1 = SR, 2 = PM,
+# see https://gitlab.cern.ch/lhcb/Gauss/-/blob/master/Gen/EvtGen/EvtGenModels/EvtBcVHad.hh;
+# for description of the model and the FF sets refer to arXiv:1307.0953 and https://indico.cern.ch/conferenceDisplay.py?confId=225839.
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Dmitrii Pereima
+# Email: Dmitrii.Pereima@cern.ch
+# Date: 20200810
+# CPUTime: < 1 min
+#
+
+Alias       MyJpsi    J/psi
+ChargeConj  MyJpsi    MyJpsi
+
+Decay B_c+sig
+ 1.        MyJpsi K+ pi+ pi-           BC_VHAD 2;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJpsi
+1. mu+ mu- VLL;
+Enddecay
+#
+#
+End

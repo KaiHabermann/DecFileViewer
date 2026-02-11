@@ -1,0 +1,48 @@
+# EventType: 11100400
+#
+# Descriptor: {[B0 => (pi0 => gamma gamma) (pi0 => gamma gamma)]cc}
+#
+# NickName: Bd_pi0pi0,gammagamma=TightCut,pi0
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation().SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[B0 => ^(pi0 => gamma gamma) ^(pi0 => gamma gamma)]CC"
+# tightCut.Preambulo += [
+#  "from LoKiCore.functions import in_range"  ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#  "AccCut     = in_range ( 0.005 , GTHETA , 0.400 )",
+#  "KinCut     = ( GPT > 2 * GeV ) & ( GP > 5 * GeV )"  
+# ]
+# tightCut.Cuts = {"[pi0]cc" : "AccCut & KinCut"}
+# EndInsertPythonCode
+
+#
+# Documentation: B0 decay to two pi0 (each decaying to two gamma)
+# Pions required with significant energy and in LHCb acceptance
+# EndDocumentation
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Titus Mombächer
+# Email: titus.mombacher@cern.ch
+# Date: 20230425
+#
+
+
+Alias MyPi0 pi0
+
+Decay B0sig
+ 1.0   MyPi0 MyPi0              PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyPi0
+  1.000      gamma gamma       PHSP;
+Enddecay
+
+End

@@ -1,0 +1,363 @@
+# EventType: 13874050
+#
+# Descriptor: [B_s0 -> (D*_s- -> (D_s- -> eta mu- nu_mu~) gamma) (D+ -> K- pi+ pi+) K0]cc
+#
+# NickName: Bs_DD+X,D=Xmunu,D+=Kpipi,LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Bs0 decaying to D D+ inclusively, one D+ forced to Kpipi, the D forced to semileptonic. For unobserved modes, Take s/avg(u,d) in the observed D_s(*)D(*) channels for bs, bu, bd respectively and scale the average equivalent D** amplitude in B0 and B- assuming this ratio for D** D* = D*D* and D**D = D*D.
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Wren Vetens
+# Email: wsvetens@syr.edu
+# Date: 20250603
+#
+Alias		MySLD_s+		D_s+
+Alias		MySLD_s-		D_s-
+ChargeConj	MySLD_s+		MySLD_s-
+#
+Alias		MySLD_s*+		D_s*+
+Alias		MySLD_s*-		D_s*-
+ChargeConj	MySLD_s*+		MySLD_s*-
+#
+Alias		MyD+		D+
+Alias		MyD-		D-
+ChargeConj	MyD+		MyD-
+#
+Alias		MyD*+		D*+
+Alias		MyD*-		D*-
+ChargeConj	MyD*+		MyD*-
+#
+Alias		MySLD+		D+
+Alias		MySLD-		D-
+ChargeConj	MySLD+		MySLD-
+#
+Alias		MySLD0		D0
+Alias		MySLAntiD0	anti-D0
+ChargeConj	MySLD0		MySLAntiD0
+#
+Alias		MySLD*0		D*0
+Alias		MySLAntiD*0	anti-D*0
+ChargeConj	MySLD*0		MySLAntiD*0
+#
+Alias		MySLD*+		D*+
+Alias		MySLD*-		D*-
+ChargeConj	MySLD*+		MySLD*-
+#
+Alias		MyD'_s1+		D'_s1+
+Alias		MyD'_s1-		D'_s1-
+ChargeConj	MyD'_s1+		MyD'_s1-
+#
+Alias		MyD_s2*+	D_s2*+
+Alias		MyD_s2*-	D_s2*-
+ChargeConj	MyD_s2*+	MyD_s2*-
+#
+Alias		Mytaumu+		tau+
+Alias		Mytaumu-		tau-
+ChargeConj	Mytaumu+		Mytaumu-
+#
+Decay B_s0sig
+# Ds- Ds+ type decays
+ 0.000006	MyD'_s1+	MySLD_s-	SVS;
+ 0.000011	MyD'_s1+	MySLD_s*-	SVV_HELAMP 0.48	0	0.734	0	1	0.0;
+ 0.000154	MyD_s2*+	MySLD_s-	STS;
+ 0.000263	MyD_s2*+	MySLD_s*-	PHSP;
+ 0.000004	MyD'_s1-	MySLD_s+	SVS;
+ 0.000006	MyD'_s1-	MySLD_s*+	SVV_HELAMP 0.48 0   0.734   0   1   0.0;
+ 0.000001	MyD_s2*-	MySLD_s+	STS;
+ 0.000002	MyD_s2*-	MySLD_s*+	PHSP;
+# DDphi type decays
+ 0.000055	MyD+	MySLD-	phi	PHSP;
+ 0.000050	MyD*+	MySLD-	phi	PHSP;
+ 0.000100	MyD+	MySLD*-	phi	PHSP;
+ 0.000062	MyD*+	MySLD*-	phi	PHSP;
+ 0.000055	MySLD+	MyD-	phi	PHSP;
+ 0.000090	MySLD*+	MyD-	phi	PHSP;
+ 0.000055	MySLD+	MyD*-	phi	PHSP;
+ 0.000062	MySLD*+	MyD*-	phi	PHSP;
+# Ds D K type decays 
+ 0.000150	MySLD_s-	MyD+	K0	PHSP;
+ 0.000301	MySLD_s*-	MyD+	K0	PHSP;
+ 0.000049	MySLD_s-	MyD*+	K0	PHSP;
+ 0.000097	MySLD_s*-	MyD*+	K0	PHSP;
+ 0.000150	MySLD_s-	MyD+	K*0	PHSP;
+ 0.000301	MySLD_s*-	MyD+	K*0	PHSP;
+ 0.000049	MySLD_s-	MyD*+	K*0	PHSP;
+ 0.000097	MySLD_s*-	MyD*+	K*0	PHSP;
+# Charge conjugate Ds D K type decays - This time the strong interaction only happens with the quarks coming from the W-
+ 0.000077	MySLD_s+	MyD-	    anti-K0	    PHSP;
+ 0.000132	MySLD_s*+	MyD-	    anti-K0	    PHSP;
+ 0.000068	MySLD_s+	MyD*-	    anti-K0	    PHSP;
+ 0.000184	MySLD_s*+	MyD*-	    anti-K0	    PHSP;
+ 0.000023	MySLD_s+	MyD-	    anti-K*0	PHSP;
+ 0.000065	MySLD_s*+	MyD-	    anti-K*0	PHSP;
+ 0.000013	MySLD_s+	MyD*-	    anti-K*0	PHSP;
+ 0.000020	MySLD_s*+	MyD*-	    anti-K*0	PHSP;
+# D Dbar type decays from internal W- exchange
+ 0.000042	MyD+	    MySLD-	    PHSP; #HFLAV
+ 0.000007	MyD*+	    MySLD*-	    SVV_HELAMP 1	0	1	0	1	0.0; #HFLAV
+ 0.000023	MyD*+	    MySLD-	    SVS; # Average of DD and D*D* modes
+ 0.000023	MyD*-	    MySLD+	    SVS;
+ 0.000042	MySLD+	    MyD-	    PHSP; #HFLAV
+ 0.000007	MySLD*+	    MyD*-	    SVV_HELAMP 1	0	1	0	1	0.0; #HFLAV
+ 0.000013	MySLD*+	    MyD-	    SVS; # Average of DD and D*D* modes
+ 0.000013	MySLD*-	    MyD+	    SVS;
+# D D phi pi type decays
+ 0.000031	MyD+	MySLD-	    phi	pi0	PHSP; # analogy to B0 and B- in <EVTTYPE> and <EVTTYPE>, buteach final state only has 1 contributing topology, rather than 2 or 4. Additionally there are 6 W- + qqbar qqbar topologies for B0 and B- (including ccbar final states) but 7 for Bs, so these amplitudes are scaled by an additional factor of 6/7. Amplitudes in a Bs decay topology must sum to the the average total amplitude of a single topology in B- and B0 scaled by this 6/7.  
+ 0.000018	MyD+	MySLD*-	    phi	pi0	PHSP;
+ 0.000010	MyD*+	MySLD-	    phi	pi0	PHSP;
+ 0.000012	MyD*+	MySLD*-	    phi	pi0	PHSP;
+ 0.000031	MySLD+	MyD-	    phi	pi0	PHSP; # analogy to B0 and B- in <EVTTYPE> and <EVTTYPE>, buteach final state only has 1 contributing topology, rather than 2 or 4. Additionally there are 6 W- + qqbar qqbar topologies for B0 and B- (including ccbar final states) but 7 for Bs, so these amplitudes are scaled by an additional factor of 6/7. Amplitudes in a Bs decay topology must sum to the the average total amplitude of a single topology in B- and B0 scaled by this 6/7.  
+ 0.000010	MySLD+	MyD*-	    phi	pi0	PHSP;
+ 0.000018	MySLD*+	MyD-	    phi	pi0	PHSP;
+ 0.000012	MySLD*+	MyD*-	    phi	pi0	PHSP;
+ 0.000012	MyD+	MySLAntiD0	phi	pi-	PHSP;
+ 0.000012	MyD+	MySLAntiD*0	phi	pi-	PHSP;
+ 0.000004	MyD*+	MySLAntiD0	phi	pi-	PHSP;
+ 0.000008	MyD*+	MySLAntiD*0	phi	pi-	PHSP;
+ 0.000012	MySLD0	MyD-	    phi	pi+	PHSP;
+ 0.000004	MySLD0	MyD*-	    phi	pi+	PHSP;
+ 0.000012	MySLD*0	MyD-	    phi	pi+	PHSP;
+ 0.000008	MySLD*0	MyD*-	    phi	pi+	PHSP;
+# D D K K type decays
+ 0.000012	MyD+	MySLD-	    K0	anti-K0	    PHSP;
+ 0.000007	MyD+	MySLD*-	    K0	anti-K0	    PHSP;
+ 0.000004	MyD*+	MySLD-	    K0	anti-K0	    PHSP;
+ 0.000004	MyD*+	MySLD*-	    K0	anti-K0	    PHSP;
+ 0.000012	MyD+	MySLD-	    K0	anti-K*0	PHSP;
+ 0.000014	MyD+	MySLD*-	    K0	anti-K*0	PHSP;
+ 0.000008	MyD*+	MySLD-	    K0	anti-K*0	PHSP;
+ 0.000004	MyD*+	MySLD*-	    K0	anti-K*0	PHSP;
+ 0.000012	MyD+	MySLD-	    K*0	anti-K0	    PHSP;
+ 0.000014	MyD+	MySLD*-	    K*0	anti-K0	    PHSP;
+ 0.000008	MyD*+	MySLD-	    K*0	anti-K0	    PHSP;
+ 0.000004	MyD*+	MySLD*-	    K*0	anti-K0	    PHSP;
+ 0.000023	MyD+	MySLD-	    K*0	anti-K*0	PHSP;
+ 0.000014	MyD+	MySLD*-	    K*0	anti-K*0	PHSP;
+ 0.000008	MyD*+	MySLD-	    K*0	anti-K*0	PHSP;
+ 0.000004	MyD*+	MySLD*-	    K*0	anti-K*0	PHSP;
+ 0.000006	MyD+	MySLD-	    K+	K-	        PHSP;
+ 0.000003	MyD+	MySLD*-	    K+	K-	        PHSP;
+ 0.000002	MyD*+	MySLD-	    K+	K-	        PHSP;
+ 0.000002	MyD*+	MySLD*-	    K+	K-	        PHSP;
+ 0.000006	MyD+	MySLD-	    K+	K*-	        PHSP;
+ 0.000007	MyD+	MySLD*-	    K+	K*-	        PHSP;
+ 0.000004	MyD*+	MySLD-	    K+	K*-	        PHSP;
+ 0.000002	MyD*+	MySLD*-	    K+	K*-	        PHSP;
+ 0.000006	MyD+	MySLD-	    K*+	K-	        PHSP;
+ 0.000007	MyD+	MySLD*-	    K*+	K-	        PHSP;
+ 0.000004	MyD*+	MySLD-	    K*+	K-	        PHSP;
+ 0.000002	MyD*+	MySLD*-	    K*+	K-	        PHSP;
+ 0.000012	MyD+	MySLD-	    K*+	K*-	        PHSP;
+ 0.000007	MyD+	MySLD*-	    K*+	K*-	        PHSP;
+ 0.000004	MyD*+	MySLD-	    K*+	K*-	        PHSP;
+ 0.000002	MyD*+	MySLD*-	    K*+	K*-	        PHSP;
+ 0.000012	MySLD+	MyD-	    K0	anti-K0	    PHSP;
+ 0.000004	MySLD+	MyD*-	    K0	anti-K0	    PHSP;
+ 0.000007	MySLD*+	MyD-	    K0	anti-K0	    PHSP;
+ 0.000004	MySLD*+	MyD*-	    K0	anti-K0	    PHSP;
+ 0.000012	MySLD+	MyD-	    K0	anti-K*0	PHSP;
+ 0.000008	MySLD+	MyD*-	    K0	anti-K*0	PHSP;
+ 0.000014	MySLD*+	MyD-	    K0	anti-K*0	PHSP;
+ 0.000004	MySLD*+	MyD*-	    K0	anti-K*0	PHSP;
+ 0.000012	MySLD+	MyD-	    K*0	anti-K0	    PHSP;
+ 0.000008	MySLD+	MyD*-	    K*0	anti-K0	    PHSP;
+ 0.000014	MySLD*+	MyD-	    K*0	anti-K0	    PHSP;
+ 0.000004	MySLD*+	MyD*-	    K*0	anti-K0	    PHSP;
+ 0.000023	MySLD+	MyD-	    K*0	anti-K*0	PHSP;
+ 0.000008	MySLD+	MyD*-	    K*0	anti-K*0	PHSP;
+ 0.000014	MySLD*+	MyD-	    K*0	anti-K*0	PHSP;
+ 0.000004	MySLD*+	MyD*-	    K*0	anti-K*0	PHSP;
+ 0.000006	MySLD+	MyD-	    K+	K-	        PHSP;
+ 0.000002	MySLD+	MyD*-	    K+	K-	        PHSP;
+ 0.000003	MySLD*+	MyD-	    K+	K-	        PHSP;
+ 0.000002	MySLD*+	MyD*-	    K+	K-	        PHSP;
+ 0.000006	MySLD+	MyD-	    K+	K*-	        PHSP;
+ 0.000004	MySLD+	MyD*-	    K+	K*-	        PHSP;
+ 0.000007	MySLD*+	MyD-	    K+	K*-	        PHSP;
+ 0.000002	MySLD*+	MyD*-	    K+	K*-	        PHSP;
+ 0.000006	MySLD+	MyD-	    K*+	K-	        PHSP;
+ 0.000004	MySLD+	MyD*-	    K*+	K-	        PHSP;
+ 0.000007	MySLD*+	MyD-	    K*+	K-	        PHSP;
+ 0.000002	MySLD*+	MyD*-	    K*+	K-	        PHSP;
+ 0.000012	MySLD+	MyD-	    K*+	K*-	        PHSP;
+ 0.000004	MySLD+	MyD*-	    K*+	K*-	        PHSP;
+ 0.000007	MySLD*+	MyD-	    K*+	K*-	        PHSP;
+ 0.000002	MySLD*+	MyD*-	    K*+	K*-	        PHSP;
+ 0.000002	MySLD0	MyD-	    K+	anti-K0	    PHSP;
+ 0.000001	MySLD0	MyD*-	    K+	anti-K0	    PHSP;
+ 0.000002	MySLD*0	MyD-	    K+	anti-K0	    PHSP;
+ 0.000001	MySLD*0	MyD*-	    K+	anti-K0	    PHSP;
+ 0.000002	MySLD0	MyD-	    K+	anti-K*0	PHSP;
+ 0.000001	MySLD0	MyD*-	    K+	anti-K*0	PHSP;
+ 0.000004	MySLD*0	MyD-	    K+	anti-K*0	PHSP;
+ 0.000001	MySLD*0	MyD*-	    K+	anti-K*0	PHSP;
+ 0.000002	MySLD0	MyD-	    K*+	anti-K0	    PHSP;
+ 0.000001	MySLD0	MyD*-	    K*+	anti-K0	    PHSP;
+ 0.000004	MySLD*0	MyD-	    K*+	anti-K0	    PHSP;
+ 0.000001	MySLD*0	MyD*-	    K*+	anti-K0	    PHSP;
+ 0.000004	MySLD0	MyD-	    K*+	anti-K*0	PHSP;
+ 0.000001	MySLD0	MyD*-	    K*+	anti-K*0	PHSP;
+ 0.000004	MySLD*0	MyD-	    K*+	anti-K*0	PHSP;
+ 0.000001	MySLD*0	MyD*-	    K*+	anti-K*0	PHSP;
+ 0.000002	MyD+	MySLAntiD0	K0	K-	        PHSP;
+ 0.000002	MyD+	MySLAntiD*0	K0	K-	        PHSP;
+ 0.000001	MyD*+	MySLAntiD0	K0	K-	        PHSP;
+ 0.000001	MyD*+	MySLAntiD*0	K0	K-	        PHSP;
+ 0.000002	MyD+	MySLAntiD0	K0	K*-	        PHSP;
+ 0.000004	MyD+	MySLAntiD*0	K0	K*-	        PHSP;
+ 0.000001	MyD*+	MySLAntiD0	K0	K*-	        PHSP;
+ 0.000001	MyD*+	MySLAntiD*0	K0	K*-	        PHSP;
+ 0.000002	MyD+	MySLAntiD0	K*0	K-	        PHSP;
+ 0.000004	MyD+	MySLAntiD*0	K*0	K-	        PHSP;
+ 0.000001	MyD*+	MySLAntiD0	K*0	K-	        PHSP;
+ 0.000001	MyD*+	MySLAntiD*0	K*0	K-	        PHSP;
+ 0.000004	MyD+	MySLAntiD0	K*0	K*-	        PHSP;
+ 0.000004	MyD+	MySLAntiD*0	K*0	K*-	        PHSP;
+ 0.000001	MyD*+	MySLAntiD0	K*0	K*-	        PHSP;
+ 0.000001	MyD*+	MySLAntiD*0	K*0	K*-	        PHSP;
+ 0.000005	MyD+	MySLD_s-	K+	pi-	PHSP;
+ 0.000005	MyD+	MySLD_s*-	K+	pi-	PHSP;
+ 0.000002	MyD*+	MySLD_s-	K+	pi-	PHSP;
+ 0.000003	MyD*+	MySLD_s*-	K+	pi-	PHSP;
+ 0.000005	MyD+	MySLD_s-	K*+	pi-	PHSP;
+ 0.000011	MyD+	MySLD_s*-	K*+	pi-	PHSP;
+ 0.000003	MyD*+	MySLD_s-	K*+	pi-	PHSP;
+ 0.000003	MyD*+	MySLD_s*-	K*+	pi-	PHSP;
+ 0.000005	MyD+	MySLD_s-	K0	pi0	PHSP;
+ 0.000005	MyD+	MySLD_s*-	K0	pi0	PHSP;
+ 0.000002	MyD*+	MySLD_s-	K0	pi0	PHSP;
+ 0.000003	MyD*+	MySLD_s*-	K0	pi0	PHSP;
+ 0.000005	MyD+	MySLD_s-	K*0	pi0	PHSP;
+ 0.000011	MyD+	MySLD_s*-	K*0	pi0	PHSP;
+ 0.000003	MyD*+	MySLD_s-	K*0	pi0	PHSP;
+ 0.000003	MyD*+	MySLD_s*-	K*0	pi0	PHSP;
+ 0.000005	MySLD_s+	MyD-	    K-	        pi+	PHSP;
+ 0.000005	MySLD_s*+	MyD-	    K-	        pi+	PHSP;
+ 0.000002	MySLD_s+	MyD*-	    K-	        pi+	PHSP;
+ 0.000003	MySLD_s*+	MyD*-	    K-	        pi+	PHSP;
+ 0.000005	MySLD_s+	MyD-	    K*-	        pi+	PHSP;
+ 0.000011	MySLD_s*+	MyD-	    K*-	        pi+	PHSP;
+ 0.000003	MySLD_s+	MyD*-	    K*-	        pi+	PHSP;
+ 0.000003	MySLD_s*+	MyD*-	    K*-	        pi+	PHSP;
+ 0.000005	MySLD_s+	MyD-	    anti-K0	    pi0	PHSP;
+ 0.000005	MySLD_s*+	MyD-	    anti-K0	    pi0	PHSP;
+ 0.000002	MySLD_s+	MyD*-	    anti-K0	    pi0	PHSP;
+ 0.000003	MySLD_s*+	MyD*-	    anti-K0	    pi0	PHSP;
+ 0.000005	MySLD_s+	MyD-	    anti-K*0	pi0	PHSP;
+ 0.000011	MySLD_s*+	MyD-	    anti-K*0	pi0	PHSP;
+ 0.000003	MySLD_s+	MyD*-	    anti-K*0	pi0	PHSP;
+ 0.000003	MySLD_s*+	MyD*-	    anti-K*0	pi0	PHSP;
+ 0.0000002	MyD-	MySLD0	        pi+	PHSP;
+ 0.0000001	MyD*-	MySLD0	        pi+	PHSP;
+ 0.0000002	MyD-	MySLD*0	        pi+	PHSP;
+ 0.0000001	MyD*-	MySLD*0	        pi+	PHSP;
+ 0.0000002	MyD+	MySLAntiD0	    pi-	PHSP;
+ 0.0000001	MyD*+	MySLAntiD0	    pi-	PHSP;
+ 0.0000002	MyD+	MySLAntiD*0	    pi-	PHSP;
+ 0.0000001	MyD*+	MySLAntiD*0	    pi-	PHSP;
+ 0.0000004	MyD+	MySLD-	    pi0	PHSP;
+ 0.0000001	MyD*+	MySLD-	    pi0	PHSP;
+ 0.0000003	MyD+	MySLD*-	    pi0	PHSP;
+ 0.0000001	MyD*+	MySLD*-	    pi0	PHSP;
+ 0.0000004	MySLD+	MyD-	    pi0	PHSP;
+ 0.0000003	MySLD*+	MyD-	    pi0	PHSP;
+ 0.0000001	MySLD+	MyD*-	    pi0	PHSP;
+ 0.0000001	MySLD*+	MyD*-	    pi0	PHSP;
+ 0.000029	MySLD_s-	MyD+	    PHSP; #HFLAV
+ 0.000010	MyD*+	    MySLD_s-	SVS; #this and following two modes unobserved, assume equal BF to the only observed doubly cabibbo suppressed final state
+ 0.000029	MySLD_s*-	MyD+	SVS;
+ 0.000010	MySLD_s*-	MyD*+	SVV_HELAMP 1	0	1	0	1	0.0;
+ 0.000009	MyD*-	    MySLD_s+	SVS; #PDG
+ 0.000028	MyD-	    MySLD_s+	PHSP; #same as for c.c. assume doubly cabibbo suppressed modes equal
+ 0.000009	MyD*-	    MySLD_s*+	SVV_HELAMP 1	0	1	0	1	0.0;
+ 0.000028	MySLD_s*+	MyD-	SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MySLD_s+
+ 0.00932        Mytaumu+  nu_tau          PHOTOS SLN;
+ 0.00535        mu+       nu_mu           PHOTOS SLN;
+ 0.02240        phi       mu+     nu_mu   PHOTOS ISGW2;
+ 0.02400        eta       mu+     nu_mu   PHOTOS ISGW2;
+ 0.01100        eta'      mu+     nu_mu   PHOTOS ISGW2;
+ 0.00010        f_0       mu+     nu_mu   PHOTOS ISGW2;
+Enddecay
+CDecay MySLD_s-
+#
+Decay MySLD_s*+
+ 0.9350         MySLD_s+		gamma           VSP_PWAVE;
+ 0.0580         MySLD_s+  	pi0             VSS;
+Enddecay
+CDecay MySLD_s*-
+#
+Decay MyD+
+   1.000	K-	pi+	pi+	PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+Decay MyD*+
+ 0.30700        MyD+    pi0             VSS;
+ 0.01600        MyD+    gamma           VSP_PWAVE;
+Enddecay
+CDecay MyD*-
+#
+Decay MySLD+
+  0.000374      mu+             nu_mu           PHOTOS SLN;
+  0.000209      Mytaumu+        nu_tau          PHOTOS SLN;
+  0.03520       anti-K*0        mu+     nu_mu   PHOTOS ISGW2;
+  0.08740       anti-K0         mu+     nu_mu   PHOTOS ISGW2;
+  0.00277       anti-K_10       mu+     nu_mu   PHOTOS ISGW2;
+  0.00293       anti-K_2*0      mu+     nu_mu   PHOTOS ISGW2;
+  0.00405       pi0             mu+     nu_mu   PHOTOS ISGW2;
+  0.00114       eta             mu+     nu_mu   PHOTOS ISGW2;
+  0.00220       eta'            mu+     nu_mu   PHOTOS ISGW2;
+  0.00240       rho0            mu+     nu_mu   PHOTOS ISGW2;
+  0.00182       omega           mu+     nu_mu   PHOTOS ISGW2;
+  0.03650       K-   pi+        mu+     nu_mu   PHOTOS PHSP;
+  0.00120       anti-K0   pi0   mu+     nu_mu   PHOTOS PHSP;
+Enddecay
+CDecay MySLD-
+#
+Decay MySLD0
+ 0.03333		K-	mu+	nu_mu		PHOTOS ISGW2;
+ 0.0192		K*-	mu+	nu_mu			PHOTOS ISGW2;
+ 0.000076	K_1-	mu+	nu_mu		PHOTOS ISGW2;
+ 0.00110	K_2*-	mu+	nu_mu		PHOTOS ISGW2;
+ 0.00238	pi-	mu+	nu_mu			PHOTOS PHSP;
+ 0.00040	K-	pi0	mu+	nu_mu		PHOTOS PHSP;
+ 0.00120	K-	pi+	pi-	mu+	nu_mu  	PHOTOS PHSP;
+Enddecay
+CDecay MySLAntiD0
+#
+Decay MySLD*+
+ 0.05403        MySLD+    pi0             VSS;
+ 0.00282        MySLD+    gamma           VSP_PWAVE;
+ 0.04604        MySLD0    pi+             VSS;
+Enddecay
+CDecay MySLD*-
+#
+Decay MySLD*0
+ 0.64700        MySLD0    pi0             VSS;
+ 0.35300        MySLD0    gamma           VSP_PWAVE;
+ 0.00391        MySLD0    e+ e-           PHSP;
+Enddecay
+CDecay MySLAntiD*0
+#
+Decay MyD'_s1+
+ 0.27455      MyD*+           K0 	    VVS_PWAVE 0.0 0.0 0.0 0.0 1.0 0.0;
+ 0.0280       MyD+     pi-    K+ 	    PHSP;
+Enddecay
+CDecay MyD'_s1-
+#
+Decay MyD_s2*+
+ 1.00000       MyD+            K0                TSS;
+ 0.014212      MyD*+           K0                TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD_s2*-
+#
+End

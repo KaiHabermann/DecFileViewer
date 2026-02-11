@@ -1,0 +1,46 @@
+# EventType: 12103063
+#
+# Descriptor: [B+ -> (phi(1020) -> K+ K-) K+]cc
+#
+# NickName: Bu_phiK,KK=DecProdCut,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Phi forced to K+K-, phase space decay, decay products in acceptance, momentum cut in kaons
+# EndDocumentation
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool as GenCutTool
+# #
+# Generation().SignalRepeatedHadronization.addTool( GenCutTool , 'TightCut' )
+# Generation().SignalRepeatedHadronization.TightCut.Decay = "[B+ => (phi(1020) => ^K+ ^K-) ^K+]CC"
+# Generation().SignalRepeatedHadronization.TightCut.Cuts = {
+#     'K+' : ' ( GPT > 0.5 * GeV ) & inAcc ',
+#     'K-' : ' ( GPT > 0.5 * GeV ) & inAcc '
+#     }
+# Generation().SignalRepeatedHadronization.TightCut.Preambulo += [
+#     'inAcc   = in_range ( 0.010 , GTHETA , 0.400 ) '
+#     ]
+# # -- END  -- #
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jonnatan Pereira
+# Email: jonnatan.pereira.betencur@cern.ch
+# Date: 20221026
+# CPUTime: <1 min
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B+sig
+1.000      MyPhi  K+   SVS;
+Enddecay
+CDecay B-sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

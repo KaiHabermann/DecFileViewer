@@ -1,0 +1,26 @@
+# EventType: 16104040
+#
+# Descriptor: [ Xi_b0 -> p+ K- pi+ pi- ]cc
+#
+# NickName: Xib0_pKpipi_PHSP=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes 
+# CPUTime: 1 min 
+# Responsible: Zhanwen Zhu 
+# Email: zhzhu@cern.ch
+# Date: 20210719
+#
+Decay Xi_b0sig
+  1.000    p+    K-    pi+    pi-   PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+End
+#
+

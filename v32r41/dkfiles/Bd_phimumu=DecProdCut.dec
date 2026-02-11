@@ -1,0 +1,33 @@
+# EventType: 11114017 
+#
+# Descriptor: [B0 -> (phi(1020) -> K+ K-) mu+ mu-]cc
+#
+# NickName: Bd_phimumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: phi forced to K+ K-, parameters taken from Bd physics,
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# 
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Yilong Wang
+# Email: yilong.wang@cern.ch
+# Date: 20200327
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B0sig
+  1.0000       MyPhi     mu+  mu-        BTOSLLALI;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

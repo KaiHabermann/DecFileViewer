@@ -1,0 +1,70 @@
+# EventType: 11574093
+#
+# Descriptor: [B0 -> (D*_2(2460)- -> (D~0 -> K+  mu- nu_mu~) pi-) e+ nu_e]cc
+#
+# NickName: Bd_Dst2460enu,D0pi,Kmunu=DecProdCut,HighVisMass,DiHadronMass,EvtGenDecayWithCut
+#
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+# #
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation(genAlgName)
+# #
+# gen.SignalRepeatedHadronization.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/HighVisMass"
+# evtgendecay.addTool(LoKi__GenCutTool ,'HighVisMass')
+# evtgendecay.HighVisMass.Decay   = '[^(B0 => (D*_2(2460)- => (D~0 => K+  mu- nu_mu~) pi-) e+ nu_e)]CC'
+# evtgendecay.HighVisMass.Cuts    = { '[B0]cc' : "visMass" }
+# evtgendecay.HighVisMass.Preambulo += [
+#     "visMass = ( ( ( GMASS ( 'e-' == GABSID , 'mu-' == GABSID, 'K+' == GABSID, 'pi+' == GABSID ) ) > 4200 * MeV ) & ( ( GMASS ( 'K+' == GABSID, 'pi+' == GABSID ) ) > 742 * MeV ) & ( ( GMASS ( 'K+' == GABSID, 'pi+' == GABSID ) ) < 1042 * MeV ) )",
+# ]
+# EndInsertPythonCode
+# Documentation: background for B0 -> K* e mu LFV search
+# selected to have a four-body visible mass larger than 4.2 GeV
+# and two-hadron visible mass in a +-150 MeV window around the Kst(892) mass
+# using EvtGenDecayWithCutTool
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Jan-Marc Basels
+# Email: jan-marc.basels@cern.ch
+# Date: 20210121
+# CPUTime: < 1 min
+#
+
+Alias		MyDst2-  D_2*-
+Alias		MyDst2+  D_2*+
+ChargeConj	MyDst2-    MyDst2+
+
+Alias		Myanti-D0   anti-D0
+Alias		MyD0	      D0
+ChargeConj	Myanti-D0  MyD0
+
+
+Decay B0sig
+  1.000	MyDst2- e+ nu_e        PHOTOS ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyDst2-
+#  1.000    Myanti-D0 pi-       PHOTOS PHSP;
+# Taken from DECAY.DEC file
+  1.000    Myanti-D0 pi-       PHOTOS TSS;
+Enddecay
+CDecay MyDst2+
+#
+Decay Myanti-D0
+  1.000    K+ mu- anti-nu_mu   PHOTOS ISGW2;
+Enddecay
+CDecay MyD0
+#
+End
+#

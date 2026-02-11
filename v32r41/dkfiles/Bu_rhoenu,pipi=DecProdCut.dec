@@ -1,0 +1,36 @@
+# EventType: 12523011
+#
+# Descriptor: [B+ -> (rho0 -> pi+ pi-) e+ nu_e]cc
+#
+# NickName: Bu_rhoenu,pipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ -> (rho0 -> pi+ pi-) e+ nu_e (PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Harry Cliff
+# Email:       harry.victor.cliff@cern.ch
+# Date:        20240719
+#
+Alias Myrho0 rho0
+ChargeConj Myrho0 Myrho0
+#
+Decay B+sig
+1.000       Myrho0       e+       nu_e        PHOTOS PHSP;
+Enddecay
+CDecay B-sig
+#
+#
+Decay Myrho0
+1.000       pi+          pi-                   VSS;
+Enddecay
+#
+End
+#
+

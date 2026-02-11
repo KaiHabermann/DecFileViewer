@@ -1,0 +1,89 @@
+# EventType: 49942001
+#
+# Descriptor: psi(2S) -> (psi(1S) -> mu+ mu-) ...
+# NickName: cep_psi2S_psi1SX,mumu
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/cepInAcc
+# Production: SuperChic2
+#
+# InsertPythonCode:
+# # Stop pile-up generation.
+# Generation(genAlgName).PileUpTool = "FixedNInteractions"
+#
+# # SuperChic options.
+# from Configurables import SuperChicProduction
+# Generation(genAlgName).Special.addTool(SuperChicProduction)
+# Generation(genAlgName).Special.SuperChicProduction.Commands += [
+#     "xflag psip", # Psi(2S) production.
+#     "phdecay mu"] # Use the psi(2S)[mu,mu] decay, changed later by EvtGen.
+# 
+# # Use EvtGen to decay the psi(2S).
+# Generation(genAlgName).Special.SuperChicProduction.Decays = False
+#
+# # SuperChic2 options.
+# from Configurables import SuperChic2Production
+# Generation(genAlgName).Special.addTool(SuperChic2Production)
+# Generation(genAlgName).Special.SuperChic2Production.Commands += [
+#     "SuperChic2:proc = 52",      # Psi(2S)[mu,mu] production.
+#     "SuperChic2:decays = false"] # Turn off SuperChic2 decays.
+#
+# # Cuts on the psi(2S).
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut, "cepInAcc")
+# cepInAcc = Generation(genAlgName).cepInAcc
+# cepInAcc.Code = "( count( out1 ) == 1 )"
+# cepInAcc.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#     "out1 = ( ( GBARCODE == 100443 ) & ( GETA > 1.0 ) & ( GETA < 6.0 ) )"]
+# 
+# # Keep the CEP process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+# Documentation:
+# central exclusive production of psi(2S)[psi(2S)[mu mu] X]
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Philip Ilten
+# Email: philten@cern.ch
+# Date: 20150717
+#
+Alias psi_mumu J/psi
+Alias chi_c0_psi chi_c0
+Alias chi_c1_psi chi_c1
+Alias chi_c2_psi chi_c2
+ChargeConj psi_mumu psi_mumu
+ChargeConj chi_c0_psi chi_c0_psi
+ChargeConj chi_c1_psi chi_c1_psi
+ChargeConj chi_c2_psi chi_c2_psi
+
+Decay psi_mumu
+0.059300000 mu+ mu- PHOTOS VLL;
+Enddecay
+
+Decay chi_c0_psi
+0.011600000 gamma psi_mumu PHSP;
+Enddecay
+
+Decay chi_c1_psi
+0.344000000 psi_mumu gamma VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+
+Decay chi_c2_psi
+0.195000000 gamma psi_mumu PHSP;
+Enddecay
+
+Decay psi(2S)
+0.336000000 psi_mumu pi+ pi- VVPIPI;
+0.177300000 psi_mumu pi0 pi0 VVPIPI;
+0.032800000 psi_mumu eta PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+0.001300000 psi_mumu pi0 PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+0.096200000 gamma chi_c0_psi PHSP;
+0.092000000 gamma chi_c1_psi PHSP;
+0.087400000 gamma chi_c2_psi PHSP;
+Enddecay
+End

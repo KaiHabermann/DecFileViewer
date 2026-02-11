@@ -1,0 +1,58 @@
+# This is the decay file for the decay B+ -> K+ (a1 -> mu+ mu-) (a2 -> (a1 -> mu+ mu-) (a1 -> mu+ mu-))
+#
+# EventType: 12117098
+#
+# Descriptor: [B+ -> K+ (Higgs0 -> mu+ mu-) (Higgs'0 -> (Higgs0 -> mu+ mu-) (Higgs0 -> mu+ mu-))]cc
+#
+# NickName: B+_K+a1a2a1a1mumumumumumu,ma1=1.0GeV,ta1=0ps,ma2=2.5GeV,ta2=0fs,DecProdCut
+#
+#
+#Cuts: DaughtersInLHCb
+#
+#InsertPythonCode:
+#
+#from Gauss.Configuration import*
+#from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+#from Configurables import Gauss, PrintMCTree, PrintMCDecayTreeTool, HistogramPersistencySvc, NTupleSvc, DumpHepMCDecay, DumpHepMCTree, GaussMonitor__CheckLifeTimeHepMC, GaussMonitor__CheckLifeTimeMC, GiGa, GiGaPhysListModular, GiGaHiggsParticles, GenerationToSimulation, PythiaProduction
+#
+#ParticlePropertySvc().Particles = ["H_10 87 25 0.0 1.0 0 Higgs0 25 0.000000e+000" , "H_20 88 35 0 2.5 0.0 Higgs'0 35 0.000000e+000"]
+#
+#gigaHiggsPart = GiGaHiggsParticles()
+#gigaHiggsPart.Higgses = ["H_10","H_20"] 
+#GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]#
+#
+#
+#EndInsertPythonCode
+#
+#
+# 
+# Documentation: File for B+ -> K+ a1 (-> mu mu) a2 (-> a1 (-> mu+ mu-) a1 (-> mu+ mu-) ) via two intermediate light scalars (a1 and a2) with m_a1 = 1 GeV, tau_a1 = 0ps, m_a2 = 2.5 GeV and tau_a2 = fs
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Emilio Xosé Rodríguez
+# Email: emilio.xose.rodriguez.fernandez@cern.ch 
+# Date:   20220111
+# CPUTime: <1min
+#
+#
+Alias      MyA1    Higgs0
+ChargeConj MyA1    MyA1
+Alias      MyA2    Higgs'0
+ChargeConj MyA2    MyA2
+#
+Decay MyA1
+1.000      mu+      mu-       PHSP;             
+Enddecay
+#
+Decay MyA2
+1.000      MyA1      MyA1      PHSP;
+Enddecay
+#
+Decay B+sig
+1.000         K+ MyA1 MyA2        PHSP;
+Enddecay
+CDecay B-sig
+#
+End

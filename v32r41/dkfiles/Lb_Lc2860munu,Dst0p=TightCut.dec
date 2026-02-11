@@ -1,0 +1,82 @@
+# 
+#
+# EventType: 15774400
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c(2625)+ -> (D*0 -> (D0 -> K- pi+) pi0) p+) anti-nu_mu mu-]cc
+#
+# NickName: Lb_Lc2860munu,Dst0p=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: <3 min
+#
+# ParticleValue: "Lambda_c(2625)+ 104124 104124 1.0 2.856 9.00e-024 Lambda_c(2625)+ 0 1.0e-004", "Lambda_c(2625)~- -104124 -104124 -1.0 2.856 9.00e-024 anti-Lambda_c(2625)- 0 1.0e-004"
+
+# InsertPythonCode:
+
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#gen = Generation(genAlgName)
+#gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+#tightCut = gen.SignalPlain.TightCut
+#tightCut.Decay = "[ (Beauty) ==> ^(D~0 -> ^K+ ^pi- {gamma} {gamma} {gamma}) ^mu+ nu_mu {X} {X} {X} {X} {X} {X} {X} {X} ]CC"
+#tightCut.Preambulo += [
+#  "from LoKiCore.functions import in_range"  ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV"  ,
+#  "piKP     = GCHILD(GP,('K+' == GABSID )) + GCHILD(GP,('pi-' == GABSID ))" ,
+#  "piKPT     = GCHILD(GPT,('K+' == GABSID )) + GCHILD(GPT,('pi-' == GABSID ))" ,
+#]
+#tightCut.Cuts      =    {
+# '[pi+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 700 * MeV )" ,
+# '[K-]cc'   : " in_range( 0.010 , GTHETA , 0.400 ) & ( GPT > 700 * MeV )" ,
+# '[mu+]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) & (GP > 2500* MeV) ",
+# '[D~0]cc'   : "( piKP > 15000 * MeV ) & (piKPT > 2300 * MeV)"
+#    }
+# EndInsertPythonCode
+#
+# Documentation: Lambda_b0 -> D*0 p mu nu, with D*->D0 pi0/gamma, D0 -> K-pi+. Improve the description of the D0p mass distribution by
+# forcing the D0p to go through a MODIFIED LAMBDA_C(2625)+, as the only suitable spin 3/2 state. Mass of 2856 MeV and width of 73.1
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Greg Ciezarek
+# Email: gregory.max.ciezarek@cern.ch
+# Date: 20180207
+#
+#
+Alias MyLambda_c+       Lambda_c(2625)+
+Alias Myanti-Lambda_c-  anti-Lambda_c(2625)-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias      MyD0       D0
+Alias      MyD0bar    anti-D0
+ChargeConj MyD0       MyD0bar
+#
+Alias      MyD*0        D*0
+Alias      MyAntiD*0    anti-D*0
+ChargeConj MyD*0        MyAntiD*0
+#
+
+Decay Lambda_b0sig
+ 1.0    MyLambda_c+        mu-  anti-nu_mu     PHOTOS   Lb2Baryonlnu  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.0      MyD*0 p+ PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyD*0
+  0.619   MyD0  pi0                            PHOTOS VSS;
+  0.381   MyD0  gamma                          PHOTOS VSP_PWAVE;
+Enddecay
+CDecay MyAntiD*0
+#
+Decay MyD0
+  1.0      K- pi+ PHSP;
+Enddecay
+CDecay MyD0bar
+
+End
+
+

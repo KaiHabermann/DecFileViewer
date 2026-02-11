@@ -1,0 +1,31 @@
+# EventType: 11154061
+#
+# Descriptor: [B0 -> (J/psi(1S) => e+ e-) pi+ pi-]cc
+#
+# NickName: Bd_Jpsipipi,ee=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Lukas Calefice
+# Email: lukas.calefice@cern.ch
+# Date: 20240212
+# CPUTime:< 1 min
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+#
+Decay B0sig
+  1.000    MyJ/psi  pi+ pi-       PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyJ/psi
+  1.000         e+       e-    PHOTOS        VLL;
+Enddecay
+End

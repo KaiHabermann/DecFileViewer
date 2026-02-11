@@ -1,9 +1,0 @@
-// Created by https://github.com/scikit-hep/decaylanguage
-digraph DecayChainGraph {
-	graph [comment="Created by https://github.com/scikit-hep/decaylanguage" engine=dot format=png name=DecayChainGraph rankdir=LR]
-	node [fontname=Helvetica fontsize=11 shape=oval]
-	edge [fontcolor="#4c4c4c" fontsize=11]
-	mother [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#568dba"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">myTau-</TD></TR></TABLE>> shape=none]
-	dec1264190 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03bc;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">e<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bc;<SUP>+</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
-	mother -> dec1264190 [label=1.0]
-}

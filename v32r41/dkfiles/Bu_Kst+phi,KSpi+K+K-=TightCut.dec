@@ -1,0 +1,96 @@
+# EventType: 12105191
+#
+# Descriptor: [B+ -> (K*(892)+ -> (KS0 -> pi+ pi-) pi+) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bu_Kst+phi,KSpi+K+K-=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation:
+#
+# B+ decaying into vector K*(892)+ and vector phi(1020) with K*(892)+ decaying to KS pi+
+# and phi(1020) decaying to K+ K-.
+# Tight cut.
+# Values of the transversity amplitudes are from PDG
+#
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[B+ ==> ^(K*(892)+ ==> ^KS0 ^pi+) ^(phi(1020) ==> ^K+ ^K-) ]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import centimeter" ,
+#     "inAcc = in_range ( 0.010, GTHETA, 0.400 ) & in_range   ( 1.8 , GETA , 5.0 )", 
+#     "goodForRich = in_range ( 3.0 * GeV , GP , 150 * GeV )",
+#     "ksInAcc = in_range ( 2 , GETA , 5 )",
+#     "ksPion =  in_range ( 1.6 , GETA ,  5.2 ) & in_range ( 2 * GeV , GP ,  150 * GeV )",
+#     "bothPI =  2 == GNINTREE (  ( 'pi+' == GABSID )   & ksPion )",
+#     "ksTT   =  GVEV & ( GFAEVX ( GVZ , 1.e+10 ) < 240 * centimeter )",
+#     "good_KS = ksInAcc & bothPI & ksTT",
+#     "had_pt = GPT > 300 * MeV",
+# ]
+# tightCut.Cuts      =    {
+#     '[pi+]cc'       : 'inAcc & goodForRich & had_pt',
+#     '[K+]cc'        : 'inAcc & goodForRich & had_pt',
+#     '[KS0]cc'       : 'good_KS & had_pt',
+#     '[K*(892)+]cc'  : 'had_pt',
+#     '[phi(1020)]cc' : 'had_pt',
+# }
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: <2min
+# Responsible: Yanxi Wu
+# Email: yanxi.wu@cern.ch
+# Date: 20250211
+#
+Define Azero   0.71 # Mod. of Azero
+Define pAzero  0.00 # Phase of Azero
+Define Aplus   0.70 # Mod. of Aplus
+Define pAplus  2.45 # Phase of Aplus
+Define Aminus  0.11 # Mod. of Aminus
+Define pAminus 1.60 # Phase of Aminus
+#
+Alias      MyK*+      K*+
+Alias      MyK*-      K*-
+ChargeConj MyK*+      MyK*-
+Alias      Myphi      phi
+ChargeConj Myphi      Myphi
+Alias      MyK_S0     K_S0
+ChargeConj MyK_S0     MyK_S0
+#
+Decay B+sig
+ 1.000  MyK*+    Myphi        SVV_HELAMP Aplus pAplus Azero pAzero Aminus pAminus;
+Enddecay
+# Need to specify the CC decay explicitly as SVV_HELAMP does not apply the parity flip
+# Means that the plus and minus amplitdues must swap
+#
+Decay B-sig
+ 1.000  MyK*-    Myphi        SVV_HELAMP Aminus pAminus Azero pAzero Aplus pAplus;
+Enddecay
+#
+Decay MyK*+
+ 1.000  MyK_S0      pi+               VSS;
+Enddecay
+#
+CDecay MyK*-
+#
+Decay Myphi
+ 1.000  K+          K-                VSS;
+Enddecay
+#
+Decay MyK_S0
+  1.000 pi+          pi-                PHSP;
+Enddecay
+#
+#
+End
+#
+

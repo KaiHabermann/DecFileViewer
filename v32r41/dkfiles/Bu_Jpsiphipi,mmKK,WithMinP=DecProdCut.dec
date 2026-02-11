@@ -1,0 +1,48 @@
+# EventType: 12145055
+#
+# Descriptor: [B+ -> (J/psi->mu+ mu-) (phi->K+ K-) pi+]cc
+#
+# NickName: Bu_Jpsiphipi,mmKK,WithMinP=DecProdCut
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+# CutsOptions: MinTrackP 2000*MeV
+#
+# Documentation: B->J/psi phi pi , phi-> KK
+# Daughters in LHCb WithMinP.
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+#
+# Responsible: Raul Rabadan
+# Email: raul.iraq.rabadan.trejo@cern.ch
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Date: 20210525
+
+
+Alias       MyJ/psi     J/psi
+ChargeConj  MyJ/psi     MyJ/psi
+
+Alias       MyPhi       phi
+ChargeConj  MyPhi       MyPhi
+
+#  PDG Id = 521
+Decay B+sig
+ 1.0000   MyJ/psi MyPhi pi+           PHSP;
+Enddecay
+CDecay B-sig
+
+#  PDG Id = 333
+Decay MyPhi
+ 1.0000    K+ K-                 PHSP;
+Enddecay
+
+#  PDG Id = 443
+Decay MyJ/psi
+  1.0000   mu+   mu-                PHOTOS VLL;
+Enddecay
+
+
+
+End

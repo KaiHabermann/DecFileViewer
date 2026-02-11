@@ -1,0 +1,35 @@
+# EventType: 49000010
+#
+# Descriptor: pp -> X ...
+#
+# NickName: HardQcdBgd,PT_14GeV,THETA_400mrad,NLT_50cm
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/HardParticle
+# ExtraOptions: HardQcdBgd,PT_14GeV
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "HardParticle" )
+# HardParticle = Generation(genAlgName).HardParticle
+# HardParticle.Code = "(count( inAcceptance & hasHighPT & isStableCharged ) > 0)"
+# HardParticle.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import m, GeV, mrad",
+#     "isStableCharged = (( GHADRON | GLEPTON ) & GCHARGED & ( GNLT > 0.5 * m ))",
+#     "inAcceptance = (GTHETA < 400.0 * mrad)",
+#     "hasHighPT = (GPT > 14 * GeV)",
+# ]
+# EndInsertPythonCode
+#
+# Documentation: 1 particle in the acceptance with pT > 14 GeV with Hard QCD enabled
+# EndDocumentation
+# CPUTime: < 1 min
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Miguel Ramos Pernas
+# Email: miguel.ramos.pernas@cern.ch
+# Date: 20210804
+#
+End
+#

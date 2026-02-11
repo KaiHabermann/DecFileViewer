@@ -1,0 +1,46 @@
+# EventType: 49152001
+#
+# Descriptor: psi(2S) -> e+ e-
+# NickName: cep_psi2S_ee
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/cepInAcc
+# Production: SuperChic2
+#
+# InsertPythonCode:
+#
+# # SuperChic2 options.
+# from Configurables import SuperChic2Production
+# Generation(genAlgName).Special.addTool(SuperChic2Production)
+# Generation(genAlgName).Special.SuperChic2Production.Commands += [
+#     "SuperChic2:proc = 52",        # Psi(2S)[e,e] production.
+#     "SuperChic2:decays = false"]  # Turn off SuperChic2 decays.
+# 
+# # Cuts on the psi(2S).
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut, "cepInAcc")
+# cepInAcc = Generation(genAlgName).cepInAcc
+# cepInAcc.Code = "( count( out1 ) == 1 )"
+# cepInAcc.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#     "out1 = ( ( GABSID == 100443 ) & ( GETA > 1.0 ) & ( GETA < 6.0 ) )"]
+# 
+# # Keep the CEP process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+# Documentation:
+# central exclusive production of psi(2S)[e e]
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Cristina Sanchez Gras
+# Email: cristina.sanchez.gras@cern.ch
+# Date: 20191127
+#
+Decay psi(2S)
+1.0 e+ e- PHOTOS VLL;
+Enddecay
+End

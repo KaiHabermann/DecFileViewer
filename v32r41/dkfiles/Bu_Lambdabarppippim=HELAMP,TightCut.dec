@@ -1,0 +1,62 @@
+# EventType: 12105102
+# 
+# Descriptor: [ B+ -> (Lambda~0 -> p~- pi+) p+ pi+ pi-]cc 
+# 
+# NickName: Bu_Lambdabarppippim=HELAMP,TightCut
+#
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[B+ ==> (Lambda~0 => ^p~- ^pi+) ^p+ ^pi+ ^pi-]CC"
+# tightCut.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import MeV",
+# "InAcc = in_range ( 0.005 , GTHETA , 0.400 )",
+# "goodpi  = ( GP > 1000 * MeV ) & ( GPT > 100 * MeV ) & InAcc",
+# "goodp   = ( GP > 5000 * MeV ) & ( GPT > 200 * MeV ) & InAcc"
+# ]
+# tightCut.Cuts = {
+# '[pi-]cc' : "goodpi",
+# '[p+]cc'  : "goodp"
+# }
+#
+# EndInsertPythonCode
+# 
+# Documentation:
+#                 Lambda0 forced into p pi.
+#                 Lambda0 -> p pi helicity amplitude from 2019 combination in PRL 123, 182301.
+#                 All charged final state tracks are required to be within the LHCb acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Simon Akar
+# Email: simon.akar@cern.ch
+# Date: 20230214
+#
+#
+
+Alias       MyLambda      Lambda0
+Alias       MyantiLambda  anti-Lambda0
+ChargeConj  MyLambda      MyantiLambda
+
+#
+Decay B+sig
+  1.000     MyantiLambda  p+  pi+  pi-       PHSP; 
+Enddecay
+CDecay B-sig
+#
+Decay MyLambda
+  1.000     p+            pi-                HELAMP 0.9276 0.0 0.3735 0.0;
+Enddecay
+CDecay MyantiLambda
+#
+End
+#
+

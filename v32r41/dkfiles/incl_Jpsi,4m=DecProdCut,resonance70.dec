@@ -1,0 +1,36 @@
+# EventType: 24114005
+#
+# Descriptor: J/psi -> mu+ mu- (omega(782) -> mu+ mu-)
+#
+# NickName: incl_Jpsi,4m=DecProdCut,resonance70
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Jpsi decay to four muons via a resonance of a 70 MeV width (lifetime hbar/(70 MeV) = 0.940e-23 s)
+# EndDocumentation
+#
+# ParticleValue: "omega(782)             36         223   0.0      0.212      0.940e-23                     omega         223      5.00000000"
+#
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Vitalii Lisovskyi, Xiafei Chang
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20221026
+# CPUTime: <1 min
+# Tested: Yes
+#
+Alias      Myomega     omega
+ChargeConj Myomega     Myomega
+
+#
+Decay J/psisig
+  1.000         Myomega mu+  mu-       PHOTOS PHSP;
+Enddecay
+#
+Decay Myomega
+  1.000         mu+ mu-  PHOTOS VLL;
+Enddecay
+#
+End
+#

@@ -1,0 +1,100 @@
+# EventType: 11574220
+# Descriptor: {[[B0] => (D_s- => K+ K- pi-) anti-K0 nu_mu mu+]cc}
+# NickName: Bd_Dstcocktailmunu,DsstK0,KKpi=ISGW2,mu3hInAcc
+# Cuts: BeautyTomuCharmTo3h
+# CutsOptions: MuonPMin 2.5*GeV HadronPtMin 0.25*GeV HadronPMin 4.5*GeV
+# FullEventCuts: LoKi::FullGenEventCut/TightCuts
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "TightCuts" )
+# tightCuts = Generation(genAlgName).TightCuts
+# tightCuts.Code = "( count ( DsDaughPt ) > 0 )"
+# tightCuts.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import GeV",
+# "DsDaughPt     = (('D_s-' == GABSID) & (GCHILD(GPT,('K+'==GABSID))+GCHILD(GPT,('K-'==GABSID))+GCHILD(GPT,('pi-'==GABSID)) > 2.0*GeV))"
+#  ]
+# EndInsertPythonCode
+#
+# CPUTime: <1 min 
+# Documentation: Sum of D**- mu nu_mu, includes resonances in DsstK0 decay
+#                Requires that the mu from beauty and the 3h from charm are in acc. 
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Adlene Hicheur
+# Email: Adlene.Hicheur@cern.ch
+# Date: 20250926
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Alias      MyD2640_+    D*(2S)+
+Alias      MyD2640_-    D*(2S)-
+ChargeConj MyD2640_+    MyD2640_-
+
+Alias      MyD2760_+    D*+
+Alias      MyD2760_-    D*-
+ChargeConj MyD2760_+    MyD2760_-
+
+Alias MyD2_2740_+ D_2*+
+Alias MyD2_2740_- D_2*-
+ChargeConj MyD2_2740_+  MyD2_2740_-
+
+
+ChangeMassMin MyD2760_+ 2.609
+ChangeMassMax MyD2760_+ 3.781
+ChangeMassMin MyD2760_- 2.609
+ChangeMassMax MyD2760_- 3.781
+Particle MyD2760_+ 2.781 0.180
+Particle MyD2760_- 2.781 0.180
+
+ChangeMassMin MyD2_2740_+ 2.609
+ChangeMassMax MyD2_2740_+ 3.747
+ChangeMassMin MyD2_2740_- 2.609
+ChangeMassMax MyD2_2740_- 3.747
+Particle MyD2_2740_+ 2.747 0.088
+Particle MyD2_2740_- 2.747 0.088
+
+#
+Decay B0sig 
+  0.3333    MyD2640_-     mu+    nu_mu       PHOTOS  ISGW2;
+  0.3333    MyD2760_-     mu+    nu_mu       PHOTOS  ISGW2;
+  0.3333    MyD2_2740_- mu+    nu_mu       PHOTOS  ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD_s+
+  0.0545     K+    K-     pi+          PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+  0.935   MyD_s+  gamma               PHOTOS VSP_PWAVE;
+  0.058   MyD_s+  pi0                 PHOTOS VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD2640_+
+  1.0    MyD_s*+ K0                  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD2640_-
+
+Decay MyD2760_+
+  1.0    MyD_s*+ K0                  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD2760_-
+
+Decay MyD2_2740_+
+  1.0    MyD_s*+ K0                  TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD2_2740_-
+#
+#
+End

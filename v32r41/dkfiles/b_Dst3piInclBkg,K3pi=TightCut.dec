@@ -1,0 +1,48 @@
+# EventType: 27165077
+#
+# Descriptor: { [ D*- => pi- (anti-D0 ==> K+ pi- pi- pi+) ]cc }
+#
+# NickName: b_Dst3piInclBkg,K3pi=TightCut
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/B2D03piBkg
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "B2D03piBkg" )
+# tightCut = Generation(genAlgName).B2D03piBkg
+# tightCut.Code = "( ( count(B2D0X)>0 ) )"
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,'inAcc = ( 0 < GPZ )  &  ( 200 * MeV < GPT ) & ( 900 * MeV < GP ) & in_range ( 1.8 , GETA , 5.2 )'
+#     ,"B2D0X = ( GBEAUTY & ( ( GNINTREE ( ('D0' == GABSID) & (GP>19000*MeV) & (GPT>1900*MeV) & ( GNINTREE(( 'K-' == GABSID ) & ( GPT > 350*MeV ) & ( GP > 3900*MeV ) & inAcc, HepMC.descendants) == 1 ) & ( GNINTREE(( 'pi+' == GABSID ) & ( GPT > 200*MeV ) & ( GP > 1900*MeV ) & inAcc, HepMC.descendants) == 3 ) & ( GNINTREE( ('D*(2010)+' == GABSID), HepMC.ancestors) > 0 ), HepMC.descendants ) > 0 ) & (GNINTREE ( ( ('K-' == GABSID) | ('pi-' == GABSID) | ('mu-' == GABSID) | ('e-' == GABSID) | ('p+' == GABSID) ),HepMC.descendants) < 8 ) ) )"
+#
+# ]
+# EndInsertPythonCode
+#
+# Documentation: Combinatorial background D*-/3pi for B2XTauNu analyses with D*->piD0, D0->K3pi.
+# EndDocumentation
+#
+# CPUTime: <2 min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Antonio Romero Vidal
+# Email: antonio.romero@usc.es
+# Date: 20240510
+#
+Alias MyD0 D0
+Alias Myanti-D0 anti-D0
+ChargeConj MyD0 Myanti-D0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+1.00      K-           pi+        pi+        pi-      LbAmpGen DtoKpipipi; # (0.0822 +- 0.0014) incl.;
+Enddecay
+CDecay Myanti-D0
+#
+End

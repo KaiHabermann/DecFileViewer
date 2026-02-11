@@ -1,0 +1,133 @@
+# EventType: 13874401
+#
+# Descriptor: {[B_s0 => (D_s- => pi-pi0 (omega -> pi+ pi- pi0)) nu_mu mu+]cc}
+#
+# NickName: Bs_Dsmunu,pipi0omega=cocktail,hqet2,TightCut,ForB2OmegaMuNu
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Sum of D(*(*))_s mu nu_mu and D(*(*))_s tau nu_tau, includes resonances in Ds decay. Ds forced into pi+ pi0 omega, tight cuts on muon and pions from omega, cuts adapted for B+ -> omega mu nu analysis;
+# EndDocumentation
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName).SignalRepeatedHadronization
+# gen.addTool( LoKi__GenCutTool, "TightCut" )
+# SignalFilter = gen.TightCut
+# SignalFilter.Decay = "^( Beauty --> (Charm --> ^(omega(782) --> pi+ pi- (pi0 -> gamma gamma) ...) [pi+]cc pi0 ...) [mu-]cc  ...)"
+# SignalFilter.Preambulo += [
+#  "from GaudiKernel.SystemOfUnits import  GeV",
+#  "inAcc                = in_range ( 0.005 , GTHETA , 0.400 ) &  in_range ( 1.9 , GETA , 5.1 )", 
+#  "inEcalX              = abs ( GPX / GPZ ) < 4.5 / 12.5", 
+#  "inEcalY              = abs ( GPY / GPZ ) < 3.5 / 12.5" , 
+#  "inEcalHole           = ( abs ( GPX / GPZ ) < 0.25 / 12.5 ) & ( abs ( GPY / GPZ ) < 0.25 / 12.5 )" ,
+#  "muCuts               = (0 < GNINTREE ( ('mu-' == GABSID ) & (GP > 5 * GeV) &  (GPT > 1.2 * GeV)  & inAcc))",
+#  "piPlusCuts           = (0 < GNINTREE ( ('pi+' == GID ) & (GP > 1.5 * GeV) & (GPT > 0.35 * GeV)  & inAcc ))",
+#  "piMinusCuts          = (0 < GNINTREE ( ('pi-' == GID ) & (GP > 1.5 * GeV) & (GPT > 0.35 * GeV)  & inAcc ))",
+#  "piMaxPT              = (GMAXTREE( GPT, ('pi+' == GABSID) & inAcc & (GP > 1.5 * GeV)) > 0.85 * GeV )",
+#  "piMaxP               = (GMAXTREE( GP, ('pi+' == GABSID) & inAcc & (GPT > 0.35 * GeV)) > 4.5 * GeV )",
+#  "omegaCuts            = (GCHILD(GPT, 'pi0' == GABSID ) > 400*MeV) & (GCHILD(GPT, 'pi+' == GABSID ) > 350 * MeV) & (GCHILD(GP, 'pi+'== GABSID) > 1.5 * GeV ) & (1 < GNINTREE( ( 'gamma' == GID) & inEcalX & inEcalY & ~inEcalHole ))",
+#  "allcuts              = ( muCuts & piPlusCuts & piMinusCuts & piMaxPT & piMaxP )"
+#  ]
+# SignalFilter.Cuts =  { "Beauty"  : "allcuts",
+#                        "omega(782)" : "omegaCuts"}
+#  		         
+# EndInsertPythonCode
+#
+# CPUTime: < 10 min
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Michel De Cian
+# Email: michel.de.cian@cern.ch
+# Date: 20210728
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Alias      MyD_s1+    D_s1+
+Alias      MyD_s1-    D_s1-
+ChargeConj MyD_s1-    MyD_s1+
+#
+Alias      MyD'_s1+   D'_s1+
+Alias      MyD'_s1-   D'_s1-
+ChargeConj MyD'_s1-   MyD'_s1+
+#
+Alias      MyD_s0*+   D_s0*+
+Alias      MyD_s0*-   D_s0*-
+ChargeConj MyD_s0*+   MyD_s0*-
+#
+Alias      Mytau+     tau+
+Alias      Mytau-     tau-
+ChargeConj Mytau+     Mytau-
+#
+Alias      MyOmega         omega
+ChargeConj MyOmega         MyOmega
+#
+Decay B_s0sig
+  #such that the Ds*/Ds = 2.42 and the Ds**/(AllDs) = 0.172
+  #HQET2 parameter as for B->D(*)mu nu (assuming SU(3)),
+  #taken from 2016 HFAG averages:
+  #http://www.slac.stanford.edu/xorg/hfag/semi/summer16/html/ExclusiveVcb/exclBtoD.html
+  #http://www.slac.stanford.edu/xorg/hfag/semi/summer16/html/ExclusiveVcb/exclBtoDstar.html
+  0.0210   MyD_s-     mu+    nu_mu       PHOTOS  HQET2 1.128 1.074; #rho^2 as of HFAG 2016, v1 unchanged
+  0.0510   MyD_s*-    mu+    nu_mu       PHOTOS  HQET2 1.205 0.921 1.404 0.854; #rho^2 (ha1 unchanged) R1 and R2 as of HFAG 2016
+  0.0070   MyD_s0*-   mu+    nu_mu       PHOTOS  ISGW2;
+  0.0040   MyD_s1-    mu+    nu_mu       PHOTOS  ISGW2;
+  0.0040   MyD'_s1-   mu+    nu_mu       PHOTOS  ISGW2;
+  # correct for the fact that we force tau -> mu anti_nu_mu nu_tau (17.3%)
+  0.00138  MyD_s-     Mytau+   nu_tau    PHOTOS ISGW2;
+  0.00277  MyD_s*-    Mytau+   nu_tau    PHOTOS ISGW2;
+  0.00038  MyD_s0*-   Mytau+   nu_tau    PHOTOS ISGW2;
+  0.00022  MyD_s1-    Mytau+   nu_tau    PHOTOS ISGW2;
+  0.00022  MyD'_s1-   Mytau+   nu_tau    PHOTOS ISGW2;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s+
+  1.000       MyOmega    pi+   pi0    PHOTOS PHSP;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyOmega
+ 1.000    pi-      pi+      pi0                PHOTOS OMEGA_DALITZ;
+Enddecay
+#
+Decay MyD_s*+
+  0.942   MyD_s+  gamma               PHOTOS VSP_PWAVE;
+  0.058   MyD_s+  pi0                 PHOTOS VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s1+
+  0.0337  MyD_s+  gamma                PHOTOS PHSP;
+  0.097   MyD_s*+ pi0                  PHOTOS PHSP;
+  0.0077  MyD_s+  pi+ pi-              PHOTOS PHSP;
+  0.0038  MyD_s+  pi0 pi0              PHOTOS PHSP;
+  0.008   MyD_s+  gamma gamma          PHOTOS PHSP;
+  0.008   MyD_s*+ gamma                PHOTOS PHSP;
+Enddecay
+CDecay MyD_s1-
+#
+Decay MyD_s0*+
+  1.000   MyD_s+   pi0                 PHOTOS PHSP;
+Enddecay
+CDecay MyD_s0*-
+#
+Decay MyD'_s1+
+  0.5   MyD_s*+   gamma              PHOTOS PHSP;
+  0.5   MyD_s+    pi+ pi-            PHOTOS PHSP;
+Enddecay
+CDecay MyD'_s1-
+#
+Decay Mytau+
+  0.1731     mu+  nu_mu   anti-nu_tau  PHOTOS  TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

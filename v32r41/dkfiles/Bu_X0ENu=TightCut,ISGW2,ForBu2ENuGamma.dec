@@ -1,0 +1,46 @@
+# EventType: 12721000
+#
+# Descriptor: [B+ => X0 e+ nu_e]cc
+#
+# NickName: Bu_X0ENu=TightCut,ISGW2,ForBu2ENuGamma
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Decay file for resonant B+ => X0 e+ nu with at least one photon. Electron is required to be high momentum and in the LHCb acceptance. 
+# EndDocumentation
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation().SignalRepeatedHadronization
+# gen.addTool ( LoKi__GenCutTool , 'TightCut' )
+# SignalFilter = gen.TightCut
+# SignalFilter.Decay = "^(Beauty --> ( X0 --> gamma ... ) [e+]cc ...)"
+# SignalFilter.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import  GeV",
+#   "inAcc               = in_range ( 0.005 , GTHETA , 0.400 )", 
+#   "eCuts               = ( 0 < GNINTREE ( ('e+' == GABSID ) & (GP > 5 * GeV) &  (GPT > 1.2 * GeV) & inAcc ) )",
+#   ]
+# SignalFilter.Cuts =  { "Beauty" : "eCuts" }
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Alice Moro
+# Email: a.moro23@campus.unimib.it
+# Date: 20250306
+#
+#
+Decay B+sig
+    0.047       sigma_0     e+     nu_e   ISGW2;
+    0.378       rho0        e+     nu_e   ISGW2;
+    0.285       omega       e+     nu_e   ISGW2;
+    0.058       eta'        e+     nu_e   ISGW2;
+    0.078       f_0         e+     nu_e   ISGW2;
+    0.118       f_2         e+     nu_e   ISGW2;
+    0.036       rho(2S)0    e+     nu_e   ISGW2;
+Enddecay
+CDecay B-sig
+#
+End
+#

@@ -1,0 +1,53 @@
+# EventType: 28196071
+#
+# Descriptor: MyX -> (Lambda_c+ -> p+ K+ pi-) (anti-Lambda_c- -> anti-p- K- pi+)
+#
+# ParticleValue: "psi(3770)    765         30443   0.0      4.634      7.15447826086957e-24    psi(3770)      30443      0"
+#
+# NickName: X_LcLc,pKpi=DecProdCut
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: LHCbAcceptance, X-> /\c /\c, /\c -> pKpi; X declared as psi(3770) by analogy to reconstructed particle name in the data, but mean and width taken from arXiv:0807.4458
+# EndDocumentation
+#
+# CPUTime: 8 min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Michael Wilkinson (Syracuse University)
+# Email: miwilkin@syr.edu
+# Date: 20180305
+#
+
+Alias      MyLambda_c+      Lambda_c+
+Alias      Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+      Myanti-Lambda_c-
+
+#
+Decay psi(3770)sig
+  1.00     MyLambda_c+ Myanti-Lambda_c-     PHSP;
+Enddecay
+#
+Decay MyLambda_c+
+  1.00     p+          K-               pi+ PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay psi(3770)
+0.410000000 D+      D-                                      VSS; #[Reconstructed PDG2011]
+0.520000000 D0      anti-D0                                 VSS; #[Reconstructed PDG2011]
+0.001930000 J/psi   pi+     pi-                             PHSP; #[Reconstructed PDG2011]
+0.000800000 J/psi   pi0     pi0                             PHSP; #[Reconstructed PDG2011]
+0.0073    gamma  chi_c0                  PHSP;
+0.0029    gamma  chi_c1                  PHSP;
+0.055840600 rndmflav anti-rndmflav PYTHIA 42;
+0.000900000 J/psi   eta                                     PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000009700 e+      e-                                      PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000009700 mu+     mu-                                     PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000310000 phi     eta                                     PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.0     MyLambda_c+ Myanti-Lambda_c-     PHSP;
+Enddecay
+#
+#
+End
+#

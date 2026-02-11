@@ -1,0 +1,29 @@
+# EventType: 18102000
+#   
+# Descriptor: Upsilon(1S) -> p+ p~-
+#
+# NickName: incl_etab,pp=DecProdCut
+#
+# Documentation: Etab decay to proton and antiproton with phase space model, daughters in acceptance
+# EndDocumentation
+#
+# Sample:         SignalPlain
+# Cuts:           UpsilonDaughtersInLHCb
+# ExtraOptions:   Upsilon1S
+#
+# # --  Define Upsilon(1S) as eta_b tetraquark  -- #
+# ParticleValue: "Upsilon(1S)   387    553   0.0   9.3987    6.5821196e-23    Upsilon   553    0.00000000"
+#
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Luis Miguel Garcia martin
+# Email: lgarciam@cern.ch
+# Date: 20240710
+# CPUTime: <1 min
+#
+Decay Upsilonsig
+  1.000 p+ anti-p- PHSP;
+Enddecay
+#
+End

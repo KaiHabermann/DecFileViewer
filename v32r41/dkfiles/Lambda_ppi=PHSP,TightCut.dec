@@ -1,0 +1,60 @@
+# EventType: 33102103
+#
+# Descriptor: [Lambda0 -> pi- p+]cc
+#
+# NickName: Lambda_ppi=PHSP,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Lambda0 decay to p+ pi- with phase space model, Tight cut.
+#  * Lambda0 endvertex z in [-1m,0.8m]
+#  * Lambda0 endvertex radial cut at 38mm  
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[^(Lambda0 => ^p+ ^pi-)]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import meter, millimeter, GeV, MeV" ,
+#     "inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         " ,
+#     "inEta        =  in_range ( 1.95  , GETA   , 5.050 )         " ,
+#     "goodTrack    =  inAcc & inEta" ,
+#     "GVX = LoKi.GenVertices.PositionX() " ,
+#     "GVY = LoKi.GenVertices.PositionY() " ,
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,
+#     "vx    =  GFAEVX ( GVX, 100 * meter )  " ,
+#     "vy    =  GFAEVX ( GVY, 100 * meter )  " ,
+#     "rho2  =  vx**2 + vy**2  " ,
+#     "rhoK  = rho2 < (38 * millimeter )**2 " ,
+#     "decay = in_range ( -1 * meter, GFAEVX ( GVZ, 100 * meter ), 0.8 * meter ) ",
+#     "goodpion = (GPZ > 0) & (GPT > 100*MeV ) & (GP > 3.0*GeV)",
+#     "goodproton = (GPT > 275*MeV ) & (GP > 12.25*GeV)"
+# ]
+# tightCut.Cuts      =    {
+#    "[Lambda0]cc"   : "decay & rhoK",
+#    "[p+]cc"         : "goodTrack & goodproton " ,
+#    "[pi-]cc"         : "goodTrack & goodpion"
+#                         }
+# EndInsertPythonCode
+#                    
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Alexandre Brea Rodriguez
+# Email: alexandre.brea.rodriguez@cern.ch
+# Date: 20201221
+#
+Decay Lambda0sig
+  1.000         p+        pi-        PHSP;
+Enddecay
+CDecay anti-Lambda0sig
+#
+End
+#

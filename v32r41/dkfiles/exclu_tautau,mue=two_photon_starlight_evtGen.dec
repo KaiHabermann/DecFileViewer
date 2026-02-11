@@ -1,0 +1,50 @@
+# EventType: 40512010
+#
+# Descriptor: gamma gamma -> (tau- -> mu- anti-nu_mu nu_tau) (tau+ -> e+ nu_e anti-nu_tau)
+#
+# NickName: exclu_tautau,mue=two_photon_starlight_evtGen
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/cepInAcc
+# Documentation: tau pair production from two photon with STARlight and 1 muonic decay + 1 electrnic decay of tau
+# EndDocumentation
+#
+# CPUTime: < 2 min
+#
+# InsertPythonCode:
+# from Configurables import Generation, Special, StarLightProduction, LoKi__FullGenEventCut
+# Generation(genAlgName).DecayTool = 'EvtGenDecay'
+# Generation(genAlgName).SampleGenerationTool = 'Special'
+# Generation(genAlgName).addTool(Special)
+# Generation(genAlgName).Special.CutTool = ''
+# Generation(genAlgName).Special.DecayTool = ''
+# Generation(genAlgName).Special.ProductionTool = 'StarLightProduction'
+# Generation(genAlgName).Special.addTool(StarLightProduction)
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['PROD_PID = 15']
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['PROD_MODE = 1']
+
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut, 'cepInAcc') 
+#  
+# cepInAcc = Generation(genAlgName).cepInAcc
+# cepInAcc.Code = " ( (count(goodTaue) == 1) & (count(goodTaumu) == 1) ) "
+# 
+# cepInAcc.Preambulo += [
+#     "inEta    = in_range ( 1.95 , GETA , 5.050 )",
+#     "goodMu  = ( ( GABSID == 13  ) & inEta )",
+#     "goode  = ( ( GABSID == 11  ) & inEta )",
+#     "goodTaumu = ( (GABSID == 15) & ( GNINTREE( goodMu, 1 ) == 1 ) )",
+#     "goodTaue = ( (GABSID == 15) & ( GNINTREE( goode, 1 ) == 1 ) )",
+#       ]
+#
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Lakshan Madhan
+# Email: lakshan.madhan@cern.ch
+# Date: 20240227
+#
+#
+#
+End

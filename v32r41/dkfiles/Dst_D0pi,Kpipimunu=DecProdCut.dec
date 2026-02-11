@@ -1,0 +1,68 @@
+# EventType: 27675001
+#
+# Descriptor: [D*(2010)+ -> (D0 -> (K_1(1270)- -> K- pi+ pi-)  mu+ nu_mu) pi+]cc
+#
+# NickName: Dst_D0pi,Kpipimunu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Liang Sun
+# Email: lsun@cern.ch
+# Date: 20180910
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+Alias myK_1- K_1-
+Alias myK_1+ K_1+
+ChargeConj myK_1-  myK_1+
+Alias myKst0 K*0
+Alias myKst0bar anti-K*0
+ChargeConj myKst0 myKst0bar
+Alias myK0st0 K_0*0
+Alias myK0st0bar anti-K_0*0
+ChargeConj myK0st0 myK0st0bar
+Alias myrho0 rho0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.000 myK_1- mu+ nu_mu PHOTOS ISGW2;  
+Enddecay
+CDecay MyantiD0
+
+Decay myK_1-
+0.38   myrho0  K-                         VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.19    myKst0bar pi-                    VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.35    myK0st0bar pi-                   PHSP;
+0.08     K- pi+ pi-                          PHSP;
+Enddecay
+CDecay myK_1+
+
+Decay myrho0
+1.00    pi+ pi-                             VSS;
+Enddecay
+
+Decay myKst0bar
+1.00    K-  pi+                       VSS;
+Enddecay
+CDecay myKst0
+
+Decay myK0st0bar
+1.00    K-  pi+                       PHSP;
+Enddecay
+CDecay myK0st0
+
+#
+End
+

@@ -1,0 +1,207 @@
+# EventType: 16879062
+#
+# Descriptor: [Xi_bc0 -> Beauty Charm]cc
+#
+# NickName: Tbc_BD=cocktail,TightCut
+#
+# Production: GenXicc
+#
+# ParticleValue: "Xi_bc0 522 5142 0.0 7.175 -0.0001 Xi_bc0 5142 0.0", "Xi_bc~0 523 -5142 0.0 7.175 -0.0001 anti-Xi_bc0 -5142 0.0", "Xi'_bc0 550 5412 0.0 7.147 -0.010 Xi'_bc0 5412 0.0", " Xi'_bc~0 551 -5412 0.0 7.147 -0.010 anti-Xi'_bc0 -5412 0.0"
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Tbc strongly decaying option with mass 7147.0 MeV (2.5 MeV above B0D0 threshold, 7144.47 [ParticleTables] or 7144.56 MeV [PDG], or 2.0 MeV below BmDp threshold, 7148.98 MeV [ParticleTables]) and natural width of 10 MeV.
+# Generate BD0/BD+ events in ratio 1:0.667 due to lower BD0 threshold and hence supposedly higher BR (given the small Tbc width).
+# Relatively large width is taken to ensure efficient reweighting to exact resonanse shape for wider mass range.
+# Trick with using Xi_bc'0 in addition to Xi_bc0 is to ensure that Xibc/Tbc mass is not set below BD threshold by Pythia/GenXicc.
+# Decays to B~0D0 and B-D+. The B and D mesons reconstructed in cocktail of 10+ decay modes.
+# Produced via GenXicc package and Tight cuts using Xi_bc0, thus may have too soft pT spectra.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Ivan Polyakov
+# Email: ivan.polyakov@cern.ch
+# Date: 20250301
+# CPUTime: <1min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutToolWithDecay
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.Special.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+# gen.Special.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+# SignalFilter = gen.Special.TightCut
+# SignalFilter.SignalPID = gen.Special.GenXiccProduction.BaryonState 
+# SignalFilter.Decay = "^[Xi_bc0 ==> Beauty Charm ]CC"
+# SignalFilter.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import  GeV, mm",
+#   "inAcc         = in_range ( 0.005 , GTHETA , 0.400 ) &  in_range ( 1.9 , GETA , 5.1 )", 
+#   "muon          = ('mu-' == GABSID)",
+#   "pion          = ('pi+' == GABSID)",
+#   "kaon          = ('K+' == GABSID)",
+#   "goodMuon      = ((GP > 5 * GeV) & (GPT > 0.29 * GeV) & inAcc)",
+#   "goodHadron    = ((GP > 3 * GeV) & (GPT > 0.19 * GeV) & inAcc)",
+#   "Dstp          = GDECTREE('[D*(2010)+ => D0 pi+]CC')",
+#   "Dpimu         = GDECTREE('[Beauty => Charm [pi+]cc mu+ nu_mu]CC')",
+#   "Dstp_pi       = '[D*(2010)+ => D0 ^pi+]CC'",
+#   "Dpimu_pi      = '[Beauty => Charm ^[pi+]cc mu+ nu_mu]CC'",
+#   "NpiBadAll     = GNINTREE( pion & ~goodHadron)",
+#   "NpiBadDstp    = GNINTREE( Dstp  & GCHILDCUT( ~goodHadron, Dstp_pi ))",
+#   "NpiBadDpimu   = GNINTREE( Dpimu & GCHILDCUT( ~goodHadron, Dpimu_pi ))",
+#   "piCuts        = (NpiBadAll == NpiBadDstp + NpiBadDpimu)",  
+#   "kaonCuts      = ~GINTREE( kaon & ~goodHadron )",
+#   "goodMuonFromB = ((GP > 5.9 * GeV) & (GPT > 0.95 * GeV) & inAcc)",
+#   "Dmu           = GDECTREE('[Beauty => Charm mu+ nu_mu]CC')",
+#   "DXmu          = GDECTREE('[Beauty => Charm X mu+ nu_mu]CC')",
+#   "muAll         = ~GINTREE( muon & ~goodMuon )",
+#   "muFromDmu     = ~GINTREE( Dmu & GCHILDCUT( ~goodMuonFromB, muon ))",
+#   "muFromDXmu    = ~GINTREE( DXmu & GCHILDCUT( ~goodMuonFromB, muon ))",
+#   "muCuts        = ( muAll & muFromDmu & muFromDXmu )",
+#   "Bmeson        = (('B+' == GABSID) | ('B0' == GABSID) | ('B_s0' == GABSID))",
+#   "BctauCut      = GCHILDCUT(GTIME > 0.06 * mm, Bmeson)",
+#   "DmesonFromBD  = '[Beauty ==> Beauty ^(D0|D+|D~0|D-|D_s+|D_s-) {(pi0|pi+|pi-)} ]CC'",
+#   "DctauCut      = GCHILDCUT(GTIME > 0.03 * mm, DmesonFromBD)",
+#   "allcuts       = ( muCuts & piCuts & kaonCuts & BctauCut & DctauCut )",    
+#   ]
+# SignalFilter.Cuts =  { "[Xi_bc0]cc" : "allcuts" }
+# EndInsertPythonCode
+#
+Alias	MyXibc Xi'_bc0
+Alias	MyAntiXibc anti-Xi'_bc0
+ChargeConj MyXibc MyAntiXibc
+#
+Alias       MyB0  B0
+Alias       MyAntiB0  anti-B0
+ChargeConj  MyB0  MyAntiB0
+Alias       MyBp  B+
+Alias       MyBm  B-
+ChargeConj  MyBp  MyBm
+#
+Alias      MyD0        D0
+Alias      MyAntiD0    anti-D0
+ChargeConj MyD0        MyAntiD0
+#
+Alias      MyDp        D+
+Alias      MyDm        D-
+ChargeConj MyDp        MyDm
+#
+Alias      MyDst0        D*0
+Alias      MyAntiDst0    anti-D*0
+ChargeConj MyDst0        MyAntiDst0
+#
+Alias      MyDstp        D*+
+Alias      MyDstm        D*-
+ChargeConj MyDstp        MyDstm
+#
+Alias MyJpsi  J/psi
+ChargeConj MyJpsi MyJpsi
+#
+Alias MyK*0 K*0
+Alias MyAntiK*0 anti-K*0
+ChargeConj MyK*0 MyAntiK*0
+#
+Alias MyPiPi sigma_0
+ChargeConj MyPiPi MyPiPi
+#
+Decay Xi_bc0sig
+  1.0   MyXibc gamma     PHSP;
+Enddecay
+CDecay anti-Xi_bc0sig
+#
+Decay MyXibc
+  # sum = 1.00, aim equal or similar statistics output
+  0.6    MyAntiB0 MyD0     PHSP;
+  0.4    MyBm     MyDp     PHSP;
+Enddecay
+CDecay MyAntiXibc
+#
+Decay MyBp
+  # sum = 1.00, aim equal or similar statistics output
+  ## for each additional pi+pi- BR multiplied by 3x
+  0.06    MyJpsi K+ SVS;
+  0.06    MyJpsi K+ pi+ pi- PHSP; # not present in BpForSpectroscopy line, thus downscaled
+  #
+  0.04    MyAntiD0 pi+ PHSP;
+  0.12    MyAntiD0 pi+ pi+ pi- PHSP;
+  0.12    MyDm pi+ pi+ PHSP;
+  0.04    MyAntiDst0 pi+ PHSP;
+  0.12    MyAntiDst0 pi+ pi+ pi- PHSP;
+  0.12    MyDstm pi+ pi+ PHSP;
+  #
+  # those below are inspired by DECAY.DEC and PDG, with BRs normalized to 0.28 and rounded
+  0.174   MyAntiDst0  mu+  nu_mu     PHOTOS   HQET2 1.207 0.920 1.406 0.853;
+  0.070   MyAntiD0    mu+  nu_mu     PHOTOS   HQET2 1.185 1.081;
+  0.017   MyDstm      pi+     mu+  nu_mu  PHOTOS   GOITY_ROBERTS;
+  0.012   MyDm        pi+     mu+  nu_mu  PHOTOS   GOITY_ROBERTS;
+  0.002   MyAntiDst0  MyPiPi  mu+  nu_mu  PHOTOS   GOITY_ROBERTS;
+  0.005   MyAntiD0    MyPiPi  mu+  nu_mu  PHOTOS   GOITY_ROBERTS;
+Enddecay
+CDecay MyBm
+#
+Decay MyB0
+  # sum = 1.00, aim equal or similar statistics output
+  ## for each additional pi+pi- BR multiplied by 3x
+  0.06    MyJpsi K+ pi- PHSP;
+  0.06    MyJpsi MyK*0 PHSP; 
+  #
+  0.06    MyDm pi+ PHSP; 
+  0.18    MyDm pi+ pi+ pi- PHSP;
+  0.06    MyAntiD0 pi+ pi- PHSP;
+  0.06    MyDstm pi+ PHSP;
+  0.18    MyDstm pi+ pi+ pi- PHSP;
+  0.06    MyAntiDst0 pi+ pi- PHSP;
+  #
+  # those below are inspired by DECAY.DEC and PDG, with BRs normalized to 0.28 and rounded
+  0.169   MyDstm    mu+     nu_mu   PHOTOS HQET2 1.207 0.920 1.406 0.853;
+  0.073   MyDm      mu+     nu_mu   PHOTOS HQET2 1.185 1.081;
+  0.019   MyAntiDst0 pi-     mu+  nu_mu   PHOTOS GOITY_ROBERTS;
+  0.012   MyAntiD0   pi-     mu+  nu_mu   PHOTOS GOITY_ROBERTS;
+  0.002   MyDstm     MyPiPi  mu+  nu_mu   PHOTOS GOITY_ROBERTS;
+  0.005   MyDm       MyPiPi  mu+  nu_mu   PHOTOS GOITY_ROBERTS;
+Enddecay
+CDecay MyAntiB0
+#
+##
+Decay MyD0
+  # sum = 1.00, relative BRs from PDG
+  # effective efficiency ~0.5 of that of the D0->K-pi+ mode
+  0.325         K- pi+            PHSP;
+  0.675         K- pi+ pi+ pi-    PHSP;
+Enddecay
+CDecay MyAntiD0
+#
+Decay MyDp
+  1.000         K- pi+ pi+        D_DALITZ; 
+Enddecay
+CDecay MyDm
+#
+Decay MyDst0
+   0.619	MyD0	pi0	VSS;
+   0.381	MyD0	gamma	VSP_PWAVE;
+Enddecay
+CDecay MyAntiDst0
+#
+Decay MyDstp
+   0.677	MyD0	pi+	VSS;
+   0.307	MyDp	pi0	VSS;
+   0.016	MyDp	gamma	VSP_PWAVE;
+Enddecay
+CDecay MyDstm
+#
+Decay MyJpsi
+1.000   mu+  mu-  PHOTOS   VLL;
+Enddecay
+#
+Decay MyK*0
+ 1.000  K+         pi-                    VSS ;
+Enddecay
+CDecay MyAntiK*0
+#
+# to use 2pi in GOITY_ROBERTS model on which TightCuts won't be applied
+Decay MyPiPi
+ 1.000  pi0      pi0     PHSP;
+Enddecay
+#
+End
+#

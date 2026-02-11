@@ -1,0 +1,49 @@
+# EventType: 12145063
+#
+# Descriptor: [B+ -> K+ (eta_c -> (J/psi(1S) -> mu+ mu-) (phi -> K+ K-))]cc 
+#
+# NickName: Bu_X4140,Jpsiphi=DecProdCut,InAcc 
+#
+# Cuts: DaughtersInLHCb 
+#
+# ParticleValue: "eta_c(1S)             128         441   0.0      4.146      7.930e-24                     eta_c         441      1.40000000"
+#
+# Documentation: This is the decay file for the decay B+ -> K+ (X4140 -> (J/psi(1S) -> mu+ mu-) (phi -> K+ K-)). 
+# eta_c is used for this X4140 generation. 
+# EndDocumentation
+#
+# PhysicsWG:   Onia
+# Tested:      Yes
+# Responsible: Yixiong Zhou
+# Email:       yixiong.zhou@cern.ch
+# Date:        20191101
+# CPUTime:     <1min
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+Alias      Myphi   phi
+ChargeConj Myphi   Myphi
+
+Alias Myetac eta_c
+ChargeConj Myetac Myetac
+#
+#
+Decay B+sig
+  1.000     Myetac     K+     PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Myetac
+  1.000         MyJ/psi   Myphi        PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+   mu-   PHOTOS VLL;
+Enddecay
+#
+Decay Myphi
+  1.000     K+ K-                    PHSP;
+Enddecay
+#
+End
+#

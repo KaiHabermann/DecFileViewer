@@ -1,0 +1,132 @@
+# EventType: 12245400
+# 
+# Descriptor: [B+ -> (J/psi(1S) -> mu+ mu-) K+ (omega(782) -> pi+ pi- (pi0 -> gamma gamma))]cc
+# 
+# NickName: Bu_KOmegaJpsi,pi0pi+pi-=PHSP,mm=TightCut,cocktail,THREEBODYPHSP
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '^[ B+ ==>  ^(J/psi(1S) => ^mu+ ^mu- )  ^K+ (omega(782) => ^pi+ ^pi- (pi0 -> ^gamma ^gamma) ) ]CC'
+# tightCut.Cuts      =    {
+#     'gamma'     : ' goodGamma ' ,
+#     '[mu+]cc'   : ' goodMuon  ' ,
+#     '[K+]cc'    : ' goodKaon  ' ,
+#     '[pi+]cc'   : ' goodPion  ' ,
+#     'J/psi(1S)' : ' goodPsi   ' ,
+#     '[B+]cc'    : ' goodB     '}
+# tightCut.Preambulo += [  "GY = LoKi.GenParticles.Rapidity()" ]
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import ns',
+#     'from GaudiKernel.PhysicalConstants import c_light',
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) ' ,
+#     'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5      ' ,
+#     'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5      ' ,
+#     'inEcalHole= (abs ( GPX / GPZ ) < 0.25 / 12.5) & (abs ( GPY / GPY ) < 0.25 / 12.5)' ,
+#     'goodMuon  = ( GPT > 500  * MeV ) & ( GP > 2 * GeV )     & inAcc   ' ,
+#     'goodKaon  = ( GPT > 150  * MeV )                        & inAcc   ' ,
+#     'goodPion  = ( GPT > 150  * MeV )                        & inAcc   ' ,
+#     'goodGamma = ( 0 < GPZ ) & ( 150 * MeV < GPT ) & inEcalX & inEcalY & ~inEcalHole' ,
+#     'goodPsi   = ( GPT > 1000  * MeV ) & in_range( 1.8 , GY , 4.5 )    ' ,
+#     'goodB     = ( GCTAU > 0.1e-3 * ns * c_light )']
+#
+# EndInsertPythonCode
+#
+# Documentation: Decay file for B+ -> K+ (Omega -> pi+ pi- (pi0 -> gamma gamma)) (Jpsi -> mu+ mu-), PHSP. Tight cut.
+# Used for amplitude analysis of B+ -> K+ Omega Jpsi. With correct omega decay model, mass cut and invariant mass distributions better matching that seen in data.
+# EndDocumentation
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Da Yu Tou
+# Email: da.yu.tou@cern.ch
+# Date: 20230213
+# CPUTime: 2 min
+#
+#
+Alias      MyJpsi        J/psi
+ChargeConj MyJpsi        MyJpsi
+#
+Alias      MyW           omega
+ChargeConj MyW           MyW
+#
+Alias      MyP0          pi0
+ChargeConj MyP0          MyP0
+#
+Alias      MyK_1+        K_1+
+Alias      MyK_1-        K_1-
+ChargeConj MyK_1+        MyK_1-
+#
+Alias      My_X_3872     X_1(3872)
+ChargeConj My_X_3872     My_X_3872
+#
+Alias      My_psi_4415   psi(4415)
+ChargeConj My_psi_4415   My_psi_4415
+#
+
+
+LSNONRELBW MyK_1+
+BlattWeisskopf MyK_1+ 0.0
+Particle MyK_1+ 1.28 0.3
+ChangeMassMin MyK_1+ 1.0
+ChangeMassMax MyK_1+ 2.3
+
+LSNONRELBW MyK_1-
+BlattWeisskopf MyK_1- 0.0
+Particle MyK_1- 1.28 0.3
+ChangeMassMin MyK_1- 1.0
+ChangeMassMax MyK_1- 2.3
+
+LSNONRELBW My_X_3872
+BlattWeisskopf My_X_3872 0.0
+Particle My_X_3872 3.9 0.3
+ChangeMassMin My_X_3872 3.6
+ChangeMassMax My_X_3872 5.0
+
+LSNONRELBW My_psi_4415
+BlattWeisskopf My_psi_4415 0.0
+Particle My_psi_4415 4.2 0.3
+ChangeMassMin My_psi_4415 3.6
+ChangeMassMax My_psi_4415 5.0
+
+
+Decay B+sig
+  0.25   MyJpsi MyW K+  PHSP;
+  0.25   MyJpsi MyK_1+ PHSP;
+  0.25    My_X_3872 K+  PHSP;
+  0.25    My_psi_4415 K+  PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyJpsi
+  1.000    mu+    mu-         PHOTOS VLL;
+Enddecay
+#
+Decay MyK_1+
+  1.000    MyW K+             PHOTOS PHSP;
+Enddecay
+CDecay MyK_1-
+#
+Decay My_X_3872
+  1.000    MyJpsi MyW         PHSP;
+Enddecay
+#
+Decay My_psi_4415
+  1.000    MyJpsi MyW         PHSP;
+Enddecay
+#
+Decay MyW
+  1.000    pi+    pi-    MyP0   PHOTOS   OMEGA_DALITZ;
+Enddecay
+#
+Decay MyP0
+  1.000    gamma    gamma       PHSP;
+Enddecay
+#
+
+End

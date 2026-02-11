@@ -1,0 +1,53 @@
+# EventType: 14503200
+#
+# Descriptor: [B_c+ -> (tau+ -> pi+ pi+ pi- nu_tau) nu_tau gamma]cc
+#
+# NickName: Bc_TauNuGamma=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+# FullEventCuts: LoKi::FullGenEventCut/TightCuts
+#
+# Documentation: Decay file using BcVegPy and cuts of BcDaughtersInLHCb, tau forced into pi+ pi+ pi- nu_tau via CLEO TAUOLA model
+# EndDocumentation
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "TightCuts" )
+# tightCuts = Generation(genAlgName).TightCuts
+# tightCuts.Code = "( count ( hasGoodTau ) > 0 )"
+#
+# tightCuts.Preambulo += [
+#       "from GaudiKernel.SystemOfUnits import ns, GeV, mrad"
+#     , "hasGoodTau        = (( 'tau+'      == GABSID ) & ( GNINTREE( ( 'pi+' == GABSID ) & ( in_range(0.075,GTHETA,0.400) ) & ( GPT > 0.15*GeV ) & ( GP > 2*GeV )) == 3 ))"
+#      ]
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Donal Hill
+# Email: donal.hill@cern.ch
+# Date: 20200619
+
+# Tauola steering options
+Define TauolaCurrentOption 0
+Define TauolaBR1 1.0
+#
+Alias		MyTau+	tau+
+Alias		MyTau-	tau-
+ChargeConj	MyTau+	MyTau-
+#
+Decay B_c+sig
+      1.0	MyTau+	nu_tau	gamma PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyTau+
+      1.0	TAUOLA 5;
+Enddecay
+CDecay MyTau-
+#
+End
+#

@@ -1,0 +1,153 @@
+# EventType: 12245071
+#
+# Descriptor: [B+ -> (psi(2S) -> mu+ mu-) K+ pi+ pi-]cc
+#
+# NickName: Bu_psi2SKpipi,mm=resCocktail,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay     = '^[ B+ ==> (psi(2S) ==> ^mu+ ^mu-) ^K+ ^pi+ ^pi- ]CC'
+#tightCut.Cuts      =    {
+#'[B+]cc'   : " goodB " ,
+#'[K+]cc'    : ' goodTrack  ' ,
+#'[pi+]cc'   : ' goodTrack  ' ,
+#'[mu+]cc'   : ' (goodTrack) & ( GP > 2500 * MeV ) ' 
+#}
+#tightCut.Preambulo += [
+#'from GaudiKernel.SystemOfUnits import ns, MeV',
+#'from GaudiKernel.PhysicalConstants import c_light',
+#'inAcc = ( in_range( 0.01, GTHETA, 0.400) ) & ( in_range( 1.4, GETA, 5.6) )  ',
+#'goodTrack  = ( GPT > 95  * MeV ) & ( GP > 950 * MeV ) &  ( inAcc )' ,
+#"goodB  =  ( GCTAU > 0.15e-3 * ns * c_light) & ( GP > 20000 * MeV ) & ( GPT > 250 * MeV ) " 
+#]
+#EndInsertPythonCode
+#
+# Documentation: B+ -> psi(2S) K pi pi, psi(2S)->mu+ mu-, tight generator level cuts
+# EndDocumentation
+# 
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Philippe dArgent
+# Email: p.dargent@cern.ch
+# Date: 20201201
+# CPUTime: < 1 min
+#
+Alias Mypsi(2S) psi(2S)
+ChargeConj Mypsi(2S) Mypsi(2S)
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias      Myrho0     rho0
+ChargeConj Myrho0     Myrho0
+#
+Alias      MyK_1-     K_1-
+Alias      MyK_1+     K_1+
+ChargeConj MyK_1+     MyK_1-
+#
+Alias      MyK'_1-     K'_1-
+Alias      MyK'_1+     K'_1+
+ChargeConj MyK'_1+     MyK'_1-
+#
+Alias      MyX      X_1(3872)
+ChargeConj MyX       MyX
+#
+
+noPhotos
+
+LSNONRELBW MyK_1+
+BlattWeisskopf MyK_1+ 0.0
+Particle MyK_1+ 1.265 0.15
+ChangeMassMin MyK_1+ 0.5
+ChangeMassMax MyK_1+ 3.0
+
+LSNONRELBW MyK_1-
+BlattWeisskopf MyK_1- 0.0
+Particle MyK_1- 1.265 0.15
+ChangeMassMin MyK_1- 0.5
+ChangeMassMax MyK_1- 3.0
+
+LSNONRELBW MyK'_1+
+BlattWeisskopf MyK'_1+ 0.0
+Particle MyK'_1+ 1.45 0.25
+ChangeMassMin MyK'_1+ 0.5
+ChangeMassMax MyK'_1+ 3.0
+
+LSNONRELBW MyK'_1-
+BlattWeisskopf MyK'_1- 0.0
+Particle MyK'_1- 1.45 0.25
+ChangeMassMin MyK'_1- 0.5
+ChangeMassMax MyK'_1- 3.0
+
+LSNONRELBW Myrho0
+BlattWeisskopf Myrho0 0.0
+Particle Myrho0 0.75 0.15
+ChangeMassMin Myrho0 0.2
+ChangeMassMax Myrho0 3.0
+
+LSNONRELBW MyK*0
+BlattWeisskopf MyK*0 0.0
+Particle MyK*0 0.892 0.06
+ChangeMassMin MyK*0 0.5
+ChangeMassMax MyK*0 3.0
+
+LSNONRELBW Myanti-K*0
+BlattWeisskopf Myanti-K*0 0.0
+Particle Myanti-K*0 0.892 0.06
+ChangeMassMin Myanti-K*0 0.5
+ChangeMassMax Myanti-K*0 3.0
+
+LSNONRELBW MyX
+BlattWeisskopf MyX 0.0
+Particle MyX 4.55 0.25
+ChangeMassMin MyX 3.0
+ChangeMassMax MyX 5.5
+
+
+Decay B+sig
+  0.25   Mypsi(2S) K+ pi+ pi-    PHSP;
+  0.25   MyK_1+ Mypsi(2S)        PHSP;
+  0.30   MyK'_1+ Mypsi(2S)       PHSP;
+  0.20   MyX K+                  PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Mypsi(2S)
+  1.0000   mu+   mu-                PHSP;
+Enddecay
+#
+Decay MyK_1+
+0.250   MyK*0  pi+                       PHSP;
+0.750   Myrho0 K+                          PHSP;
+Enddecay
+CDecay MyK_1-
+#
+Decay MyK'_1+
+0.750   MyK*0  pi+                       PHSP;
+0.250   Myrho0 K+                          PHSP;
+Enddecay
+CDecay MyK'_1-
+#
+Decay MyK*0
+1.000 K+   pi-                  PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Myrho0
+1.000 pi+  pi-                    PHSP;
+Enddecay
+#
+Decay MyX
+1.000 Mypsi(2S) Myrho0                    PHSP;
+Enddecay
+#
+End
+#

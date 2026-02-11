@@ -1,0 +1,35 @@
+# EventType: 11514071
+#
+# Descriptor: {[[B0]nos -> K+ pi- e+ (tau- -> mu- anti-nu_mu nu_tau)]cc, [[B0]os -> K- pi+ e- (tau+ -> mu- nu_mu anti-nu_tau)]cc}
+#
+# NickName: Bd_Kpitaue,mu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bd -> pi K tau e, with taus decaying to muons
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Lakshan Madhan
+# Email: lakshan.madhan@cern.ch
+# Date: 20230712
+#
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+#
+Decay B0sig
+  0.500       K+         pi-        Mytau+    e-        PHSP;
+  0.500       K+         pi-        e+       Mytau-     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mytau+
+  1.000       mu+        nu_mu      anti-nu_tau          TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

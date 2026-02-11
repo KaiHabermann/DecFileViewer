@@ -1,0 +1,28 @@
+# EventType: 21513020
+#
+# Descriptor: [D+ -> K- pi+ mu+ nu_mu]cc
+#
+# NickName: D+_K-pi+mu+nu=BESIIImodel,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the decay of D+ to K- pi+ mu nu. Requires products to be in LHCb acceptance. Decay model based on BESIII paper [Phys.Rev.D 94 (2016) 3, 032001]. See the following link for detailed generator info:
+#https://gitlab.cern.ch/lhcb/Gauss/-/merge_requests/495
+#
+#
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Liang Sun
+# Email: lsun@<nospam>cern.ch
+# Date: 20210316
+#
+
+
+Decay D+sig
+1.00	K-	pi+	mu+	nu_mu	PHOTOS  DToKpienu;
+Enddecay
+End
+CDecay D-sig

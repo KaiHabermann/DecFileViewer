@@ -1,0 +1,70 @@
+# EventType: 42143001 
+#
+# Descriptor: pp -> [W+ -> (J/psi(1S) -> mu+ mu-) pi+]cc 
+#
+# NickName: W_Jpsipi=DecProdCut 
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/ParsInAcc
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut 
+# Generation().addTool( LoKi__FullGenEventCut, "ParsInAcc" ) 
+# ParsInAcc = Generation().ParsInAcc
+#
+# ParsInAcc.Code = " ( count ( isGoodW ) > 0 ) "
+#
+# ParsInAcc.Preambulo += [                                                                  
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"                                     
+#    , "inAcc       = (in_range(  0.005 , GTHETA , 0.400 ))"
+#    , "NGoodMuonm  = (GINTREE(( (('mu-' == GID)) & (GPT > 0.3*GeV) & inAcc)))"
+#    , "NGoodMuonp  = (GINTREE(( (('mu+' == GID)) & (GPT > 0.3*GeV) & inAcc)))"
+#    , "NGoodJpsi   = (NGoodMuonm & NGoodMuonp)"
+#    , "NGoodpim    = (GINTREE(( (('pi-' == GID)) & (GPT > 0.3*GeV) & inAcc)))"
+#    , "NGoodpip    = (GINTREE(( (('pi+' == GID)) & (GPT > 0.3*GeV) & inAcc)))"
+#    , "NGoodJpsipim  = (NGoodJpsi & NGoodpim)"
+#    , "NGoodJpsipip  = (NGoodJpsi & NGoodpip)"
+#    , "NGoodW      = (NGoodJpsipim | NGoodJpsipip)"
+#    , "isGoodW     = (('W+' == GABSID ) & NGoodW)" 
+#    ]
+#
+#
+# Generation().DecayTool = ""
+# Generation().Special.DecayTool = ""
+#
+#from Configurables import Generation
+#from Gaudi.Configuration import *
+#
+#Generation().PileUpTool = "FixedLuminosityForRareProcess"
+#
+#importOptions( "$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py" )
+#
+#from Configurables import Special, Pythia8Production
+#
+#Generation().addTool( Special )
+#Generation().Special.addTool( Pythia8Production )
+#
+#Generation().Special.Pythia8Production.Commands += [
+#"SpaceShower:rapidityOrder = off", 
+#"WeakSingleBoson:ffbar2W = on", 
+#"24:addChannel = 1 1. 101 443 211", 
+#"24:onMode = off",
+#"24:onIfAny = 443 211",
+#"443:addChannel = 1 1. 101 13 -13",
+#"443:onMode = off",
+#"443:onIfMatch = 13 -13" ]
+#
+# EndInsertPythonCode
+#
+# Documentation: W boson rare decay products in acceptance
+# EndDocumnetation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: < 1min
+# Responsible: Hang Yin, Qundong Han
+# Email: qundong.han@cern.ch
+# Date: 20240121
+#
+End
+

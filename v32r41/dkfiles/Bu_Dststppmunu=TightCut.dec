@@ -1,0 +1,47 @@
+# EventType: 12573002
+#
+# Descriptor: {[B- -> D_10 anti-nu_mu mu- p~- p+]cc, [B- -> D'_10 anti-nu_mu mu- p~- p+]cc, [B- -> D_2*0 anti-nu_mu mu- p~- p+]cc}  
+#
+# NickName: Bu_Dststppmunu=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: 4 min
+#
+# Documentation: Decay file for Bu->Dststppbarmunu using phase space model with acceptance, PT and P cuts on p, pbar and mu .
+# EndDocumentation
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation(genAlgName).SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut  = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+#tightCut.Decay = "([B- ==> D_1(2420)0 ^p+ ^p~- ^mu- nu_mu~]CC || [B- ==> D_1(H)0 ^p+ ^p~- ^mu- nu_mu~]CC || [B- ==> D*_2(2460)0 ^p+ ^p~- ^mu- nu_mu~]CC)"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range"  ,
+# "from GaudiKernel.SystemOfUnits import GeV, MeV"
+#  ]
+# tightCut.Cuts      =    {
+#'[p+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 750 * MeV ) & (GP > 14600 * MeV)" ,
+#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) & (GP > 2900 * MeV)"
+#   }
+# EndInsertPythonCode
+# PhysicsWG: B2SL 
+# Tested: Yes
+# Responsible: Ryan Newcombe
+# Email: ryan.newcombe@cern.ch
+# Date: 20200709 
+#
+#
+Decay B-sig
+  1.000  D'_10  p+  anti-p-  mu-  anti-nu_mu  PHSP;
+  1.000  D_10  p+  anti-p-  mu-  anti-nu_mu  PHSP;
+  1.000  D_2*0  p+  anti-p-  mu-  anti-nu_mu  PHSP;
+Enddecay
+CDecay B+sig
+#
+End
+#
+#
+#
+#
+#

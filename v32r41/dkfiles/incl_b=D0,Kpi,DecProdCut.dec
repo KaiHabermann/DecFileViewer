@@ -1,0 +1,42 @@
+# EventType: 10063000
+#
+# Descriptor: pp => [<Xb>]cc ...
+#
+# NickName: incl_b=D0,Kpi,DecProdCut
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/InclusiveD0Cut
+#
+# InsertPythonCode:                                                                    
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "InclusiveD0Cut" )
+# inclusiveD0Cut = Generation(genAlgName).InclusiveD0Cut                                                      
+# inclusiveD0Cut.Code = " ( count(isGoodB) > 0 ) "                                          
+#                                                                                        
+# inclusiveD0Cut.Preambulo += [                                                                                          
+#      "from GaudiKernel.SystemOfUnits import  GeV, millimeter",
+#      "inAcc         = (in_range( 0.010 , GTHETA , 0.400 ) & in_range( 1.9 , GETA , 5.1 ))",
+#      "GVZ           = GFAPVX(LoKi.GenVertices.PositionZ(), 0)",
+#      "notCascade    = ( GNINTREE(GBEAUTY, HepMC.descendants)==0 )",
+#      "hasGoodMup    = ( GINTREE((( 'K+'  == GID ) | ( 'pi+'  == GID ) | ( 'p+'  == GID ) | ( 'mu+'  == GID ) | ( 'e+'  == GID )) & ( GPT > 1*GeV ) & ( GP > 10*GeV ) & ( GP < 100*GeV ) & inAcc & (abs(GVZ) < 50 * millimeter)) )",
+#      "hasGoodMum    = ( GINTREE((( 'K-'  == GID ) | ( 'pi-'  == GID ) | ( 'p-'  == GID ) | ( 'mu-'  == GID ) | ( 'e-'  == GID )) & ( GPT > 1*GeV ) & ( GP > 10*GeV ) & ( GP < 100*GeV ) & inAcc & (abs(GVZ) < 50 * millimeter)) )",
+#      "hasGoodKp     = ( GNINTREE(( 'K+'  == GID )    & ( GPT > 0.25*GeV )  & ( GP > 2*GeV )  & ( GP < 100*GeV ) & inAcc) == 1 )",
+#      "hasGoodKm     = ( GNINTREE(( 'K-'  == GID )    & ( GPT > 0.25*GeV )  & ( GP > 2*GeV )  & ( GP < 100*GeV ) & inAcc) == 1 )",
+#      "hasGoodPi     = ( GNINTREE(( 'pi+' == GABSID ) & ( GPT > 0.25*GeV )  & ( GP > 2*GeV )  & ( GP < 100*GeV ) & inAcc) == 1 )",
+#      "hasGoodD0p    = ( GINTREE((  'D0'  == GABSID ) & hasGoodKp & hasGoodPi) )",
+#      "hasGoodD0m    = ( GINTREE((  'D0'  == GABSID ) & hasGoodKm & hasGoodPi) )",
+#      "isGoodB       = ( GBEAUTY & ( (hasGoodD0p & hasGoodMum) | (hasGoodD0m & hasGoodMup) ) & notCascade )"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: b inclusive events with a D0 and charged track
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Alison Tully
+# Email: alison.tully@cern.ch
+# Date:   20210204
+#
+End

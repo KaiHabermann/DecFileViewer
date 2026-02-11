@@ -1,0 +1,49 @@
+# EventType: 10134040
+#
+# Descriptor: chi_c1(1P) => ( phi(1020) => K+ K- ) ( phi(1020) => K+ K- ) 
+#
+# NickName: incl_b=chic1,phiphi,KK,InAcc
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: LoKi::FullGenEventCut/b2Chic1Filter
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "b2Chic1Filter" )
+# SignalFilter = Generation(genAlgName).b2Chic1Filter
+# SignalFilter.Code = " has(isB2cc)"
+# SignalFilter.Preambulo += [
+#  "inAcc = (in_range(  0.010 , GTHETA , 0.400 ))",
+#  "isB2cc = ((GDECTREE('(Beauty) --> chi_c1(1P) ...')))",
+#  "Kpcuts = (GINTREE( (('K+' == GID ) & (GPT > 250) & inAcc) ) )",
+#  "Kmcuts = (GINTREE( (('K-' == GID ) & (GPT > 250) & inAcc) ) )",
+#  "isB2ccTcuts = (isB2cc & Kpcuts & Kmcuts)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: chi_c1 decay to phi phi, keep only particles in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Valeriia Zhovkovska
+# Email: valeriia.zhovkovska@cern.ch
+# Date: 20210409
+#
+#
+Alias   Myphi  phi
+ChargeConj  Myphi   Myphi
+
+Decay chi_c1
+  1.000         Myphi  Myphi      PHSP;
+Enddecay
+Decay Myphi
+  1.000  K+      K-    VSS; 
+Enddecay
+#
+End
+#
+

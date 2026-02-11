@@ -1,0 +1,33 @@
+# EventType: 11106000
+# 
+# Descriptor: {[B0 -> (K*(892)0 -> K+ pi-) pi+ pi+ pi- pi-]cc}
+#
+# NickName: Bd_pi+pi-pi+pi-Kst=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase Space model, Kst forced into pi+ K-, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Alex Gilman
+# Email: alexander.leon.gilman@cern.ch
+# Date: 20210507
+# CPUTime: 2 min
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+Decay B0sig
+1.000       pi+     pi-     pi+    pi-      MyK*0     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000        K+       pi-              VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+

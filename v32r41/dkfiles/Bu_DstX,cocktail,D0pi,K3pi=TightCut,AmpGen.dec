@@ -1,0 +1,76 @@
+# EventType: 12465000
+#
+# Descriptor: [ [B+]cc --> (D*(2010)- => ( D~0 => K+ pi- pi+ pi- ) pi-) ... ]CC
+#
+# NickName: Bu_DstX,cocktail,D0pi,K3pi=TightCut,AmpGen
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: secondary D*+ -> D0 (-> K- pi+ pi- pi+) decays with B+ parent, cuts to match loosest of Run1/Run2/2024 HLT2 requirements of prompt D->K3Pi
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# signal     = Generation().SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[ [B+]cc --> (D*(2010)- ==> ( D~0 ==> K+ pi- pi+ pi- ) pi-) ... ]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import micrometer, MeV, GeV ',
+#     'from LoKiCore.math import atan2                            ',
+#     'inAccLoose   =  in_range ( 0.012 , GTHETA , 0.35 ) & in_range ( -0.3  , atan2(GPX , GPZ), 0.3  ) & in_range ( -0.26 , atan2(GPY , GPZ), 0.26 ) ',
+#     'inAcc        =  in_range ( 0.014 , GTHETA , 0.30 ) & in_range ( -0.28 , atan2(GPX , GPZ), 0.28 ) & in_range ( -0.24 , atan2(GPY , GPZ), 0.24 ) ',
+#     'goodTrack    =  inAccLoose & ( GPT > 0.97*250. * MeV ) ',
+#     'goodD0       =  GNINTREE( goodTrack ) == 4 ',
+#     'goodSlowPion =  inAcc & ( GPT > 0.97*200. * MeV ) ',
+#     'goodDst      =  GINTREE( goodD0 ) & GCHILDCUT ( goodSlowPion , "[ D*(2010)+ =>  Charm ^pi+ ]CC" ) ',
+#     'goodB        =  GINTREE( goodDst ) '
+# ]
+# tightCut.Cuts     =    {
+#     '[B+]cc' : 'goodB',
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Niall McHugh
+# Email: niall.mchugh@glasgow.ac.uk
+# Date: 20250530
+# CPUTime: < 1 min
+#
+Alias      MyD*+    D*+
+Alias      MyD*-    D*-
+ChargeConj MyD*+    MyD*-
+#
+Alias      MyD0     D0
+Alias      MyantiD0 anti-D0
+ChargeConj MyD0     MyantiD0
+#
+Decay B+sig
+    1.5       MyD*-   pi+         pi+     pi0             PHSP;
+    0.92      MyD*+   anti-D*0    K0                      PHSP;
+    0.38      MyD*+   anti-D0     K0                      PHSP;
+    0.26      MyD*-   pi+         pi+     pi+     pi-     PHSP;
+    0.135     MyD*-   pi+         pi+                     PHSP;
+    0.132     MyD*-   D*+         K+                      PHSP;
+    0.132     D*-     MyD*+       K+                      PHSP;
+    0.081     MyD*+   anti-D*0                            SVV_HELAMP 0.56 0.0 0.96 0.0 0.47 0.0;
+    0.063     MyD*+   D-          K+                      PHSP;
+    0.060     MyD*-   D+          K+                      PHSP;
+    0.039     MyD*+   anti-D0                             SVS;
+Enddecay
+CDecay B-sig
+#
+Decay MyD*-
+  1.0   MyantiD0    pi-     VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay MyantiD0
+  1.0   K+ pi- pi+ pi-     LbAmpGen DtoKpipipi;
+Enddecay
+CDecay MyD0
+#
+End

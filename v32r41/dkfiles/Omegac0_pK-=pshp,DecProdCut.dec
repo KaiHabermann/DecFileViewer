@@ -1,0 +1,46 @@
+# EventType:  26102081
+#
+# Descriptor: [Omega_c0 -> p+ K-]cc
+#
+# NickName: Omegac0_pK-=pshp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Excited Xi_c0 decay according to phase space decay model. Redefined Xi_c0 mimics Omega_c0 with Mass = 2765.9 MeV 
+# EndDocumentation
+#
+# ParticleValue: "Xi_c0 106 4132  0.0 2.6952 6.856377e-14 Xi_c0 4132 0.000", "Xi_c~0 107 -4132 0.0 2.6952 6.856377e-14 anti-Xi_c0 -4132 0.000"
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Miroslav Saur, Ziyi Wang
+# Email: miroslav.saur@cern.ch, ziyi.wang@cern.ch
+# Date: 20210206
+#
+#
+Decay Xi_c0sig
+  1.000	p+	K- 	PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+#
+Decay Omega_c*0
+  1.000 Xi_c0sig  gamma  PHSP;
+Enddecay
+CDecay anti-Omega_c*0
+#
+###### Overwrite forbidden decays
+Decay Xi'_c0
+1.0000    gamma     Sigma_c0                PHSP;
+Enddecay
+CDecay anti-Xi'_c0
+#
+Decay Xi_c*0
+0.5000    Sigma_c0  pi0                     PHSP;
+0.5000    Sigma_c0  gamma                   PHSP;
+Enddecay
+CDecay anti-Xi_c*0
+#
+End
+#

@@ -1,0 +1,52 @@
+# EventType: 12513012
+#
+# Descriptor: [B+ -> (phi(1020) -> K+ K-) mu+ nu_mu]cc
+#
+# NickName: Bu_phimunu=TightCut,BToVlnuBall
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName).SignalRepeatedHadronization
+# gen.addTool( LoKi__GenCutTool, "TightCut" )
+# SignalFilter = gen.TightCut
+# SignalFilter.Decay = "[B+ ==>  ^(phi(1020) ==> ^K+ ^K-) ^mu+ nu_mu ]CC"
+# SignalFilter.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import  GeV",
+#   "inAcc                = in_range ( 0.005 , GTHETA , 0.400 ) &  in_range ( 1.9 , GETA , 5.1 )", 
+#   "muCuts               = (GP > 5 * GeV) & (GPT > 1.2 * GeV)  & inAcc",
+#   "phiCuts              = (GPT > 0.5 * GeV)",
+#   "kaonCuts             = (GP > 2.5 * GeV) & (GPT > 0.35 * GeV)  & inAcc"
+#   ]
+# SignalFilter.Cuts =  { 
+#  "phi(1020)" : "phiCuts",
+#  "[mu+]cc"   : "muCuts",
+#  "[K+]cc"    : "kaonCuts" }
+# EndInsertPythonCode
+#
+# Documentation: Decay file for [B+ -> (phi(1020) -> K+ K-) mu+ nu_mu]cc, using the BToVlnuBall model (for Bs -> phi, lacking an alternative), see https://arxiv.org/pdf/hep-ph/0412079.pdf
+# order is r2_A1  mfit2_A1  r1_A2  r2_A2  mfit2_A2  r1_V  r2_V  mfit2_V
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible:   Michel De Cian
+# Email: michel.de.cian@cern.ch
+# Date: 20200324
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B+sig
+ 1.0     MyPhi        mu+    nu_mu          PHOTOS BTOVLNUBALL 0.308  36.54 -0.054 0.288 48.94 1.484 -1.049 39.52;
+Enddecay
+CDecay B-sig
+#
+Decay MyPhi
+  1.000        K+        K-                 PHOTOS VSS;
+Enddecay
+#
+End
+#

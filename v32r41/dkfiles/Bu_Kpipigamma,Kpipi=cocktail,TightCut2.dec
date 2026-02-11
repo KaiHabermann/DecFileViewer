@@ -1,0 +1,125 @@
+# EventType: 12203271
+#
+# NickName: Bu_Kpipigamma,Kpipi=cocktail,TightCut2
+#
+# Descriptor: [ B+ -> (K_1+ -> (X ->  K+ pi- pi+)) gamma ]cc
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# Generation(genAlgName).SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[(B+ ==> ^K+ ^pi- ^pi+ ^gamma)]CC'
+# tightCut.Cuts      =    {
+#     '[B+]cc'    : ' goodB     ' ,
+#     '[K+]cc'    : ' goodTrack ' ,
+#     '[pi+]cc'   : ' goodTrack ' ,
+#     'gamma'     : ' goodGamma ' }
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 )       ' ,
+#     'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5            ' ,
+#     'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5            ' ,
+#     'goodB     = ( GBEAUTY )                               ' ,
+#     'goodTrack = ( GPT >  200. * MeV ) & inAcc             ' ,
+#     'goodGamma = ( GPT > 2000. * MeV ) & inEcalX & inEcalY ' ]
+# EndInsertPythonCode
+#
+# Documentation: B+->K_res+ gamma decay, with K_res+ -> XX-> K+pi+pi-, decay products in acceptance; track_PT > 200. *MeV, gamma_PT  2.*GeV
+# EndDocumentation
+#
+# CPUTime: 1min
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Preema Pais
+# Email: preema.rennee.pais@cern.ch
+# Date: 20180604
+#
+Alias      MyK1_1270_+   K_1+
+Alias      MyK1_1270_-   K_1-
+ChargeConj MyK1_1270_+   MyK1_1270_-
+#
+Alias      MyK1_1400_+   K'_1+
+Alias      MyK1_1400_-   K'_1-
+ChargeConj MyK1_1400_+   MyK1_1400_-
+#
+Alias      MyK*1410_+   K'*+
+Alias      MyK*1410_-   K'*-
+ChargeConj MyK*1410_+   MyK*1410_-
+#
+Alias      MyK*1680_+   K''*+
+Alias      MyK*1680_-   K''*-
+ChargeConj MyK*1680_+   MyK*1680_-
+#
+Alias MyK2*1430_+  K_2*+
+Alias MyK2*1430_-  K_2*-
+ChargeConj MyK2*1430_+  MyK2*1430_-
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+#
+Alias MyOmega omega
+ChargeConj MyOmega MyOmega
+#
+Alias      MyK*1430_0       K_0*0
+Alias      Myanti-K*1430_0  anti-K_0*0
+ChargeConj Myanti-K*1430_0  MyK*1430_0
+#
+Decay B+sig
+   0.570        MyK1_1270_+     gamma             SVP_HELAMP 1.0 0.0 1.0 0.0;
+   0.080        MyK1_1400_+     gamma             SVP_HELAMP 1.0 0.0 1.0 0.0;
+   0.085        MyK*1410_+     gamma               SVP_HELAMP 1.0 0.0 1.0 0.0;
+   0.120        MyK*1680_+     gamma               SVP_HELAMP 1.0 0.0 1.0 0.0;
+   0.145        MyK2*1430_+   gamma               HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay B-sig
+#
+Decay MyK1_1270_+
+  0.2915        MyK*0        pi+                    VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.6950        rho0         K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.0015        MyOmega      K+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.0120        MyK*1430_0   pi+                    VSS;
+Enddecay
+CDecay MyK1_1270_-
+#
+Decay MyK1_1400_+
+  1.000       MyK*0        pi+           VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK1_1400_-
+#
+Decay MyK*1410_+
+  1.000       MyK*0        pi+           VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK*1410_-
+#
+Decay MyK*1680_+
+  0.590       MyK*0        pi+           VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.410       rho0         K+            VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK*1680_-
+#
+Decay MyK2*1430_+
+  0.350        MyK*0        pi+                    TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+  0.630        rho0         K+                     TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+  0.020        MyOmega      K+                     TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyK2*1430_-
+#
+Decay MyK*0
+  1.000        K+        pi-                    VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyOmega
+  1.000        pi+        pi-                   VSS;
+Enddecay
+#
+Decay MyK*1430_0
+  1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay Myanti-K*1430_0
+#
+End
+#

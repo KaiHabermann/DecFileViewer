@@ -1,0 +1,82 @@
+# EventType: 15876031
+#
+# Descriptor: [ Lambda_b0 =>  (Lambda_c(2625)+  ==> (Lambda_c+ ==> p+ K- pi+) pi+ pi- )  mu- anti-nu_mu   ]cc
+#
+# NickName: Lb_Lc2880munu,pKpi=cocktail,TightCut,v2
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime:  3 min
+#
+# Documentation: Lb ==> Lc(2880) mu nu_mu with Lc ==> p K pi for R(Lc) analysis 
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation(genAlgName).SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut  = Generation(genAlgName).SignalPlain.TightCut
+# tightCut.HistoProduce = False
+# tightCut.Decay = "[ Lambda_b0 ==>  ^(Lambda_c+ ==> ^p+ ^K- pi+ {X} {X} {X} {X})  {X} {X} {X} {X}  ^mu- nu_mu~ ]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range"  ,
+# "from GaudiKernel.SystemOfUnits import GeV, MeV",
+# "pipiKP     = GCHILD(GP,('p+' == GABSID )) + GCHILD(GP,('K+' == GABSID )) + GCHILD(GP,('pi+' == GABSID ))" ,
+# "pipiKPT     = GCHILD(GPT,('p+' == GABSID )) + GCHILD(GPT,('K+' == GABSID )) + GCHILD(GPT,('pi+' == GABSID ))" ,
+# "good_Lc_pi   = GCHILDCUT((('pi+'  == GABSID) & (GPT > 150 * MeV) & in_range( 0.010 , GTHETA , 0.400 )),'[Lambda_c+ => p+ K- ^pi+]CC')"
+#  ]
+# tightCut.Cuts      =    {
+#'[p+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 150 * MeV )" ,
+#'[K+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 150 * MeV )" ,
+#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) & (GP > 2500 * MeV) ",
+#'[Lambda_c+]cc' : "(pipiKP > 15000 *MeV) & (pipiKPT > 2300 *MeV) & good_Lc_pi"
+#   }
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Iaroslava Bezshyiko
+# Email: iaroslava.bezshyiko@cern.ch
+# Date:   20190722
+# ParticleValue: "Lambda_c(2625)+ 104124   104124   1.0   2.88163 1.134849e-22  Lambda_c(2625)+ 0 1.0e-004", "Lambda_c(2625)~- -104124   -104124   -1.0   2.8816300 1.134849e-22  anti-Lambda_c(2625)- 0 1.0e-004"
+
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias MyLambda_c(2880)+       Lambda_c(2625)+
+Alias Myanti-Lambda_c(2880)-  anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2880)+  Myanti-Lambda_c(2880)-
+#
+Alias MyLambda_c(2593)+       Lambda_c(2593)+
+Alias Myanti-Lambda_c(2593)-  anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+  Myanti-Lambda_c(2593)-
+#
+
+Decay Lambda_b0sig
+  1.0    MyLambda_c(2880)+        mu-  anti-nu_mu     PHOTOS   BaryonPCR  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyLambda_c(2880)+
+  0.63    MyLambda_c+        pi+     pi-     PHSP;
+  0.27    MyLambda_c+        pi0     pi0     PHSP;
+  0.07    MyLambda_c(2593)+        pi+     pi-     PHSP;
+  0.03    MyLambda_c(2593)+        pi0     pi0     PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2880)-
+  
+Decay MyLambda_c(2593)+
+  0.7    MyLambda_c+        pi+     pi-     PHSP;
+  0.3    MyLambda_c+        pi0     pi0     PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+
+
+Decay MyLambda_c+
+# Lc->pKpi:
+  1.0         p+      K-      pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End

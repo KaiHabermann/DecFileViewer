@@ -1,0 +1,83 @@
+# EventType: 24104100
+#
+# Descriptor: [J/psi -> (KS0 -> pi+ pi-) K+ pi-]cc
+#
+# NickName: incl_etac,KsKpi,pipi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# ParticleValue: "J/psi(1S) 64 443 0.0 2.98360000 2.216203e-23  J/psi 443 0.00000000"
+#
+# Documentation: etac decay to p+ p- with phase space model, daughters in accpetance, and both proto$
+# EndDocumentation
+#
+# InsertPythonCode: 
+# from Configurables import LoKi__GenCutTool as GenCutTool 
+# #
+# Generation(genAlgName).SignalPlain.addTool( GenCutTool , 'TightCut' ) 
+# Generation(genAlgName).SignalPlain.TightCut.Decay = "[J/psi(1S) => ^(KS0 => ^pi+ ^pi-) ^K+ ^pi-]CC"
+# Generation(genAlgName).SignalPlain.TightCut.Cuts = {
+#     '[K+]cc'   : ' ( GPT > 0.4 * GeV ) & inAcc ',
+#     '[pi+]cc'  : ' ( GPT > 0.4 * GeV ) & inAcc ',
+#     '[KS0]cc'  : ' ( GPT > 0.4 * GeV ) '
+#     }
+# Generation(genAlgName).SignalPlain.TightCut.Preambulo += [
+#     'inAcc   = in_range ( 0.010 , GTHETA , 0.400 ) '
+#     ]
+#
+# # 
+# # -- modify Pythia8 to only generate from Charmonium processes -- #
+# from Configurables import Generation, MinimumBias, Pythia8Production, Inclusive, SignalPlain, SignalRepeatedHadronization, Special
+#
+# Pythia8TurnOffMinbias  = [ "SoftQCD:all     = off" ]
+# Pythia8TurnOffMinbias += [ "Bottomonium:all = off" ]
+# Pythia8TurnOffMinbias += [ "Charmonium:all  =  on" ]
+#
+# gen = Generation(genAlgName)
+# gen.addTool( MinimumBias , name = "MinimumBias" )
+# gen.MinimumBias.ProductionTool = "Pythia8Production"
+# gen.MinimumBias.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.MinimumBias.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Inclusive , name = "Inclusive" )
+# gen.Inclusive.ProductionTool = "Pythia8Production"
+# gen.Inclusive.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Inclusive.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalPlain , name = "SignalPlain" )
+# gen.SignalPlain.ProductionTool = "Pythia8Production"
+# gen.SignalPlain.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalPlain.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalRepeatedHadronization , name = "SignalRepeatedHadronization" )
+# gen.SignalRepeatedHadronization.ProductionTool = "Pythia8Production"
+# gen.SignalRepeatedHadronization.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalRepeatedHadronization.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Special , name = "Special" )
+# gen.Special.ProductionTool = "Pythia8Production"
+# gen.Special.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Special.Pythia8Production.Commands += Pythia8TurnOffMinbias
+# # -- END  -- #
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Andrii Usachov
+# Email: andrii.usachov@cern.ch
+# Date: 20200318
+# CPUTime: <1 min
+#
+Alias   My_K_S0  K_S0
+ChargeConj  My_K_S0   My_K_S0
+
+Decay J/psisig
+  1.000     My_K_S0   K+   pi-      PHSP;
+Enddecay
+#
+Decay My_K_S0
+  1.000     pi+       pi-    PHSP; 
+Enddecay
+#
+End
+#

@@ -1,0 +1,62 @@
+# EventType: 16169138
+#
+# Descriptor: [Xi_b- -> (Lambda0 -> p+ pi-) (Lambda0 -> p+ pi-) (Lambda_c(2595)- -> (Lambda_c- -> anti-p- K+ pi-) pi+ pi-)]CC
+#
+# NickName: Xib-_2L0Lc2595=DecProdCut
+#
+# Documentation:
+#   Decay a Xi_b^- to two Lambda0 and a Lambda_c(2595)-.
+#   Lambda0 decays to p+ pi-.
+#   Lambda_c(2595)^- decays to Lambda_c~- + pi+ pi-, where Lambda_c- -> anti-p + K+ + pi-.
+# EndDocumentation
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: <1min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Brais Fernández Rodiño
+# Email: brais@cern.ch
+# Date: 20250919
+#
+Alias       MyLambda0_1      Lambda0
+Alias       Myanti-Lambda0_1 anti-Lambda0
+ChargeConj  MyLambda0_1      Myanti-Lambda0_1
+#
+Alias       MyLambda0_2      Lambda0
+Alias       Myanti-Lambda0_2 anti-Lambda0
+ChargeConj  MyLambda0_2      Myanti-Lambda0_2
+#
+Alias       Myanti-Lambdac2595_plus Lambda_c(2593)+
+Alias       MyLambdac2595_minus      anti-Lambda_c(2593)-
+ChargeConj  MyLambdac2595_minus      Myanti-Lambdac2595_plus
+#
+Alias       MyLambdac_minus      anti-Lambda_c-
+Alias       Myanti-Lambdac_plus  Lambda_c+
+ChargeConj  MyLambdac_minus      Myanti-Lambdac_plus
+#
+Decay Xi_b-sig
+1.000 MyLambda0_1 MyLambda0_2 MyLambdac2595_minus PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyLambda0_1
+1.000 p+ pi- PHSP;
+Enddecay
+CDecay Myanti-Lambda0_1
+#
+Decay MyLambda0_2
+1.000 p+ pi- PHSP;
+Enddecay
+CDecay Myanti-Lambda0_2
+#
+Decay MyLambdac2595_minus
+1.000 MyLambdac_minus pi+ pi- PHSP;
+Enddecay
+CDecay Myanti-Lambdac2595_plus
+#
+Decay MyLambdac_minus
+1.000 anti-p- K+ pi- PHSP;
+Enddecay
+CDecay Myanti-Lambdac_plus
+#
+End

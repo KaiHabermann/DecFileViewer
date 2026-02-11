@@ -1,0 +1,36 @@
+# EventType: 12165028
+#
+# Descriptor: [B+ -> (D_s+ -> K+ K- pi+)  pi+ pi-]cc
+#
+# NickName: Bu_Ds+pi+pi-,KKpi=DDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance, D Dalitz Decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible:     Y. Zhang
+# Email: yanxi.zhang@cern.ch
+# Date:   20211224
+#
+Alias      MyD_s+  D_s+
+Alias      MyD_s-  D_s-
+ChargeConj MyD_s+  MyD_s-
+
+Decay B+sig
+  1.000      pi+  pi-      MyD_s+      PHSP;
+Enddecay
+CDecay B-sig
+
+Decay MyD_s+
+  1.000  K+ K- pi+                 D_DALITZ;
+Enddecay
+CDecay MyD_s-
+
+
+#
+End
+

@@ -1,0 +1,29 @@
+# EventType: 18112013
+#
+# Descriptor: Upsilon(2S) -> mu+ mu- 
+#
+# NickName: incl_Upsilon2S,mm=UDILHCbCut
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# CutsOptions: SignalPID=100553
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Upsilon(2S) decay to mu+ mu-, radiative mode included, Upsilon(2S) daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: IFT 
+# Tested: Yes
+# Responsible: Xiaolin Wang
+# Email: xiaolin.wang@cern.ch
+# Date: 20240312
+# CPUTime: 1 min
+#
+#
+Decay Upsilon(2S)sig
+  1.000         mu+        mu-        VLL;
+Enddecay
+#
+End
+#

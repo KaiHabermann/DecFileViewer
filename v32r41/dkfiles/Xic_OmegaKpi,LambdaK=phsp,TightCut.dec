@@ -1,0 +1,70 @@
+# EventType: 26105990
+#
+# Descriptor: [Xi_c+ -> (Omega- -> (Lambda0 -> p+ pi-) K-) K+ pi+]cc
+#
+# NickName: Xic_OmegaKpi,LambdaK=phsp,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# CPUTime:  < 3 min
+
+# Documentation:
+# Phase-space decay of Xic+ to Omega- K+ pi+
+# EndDocumentation
+
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation().SignalPlain.TightCut#
+# tightCut.Decay     = '^[ Xi_c+ => ^(Omega- => ^(Lambda0 => p+ pi-) K-) ^K+ ^pi+]CC'
+# tightCut.Preambulo += [
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,
+#     "from GaudiKernel.SystemOfUnits import millimeter" ,
+#     "inAcc = in_range ( 0.010, GTHETA, 0.400 ) " ,
+#     "daughcuts = ( (GPT > 90 * MeV) & ( GP > 1000 * MeV))",
+#     "Lamcuts = ( (GPT > 200 * MeV) & ( GP > 5000 * MeV))",
+#     "Ommcuts = ( (GPT > 500 * MeV) & ( GP > 10000 * MeV))",
+#     "Xiccuts = ( (GPT > 1000 * MeV) & ( GP > 15000 * MeV))"
+# ]
+# tightCut.Cuts      =    {
+#     '[pi+]cc'  : ' inAcc & daughcuts',
+#     '[K+]cc'  : ' inAcc & daughcuts',
+#     '[Omega-]cc'  : ' Ommcuts',
+#     '[Lambda0]cc'   : 'Lamcuts',
+#     '[Xi_c+]cc'   : 'Xiccuts'
+#                         }
+#
+#
+# EndInsertPythonCode
+#
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Chuangxin Lin, Youhua Yang
+# Email:       chuangxin.lin@cern.ch, youhua.yang@cern.ch
+# Date:        20231001
+
+Alias      MyOmegam      Omega-
+Alias      Myanti-Omegap anti-Omega+
+ChargeConj MyOmegam      Myanti-Omegap
+
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+
+Decay MyLambda0
+  1.000     p+   pi-             PHSP;
+Enddecay
+CDecay MyAntiLambda0
+#
+Decay MyOmegam
+  1.000     MyLambda0   K-       PHSP;
+Enddecay
+CDecay Myanti-Omegap
+#
+Decay  Xi_c+sig
+  1.0  MyOmegam  K+  pi+         PHSP;
+Enddecay
+CDecay anti-Xi_c-sig
+
+End

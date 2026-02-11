@@ -1,0 +1,35 @@
+# EventType: 30112000
+#
+# Descriptor: gamma gamma -> mu+ mu-
+#
+# NickName: exclu_gammagamma,mm=coherent_starlight
+#
+# Cuts: DiLeptonInAcceptance
+# Documentation: GammaGammaTomumu with STARlight
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import Generation, Special, StarLightProduction
+# Generation(genAlgName).DecayTool = ''
+# Generation(genAlgName).SampleGenerationTool = 'Special'
+# Generation(genAlgName).addTool(Special)
+# Generation(genAlgName).Special.CutTool = ''
+# Generation(genAlgName).Special.DecayTool = ''
+# Generation(genAlgName).Special.ProductionTool = 'StarLightProduction'
+# Generation(genAlgName).FullGenEventCutTool = 'DiLeptonInAcceptance'
+# Generation(genAlgName).Special.addTool(StarLightProduction)
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['PROD_PID = 13']
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['PROD_MODE = 1']
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['W_MIN = 0.4']
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Benjamin Audurier
+# Email: benjamin.audurier@cern.ch
+# Date: 20200417
+
+End

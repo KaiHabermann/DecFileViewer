@@ -1,0 +1,125 @@
+# EventType: 11774010
+#
+# Descriptor: [ [B0]cc --> (D- ==> K+ pi- pi-) ... ]CC
+# NickName: Bd_D+X,Kpipi=cocktail,TightCut,ACPKKCuts
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Inclusive D+ => K pi pi produced in B0 decays, with cuts optimized for ACPKK
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# signal     = Generation(genAlgName).SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[ [B0]cc --> ^(D- ==> ^K+ ^pi- ^pi-) ... ]CC'
+# tightCut.Preambulo += [
+# 'from GaudiKernel.SystemOfUnits import MeV, GeV, micrometer ',
+# 'import math',
+# 'inAcc      = in_range (2 , GETA ,  4.5 ) & (GPT > 240 * MeV) & (GP > 900 * MeV)',
+# 'HarmCuts = ( GCHILD(GPT,"K+" == GABSID) > 750 *MeV ) & ( GCHILD(GP,"K+" == GABSID) > 4900 *MeV ) & ( GNINTREE( ("pi+" == GABSID) & (GPT > 750 *MeV) & (GP > 4900 *MeV) ) > 1.5 ) & ( GNINTREE( ("pi+" == GABSID) & (GPT > 1.4 *GeV)  ) > 0 ) & ( GPT > 2.9 *GeV ) & in_range (2 , GETA ,  4.5 )',
+# ]
+# tightCut.Cuts       = {
+#     '[pi+]cc'         : 'inAcc',
+#     '[K+]cc'          : 'inAcc',
+#     '[D+]cc'       	: 'HarmCuts'
+# }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Federico Betti
+# Email: federico.betti@cern.ch
+# Date: 20200914
+# CPUTime: 1.5 min
+#
+#
+Alias	MyD-	D-
+Alias	MyD+	D+
+ChargeConj	MyD+	MyD-
+#
+Alias	MyD*-	D*-
+Alias	MyD*+	D*+
+ChargeConj	MyD*+	MyD*-
+#
+Decay B0sig
+ # WARNING: all the decays of MyD* have been scaled by the corresponding BR (see "total" below)
+ 0.0231  	MyD-		mu+    	nu_mu			HQET2 1.131 1.; #rho^2 v1; HFLAG Spring 2019; v1 set to dumb value (does not affect kinematics);
+ 0.0163   	MyD*- 		mu+    	nu_mu   		HQET2 1.122 0.910 1.270 0.852; #rho^2 ha1 R1 R2; HFLAG Spring 2019; ha1 does not affect kinematics;
+ 0.0231  	MyD-     	e+    	nu_e	 		HQET2 1.131 1.; #rho^2 v1; HFLAG Spring 2019; v1 set to dumb value (does not affect kinematics);
+ 0.0163   	MyD*-    	e+    	nu_e   			HQET2 1.122 0.910 1.270 0.852; #rho^2 ha1 R1 R2; HFLAG Spring 2019; ha1 does not affect kinematics;
+ 0.0108  	MyD-     	tau+    nu_tau	 		HQET2 1.131 1.; #rho^2 v1; HFLAG Spring 2019; v1 set to dumb value (does not affect kinematics);
+ 0.00506   	MyD*-    	tau+    nu_tau   		HQET2 1.122 0.910 1.270 0.852; #rho^2 ha1 R1 R2; HFLAG Spring 2019; ha1 does not affect kinematics;
+ 0.0013		MyD-		pi+	pi-	mu+	nu_mu 	PHSP;
+ 0.00045	MyD*-		pi+	pi-	mu+	nu_mu 	PHSP;
+ 0.0013		MyD-		pi+	pi-	e+	nu_e 	PHSP;
+ 0.00045	MyD*-		pi+	pi-	e+	nu_e 	PHSP;
+ 0.00252	MyD-		pi+				PHSP;
+ 0.0076		rho+		MyD-				SVS;
+ 0.00049	MyD-		K0	pi+			PHSP;
+ 0.00045	K*+		MyD-				SVS;
+ 0.0028		MyD-		omega	pi+			PHSP;
+ 0.000186	MyD-		K+				PHSP;
+ 0.00035	MyD-		K+	pi+	pi-		PHSP;
+ 0.00088	MyD-		K+	anti-K*0		PHSP;
+ 0.000883	MyD*-		pi+				SVS; 
+ 0.0039		MyD-		pi+	pi+	pi-		PHSP;
+ 0.0011		MyD-		pi+	rho0			PHSP; #a_1+ contribution (below) not subtracted;
+ 0.006		a_1+		MyD-				SVS;
+ 0.0048		MyD*-		pi+	pi0			PHSP;
+ 0.0022		rho+		MyD*-				SVV_HELAMP  0.317 0.19 0.936 0.0 0.152 1.47;
+ 0.000068	MyD*-		K+				SVS;
+ 0.000095	MyD*-		K0	pi+			PHSP;
+ 0.00011	MyD*-     	K*+                             SVV_HELAMP  0.283 0.0 0.932 0.0 0.228 0.0;
+ 0.00042	MyD*-		K+	anti-K*0		PHSP;
+ 0.0042	  	MyD*- 		a_1+    			SVV_HELAMP 0.200 0.0 0.866 0.0 0.458 0.0;
+ 0.0018 	MyD*-  		rho0  	pi+                  	PHSP;
+ 0.00015	MyD*-		K+	pi-	pi+		PHSP;
+ 0.0057		MyD*-		pi+	pi+	pi-	pi0	PHSP;
+ 0.0015		MyD*-		pi+	pi+	pi+	pi-	pi-	PHSP;
+ 0.000794	MyD*-		omega	pi+			PHSP;
+ 0.0001055	MyD-		D+				PHSP; # 0.000211/2;
+ 0.0001055	D-		MyD+				PHSP; # 0.000211/2;
+ 0.00015	MyD*+		D-				SVS; # 0.00061*BR(D*+ -> D+ X)/(1+BR(D*+ -> D+ X));
+ 0.00046	D*+		MyD-				SVS;  # 0.00061/(1+BR(D*+ -> D+ X));
+ 0.00015	MyD*-		D+				SVS; # 0.00061*BR(D*+ -> D+ X)/(1+BR(D*+ -> D+ X));
+ 0.00046	D*-		MyD+				SVS;  # 0.00061/(1+BR(D*+ -> D+ X));
+ 0.0072		MyD-		D_s+				PHSP;
+ 0.0026		MyD*-		D_s+				SVS;
+ 0.0074		D_s*+		MyD-				SVS;
+ 0.00570	D_s*+   	MyD*-    			SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+ 0.0035		D_s1+		MyD-				SVS;
+ 0.0030		MyD*-		D_s1+				SVV_HELAMP 0.4904 0. 0.7204 0. 0.4904 0.; # does not force D_s1+ -> MyD*+ K0;
+ 0.00013	MyD*+		D*-				SVV_HELAMP 0.56 0.0 0.96 0.0 0.47 0.0; # 0.00026/2;
+ 0.00013	D*+		MyD*-				SVV_HELAMP 0.56 0.0 0.96 0.0 0.47 0.0; # 0.00026/2;
+ 0.00107	MyD-		D0	K+			PHSP;
+ 0.0035		MyD-		D*0	K+			PHSP;
+ 0.000797	MyD*-		D0	K+			PHSP;
+ 0.00341	MyD*-		D*0	K+			PHSP;
+ 0.000375	MyD-		D+	K0			PHSP; # 0.00075/2;
+ 0.000375	D-		MyD+	K0			PHSP; # 0.00075/2;
+ 0.00078	MyD*-		D+	K0			PHSP; # 0.0064/2*BR(D*+ -> D+ X)/(1+BR(D*+ -> D+ X));
+ 0.00242	D*-		MyD+	K0			PHSP; # 0.0064/2/(1+BR(D*+ -> D+ X));
+ 0.00078	MyD*+		D-	K0			PHSP; # 0.0064/2*BR(D*+ -> D+ X)/(1+BR(D*+ -> D+ X));
+ 0.00242	D*+		MyD-	K0			PHSP; # 0.0064/2/(1+BR(D*+ -> D+ X));
+ 0.00130	MyD*-		D*+	K0			PHSP; # 0.00260/2;
+ 0.00130	D*-		MyD*+	K0			PHSP; # 0.00260/2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*+
+# total 0.323
+ 0.307		MyD+	pi0			VSS;
+ 0.016		MyD+	gamma			VSP_PWAVE; 
+Enddecay
+CDecay MyD*-
+#
+Decay MyD+
+ 1.000		K-	pi+	pi+		D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+End

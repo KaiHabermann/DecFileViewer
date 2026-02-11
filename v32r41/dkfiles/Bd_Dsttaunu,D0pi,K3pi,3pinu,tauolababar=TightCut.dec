@@ -1,0 +1,84 @@
+# EventType: 11565001
+#
+# Descriptor: [B0 => (D*- => pi- (anti-D0 ==> K+ pi- pi- pi+)) (tau+ ==> pi+ pi+ pi- anti-nu_tau) nu_tau]cc
+#
+# NickName: Bd_Dsttaunu,D0pi,K3pi,3pinu,tauolababar=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation()
+# signal = generation.SignalRepeatedHadronization
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = signal.TightCut
+# tightCut.Decay = '[ [B~0]cc --> (D0 ==> K- pi+ pi- pi+) ... ]CC'
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,'inAcc = ( 0 < GPZ )  &  ( 200 * MeV < GPT ) & ( 900 * MeV < GP ) & in_range ( 1.8 , GETA , 5.2 )'
+#     ,"nPiB = GNINTREE(('pi+' == GABSID) & inAcc & ( GNINTREE ( ('KS0' == GABSID) | ('KL0' == GABSID), HepMC.parents)==0 ), HepMC.descendants)"
+#     ,"nKB = GNINTREE(('K+' == GABSID) & inAcc, HepMC.descendants)"
+#     ,"npB = GNINTREE(('p+' == GABSID) & inAcc , HepMC.descendants)"
+#     ,"nMuB = GNINTREE(('mu+' == GABSID) & inAcc & ( GNINTREE ( ('KS0' == GABSID) | ('KL0' == GABSID), HepMC.parents)==0 ), HepMC.descendants)"
+#     ,"neB = GNINTREE(('e+' == GABSID) & inAcc & ( GNINTREE ( ('KS0' == GABSID) | ('KL0' == GABSID), HepMC.parents)==0 ), HepMC.descendants)"
+#     ,"goodD0 = GINTREE(( 'D0'  == GABSID ) & (GP>19000*MeV) & (GPT>1900*MeV) & ( GNINTREE(( 'K-' == GABSID ) & ( GPT > 350*MeV ) & ( GP > 3900*MeV ) & inAcc, HepMC.descendants) == 1 ) & ( GNINTREE(( 'pi+' == GABSID ) & ( GPT > 200*MeV ) & ( GP > 1900*MeV ) & inAcc, HepMC.descendants) == 3 ) ) "
+#     ,"goodB = ( goodD0 & ( nPiB+nKB+nMuB+neB+npB >= 7 ) )"
+# ]
+# tightCut.Cuts = {
+#     '[B~0]cc': 'goodB'
+#     }
+# EndInsertPythonCode
+#
+#
+# Documentation: B0 -> D* tau nu.
+# D*->D0 pi and D0->K3pi final state.
+# Tau lepton decays in the 3-prong charged pion mode using the Tauola BaBar model.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Antonio Romero Vidal
+# Email: antonio.romero@usc.es
+# Date: 20221130
+#
+
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         MyD0       D0
+Alias         anti-MyD0  anti-D0
+ChargeConj    MyD0       anti-MyD0
+Alias         MyD*+      D*+
+Alias         MyD*-      D*-
+ChargeConj    MyD*+      MyD*-
+Alias         MyTau+     tau+
+Alias         MyTau-     tau-
+ChargeConj    MyTau+     MyTau-
+#
+Decay B0sig
+  1.000       MyD*-      MyTau+   nu_tau   ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*+
+  1.000       MyD0       pi+      VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.000  K-  pi+  pi+  pi-  LbAmpGen DtoKpipipi;
+Enddecay
+CDecay anti-MyD0
+#    
+Decay MyTau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

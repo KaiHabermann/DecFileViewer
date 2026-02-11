@@ -1,0 +1,39 @@
+# EventType: 13154020
+#
+# Descriptor: [B_s0 -> (J/psi(1S) -> e+ e- {,gamma} {,gamma}) (f_0(980) -> pi+ pi-)]cc
+#
+# NickName: Bs_Jpsif0,ee=CPV,980,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, CP violation, different lifetimes, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Harry Cliff (University of Cambridge)
+# Email:       harry.victor.cliff@cern.ch
+# Date:        20220208
+# CPUTime: <1 min
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+Alias      Myf_0    f_0
+ChargeConj Myf_0    Myf_0
+Particle   Myf_0    0.980  0.092
+ChangeMassMin Myf_0 0
+#
+#
+Decay B_s0sig
+  1.000    Myf_0     MyJ/psi   SSD_CP 17.77e12 0.091 1.0 0.04 1.0 0. -1.0 0.;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myf_0
+  1.000         pi+       pi-            PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         e+       e-   PHOTOS         VLL;
+Enddecay
+End

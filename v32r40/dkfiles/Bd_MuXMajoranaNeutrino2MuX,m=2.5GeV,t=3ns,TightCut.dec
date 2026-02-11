@@ -1,0 +1,101 @@
+# $Id: Bd_MuXMajoranaNeutrino2MuX,m=2.5GeV,t=3ns,TightCut.dec  $
+#
+# This is the decay file for the decays B0 => mu+ X (Higgs0 => mu- X+ {Neutrino}) and B0 => mu+ X (Higgs0 => mu+ X- {Neutrino}), with CC and the former occuring 2/3 of the time, and the latter 1/3
+#
+# EventType: 11973007
+#
+# Descriptor: [B0 => mu+ X (Higgs0 => mu- X+ {X})]CC || [B0 => mu+ X (Higgs0 => mu+ X- {X})]CC
+#
+# NickName: Bd_MuXMajoranaNeutrino2MuX,m=2.5GeV,t=3ns,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# # Import requisite configurables to configure HNL properties
+# from Gauss.Configuration import *
+# from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+# from Configurables import GiGaPhysListModular, GiGaHiggsParticles
+#
+# # Configure HNL properties
+# ParticlePropertySvc().Particles = [ "H_10 87 25 0.0000 2.5000 3.0000e-9 Higgs0 25 0.0000" ]
+# ApplicationMgr().ExtSvc += [ ParticlePropertySvc() ]
+#
+# gigaHiggsPart = GiGaHiggsParticles()
+# gigaHiggsPart.Higgses = ["H_10"]
+# GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]
+#
+# # Import requisite configurables to introduce generator level cuts
+# from Configurables import LoKi__GenCutTool
+#
+# # Define generator level cut
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '[B0 => mu+ X ^H_10]CC'
+# tightCut.Cuts      = {
+#     'H_10'        : ' goodHNL ',
+#     }
+#
+# tightCut.Preambulo += [
+#     # Composite functors
+#     "OVX        = GFAPVX(GVX,0)",
+#     "OVY        = GFAPVX(GVY,0)",
+#     "OVZ        = GFAPVX(GVZ,0)",
+#     "EVZ        = GFAEVX(GVZ,0)",
+#     "SFX        = OVX + (GPX / GPZ) * (8000 - OVZ)", # Linearly extrapolated x pos at SciFi
+#     "SFY        = OVY + (GPY / GPZ) * (8000 - OVZ)", # Linearly extrapolated y pos at SciFi
+#     "inSFX      = in_range(-3500, SFX, 3500)", # 1000 mm tolerance for magnet-induced bending
+#     "inSFY      = in_range(-2500, SFY, 2500)",
+#     "goodDiMuonMuon = ('mu+'==GABSID) & inSFX & inSFY & (GP > 2600) & (GPT > 160)",
+#     "goodMuonEMuon = ('mu+'==GABSID) & inSFX & inSFY & (GP > 4600) & (GPT > 400)",
+#     "goodMuonEE = ('e+'==GABSID) & inSFX & inSFY & (GP > 4600) & (GPT > 400)",
+#     "goodMuonPionMuon = ('mu+'==GABSID) & inSFX & inSFY & (GP > 6600) & (GPT > 500)",
+#     "goodMuonPionPion = ('pi+'==GABSID) & inSFX & inSFY & (GP > 6600) & (GPT > 500)",
+#     # Cuts
+#     "goodHNL    = (EVZ < 8000 * mm) & ( ((GNINTREE(goodDiMuonMuon, HepMC.children) == 2) & (GPT > 330)) |  ((GNINTREE(goodMuonEMuon, HepMC.children) == 1) & (GNINTREE(goodMuonEE, HepMC.children) == 1) & (GPT > 800)) |  ((GNINTREE(goodMuonPionMuon, HepMC.children) == 1) & (GNINTREE(goodMuonPionPion, HepMC.descendants) > 0) & (GPT > 1000)))",
+#     ]
+#
+# EndInsertPythonCode
+#
+#
+# Documentation: File for the decays {prod_description[b_meson]} (Higgs0 => mu- X+ {{Neutrino}}) and {prod_description[b_meson]} (Higgs0 => mu+ X- {{Neutrino}}), with CC and the former occuring 2/3 of the time, and the latter 1/3
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Spencer Collaviti
+# Email: spencer.edward.collaviti@cern.ch
+# Date:   20251031
+# CPUTime: 3min
+#
+Alias      MyHNL       Higgs0
+Alias      Myanti-HNL  Higgs0
+ChargeConj MyHNL Myanti-HNL
+#
+Decay B0sig
+0.5755 MyHNL mu+ D*-  PHSP;
+0.3767 MyHNL mu+ D-   PHSP;
+0.0189 MyHNL mu+ pi-  PHSP;
+0.0288 MyHNL mu+ rho- PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyHNL
+0.1667 mu- mu+ nu_mu      PHSP;
+0.0833 mu+ mu- anti-nu_mu PHSP;
+0.1667 mu- e+ nu_e        PHSP;
+0.0833 mu+ e- anti-nu_e   PHSP;
+0.1667 mu- pi+            PHSP;
+0.0833 mu+ pi-            PHSP;
+0.1010 mu- rho+           PHSP;
+0.0505 mu+ rho-           PHSP;
+0.0206 mu- D_s+           PHSP;
+0.0103 mu+ D_s-           PHSP;
+0.0450 mu- D_s*+          PHSP;
+0.0225 mu+ D_s*-          PHSP;
+Enddecay
+CDecay Myanti-HNL
+#
+End
+#

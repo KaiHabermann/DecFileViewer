@@ -1,0 +1,27 @@
+# EventType: 14511201
+#
+# Descriptor: [B_c+ => gamma nu_mu mu+]cc
+#
+# NickName: Bc_gammaMuNuM=BcVegPy,DecProdCut,PHSP
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: B_c+ => gamma nu_mu mu+ decay file. Phase Space model. DughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Martino Borsato
+# Email: martino.borsato@cern.ch
+# Date: 20241105
+#
+#
+Decay B_c+sig
+   1.0000 mu+ nu_mu gamma PHSP;
+Enddecay
+CDecay B_c-sig
+#
+End

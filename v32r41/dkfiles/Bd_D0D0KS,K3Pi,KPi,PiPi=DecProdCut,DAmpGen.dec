@@ -1,0 +1,46 @@
+# EventType: 11198110
+# NickName: Bd_D0D0KS,K3Pi,KPi,PiPi=DecProdCut,DAmpGen
+# Descriptor: [B0 -> (D0 -> K- pi+ pi+ pi-) (D~0 -> K+ pi-) ( KS0 -> pi+ pi-)]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  Bd forced flat dalitz plot. decay products in acceptance
+#    Decay file for B0 -> D0 D~0 KS with D0 to K3pi, D0bar to Kpi
+# EndDocumentation
+# CPUTime: < 1 min
+#
+# Date:   20250403
+# Responsible: Yi Jiang
+# Email: y.jiang@cern.ch
+# PhysicsWG: B2OC
+# Tested: Yes
+
+Alias My_D0a    D0
+Alias My_anti-D0a    anti-D0
+Alias My_D0b    anti-D0
+Alias My_anti-D0b    D0
+ChargeConj My_D0a  My_anti-D0a
+ChargeConj My_anti-D0b  My_D0b
+#
+Alias myK_S0  K_S0
+ChargeConj myK_S0 myK_S0
+#
+Decay My_D0a
+  1.000 K- pi+ pi+ pi- LbAmpGen DtoKpipipi;
+Enddecay
+CDecay My_anti-D0a
+Decay My_D0b
+  1.000 K+ pi-   PHSP;
+Enddecay
+CDecay My_anti-D0b
+#
+Decay myK_S0
+  1.0   pi+   pi-       PHSP;
+Enddecay
+#
+Decay B0sig
+  1.000 My_D0a My_D0b myK_S0 PHSP;
+Enddecay
+CDecay anti-B0sig
+
+End

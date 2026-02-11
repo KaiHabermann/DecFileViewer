@@ -1,0 +1,58 @@
+# EventType: 11563422
+#
+# Descriptor: Descriptor: {[[B0]nos ->(D*- -> {pi0, gamma} (D- -> K+ pi- pi- )) (tau+ -> pi+ pi- pi+ pi0 anti-nu_tau) nu_tau]cc, [[B0]os -> (D*+ -> {pi0,gamma} (D+ -> K- pi+ pi+)) (tau- -> pi- pi+ pi- pi0 nu_tau) anti-nu_tau]cc} 
+#
+# NickName: Bd_Dst-taunu,D-pi0,D-gamma,Kpipi,3pipi0nu,tauola,chargedInAcc=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# Documentation: B0 -> D*- tau nu, with D*- -> D- {pi0,gamma} and D- -> K pi pi. 
+# TAUOLA used for the tau -> 3pi pi0 decay. The {pi0,gamma} are not forced into the acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible:  Beatriz Garcia Plana, Antonio Romero Vidal
+# Email: beatriz.garcia.plana@cern.ch, antonio.romero@usc.es
+# Date: 20180202
+#
+Alias         MyD-         D-
+Alias         MyD+	   D+
+ChargeConj    MyD-   	   MyD+
+#
+Alias         MyD*-   	   D*-
+Alias         MyD*+        D*+
+ChargeConj    MyD*-        MyD*+
+#
+Alias         MyTau-	   tau-
+Alias         MyTau+   	   tau+
+ChargeConj    MyTau- 	   MyTau+
+#
+Decay B0sig
+  1.000       MyD*-        MyTau+      nu_tau        ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+# BR(D*- -> D- pi0)   = 30.7% (PDG2017)
+# BR(D*- -> D- gamma) = 1.6% (PDG201)
+  0.950  MyD-   pi0        VSS;
+  0.050  MyD-   gamma      VSP_PWAVE;
+Enddecay
+CDecay MyD*+
+#
+Decay MyD-
+# D_DALITZ includes resonances contributions (K*(892), K*(1430), K*(1680))
+1.000    K+    pi-    pi-  D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+Decay MyTau-
+  1.000       TAUOLA       8;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

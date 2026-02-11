@@ -1,0 +1,61 @@
+# EventType: 15246173
+#
+# Descriptor: [Lambda_b0 -> (J/psi(1S) -> mu+ mu-) (Sigma*+ -> (Lambda0 -> p+ pi-)pi+) pi-]cc || [Lambda_b0 -> (J/psi(1S) -> mu+ mu-) (Sigma*- -> (Lambda0 -> p+ pi-)pi-) pi+]cc
+#
+# NickName: Lb_JpsiSigma1385pi,mm,Lambdapi,ppi=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:Lambda_b0 decay to (Jpsi -> mu+ mu-), Sigma* forced into (Lambda0 -> p+ pi-) and one charged pions pi. 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+#  CPUTime: < 2 min
+# Responsible: Jinjia Zhao
+# Email: jinjia@cern.ch
+# Date: 20230628
+
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+Alias      MySigma*+      Sigma*+
+Alias      Myanti-Sigma*-  anti-Sigma*-
+ChargeConj Myanti-Sigma*-  MySigma*+
+#
+Alias      MySigma*-      Sigma*-
+Alias      Myanti-Sigma*+  anti-Sigma*+
+ChargeConj Myanti-Sigma*+  MySigma*-
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+#
+
+Decay Lambda_b0sig
+  0.5  MyJ/psi MySigma*+ pi-  PHSP;
+  0.5  MyJ/psi MySigma*- pi+  PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000  mu+ mu-  PHOTOS VLL;
+Enddecay
+#
+Decay MySigma*+
+  1.000  MyLambda pi+  PHSP;
+Enddecay
+CDecay Myanti-Sigma*-
+#
+Decay MySigma*-
+  1.000  MyLambda pi-  PHSP;
+Enddecay
+CDecay Myanti-Sigma*+
+#
+Decay MyLambda
+  1.000  p+ pi-        HELAMP 0.9276 0.0 0.3735 0.0;
+Enddecay
+CDecay Myanti-Lambda
+#
+End

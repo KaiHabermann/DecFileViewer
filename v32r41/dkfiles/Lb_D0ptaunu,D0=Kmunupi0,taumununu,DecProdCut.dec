@@ -1,0 +1,45 @@
+# EventType: 15574401
+#
+# Descriptor: [Lambda_b0 -> (D0 -> K- mu+ nu_mu pi0 ) (tau- -> mu- nu_tau anti-nu_mu) anti-nu_tau p+]cc
+#
+# NickName: Lb_D0ptaunu,D0=Kmunupi0,taumununu,DecProdCut
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Lakshan Madhan
+# Email: lakshan.madhan@cern.ch
+# Date: 20240319
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 2 min
+#
+# Documentation: Lb->D0ptau with D0->Kmunupi0, muonic tau decay and DecProdCut
+#  		 background studies for Lb->pktautau and Lb->pKtaumu
+# EndDocumentation
+#
+#
+#
+Alias      MyD       D0
+Alias      MyDbar    anti-D0
+ChargeConj MyD       MyDbar
+#
+Alias        Mytau+    tau+
+Alias        Mytau-    tau-
+ChargeConj   Mytau+    Mytau-
+#
+Decay Lambda_b0sig
+  1.000     MyD Mytau- anti-nu_tau p+ PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+Decay MyD
+  1.000     K- mu+ nu_mu pi0     PHSP;  
+Enddecay
+CDecay MyDbar
+#
+Decay Mytau-
+  1.000     mu-          anti-nu_mu      nu_tau    TAULNUNU;
+Enddecay
+CDecay Mytau+
+#
+End

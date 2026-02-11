@@ -1,0 +1,75 @@
+# EventType: 12565021
+#
+# Descriptor: [B+ -> (Xi_c*+ -> (Xi_c0 -> p+ K- K- pi+) pi+) H_30 ]cc
+#
+# NickName: Bplus_PsiDMXic2645,Xic2645_piXic0,Xic0_pKKpi=TightCut,mPsiDM=1500MeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation:
+#   Decay a B+ to a Xi_c(2645)+ -> pi Xi_c (Xi_c -> pKKpi) and a redefined H_30 for our need, acting the latter as stable Dark Matter candidate.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Saul Lopez
+# Email: saul.lopez.solino@cern.ch
+# Date: 20211111
+#
+#
+# InsertPythonCode:
+# from Configurables import LHCb__ParticlePropertySvc, LoKi__GenCutTool
+# LHCb__ParticlePropertySvc().Particles = [
+# "H_30     89       36      0.0     1.500000        1.000000e+16    A0      36      0.00"
+# ]
+# ## Generator level cuts:
+# from Configurables import LoKi__GenCutTool
+# Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool, "TightCut")
+#
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '[^(B+ => (Xi_c*+ => (Xi_c0 => p+ K- K- pi+) pi+) H_30 )]CC'
+# ### - HepMC::IteratorRange::descendants   4
+# tightCut.Preambulo += [ "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#                          , "inAcc = in_range(1.9, GETA, 5.0)" 
+#                          , "isGoodKaon       = ( ( GPT > 0.20*GeV ) & inAcc & ( 'K+' == GABSID ) )"
+#                          , "isGoodPiC        = ( ( GPT > 0.20*GeV ) & inAcc & ( 'pi+' == GABSID ) )"
+#                          , "isGoodPi2645     = ( ( GPT > 0.20*GeV ) & inAcc & ( 'pi+' == GABSID ) )"
+#                          , "isGoodP          = ( ( GPT > 0.20*GeV ) & inAcc & ( 'p+' == GABSID ) )"
+#                          , "isGoodXic        = ( ( 'Xi_c0' == GABSID ) & ( GNINTREE( isGoodKaon, 1 ) > 1 ) & ( GNINTREE( isGoodP, 1 ) > 0 ) & ( GNINTREE( isGoodPiC, 1 ) > 0 ) )"
+#                          , "isGoodXic2645    = ( ( 'Xi_c*+' == GABSID ) & ( GNINTREE( isGoodXic, 1 ) > 0) & ( GNINTREE ( isGoodPi2645, 1 ) > 0 ) )"
+#                          , "isGoodB          = ( ( 'B+' == GABSID ) & ( GNINTREE( isGoodXic2645, 1 ) > 0 ) )" ]
+# tightCut.Cuts = {
+# "[B+]cc" : "isGoodB"
+# }
+# EndInsertPythonCode
+#
+Alias      MyXi_c*+       Xi_c*+
+Alias      Myanti-Xi_c*-       anti-Xi_c*-
+ChargeConj MyXi_c*+       Myanti-Xi_c*-
+#
+Alias       MyXi_c0        Xi_c0
+Alias  Myanti-Xi_c0        anti-Xi_c0
+ChargeConj      MyXi_c0    Myanti-Xi_c0
+#
+Alias  MyH_30     A0
+Alias  Myanti-H_30    A0
+ChargeConj MyH_30   Myanti-H_30
+#
+Decay B+sig
+    1.000   MyXi_c*+   MyH_30    PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyXi_c*+
+    1.000      MyXi_c0 pi+             PHSP;
+Enddecay
+CDecay Myanti-Xi_c*-
+#
+Decay MyXi_c0
+    1.000       p+  K-  K-  pi+      PHSP;
+Enddecay
+CDecay Myanti-Xi_c0
+#
+End
+

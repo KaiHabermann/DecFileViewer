@@ -1,0 +1,32 @@
+# EventType: 15146000
+#
+# Descriptor: [Lambda_b0 -> p+ K- pi+ pi- (J/psi(1S) -> mu+ mu-)]cc
+#
+# NickName: Lb_JpsipKpipi,mm=phsp,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda_b0 to five-body p+ K- pi+ pi- J/psi with J/psi to dimuons.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Qi Shi
+# Email: qi.shi@cern.ch
+# Date: 20250427
+# CPUTime: 2 min
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+#
+Decay Lambda_b0sig
+  1.000    MyJ/psi  p+ K- pi+ pi-              PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                    PHOTOS  VLL;
+Enddecay
+#
+End
+#

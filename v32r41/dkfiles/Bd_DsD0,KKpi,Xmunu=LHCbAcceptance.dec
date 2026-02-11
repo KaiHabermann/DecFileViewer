@@ -1,0 +1,65 @@
+# EventType: 11996000
+#
+# Descriptor: [[B0] -> (D_s+ -> K+ K- pi+) (D~0 -> K+ mu- nu_mu~) pi-]cc
+#
+# NickName: Bd_DsD0,KKpi,Xmunu=LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Sum of B0 decaying to Ds and D0, Ds forced to semileptonic, D0 forced to hadronic
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Scott Ely
+# Email: seely@syr.edu
+# Date: 20180327
+#
+Alias		MyD_s+		D_s+
+Alias		MyD_s-		D_s-
+ChargeConj	MyD_s+		MyD_s-
+#
+Alias		MyD_s*+		D_s*+
+Alias		MyD_s*-		D_s*-
+ChargeConj	MyD_s*+		MyD_s*-
+#
+Alias		MyD0		D0
+Alias		MyAntiD0	anti-D0
+ChargeConj	MyD0		MyAntiD0
+#
+Alias		MyD*0		D*0
+Alias		MyAntiD*0	anti-D*0
+ChargeConj	MyD*0		MyAntiD*0
+#
+Decay B0sig
+ 0.0037		MyD_s+		MyAntiD0	pi-		PHSP;
+ 0.0037		MyD_s*+		MyAntiD0	pi-		PHSP;
+ 0.0022		MyD_s+		MyAntiD0	pi-	pi0	PHSP;
+ 0.0022		MyD_s*+		MyAntiD0	pi-	pi0	PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD_s*+
+ 0.9350         MyD_s+  gamma           VSP_PWAVE;
+ 0.0580         MyD_s+  pi0             VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s+
+ 1.000          K+      K-      pi+     PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD0
+ 0.03333         K-      mu+     nu_mu                   PHOTOS ISGW2;
+ 0.0192         K*-     mu+     nu_mu                   PHOTOS ISGW2;
+ 0.000076       K_1-    mu+     nu_mu                   PHOTOS ISGW2;
+ 0.00110        K_2*-   mu+     nu_mu                   PHOTOS ISGW2;
+ 0.00238        pi-     mu+     nu_mu                   PHOTOS PHSP;
+ 0.00040        K-      pi0     mu+     nu_mu           PHOTOS PHSP;
+ 0.00120        K-      pi+     pi-     mu+     nu_mu   PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD0
+#
+End

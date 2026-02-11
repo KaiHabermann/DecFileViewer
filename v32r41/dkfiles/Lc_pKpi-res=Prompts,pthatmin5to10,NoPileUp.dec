@@ -1,0 +1,170 @@
+# EventType: 25203003
+#
+# Descriptor: [Lambda_c+ ==> p+ K- pi+]CC
+#
+# NickName: Lc_pKpi-res=Prompts,pthatmin5to10,NoPileUp
+#
+# Cuts: DaughtersInLHCb
+# Production:Pythia8
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[ Lambda_c+ ==> ^p+ ^K- ^pi+ ]CC'
+# tightCut.Cuts      =    {
+#     '[K-]cc'   : ' goodKaon ' , 
+#     '[pi+]cc'   : ' goodPion ' ,
+#     '[p+]cc'    : ' goodProton ' , 
+#     '[Lambda_c+]cc'  : ' notFromB  ' } 
+# tightCut.Preambulo += [
+#     'inAcc        = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodKaon     =  inAcc ' , 
+#     'goodPion     =  inAcc ' ,
+#     'goodProton   =  inAcc ' ,
+#     'Bancestors   =  GNINTREE ( GBEAUTY , HepMC.ancestors )',
+#     'notFromB     =  0 == Bancestors' ] 
+#
+# from Gaudi.Configuration import importOptions
+# importOptions('$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py')
+# from Configurables import Pythia8Production
+# gen.SignalPlain.addTool(Pythia8Production)
+# gen.SignalPlain.Pythia8Production.Commands+=[
+#     "HardQCD:all = on",
+#     "PhaseSpace:pTHatMin = 5.0",
+#     "PhaseSpace:pTHatMax = 10.0"]
+#
+# # Keep 2 -> 2 hard process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = (
+#     "( GBARCODE >= 1 ) & ( GBARCODE <= 6 )")
+#
+# EndInsertPythonCode
+#
+# Documentation: Lambda_c+ ==> p K pi including all resonances
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible: Manuel Ramirez Garcia
+# Email: mramiga@umich.edu
+# Date: 20250411
+#
+# Define K*(892)
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+# Define K*_0(1430)0 
+Alias      MyK_0*0     K_0*0
+Alias      Myanti-K_0*0 anti-K_0*0
+ChargeConj MyK_0*0      Myanti-K_0*0
+#
+# Define Delta++
+Alias      MyDelta++      Delta++
+Alias      Myanti-Delta-- anti-Delta--
+ChargeConj MyDelta++      Myanti-Delta--
+#
+# Define Delta(1600)++
+Alias      MyDelta(1600)++      Delta(1600)++
+Alias      Myanti-Delta(1600)-- anti-Delta(1600)--
+ChargeConj MyDelta(1600)++      Myanti-Delta(1600)--
+#
+# Define Delta(1700)++
+Alias      MyDelta(1700)++      Delta(1700)++
+Alias      Myanti-Delta(1700)-- anti-Delta(1700)--
+ChargeConj MyDelta(1700)++      Myanti-Delta(1700)--
+#
+# Define Lambda(1405)0
+Alias      MyLambda(1405)0       Lambda(1405)0
+Alias      Myanti-Lambda(1405)0  anti-Lambda(1405)0
+ChargeConj MyLambda(1405)0       Myanti-Lambda(1405)0
+#
+# Define Lambda(1520)0
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+# Define Lambda(1600)0
+Alias      MyLambda(1600)0       Lambda(1600)0
+Alias      Myanti-Lambda(1600)0  anti-Lambda(1600)0
+ChargeConj MyLambda(1600)0       Myanti-Lambda(1600)0
+#
+# Define Lambda(1670)0
+Alias      MyLambda(1670)0       Lambda(1670)0
+Alias      Myanti-Lambda(1670)0  anti-Lambda(1670)0
+ChargeConj MyLambda(1670)0       Myanti-Lambda(1670)0
+#
+# Define Lambda(1690)0
+Alias      MyLambda(1690)0       Lambda(1690)0
+Alias      Myanti-Lambda(1690)0  anti-Lambda(1690)0
+ChargeConj MyLambda(1690)0       Myanti-Lambda(1690)0
+#
+Decay Lambda_c+sig
+    0.0139       p+              Myanti-K*0     PHSP;
+    0.0092       p+              Myanti-K_0*0     PHSP;
+    0.0176       MyDelta++       K-             PHSP;
+    0.00280       MyDelta(1600)++      K-             PHSP;
+    0.00240       MyDelta(1700)++      K-             PHSP;
+    0.00480      MyLambda(1405)0 pi+            PHSP;
+    0.00116      MyLambda(1520)0 pi+            PHSP;
+    0.0032       MyLambda(1600)0 pi+            PHSP;
+    0.00074      MyLambda(1670)0 pi+            PHSP;
+    0.00074      MyLambda(1690)0 pi+            PHSP;
+    0.04290       p+              K-         pi+ PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+#
+Decay MyK*0
+    1.00000       K+              pi-            PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK_0*0
+    1.00000       K+              pi-            PHSP;
+Enddecay
+CDecay Myanti-K_0*0
+#
+Decay MyDelta++
+    1.0000       p+              pi+            PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+Decay MyDelta(1600)++
+    1.00000       p+              pi+            PHSP;
+Enddecay
+CDecay Myanti-Delta(1600)--
+#
+Decay MyDelta(1700)++
+    1.00000       p+              pi+            PHSP;
+Enddecay
+CDecay Myanti-Delta(1700)--
+#
+Decay MyLambda(1520)0
+    1.00000       p+              K-             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay MyLambda(1600)0
+    1.00000       p+              K-             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1600)0
+#
+Decay MyLambda(1670)0
+    1.00000       p+              K-             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1670)0
+#
+Decay MyLambda(1690)0
+    1.00000       p+              K-             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1690)0
+#
+End
+#
+
+

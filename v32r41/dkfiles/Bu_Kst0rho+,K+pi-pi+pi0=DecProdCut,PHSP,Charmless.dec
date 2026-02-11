@@ -1,0 +1,32 @@
+# EventType: 12103422
+#
+# Descriptor: [B+ -> K+ pi- pi+ pi0]cc
+#
+# NickName: Bu_Kst0rho+,K+pi-pi+pi0=DecProdCut,PHSP,Charmless
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Charmless phase space MC in the region of B+ -> K*0 rho+ with
+# a tight cut on the V mass window
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Jeremy Dalseno
+# Email: jeremy.peter.dalseno@cern.ch
+# Date: 20200922
+
+Alias		Mypi0	pi0
+ChargeConj	Mypi0	Mypi0
+
+Decay B+sig
+      1.0	K+	pi-	pi+	Mypi0	BNOCBPTO3HPI0 0.0 2.0 0.0 2.0;
+Enddecay
+CDecay B-sig
+
+Decay Mypi0
+      1.0	gamma	gamma	PHSP;
+Enddecay
+
+End

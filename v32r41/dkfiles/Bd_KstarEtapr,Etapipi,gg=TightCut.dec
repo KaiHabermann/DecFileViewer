@@ -1,0 +1,72 @@
+# $Id: Bd_KstarEtapr,Etapipi,gg=TightCut.dec  $
+# Descriptor: [B0 -> (eta_prime -> (eta -> gamma gamma) pi+ pi-) (K*(892)0 -> K+ pi-)]cc
+#
+# This is the decay file for the decay B0 -> ETA' (-> ETA (-> gamma gamma) PI+ PI-) K* 
+#
+# EventType: 11104467
+#
+# NickName: Bd_KstarEtapr,Etapipi,gg=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# 
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation().SignalRepeatedHadronization
+# gen.addTool( LoKi__GenCutTool, "TightCut" )
+# tightCut = gen.TightCut
+# tightCut.Decay = "[^(B0 -> (K*(892)0 -> ^K+ ^pi-) ^(eta_prime -> pi+ pi- (eta -> gamma gamma)))]CC"
+# tightCut.Cuts  = {
+#      "[B0]cc" : "good_B0",
+#      "[K+]cc" : "good_K",
+#      "[pi-]cc" : "good_pi",
+#      "[eta_prime]cc" : "good_etapr",   
+# }
+# tightCut.Preambulo += [
+#      "from GaudiKernel.PhysicalConstants import c_light",
+#      "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, mm, ns",
+#      "inAcc          = in_range(0.005, GTHETA, 0.400) & in_range(1.8, GETA, 5.2)",
+#      "good_etapr_pi  = (GP > 3000*MeV) & (GPT > 250*MeV)",
+#      "good_etapr_eta = (GPT > 500*MeV)",
+#      "good_etapr     = inAcc & (GPT > 2000*MeV) & (GCHILDCUT(good_etapr_eta, '[eta_prime -> pi+ pi- ^(eta -> gamma gamma)]CC')) & (GCHILDCUT(good_etapr_pi, '[eta_prime -> ^pi+ pi- (eta -> gamma gamma)]CC'))",
+#      "good_K         = inAcc & (GP > 2000*MeV) & (GPT > 250*MeV)",
+#      "good_pi        = inAcc & (GP > 2000*MeV) & (GPT > 250*MeV)",
+#      "good_B0        = inAcc & (GPT > 3000*MeV) & (GM > 4800*MeV) & (GM < 5800*MeV) & (GPZ > 0) & (GCTAU > 0.0002*ns*c_light)",
+# ]
+# EndInsertPythonCode
+# 
+# Documentation: File for B0 -> eta' (-> eta (-> gamma gamma) pi+ pi-) K* (-> K+ pi-)
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Pasquale Andreola
+# Email: pasquale.andreola@cern.ch 
+# Date:   20230310
+# CPUTime: <1min
+#
+Alias      MyEta' eta'
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+Alias      MyEta       eta
+#
+ChargeConj Myanti-K*0  MyK*0
+#
+Decay MyEta
+1.000      gamma gamma       PHSP;             
+Enddecay
+#
+Decay MyEta'
+1.000      MyEta  pi+  pi-       PHSP;             
+Enddecay
+#
+Decay MyK*0
+1.000        K+        pi-         VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay B0sig
+1.000         MyK*0  MyEta'        PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End

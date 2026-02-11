@@ -1,0 +1,69 @@
+# EventType: 12105311 
+#
+# Descriptor: [B+ -> pi+ pi- pi+ (KS0 -> pi+ pi-) gamma]cc
+#
+# NickName: Bu_Kspi+pi-pi+gamma=TightCut,mKshhCut,PHSP 
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# CPUTime: 1 min
+#
+# InsertPythonCode:
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+#
+# gen = Generation(genAlgName) 
+# gen.SignalRepeatedHadronization.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+#
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/mKshhCut"
+# evtgendecay.addTool( LoKi__GenCutTool ,'mKshhCut')
+# evtgendecay.mKshhCut.Decay = '[^(B+ => pi+ pi- pi+ KS0 gamma)]CC'
+# evtgendecay.mKshhCut.Cuts  = {'[B+]cc' : ' mKshhCut '}
+# evtgendecay.mKshhCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter",
+#     "CS         = LoKi.GenChild.Selector",
+#     "m124       = (GMASS(CS('[(B+ => ^pi+ pi- pi+ KS0 gamma)]CC'),CS('[(B+ => pi+ ^pi- pi+ KS0 gamma)]CC'), CS('[(B+ => pi+ pi- pi+ ^KS0 gamma)]CC')) )",
+#     "m234       = (GMASS(CS('[(B+ => pi+ pi- ^pi+ KS0 gamma)]CC'),CS('[(B+ => pi+ ^pi- pi+ KS0 gamma)]CC'), CS('[(B+ => pi+ pi- pi+ ^KS0 gamma)]CC')) )",
+#     "mKshhCut   = ((m124 < 2 * GeV) & (m234 < 2 * GeV))"]
+#
+#
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[B+ => ^pi+ ^pi- ^pi+ (KS0 => ^pi+ ^pi-) ^gamma]CC'
+# tightCut.Cuts      =    {
+#     '[pi+]cc'        : ' inAcc' , 
+#     'gamma'          : ' goodPhoton'}
+#
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter",
+#     "inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) " , 
+#     "goodPhoton = ( GPT > 1.5 * GeV ) & inAcc" ]
+#
+# EndInsertPythonCode
+#
+# Documentation: for Bkgd for Kspipig, all in PHSP, pi in acceptance, with gamma PT > 1.5, mKspipi < 2 GeV
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email:  biplab.dey@.cern.ch
+# Date: 20190106
+#
+Alias      MyK0s  K_S0
+ChargeConj MyK0s  MyK0s
+#
+Decay B+sig
+  1.000   pi+  pi- pi+   MyK0s      gamma         PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyK0s
+  1.000   pi+         pi-       PHSP;
+Enddecay
+#
+End

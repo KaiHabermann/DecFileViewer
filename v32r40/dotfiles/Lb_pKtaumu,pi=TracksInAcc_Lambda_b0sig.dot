@@ -1,0 +1,23 @@
+// Created by https://github.com/scikit-hep/decaylanguage
+digraph DecayChainGraph {
+	graph [comment="Created by https://github.com/scikit-hep/decaylanguage" engine=dot format=png name=DecayChainGraph rankdir=LR]
+	node [fontname=Helvetica fontsize=11 shape=oval]
+	edge [fontcolor="#4c4c4c" fontsize=11]
+	mother [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#568dba"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">Lambda_b0sig</TD></TR></TABLE>> shape=none]
+	dec9983 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">p</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">K<SUP>-</SUP></TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p2">Mytau+</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p3">&#x03bc;<SUP>-</SUP></TD></TR></TABLE>> shape=none]
+	mother -> dec9983 [label=0.5]
+	dec9984 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;&#773;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec9983:p2 -> dec9984 [label=0.1082]
+	dec9985 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>0</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;&#773;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec9983:p2 -> dec9985 [label=0.2549]
+	dec9986 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>0</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>0</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;&#773;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec9983:p2 -> dec9986 [label=0.0926]
+	dec9987 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">p</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">K<SUP>-</SUP></TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p2">&#x03bc;<SUP>+</SUP></TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p3">Mytau-</TD></TR></TABLE>> shape=none]
+	mother -> dec9987 [label=0.5]
+	dec9988 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec9987:p3 -> dec9988 [label=0.1082]
+	dec9989 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>0</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec9987:p3 -> dec9989 [label=0.2549]
+	dec9990 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>0</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>0</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec9987:p3 -> dec9990 [label=0.0926]
+}

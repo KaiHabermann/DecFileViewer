@@ -1,0 +1,57 @@
+# EventType: 11522012
+#
+# Descriptor: [B0 => pi- nu_e e+]cc
+#
+# NickName: Bd_pienu=DecProdCut,M4.5GeV,EvtGenCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+#CPUTime: 3 min
+#
+# InsertPythonCode:
+# #
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation(genAlgName)
+#
+## gen.SignalRepeatedHadronization.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/HighVisMass"
+# evtgendecay.addTool(LoKi__GenCutTool ,'HighVisMass')
+# evtgendecay.HighVisMass.Decay   = "[B0 => pi- nu_e e+]CC"
+# evtgendecay.HighVisMass.Cuts    = { '[B0]cc' : "visMass" }
+# evtgendecay.HighVisMass.Preambulo += ["visMass  = ( ( GMASS ( 'pi+' == GABSID , 'e-' == GABSID ) ) > 4500 * MeV ) " ]
+#
+#
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Flavio Archilli 
+# Email: flavio.archilli@cern.ch
+#
+#
+#Cut added by Sebastian Schulte
+#Email: sebastian.schulte@cern.ch
+#Date: 20190423
+#
+#
+#
+Decay B0sig
+  1.000 pi- e+ nu_e          PHOTOS ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#
+
+
+
+
+

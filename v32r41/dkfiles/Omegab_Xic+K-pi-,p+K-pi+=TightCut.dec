@@ -1,0 +1,116 @@
+# EventType: 16265937
+#
+# Descriptor: [Xi_b- -> (Xi_c+ -> p+ K- pi+) K- pi-]cc
+# NickName: Omegab_Xic+K-pi-,p+K-pi+=TightCut
+# # Gives Xib Omegab properties. First excited Omegab state not observed yet, but should be there with JP = 3/2+. Mass splittings taken as average from theoretical predictions, Tab 5 https://inspirehep.net/literature/2834504
+# # Excited Omega_c also redefined.
+# ParticleValue: "Xi_b- 122 5132 -1.0 6.0458 1.64e-012 Xi_b- 5132 0.000000e+000", "Xi_b~+ 123 -5132 1.0 6.0458 1.64e-012 anti-Xi_b+ -5132 0.000000e+000"
+# Cuts: LoKi::GenCutTool/GenSigCut
+#
+# InsertPythonCode:
+# # First excited Omegab state not observed yet, but should be there with JP = 3/2+. Assume a width of 10 keV.
+# # Mass splittings taken as average from theoretical predictions, Tab 5 https://inspirehep.net/literature/2834504
+# # Excited Omega_c also redefined.
+# # List added here because Gauss will complain about the re-definition in a single line "Error in EvtParser: line:7 to long"
+# LHCb__ParticlePropertySvc().Particles += [ "Xi'_b-         116    5312 -1.0  6.07347       6.582120e-20                 Xi'_b-    5312  0.00000e+000",
+#                                            "Xi'_b~+        117   -5312  1.0  6.07347       6.582120e-20            anti-Xi'_b+   -5312  0.00000e+000",
+#                                            "Xi'_c0         100    4312  0.0  3.00044000    1.718569e-22            Xi'_c0    4312  0.00000000",
+#                                            "Xi'_c~0        101   -4312  0.0  3.00044000    1.718569e-22       anti-Xi'_c0   -4312  0.00000000",
+#                                            "Xi_c*0         494    4314  0.0  3.05018000    9.824059e-22            Xi_c*0    4314  0.00000000",
+#                                            "Xi_c*~0        495   -4314  0.0  3.05018000    9.824059e-22       anti-Xi_c*0   -4314  0.00000000",
+#                                            "Xi_c(2790)0   1053  104314  0.0  3.06563000    1.736707e-22       Xi_c(2790)0       0  0.00000000",
+#                                            "Xi_c(2790)~0  1054 -104314  0.0  3.06563000    1.736707e-22  anti-Xi_c(2790)0       0  0.00000000",
+#                                            "Xi_c(2815)0   1057  104312  0.0  3.09016000    7.761934e-23       Xi_c(2815)0       0  0.00000000",
+#                                            "Xi_c(2815)~0  1058 -104312  0.0  3.09016000    7.761934e-23  anti-Xi_c(2815)0       0  0.00000000"]
+#
+# from Configurables import LoKi__GenCutTool
+# # Set SignalPIDList explicitly. Looks like a bug in cmt/create_options.py
+# Generation().SignalRepeatedHadronization.SignalPIDList = [ 5132,-5132 ]
+# Generation().SignalRepeatedHadronization.addTool(LoKi__GenCutTool,'GenSigCut')
+# SigCut = Generation().SignalRepeatedHadronization.GenSigCut
+# SigCut.Decay = "[^(Xi_b- ==> ^(Xi_c+ ==> ^p+ ^K- ^pi+) ^K- ^pi-)]CC"
+# SigCut.Filter = True
+# SigCut.Preambulo += [
+#   "from LoKiCore.functions import in_range",
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, mm",
+#   "inAcc = in_range(10*mrad,GTHETA,400*mrad)",
+#   "EVZ   = GFAEVX(GVZ,0)",
+#   "OVZ   = GFAPVX(GVZ,0)",
+#   "EVR   = GFAEVX(GVRHO,0)",
+#   "OVR   = GFAPVX(GVRHO,0)"
+#  ]
+# SigCut.Cuts = {
+#   '[Xi_b-]cc': "(GPT>4.8*GeV) & (EVZ-OVZ>0.5*mm) & (EVR-OVR>0.05*mm)",
+#   '[Xi_c+]cc': "(EVZ-OVZ>0.25*mm)",
+#   '[p+]cc'   : "(GP>4.8*GeV) & (GPT>480*MeV) & inAcc",
+#   '[K-]cc'   : "(GP>2.9*GeV) & (GPT>480*MeV) & inAcc",
+#   '[pi+]cc'  : "(GP>0.9*GeV) & (GPT>290*MeV) & inAcc"
+# }
+# EndInsertPythonCode
+#
+# Documentation: MC generation of Xi_b- -> (Xi_c+ -> p+ K- pi+) K- pi- for BDT training. Xib- used instead of Omegab-.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: 4 min
+# Responsible: Dhruvanshu Mahesh Parmar
+# Email: dhruvanshu.mahesh.parmar@{nospam}cern.ch
+# Date: 20250502
+
+Alias      MyXicp        Xi_c+
+Alias      MyAntiXicm    anti-Xi_c-
+ChargeConj MyXicp        MyAntiXicm
+#
+Alias      MyOc3000      Xi'_c0
+Alias      MyAntiOc3000  anti-Xi'_c0
+ChargeConj MyOc3000      MyAntiOc3000
+#
+Alias      MyOc3050      Xi_c*0
+Alias      MyAntiOc3050  anti-Xi_c*0
+ChargeConj MyOc3050      MyAntiOc3050
+#
+Alias      MyOc3065      Xi_c(2790)0
+Alias      MyAntiOc3065  anti-Xi_c(2790)0
+ChargeConj MyOc3065      MyAntiOc3065
+#
+Alias      MyOc3090      Xi_c(2815)0
+Alias      MyAntiOc3090  anti-Xi_c(2815)0
+ChargeConj MyOc3090      MyAntiOc3090
+#
+Decay Xi_b-sig
+  0.2 MyXicp K- pi- PHSP;
+  0.2 MyOc3000 pi- PHSP;
+  0.2 MyOc3050 pi- PHSP;
+  0.2 MyOc3065 pi- PHSP;
+  0.2 MyOc3090 pi- PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyOc3000
+  1 MyXicp K- PHSP;
+Enddecay
+CDecay MyAntiOc3000
+#
+Decay MyOc3050
+  1 MyXicp K- PHSP;
+Enddecay
+CDecay MyAntiOc3050
+#
+Decay MyOc3065
+  1 MyXicp K- PHSP;
+Enddecay
+CDecay MyAntiOc3065
+#
+Decay MyOc3090
+  1 MyXicp K- PHSP;
+Enddecay
+CDecay MyAntiOc3090
+#
+Decay MyXicp
+  1 p+ K- pi+ PHSP;
+Enddecay
+CDecay MyAntiXicm
+#
+End
+

@@ -1,0 +1,58 @@
+# EventType: 14143025
+#
+# Descriptor: [B_c+ => (psi(2S) => mu+ mu-) K+]cc
+#
+# NickName: Bc_psi2SK,mm=BcVegPy,TightDecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: LoKi::GenCutToolWithDecay/TightCut
+#
+# Documentation: This is the decay file for the decay Bc+ -> psi(2S)(-> Mu+ Mu- {,gamma} {,gamma}) K+ with SVS model, all daughters in acceptance with tight eta and pt cuts.
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutToolWithDecay
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.Special.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+# gen.Special.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+# #
+# tightCut = gen.Special.TightCut
+# tightCut.SignalPID = 'B_c+'
+# tightCut.Decay = '[B_c+ => (psi(2S) => ^mu+ ^mu-) ^K+]CC'
+# tightCut.Preambulo += [
+#     'inAcc   = in_range ( 0.005 , GTHETA , 0.400 )          ' ,
+#     'inEta   = in_range ( 1.85  , GETA   , 5.100 )          ' ,
+#     'muonTrack =  ( GPT > 500. * MeV ) & ( GP > 2.9 * GeV ) ' ,
+#     'goodTrack =  ( GPT > 220. * MeV )                      ' ]
+# tightCut.Cuts = {
+#     '[mu+]cc'  : 'inAcc & inEta & muonTrack' , 
+#     '[K+]cc'   : 'inAcc & inEta & goodTrack' }
+# 
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Emanuele Santovetti
+# Email: emanuelesantovetti@gmail.com
+# Date: 20210202
+# CPUTime: < 1 min
+#
+Alias       Mypsi2S   psi(2S)
+ChargeConj  Mypsi2S   Mypsi2S
+#
+Decay B_c+sig
+  1.000     Mypsi2S   K+             SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mypsi2S
+  1.000     mu+       mu-                    PHOTOS   VLL;
+Enddecay
+#
+End
+#

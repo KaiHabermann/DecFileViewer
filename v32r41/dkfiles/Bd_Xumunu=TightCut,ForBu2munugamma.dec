@@ -1,0 +1,42 @@
+# EventType: 11511003
+#
+# Descriptor: [B0 -> Xu- mu+ nu_mu]cc
+#
+# NickName: Bd_Xumunu=TightCut,ForBu2munugamma
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Decay file for B0 -> Xu- mu nu as background for B+ -> mu nu gamma
+# EndDocumentation
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation().SignalRepeatedHadronization
+# gen.addTool(LoKi__GenCutTool, "TightCut")
+# SignalFilter = gen.TightCut
+# SignalFilter.Decay = "^( [Beauty --> (Xu- --> gamma ... ) mu+ ...]CC )"
+# SignalFilter.Preambulo += [
+#    "from GaudiKernel.SystemOfUnits import GeV",
+#    "inAcc = in_range( 0.005, GTHETA, 0.400 )",
+#    "muCuts = ( 0 < GNINTREE ( ('mu+' == GABSID ) & ( GP > 5 * GeV ) & ( GPT > 1.2 * GeV ) & inAcc ) )",
+#   ]
+# SignalFilter.Cuts = { "Beauty" : "muCuts" }
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Fabian Christoph Glaser
+# Email: fabian.christoph.glaser@cern.ch
+# Date: 20230623
+#
+#
+Decay B0sig
+#
+1.00    Xu-     mu+     nu_mu       VUB 4.8 1.29 0.22 1 0.3 1.0;
+#
+Enddecay
+CDecay anti-B0sig
+#
+End
+#

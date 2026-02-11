@@ -1,0 +1,79 @@
+# EventType: 11563421
+#
+# Descriptor: Descriptor: {[[B0]nos ->(D*- -> {pi0, gamma} (D- -> K+ pi- pi- )) (tau+ -> pi+ pi- pi+ pi0 anti-nu_tau) nu_tau]cc, [[B0]os -> (D*+ -> {pi0,gamma} (D+ -> K- pi+ pi+)) (tau- -> pi- pi+ pi- pi0 nu_tau) anti-nu_tau]cc}
+#
+# NickName: Bd_Dst-taunu,D-pi0,D-gamma,Kpipi,3pipi0nu,tauola=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal = generation.SignalRepeatedHadronization
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = signal.TightCut
+# tightCut.Decay = '[( [B0]cc => ( D*(2010)+ => ^(D+ => K- pi+ pi+) (pi0 | gamma) ) ^(tau- => pi- pi+ pi- pi0 nu_tau) nu_tau~ ) ]CC'
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,"CS  = LoKi.GenChild.Selector"
+#     ,'goodDp = ( (GP>12000*MeV) & (GPT>1500*MeV) & ( (GCHILD(GPT,("K+" == GABSID )) > 1400*MeV) & (GCHILD(GP,("K+" == GABSID )) > 5000*MeV) & in_range ( 0.010 , GCHILD(GTHETA,("K+" == GABSID )) , 0.400 ) ) & ( (GCHILD(GPT,CS("[D+ => K- ^pi+ pi+ ]CC")) > 200*MeV) & (GCHILD(GP,CS("[D+ => K- ^pi+ pi+ ]CC")) > 1600*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[D+ => K- ^pi+ pi+ ]CC")) , 0.400 ) ) & ( (GCHILD(GPT,CS("[D+ => K- pi+ ^pi+ ]CC")) > 200*MeV) & (GCHILD(GP,CS("[D+ => K- pi+ ^pi+ ]CC")) > 1600*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[D+ => K- pi+ ^pi+ ]CC")) , 0.400 ) )  )'
+#     ,'goodTau = ( ( (GCHILD(GPT,CS("[tau- => ^pi- pi+ pi- pi0 nu_tau ]CC")) > 200*MeV) & (GCHILD(GP,CS("[tau- => ^pi- pi+ pi- pi0 nu_tau ]CC")) > 1200*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[tau- => ^pi- pi+ pi- pi0 nu_tau]CC")), 0.400 ) ) & ( (GCHILD(GPT,CS("[tau- => pi- ^pi+ pi- pi0 nu_tau ]CC")) > 200*MeV) & (GCHILD(GP,CS("[tau- => pi- ^pi+ pi- pi0 nu_tau ]CC")) > 1200*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[tau- => pi- ^pi+ pi- pi0 nu_tau ]CC")) , 0.400 ) ) & ( (GCHILD(GPT,CS("[tau- => pi- pi+ ^pi- pi0 nu_tau]CC")) > 200*MeV) & (GCHILD(GP,CS("[tau- => pi- pi+ ^pi- pi0 nu_tau]CC")) > 1200*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[tau- => pi- pi+ ^pi- pi0 nu_tau]CC")) , 0.400 ) ) )'
+# ]
+# tightCut.Cuts = {
+#      '[D+]cc': 'goodDp'
+#     ,'[tau-]cc': 'goodTau'
+#     }
+# EndInsertPythonCode
+#
+#
+# Documentation: B0 -> D*- tau nu, with D*- -> D- {pi0,gamma} and D- -> K pi pi. Daughters in LHCb Acceptance and passing StrippingB0d2DTauNuForB2XTauNuAllLines cuts.
+# TAUOLA used for the tau -> 3pi pi0 decay.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# CPUTime: 2 min
+# Tested: Yes
+# Responsible: Antonio Romero Vidal, Alessandra Gioventu
+# Email: antonio.romero@usc.es, alessandra.gioventu@cern.ch
+# Date: 20210621
+#
+Alias         MyD-         D-
+Alias         MyD+	   D+
+ChargeConj    MyD-   	   MyD+
+#
+Alias         MyD*-   	   D*-
+Alias         MyD*+        D*+
+ChargeConj    MyD*-        MyD*+
+#
+Alias         MyTau-	   tau-
+Alias         MyTau+   	   tau+
+ChargeConj    MyTau- 	   MyTau+
+#
+Decay B0sig
+  1.000       MyD*-        MyTau+      nu_tau        ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+# BR(D*- -> D- pi0)   = 30.7% (PDG2017)
+# BR(D*- -> D- gamma) = 1.6% (PDG201)
+  0.950  MyD-   pi0        VSS;
+  0.050  MyD-   gamma      VSP_PWAVE;
+Enddecay
+CDecay MyD*+
+#
+Decay MyD-
+# D_DALITZ includes resonances contributions (K*(892), K*(1430), K*(1680))
+1.000    K+    pi-    pi-  D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+Decay MyTau-
+  1.000       TAUOLA       8;
+Enddecay
+CDecay MyTau+
+#
+End
+#

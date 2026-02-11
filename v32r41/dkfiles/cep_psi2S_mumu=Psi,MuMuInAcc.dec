@@ -1,0 +1,39 @@
+# EventType: 49142003
+#
+# Descriptor: psi(2S) -> mu+ mu-
+# NickName: cep_psi2S_mumu=Psi,MuMuInAcc
+# Cuts: None
+# Production: SuperChic2
+#
+# InsertPythonCode:
+#
+# # SuperChic2 options.
+# from Configurables import SuperChic2Production
+# Generation(genAlgName).Special.addTool(SuperChic2Production)
+# Generation(genAlgName).Special.SuperChic2Production.Commands += [
+#     "SuperChic2:proc = 52",      # Psi(2S)[mu,mu] production.
+#     "SuperChic2:ymin = 1.95",    # central system min rapidity
+#     "SuperChic2:ymax = 5.05",    # central system max rapidity
+#     "SuperChic2:gencuts = true", # Apply cuts below on pseudorapidity
+#     "SuperChic2:etaamin = 1.95", # mu+ pseudorapidity min
+#     "SuperChic2:etaamax = 5.05", # mu+ pseudorapidity max
+#     "SuperChic2:etabmin = 1.95", # mu- pseudorapidity min
+#     "SuperChic2:etabmax = 5.05"] # mu- pseudorapidity max
+#
+# # Keep the CEP process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+# Documentation:
+# central exclusive production of psi(2S)[mu mu]
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Cristina Sanchez Gras
+# Email: cristina.sanchez.gras@cern.ch
+# Date: 20200701
+#
+End

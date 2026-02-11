@@ -1,0 +1,51 @@
+# EventType: 12562000
+#
+# Descriptor: [B+ -> (anti-D0 -> K+ pi-) (tau+ -> pi+ pi- pi+ anti-nu_tau) nu_tau]cc
+#
+# NickName: Bu_D0taunu,Kpi,3pinu,tauolababar=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bu to D tau nu, with D0 to Kpi final state.
+# Tau lepton decays in the 3-prong charged pion mode using the Tauola BaBar model.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Beatriz Garcia Plana, Antonio Romero Vidal
+# Email: beatriz.garcia.plana@cern.ch, antonio.romero@usc.es
+# Date: 20180116
+#
+
+# Tauola steering options
+# The following forces the tau to decay into 3 charged pions (not pi+2pi0)
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         MyD0	     D0
+Alias         Myanti-D0      anti-D0
+ChargeConj    MyD0           Myanti-D0
+#
+Alias         MyTau+  	     tau+
+Alias         MyTau-         tau-
+ChargeConj    MyTau+         MyTau-
+#
+Decay  B+sig
+  1.000       Myanti-D0      MyTau+   nu_tau   ISGW2;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-D0
+  1.0000      K+    pi-      PHSP;
+Enddecay
+CDecay MyD0
+#    
+Decay MyTau-
+  1.0000        TAUOLA 5;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

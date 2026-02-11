@@ -1,0 +1,57 @@
+# EventType: 11198007
+# NickName: Bd_D0DK,K3Pi,KPiPi=TightCut
+# Descriptor: [B0 -> (D0 -> K- pi+ pi+ pi-) (D- -> K+ pi- pi-) K+]cc
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+##
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool , 'TightCut')
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[Beauty ==> (D- => ^K+ ^pi- ^pi-) (D0 => ^K- ^pi+ ^pi+ ^pi-) ^K+]CC"
+# tightCut.Preambulo += [ "from LoKiCore.functions import in_range",
+#                           "from GaudiKernel.SystemOfUnits import  GeV, mrad",
+#                         ]
+#tightCut.Cuts      =    {
+# '[pi+]cc'   : " in_range( 0.010 , GTHETA , 0.400 ) & ( GPT > 250 * MeV )",
+# '[K-]cc'   : "  in_range( 0.010 , GTHETA , 0.400 )  & ( GPT > 250 * MeV )"
+#    }
+# EndInsertPythonCode
+#
+# Documentation: Decay B -> D0 D- K+, 4 track D0
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Harris Bernstein
+# Email: harris.conan.bernstein@cern.ch
+# Date: 20201020
+# CPUTime: 2min
+
+
+Alias My_D0_K3pi   		D0
+Alias My_anti-D0_K3pi 	anti-D0
+Alias My_D+   			D+
+Alias My_D-   			D-
+ChargeConj My_D0_K3pi 	My_anti-D0_K3pi
+ChargeConj My_D- 		My_D+
+
+Decay My_D0_K3pi
+  1.0 K- pi+ pi+ pi- PHSP;
+Enddecay
+CDecay My_anti-D0_K3pi
+
+Decay My_D-
+  1.0 K+ pi- pi- D_DALITZ;
+Enddecay
+CDecay My_D+
+
+Decay B0sig
+  1.0 My_D- My_D0_K3pi K+ PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#

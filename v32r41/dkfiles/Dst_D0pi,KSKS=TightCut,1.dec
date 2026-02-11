@@ -1,0 +1,71 @@
+# EventType: 27165900
+#
+# Descriptor: [D*(2010)+ -> (D0 -> (KS0 -> pi+ pi-) (KS0 -> pi+ pi-)) pi+]cc
+#
+# NickName: Dst_D0pi,KSKS=TightCut,1
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: D*+-tagged D0 decays into two KS KS, tight cuts to reproduce Run2 and Run3 triggers
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal     = generation.SignalPlain
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[ D*(2010)+ ==> ^( D0 ==> ^( KS0 => pi+ pi- ) ^( KS0 => pi+ pi- ) ) ^pi+]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import mm, MeV, GeV                    ",
+#     "from LoKiCore.math import atan2             ",
+#     "CS  = LoKi.GenChild.Selector",
+#     "pipP = GCHILD(GP,('pi+' == GID ))",
+#     "pimP = GCHILD(GP,('pi-' == GID ))",
+#     "pipPT = GCHILD(GPT,('pi+' == GID ))",
+#     "pimPT = GCHILD(GPT,('pi-' == GID ))",
+#     "ks1PT = GCHILD(GPT, CS('[D0 ==> ^( KS0 => pi+ pi- ) ( KS0 => pi+ pi- )]CC'))",
+#     "ks2PT = GCHILD(GPT, CS('[D0 ==> ( KS0 => pi+ pi- ) ^( KS0 => pi+ pi- )]CC'))",
+#     "pisTheta = GCHILD(GTHETA, CS('[D*(2010)+ ==> ( D0 ==> ( KS0 => pi+ pi- ) ( KS0 => pi+ pi- ) ) ^pi+]CC'))",
+#     "inAcc     = in_range ( 0.010 , GTHETA , 0.300 ) " ,
+#     "goodDst   = ( GP > 20 * GeV ) & (pisTheta > 0.01) & (pisTheta < 0.3) " ,
+#     "goodD     = ( GP > 10 * GeV ) & switch(ks1PT < ks2PT, (ks1PT > 300 * MeV) & (ks2PT > 800 * MeV), (ks1PT > 800 * MeV) & (ks2PT > 300 * MeV)) & inAcc",
+#     "goodTrack = ( GP >  2 * GeV ) & (GPT >  200 * MeV )  ",
+#     "goodKs    = ( GP > 4 * GeV) & inAcc & (GFAEVX( abs( GVZ  ) , 0 ) < 2500 * mm) & (pipPT > 100 * MeV) & (pimPT > 100 * MeV) & (pipP > 2 * GeV) & (pimP > 2 * GeV)        " ]
+# tightCut.Cuts      =    {
+#     '[D*(2010)+]cc'    : ' goodDst   ' ,
+#     '[D0]cc'           : ' goodD     ' ,
+#     'KS0'              : ' goodKs    ' ,
+#     '[pi+]cc'          : ' goodTrack '  }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Lorenzo Pica
+# Email: lorenzo.pica@cern.ch
+# Date: 20240613
+#
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+#
+Alias      MyK0s   K_S0
+ChargeConj MyK0s   MyK0s
+#
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+#
+Decay MyD0
+  1.0   MyK0s        MyK0s   PHSP;
+Enddecay
+CDecay MyantiD0
+#
+Decay MyK0s
+  1.000    pi+          pi-           PHSP;
+Enddecay
+End

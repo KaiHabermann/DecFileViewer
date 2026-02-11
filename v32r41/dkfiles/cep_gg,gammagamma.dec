@@ -1,0 +1,38 @@
+# EventType: 49000299
+#
+# Descriptor: g g -> gamma gamma
+# NickName: cep_gg,gammagamma
+# Cuts: None
+# Production: SuperChic2
+#
+# InsertPythonCode:
+#
+# # SuperChic2 options.
+# from Configurables import SuperChic2Production
+# Generation(genAlgName).Special.addTool(SuperChic2Production)
+# Generation(genAlgName).Special.SuperChic2Production.Commands += [
+#     "SuperChic2:proc = 2",
+#     "SuperChic2:etaamin = 1.95", # gammaa pseudorapidity min
+#     "SuperChic2:etaamax = 5.05", # gammaa pseudorapidity max
+#     "SuperChic2:etabmin = 1.95", # gammab pseudorapidity min
+#     "SuperChic2:etabmax = 5.05", # gammab pseudorapidity max
+#     "SuperChic2:mmin = 2.1" #digamma min mass
+#     ]
+#
+# # Keep the CEP process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+# Documentation:
+# Gluon gluon -> gamma gamma in ultra pherepheral collisions
+# EndDocumentation
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# CPUTime: < 10 min
+# Responsible: Pedro Nogarolli
+# Email: pedro.nogarolli@cern.ch
+# Date: 20241107
+#
+End

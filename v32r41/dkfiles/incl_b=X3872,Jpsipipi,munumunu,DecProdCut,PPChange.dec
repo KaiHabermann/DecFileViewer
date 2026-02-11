@@ -1,0 +1,172 @@
+# EventType: 18146011
+#
+# Descriptor: chi_c1(1P) -> (J/psi -> mu+ mu-) (pi+ -> mu+ nu_mu) (pi- -> mu- nu_mu~)
+#
+# NickName: incl_b=X3872,Jpsipipi,munumunu,DecProdCut,PPChange
+#
+# ParticleValue: "chi_c1(1P)    765         20443   0.0      3.87169      0.658000e-021    chi_c1      20443      0"
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: LoKi::FullGenEventCut/b2X3872Filter
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "b2X3872Filter" )
+# SignalFilter = Generation(genAlgName).b2X3872Filter
+# SignalFilter.Code = " has(isB2cc)"
+# SignalFilter.Preambulo += [
+#   "isB2cc = ((GDECTREE('(Beauty & LongLived) --> chi_c1(1P) ...')))"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: X(3872) decays to J/psi pi pi. Pions decay in flight. Only particles in acceptance. chi_c1 used as a proxy
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20190701
+#
+Alias       MyJpsi   J/psi
+ChargeConj  MyJpsi   MyJpsi
+Alias       Myrho0   rho0
+ChargeConj  Myrho0   Myrho0
+Alias       MyPi-  pi-
+Alias       MyPi+  pi+
+ChargeConj  MyPi-  MyPi+
+#
+Decay chi_c1
+  1.000         MyJpsi  Myrho0  HELAMP 0.707107 0. 0.707107 0. 0.707107 0. 0. 0. -0.707107 0. -0.707107 0. -0.707107 0.;
+Enddecay
+#
+Decay MyJpsi
+  1.000  mu+    mu-           PHOTOS  VLL;
+Enddecay
+#
+Decay Myrho0
+  1.000 MyPi+  MyPi-  VSS;
+Enddecay
+#
+Decay MyPi-
+  1.000         mu-       anti-nu_mu      PHSP;
+Enddecay
+CDecay MyPi+
+#
+################### Overwrite forbidden decays ####################
+#
+Decay psi(2S)
+0.007720000 e+      e-                                      PHOTOS  VLL; #[Reconstructed PDG2011]
+0.007700000 mu+     mu-                                     PHOTOS  VLL; #[Reconstructed PDG2011]
+0.003000000 tau+    tau-                                    PHOTOS  VLL; #[Reconstructed PDG2011]
+0.336000000 J/psi   pi+     pi-                             VVPIPI; #[Reconstructed PDG2011]
+0.177300000 J/psi   pi0     pi0                             VVPIPI; #[Reconstructed PDG2011]
+0.032800000 J/psi   eta                                     PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0; #[Reconstructed PDG2011]
+0.001300000 J/psi   pi0                                     PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0; #[Reconstructed PDG2011]
+0.096200000 gamma   chi_c0                                  PHSP; #[Reconstructed PDG2011]
+0.087400000 gamma   chi_c2                                  PHSP; #[Reconstructed PDG2011]
+0.003400000 gamma   eta_c                                   PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0; #[Reconstructed PDG2011]
+0.000121000 gamma   eta'                                    PHSP; #[Reconstructed PDG2011]
+0.000210000 gamma   f_2                                     PHSP; #[Reconstructed PDG2011]
+0.003500000 pi+     pi-     pi+     pi-     pi+     pi-     pi0     PHSP; #[Reconstructed PDG2011]
+0.000350000 pi+     pi-     pi+     pi-     pi+     pi-     PHSP; #[Reconstructed PDG2011]
+0.002900000 pi+     pi-     pi+     pi-     pi0             PHSP; #[Reconstructed PDG2011]
+0.000200000 b_1+    pi-                                     PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0; #[Reconstructed PDG2011]
+0.000200000 b_1-    pi+                                     PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0; #[Reconstructed PDG2011]
+0.000240000 b_10    pi0                                     PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0; #[Reconstructed PDG2011]
+0.000168000 pi+     pi-     pi0                             PHSP; #[Reconstructed PDG2011]
+0.0000545  K*0 anti-K0                    PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+0.0000545  anti-K*0 K0                    PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+0.000022  rho0 eta                       PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+0.000021000 omega   pi0                                     PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0; #[Reconstructed PDG2011]
+0.000028000 phi     eta                                     PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0; #[Reconstructed PDG2011]
+0.000008  rho+ pi-                       PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+0.000008  rho- pi+                       PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+0.000008  rho0 pi0                       PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+0.000001  phi pi0                        PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+0.000001  omega eta                      PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+0.0000085 K*+ K-                         PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+0.0000085 K*- K+                         PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+0.000185000 omega   K+      K-                              PHSP; #[Reconstructed PDG2011]
+0.000340000 K+      K-      pi+     pi-                     PHSP; #[Reconstructed PDG2011]
+0.000600000 p+      anti-p- pi+     pi-                     PHSP; #[Reconstructed PDG2011]
+0.000133000 p+      anti-p- pi0                             PHSP; #[Reconstructed PDG2011]
+0.000276000 p+      anti-p-                                 PHSP; #[Reconstructed PDG2011]
+0.000500000 K_1+    K-                                      PHSP; #[Reconstructed PDG2011]
+0.000500000 K_1-    K+                                      PHSP; #[Reconstructed PDG2011]
+0.000220000 rho0    pi+     pi-                             PHSP; #[Reconstructed PDG2011]
+0.000280000 Lambda0 anti-Lambda0                            PHSP; #[Reconstructed PDG2011]
+0.000128000 Delta++ anti-Delta--                            PHSP; #[Reconstructed PDG2011]
+0.000220000 Sigma0  anti-Sigma0                             PHSP; #[Reconstructed PDG2011]
+0.00026   Sigma*+  anti-Sigma*-          PHSP;
+0.000180000 Xi-     anti-Xi+                                PHSP; #[Reconstructed PDG2011]
+0.000080000 pi+     pi-                                     PHSP; #[Reconstructed PDG2011]
+0.000063000 K+      K-                                      PHSP; #[Reconstructed PDG2011]
+0.000070000 phi     K-      K+                              PHSP; #[Reconstructed PDG2011]
+0.000117000 phi     pi-     pi+                             PHSP; #[Reconstructed PDG2011]
+0.000170000 pi+     pi-     K_S0    K_S0                    PHSP; #[Reconstructed PDG2011]
+0.0008 h_c pi0 PHSP;
+0.0       K0   anti-K0       PHSP;
+0.0       K_S0      K_S0     PHSP;
+0.0       K_L0      K_L0     PHSP;
+0.000054000 K_S0    K_L0                                    PHSP; #[Reconstructed PDG2011]
+#
+# March 2009 New Modes
+0.004800000 pi+     pi-     pi+     pi-     pi0     pi0     PHSP; #[Reconstructed PDG2011]
+0.001200000 pi+     pi-     pi+     pi-     eta             PHSP; #[Reconstructed PDG2011]
+0.001300000 K+      K-      pi+     pi-     eta             PHSP; #[Reconstructed PDG2011]
+0.001000000 K+      K-      pi+     pi-     pi+     pi-     pi0     PHSP; #[Reconstructed PDG2011]
+0.001900000 K+      K-      pi+     pi-     pi+     pi-     PHSP; #[Reconstructed PDG2011]
+0.001260000 K+      K-      pi+     pi-     pi0             PHSP; #[Reconstructed PDG2011]
+#
+0.013568632 rndmflav anti-rndmflav PYTHIA 42;
+0.103318590 g g g PYTHIA 92;
+0.007344778 gamma g g PYTHIA 92;
+0.000100000 Lambda0 anti-p- K+                              PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000180000 Lambda0 anti-p- K+      pi+     pi-             PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000280000 Lambda0 anti-Lambda0 pi+     pi-                PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000260000 Sigma+  anti-Sigma-                             PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000280000 Xi0     anti-Xi0                                PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000060000 eta     p+      anti-p-                         PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000069000 omega   p+      anti-p-                         PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000320000 p+      anti-n0 pi-     pi0                     PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000950000 eta     pi+     pi-     pi0                     PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000450000 eta'    pi+     pi-     pi0                     PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000000000 omega   pi+     pi-                             PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000220000 omega   f_2                                     PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000220000 rho0    K+      K-                              PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000190000 K*0     anti-K_2*0                              PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000050000 rho0    p+      anti-p-                         PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000020000 pi+     pi-     pi+     pi-                     PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000730000 p+      anti-p- pi+     pi-     pi0             PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000060000 K+      K-      K+      K-                      PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000110000 K+      K-      K+      K-      pi0             PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000031000 phi     eta'                                    PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000032000 omega   eta'                                    PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000027000 p+      anti-p- K+      K-                      PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000044000 phi     f'_2                                    PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000870000 gamma   eta     pi+     pi-                     PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000400000 gamma   pi+     pi-     pi+     pi-             PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000190000 gamma   K+      K-      pi+     pi-             PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000029000 gamma   p+      anti-p-                         PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000028000 gamma   pi+     pi-     p+      anti-p-         PHSP;  #[New mode added] #[Reconstructed PDG2011]
+Enddecay
+#
+Decay psi(3770)
+0.410000000 D+      D-                                      VSS; #[Reconstructed PDG2011]
+0.520000000 D0      anti-D0                                 VSS; #[Reconstructed PDG2011]
+0.001930000 J/psi   pi+     pi-                             PHSP; #[Reconstructed PDG2011]
+0.000800000 J/psi   pi0     pi0                             PHSP; #[Reconstructed PDG2011]
+0.0073    gamma  chi_c0                  PHSP;
+0.055840600 rndmflav anti-rndmflav PYTHIA 42;
+0.000900000 J/psi   eta                                     PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000009700 e+      e-                                      PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000009700 mu+     mu-                                     PHSP;  #[New mode added] #[Reconstructed PDG2011]
+0.000310000 phi     eta                                     PHSP;  #[New mode added] #[Reconstructed PDG2011]
+Enddecay
+#
+End
+#

@@ -1,0 +1,53 @@
+# EventType: 16576140
+#
+# Descriptor: [Xi_b0 -> (Xi_c+ -> (Xi- -> (Lambda0 -> p+ pi-) pi-) pi+ pi+) mu- anti-nu_mu]cc
+#
+# NickName: Xib0_Xicmunu,Xipipi,Lambda0pi,ppi=DecProdCut
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Xib0 -> Xic mu nu_mu with Xic->Xi- pi+ pi+, Xi- -> Lambda0 pi-, Lambda0->p pi-
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Sergio Jaimes
+# Email:  sjaimese@cern.ch
+# Date: 20211210
+# CPUTime: 3 mins
+#
+Alias      MyXi_c+         Xi_c+
+Alias      MyXi_c-	   anti-Xi_c-
+ChargeConj MyXi_c+         MyXi_c-
+#
+Alias      MyXi-	   Xi-
+Alias      MyXi+	   anti-Xi+
+ChargeConj MyXi-           MyXi+
+#
+Alias      MyLambda0       Lambda0
+Alias      MyLambda~0	   anti-Lambda0
+ChargeConj MyLambda0        MyLambda~0
+#
+# actuall decay
+#
+Decay Xi_b0sig
+  1.0000    MyXi_c+        mu-  anti-nu_mu        PHOTOS    PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyXi_c+
+  1.0000    MyXi-   pi+  pi+    PHSP;
+Enddecay
+CDecay MyXi_c-
+#
+Decay MyXi-
+  1.0000    MyLambda0   pi-    PHSP;
+Enddecay
+CDecay MyXi+
+#
+Decay MyLambda0
+  1.0000    p+   pi-    PHSP;
+Enddecay
+CDecay MyLambda~0
+
+End

@@ -1,0 +1,129 @@
+# EventType: 12265501
+#
+# Descriptor: [B+ -> K+ (anti-D0 -> (K_1+ -> (K_S0 -> pi+ pi-) (pi0 -> gamma gamma) pi+) pi-)]cc
+#
+# NickName: Bu_D0K,K1Pi,Kspipipi0=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#Generation().SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+#tightCut = Generation().SignalRepeatedHadronization.TightCut
+#tightCut.Decay = '^[B+ -> ^(D~0 ==> (K_1(1270)+ ==> ^(KS0 ==> pi+ pi-) ^(pi0 ==> gamma gamma) ^pi+) ^pi-) K+ ]CC'
+#tightCut.Preambulo += [
+#    'GVZ = LoKi.GenVertices.PositionZ()',
+#    'from GaudiKernel.SystemOfUnits import millimeter',
+#    'inAcc        = (in_range(0.005, GTHETA, 0.400))',
+#     'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5      ' ,
+#     'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5      ' ,
+#    'goodB       = (GP > 7500 * MeV) & (GPT > 1500 * MeV) & (GTIME > 0.105 * millimeter)',
+#    'goodD0       = (GP >  4000 * MeV) & (GPT > 400 * MeV)',
+#    'goodDaugPi  = (GP > 750 * MeV) & (GPT > 75 * MeV) & inAcc',
+#    'goodKS       = (GP >  4000 * MeV) & (GPT >  400 * MeV) & (GFAEVX(abs(GVZ),0) < 2500.0 * millimeter)',
+#    'goodBK = (GNINTREE( ("K+"==GABSID) & (GP > 5000 * MeV) & (GPT > 500 * MeV) & inAcc, 1) > 0.5)',
+#    'goodKsDaugPi = (GNINTREE( ("pi+"==GABSID) & (GP > 500 * MeV) & (GPT > 50 * MeV) & inAcc, 1) > 1.5)',
+#    'goodPi0   = (GP > 750 * MeV) & (GPT > 400 * MeV) & inAcc',
+#    'goodPi0Gamma = (GNINTREE( ("gamma"==GABSID) & (GP > 750 * MeV) & (GPT > 400 * MeV) & inEcalX  & inEcalY & inAcc, 1) > 1.5)',
+#]
+#tightCut.Cuts = {
+#    '[B+]cc'          : 'goodB & goodBK', 
+#    '[D~0]cc'          : 'goodD0' ,
+#    '[KS0]cc'         : 'goodKS & goodKsDaugPi',
+#    '[pi0]cc'         : 'goodPi0Gamma & goodPi0',
+#    '[pi+]cc'         : 'goodDaugPi'
+#    }
+#EndInsertPythonCode
+#
+#
+# Documentation: B decays to D0K, D0 decays to K1(1270)+pi and K1 decays to Ks0pi0pi. KS0 decays to pi+pi- and pi0 forced to gamma gamma.
+# All decay products, including gammas, in acceptance and tight cuts. K1 decay resonances taken from PDG corrected by Clebsch-Gordan Coefficients.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: 2 min
+# Responsible: Jessy Daniel
+# Email: jessy.daniel@cern.ch
+# Date: 20231116
+#
+Alias MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj  MyD0  Myanti-D0
+Alias MyK1+ K_1+
+Alias MyK1- K_1-
+ChargeConj MyK1+ MyK1-
+Alias MyRho+ rho+
+Alias MyRho- rho-
+ChargeConj MyRho+ MyRho-
+Alias MyKst+ K*+
+Alias MyKst- K*-
+ChargeConj MyKst+ MyKst-
+Alias MyKst0 K*0
+Alias MyantiKst0 anti-K*0
+ChargeConj MyKst0 MyantiKst0
+Alias MyK0st+ K_0*+
+Alias MyK0st- K_0*-
+ChargeConj MyK0st+ MyK0st-
+Alias MyK0st0 K_0*0
+Alias MyantiK0st0 anti-K_0*0
+ChargeConj MyK0st0 MyantiK0st0
+Alias MyK_S0 K_S0
+ChargeConj MyK_S0 MyK_S0
+Alias Mypi0  pi0
+#
+Decay B+sig
+  1.000     Myanti-D0  K+               PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-D0
+1.000   MyK1+ pi-              SVS;
+Enddecay
+CDecay MyD0
+#
+Decay MyK1+
+0.5482   MyRho+    MyK_S0  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.1008   MyKst+    Mypi0   VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.1008   MyKst0    pi+     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.1251   MyK0st+   Mypi0     VSS;
+0.1251   MyK0st0   pi+     VSS;
+Enddecay
+CDecay MyK1-
+#
+Decay MyRho+
+1.000   Mypi0 pi+ VSS;
+Enddecay
+CDecay MyRho-
+#
+Decay MyKst+
+1.000 MyK_S0 pi+ VSS;
+Enddecay
+CDecay MyKst-
+#
+Decay MyKst0
+1.000 MyK_S0 Mypi0 VSS;
+Enddecay
+CDecay MyantiKst0
+#
+Decay MyK0st+
+1.000 MyK_S0 pi+ PHSP;
+Enddecay
+CDecay MyK0st-
+#
+Decay MyK0st0
+1.000 MyK_S0 Mypi0 PHSP;
+Enddecay
+CDecay MyantiK0st0
+#
+Decay MyK_S0
+1.0000  pi+ pi-                         PHSP;
+Enddecay
+#
+Decay Mypi0
+1.0000  gamma gamma                         PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,43 @@
+# EventType: 14543024
+#
+# Descriptor: [B_c+ => (psi(2S) => mu+ mu-) (tau+ => mu+ nu_mu nu_tau~) nu_tau]cc
+#
+# NickName: Bc_psi2STauNu,mununu,mm=BcVegPy,ffEbert,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc+ -> psi(2S)(-> Mu+ Mu- {,gamma} {,gamma}) tau+, tau forced to mu nu nu final state. Form factor model by Ebert et al., doi:10.1103/PhysRevD.82.034032.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Xuhao Yuan
+# Email: xuhao.yuan@cern.ch
+# Date: 20190709
+#
+Alias      MyTau-   tau-
+Alias      MyTau+   tau+
+ChargeConj MyTau-   MyTau+
+#
+Alias       Mypsi2S   psi(2S)
+ChargeConj  Mypsi2S   Mypsi2S
+#
+Decay B_c+sig
+  1.00000   Mypsi2S   MyTau+        nu_tau             PHOTOS BC_VMN 2;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mypsi2S
+  1.000     mu+       mu-                    PHOTOS   VLL;
+Enddecay
+#
+Decay MyTau-
+  1.00000  mu-        anti-nu_mu    nu_tau             PHOTOS TAULNUNU;
+Enddecay
+CDecay MyTau+
+#
+End
+#

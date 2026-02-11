@@ -1,0 +1,132 @@
+# EventType: 11244401
+# 
+# Descriptor: [B0 ==> (J/psi(1S) -> mu+ mu-) K+ pi- (pi0 -> gamma gamma)]cc
+# 
+# NickName: Bd_JpsiKpipi0,mm=DecProdCut,cocktail
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ -> K+ pi- (pi0 -> gamma gamma) (Jpsi -> mu+ mu-). Daughters in LHCb Cut.
+# Used for amplitude analysis of B+ -> K+ pi- (pi0 -> gamma gamma) (Jpsi -> mu+ mu-). With invariant mass distributions better matching that seen in data.
+# EndDocumentation
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Da Yu Tou
+# Email: da.yu.tou@cern.ch
+# Date: 20250928
+# CPUTime: 2 min
+#
+#
+Alias      MyJpsi        J/psi
+ChargeConj MyJpsi        MyJpsi
+#
+Alias      MyP0          pi0
+ChargeConj MyP0          MyP0
+#
+Alias      MyK_10       K_10
+Alias      Myanti-K_10  anti-K_10
+ChargeConj MyK_10       Myanti-K_10
+#
+Alias      Myrho+       rho+
+Alias      Myrho-       rho-
+ChargeConj Myrho+       Myrho-
+#
+Alias      MyK*0        K*0
+Alias      Myanti-K*0   anti-K*0
+ChargeConj MyK*0        Myanti-K*0
+#
+Alias      MyK*+        K*+
+Alias      MyK*-        K*-
+ChargeConj MyK*+        MyK*-
+#
+
+LSNONRELBW MyK_10
+BlattWeisskopf MyK_10 0.0
+Particle MyK_10 1.28 0.3
+ChangeMassMin MyK_10 0.75
+ChangeMassMax MyK_10 2.2
+
+LSNONRELBW Myanti-K_10
+BlattWeisskopf Myanti-K_10 0.0
+Particle Myanti-K_10 1.28 0.3
+ChangeMassMin Myanti-K_10 0.75
+ChangeMassMax Myanti-K_10 2.2
+
+LSNONRELBW Myrho+
+BlattWeisskopf Myrho+ 0.0
+Particle Myrho+ 0.775 0.15
+ChangeMassMin Myrho+ 0.25
+ChangeMassMax Myrho+ 1.7
+
+LSNONRELBW Myrho-
+BlattWeisskopf Myrho- 0.0
+Particle Myrho- 0.775 0.15
+ChangeMassMin Myrho- 0.25
+ChangeMassMax Myrho- 1.7
+
+LSNONRELBW MyK*0
+BlattWeisskopf MyK*0 0.0
+Particle MyK*0 0.892 0.06
+ChangeMassMin MyK*0 0.6
+ChangeMassMax MyK*0 2.1
+
+LSNONRELBW Myanti-K*0
+BlattWeisskopf Myanti-K*0 0.0
+Particle Myanti-K*0 0.892 0.06
+ChangeMassMin Myanti-K*0 0.6
+ChangeMassMax Myanti-K*0 2.1
+
+LSNONRELBW MyK*+
+BlattWeisskopf MyK*+ 0.0
+Particle MyK*+ 0.892 0.06
+ChangeMassMin MyK*+ 0.6
+ChangeMassMax MyK*+ 2.1
+
+LSNONRELBW MyK*-
+BlattWeisskopf MyK*- 0.0
+Particle MyK*- 0.892 0.06
+ChangeMassMin MyK*- 0.6
+ChangeMassMax MyK*- 2.1
+
+
+Decay B0sig
+  0.3    MyJpsi K+ pi- MyP0 PHSP;
+  0.35   MyJpsi MyK_10 PHSP;
+  0.15   MyJpsi Myrho- K+ PHSP;
+  0.12   MyJpsi MyK*0 MyP0 PHSP;
+  0.08   MyJpsi MyK*+ pi- PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyJpsi
+  1.000   mu+    mu-         PHOTOS VLL;
+Enddecay
+#
+Decay MyK_10
+  0.5     Myrho- K+          PHSP;
+  0.3     MyK*0  MyP0        PHSP;
+  0.2     MyK*+  pi-         PHSP;
+Enddecay
+CDecay Myanti-K_10
+#
+Decay Myrho-
+  1.0     pi- MyP0           PHSP;
+Enddecay
+CDecay Myrho+
+#
+Decay MyK*0
+  1.0     K+ pi-             PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK*+
+  1.0     K+ MyP0            PHSP;
+Enddecay
+CDecay MyK*-
+#
+Decay MyP0
+  1.000   gamma gamma        PHSP;
+Enddecay
+#
+
+End

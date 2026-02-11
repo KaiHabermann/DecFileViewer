@@ -1,0 +1,56 @@
+# EventType: 13584063 
+#
+# Descriptor: {[[B_s0]nos -> (anti-D0 -> K+ e- anti-nu_e) K- e+ nu_e]cc, [[B_s0]os -> (D0 -> K- e+ nu_e) K+ e- anti-nu_e]cc}
+#
+# NickName: Bs_D0Kenu,Kenu=DecProdCut
+#
+# Cuts: DaughtersInLHCb          
+#
+# Documentation: semi-leptonic B_s0 -> D0 K e nu decays
+# EndDocumentation
+#
+# PhysicsWG: RD
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20220318
+#
+Alias            MyD0             D0
+Alias            Myanti-D0        anti-D0
+ChargeConj       MyD0             Myanti-D0
+#
+Alias            MyK*+            K*+
+Alias            MyK*-            K*-
+ChargeConj       MyK*+            MyK*-
+#
+Alias            Mytau+           tau+
+Alias            Mytau-           tau-
+ChargeConj       Mytau+           Mytau-
+#
+Decay B_s0sig 
+  0.104          Myanti-D0        K-      e+          nu_e          PHSP;
+  0.104          Myanti-D0        K-      Mytau+      nu_tau        PHSP;
+  0.104          Myanti-D0        MyK*-   e+          nu_e          PHSP;
+  0.104          Myanti-D0        MyK*-   Mytau+      nu_tau        PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD0
+  0.341          K-               e+     nu_e                       ISGW2;
+  0.189          MyK*-            e+     nu_e                       ISGW2;
+  0.160          K-      pi0      e+     nu_e                       PHSP; 
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyK*+
+  1.000          K+               pi0                               VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay Mytau+
+   1.000         e+      nu_e     anti-nu_tau                       TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

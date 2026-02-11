@@ -1,0 +1,47 @@
+# EventType: 15126130
+#
+# Descriptor: [Lambda_b0 -> (Lambda0 -> p+ pi-) (phi -> K+ K-) e+ e-]cc
+#
+# NickName: Lb_Lambdaphiee,ppiKK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda_b0 to Lambda phi e+ e-, Lambda0 is forced into p pi.
+#                Lambda0 -> p pi helicity amplitude from https://journals.aps.org/prl/pdf/10.1103/PhysRevLett.123.182301
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Niladri Sahoo
+# Email: Niladri.Sahoo@cern.ch
+# Date: 20241120
+# CPUTime: < 1 min
+#
+#
+Alias      MyLambda          Lambda0
+Alias      Myanti-Lambda     anti-Lambda0
+ChargeConj MyLambda          Myanti-Lambda
+
+Alias      Myphi   phi
+ChargeConj Myphi   Myphi
+
+#
+Decay Lambda_b0sig
+  1.000    MyLambda Myphi e+ e-      PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda
+  1.000   p+ pi-                     HELAMP 0.9276 0.0 0.3735 0.0;
+Enddecay
+#
+Decay Myanti-Lambda
+  1.000   anti-p-     pi+            HELAMP 0.3735 0.0 0.9276 0.0;
+Enddecay
+# 
+Decay Myphi
+  1.000     K+ K-                    VSS;
+Enddecay
+#
+End
+#

@@ -1,0 +1,44 @@
+# EventType: 10132030
+#
+# Descriptor: chi_c0(1P) => anti-p- p+
+#
+# NickName: incl_b=chic0,ppbar,InAcc,PTCut
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/b2Chic0Filter
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "b2Chic0Filter" )
+# SignalFilter = Generation(genAlgName).b2Chic0Filter
+# SignalFilter.Code = " has(isB2ccTcuts)"
+# SignalFilter.Preambulo += [
+#  "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#  "inAcc = (in_range(  0.010 , GTHETA , 0.400 ))",
+#  "isB2cc = ((GDECTREE('(Beauty) --> chi_c0(1P) ...')))",
+#  "fromCcbar2 = 0 != GNINTREE('chi_c0(1P)'== GABSID , HepMC.ancestors )",
+#  "ppcuts = (GINTREE( (('p+' == GID ) & (GPT > 900) & inAcc & fromCcbar2) ) )",
+#  "pmcuts = (GINTREE( (('p~-' == GID ) & (GPT > 900) & inAcc & fromCcbar2) ) )",
+#  "isB2ccTcuts = (isB2cc & ppcuts & pmcuts)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: chi_c0 decay to ppbar, keep only particles in acceptance, pt cuts on protons
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Valeriia Zhovkovska
+# Email: valeriia.zhovkovska@cern.ch
+# Date: 20200422
+#
+#
+Decay chi_c0
+  1.000         p+  anti-p-      PHSP;
+Enddecay
+#
+End
+#

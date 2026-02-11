@@ -1,0 +1,42 @@
+# EventType: 11146001
+#
+# Descriptor: [B0 -> K+ pi- (X_1(3872) -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) mu+ mu-)]cc
+#
+# NickName:  Bd_X3872Kpi,Jpsimumu=DecProdCut
+#
+# ParticleValue: "X_1(3872)            1016     9920443   0.0      3.87169      0.658000e-021    X_1(3872)     9920443     0"
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 decay to X(3872) K+ pi, all daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20190702
+#
+Alias      MyJpsi  J/psi
+ChargeConj MyJpsi  MyJpsi
+Alias      MyX_1(3872) X_1(3872)
+ChargeConj MyX_1(3872) MyX_1(3872)
+#
+#
+Decay B0sig
+  1.00000   MyX_1(3872) K+ pi-    PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyX_1(3872)
+  1.000  MyJpsi mu+ mu-       PHOTOS  PHSP;
+Enddecay
+#
+Decay MyJpsi
+  1.000         mu+        mu-        PHOTOS VLL;
+Enddecay
+#
+End
+#
+
+

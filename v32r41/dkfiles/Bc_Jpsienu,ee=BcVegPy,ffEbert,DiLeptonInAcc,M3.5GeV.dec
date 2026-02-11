@@ -1,0 +1,59 @@
+# EventType: 14553023
+#
+# Descriptor: [B_c+ => (J/psi(1S) => e+ e-) e+ nu_e]cc
+#
+# NickName: Bc_Jpsienu,ee=BcVegPy,ffEbert,DiLeptonInAcc,M3.5GeV
+#
+# Production: BcVegPy
+#
+# Cuts: LoKi::GenCutToolWithDecay/TightCut
+#
+# Documentation: Bc decay to Jpsi(to e+ e-), e+ and nu_e with form factor model by Ebert et al [PhysRevD.68.094020]. Radiative mode included. The algorithm BcVegPy is weighted. The oppositely charged non-Jpsi muon combinations in the decay are required to be in acceptance and have a minimal mass.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutToolWithDecay
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.Special.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+# gen.Special.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+# #
+# tightCut = gen.Special.TightCut
+# tightCut.SignalPID = 'B_c+'
+# tightCut.Decay = '^[B_c+ => (J/psi(1S) => e+ ^e-) ^e+ nu_e]CC'
+# tightCut.Preambulo += [
+#	  "CS = LoKi.GenChild.Selector",
+#     "inAcc   = in_range ( 0.010 , GTHETA , 0.400 ) ",
+#     "Dileptonthreshold = GMASS(CS('[B_c+ => (J/psi(1S) => e+ ^e-) e+ nu_e]CC'), CS('[B_c+ => (J/psi(1S) => e+ e-) ^e+ nu_e]CC')) > 3.5 * GeV "
+#     ]
+# tightCut.Cuts = {
+#     '[e+]cc' : ' inAcc ',
+#	  '[B_c+]cc': ' Dileptonthreshold'
+#     }
+# 
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Titus Mombächer 
+# Email: titus.mombacher@cern.ch
+# Date: 20210629
+# CPUTime: <1min
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+Decay B_c+sig
+  1.000         MyJ/psi   e+   nu_e   PHOTOS BC_VMN 2;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000         e+       e-           PHOTOS VLL;
+Enddecay
+#
+End
+
+

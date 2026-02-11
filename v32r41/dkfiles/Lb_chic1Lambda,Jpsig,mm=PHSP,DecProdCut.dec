@@ -1,0 +1,49 @@
+# EventType: 15144311
+#
+# Descriptor: [Lambda_b0 -> ( chi_c1(1P) -> (J/psi -> mu+ mu- ) gamma ) (Lambda0 -> p+ pi-) ]cc
+#
+# NickName: Lb_chic1Lambda,Jpsig,mm=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: yes
+#
+# Documentation: Lambda_b0 to chi_c1 Lambda, Lambda_b0 decay with phase space model, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG:   B2Ch 
+# Tested:      Yes
+# Responsible: Aravindhan Venkateswaran 
+# Email:       aravindhan.venkateswaran@cern.ch
+# Date:        20190130
+# CPUTime:     <1min 
+#
+Alias      MyJpsi		J/psi
+ChargeConj MyJpsi		MyJpsi
+#
+Alias      Mychi_c1		chi_c1
+ChargeConj Mychi_c1             Mychi_c1
+#
+Alias      MyLambda		Lambda0
+Alias      Myanti-Lambda	anti-Lambda0
+ChargeConj Myanti-Lambda 	MyLambda
+#
+Decay  Lambda_b0sig
+   1.000    Mychi_c1             MyLambda             PHSP ;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay  Mychi_c1 
+  1.000     MyJpsi      gamma  VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay  MyJpsi
+  1.000     mu+         mu-                  PHOTOS VLL ;
+Enddecay
+#
+Decay MyLambda
+  1.000   p+          pi-                      PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#

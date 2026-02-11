@@ -1,0 +1,44 @@
+# EventType: 12135401
+#
+# Descriptor: [B+ -> K+ (J/psi(1S) -> p+ anti-p- pi0) (phi(1020) -> K+ K-)]cc 
+#
+# NickName: Bu_JpsiphiK,pppi0KK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B->J/psi phi K , phi-> KK
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Youhua Yang 
+# Email: thbritto@syr.edu
+# Date: 20231201
+# CPUTime: < 2 min
+
+
+Alias       MyJ/psi     J/psi
+ChargeConj  MyJ/psi     MyJ/psi
+
+Alias       MyPhi       phi
+ChargeConj  MyPhi       MyPhi
+
+#  PDG Id = 521
+Decay B+sig
+ 1.0000   MyJ/psi MyPhi K+           PHSP;
+Enddecay
+CDecay B-sig
+
+#  PDG Id = 333
+Decay MyPhi
+ 1.0000    K+ K-                 PHSP;
+Enddecay
+
+#  PDG Id = 443
+Decay MyJ/psi
+  0.00119   p+ anti-p- pi0                PHSP;
+Enddecay
+
+
+
+End

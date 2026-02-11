@@ -1,0 +1,113 @@
+# EventType: 15663031
+#
+# Descriptor: [ Lambda_b0 -> (Lambda_c+ -> p+ K- pi+) (tau- -> pi- pi+ pi- nu_tau) anti-nu_tau ]cc
+#
+# NickName: Lb_Lctaunu,pKpi=cocktailv1,tau3pi,TightCut,tauolababar
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Lb -> Lc tau nu_tau with Lc->p K pi and tau->3pinu. TightCut
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut  = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ Lambda_b0 ==> (Lambda_c+ ==> ^p+   ^K- ^pi+)  (tau- ==> ^pi- ^pi+ ^pi- nu_tau) nu_tau~  ]CC'
+# tightCut.Cuts      =    {
+#     '[p+]cc'        : 'goodHad'   ,
+#     '[K+]cc'        : 'goodHad'   ,
+#     '[pi+]cc'       : 'goodPion' }
+# tightCut.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import millimeter,micrometer,MeV,GeV',
+#    'inAcc         = in_range ( 0.005 , GTHETA , 0.400 )' ,
+#    'goodHad       = ( GPT > 0.1 * GeV ) & ( GP > 1. * GeV ) & inAcc ' ,
+#    'goodPion      = ( GPT > 0.1 * GeV ) & ( GP > 0.5 * GeV ) & inAcc ']
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: 2 min
+# Responsible: Biplab Dey
+# Email: biplab.dey@cern.ch
+# Date: 20241214
+#
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+#
+Alias      MyLambda1405  Lambda(1405)0
+Alias      Myanti-Lambda1405 anti-Lambda(1405)0
+ChargeConj Myanti-Lambda1405 MyLambda1405
+#
+Alias      MyLambda1520  Lambda(1520)0
+Alias      Myanti-Lambda1520 anti-Lambda(1520)0
+ChargeConj Myanti-Lambda1520 MyLambda1520
+#
+Alias      MyDelta++       Delta++
+Alias      Myanti-Delta--  anti-Delta--
+ChargeConj MyDelta++       Myanti-Delta--
+#
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Decay Lambda_b0sig
+  1.0    MyLambda_c+        Mytau-  anti-nu_tau     PHOTOS   Lb2Baryonlnu  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+# BR = 1
+Decay MyLambda_c+
+  0.15 MyDelta++ K-                                   PHSP;
+  0.15 p+        Myanti-K*0                           PHSP;
+  0.1 MyLambda1520 pi+                                PHSP;
+  0.1 MyLambda1405 pi+                                PHSP;
+  0.5 p+        K-      pi+                           PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+# BR = 1
+#
+# tau -> pi- pi+ pi- nu_tau
+Decay Mytau-
+ 1. TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+#
+Decay MyK*0
+  1.0      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+#
+Decay MyLambda1405
+  1.000   p+   K-       PHSP;
+Enddecay
+CDecay Myanti-Lambda1405
+#
+Decay MyLambda1520
+  1.000   p+   K-       PHSP;
+Enddecay
+CDecay Myanti-Lambda1520
+#
+Decay MyDelta++
+  1.0000  p+  pi+                             PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+End

@@ -1,0 +1,31 @@
+# EventType: 13104094
+#
+# Descriptor: [B_s0 -> K+ pi- K- pi+]cc
+#
+# NickName: Bs_KpiKpi=DecProdCut,PhSp
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# Flat phase space in the analysis region of Bs -> K*0 K*0-bar.
+# Daughters in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Asier Pereiro
+# Email: asier.pereiro.castro@cern.ch
+# Date: 20210514
+#
+Define m12_min 0.0   # The model will take at least m1+m2
+Define m12_max 1.1   # Must be in GeV/c^2
+Define m34_min 0.0   # The model will take at least m1+m2
+Define m34_max 1.1   # Must be in GeV/c^2
+#
+Decay B_s0sig
+  1.000 K+ pi- K- pi+ FOURBODYPHSP m12_min m12_max m34_min m34_max;
+Enddecay
+CDecay anti-B_s0sig
+#
+End

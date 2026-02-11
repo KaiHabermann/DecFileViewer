@@ -1,0 +1,67 @@
+# EventType: 27163492
+#
+# Descriptor: [D_s0*+ -> (D_s+ -> K+ K- pi+ ) (pi0 -> gamma gamma) ]cc
+#
+# NickName:  Ds2317_Dspi0,KKpi,Dalitz=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ ^(D*_s0+ => ^(D_s+ => ^K+ ^K- ^pi+ ) (pi0 -> gamma gamma) ) ]CC'
+# tightCut.Cuts      =    {
+#     '[D*_s0+]cc'     : ' goodDs0 ' , 
+#     '[D_s+]cc'       : ' goodDs ' , 
+#     '[K+]cc'         : ' goodKaon ' , 
+#     '[pi+]cc'        : ' goodPion ' 
+#     } 
+#
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,"CS  = LoKi.GenChild.Selector"
+#     ,"from LoKiCore.math import sqrt"
+#     ,'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' 
+#     ,"inCaloAcc    = ( (in_range(  0.025 , abs ( GPX/GPZ ) , 0.310 ) | in_range(  0.015 , abs ( GPY/GPZ ) , 0.260 )) & (GPZ > 0.0) )"
+#     ,'goodKaon   = ( GP > 1.9 * GeV ) & ( GPT > 200 * MeV ) & inAcc ' 
+#     ,'goodPion   = ( GP > 1.9 * GeV ) & ( GPT > 200 * MeV ) & inAcc ' 
+#     ,'goodDs     = ( GPT > 2.2 * GeV ) & ( GCHILD(GPT,CS("[D_s+ => ^K+ K- pi+ ]CC")) + GCHILD(GPT,CS("[D_s+ => K+ ^K- pi+ ]CC")) + GCHILD(GPT,CS("[D_s+ => K+ K- ^pi+ ]CC")) > 2.7*GeV )' 
+#     ,"goodDs0 =  ( GNINTREE(( 'gamma' == GABSID ) & ( GPT > 200*MeV ) & inCaloAcc, HepMC.descendants) > 0 )"
+#     ] 
+#
+# EndInsertPythonCode
+#
+# Documentation: D_s0*(2317) decaying into D_s pi0 with tight cuts for DsJ production vs multiplicity analysis
+# EndDocumentation
+#
+# CPUTime:  < 4 min
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible:     Jose Ivan Cambon Bouzas
+# Email: joseivan.cambon.bouzas@usc.es
+# Date: 20231124
+#
+Alias MyD_s- D_s-
+Alias MyD_s+ D_s+
+ChargeConj MyD_s+ MyD_s-
+Alias      Mypi0     pi0
+ChargeConj Mypi0     Mypi0
+#
+Decay D_s0*+sig
+   1.000        MyD_s+        Mypi0                  PHSP;
+Enddecay
+CDecay D_s0*-sig
+#
+Decay  MyD_s+
+  1.000      K+      K-      pi+      D_DALITZ ;
+Enddecay
+CDecay MyD_s-
+#
+Decay Mypi0 
+  1.000      gamma   gamma   PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,72 @@
+# EventType: 16366040
+#
+# Descriptor: [Xi_b0 -> (Lambda_c+ -> p+ K- pi+) K- pi+ pi-]cc
+#
+# NickName: Xib0_LambdacKpipi=phsp,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#
+# Documentation: Xi_b0 -> Lambda_c+ K- pi+ pi- decay with flat phase space model
+# EndDocumentation
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# 
+#
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay     = '[Xi_b0 => (Lambda_c+ ==> ^p+ ^K- ^pi+ ) ^K- ^pi+ ^pi- ]CC'
+# tightCut.Cuts      =    {
+#     '[K-]cc'   : ' goodKaon ' ,
+#     '[p+]cc'   : ' goodProton ' ,
+#     '[pi-]cc'  : ' goodpi  ' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import GeV',
+#     'inAcc    = in_range ( 0.010 , GTHETA , 0.400 ) & in_range ( 1.9 , GY , 5.1 )' ,
+#     'goodKaon = ( GPT > 0.15 * GeV ) & ( GP > 2.0 * GeV ) & inAcc ' ,
+#     'goodProton = ( GPT > 0.15 * GeV ) & ( GP > 8.0 * GeV ) & inAcc ' ,
+#     'goodpi  = ( GPT > 0.15 * GeV ) & ( GP > 2.0 * GeV ) & inAcc ' ]
+#
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime:  < 2 min
+# Responsible: Yanxi Zhang
+# Email:  yanxi.zhang@cern.ch
+# Date: 20210210
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+#
+Decay Xi_b0sig
+  1.00   MyLambda_c+ K- pi+ pi-             PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyLambda_c+
+  0.0086  Delta++ K-                                      PHSP;
+  0.0160  p+      Myanti-K*0                              PHSP;
+  0.0254  p+      K-      pi+                             PHSP;  
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+
+End
+

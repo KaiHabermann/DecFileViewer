@@ -1,0 +1,56 @@
+# EventType: 42102014
+#
+# Descriptor: pp -> (tau -> nu_tau l nu_l~) (tau~ -> nu_tau~ l~ nu_l) ...
+# NickName: DrellYan_tautau,2l=1l15GeV
+#
+# #Cuts: Detailed in Python code
+#
+# Documentation: 1 lepton with pT > 15 GeV from tau tau Drell Yan production
+# EndDocumentation
+#
+# InsertPythonCode:
+#from Configurables import PythiaHiggsType, Generation, Special, Pythia8Production
+#from Gaudi.Configuration import *
+#from GaudiKernel.SystemOfUnits import GeV
+#Generation().PileUpTool = "FixedLuminosityForRareProcess"
+#importOptions( "$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py" )
+#Generation().addTool( Special )
+#Generation().Special.addTool( Pythia8Production )
+#
+#Generation().Special.Pythia8Production.Commands += [
+#   "TimeShower:pTmaxMatch = 0", #Kinematic limit
+#   "SpaceShower:pTmaxMatch = 0", #Kinematic limit
+#   "SpaceShower:pTdampMatch = 1", #Apply damping
+#   "TimeShower:pTdampMatch = 1", #Apply damping
+#   "SpaceShower:rapidityOrder = off", #pT ordering!
+#   "SpaceShower:phiIntAsym = off", #Pythia asymmetric showering bug
+#   "WeakSingleBoson:ffbar2gmZ = on", #Turn on Drell Yan production mechanism.
+#   "23:onMode = off", #Turn off decay modes for Z
+#   "15:onMode = off", #Turn off decay modes for tau
+#   "23:onIfAny = 15", #Turn on tau decay mode for Z 
+#   "15:onIfAny = 11 13", #Turn on leptonic decay modes for tau
+#   #"PartonLevel:FSR = on", # final state radiation
+#   #"PartonLevel:ISR = on", # initial state radiation
+#   #"PartonLevel:MI = off", # multiple interactions
+#]
+#
+#Generation().Special.CutTool = "PythiaHiggsType"
+#Generation().Special.addTool( PythiaHiggsType ) 
+#Generation().Special.PythiaHiggsType.NumberOfLepton = 1
+#Generation().Special.PythiaHiggsType.LeptonPtMin = 15*GeV
+#Generation().Special.PythiaHiggsType.LeptonIsFromMother = True
+#Generation().Special.PythiaHiggsType.NumberOfbquarks = -1
+#Generation().Special.PythiaHiggsType.TypeOfLepton = [ "mu+", "e+" ]
+#Generation().Special.PythiaHiggsType.MotherOfLepton = [ "tau+" ]
+#Generation().Special.DecayTool = "" # Allow Pythia to handle tau decays (not EvtGen through TAUOLA).
+# EndInsertPythonCode
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: <2 min
+# Responsible: Gabe Nowak (Cincinnati)
+# Email: ganowak@cern.ch
+# Date: 20230302
+#
+End
+#

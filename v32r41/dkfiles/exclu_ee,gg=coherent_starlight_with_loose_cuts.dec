@@ -1,0 +1,36 @@
+# EventType: 30122003
+#
+# Descriptor: gamma gamma -> e+ e-
+#
+# NickName: exclu_ee,gg=coherent_starlight_with_loose_cuts
+# Cuts: None
+# Documentation: gg->ee with STARlight
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import Generation, Special, StarLightProduction
+# Generation().SampleGenerationTool = 'Special'
+# Generation().addTool(Special)
+# Generation().Special.CutTool = ''
+# Generation().Special.ProductionTool = 'StarLightProduction'
+# Generation().Special.addTool(StarLightProduction)
+# Generation().Special.StarLightProduction.Commands += ['PROD_PID = 11']
+# Generation().Special.StarLightProduction.Decays = False
+# Generation().Special.StarLightProduction.Commands += ['PROD_MODE = 1']
+# Generation().Special.StarLightProduction.Commands += ['W_MIN = 1']
+# Generation().Special.StarLightProduction.Commands += ['CUT_ETA = 1']
+# Generation().Special.StarLightProduction.Commands += ['ETA_MIN = 1']
+# Generation().Special.StarLightProduction.Commands += ['ETA_MAX = 6']
+
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Albert Bursche
+# Email: bursche@cern.ch
+# Date: 20210528
+#
+End

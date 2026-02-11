@@ -1,0 +1,34 @@
+# EventType: 14543022
+# 
+# Descriptor: [B_c+ -> (J/psi -> p+ anti-p-) mu+ nu_mu]cc
+# 
+# NickName: Bc_Jpsimunu,pp=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: decay of Bc+ -> J/psi (-> p pbar) mu+ and nu_mu, 
+#                using BcVegPy generator and requiring all daughters in LHCb
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Santiago Gómez Arias
+# Email: sgomezar@cern.ch
+# Date: 20190320
+# CPUTime: <1min 
+#
+Alias MyJpsi J/psi
+ChargeConj MyJpsi MyJpsi
+#
+Decay B_c+sig
+  1.000    MyJpsi      mu+         nu_mu        PHOTOS  PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJpsi
+  1.000 p+      anti-p-   PHSP;
+Enddecay
+#
+End

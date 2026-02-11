@@ -1,0 +1,75 @@
+# EventType: 42472003
+#
+# Descriptor: pp -> {(Z0 -> (mu+ mu-)) c}cc
+#
+# NickName: ZAssocCharm=mumu,charged,InAcc
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/ZcCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut, "ZcCut")
+# ZcCut = Generation(genAlgName).ZcCut
+# ZcCut.Code = "((count(isGoodc) > 0) & (count(isGoodZ) > 0))"
+# ZcCut.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodc     = ((GCHARM) & (GTHETA < 420.0*mrad ))"
+#    , "isGoodZ     = (('Z0' == GABSID) & (GNINTREE(('mu+' == GABSID) & (GTHETA < 420.0*mrad)) > 1))"
+#    ]
+# Generation(genAlgName).Inclusive.Pythia8Production.Commands = Generation(genAlgName).Special.Pythia8Production.Commands
+# EndInsertPythonCode
+#
+# ExtraOptions: Zgmumu
+# CPUTime: < 1 min
+# Documentation: Z+charm production, 2 muon (from the Z) in LHCb acceptance and c hadrons decaying to suitable final states, Pythia8
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Fanjie Kong
+# Email: fanjie.kong@cern.ch
+# Date: 20240807
+#
+Decay D0
+  0.25   K- pi+ PHSP;
+  0.25   K+ pi- PHSP;
+  0.25   pi- pi+ PHSP;
+  0.25   K- K+ PHSP;
+Enddecay
+Decay D+
+  0.5    K- pi+ pi+  PHSP;
+  0.5    K- K+ pi+  PHSP;
+Enddecay
+Decay D_s+
+  0.5    K- pi+ pi+  PHSP;
+  0.5    K- K+ pi+  PHSP;
+Enddecay
+Decay Lambda_c+
+  1.0    p+ K- pi+ PHSP;
+Enddecay
+Decay Xi_c0
+  1.0    p+ K- K- pi+ PHSP;
+Enddecay
+Decay Sigma_c0
+  1.0    Lambda_c+ pi- PHSP;
+Enddecay
+Decay Sigma_c++
+  1.0    Lambda_c+ pi+ PHSP;
+Enddecay
+Decay D*+
+  1.0    D0 pi+ VSS;
+Enddecay
+Decay J/psi
+  1.0   mu+ mu-  PHOTOS   VLL;
+Enddecay
+CDecay D_s-
+CDecay anti-D0
+CDecay D-
+CDecay anti-Lambda_c-
+CDecay anti-Xi_c0
+CDecay anti-Sigma_c0
+CDecay anti-Sigma_c--
+CDecay D*-
+End
+#

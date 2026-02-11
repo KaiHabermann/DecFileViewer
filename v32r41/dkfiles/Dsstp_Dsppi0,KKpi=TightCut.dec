@@ -1,0 +1,65 @@
+# EventType: 27163423
+#
+# Descriptor: [D*_s+ -> (D_s+ -> K- K+ pi+) (pi0 -> gamma gamma)]cc
+#
+# NickName: Dsstp_Dsppi0,KKpi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# signal = Generation().SignalPlain
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+#
+# tightCut = signal.TightCut
+# tightCut.Decay = '^[D*_s+ => ^(D_s+ ==> ^K- ^K+ ^pi+) (pi0 => gamma gamma)]CC'
+# tightCut.Preambulo += [
+#   'from GaudiKernel.SystemOfUnits import MeV',
+#   'inAcc        = (in_range(0.010, GTHETA, 0.400))',
+#   'goodDstGamma = (("gamma"==GABSID) & (GPT > 80 * MeV) & inAcc)',
+#   ]
+# tightCut.Cuts = {
+#   '[D*_s+]cc'       : '(GPT >  2000 * MeV) & (GNINTREE(goodDstGamma, HepMC.descendants) > 0)',
+#   '[D_s+]cc'        : '(GPT >  1900 * MeV)',
+#   '[K-]cc'          : '(GP >  900 * MeV) & (GPT > 140 * MeV) & inAcc',
+#   '[pi+]cc'         : '(GP >  900 * MeV) & (GPT > 140 * MeV) & inAcc',
+#   }
+#
+# EndInsertPythonCode
+#
+# Documentation:
+# All Decay products down to stable particles in LHCb acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Carlos Eduardo Cocha Toapaxi
+# Email: carlos.eduardo.cocha.toapaxi@cern.ch
+# Date: 20250525
+# CPUTime: < 1min
+#
+
+Alias      MyD_s-       D_s-
+Alias      MyD_s+       D_s+
+ChargeConj MyD_s+       MyD_s-
+Alias      MyPi0        pi0
+ChargeConj MyPi0        MyPi0
+
+##
+Decay D_s*+sig
+1. MyD_s+   MyPi0    VSS;
+Enddecay
+CDecay D_s*-sig
+#
+Decay MyD_s+ 
+1.  K-  K+  pi+      D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyPi0
+1.  gamma gamma      PHSP;
+Enddecay
+#
+End
+

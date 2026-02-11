@@ -1,0 +1,28 @@
+# EventType: 12113025
+#
+# Descriptor: [B+ -> pi+ mu+ mu-]cc
+#
+# NickName: Bu_pimumu=btosllball05
+#
+# Cuts: None
+#
+# Documentation: BTosll Ball model using updated 2005 calculation, no gen cuts
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Mark Whitehead
+# Email: mwhitehe@cern.ch
+# Date: 20181024
+#
+Decay B+sig
+  1.000        pi+     mu+     mu-     BTOSLLBALL 6 ;
+Enddecay
+Decay B-sig
+  1.000        pi-     mu+     mu-     BTOSLLBALL 6 ;
+Enddecay
+#
+End
+#                          

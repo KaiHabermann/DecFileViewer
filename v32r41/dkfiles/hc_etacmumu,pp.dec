@@ -1,0 +1,34 @@
+# EventType: 28144022
+#
+# Descriptor: h_c -> (eta_c -> p+ anti-p-) mu+ mu-
+#
+# NickName: hc_etacmumu,pp
+#
+# Cuts: None
+#
+# ExtraOptions: hc
+#
+# Documentation: h_c decay to (eta_c -> p pbar ) mu+ mu-
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Roberta Cardinale
+# Email: roberta.cardinale@cern.ch
+# Date: 20171207
+# CPUTime: < 1 min
+#
+#
+Alias       MyEtac   eta_c
+ChargeConj  MyEtac   MyEtac
+#
+Decay h_csig
+  1.000  MyEtac mu+ mu-       PHOTOS  PHSP;
+Enddecay
+#
+Decay MyEtac
+  1.000  p+    anti-p-     PHOTOS    PHSP;
+Enddecay
+#
+End
+#

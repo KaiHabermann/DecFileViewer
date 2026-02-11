@@ -1,0 +1,30 @@
+# EventType: 49102003
+#
+# Descriptor: gamma gamma -> f_2(1270) => pi+ pi-
+#
+# NickName: exclu_gg,f2_1270_PiPi=coherent_starlight_evtGen
+# Cuts: None
+# Documentation: gamma gamma -> f2 -> pi+ pi- using STARlight and EvtGen
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# from Configurables import Generation, Special, StarLightProduction
+# Generation(genAlgName).SampleGenerationTool = 'Special'
+# Generation(genAlgName).addTool(Special)
+# Generation(genAlgName).Special.CutTool = ''
+# Generation(genAlgName).Special.ProductionTool = 'StarLightProduction'
+# Generation(genAlgName).Special.addTool(StarLightProduction)
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['PROD_PID = 225']
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['PROD_MODE = 1']
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Zahra Moghaddam
+# Email: zahra.ghorbani.moghaddam@cern.ch
+# Date: 20250228
+# CPUTime: < 5 min
+#
+End

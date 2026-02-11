@@ -1,0 +1,161 @@
+# EventType: 25493001 
+#
+# Descriptor: [Lambda_c+ -> p+ K- pi+]cc
+# NickName: incl_b=LcDX,pKpicocktail,3pi=TightCut
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/TightCut 
+# FullEventCuts: ExtraParticlesInAcceptance
+#
+# InsertPythonCode:
+#
+# from Configurables import ExtraParticlesInAcceptance
+# from GaudiKernel.SystemOfUnits import mm, mrad, MeV
+#
+# stable_b_hadrons = [511, 521, 531, 5122, 541, 5112, 5212, 5222, 5132, 5232, 5312, 5322, 5332, 5142, 5242, 5412, 5342, 5442, 5512, 5522, 5532, 5542, 5554]
+# stable_b_hadrons += [-pid for pid in stable_b_hadrons]
+#
+# Generation(genAlgName).FullGenEventCutTool = "ExtraParticlesInAcceptance"
+# Generation(genAlgName).addTool( ExtraParticlesInAcceptance )
+# Generation(genAlgName).ExtraParticlesInAcceptance.WantedIDs = [211, -211]
+# Generation(genAlgName).ExtraParticlesInAcceptance.NumWanted = 3
+# Generation(genAlgName).ExtraParticlesInAcceptance.RequiredAncestors = stable_b_hadrons
+# Generation(genAlgName).ExtraParticlesInAcceptance.AtLeast = True
+# Generation(genAlgName).ExtraParticlesInAcceptance.ExcludeSignalDaughters = True
+# Generation(genAlgName).ExtraParticlesInAcceptance.AllFromSameB = True
+# Generation(genAlgName).ExtraParticlesInAcceptance.ZPosMax = 200.*mm
+# Generation(genAlgName).ExtraParticlesInAcceptance.PtMin = 100.*MeV
+# Generation(genAlgName).ExtraParticlesInAcceptance.ExtraIDs = [411, -411, 421, -421]
+# Generation(genAlgName).ExtraParticlesInAcceptance.NumExtra = 1
+# Generation(genAlgName).ExtraParticlesInAcceptance.AtLeastExtra = True
+#
+# from Configurables import LoKi__FullGenEventCut
+# #from Configurables import Generation
+# #genAlgName = Generation(genAlgName).SampleGenerationTool
+# #gen = Generation(genAlgName)
+# gen = Generation(genAlgName)
+# gen.addTool(LoKi__FullGenEventCut, "TightCut")
+# SignalFilter = gen.TightCut
+# SignalFilter.Code = " (count ( Lcpcut ) > 0) & (count ( Lcpicut ) > 0) & (count ( LcKcut ) > 0) & ( count ( isB2cc ) > 0) & ( count( hasD ) > 0 ) "
+# SignalFilter.Preambulo += [
+#  "from LoKiCore.functions import in_range",
+#  "from GaudiKernel.SystemOfUnits import MeV",
+#  "inAcc      = in_range( 0.005, GTHETA, 0.400 )",
+#  "fromLc     = ( GHAS ( ( 'Lambda_c+' == GABSID ), HepMC.ancestors ) )",
+#  "gProton    = ('p+' == GABSID ) & ( GP > 1200 * MeV ) & ( GPT > 150 * MeV ) & inAcc",
+#  "gKaon      = ('K+' == GABSID ) & ( GP > 1200 * MeV ) & ( GPT > 150 * MeV ) & inAcc",
+#  "gPion      = ('pi+' == GABSID ) & ( GP > 1000 * MeV ) & ( GPT > 100 * MeV ) & inAcc",
+#  "Lcpcut     = ( 0 < GNINTREE ( ( fromLc & gProton ), HepMC.descendants ) )",
+#  "Lcpicut    = ( 0 < GNINTREE ( ( fromLc & gPion ), HepMC.descendants ) )",
+#  "LcKcut     = ( 0 < GNINTREE ( ( fromLc & gKaon ), HepMC.descendants ) )",
+#  "isB2cc     = GDECTREE('[Beauty  --> (Lambda_c+ ==> p+ K- pi+) pi- pi+ pi- ...]CC')",
+#  "hasD       = GDECTREE('[Beauty  --> (Lambda_c+ ==> p+ K- pi+) ( D0 | D-) ...]CC')",
+#  ]
+# EndInsertPythonCode
+#
+# Documentation: Inclusive b -> Lc(D0,D-) with extra 3pi from D(*,**). Bkgd for R(Lc) had,Lc->pKpi cocktail
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email: biplab.dey@cern.ch
+# Date: 20250225
+# CPUTime: 35 min
+#
+###########################
+#
+Alias           MyK*0           K*0
+Alias           Myanti-K*0      anti-K*0
+ChargeConj      MyK*0           Myanti-K*0
+#
+Alias           MyK_0*0         K_0*0
+Alias           Myanti-K_0*0    anti-K_0*0
+ChargeConj      MyK_0*0         Myanti-K_0*0
+#
+Alias      MyDelta(1600)++       Delta(1600)++
+Alias      Myanti-Delta(1600)--  anti-Delta(1600)--
+ChargeConj MyDelta(1600)++       Myanti-Delta(1600)--
+#
+Alias      MyDelta(1700)++       Delta(1700)++
+Alias      Myanti-Delta(1700)--  anti-Delta(1700)--
+ChargeConj MyDelta(1700)++       Myanti-Delta(1700)--
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+Alias      MyLambda(1600)0       Lambda(1600)0
+Alias      Myanti-Lambda(1600)0  anti-Lambda(1600)0
+ChargeConj MyLambda(1600)0       Myanti-Lambda(1600)0
+#
+Alias      MyLambda(1670)0       Lambda(1670)0
+Alias      Myanti-Lambda(1670)0  anti-Lambda(1670)0
+ChargeConj MyLambda(1670)0       Myanti-Lambda(1670)0
+#
+Alias      MyLambda(1690)0       Lambda(1690)0
+Alias      Myanti-Lambda(1690)0  anti-Lambda(1690)0
+ChargeConj MyLambda(1690)0       Myanti-Lambda(1690)0
+#
+# ###########################
+#
+Decay Lambda_c+sig
+# Lc->pKpi:
+ 0.0093           p+      Myanti-K*0         PHSP; # 892 2/3 BF to K+pi-
+ 0.0061           p+      Myanti-K_0*0       PHSP; # 1430 2/3 BF to K+pi-
+ 0.0176           Delta++ K-                 PHSP; # 1232 100% -> ppi
+ 0.0004           MyDelta(1600)++ K-         PHSP; # 15% ppi
+ 0.0005           MyDelta(1700)++ K-         PHSP; # 20% ppi
+ 0.0003           MyLambda(1520)0 pi+        PHSP; # 23% to pK
+ 0.0005           MyLambda(1600)0 pi+        PHSP; # 17% to pK
+ 0.0001           MyLambda(1670)0 pi+        PHSP; # 10% to pK
+ 0.0001           MyLambda(1690)0 pi+        PHSP; # 10% to pK
+ 0.036            p+      K-      pi+        PHSP; # includes p K*(700) 
+Enddecay
+CDecay anti-Lambda_c-sig
+#
+# Now decay them!
+#
+Decay MyK*0
+  1.0        K+      pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK_0*0
+  1.0        K+      pi-                   PHSP;
+Enddecay
+CDecay Myanti-K_0*0
+#
+Decay MyDelta(1600)++
+  1.0   p+     pi+                          PHSP;
+Enddecay
+CDecay Myanti-Delta(1600)--
+#
+Decay MyDelta(1700)++
+  1.0   p+     pi+                          PHSP;
+Enddecay
+CDecay Myanti-Delta(1700)--
+#
+Decay MyLambda(1520)0
+  1.0   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay MyLambda(1600)0
+  1.0   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1600)0
+#
+Decay MyLambda(1670)0
+  1.0   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1670)0
+#
+Decay MyLambda(1690)0
+  1.0   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1690)0
+#
+# ###########################
+#
+End

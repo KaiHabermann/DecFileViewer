@@ -1,0 +1,43 @@
+# EventType: 11106402
+#
+# Descriptor: [B0 -> (eta' -> (eta -> pi+ pi- pi0) pi+ pi-) (phi -> K+ K-)]cc
+#
+# NickName: Bd_etapphi,etapi+pi-,pi+pi-pi0,K+K-=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: eta' forced into eta pi+ pi-, eta into pi+ pi- pi0, phi to K+ K-, multi-body decays uniformly in phase space
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Jeremy Dalseno
+# Email: jeremy.peter.dalseno@cern.ch
+# Date: 20200406
+
+Alias		MyEta'	eta'
+Alias           MyEta   eta
+Alias		Myphi	phi
+ChargeConj	MyEta'	MyEta'
+ChargeConj      MyEta   MyEta
+ChargeConj	Myphi	Myphi
+
+Decay B0sig
+      1.0	Myphi	MyEta'	SVS;
+Enddecay
+CDecay anti-B0sig
+
+Decay Myphi
+      1.0	K+	K-	VSS;
+Enddecay
+
+Decay MyEta'
+      1.0	MyEta	pi+	pi-	PHSP;
+Enddecay
+
+Decay MyEta
+      1.0	pi+	pi-	pi0	PHSP;
+Enddecay
+
+End

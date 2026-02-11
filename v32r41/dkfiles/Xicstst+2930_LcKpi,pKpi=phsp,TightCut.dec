@@ -1,0 +1,86 @@
+# EventType: 26265970
+#
+# Descriptor: [Sigma_c*+ -> ( Lambda_c+ -> p+ K- pi+) pi+ K- ]cc
+#
+# NickName: Xicstst+2930_LcKpi,pKpi=phsp,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut       
+#
+# CPUTime: 9 min 
+#
+# Documentation: Excited Xi_cp decay according to phase space decay model.
+#                Sigma_c*+ is used to mimic Xic**p
+#		 Mass 2942 MeV, Width 15 MeV
+# EndDocumentation
+#
+# ParticleValue: "Sigma_c*+             486        4214   1.0      2.942      4.3880797e-23                 Sigma_c*+        4214      0.02", "Sigma_c*~-            487       -4214  -1.0      2.942      4.3880797e-23           anti-Sigma_c*-       -4214      0.02"
+#  
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName) 
+# signal     = generation.SignalPlain 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[Sigma_c*+ ==> ^(Lambda_c+ => ^p+  ^K- ^pi+) ^K- ^pi+ ]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity ()               ' , 
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'fastTrack    =  ( GPT > 180 * MeV ) & ( GP  > 3.0 * GeV )   ' , 
+#     'fastPionTrack=  ( GPT > 180 * MeV ) & ( GP  > 3.0 * GeV )   ' ,
+#     'goodTrack    =  inAcc & inEta                               ' ,     
+#     'goodLc       =  ( GPT > 0.9 * GeV )   ' ,
+# ]
+# tightCut.Cuts     =    {
+#     '[Lambda_c+]cc'  : 'goodLc   ' ,
+#     '[K-]cc'         : 'goodTrack & fastTrack' ,
+#     '[pi+]cc'        : 'goodTrack & fastPionTrack' , 
+#     '[p+]cc'         : 'goodTrack & fastTrack & ( GP > 9 * GeV ) '
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Federica Oliva
+# Email:       federica.oliva@cern.ch
+# Date: 20210310
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Alias MySigma_c++ Sigma_c++
+Alias Myanti-Sigma_c-- anti-Sigma_c--
+ChargeConj MySigma_c++ Myanti-Sigma_c--
+#
+Alias MySigma_c*++ Sigma_c*++
+Alias Myanti-Sigma_c*-- anti-Sigma_c*--
+ChargeConj MySigma_c*++ Myanti-Sigma_c*--
+#
+Decay Sigma_c*+sig
+  0.333 MyLambda_c+ pi+ K- PHSP;
+  0.333 MySigma_c++     K- PHSP;
+  0.333 MySigma_c*++    K- PHSP;
+Enddecay
+CDecay anti-Sigma_c*-sig
+
+Decay MyLambda_c+
+  1.000 p+ K- pi+ PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MySigma_c++
+  1.000 MyLambda_c+ pi+ PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+
+Decay MySigma_c*++
+  1.000 MyLambda_c+ pi+ PHSP;
+Enddecay
+CDecay Myanti-Sigma_c*--
+
+#
+End 

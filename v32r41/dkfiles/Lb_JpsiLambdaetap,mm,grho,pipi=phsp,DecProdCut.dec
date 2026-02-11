@@ -1,0 +1,54 @@
+# EventType: 15146304
+#
+# Descriptor: [Lambda_b0 -> (J/psi(1S) -> mu+ mu-) (Lambda0 -> p+  pi-) (eta_prime -> gamma (rho(770)0 -> pi+ pi-)) ]cc
+#
+# NickName: Lb_JpsiLambdaetap,mm,grho,pipi=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda_b0 to three-body J/psi Lambda eta' with J/psi to dimuons and eta' to rho gamma, then rho to pion pairs.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# CPUTime: 1 min
+# Tested: Yes
+# Responsible: Zan Ren
+# Email:  zan.ren@cern.ch
+# Date: 20230827
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+Alias      MyXi-         Xi-
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias      Myetap        eta'
+ChargeConj Myetap         Myetap
+Alias       Myrho0      rho0
+ChargeConj  Myrho0      Myrho0
+#
+Decay Lambda_b0sig
+  1.000    MyJ/psi  MyLambda Myetap           PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                    PHOTOS  VLL;
+Enddecay
+#
+Decay MyLambda
+  1.000   p+          pi-                      PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+Decay Myetap
+  1.000  gamma   Myrho0            PHOTOS PHSP;
+Enddecay
+#
+Decay Myrho0
+  1.000     pi+  pi-    VSS;
+Enddecay
+#
+End
+#

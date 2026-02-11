@@ -1,0 +1,48 @@
+# EventType: 12153430
+#
+# Descriptor: [B+ ->  (psi(2S) -> e+ e-) (K*(892)+ -> K+ pi0) ]cc
+#
+# NickName: Bu_psi2SKst,ee,Kpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ ->  (psi(2S) -> e+ e-) (K*(892)+ -> K+ pi0) 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Harry Cliff
+# Email: harry.victor.cliff@cern.ch
+# Date: 20230606
+# CPUTime: < 1 min
+#
+
+Alias      Mypsi2S    psi(2S)
+Alias      MyK*+      K*+
+Alias      MyK*-      K*-
+ChargeConj MyK*+      MyK*-
+ChargeConj Mypsi2S    Mypsi2S
+Alias       Mypi0    pi0
+#
+Decay B+sig
+  1.000         Mypsi2S   MyK*+          SVV_HELAMP PKHplus PKphHplus PKHzero PKphHzero PKHminus PKphHminus;
+Enddecay
+Decay B-sig
+  1.000         Mypsi2S   MyK*-		 SVV_HELAMP PKHplus PKphHplus PKHzero PKphHzero PKHminus PKphHminus;
+Enddecay
+#
+Decay Mypsi2S
+  1.000         e+       e-            PHOTOS VLL;
+Enddecay
+#
+Decay MyK*+
+  1.000         K+        Mypi0            VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay Mypi0  
+ 1.000         gamma       gamma        PHSP; 
+Enddecay
+#
+End
+

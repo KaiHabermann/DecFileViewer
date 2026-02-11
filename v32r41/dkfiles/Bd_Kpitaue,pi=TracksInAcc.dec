@@ -1,0 +1,38 @@
+# EventType: 11724442
+#
+# Descriptor: {[[B0]nos -> K+ pi- e+ (tau- -> pi- nu_tau)]cc, [[B0]os -> K- pi+ e- (tau+ -> pi+ nu_tau)]cc}
+#
+# NickName: Bd_Kpitaue,pi=TracksInAcc
+#
+# Cuts: DaughtersInLHCb
+# ExtraOptions: TracksInAcc
+#
+# Documentation: Bd -> pi K tau e, with taus decaying to 1 charged pion 
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Lakshan Madhan
+# Email: lakshan.madhan@cern.ch
+# Date: 20230712
+#
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+#
+Decay B0sig
+  0.500       K+         pi-        Mytau+    e-        PHSP;
+  0.500       K+         pi-        e+       Mytau-     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mytau+
+   0.1082       pi+                  anti-nu_tau               TAUSCALARNU;
+   0.2549       pi+       pi0        anti-nu_tau               TAUHADNU -0.108 0.775 0.149 1.364 0.400;
+   0.0926       pi+       pi0   pi0  anti-nu_tau               TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay Mytau-
+#
+End

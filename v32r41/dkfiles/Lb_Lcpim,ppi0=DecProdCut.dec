@@ -1,0 +1,36 @@
+# EventType: 15162401
+#
+# Descriptor: [ Lambda_b0 -> (Lambda_c+ -> p+ pi0) pi- ]cc
+#
+# NickName: Lb_Lcpim,ppi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb->Lcpi decay with Lc->p pi0. 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes 
+# CPUTime: 3 min 
+# Responsible: Zeqing Mu
+# Email: zeqing.mu@cern.ch
+# Date: 20250303
+#
+Alias      MyLambda_c+             Lambda_c+
+Alias      Myanti-Lambda_c-        anti-Lambda_c-
+ChargeConj MyLambda_c+             Myanti-Lambda_c-
+#
+#
+Decay Lambda_b0sig
+  1.0   MyLambda_c+        pi-   PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.0   p+                 pi0   PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End
+#
+

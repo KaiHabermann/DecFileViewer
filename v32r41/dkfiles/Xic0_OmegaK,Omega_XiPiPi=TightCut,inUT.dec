@@ -1,0 +1,83 @@
+# EventType: 26106181
+# 
+# Descriptor: [Xi_c0 -> (Omega- -> (Xi- -> (Lambda0 -> p+ pi-) pi-) pi+ pi-) K+]cc
+# 
+# NickName: Xic0_OmegaK,Omega_XiPiPi=TightCut,inUT
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Xic0 -> Omega- K+, with Omega -> Xi- pi+ pi-. Rare Omega- decay produced 
+# in charm baryon decays. Generator cuts on momentum and for Lamda to decay before UT.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation() 
+# signal     = generation.SignalPlain 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[Xi_c0 => (Omega- => (Xi- => ^(Lambda0 => ^p+ ^pi-) pi-) pi+ pi-) K+]CC'
+# tightCut.Preambulo += [
+#     "GVX = LoKi.GenVertices.PositionX() " ,
+#     "GVY = LoKi.GenVertices.PositionY() " ,
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,
+#     "from GaudiKernel.SystemOfUnits import meter, GeV" ,
+#     "inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )     " ,
+#     "inEta       =  in_range ( 1.5  , GETA   , 5.5 )        " , 
+#     "inP_pi       =  ( GP > 2.5  *  GeV ) ",
+#     "inPT_pi      =  ( GPT > 0.05  *  GeV ) ",
+#     "inP_p        =  ( GP > 9.0 *  GeV ) ",
+#     "inPT_p      =  ( GPT > 0.4  *  GeV ) ",
+#     "goodPion     =  inAcc & inP_pi & inPT_pi & inEta" ,
+#     "goodProton   =  inAcc & inP_p  & inPT_p & inEta" ,
+#     "decay =  GFAEVX ( GVZ, 100 * meter )  < (2.5 * meter)",
+# ]
+# tightCut.Cuts      =    {
+#     "[Lambda0]cc"  : "decay", 
+#     "[pi-]cc"      : "goodPion" , 
+#     "[p+]cc"       : "goodProton",
+#                         }
+# EndInsertPythonCode
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Lars Eklund
+# Email: Lars.Eklund@cern.ch
+# Date: 20250603
+# CPUTime: 2.5 min
+#
+Alias      MyOm-          Omega-
+Alias      MyOm+          anti-Omega+
+ChargeConj MyOm-          MyOm+
+#
+Alias      MyXi-          Xi-
+Alias      MyXi+          anti-Xi+
+ChargeConj MyXi-          MyXi+
+#
+Alias      MyLambda       Lambda0
+Alias      Myanti-Lambda  anti-Lambda0
+ChargeConj MyLambda       Myanti-Lambda         
+#
+Decay Xi_c0sig
+  1.0     MyOm-   K+      PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+#
+Decay MyOm-
+1.000      MyXi-   pi+   pi-    PHSP;
+Enddecay
+CDecay MyOm+
+#
+Decay MyXi-
+1.000      MyLambda     pi-    PHSP;
+Enddecay
+CDecay MyXi+
+#
+Decay MyLambda
+1.000      p+           pi-    PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#

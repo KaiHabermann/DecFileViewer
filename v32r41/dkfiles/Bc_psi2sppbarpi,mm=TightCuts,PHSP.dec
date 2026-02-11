@@ -1,0 +1,61 @@
+# EventType: 14145082
+#
+# Descriptor: [B_c+ -> (psi(2S) -> mu+ mu- ) p+ p~- pi+]cc
+#
+# NickName: Bc_psi2sppbarpi,mm=TightCuts,PHSP
+#
+# Production: BcVegPy
+#
+# Cuts: LoKi::GenCutToolWithDecay/TightCut
+#
+# Documentation: Bc decay with baryons, pion, and psi(2S) forced into mu+ mu-, using BcVegPy generator. 
+# Daughter in acceptance and TightCuts are used. 
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutToolWithDecay
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.Special.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+# gen.Special.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+# #
+# tightCut = gen.Special.TightCut
+# tightCut.SignalPID = 'B_c+'
+# tightCut.Decay = '[(B_c+ => (psi(2S) => ^mu+ ^mu- ) ^p+ ^p~- ^pi+)]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'inAcc        = in_range ( 0.005 , GTHETA , 0.400 ) ' ,
+#     'inEta        = in_range ( 1.9   , GETA   , 5.00  ) ' ,
+#     'goodTrack    =  inAcc & inEta                      ' ,     
+#     ]
+# tightCut.Cuts     =    {
+#     '[pi+]cc'        : 'goodTrack & ( GP  >   2.5 * GeV ) & ( GPT  >   130 * MeV ) ' , 
+#     '[p+]cc'         : 'goodTrack & ( GP  >   8.0 * GeV ) & ( GPT  >   130 * MeV ) ' , 
+#     '[mu+]cc'        : 'goodTrack & ( GP  >   3.0 * GeV ) & ( GPT  >   450 * MeV ) ' 
+#     }
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Niladri Sahoo
+# Email: Niladri.Sahoo@cern.ch
+# Date: 20250808
+# CPUTime: < 1 min
+#
+Alias      Mypsi2S psi(2S)
+ChargeConj Mypsi2S Mypsi2S
+#
+Decay B_c+sig
+  1.000        Mypsi2S     p+      anti-p-     pi+       PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mypsi2S
+  1.000        mu+       mu-        VLL;
+Enddecay
+#
+End
+

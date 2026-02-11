@@ -1,0 +1,55 @@
+# EventType:  26674060
+#
+# Descriptor: [Xi_cc++ -> (Xi_c+ -> p+ K- pi+) mu+ nu_mu ]cc
+#
+# NickName: Xicc++_Xicmunu,pKpi-res=GenXicc,DecProdCut,t=256fs,WithMinPT,MinDaughterPT200
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCbAndWithMinPT
+#
+# CutsOptions: MinXiccPT 2000*MeV MinDaughterPT 200*MeV
+#
+# ParticleValue: "Xi_cc++                506        4422   2.0      3.62140000      2.560000e-13                    Xi_cc++        4422      0.00000000", "Xi_cc~--               507       -4422  -2.0      3.62140000      2.560000e-13               anti-Xi_cc--       -4422      0.00000000" 
+#
+# CPUTime: < 1 min
+#
+# Documentation: Xicc++ decay to Xi_c+ mu+ nu by phase space model, Xi_c resonances included,
+# the mass of Xi_cc++ is set to 3.6214 GeV, the lifetime is set to 256 fs.
+# All daughters of Xicc are required to be in the acceptance of LHCb and with PT>200 MeV 
+# and the Xicc PT is required to be larger than 3000 MeV. 
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Hang Yin
+# Email: hang.yin@cern.ch
+# Date: 20201217
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias MyXi_c+ Xi_c+
+Alias Myanti-Xi_c- anti-Xi_c-
+ChargeConj MyXi_c+ Myanti-Xi_c-
+#
+Decay Xi_cc++sig
+  1.000    MyXi_c+   mu+ nu_mu           PHSP;
+Enddecay
+CDecay anti-Xi_cc--sig
+#
+#
+Decay MyXi_c+
+  0.116000000 p+      Myanti-K*0                              PHSP;
+  0.094000000 p+      K-      pi+                             PHSP;  
+Enddecay
+CDecay Myanti-Xi_c-
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+#

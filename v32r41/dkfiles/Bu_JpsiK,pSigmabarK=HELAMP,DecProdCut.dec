@@ -1,0 +1,77 @@
+# EventType: 12135330
+# 
+# Descriptor: [ B+ -> K+ (J/psi(1S) -> p+ (Sigma~0 -> (Lambda~0 -> p~- pi+) gamma) K-)]cc 
+# 
+# NickName: Bu_JpsiK,pSigmabarK=HELAMP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[B+ ==> ^K+ (J/psi(1S) ==> ^p+ (Sigma~0 => (Lambda~0 => ^p~- ^pi+) gamma) ^K-)]CC"
+# tightCut.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import MeV",
+# "InAcc = in_range ( 0.005 , GTHETA , 0.400 )",
+# "goodKpi  = ( GP > 1000 * MeV ) & ( GPT > 100 * MeV ) & InAcc",
+# "goodp    = ( GP > 5000 * MeV ) & ( GPT > 200 * MeV ) & InAcc"
+# ]
+# tightCut.Cuts = {
+# '[pi+]cc' : "goodKpi",
+# '[K+]cc'  : "goodKpi",
+# '[p+]cc'  : "goodp"
+# }
+#
+# EndInsertPythonCode
+# 
+# Documentation:
+#                 Lambda0 forced into p pi.
+#                 Lambda0 -> p pi helicity amplitude from 2019 combination in PRL 123, 182301.
+#                 All charged final state tracks are required to be within the LHCb acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Ying'ao Tang
+# Email: yingao.tang@cern.ch
+# Date: 20241211
+#
+#
+Alias      MyJpsi J/psi
+ChargeConj MyJpsi MyJpsi
+Alias       MyLambda      Lambda0
+Alias       MyantiLambda  anti-Lambda0
+ChargeConj  MyLambda      MyantiLambda
+Alias       MySigma      Sigma0
+Alias       MyantiSigma  anti-Sigma0
+ChargeConj  MySigma      MyantiSigma
+
+
+#
+Decay B+sig
+  1.000     MyJpsi          K+                 SVS; 
+Enddecay
+CDecay B-sig
+#
+Decay MyJpsi
+  0.500     p+  MyantiSigma    K-  PHSP;
+  0.500     anti-p-  MySigma    K+  PHSP;
+Enddecay
+#
+Decay MySigma
+1.0000    gamma  MyLambda                     PHSP;
+Enddecay
+CDecay MyantiSigma
+#
+Decay MyLambda
+  1.000     p+           pi-                HELAMP 0.9276 0.0 0.3735 0.0;
+Enddecay
+CDecay MyantiLambda
+#
+End
+#

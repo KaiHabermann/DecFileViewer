@@ -1,0 +1,47 @@
+# EventType: 10934004
+#
+# Descriptor: chi_c0(1P) -> p+ p~- pi+ pi- 
+#
+# NickName: incl_b=chic0,pppipi,PTcut,InAcc
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/b2Chic0Filter
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "b2Chic0Filter" )
+# SignalFilter = Generation(genAlgName).b2Chic0Filter
+# SignalFilter.Code = " has(isB2ccTcuts)"
+# SignalFilter.Preambulo += [
+#  "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#  "inAcc = (in_range(  0.010 , GTHETA , 0.400 ))",
+#  "isB2cc = ((GDECTREE('(Beauty & LongLived) --> chi_c0(1P) ...')))",
+#  "fromchic0 = 0 != GNINTREE('chi_c0(1P)'== GABSID , HepMC.ancestors )",
+#  "ppcuts = (GINTREE( (('p+' == GID ) & (GPT > 250) & inAcc & fromchic0) ) )",
+#  "pmcuts = (GINTREE( (('p~-' == GID ) & (GPT > 250) & inAcc & fromchic0) ) )",
+#  "pipcuts = (GINTREE( (('pi+' == GID ) & (GPT > 200) & inAcc & fromchic0) ) )",
+#  "pimcuts = (GINTREE( (('pi-' == GID ) & (GPT > 200) & inAcc & fromchic0) ) )",
+#  "isB2ccTcuts = (isB2cc & ppcuts & pmcuts & pipcuts & pimcuts)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: b-chic0 decay to p p pi pi, keep only particles in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jingyi XU
+# Email: jingyi.xu@cern.ch
+# Date: 20181113
+#
+#
+Decay chi_c0
+  1.000   p+   anti-p-  pi+   pi-     PHSP;
+Enddecay
+#
+End
+#
+

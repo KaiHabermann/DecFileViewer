@@ -1,0 +1,40 @@
+# EventType: 12725000
+#
+# Descriptor:  {[B+ -> K+ e+ (tau- -> pi+ pi- pi- nu_tau)]cc, [B+ -> K+ e- (tau+ -> pi+ pi- pi+ anti-nu_tau)]cc}
+#
+# NickName: Bu_Ktaue,3pi=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B to K tau (->3pi nu) e  decay. Daughters in acceptance.
+# Same as 12715000, but an electron replacing the muon in the b decay
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Tommaso Fulghesu
+# Email: tommaso.fulghesu@cern.ch
+# Date: 20211216
+#
+Alias         Mytau+  tau+
+Alias         Mytau-  tau-
+ChargeConj    Mytau+  Mytau-
+#
+Decay B+sig
+  0.500        K+    e+    Mytau-            BTOSLLBALL 6;
+  0.500        K+    Mytau+    e-            BTOSLLBALL 6;
+Enddecay
+#
+Decay B-sig
+  0.500        K-    e+    Mytau-            BTOSLLBALL 6;
+  0.500        K-    Mytau+    e-            BTOSLLBALL 6;
+Enddecay
+#
+Decay Mytau-
+  1.00      pi-     pi-      pi+     nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay Mytau+
+#
+End
+

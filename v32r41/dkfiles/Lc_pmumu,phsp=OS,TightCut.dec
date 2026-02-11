@@ -1,0 +1,49 @@
+# EventType: 25113031
+# 
+# Descriptor: [Lambda_c+ -> p+ mu- mu+]cc
+# 
+# NickName: Lc_pmumu,phsp=OS,TightCut
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Lambda_c -> p mu mu PHSP MODEL, 
+# GL cuts, double arrows in Decay
+# EndDocumentation
+#
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Marcin Chrzaszcz, Jolanta Brodzicka
+# Email:       mchrzasz@cern.ch, jolanta.brodzicka@cern.ch
+# Date:        20190208
+# 
+# CPUTime: <1min
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ Lambda_c+ =>  ^p+ ^mu+ ^mu- ]CC'
+# tightCut.Cuts      =    {
+#     '[mu+]cc'       : ' goodMuon & inAcc   ' , 
+#     '[p+]cc'        : ' goodProton & inAcc ' , 
+#     '[Lambda_c+]cc' : ' goodLambdac & ~GHAS (GBEAUTY, HepMC.ancestors)' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter, micrometer',
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodMuon   = ( GPT > 0.2 * GeV ) & ( GP > 0.2 * GeV ) ' , 
+#     'goodProton = ( GPT > 0.2 * GeV ) & ( GP > 0.2 * GeV ) ' , 
+#     'goodLambdac  = ( GTIME > 50 * micrometer ) ' ]
+#
+# EndInsertPythonCode
+
+
+Decay Lambda_c+sig
+  1.00000         p+      mu-      mu+     PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+ 
+#
+End

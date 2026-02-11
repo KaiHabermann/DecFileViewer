@@ -1,0 +1,37 @@
+# EventType: 11144220
+#
+# Descriptor: [B0 -> (J/psi(1S) -> mu+ mu-) (eta -> pi+ pi- gamma)]cc
+#
+# NickName: Bd_Jpsieta,mm,pipig=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: no CP violation
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Max Chefdeville
+# Email: chefdevi@lapp.in2p3.fr
+# Date: 20210707
+#
+Alias       MyJ/psi  J/psi
+Alias       MyEta    eta
+ChargeConj  MyJ/psi  MyJ/psi
+ChargeConj  MyEta    MyEta
+#
+Decay B0sig
+  1.000         MyJ/psi     MyEta        SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyJ/psi
+  1.000         mu+         mu-          PHOTOS VLL;
+Enddecay
+#
+Decay  MyEta
+  1.000     pi+ pi-  gamma                     PHOTOS PHSP;
+Enddecay
+End

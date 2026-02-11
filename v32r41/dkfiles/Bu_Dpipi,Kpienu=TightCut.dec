@@ -1,0 +1,52 @@
+# EventType: 12585051
+#
+# Descriptor: [B+ -> (D- -> K+ pi- e- nu_e~) pi+ pi+]cc
+# NickName: Bu_Dpipi,Kpienu=TightCut
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: This is the decay file for the B+ -> D- ( -> K+ pi- e- nu_e) pi+ pi+ Phase space decay. The visible mass is required to be larger than 4500 MeV and the visible daughters as required to be inside the LHCb acceptance
+# EndDocumentation
+#
+# InsertPythonCode:
+#from Configurables import LoKi__GenCutTool
+#from GaudiKernel.SystemOfUnits import MeV
+#Generation(genAlgName).SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+#tightCut  = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+#tightCut.Decay    = "[^(B+ => ^(D- => ^K+ ^pi- ^e- ^nu_e~) ^pi+ ^pi+)]CC"
+#tightCut.Cuts     = {
+#   '[B+]cc' : "(GNINTREE((GABSID == 'pi+') & (ACC)) == 2) & (BM2 > 20250000.)",
+#   '[D-]cc' : "(GINTREE((GABSID == 'K+') & (ACC))) & (GINTREE((GABSID == 'pi+') & (ACC))) & (GINTREE((GABSID == 'e-') & (ACC)))"
+#   }
+#tightCut.Preambulo += [
+#   "BPX2 = (GCHILD(GCHILD(GPX, 1), 1) + GCHILD(GCHILD(GPX, 2), 1) + GCHILD(GCHILD(GPX, 3), 1) + GCHILD(GPX, 2) + GCHILD(GPX, 3))**2",
+#   "BPY2 = (GCHILD(GCHILD(GPY, 1), 1) + GCHILD(GCHILD(GPY, 2), 1) + GCHILD(GCHILD(GPY, 3), 1) + GCHILD(GPY, 2) + GCHILD(GPY, 3))**2",
+#   "BPZ2 = (GCHILD(GCHILD(GPZ, 1), 1) + GCHILD(GCHILD(GPZ, 2), 1) + GCHILD(GCHILD(GPZ, 3), 1) + GCHILD(GPZ, 2) + GCHILD(GPZ, 3))**2",
+#   "BPE2 = (GCHILD(GCHILD(GE, 1), 1) + GCHILD(GCHILD(GE, 2), 1) + GCHILD(GCHILD(GE, 3), 1) + GCHILD(GE, 2) + GCHILD(GE, 3))**2",
+#   "BM2  = (BPE2 - BPX2 - BPY2 - BPZ2)",
+#   "ACC  = in_range(0.0075, GTHETA, 0.400)",
+#   ]
+# EndInsertPythonCode
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Tobias Tekampe
+# Email: ttekampe@cern.ch
+# Date: 20180122
+# CPUTime: < 1min
+#
+Alias        MyD-         D-
+Alias        MyD+         D+
+ChargeConj   MyD+         MyD-
+#       
+Decay B+sig
+1.000        MyD- pi+ pi+	PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD-
+1.000        K+ pi- e-  anti-nu_e       PHOTOS PHSP;
+Enddecay
+CDecay MyD+
+#       
+End
+#

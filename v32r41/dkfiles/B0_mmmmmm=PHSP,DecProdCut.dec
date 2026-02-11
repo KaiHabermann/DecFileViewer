@@ -1,0 +1,29 @@
+# DecFile for mode B0 -> mu+ mu- mu+ mu- mu+ mu-
+#
+# EventType: 11116090
+#
+# Descriptor: [B0-> mu+ mu- mu+ mu- mu+ mu-]cc
+#
+# NickName: B0_mmmmmm=PHSP,DecProdCut
+#
+#
+#Cuts: DaughtersInLHCb
+#
+# 
+# Documentation: Decay B0 -> mu+ mu- mu+ mu- mu+ mu-, for multimuon signatures in compossite Higgs models.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Emilio Xosé Rodríguez
+# Email: emilio.xose.rodriguez.fernandez@cern.ch 
+# Date:   20240520
+# CPUTime: <1min
+#
+#
+Decay B0sig
+1.000         mu+  mu-  mu+  mu-  mu+  mu-       PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End

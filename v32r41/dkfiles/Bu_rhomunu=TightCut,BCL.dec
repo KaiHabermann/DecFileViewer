@@ -1,0 +1,42 @@
+# EventType: 12513002
+#
+# Descriptor: [B+ -> (rho(770)0 -> pi+ pi-) mu+ nu_mu]cc
+#
+# NickName: Bu_rhomunu=TightCut,BCL
+#
+# Documentation: Decay file for [B+ -> (rho(770)0 -> pi+ pi-) mu+ nu_mu]cc with BCL form factors
+# FF values from a combined fit on LCSR prediction (1203.1359) and measurements from Belle (1306.2781) and BaBar (1005.3288)
+# EndDocumentation
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName).SignalRepeatedHadronization
+# gen.addTool( LoKi__GenCutTool, "TightCut" )
+# SignalFilter = gen.TightCut
+# SignalFilter.Decay = "[B+ => (rho(770)0 => ^pi+ ^pi-) ^mu+ nu_mu]CC"
+# SignalFilter.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import  GeV",
+#   "inAcc                = in_range ( 0.005 , GTHETA , 0.400 ) &  in_range ( 1.9 , GETA , 5.1 )", 
+#   "muCuts               = (GP > 5 * GeV) &  (GPT > 1.2 * GeV) & inAcc",
+#   "piCuts               = (GP > 1.5 * GeV) & (GPT > 0.05 * GeV) & inAcc",
+#   ]
+# SignalFilter.Cuts =  { "[mu+]cc" : "muCuts",
+#                        "[pi+]cc" : "piCuts" }
+# EndInsertPythonCode
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible:   Michel De Cian
+# Email: michel.de.cian@cern.ch
+# Date: 20201205
+#
+Decay B+sig
+  1.     rho0        mu+    nu_mu    PHOTOS  BTOXELNU BCL -0.861 1.444 0.266 0.378 0.165 0.291 0.718 0.384 0.331 -0.876 1.907; 
+Enddecay
+CDecay B-sig
+#
+End
+#

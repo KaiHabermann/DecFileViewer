@@ -1,0 +1,60 @@
+# EventType: 11574003 
+#
+# Descriptor: {[[B0]nos -> (D0- -> (K*(892)0 -> K+ pi-) mu- anti-nu_mu) mu+ nu_mu]cc, [[B0]os -> (D- -> (K*(892)0 -> K+ pi-) mu- anti-nu_mu) mu+ nu_mu]cc}
+#
+# NickName: Bd_Dmmunu,Kstmunu=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LoKi__GenCutTool
+#
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "([(Beauty) ==> (D- ==> ^K+ ^mu- nu_mu~ ^pi- ) ^mu+ nu_mu {X} {X} {X} {X} {X} {X} {X}]CC)"
+# tightCut.Preambulo += ["from LoKiCore.functions import in_range", "from GaudiKernel.SystemOfUnits import MeV"]
+# tightCut.Cuts      =    {
+#     '[mu-]cc'     : "(in_range(0.01, GTHETA, 0.4))",
+#     '[K+]cc'      : "(in_range(0.01, GTHETA, 0.4))",
+#     '[pi-]cc'	    : "(in_range(0.01, GTHETA, 0.4))",
+#     '[mu+]cc'	    : "(in_range(0.01, GTHETA, 0.4))"    
+#   }
+# EndInsertPythonCode
+#
+# Documentation: semi-leptonic B0 -> D- mu nu decays
+# EndDocumentation
+#
+# PhysicsWG: RD
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Mark Smith
+# Email: mark.smith@cern.ch
+# Date: 20220411
+#
+Alias            MyD+           D+
+Alias            MyD-           D-
+ChargeConj       MyD+           MyD-
+#
+Alias            MyK*0          K*0
+Alias            Myanti-K*0          anti-K*0
+ChargeConj       MyK*0          Myanti-K*0
+
+Decay B0sig 
+  0.019          MyD-      mu+         nu_mu         PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  0.365          MyK*0    mu-         anti-nu_mu         ISGW2;
+Enddecay
+CDecay MyD+
+
+#
+Decay MyK*0
+  1.000          K+             pi-                               VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End

@@ -1,0 +1,47 @@
+# EventType: 12711000
+#
+# Descriptor: [B+ => X0 mu+ nu_mu]cc
+#
+# NickName: Bu_X0munu=TightCut,ISGW2,ForBu2munugamma
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Resonant B+ -> X0 mu+ nu decays with at least one photon. Muon is required to be high momentum and in the LHCb acceptance. 
+# EndDocumentation
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation().SignalRepeatedHadronization
+# gen.addTool ( LoKi__GenCutTool , 'TightCut' )
+# SignalFilter = gen.TightCut
+# SignalFilter.Decay = "^(Beauty --> ( X0 --> gamma ... ) [mu+]cc ...)"
+# SignalFilter.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import  GeV",
+#   "inAcc                = in_range ( 0.005 , GTHETA , 0.400 )", 
+#   "muCuts               = ( 0 < GNINTREE ( ('mu+' == GABSID ) & (GP > 5 * GeV) &  (GPT > 1.2 * GeV) & inAcc ) )",
+#   ]
+# SignalFilter.Cuts =  { "Beauty" : "muCuts" }
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Fabian Christoph Glaser
+# Email: fabian.christoph.glaser@cern.ch
+# Date: 20230623
+#
+#
+Decay B+sig
+    0.047       sigma_0     mu+     nu_mu   ISGW2;
+    0.378       rho0        mu+     nu_mu   ISGW2;
+    0.285       omega       mu+     nu_mu   ISGW2;
+    0.058       eta'        mu+     nu_mu   ISGW2;
+    0.078       f_0         mu+     nu_mu   ISGW2;
+    0.118       f_2         mu+     nu_mu   ISGW2;
+    0.036       rho(2S)0    mu+     nu_mu   ISGW2;
+Enddecay
+CDecay B-sig
+#
+End
+#
+

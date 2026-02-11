@@ -1,0 +1,63 @@
+# EventType: 13714040
+#
+# Descriptor: {[[B_s0]nos -> (tau+ -> pi+ pi- pi+ anti-nu_tau) (tau- -> mu nu_mu nu_tau) (phi(1020) -> K+ K-)]cc}
+#
+# NickName: Bs_phitautau,3pimu=DecProdCut,TightCut,tauola5
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bd decay to phi tau tau.
+# One tau decays in the 3-prong charged pion mode and the other in the muonic mode using latest Tauola BaBar model.
+# All final-state products in the acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Luca Pescatore
+# Email: luca.pescatore@cern.ch
+# Date: 20181030
+#
+
+# Tauola steering options
+Define TauolaCurrentOption 0
+Define TauolaBR1 1.0
+#
+Alias         Mytau1+    tau+
+Alias         Mytau1-    tau-
+ChargeConj    Mytau1+    Mytau1-
+Alias         Mytau2+    tau+
+Alias         Mytau2-    tau-
+ChargeConj    Mytau2+    Mytau2-
+Alias         MyPhi      phi
+ChargeConj    MyPhi      MyPhi
+#
+Decay B_s0sig
+  0.500       MyPhi      Mytau1+    Mytau2-       BTOSLLBALL;
+  0.500       MyPhi      Mytau2+    Mytau1-       BTOSLLBALL;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000       K+         K-       VSS;
+Enddecay
+#
+Decay Mytau1-
+  1.00        TAUOLA 5;
+Enddecay
+#
+Decay Mytau1+
+  1.00        TAUOLA 5;
+Enddecay
+#       
+Decay Mytau2+
+  1.00        mu+        nu_mu        anti-nu_tau   TAULNUNU;
+Enddecay
+#
+Decay Mytau2-
+  1.00        mu-        anti-nu_mu   nu_tau        TAULNUNU;
+Enddecay      
+#
+#
+End

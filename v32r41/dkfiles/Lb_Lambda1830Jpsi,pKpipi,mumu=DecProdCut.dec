@@ -1,0 +1,50 @@
+# EventType: 15146010
+#
+# Descriptor: [Lambda_b0 -> (Lambda(1830)0 -> (Lambda(1520)0 -> p+ K-) pi+ pi-) (J/psi -> mu+ mu-)]cc
+#
+# NickName: Lb_Lambda1830Jpsi,pKpipi,mumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb -> Lambda(1830)0 Jpsi, with Lambda(1830)0 -> Lambda(1520)0 (-> p+ K-) pi+ pi-, Jpsi -> mu+ mu-
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Qi Shi
+# Email: qi.shi@cern.ch
+# Date: 20251027
+# CPUTime: 2 min
+
+Alias      MyLambda(1830)0      Lambda(1830)0
+Alias      Myanti-Lambda(1830)0 anti-Lambda(1830)0
+ChargeConj MyLambda(1830)0      Myanti-Lambda(1830)0
+
+Alias      MyLambda(1520)0      Lambda(1520)0
+Alias      Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+
+Alias      MyJpsi J/psi
+ChargeConj MyJpsi MyJpsi
+
+Decay Lambda_b0sig
+  1.000   MyLambda(1830)0 MyJpsi   PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyLambda(1830)0
+ 1.000    MyLambda(1520)0 pi+ pi-    PHSP;
+Enddecay
+CDecay Myanti-Lambda(1830)0
+
+Decay MyLambda(1520)0
+ 1.000    p+ K-                      PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+
+Decay MyJpsi
+1.000	mu+	    mu-	    PHOTOS  VLL;
+Enddecay
+
+End
+#

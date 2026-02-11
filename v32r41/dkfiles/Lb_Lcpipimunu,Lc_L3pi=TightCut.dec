@@ -1,0 +1,108 @@
+# EventType: 15678100 
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> ( Lambda0 -> p+ pi- ) pi+ pi- pi+) mu- anti-nu_mu pi+ pi-]cc
+#
+# NickName: Lb_Lcpipimunu,Lc_L3pi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Lb -> Lc pi pi mu nu_mu, Lc -> Lambda pi pi pi. Loose kinematic cuts on pions not from Lambda decay. 
+# EndDocumentation
+#
+# InsertPythonCode:
+##
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut  = Generation().SignalPlain.TightCut
+# tightCut.Decay = "[ Lambda_b0 ==>  (Lambda_c+ ==> ^(Lambda0 ==> p+ pi- ) ^pi+ ^pi- ^pi+)  {X} {X} ^mu- nu_mu~ ^pi+ ^pi- ]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range",
+# "from GaudiKernel.SystemOfUnits import MeV, mrad",
+# "inAcc = in_range(10*mrad,GTHETA,400*mrad)",
+# ]
+# tightCut.Cuts      =    {
+#'[pi+]cc'  : "inAcc & ( GP > 2000 * MeV ) ",
+#'[mu-]cc'  : "inAcc",
+#'[Lambda0]cc'  : "(GCHILDCUT(inAcc, '[Lambda0 => ^p+ pi-]CC')) & (GCHILDCUT(inAcc, '[Lambda0 => p+ ^pi-]CC'))",
+# }  
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Mengzhen Wang 
+# Email: mengzhen.wang@cern.ch
+# Date:  20231011 
+# CPUTime: < 5 min
+#
+Alias  MyLambda_c(2593)+  Lambda_c(2593)+
+Alias  Myanti-Lambda_c(2593)-  anti-Lambda_c(2593)-
+ChargeConj  MyLambda_c(2593)+  Myanti-Lambda_c(2593)-
+#
+Alias  MyLambda_c(2625)+  Lambda_c(2625)+
+Alias  Myanti-Lambda_c(2625)-  anti-Lambda_c(2625)-
+ChargeConj  MyLambda_c(2625)+  Myanti-Lambda_c(2625)-
+#
+Alias  MySigma_c0  Sigma_c0
+Alias  Myanti-Sigma_c0  anti-Sigma_c0
+ChargeConj  MySigma_c0  Myanti-Sigma_c0
+#
+Alias  MySigma_c++  Sigma_c++
+Alias  Myanti-Sigma_c--  anti-Sigma_c--
+ChargeConj  MySigma_c++  Myanti-Sigma_c--
+#
+Alias  MySigma_c*0  Sigma_c*0
+Alias  Myanti-Sigma_c*0  anti-Sigma_c*0
+ChargeConj  MySigma_c*0  Myanti-Sigma_c*0
+#
+Alias  MySigma_c*++  Sigma_c*++
+Alias  Myanti-Sigma_c*--  anti-Sigma_c*--
+ChargeConj  MySigma_c*++  Myanti-Sigma_c*--
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+#
+Decay Lambda_b0sig
+0.000653346  MyLambda_c(2593)+  mu-  anti-nu_mu  BaryonPCR 1 1 1 1; #[Reconstructed PDG2011][PHSP->BaryonPCR];
+0.001994700  MyLambda_c(2625)+  mu-  anti-nu_mu  BaryonPCR 1 1 1 1; #[Reconstructed PDG2011][PHSP->BaryonPCR];
+0.015156472  MyLambda_c+  pi+  pi-  mu-  anti-nu_mu  PHSP; #[New mode added] #[Reconstructed PDG2011];
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c(2593)+
+0.026140953  MySigma_c++  pi-  PHSP; #[Reconstructed PDG2011];
+0.026140953  MySigma_c0  pi+  PHSP; #[Reconstructed PDG2011];
+0.051423743  MyLambda_c+  pi+  pi-  PHSP; #[Reconstructed PDG2011];
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+#
+Decay MyLambda_c(2625)+
+0.181336357  MyLambda_c+  pi+  pi-  PHSP; #[Reconstructed PDG2011];
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+#
+Decay MySigma_c0
+0.270651280  MyLambda_c+  pi-  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+#
+Decay MySigma_c++
+0.270651280  MyLambda_c+  pi+  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+Decay MyLambda0
+  1.0     p+   pi-      PHSP;
+Enddecay
+CDecay MyAntiLambda0
+#
+Decay MyLambda_c+
+  1.0     MyLambda0   pi+  pi-  pi+     PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End

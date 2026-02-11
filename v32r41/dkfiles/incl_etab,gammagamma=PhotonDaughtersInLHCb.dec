@@ -1,0 +1,42 @@
+# EventType: 18100201
+#
+# Descriptor: Upsilon(1S) => gamma gamma
+#
+# NickName: incl_etab,gammagamma=PhotonDaughtersInLHCb
+#
+# Documentation: etab decay to two photons with phase space model, daughter photons in acceptance
+# EndDocumentation
+#
+# Sample:         SignalPlain
+# Cuts:           PhotonDaughtersInLHCb
+# ExtraOptions:   Upsilon1S
+#
+# ParticleValue: "Upsilon(1S)   387    553   0.0   9.39870000    6.5821196e-23    Upsilon   553    0.00000000"
+#
+# InsertPythonCode: 
+#
+# from Configurables import Generation, SignalPlain, PhotonDaughtersInLHCb
+#
+# gen = Generation()
+# gen.SignalPlain.addTool( PhotonDaughtersInLHCb )
+# gen.SignalPlain.PhotonDaughtersInLHCb.SignalPID = 553
+#
+# EndInsertPythonCode
+
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Andrii Usachov
+# Email: andrii.usachov@cern.ch
+# Date: 20230228
+# CPUTime: <1 min
+#
+Decay    Upsilonsig
+  1.000  gamma   gamma   	PHSP;
+Enddecay
+#
+End
+#
+
+
+

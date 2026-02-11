@@ -1,0 +1,42 @@
+# EventType: 13176001
+#
+# Descriptor: {[[B_s0]nos ==> nu_mu mu+ (D_s1(2536)- -> (D- -> K+ pi- pi-) pi+ K-)]cc, [[B_s0]os => anti_nu_mu mu- (D_s1(2536)+ -> (D+ -> K- pi+ pi+) pi- K+)]cc}
+#
+# NickName: Bs_Ds1munu,D+=Kpipi,hqet2,LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Sum of Bs -> Ds** mu nu modes. Ds**+ -> D+ K+ X, D+ -> K- pi+ pi+, B in Acc. Form factors from https://journals.aps.org/prd/abstract/10.1103/PhysRevD.87.034033
+# EndDocumentation
+#
+# CPUTime: < 4 min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Wren Vetens
+# Email: wsvetens@syr.edu
+# Date: 20241011
+#
+Alias           MyD'_s1+      D'_s1+
+Alias           MyD'_s1-      D'_s1-
+ChargeConj      MyD'_s1+      MyD'_s1-
+#
+Alias           MyD+          D+
+Alias           MyD-          D-
+ChargeConj      MyD+          MyD-
+#
+Decay B_s0sig
+ 0.0001051   MyD'_s1-         mu+     nu_mu     PHOTOS HQET2 -0.61 0.01 -0.25 0.77; 
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD'_s1+
+ 0.0280       MyD+     pi-    K+ 	    PHSP;
+Enddecay
+CDecay MyD'_s1-
+#
+Decay MyD+
+ 1.0          K-       pi+       pi+               PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+End

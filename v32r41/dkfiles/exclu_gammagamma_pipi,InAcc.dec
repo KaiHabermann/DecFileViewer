@@ -1,0 +1,53 @@
+# EventType: 49102002
+#
+# Descriptor: gamma p => ( rho(770)0 => pi+ pi- ) p 
+#
+# NickName: exclu_gammagamma_pipi,InAcc
+#
+# Cuts: None 
+# Production: SuperChic2
+#
+# CPUTime: < 2 min
+#
+# InsertPythonCode:
+# 
+# # SuperChic2 options.
+# from Configurables import Generation, Special, SuperChic2Production, LoKi__FullGenEventCut
+# Generation(genAlgName).Special.CutTool = ""
+# Generation(genAlgName).FullGenEventCutTool = "LoKi::FullGenEventCut/cepInAcc"
+# Generation(genAlgName).Special.addTool(SuperChic2Production)
+# Generation(genAlgName).Special.SuperChic2Production.Commands += [
+#     "SuperChic2:proc    = 48",    # pi+,pi- production.
+#     "SuperChic2:gencuts = true",  # Apply cuts below on pseudorapidity
+#     "SuperChic2:etaamin = 1.95",  # pi+ pseudorapidity min
+#     "SuperChic2:etaamax = 5.05",  # pi+ pseudorapidity max
+#     "SuperChic2:etabmin = 1.95",  # pi- pseudorapidity min
+#     "SuperChic2:etabmax = 5.05"]  # pi- pseudorapidity max
+#
+#
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut, "cepInAcc")
+# cepInAcc = Generation(genAlgName).cepInAcc
+# cepInAcc.Code = "( count( out1 ) == 1 )"
+#
+#
+# cepInAcc.Preambulo += [
+#    "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#    "out1 = ( ( GABSID == 113 ) & ( GETA > 1.0 ) & ( GETA < 6.0 ) )"]
+#
+#
+# # Keep the CEP process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+# Documentation:
+# Exclusive pi+ pi- Photo-production with pions in the acceptance
+# EndDocumentation
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Zahra Moghaddam
+# Email: zahra.ghorbani.moghaddam@cern.ch
+# Date: 20250305
+#
+End

@@ -1,0 +1,76 @@
+# $Id: Bu_XDarkScalar,mumu,m=3500MeV,t=3ns,TightCut.dec   $
+#
+# This is the decay file for the decay B+ -> Dark Scalar (-> mu- mu+) X, with CC
+#
+# EventType: 12312006
+#
+# Descriptor: [B+ -> (Higgs0 -> mu- mu+) X]cc
+#
+# NickName: Bu_XDarkScalar,mumu,m=3500MeV,t=3ns,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LoKi__GenCutTool
+# from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+# from Configurables import GiGaPhysListModular, GiGaHiggsParticles
+#
+# ParticlePropertySvc().Particles = [ "H_10 87 25 0.0000 3.5000 3.0000e-9 Higgs0 25 0.0000" ]
+# ApplicationMgr().ExtSvc += [ ParticlePropertySvc() ]
+#
+# gigaHiggsPart = GiGaHiggsParticles()
+# gigaHiggsPart.Higgses = ["H_10"]
+# GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]
+# 
+# generation = Generation()
+# signal     = generation.SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[B+ => ^(H_10 => mu- mu+) X]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, meter, millimeter",
+#     'inAcc        =  in_range ( 0.0 , GTHETA , 0.500 ) & ( GFAEVX ( GVZ, 100 * meter ) < 8000. * millimeter)',
+# 	  ]
+# tightCut.Cuts     =    {
+#     '[H_10]cc'      : 'inAcc' ,
+#     }
+# EndInsertPythonCode
+#
+#
+# Documentation: Decfile for B0 -> Dark Higgs (-> mu- mu+) X, with CC
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Andrii Usachov
+# Email: andrii.usachov@cern.ch
+# Date:   20250417
+# CPUTime: <1min
+#
+Alias      MyScalar Higgs0
+
+ChargeConj MyScalar MyScalar
+
+#
+Decay MyScalar
+1.0 mu- mu+	PHSP;
+Enddecay
+#
+
+Decay B+sig
+0.1	 MyScalar	K_1+	    PHSP;
+0.2	 MyScalar	K*+ 	    PHSP;
+0.1	 MyScalar	K+  	    PHSP;
+0.1	 MyScalar	K_0*+  	    PHSP;
+0.1	 MyScalar	K'*+  	    PHSP;
+0.1	 MyScalar	K''*+  	    PHSP;
+0.1	 MyScalar	K_2*+  	    PHSP;
+0.1	 MyScalar	K'_1+  	    PHSP;
+0.1	 MyScalar	pi+  	    PHSP;
+Enddecay
+CDecay B-sig
+#
+
+End
+#

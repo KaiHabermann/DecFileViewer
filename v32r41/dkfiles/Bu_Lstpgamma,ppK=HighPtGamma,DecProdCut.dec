@@ -1,0 +1,88 @@
+# EventType: 12203284
+#
+# NickName: Bu_Lstpgamma,ppK=HighPtGamma,DecProdCut
+#
+# Descriptor: [B+ -> (Lambda(1890)~0 -> p~- K+) p+ gamma ]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation(genAlgName).BRadiativeCut
+# radCut.Code = " ( count ( isGoodB ) > 0 ) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "NGoodGamma = GINTREE(('gamma' == GABSID) & (GPT >1.5*GeV))"
+#   , "isGoodB    = (GBEAUTY & NGoodGamma)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: B+->Lambda(1520)~0 p+ gamma decay, Lambda(1520,1600,1690,1800,1890)~0 -> (p~- K+) p+ decay, Decay products in acceptance,with gamma pt  > 1.5
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Olivier Deschamps
+# Email: odescham@in2p3.fr
+# Date: 20240707
+#
+Alias      MyLambda(1520)0      Lambda(1520)0
+Alias      Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+#
+Alias      MyLambda(1600)0      Lambda(1600)0
+Alias      Myanti-Lambda(1600)0 anti-Lambda(1600)0
+ChargeConj MyLambda(1600)0      Myanti-Lambda(1600)0
+#
+Alias      MyLambda(1690)0      Lambda(1690)0
+Alias      Myanti-Lambda(1690)0 anti-Lambda(1690)0
+ChargeConj MyLambda(1690)0      Myanti-Lambda(1690)0
+#
+Alias      MyLambda(1800)0      Lambda(1800)0
+Alias      Myanti-Lambda(1800)0 anti-Lambda(1800)0
+ChargeConj MyLambda(1800)0      Myanti-Lambda(1800)0
+#
+Alias      MyLambda(1890)0      Lambda(1890)0
+Alias      Myanti-Lambda(1890)0 anti-Lambda(1890)0
+ChargeConj MyLambda(1890)0      Myanti-Lambda(1890)0
+#
+Decay B+sig
+  1.0        Myanti-Lambda(1520)0  p+   gamma         PHSP;
+  1.0        Myanti-Lambda(1600)0  p+   gamma         PHSP;
+  1.0        Myanti-Lambda(1690)0  p+   gamma         PHSP;
+  1.0        Myanti-Lambda(1800)0  p+   gamma         PHSP;
+  1.0        Myanti-Lambda(1890)0  p+   gamma         PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-Lambda(1520)0  
+  1.000   anti-p-          K+        PHSP;              
+Enddecay
+CDecay MyLambda(1520)0  
+
+Decay Myanti-Lambda(1600)0  
+  1.000   anti-p-          K+        PHSP;              
+Enddecay
+CDecay MyLambda(1600)0  
+
+Decay Myanti-Lambda(1690)0  
+  1.000   anti-p-          K+        PHSP;              
+Enddecay
+CDecay MyLambda(1690)0  
+
+Decay Myanti-Lambda(1800)0  
+  1.000   anti-p-          K+        PHSP;              
+Enddecay
+CDecay MyLambda(1800)0  
+
+Decay Myanti-Lambda(1890)0  
+  1.000   anti-p-          K+        PHSP;              
+Enddecay
+CDecay MyLambda(1890)0  
+#
+End
+#

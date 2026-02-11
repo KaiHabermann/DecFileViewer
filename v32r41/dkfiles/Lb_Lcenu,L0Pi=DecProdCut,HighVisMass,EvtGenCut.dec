@@ -1,0 +1,68 @@
+# EventType: 15584102
+# 
+# Descriptor: {[ Lambda_b0 -> (Lambda_c+ -> (Lambda0 -> p+ pi-) pi+)  anti-nu_e e-]cc}
+# 
+# NickName: Lb_Lcenu,L0Pi=DecProdCut,HighVisMass,EvtGenCut
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+# #
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation(genAlgName)
+#
+# gen.SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/HighVisMass"
+# evtgendecay.addTool(LoKi__GenCutTool ,'HighVisMass')
+# evtgendecay.HighVisMass.Decay   = '[^(Lambda_b0 => ^(Lambda_c+ => ^(Lambda0 => ^p+ ^pi-) ^pi+) ^e- ^nu_e~)]CC'
+# evtgendecay.HighVisMass.Cuts    = { '[Lambda_b0]cc' : "visMass" }
+# evtgendecay.HighVisMass.Preambulo += ["visMass  = ( ( GMASS ( 'pi+' == GID , 'e-' == GABSID, 'p+' == GABSID, 'pi-' == GID ) ) > 4500 * MeV ) " ]
+#
+# EndInsertPythonCode
+#
+# Documentation:Semi-leptonic Lambda B decay into Lc e Nu. Lc is forced to Lambda0 pi+, and Lambda0 forced to p pi-.
+# Generator level cut applied to have a visible mass larger than 4.5 GeV, for Lb->Lemu and Lb->Lee.
+# EndDocumentation
+#
+# CPUTime: <1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Mick Mulder   
+# Email: mick.mulder@cern.ch
+# Date: 20180530
+# EndDocumentation
+#
+Alias      MyLambda0      Lambda0
+Alias      Myanti-Lambda0 anti-Lambda0
+ChargeConj MyLambda0      Myanti-Lambda0
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+###
+Decay Lambda_b0sig
+  1.000    MyLambda_c+        e-  anti-nu_e     PHOTOS   BaryonPCR  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000   MyLambda0 pi+	       PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda0
+  1.000   p+          pi-    PHSP;
+Enddecay
+#
+Decay Myanti-Lambda0
+  1.000   anti-p-    pi+     PHSP;
+Enddecay 
+#
+End

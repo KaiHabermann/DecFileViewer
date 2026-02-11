@@ -1,0 +1,54 @@
+# $Id: Bd_D0Kstar,pipieta,gg=DecProdCut.dec  $
+#
+# This is the decay file for the decay B0 -> D0 (-> PI+ PI- ETA (-> gamma gamma)) K* 
+#
+# EventType: 11164483
+#
+# Descriptor: [B0 -> (D0 -> pi+ pi- (eta -> gamma gamma)) (K*(892)0 -> K+ pi-)]cc
+#
+# NickName: Bd_D0Kstar,pipieta,gg=DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb
+# 
+# Documentation: File for B0 -> D0 (-> pi+ pi- eta (-> gamma gamma)) K*(892)0 (-> K+ pi-) 
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Daniel Craik
+# Email: dcraik@cern.ch 
+# Date:   20200617
+# CPUTime: <1min
+
+#
+Alias      MyD0        D0
+Alias      Myanti-D0   anti-D0
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+Alias      MyEta       eta
+
+ChargeConj Myanti-K*0  MyK*0
+ChargeConj MyD0  Myanti-D0
+#
+Decay MyEta
+1.000      gamma gamma       PHSP;             
+Enddecay
+#
+Decay MyD0
+1.000       pi+     pi-    MyEta       PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyK*0
+1.000        K+        pi-         VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay B0sig
+1.000         MyD0 MyK*0      PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#

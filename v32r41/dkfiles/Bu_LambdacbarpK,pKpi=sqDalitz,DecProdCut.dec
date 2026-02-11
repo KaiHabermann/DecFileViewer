@@ -1,0 +1,36 @@
+# EventType: 12165095
+#
+# Descriptor: [B+ -> (anti-Lambda_c- -> p- K+ pi-) p+ K+]cc
+#
+# NickName: Bu_LambdacbarpK,pKpi=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Generate flat over the SDP
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Bhagyashree Pagare
+# Email: bhagyashree.pagare@cern.ch
+# Date: 20200630
+#
+
+Alias      MyLambda_c+      Lambda_c+
+Alias      MyLambda_c-      anti-Lambda_c-
+ChargeConj MyLambda_c+      MyLambda_c-
+#
+#
+Decay B+sig
+  1.0    p+  K+  MyLambda_c-  FLATSQDALITZ;
+Enddecay
+CDecay B-sig
+#
+Decay MyLambda_c+
+  1.0   p+  K-  pi+            PHSP;
+Enddecay
+CDecay MyLambda_c-
+#
+End
+

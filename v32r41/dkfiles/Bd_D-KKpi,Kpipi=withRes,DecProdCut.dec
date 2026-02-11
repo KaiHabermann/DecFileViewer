@@ -1,0 +1,129 @@
+# EventType: 11266083
+#
+# Descriptor: {[[B0]nos -> (D- => K+ pi- pi-) K+ K- pi+]cc, [[B0]os -> (D+ => K- pi+ pi+) K- K+ pi-]cc}
+#
+# NickName: Bd_D-KKpi,Kpipi=withRes,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: Includes resonances in B0 and D- decays
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: D. Craik
+# Email: dcraik@cern.ch
+# Date: 20240107
+# CPUTime: 2 mins
+#
+#
+Alias      My2460         D_2*0
+Alias      My2460b        anti-D_2*0
+ChargeConj My2460         My2460b
+#
+Alias      MyK*           K*0
+Alias      MyK*b          anti-K*0
+ChargeConj MyK*           MyK*b
+#
+Alias      MyK0*          K_0*0
+Alias      MyK0*b         anti-K_0*0
+ChargeConj MyK0*          MyK0*b
+#
+Alias      MyK2*          K_2*0
+Alias      MyK2*b         anti-K_2*0
+ChargeConj MyK2*          MyK2*b
+#
+Alias      MyrhoA+        rho(2S)+
+Alias      MyrhoA-        rho(2S)-
+ChargeConj MyrhoA+        MyrhoA-
+#
+LSNONRELBW MyrhoA+
+BlattWeisskopf MyrhoA+ 0.0
+Particle MyrhoA+ 1.6 0.40
+ChangeMassMin MyrhoA+ 0.418
+ChangeMassMax MyrhoA+ 3.41
+#
+LSNONRELBW MyrhoA-
+BlattWeisskopf MyrhoA- 0.0
+Particle MyrhoA- 1.6 0.40
+ChangeMassMin MyrhoA- 0.418
+ChangeMassMax MyrhoA- 3.41
+#
+Alias      MyrhoB+        rho(3S)+
+Alias      MyrhoB-        rho(3S)-
+ChargeConj MyrhoB+        MyrhoB-
+#
+LSNONRELBW MyrhoB+
+BlattWeisskopf MyrhoB+ 0.0
+Particle MyrhoB+ 2.2 0.50
+ChangeMassMin MyrhoB+ 0.418
+ChangeMassMax MyrhoB+ 3.41
+#
+LSNONRELBW MyrhoB-
+BlattWeisskopf MyrhoB- 0.0
+Particle MyrhoB- 2.2 0.50
+ChangeMassMin MyrhoB- 0.418
+ChangeMassMax MyrhoB- 3.41
+#
+Alias      Myphi          phi
+ChargeConj Myphi          Myphi
+#
+Alias      MyD+           D+
+Alias      MyD-           D-
+ChargeConj MyD+           MyD-
+
+Decay B0sig
+0.08 MyD-  K-  K+  pi+     PHSP;
+0.81 MyrhoA+ MyD-          PHSP;
+0.10 MyrhoB+ MyD-          PHSP;
+0.01 My2460b Myphi         PHSP;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD-
+1.0  K+  pi-  pi-         D_DALITZ;
+Enddecay
+CDecay MyD+
+
+#RESONANCES
+Decay MyrhoA+
+0.84 MyK* K+             VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.08 MyK0* K+           VSS;
+0.08 MyK2* K+           PHSP;
+Enddecay
+CDecay MyrhoA-
+
+Decay MyrhoB+
+0.84 MyK* K+             VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.08 MyK0* K+           VSS;
+0.08 MyK2* K+           PHSP;
+Enddecay
+CDecay MyrhoB-
+
+Decay My2460b
+1.0 MyD-  pi+     TSS;
+Enddecay
+CDecay My2460
+
+Decay MyK*
+1.0  K-  pi+          VSS;
+Enddecay
+CDecay MyK*b
+
+Decay MyK2*
+1.0  K-  pi+         TSS;
+Enddecay
+CDecay MyK2*b
+
+Decay MyK0*
+1.0  K-  pi+         PHSP;
+Enddecay
+CDecay MyK0*b
+
+Decay Myphi
+1.0  K+  K-          VSS;
+Enddecay
+
+End
+

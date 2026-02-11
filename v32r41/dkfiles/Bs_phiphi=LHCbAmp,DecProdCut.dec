@@ -1,0 +1,33 @@
+# EventType: 13104017
+#
+# Descriptor: [B_s0 -> (phi(1020) -> K+ K-) (phi(1020) -> K+ K-)]cc
+#
+# NickName: Bs_phiphi=LHCbAmp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: phi forced to K+ K-, decay products in acceptance
+# No direct CPV, uses LHCb result arXiv:1907.10003
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Mary Richardson-Slipper
+# Email: mary.richardson-slipper@cern.ch
+# Date: 20230102
+# CPUTime: <1min
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B_s0sig
+  1.0000       MyPhi     MyPhi    PVV_CPLH 0 1 0.574 2.56 0.617 0.0 0.539 2.82;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

@@ -1,0 +1,46 @@
+# EventType: 13106102
+#
+# Descriptor: [B_s0 -> (Xi~+ -> (Lambda~0 -> p~- pi+) pi+) (Xi- -> (Lambda0 -> p+ pi-) pi-)]cc
+#
+# NickName: Bs_XipXim,Lambda0pi=DecProdCut
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: B_s0 -> Xi~+ Xi-, Xi- -> (Lambda0 -> p+ pi-) pi- with intermediate states
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime:< 1min
+# Responsible: Hang Yin, Shiyang Li, Qundong Han
+# Email: qundong.han@cern.ch
+# Date: 20220321
+#
+
+Alias      MyXi         Xi-
+Alias      Myanti-Xi    anti-Xi+
+ChargeConj MyXi         Myanti-Xi
+
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+
+Decay B_s0sig
+1.000      MyXi     Myanti-Xi  PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+Decay MyXi
+1.000     MyLambda  pi-        PHSP;
+Enddecay
+CDecay Myanti-Xi
+
+Decay MyLambda
+1.000     p+        pi-        PHSP;
+Enddecay
+CDecay Myanti-Lambda
+
+End
+#

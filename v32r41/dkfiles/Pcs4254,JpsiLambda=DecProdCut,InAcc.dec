@@ -1,0 +1,47 @@
+# EventType: 26144101
+#
+# Descriptor: [Sigma_c0 -> (J/psi(1S) -> mu+ mu-) (Lambda0 -> p+ pi-)]cc
+#
+# NickName: Pcs4254,JpsiLambda=DecProdCut,InAcc
+#
+# Cuts: DaughtersInLHCb
+#
+# Sample: SignalRepeatedHadronization
+#
+# ParticleValue: "Sigma_c0  81  4112  0.0  4.254  3.291e-23   Sigma_c0  4112  0.00000000", "Sigma_c~0 82 -4112 0.0  4.254 3.291e-23  anti-Sigma_c0  -4112  0.00000000"
+
+# Documentation: Pcs4254 decay to Jpsi Lambda in PHSP model with daughters In LHCb Acceptance. 
+# Sigma_c0 is used for this Pcs4254 generation.
+#
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Zhenhong Wu (UCAS), Jibo He
+# Email:  zhenhong.wu@cern.ch, jibo.he@cern.ch
+# Date: 20220305
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+#
+Decay Sigma_c0sig 
+  1.000     MyJ/psi       MyLambda          PHSP;
+Enddecay
+CDecay anti-Sigma_c0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+Decay MyLambda
+  1.000     p+   pi-                      PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#

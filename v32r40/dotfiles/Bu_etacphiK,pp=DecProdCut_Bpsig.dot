@@ -1,0 +1,13 @@
+// Created by https://github.com/scikit-hep/decaylanguage
+digraph DecayChainGraph {
+	graph [comment="Created by https://github.com/scikit-hep/decaylanguage" engine=dot format=png name=DecayChainGraph rankdir=LR]
+	node [fontname=Helvetica fontsize=11 shape=oval]
+	edge [fontcolor="#4c4c4c" fontsize=11]
+	mother [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#568dba"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">B+sig</TD></TR></TABLE>> shape=none]
+	dec143430 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">Myeta_c</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">MyPhi</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p2">K<SUP>+</SUP></TD></TR></TABLE>> shape=none]
+	mother -> dec143430 [label=1.0]
+	dec143431 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">p</TD><TD BORDER="0" CELLPADDING="2">p&#773;</TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec143430:p0 -> dec143431 [label=0.00135]
+	dec143432 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">K<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">K<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec143430:p1 -> dec143432 [label=1.0]
+}

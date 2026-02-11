@@ -1,0 +1,28 @@
+# EventType: 12513023
+#
+# Descriptor: [B+ -> e- e+ nu_mu mu+]cc
+#
+# NickName: Bu2EEMuNuM=DN,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: 
+#                   decay B^+ -> e^- e^+ nu_mu mu^+ in the SM 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Anna Danilina (Moscow State Univ.)
+# Email: anna.danilina@cern.ch
+# Date: 20190515
+#
+#
+noPhotos
+Decay B+
+   1.000   e-  e+  nu_mu  mu+   BLLNUL 0.026  0.01  2.9;
+Enddecay
+CDecay B-
+#
+End

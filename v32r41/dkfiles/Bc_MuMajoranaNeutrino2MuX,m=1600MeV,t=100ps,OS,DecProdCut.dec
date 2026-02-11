@@ -1,0 +1,55 @@
+# $Id: Bc_MuMajoranaNeutrino2MuX,m=1600MeV,t=100ps,OS,DecProdCut.dec   $
+#
+# This is the decay file for the decay Bc -> Majorana_Neutrino (-> Mu- X) Mu+
+#
+# EventType: 14312004
+#
+# Descriptor: { B_c- ==> (Higgs0 ==> ... mu-) mu+, B_c+ ==> (Higgs0 ==> ... mu+) mu- }
+#
+# NickName: Bc_MuMajoranaNeutrino2MuX,m=1600MeV,t=100ps,OS,DecProdCut
+# 
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+# from Configurables import GiGaPhysListModular, GiGaHiggsParticles
+#
+# ParticlePropertySvc().Particles = [ "H_10 87 25 0.0000 1.6000 1.0000e-10 Higgs0 25 0.0000" ]
+# ApplicationMgr().ExtSvc += [ ParticlePropertySvc() ]
+#
+# gigaHiggsPart = GiGaHiggsParticles()
+# gigaHiggsPart.Higgses = ["H_10"]
+# GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]
+# EndInsertPythonCode
+#
+#
+# Documentation: File for Bc -> Majorana_Neutrino (-> Mu- X) Mu+
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Bernd Kristof Mumme
+# Email: bernd.kristof.mumme@cern.ch
+# Date:   20200514
+# CPUTime: <1min
+#
+Alias      MyHNL       Higgs0
+Alias      Myanti-HNL  Higgs0
+ChargeConj MyHNL Myanti-HNL
+#
+Decay B_c+sig
+1.0000	MyHNL	mu+	PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyHNL
+0.3075	pi+	mu-	PHSP;
+0.6925	rho+	mu-	PHSP;
+Enddecay
+CDecay Myanti-HNL
+#
+End
+#

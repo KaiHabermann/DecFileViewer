@@ -1,0 +1,48 @@
+# EventType: 16165234
+#
+# Descriptor: [Xi_b- -> (Xi_c+ -> p+ K- pi+) K- pi-]cc
+#
+# NickName: Omegab_XicprimeKpi,pKpi=PPChange,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "Xi_b- 122 5132 -1.0 6.050 1.5e-012 Xi_b- 5132 0.000000e+000", "Xi_b~+ 123 -5132 1.0 6.050 1.5e-012 anti-Xi_b+ -5132 0.000000e+000"
+#
+# Documentation: Search for new decay mode. Xib used instead of Omegab.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Marco Pappagallo
+# Email:  marco.pappagallo@cern.ch
+# Date: 20190701
+#
+Alias MyXi_c+     Xi_c+
+Alias Myanti-Xi_c- anti-Xi_c-
+ChargeConj MyXi_c+    Myanti-Xi_c-
+#
+Alias MyXi'_c+     Xi'_c+
+Alias Myanti-Xi'_c- anti-Xi'_c-
+ChargeConj MyXi'_c+    Myanti-Xi'_c-
+#
+Decay Xi_b-sig
+  1.0    MyXi'_c+   K-  pi-                  PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyXi'_c+
+  1.000    gamma  MyXi_c+               PHSP;
+Enddecay
+#
+CDecay Myanti-Xi'_c-
+#
+Decay MyXi_c+
+  1.000         p+      K-      pi+     PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+
+#
+
+End
+

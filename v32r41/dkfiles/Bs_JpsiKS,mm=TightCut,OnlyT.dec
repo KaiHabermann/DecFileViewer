@@ -1,0 +1,69 @@
+# EventType: 13144103
+#
+# Descriptor: [B_s0 -> (KS0 -> pi+ pi-) (J/psi(1S) -> mu+ mu-) ]cc
+#
+# NickName: Bs_JpsiKS,mm=TightCut,OnlyT
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# CPUTime: < 1 min
+#
+# Documentation: Bs->J/psiKs lifetime acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Louis Henry
+# Email: Louis.Henry@cern.ch
+# Date: 20220415
+#
+# InsertPythonCode:
+##
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+##
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '[B_s0 ==> ^(J/psi(1S) ==> ^mu+ ^mu-) ^(KS0 ==> ^pi+ ^pi-)]CC'
+##
+# tightCut.Cuts = {
+#     '[pi+]cc'    : ' good_pion ' ,
+#     '[KS0]cc'    : 'good_ks ' ,
+#     '[mu+]cc'   : ' good_muon ' ,
+#     '[J/psi(1S)]cc' : 'good_jpsi'
+#    }
+##
+# tightCut.Preambulo += [
+#    "from GaudiKernel.SystemOfUnits import GeV",
+#    "from GaudiKernel.SystemOfUnits import mm",
+#    "EVZ     = GFAEVX(GVZ,0)",
+#    "inAcc_charged  = in_range ( 0.010 , GTHETA , 0.400 )" ,
+#    "inEta          = in_range ( 1.8   , GETA   , 5.1   )" ,
+#
+#    "good_pion   = ('pi+' == GABSID) & inAcc_charged" ,
+#    "good_ks     = (EVZ > 2500*mm) & (EVZ < 8000*mm)",
+#    "good_muon   = ( 'mu+' == GABSID ) & inAcc_charged &  inEta" ,
+#
+#    "good_jpsi   = GINTREE(good_muon)",
+#    ]
+# EndInsertPythonCode
+
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+Alias      MyKs     K_S0
+ChargeConj MyKs     MyKs
+#
+Decay B_s0sig
+  1.000    MyJ/psi  MyKs     SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyKs
+  1.000         pi+       pi-            PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+       mu-            PHOTOS VLL;
+Enddecay
+End
+

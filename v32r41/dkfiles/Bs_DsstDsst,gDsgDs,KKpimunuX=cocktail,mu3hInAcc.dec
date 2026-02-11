@@ -1,0 +1,169 @@
+# EventType: 13874201
+#
+# Descriptor: [[B_s0]cc ==> (D_s+ => K+ K- pi+) (D_s- => mu- anti-nu_mu ...) ...]cc
+#
+# NickName: Bs_DsstDsst,gDsgDs,KKpimunuX=cocktail,mu3hInAcc
+#
+# Cuts: BeautyTomuCharmTo3h
+#
+# Documentation:
+# Force the Bs to decay to a combination of DsDs, Ds*Ds, and Ds*Ds*.
+# In each case, force one Ds to decay KKPi,
+# then force the other Ds to decay semileptonically.
+# For background study of semileptonic Bs->(Ds->KKpi)MuNu decays.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Michael Wilkinson
+# Email: miwilkin@syr.edu
+# Date: 20201207
+#
+Alias      MyD_s+_1 D_s+
+Alias      MyD_s-_1 D_s-
+ChargeConj MyD_s+_1 MyD_s-_1
+
+Alias      MyD_s+_2 D_s+
+Alias      MyD_s-_2 D_s-
+ChargeConj MyD_s+_2 MyD_s-_2
+
+Alias      MyD_s*+_1 D_s*+
+Alias      MyD_s*-_1 D_s*-
+ChargeConj MyD_s*+_1 MyD_s*-_1
+
+Alias      MyD_s*+_2 D_s*+
+Alias      MyD_s*-_2 D_s*-
+ChargeConj MyD_s*+_2 MyD_s*-_2
+
+Alias      MyD_s1+_1    D_s1+
+Alias      MyD_s1-_1    D_s1-
+ChargeConj MyD_s1-_1    MyD_s1+_1
+
+Alias      MyD_s1+_2    D_s1+
+Alias      MyD_s1-_2    D_s1-
+ChargeConj MyD_s1-_2    MyD_s1+_2
+
+Alias      MyD'_s1+_1   D'_s1+
+Alias      MyD'_s1-_1   D'_s1-
+ChargeConj MyD'_s1-_1   MyD'_s1+_1
+
+Alias      MyD'_s1+_2   D'_s1+
+Alias      MyD'_s1-_2   D'_s1-
+ChargeConj MyD'_s1-_2   MyD'_s1+_2
+
+Alias      MyD_s0*+_1   D_s0*+
+Alias      MyD_s0*-_1   D_s0*-
+ChargeConj MyD_s0*+_1   MyD_s0*-_1
+#
+Alias      MyD_s0*+_2   D_s0*+
+Alias      MyD_s0*-_2   D_s0*-
+ChargeConj MyD_s0*+_2   MyD_s0*-_2
+#
+Decay B_s0sig
+  0.0044000 MyD_s+_1   MyD_s-_2   PHSP;  # PDG2020
+  0.0144000 MyD_s*+_1  MyD_s*-_2  SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;  # PDG2020
+  0.0069500 MyD_s*+_1  MyD_s-_2   SVS;  # PDG2020, assumed equally split
+  0.0069500 MyD_s*+_2  MyD_s-_1   SVS;  # PDG2020, assumed equally split
+  #
+  # BFs below are calculated:
+  # fj = B(Bs -> Dsj mu nu) / B(Bs -> Ds* mu nu), taken from 13874200
+  # B(Bs -> Dsj Ds) = fj * B(Bs -> Ds* Ds)
+  # B(Bs -> Dsj Ds*) = fj * B(Bs -> Ds* Ds*)
+  # B(Bs -> Dsj Dsk) = fj * fk * B(Bs -> Ds* Ds*)
+  #
+  0.0009534 MyD_s0*+_1 MyD_s-_2   PHSP;
+  0.0009534 MyD_s0*+_2 MyD_s-_1   PHSP;
+  0.0005520 MyD_s1+_1  MyD_s-_2   SVS;
+  0.0005520 MyD_s1+_2  MyD_s-_1   SVS;
+  0.0005520 MyD'_s1+_1 MyD_s-_2   SVS;
+  0.0005520 MyD'_s1+_2 MyD_s-_1   SVS;
+  #
+  0.0009877 MyD_s*-_2 MyD_s0*+_1  SVS;
+  0.0009877 MyD_s*-_1 MyD_s0*+_2  SVS;
+  0.0005718 MyD_s1+_1  MyD_s*-_2  SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;  # helamp duplicated from D_s*
+  0.0005718 MyD_s1+_2  MyD_s*-_1  SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;  # helamp duplicated from D_s*
+  0.0005718 MyD'_s1+_1 MyD_s*-_2  SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;  # helamp duplicated from D_s*
+  0.0005718 MyD'_s1+_2 MyD_s*-_1  SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;  # helamp duplicated from D_s*
+  #
+  0.0002710 MyD_s0*+_1 MyD_s0*-_2 PHSP;
+  0.0000784 MyD_s1-_2  MyD_s0*+_1 SVS;
+  0.0000784 MyD_s1-_1  MyD_s0*+_2 SVS;
+  0.0000784 MyD'_s1-_2 MyD_s0*+_1 SVS;
+  0.0000784 MyD'_s1-_1 MyD_s0*+_2 SVS;
+  0.0000908 MyD_s1+_1  MyD_s1-_2  SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;  # helamp duplicated from D_s*
+  0.0000454 MyD_s1+_1  MyD'_s1-_2 SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;  # helamp duplicated from D_s*
+  0.0000454 MyD_s1+_2  MyD'_s1-_1 SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;  # helamp duplicated from D_s*
+  0.0000908 MyD'_s1+_1 MyD'_s1-_2 SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;  # helamp duplicated from D_s*
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s*+_1
+  0.935 MyD_s+_1 gamma VSP_PWAVE;
+  0.058 MyD_s+_1 pi0   VSS;
+Enddecay
+CDecay MyD_s*-_1
+#
+Decay MyD_s*+_2
+  0.935 MyD_s+_2 gamma VSP_PWAVE;
+  0.058 MyD_s+_2 pi0   VSS;
+Enddecay
+CDecay MyD_s*-_2
+#
+Decay MyD_s1+_1
+  0.480 MyD_s*+_1  pi0         PHOTOS PHSP;
+  0.180 MyD_s+_1   gamma       PHOTOS PHSP;
+  0.043 MyD_s+_1   pi+   pi-   PHOTOS PHSP;
+  0.080 MyD_s*+_1  gamma       PHOTOS PHSP;
+  0.037 MyD_s0*+_1 gamma       PHOTOS PHSP;
+Enddecay
+CDecay MyD_s1-_1
+#
+Decay MyD_s1+_2
+  0.480 MyD_s*+_2  pi0         PHOTOS PHSP;
+  0.180 MyD_s+_2   gamma       PHOTOS PHSP;
+  0.043 MyD_s+_2   pi+   pi-   PHOTOS PHSP;
+  0.080 MyD_s*+_2  gamma       PHOTOS PHSP;
+  0.037 MyD_s0*+_2 gamma       PHOTOS PHSP;
+Enddecay
+CDecay MyD_s1-_2
+#
+Decay MyD_s0*+_1
+  1.0 MyD_s+_1 pi0 PHOTOS PHSP;
+Enddecay
+CDecay MyD_s0*-_1
+#
+Decay MyD_s0*+_2
+  1.0 MyD_s+_2 pi0 PHOTOS PHSP;
+Enddecay
+CDecay MyD_s0*-_2
+#
+Decay MyD'_s1+_1
+  0.5 MyD_s*+_1 gamma     PHOTOS PHSP;
+  0.5 MyD_s+_1  pi+   pi- PHOTOS PHSP;
+Enddecay
+CDecay MyD'_s1-_1
+#
+Decay MyD'_s1+_2
+  0.5 MyD_s*+_2 gamma     PHOTOS PHSP;
+  0.5 MyD_s+_2  pi+   pi- PHOTOS PHSP;
+Enddecay
+CDecay MyD'_s1-_2
+#
+Decay MyD_s+_1
+  0.0539 K+ K- pi+ PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-_1
+#
+Decay MyD_s+_2
+  0.01900 phi      mu+ nu_mu PHOTOS ISGW2;
+  0.02400 eta      mu+ nu_mu PHOTOS ISGW2;
+  0.01100 eta'     mu+ nu_mu PHOTOS ISGW2;
+  0.00340 anti-K0  mu+ nu_mu PHOTOS ISGW2;
+  0.00215 anti-K*0 mu+ nu_mu PHOTOS ISGW2;
+  0.00549          mu+ nu_mu PHOTOS SLN;
+Enddecay
+CDecay MyD_s-_2
+#
+End

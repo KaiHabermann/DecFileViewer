@@ -1,0 +1,57 @@
+# EventType: 27185022
+#
+# Descriptor: [D*_s+ -> (D_s+ -> K- K+ pi+) e+ e-]cc
+#
+# NickName: Dsstp_Dspee,KKpi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# signal = Generation().SignalPlain
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+#
+# tightCut = signal.TightCut
+# tightCut.Decay = '^[D*_s+ => ^(D_s+ ==> ^K- ^K+ ^pi+) ^e+ ^e-]CC'
+# tightCut.Preambulo += [
+#   'from GaudiKernel.SystemOfUnits import MeV',
+#   ]
+# tightCut.Cuts = {
+#   '[D*_s+]cc'       : '(GPT >  2000 * MeV)',
+#   '[D_s+]cc'        : '(GPT >  1900 * MeV)',
+#   '[K-]cc'          : '(GP >  900 * MeV) & (GPT > 140 * MeV) & (in_range(0.010, GTHETA, 0.400))',
+#   '[pi+]cc'         : '(GP >  900 * MeV) & (GPT > 140 * MeV) & (in_range(0.010, GTHETA, 0.400))',
+#   '[e+]cc'          : '(GP >  1200 * MeV) & (GPT > 40 * MeV) & (in_range(0.010, GTHETA, 0.400))'
+#   }
+#
+# EndInsertPythonCode
+#
+# Documentation:
+# D*_s+ -> D_s+e+e- decay file, applying tight cuts to the final state particles
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Carlos Cocha
+# Email: carlos.eduardo.cocha.toapaxi@cern.ch
+# Date: 20250525
+
+Alias      MyD_s-       D_s-
+Alias      MyD_s+       D_s+
+ChargeConj MyD_s+       MyD_s-
+
+##
+Decay D_s*+sig
+1.00 MyD_s+  e+ e-    VTOSLL;
+Enddecay
+CDecay D_s*-sig
+#
+Decay MyD_s+ 
+1.00  K-  K+  pi+     D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+End
+

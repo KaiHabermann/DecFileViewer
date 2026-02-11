@@ -1,0 +1,67 @@
+# EventType: 12573211
+#
+# Descriptor: [B+ -> (D*(2007)~0 -> (D~0 -> K+ pi-) gamma) nu_mu mu+]cc
+#
+# NickName: Bu_Dst0munu,D0gamma,Kpi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: B+ decay to D*0 mu+ nu_mu with D*0->D0gamma and D0 forced to K pi. Tight cuts applied
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# gen = Generation().SignalRepeatedHadronization
+# gen.addTool(LoKi__GenCutTool, "TightCut")
+# SignalFilter = gen.TightCut
+# SignalFilter.Decay = "[ B+ => (D*(2007)~0 -> ^(D~0 => ^K+ ^pi-) ^gamma) nu_mu ^mu+]CC"
+# SignalFilter.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import MeV",
+#   "inAcc = in_range( 0.010, GTHETA, 0.400 )",  
+#   "piKP = GCHILD(GP,('K+' == GABSID)) + GCHILD(GP, ('pi-' == GABSID))",
+#   "piKPT = GCHILD(GPT,('K+' == GABSID)) + GCHILD(GPT, ('pi-' == GABSID))",   
+# ]
+# SignalFilter.Cuts = { 
+#   "[K+]cc" : " inAcc & (GPT > 200 * MeV) ",
+#   "[pi-]cc" : " inAcc & (GPT > 200 * MeV) ",
+#   "[D~0]cc" : " (piKP > 20000 * MeV) & (piKPT > 2000 * MeV) ",
+#   "[mu+]cc" : " inAcc & (GP > 5000 * MeV) & (GPT > 1000 * MeV) ",
+#   "[gamma]cc" : " (GP > 5000 * MeV) & (GPT > 200 * MeV) ",
+# }
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Fabian Christoph Glaser
+# Email: fabian.christoph.glaser@cern.ch
+# Date: 20230823
+#
+#
+Alias      MyD0         D0
+Alias      MyAntiD0     anti-D0
+ChargeConj MyD0         MyAntiD0
+#
+Alias      MyD*0        D*0
+Alias      MyAntiD*0    anti-D*0
+ChargeConj MyD*0        MyAntiD*0
+#
+Decay B-sig
+  1.000   MyD*0   mu-  anti-nu_mu      PHOTOS  HQET2 1.207 1 1.406 0.853;               
+Enddecay
+CDecay B+sig
+#
+Decay MyD*0
+  1.000   MyD0  gamma                  PHOTOS VSP_PWAVE;
+Enddecay
+CDecay MyAntiD*0
+#
+Decay MyD0
+  1.000   K-  pi+                      PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD0
+#
+End
+#
+

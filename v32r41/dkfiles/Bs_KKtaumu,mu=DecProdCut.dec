@@ -1,0 +1,35 @@
+# EventType: 13514052
+#
+# Descriptor: {[[B_s0]nos -> K+ K- mu+ (tau- -> mu- anti-nu_mu nu_tau)]cc, [[B_s0]os -> K+ K- mu- (tau+ -> mu+ nu_mu anti-nu_tau)]cc}
+#
+# NickName: Bs_KKtaumu,mu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bs -> K K tau mu, with taus decaying to muons
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20210604
+#
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+#
+Decay B_s0sig
+  0.500       K+         K-        Mytau+    mu-        PHSP;
+  0.500       K+         K-        mu+       Mytau-     PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mytau+
+  1.000       mu+        nu_mu     anti-nu_tau          TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

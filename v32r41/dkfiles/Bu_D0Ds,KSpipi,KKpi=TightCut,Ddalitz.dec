@@ -1,0 +1,82 @@
+# EventType: 12197150
+#
+# Descriptor: [B+ -> (D_s+ -> K+ K- pi+) (D~0 -> (KS0 -> pi+ pi-) pi+ pi-)]cc
+#
+# NickName: Bu_D0Ds,KSpipi,KKpi=TightCut,Ddalitz
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '^[B+ ==> ^(D_s+ ==> K+ K- pi+) ^(D~0 => ^(KS0 ==> ^pi+ ^pi-) ^pi+ ^pi-)]CC'
+# tightCut.Preambulo += [
+#     'GVZ = LoKi.GenVertices.PositionZ() ' ,
+#     'from GaudiKernel.SystemOfUnits import millimeter',
+#     'inAcc        = (in_range (0.005, GTHETA, 0.400))',
+#     'goodB        = (GP > 55000 * MeV) & (GPT > 5000 * MeV) & (GTIME > 0.135 * millimeter)',
+#     'goodD        = (GP > 25000 * MeV) & (GPT > 2500 * MeV)',
+#     'goodKS       = (GFAEVX(abs(GVZ), 0) < 2500.0 * millimeter)',
+#     'goodDDaugPi  = (GNINTREE (("pi+" == GABSID) & (GP > 2000 * MeV) & inAcc, 4) > 3.5)',
+#     'goodKsDaugPi = (GNINTREE (("pi+" == GABSID) & (GP > 2000 * MeV) & inAcc, 4) > 1.5)',
+#     'goodBachKPia  = (GNINTREE ((("K+" == GABSID) | ("pi+" == GABSID)) & (GP > 2000 * MeV) & (GPT > 100 * MeV) & inAcc, 4) > 4.5)',
+#     'goodBachKPib  = (GNINTREE ((("K+" == GABSID) | ("pi+" == GABSID)) & (GP > 2000 * MeV) & (GPT > 300 * MeV) & inAcc, 4) > 1.5)',
+# ]
+# tightCut.Cuts      =    {
+#     '[B+]cc'         : 'goodB  & goodBachKPia & goodBachKPib',
+#     '[D0]cc'         : 'goodD  & goodDDaugPi',
+#     '[KS0]cc'        : 'goodKS & goodKsDaugPi',
+#     '[pi+]cc'        : 'inAcc',
+#     '[K+]cc'         : 'inAcc',
+#     '[D_s+]cc'       : 'inAcc'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: B decays to D0 Ds, D0 decays to KS pi+ pi- without resonance, Ds decays to K K pi, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: George Lovell
+# Email: george.lovell@cern.ch
+# Date: 20190408
+#
+Alias      MyD_s+  D_s+
+Alias      MyD_s-  D_s-
+ChargeConj MyD_s+  MyD_s-
+
+
+Alias      MyK_S0    K_S0
+ChargeConj MyK_S0    MyK_S0
+
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+
+Decay B+sig
+  1.000     MyD_s+       Myanti-D0       PHSP;
+Enddecay
+CDecay B-sig
+
+Decay MyD_s+
+  1.000  K+ K- pi+                 D_DALITZ;
+Enddecay
+CDecay MyD_s-
+
+Decay Myanti-D0
+  1.000    MyK_S0 pi+ pi- PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay MyK_S0
+  1.000    pi+ pi-        PHSP;
+Enddecay
+
+
+#
+End
+

@@ -1,0 +1,81 @@
+# EventType:  15266100
+# NickName: Lb_LambdaDspi,ppi,KKpi,TightCut
+# Descriptor: [Lambda_b0 -> (D_s+ -> K- K+ pi+) ( Lambda0-> p+ pi-) pi-]cc
+#
+# Cuts: LoKi::GenCutTool/TightCut 
+#
+# Documentation: Lambda_b0   forced flat dalitz plot. 
+#    Decay file for Lambda_b0 -> D_s+ Lambda0 pi-
+# EndDocumentation
+# CPUTime:  2 min
+# ParticleValue: "Xi_c(2790)+  1051  104324  1.0  3.200 2.94305e-24  Xi_c(2790)+  0  0.0", "Xi_c(2790)~-  1052  -104324  -1.0  3.200 2.94305e-24  anti-Xi_c(2790)-  0  0.0"
+# 
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#Generation().SignalPlain.addTool( LoKi__GenCutTool,'TightCut')
+#tightCut = Generation().SignalPlain.TightCut
+#tightCut.Decay = '[Lambda_b0 ==> (D_s+ ==> ^K- ^K+ ^pi+) ^( Lambda0 ==> p+ pi-) ^pi-]CC'
+#tightCut.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import GeV, millimeter',
+#    'GVZ = LoKi.GenVertices.PositionZ()',
+#    'inAcc        = in_range(0.01, GTHETA, 0.400) & in_range(1.9, GETA, 5.1)',
+#     'goodKaon = ( GPT > 0.15 * GeV ) & (GP> 2.*GeV)  & inAcc ' ,
+#     'goodpi  = ( GPT > 0.15 * GeV ) & ( GP > 2. * GeV ) & inAcc ',
+#     "goodL0 = (GFAEVX(abs(GVZ),0) < 2500.0 * millimeter) &(GINTREE ( ( 'pi+' == GABSID ) & ( GP > 1.3 * GeV ) )) & (GINTREE ( ( 'p+' == GABSID ) & ( GP > 1.3 * GeV ) ))"
+#]
+#tightCut.Cuts = {
+#    '[pi+]cc'         : 'goodpi',
+#    '[K+]cc'          : 'goodKaon',
+#    '[Lambda0]cc'     : 'goodL0'
+#    }
+#EndInsertPythonCode
+#
+#
+# Date:   20220705
+# Responsible: Yanxi Zhang
+# Email: yanxi.zhang@cern.ch
+# PhysicsWG: Onia
+# Tested: Yes
+
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias MyXi_c+  Xi_c(2790)+
+Alias My_anti-Xi_c-  anti-Xi_c(2790)-
+ChargeConj MyXi_c+ My_anti-Xi_c-
+
+#
+Alias   MyLambda  Lambda0
+Alias   MyAntiLambda  anti-Lambda0
+ChargeConj  MyLambda  MyAntiLambda
+#
+
+Decay MyD_s-
+  1.000        K+        K-        pi-             D_DALITZ;
+Enddecay
+CDecay MyD_s+
+
+#
+Decay MyLambda
+  1.0   p+   pi-       PHSP;
+Enddecay
+CDecay MyAntiLambda
+
+#
+Decay MyXi_c+
+ 1.000  MyD_s+  MyLambda   PHSP;
+Enddecay
+CDecay  My_anti-Xi_c-
+
+#
+Decay Lambda_b0sig
+ 0.5 MyD_s+ MyLambda pi- PHSP;
+ 0.5 MyXi_c+  pi-   PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+End

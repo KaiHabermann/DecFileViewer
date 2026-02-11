@@ -1,0 +1,60 @@
+# EventType: 11144052
+#
+# Descriptor: [B0 -> ( Sigma_c+ -> (J/psi(1S) -> mu+ mu-) pi+) K- ]cc
+#
+# ParticleValue: "Sigma_c+ 83 4212 1.0 3.8866 2.334e-23 Sigma_c+ 4212 0.3" , "Sigma_c~- 84 -4212 -1.0 3.8866 2.334e-23 anti-Sigma_c- -4212 0.3"
+#
+# NickName: Bd_Zc3900K,Jpsipi,mm=PHSP,DecProdCut         
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# InsertPythonCode:
+# # 
+# from Configurables import Generation
+# genAlgName = Generation().SampleGenerationTool
+# 
+# if not hasattr(Generation(), genAlgName):
+#     from Configurables import SignalRepeatedHadronizati 
+#     Generation().addTool(SignalRepeatedHadronizati)
+# 
+# genAlg = getattr(Generation(), genAlgName)
+# genAlg.SignalPIDList = [ 4212, -4212 ]
+# 
+# EndInsertPythonCode
+#
+# Documentation: This is the decay file for the decay B0 -> (Zc3900+ ->(J/psi(1S) -> mu+ mu-) pi+)  K-
+# Sigma_c+ is used for this Zc3900 generation.
+# EndDocumentation
+#
+# PhysicsWG:   Onia
+# Tested:      Yes
+# Responsible: Shiqi Cao
+# Email:       shiqi.cao@cern.ch
+# Date:        20240903
+# CPUTime:     <1min
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+#
+Alias MyZc3900+       Sigma_c+
+Alias Myanti-Zc3900-  anti-Sigma_c-
+ChargeConj MyZc3900+  Myanti-Zc3900-
+#
+#
+Decay B0sig
+  1.000    MyZc3900+    K-    PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-        PHOTOS  VLL;
+Enddecay
+#
+Decay MyZc3900+
+  1.000    MyJ/psi          pi+  PHSP;
+Enddecay
+CDecay Myanti-Zc3900- 
+#
+End
+#

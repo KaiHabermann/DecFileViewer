@@ -1,0 +1,391 @@
+# EventType: 11466400
+#
+# Descriptor: {[B~0 --> (D0 => K- pi+) pi- pi+ pi- ... ]cc}
+#
+# NickName: Bd_D03piX,Kpi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal = generation.SignalRepeatedHadronization
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = signal.TightCut
+# tightCut.Decay = '[^( (Beauty & LongLived) --> ^(D0 => K- pi+) pi- pi+ ...) ]CC'
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,'inAcc = ( 0 < GPZ )  &  ( 200 * MeV < GPT ) & ( 1200 * MeV < GP ) & in_range ( 1.8 , GETA , 5.0 ) & in_range ( 0.005 , GTHETA , 0.400 )'
+#     ,"goodD0 = GINTREE(( 'D0'  == GABSID ) & (GP>8000*MeV) & (GPT>1000*MeV) & ( GNINTREE(( 'K-' == GABSID ) & ( GPT > 1400*MeV ) & ( GP > 4000*MeV ) & inAcc, HepMC.descendants) == 1 ) & ( GNINTREE(( 'pi+' == GABSID ) & ( GPT > 200*MeV ) & ( GP > 1600*MeV ) & inAcc, HepMC.descendants) == 1 ))"
+#     ,"nPiB = GCOUNT(('pi+' == GABSID) & inAcc & ( GNINTREE ( ('KS0' == GABSID) | ('KL0' == GABSID), HepMC.parents)==0 ), HepMC.descendants)"
+#     ,"goodB = ( ( GNINTREE(  ( 'D0'==GABSID ) , HepMC.descendants) == 1 ) & ( nPiB >= 4) )"
+# ]
+# tightCut.Cuts = {
+#     '[D0]cc': 'goodD0',
+#     '[B0]cc': 'goodB'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: Generic B0 -> D0 pi- pi+ pi- X decay file for B2XTauNu analyses.
+# EndDocumentation
+#
+# CPUTime: <1 min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Antonio Romero Vidal
+# Email: antonio.romero@usc.es
+# Date: 20200324
+#
+Alias      theD0              D0
+Alias      theanti-D0         anti-D0
+ChargeConj theD0              theanti-D0
+#
+Alias      theD_10_D0         D_10
+Alias      theanti-D_10_D0    anti-D_10
+ChargeConj theD_10_D0         theanti-D_10_D0
+#
+Alias      theD*-_D0          D*-
+Alias      theD*+_D0          D*+
+ChargeConj theD*+_D0          theD*-_D0
+#
+Alias      theD*0             D*0
+Alias      theanti-D*0        anti-D*0
+ChargeConj theD*0             theanti-D*0
+#
+Alias      theD'_10_D0        D'_10
+Alias      theanti-D'_10_D0   anti-D'_10
+ChargeConj theD'_10_D0        theanti-D'_10_D0
+#
+Alias      theD_2*0_D0        D_2*0
+Alias      theanti-D_2*0_D0   anti-D_2*0
+ChargeConj theD_2*0_D0        theanti-D_2*0_D0
+#
+Alias      Mya_1-             a_1-
+Alias      Mya_1+             a_1+
+ChargeConj Mya_1+             Mya_1-
+#
+Alias      Mya_1-_3pi         a_1-
+Alias      Mya_1+_3pi         a_1+
+ChargeConj Mya_1+_3pi         Mya_1-_3pi
+#
+Alias      Mya_1-_2pi0        a_1-
+Alias      Mya_1+_2pi0        a_1+
+ChargeConj Mya_1+_2pi0        Mya_1-_2pi0
+#
+Alias      Mya_10             a_10
+ChargeConj Mya_10             Mya_10
+#
+Alias      Myrho0             rho0
+ChargeConj Myrho0             Myrho0
+#
+Alias      Myrho-             rho-
+Alias      Myrho+             rho+
+ChargeConj Myrho+             Myrho-
+#
+Alias      Myf_2              f_2
+ChargeConj Myf_2              Myf_2
+#
+Alias      Myomega            omega
+ChargeConj Myomega            Myomega
+#
+Alias      MyK*-              K*-
+Alias      MyK*+              K*+
+ChargeConj MyK*-              MyK*+
+#
+Alias      MyK_2*-            K_2*-
+Alias      MyK_2*+            K_2*+
+ChargeConj MyK_2*-            MyK_2*+
+#
+Alias           Myeta2pi      eta
+ChargeConj      Myeta2pi      Myeta2pi
+#
+Alias           Myetap2pi     eta'
+ChargeConj      Myetap2pi     Myetap2pi
+#
+Decay anti-B0sig
+#
+# B0 -> D0 4pi
+# B0->   D*+  pi+  pi-  pi-             PHSP; # (7.21+-0.29)x10-3 (Inclusive);
+0.005047  theD*+_D0     Mya_1-_3pi                                     SVV_HELAMP 0.200 0.0 0.866 0.0 0.458 0.0; # (0.0130+-0.0027) x 0.677 x 0.4920;
+0.0009373 theD*+_D0     Myf_2     pi-                                  PHSP;
+0.0008652 theD*+_D0     Myrho0    pi-                                  PHSP; # (5.7+-3.2)x10-3 x 0.677;
+0.0003605 theD*+_D0     pi-       pi+       pi-                        PHSP;
+0.0000995 theD_10_D0    pi-       pi+                                  PHSP; # (1.47+-0.35)x10-4 x 0.677;
+0.00075   theD0         Mya_1-_3pi          pi+                        PHSP;
+0.00075   theD0         Mya_1+_3pi          pi-                        PHSP;
+0.00075   theD0         Myrho0    pi-       pi+                        PHSP;
+0.00075   theD0         pi-       pi+       pi-      pi+               PHSP;
+#
+0.000375  theD*0        Mya_1-_3pi          pi+                        PHSP;
+0.000375  theD*0        Mya_1+_3pi          pi-                        PHSP;
+0.000375  theD*0        Myrho0    pi-       pi+                        PHSP;
+0.000375  theD*0        pi-       pi+       pi-      pi+               PHSP;
+#
+# B0 -> D0 6pi
+0.0003    theD0         Mya_1-    pi+       pi-       pi+                                    PHSP;
+0.0003    theD0         Mya_1+    pi-       pi-       pi+                                    PHSP;
+0.0003    theD0         Myrho0    pi-       pi+       pi-       pi+                          PHSP;
+0.0003    theD0         pi-       pi+       pi-       pi+       pi-       pi+                PHSP;
+0.0003    theD*0        Mya_1-    pi+       pi-       pi+                                    PHSP;
+0.0003    theD*0        Mya_1+    pi-       pi-       pi+                                    PHSP;
+0.0003    theD*0        Myrho0    pi-       pi+       pi-       pi+                          PHSP;
+0.0003    theD*0        pi-       pi+       pi-       pi+       pi-       pi+                PHSP;
+0.0008    theD*+_D0     Mya_1-    pi-       pi+                                              PHSP;
+0.0008    theD*+_D0     Mya_1+    pi-       pi-                                              PHSP;
+0.0008    theD*+_D0     pi-       Myrho0    pi-       pi+                                    PHSP;
+0.0008    theD*+_D0     pi-       pi-       pi+       pi-       pi+                          PHSP;
+#
+# B0 -> D0 8pi
+0.00006   theD0      Mya_1-    pi+       pi-       pi+       pi-       pi+                        PHSP;
+0.00006   theD0      Mya_1+    pi-       pi-       pi+       pi-       pi+                        PHSP;
+0.00006   theD0      Myrho0    pi-       pi+       pi-       pi+       pi-       pi+              PHSP;
+0.00006   theD0      pi-       pi+       pi-       pi+       pi-       pi+       pi-       pi+    PHSP;
+0.00006   theD*0     Mya_1-    pi+       pi-       pi+       pi-       pi+                        PHSP;
+0.00006   theD*0     Mya_1+    pi-       pi-       pi+       pi-       pi+                        PHSP;
+0.00006   theD*0     Myrho0    pi-       pi+       pi-       pi+       pi-       pi+              PHSP;
+0.00006   theD*0     pi-       pi+       pi-       pi+       pi-       pi+       pi-       pi+    PHSP;
+0.00015   theD*+_D0  Mya_1-    pi+       pi-       pi+       pi-                                  PHSP;
+0.00015   theD*+_D0  Mya_1+    pi-       pi-       pi+       pi-                                  PHSP;
+0.00015   theD*+_D0  Myrho0    pi-       pi+       pi-       pi+       pi-                        PHSP;
+0.00015   theD*+_D0  pi-       pi+       pi-       pi+       pi-       pi+       pi-              PHSP;
+#
+# B0 -> D0 3pi K K0 
+0.0010    theD0      Mya_1-_3pi          K+        anti-K0                                        PHSP;
+0.0005    theD0      Myrho0    pi-       K+        anti-K0                                        PHSP;
+0.0005    theD0      pi-       pi+       pi-       K+        anti-K0                              PHSP;
+0.0010    theD*0     Mya_1-_3pi          K+        anti-K0                                        PHSP;
+0.0005    theD*0     Myrho0    pi-       K+        anti-K0                                        PHSP;
+0.0005    theD*0     pi-       pi+       pi-       K+        anti-K0                              PHSP;
+0.0020    theD*+_D0  pi-       pi-       K+        anti-K0                                        PHSP;
+
+# B0 -> D0 4pi pi0's
+0.001487  theD*+_D0     Myomega          pi-                                                      PHSP; # (2.46+-0.18)x10-3 x 0.893 x 0.677;
+0.0001116 theD0         Myetap2pi                                                                 PHSP; # (1.38+-0.14)x10-4 x 0.80897;
+0.000123  theD*0        Myetap2pi                                                                 SVS; # (1.40+-0.22)x10-4 x 0.80897;
+#
+#0.0030    theD0         Mya_1-_3pi          pi+       pi0                                         PHSP;
+#0.0030    theD0         Mya_1+_3pi          pi-       pi0                                         PHSP;
+#0.0010    theD0         Myrho0    pi-       pi+       pi0                                         PHSP;
+0.0040    theD0         Myrho0    Myomega                                                         PHSP;
+#0.0030    theD0         pi-       pi+       pi-       pi+       pi0                               PHSP;
+#0.0060    theD0         pi-       pi+       Myomega                                               PHSP;
+#0.0030    theD*0        Mya_1-_3pi          pi+       pi0                                         PHSP;
+#0.0030    theD*0        Mya_1+_3pi          pi-       pi0                                         PHSP;
+#0.0010    theD*0        Myrho0    pi-       pi+       pi0                                         PHSP;
+0.0040    theD*0        Myrho0    Myomega                                                         PHSP;
+#0.0030    theD*0        pi-       pi+       pi-       pi+       pi0                               PHSP;
+#0.0060    theD*0        pi-       pi+       Myomega                                               PHSP;
+0.015     theD*+_D0     Mya_1-_3pi          pi0                                                   PHSP;
+0.0075    theD*+_D0     Myrho0    pi-       pi0                                                   PHSP;
+0.0075    theD*+_D0     pi-       pi+       pi-       pi0                                         PHSP;
+#0.006     theD0         Mya_1-_3pi          pi+       pi0       pi0                               PHSP;
+#0.006     theD0         Mya_1+_3pi          pi-       pi0       pi0                               PHSP;
+#0.002     theD0         Myrho0    pi-       pi+       pi0       pi0                               PHSP;
+0.016     theD0         Myrho0    Myomega   pi0                                                   PHSP;
+#0.006     theD0         pi-       pi+       pi-       pi+       pi0       pi0                     PHSP;
+#0.012     theD0         pi-       pi+       Myomega   pi0                                         PHSP;
+#0.0045    theD*0        Mya_1-_3pi          pi+       pi0       pi0                               PHSP;
+#0.0045    theD*0        Mya_1+_3pi          pi-       pi0       pi0                               PHSP;
+#0.0015    theD*0        Myrho0    pi-       pi+       pi0       pi0                               PHSP;
+0.0120    theD*0        Myrho0    Myomega   pi0                                                   PHSP;
+#0.0045    theD*0        pi-       pi+       pi-       pi+       pi0       pi0                     PHSP;
+#0.009     theD*0        pi-       pi+       Myomega   pi0                                         PHSP;
+0.0075    theD*+_D0     Mya_1-_3pi          pi0       pi0                                         PHSP;
+0.0037    theD*+_D0     Myrho0    pi-       pi0       pi0                                         PHSP;
+0.0037    theD*+_D0     pi-       pi+       pi-       pi0       pi0                               PHSP;
+0.0075    theD*+_D0     pi-       Myomega   pi0                                                   PHSP;
+#
+0.015     theD0         Myrho0    Myomega   pi0       pi0                                         PHSP;
+0.015     theD*0        Myrho0    Myomega   pi0       pi0                                         PHSP;
+0.007     theD*+_D0     pi-       Myomega   pi0       pi0                                         PHSP;
+#
+# B0 -> D0 6pi pi0's
+#0.0004    theD0         Mya_1-    pi+       pi-       pi+       pi0                               PHSP;
+#0.0004    theD0         Mya_1+    pi-       pi-       pi+       pi0                               PHSP;
+0.0008    theD0         Mya_1-    pi+       Myomega                                               PHSP;
+0.0008    theD0         Mya_1+    pi-       Myomega                                               PHSP;
+#0.0004    theD0         Myrho0    pi-       pi+       pi-       pi+      pi0                      PHSP;
+0.0008    theD0         Myrho0    pi-       pi+       Myomega                                     PHSP;
+#0.00125   theD0         pi-       pi+       pi-       pi+       pi-      pi+       pi0            PHSP;
+0.0025    theD0         pi-       pi+       pi-       pi+       Myomega                           PHSP;
+#0.0004    theD*0        Mya_1-    pi+       pi-       pi+       pi0                               PHSP;
+#0.0004    theD*0        Mya_1+    pi-       pi-       pi+       pi0                               PHSP;
+0.0008    theD*0        Mya_1-    pi+       Myomega                                               PHSP;
+0.0008    theD*0        Mya_1+    pi-       Myomega                                               PHSP;
+#0.0004    theD*0        Myrho0    pi-       pi+       pi-       pi+      pi0                      PHSP;
+0.0008    theD*0        Myrho0    pi-       pi+       Myomega                                     PHSP;
+#0.00125   theD*0        pi-       pi+       pi-       pi+       pi-      pi+       pi0            PHSP;
+0.0025    theD*0        pi-       pi+       pi-       pi+       Myomega                           PHSP;
+#0.0005    theD*+_D0     Mya_1-    pi+       pi-       pi0                                         PHSP;
+#0.0005    theD*+_D0     Mya_1+    pi-       pi-       pi0                                         PHSP;
+0.002     theD*+_D0     Mya_1-    Myomega                                                         PHSP;
+#0.0005    theD*+_D0     Myrho0    pi-       pi+       pi-       pi0                               PHSP;
+0.0010    theD*+_D0     Myrho0    pi-       Myomega                                               PHSP;
+#0.0015    theD*+_D0     pi-       pi+       pi-       pi+       pi-      pi0                      PHSP;
+0.003     theD*+_D0     pi-       pi+       pi-       Myomega                                     PHSP;
+#
+#0.0004    theD0         Mya_1-    pi+       pi-       pi+       pi0      pi0                      PHSP;
+#0.0004    theD0         Mya_1+    pi-       pi-       pi+       pi0      pi0                      PHSP;
+0.0008    theD0         Mya_1-    pi+       Myomega   pi0                                         PHSP;
+0.0008    theD0         Mya_1+    pi-       Myomega   pi0                                         PHSP;
+#0.0004    theD0         Myrho0    pi-       pi+       pi-       pi+      pi0       pi0            PHSP;
+0.0008    theD0         Myrho0    pi-       pi+       Myomega   pi0                               PHSP;
+#0.00125   theD0         pi-       pi+       pi-       pi+       pi-      pi+       pi0     pi0    PHSP;
+0.0025    theD0         pi-       pi+       pi-       pi+       Myomega  pi0                      PHSP;
+#0.0004    theD*0        Mya_1-    pi+       pi-       pi+       pi0      pi0                      PHSP;
+#0.0004    theD*0        Mya_1+    pi-       pi-       pi+       pi0      pi0                      PHSP;
+0.0008    theD*0        Mya_1-    pi+       Myomega   pi0                                         PHSP;
+0.0008    theD*0        Mya_1+    pi-       Myomega   pi0                                         PHSP;
+#0.0004    theD*0        Myrho0    pi-       pi+       pi-       pi+      pi0       pi0            PHSP;
+0.0008    theD*0        Myrho0    pi-       pi+       Myomega   pi0                               PHSP;
+#0.00125   theD*0        pi-       pi+       pi-       pi+       pi-      pi+       pi0     pi0    PHSP;
+0.0025    theD*0        pi-       pi+       pi-       pi+       Myomega  pi0                      PHSP;
+#0.0005    theD*+_D0     Mya_1-    pi+       pi-       pi0       pi0                               PHSP;
+#0.0005    theD*+_D0     Mya_1+    pi-       pi-       pi0       pi0                               PHSP;
+0.002     theD*+_D0     Mya_1-    Myomega   pi0                                                   PHSP;
+#0.0005    theD*+_D0     Myrho0    pi-       pi+       pi-       pi0      pi0                      PHSP;
+0.0010    theD*+_D0     Myrho0    pi-       Myomega   pi0                                         PHSP;
+#0.0015    theD*+_D0     pi-       pi+       pi-       pi+       pi-      pi0       pi0            PHSP;
+0.003     theD*+_D0     pi-       pi+       pi-       Myomega   pi0                               PHSP;
+#
+# B0 -> D0 8pi pi0's
+0.00015   theD0         Mya_1-    pi+       pi-       pi+       pi-      pi+       pi0            PHSP;
+0.00015   theD0         Mya_1+    pi-       pi-       pi+       pi-      pi+       pi0            PHSP;
+0.00035   theD0         Mya_1-    pi+       pi-       pi+       Myomega                           PHSP;
+0.00035   theD0         Mya_1+    pi-       pi-       pi+       Myomega                           PHSP;
+0.00015   theD0         Myrho0    pi-       pi+       pi-       pi+      pi-       pi+  pi0       PHSP;
+0.0003    theD0         Myrho0    pi-       pi+       pi-       pi+      Myomega                  PHSP;
+0.0005    theD0         pi-       pi+       pi-       pi+       pi-      pi+       pi-  pi+   pi0 PHSP;
+0.001     theD0         pi-       pi+       pi-       pi+       pi-      pi+       Myomega        PHSP;
+0.00015   theD*0        Mya_1-    pi+       pi-       pi+       pi-      pi+       pi0            PHSP;
+0.00015   theD*0        Mya_1+    pi-       pi-       pi+       pi-      pi+       pi0            PHSP;
+0.00035   theD*0        Mya_1-    pi+       pi-       pi+       Myomega                           PHSP;
+0.00035   theD*0        Mya_1+    pi-       pi-       pi+       Myomega                           PHSP;
+0.00015   theD*0        Myrho0    pi-       pi+       pi-       pi+      pi-       pi+  pi0       PHSP;
+0.0003    theD*0        Myrho0    pi-       pi+       pi-       pi+      Myomega                  PHSP;
+0.0005    theD*0        pi-       pi+       pi-       pi+       pi-      pi+       pi-  pi+   pi0 PHSP;
+0.001     theD*0        pi-       pi+       pi-       pi+       pi-      pi+       Myomega        PHSP;
+0.00035   theD*+_D0     Mya_1-    pi+       pi-       pi+       pi-      pi0                      PHSP;
+0.00035   theD*+_D0     Mya_1+    pi-       pi-       pi+       pi-      pi0                      PHSP;
+0.0006    theD*+_D0     Mya_1-    pi+       pi-       Myomega                                     PHSP;
+0.0006    theD*+_D0     Mya_1+    pi-       pi-       Myomega                                     PHSP;
+0.0003    theD*+_D0     Myrho0    pi-       pi+       pi-       pi+      pi-       pi0            PHSP;
+0.0007    theD*+_D0     Myrho0    pi-       pi+       pi-       Myomega                           PHSP;
+0.001     theD*+_D0     pi-       pi+       pi-       pi+       pi-      pi+       pi-  pi0       PHSP;
+0.002     theD*+_D0     pi-       pi+       pi-       pi+       pi-      Myomega                  PHSP;
+#
+Enddecay
+CDecay B0sig
+#
+Decay theD0
+1.00      K-         pi+                           PHSP;
+Enddecay
+CDecay theanti-D0
+#
+Decay theD_10_D0
+# 0.7739
+0.4739   theD*+_D0  pi-            VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0; # 0.7 x 0.677;
+0.3      theD0      pi-    pi+     PHSP;
+Enddecay
+CDecay theanti-D_10_D0
+#
+Decay theD*+_D0
+0.677    theD0      pi+            VSS; # 0.67 +- 0.0057;
+Enddecay
+CDecay theD*-_D0
+#
+Decay theanti-D*0
+0.647  theanti-D0   pi0            VSS;
+0.353  theanti-D0   gamma          VSP_PWAVE;
+Enddecay
+CDecay theD*0
+#
+Decay theD'_10_D0
+0.4513559 theD*+_D0 pi-                  VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0; # 0.6667 x 0.677;
+#0.3333    theD*0    pi0                  VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay theanti-D'_10_D0
+#
+Decay theD_2*0_D0
+0.141493  theD*+_D0 pi-                        TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0; # 0.2090 x 0.677;
+#0.1030    theD*0 pi0                        TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+#0.2290    theD0  pi0                        TSS;
+#0.4590    D+  pi-                        TSS;
+Enddecay
+CDecay theanti-D_2*0_D0
+
+#
+Decay Myf_2
+  1.00    pi+    pi-          TSS ;
+Enddecay
+#
+Decay Myrho0
+1.000   pi+    pi-          VSS;
+Enddecay
+#
+Decay Myrho-
+1.000    pi- pi0                         VSS;
+Enddecay
+CDecay Myrho+
+#
+Decay Mya_1+
+0.4920   Myrho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.5080   Myrho+ pi0                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay Mya_1+_3pi
+0.4920   Myrho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+#0.5080   Myrho+ pi0                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-_3pi
+#
+Decay Mya_1+_2pi0
+1.000   Myrho+ pi0          VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-_2pi0
+#
+Decay Mya_10
+0.5000   Myrho- pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.5000   Myrho+ pi-                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay Myomega
+0.893 pi-     pi+     pi0                             OMEGA_DALITZ; # (0.893+-0.006);
+Enddecay
+#
+Decay MyK_2*-
+0.0299565   MyK*- pi+ pi-                     PHSP; # 0.0450 x 0.6657;
+Enddecay
+CDecay MyK_2*+
+#
+Decay MyK*-
+0.6657      anti-K0   pi-                        VSS;
+Enddecay
+CDecay MyK*+
+#
+Decay Myetap2pi
+# 0.80897
+0.426       pi+     pi-     eta                               PHSP; # (0.426 +- 0.7);
+0.06358     pi0     pi0     Myeta2pi                          PHSP; # (0.228 +- 0.008) x 0.27888 (eta -> 2pi X);
+0.289       Myrho0  gamma                                     SVP_HELAMP  1.0 0.0 1.0 0.0; # (0.289 +- 0.005);
+0.0238027   Myomega gamma                             SVP_HELAMP  1.0 0.0 1.0 0.0; # (0.0262 +- 0.0013) x 0.9085 (omega -> 2pi X);
+#0.000109    gamma   mu-     mu+                               PHOTOS   PHSP; # (0.000109 +- 0.000027);
+#0.000473    gamma   e-      e+                                PHOTOS   PHSP; # (0.000473 +- 0.000030);
+0.00361     pi+     pi-     pi0                               PHSP;  # (0.00361 +- 0.00017);
+0.0024      pi+     pi-     e+      e-                        PHSP;  # (0.0024 +0.0013-0.0010);
+Enddecay
+#
+Decay Myeta2pi
+# 0.27888
+0.2292      pi-     pi+     pi0                             ETA_DALITZ; # (0.2292 +- 0.0028);
+0.0422      gamma   pi-     pi+                             PHSP; # (0.0422 +- 0.0008);
+#0.0069      gamma   e+      e-                              PHSP; # (0.0069 +- 0.0004);
+#0.00031     gamma   mu+     mu-                             PHSP; # (0.00031 +- 0.00004);
+#0.000268    pi+     pi-     e+      e-                      PHSP; # (0.000268 +- 0.000011);
+#0.0000058   mu+     mu-                                     PHSP; # (0.0000058 +- 0.0000008);
+Enddecay
+#
+End

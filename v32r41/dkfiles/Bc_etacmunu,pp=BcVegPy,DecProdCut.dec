@@ -1,0 +1,34 @@
+# EventType: 14543021
+# 
+# Descriptor: [B_c+ -> (eta_c -> p+ anti-p-) mu+ nu_mu]cc
+# 
+# NickName: Bc_etacmunu,pp=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: decay of Bc+ -> eta_c (-> p pbar) mu+ and nu_mu, 
+#                using BcVegPy generator and requiring all daughters in LHCb
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Santiago Gómez Arias
+# Email: sgomezar@cern.ch
+# Date: 20190320
+# CPUTime: <1min 
+#
+Alias Myetac eta_c
+ChargeConj Myetac Myetac
+#
+Decay B_c+sig
+  1.000 Myetac mu+ nu_mu PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay Myetac
+  1.000 p+ anti-p- PHSP;
+Enddecay
+#
+End

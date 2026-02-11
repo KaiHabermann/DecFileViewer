@@ -1,0 +1,42 @@
+# EventType: 13136000
+#
+# Descriptor: [B_s0 => (eta_c =>  (phi(1020) => K+ K-) (phi(1020) => K+ K-)) (phi(1020) => K+ K-)  ]cc
+#
+# NickName: Bs_etacphi,KK=DecProdCut,hpt400
+#
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2PhiPhi
+#
+# CPUTime: < 1 min
+#
+# Documentation: 
+#    Bs decay to eta_c phi, eta_c decays to 2phi, and phi decays 
+#    to K+ K-, daughters in acceptance with track pT > 400 MeV
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Vsevolod Yeroshenko
+# Email: vsevolod.yeroshenko@cern.ch
+# Date: 20191205
+#
+Alias      MyPhi      phi
+Alias      Myeta_c    eta_c
+ChargeConj MyPhi      MyPhi
+ChargeConj Myeta_c    Myeta_c
+#
+Decay B_s0sig
+  1.0000       MyPhi     Myeta_c            SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+Decay Myeta_c
+  1.0          MyPhi     MyPhi              PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,122 @@
+# EventType: 11774006
+#
+# Descriptor: [B0 -> (D*- -> (anti-D0 -> pi+ pi-) pi-) mu+ nu_mu]cc
+#
+# NickName: Bd_DstX,cocktail,D0pi,pipi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Secondary D*+ -> D0 (-> pi- pi+) pi+ decays with B~0 parent, tight cuts to match the requirements of
+#                the Run-3 prompt HLT2 lines.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# signal     = Generation(genAlgName).SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[ [B0]cc --> (D*(2010)- => ( D~0 => pi+ pi- ) pi-) ... ]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import micrometer, MeV, GeV                    ',
+#     'from LoKiCore.math import atan2                                               ',
+#     'inAccLoose   =  in_range ( 0.012 , GTHETA , 0.35 ) & in_range ( -0.3  , atan2(GPX , GPZ), 0.3  ) & in_range ( -0.26 , atan2(GPY , GPZ), 0.26 ) ',
+#     'inAcc        =  in_range ( 0.014 , GTHETA , 0.30 ) & in_range ( -0.28 , atan2(GPX , GPZ), 0.28 ) & in_range ( -0.24 , atan2(GPY , GPZ), 0.24 ) ',
+#     'fastTrack    =  ( GPT > 775 * MeV ) & ( GP  > 4.85 * GeV )',
+#     'goodTrack    =  inAccLoose & fastTrack',
+#     'goodD0       =  inAcc & ( GPT > 1.94 * GeV ) & ( 2 == GNINTREE( goodTrack ) ) & ( "D0" == GABSID )',
+#     'goodSlowPion =  ( GPT > 190 * MeV ) & ( GP > 0.97 * GeV ) & inAcc',
+#     'goodDst      =  ( GCHILDCUT(goodD0, "[ D*(2010)+ =>  ^D0 pi+ ]CC") ) & ( GCHILDCUT(goodSlowPion, "[ D*(2010)+ =>  D0 ^pi+ ]CC") )',
+#     'goodB        =  GINTREE( goodDst )'
+# ]
+# tightCut.Cuts     =    {
+#     '[B0]cc' : 'goodB'
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Tommaso Pajero
+# Email: tommaso.pajero@cern.ch
+# Date: 20241002
+# CPUTime: < 1 min
+#
+# ------------------------------------------------------------------------------
+Alias      MyD*+    D*+
+Alias      MyD*-    D*-
+ChargeConj MyD*+    MyD*-
+# ------------------------------------------------------------------------------
+Alias      MyD0     D0
+Alias      MyAntiD0 anti-D0
+ChargeConj MyD0     MyAntiD0
+# ------------------------------------------------------------------------------
+Decay B0sig
+  0.0497   MyD*-   e+    nu_e                  PHOTOS HQET2 1.122 0.921 1.270 0.852; # [PDG 2023] + form factor HFLAV Spring 2019 rho^2 (ha1 unchanged) R1 R2; normalisation factor ha1 has no impact on kinematics
+  0.0497   MyD*-   mu+   nu_mu                 PHOTOS HQET2 1.122 0.921 1.270 0.852; # [PDG 2023] + form factor HFLAV Spring 2019 rho^2 (ha1 unchanged) R1 R2; normalisation factor ha1 has no impact on kinematics
+  0.0177   MyD*-   D_s*+                       SVV_HELAMP 0.620 -0.05 0.758 0.0 0.20 0.11; # [PDG 2024] NOTE phi+ and phi- swapped between PDG and https://arxiv.org/abs/2105.02596 (we follow the latter)
+  0.0176   MyD*-   pi+   pi+   pi-   pi0       PHSP;  # [PDG 2023]
+  0.0158   MyD*-   tau+  nu_tau                ISGW2; # [PDG 2023]
+  0.015    MyD*-   pi+   pi0                   PHSP;  # [PDG 2023]
+  0.0106   MyD*-   D*0   K+                    PHSP;  # [PDG 2023]
+  0.0093   MyD*-   D_s1+                       SVV_HELAMP 0.620 -0.05 0.758 0.0 0.20 0.11; # [BF from PDG 2024, pdgid S042.98], decay model like in D*- D_s*+ TODO
+  0.0081   MyD*-   D*+   K0                    PHSP; # [PDG 2023, includes also S042.272 with BF 0.00050]
+  0.0081   MyD*+   D*-   K0                    PHSP; # x2 to account double D*
+  0.0080   MyD*-   D_s+                        SVS;  # [PDG 2023]
+  0.00721  MyD*-   a_1+                        SVV_HELAMP 0.200 0.0 0.866 0.0 0.458 0.0; # [PDG 2023], BF taken from D*- pi- pi+ pi+ rather than 0.0130
+  # 0.00721  MyD*-   pi-   pi+   pi+             PHSP; # [PDG 2023] Removed as already included in (MyD*- a_1+)
+  0.0068   MyD*-   rho+                        SVV_HELAMP  0.107 1.42 0.941 0.0 0.322 0.31; # [https://arxiv.org/abs/hep-ex/0301028]
+  # 0.0057   MyD*-   rho0  pi+                   PHSP; # [PDG 2023] Removed as already included in (MyD*- a_1+)
+  0.005    MyD*-   D*+   K*0                   PHSP; # from decay.dec (not measured yet)
+  0.005    MyD*+   D*-   K*0                   PHSP; # x2 to account double D*
+  0.005    MyD*-   D*0   K*+                   PHSP; # from decay.dec (not measured yet)
+  0.0047   MyD*+   D-    K0                    PHSP; # [PDG 2020]
+  0.0047   MyD*-   pi+   pi+   pi+   pi-  pi-  PHSP; # [PDG 2020]
+  0.00274  MyD*-   pi+                         SVS;  # [PDG 2023]
+  0.0025   MyD*-   D0    K*+                   PHSP; # from decay.dec (not measured yet)
+  0.0025   MyD*-   D+    K*0                   PHSP; # from decay.dec (not measured yet)
+  0.0025   MyD*+   D-    K*0                   PHSP; # from decay.dec (not measured yet)
+  0.00247  MyD*-   D0    K+                    PHSP; # [PDG 2020]
+  0.00246  MyD*-   omega pi+                   PHSP; # [PDG 2023]
+  0.0018   MyD*-   D+    K0                    PHSP; # [PDG 2020]
+  0.0015   MyD*-   D_s0*+                      SVS;  # [PDG 2023]
+  0.00145  MyD*-   p+    anti-n0               PHSP; # [PDG 2020]
+  0.0014   MyD*-   pi+   pi-   e+    nu_e      PHSP; # [PDG 2020]
+  0.0014   MyD*-   pi+   pi-   mu+   nu_mu     PHSP; # [PDG 2020]
+  0.00129  MyD*-   K+    anti-K*0              PHSP; # [PDG 2023]
+  0.001    MyD*-   rho+  pi0                   PHSP; # from decay.dec (not measured yet)
+  0.001    MyD*-   pi0   pi+   pi0             PHSP; # from decay.dec (not measured yet)
+  0.00083  MyD*-   D'_s1+                      PHSP; # from decay.dec (not measured yet)
+  0.00080  MyD*-   D*+                         SVV_HELAMP 0.6095 0.0 0.7899 0.0 0.067 0.0; # [PDG 2024 + https://arxiv.org/abs/1207.5611] TODO phases
+  0.00080  D*-     MyD*+                       SVV_HELAMP 0.6095 0.0 0.7899 0.0 0.067 0.0; # x2 to account double D*                      TODO phases
+                                                                                           # |H0|^2 = Gamma_L / Gamma
+                                                                                           # |H_perp|^2 = Gamma_perp / Gamma
+                                                                                           # |H_par|^2 = Gamma_par / Gamma
+                                                                                           # Gamma_L + Gamma_perp + Gamma_par = Gamma
+                                                                                           # H+ = (H_perp + H_par) / sqrt(2), H- = (H_perp - H_par) / sqrt(2)
+  0.00061  MyD*+   D-                          SVS;  # [PDG 2023]
+  0.00047  MyD*-   K+    pi-   pi+             PHSP; # [PDG 2023]
+  0.00047  MyD*-   p+    pi+   anti-p-         PHSP; # [PDG 2023]
+  0.00045  MyD*-   pi0   e+    nu_e            PHOTOS GOITY_ROBERTS; # from decay.dec (not measured yet)
+  0.00045  MyD*-   pi0   mu+   nu_mu           PHOTOS GOITY_ROBERTS; # from decay.dec (not measured yet)
+  0.00033  MyD*-   K*+                         SVV_HELAMP  0.283 0.0 0.932 0.0 0.228 0.0; # [PDG 2023]
+  0.0003   MyD*-   K0    pi+                   PHSP; # [PDG 2023]
+  0.000305 MyD*-   D+                          SVS;  # from decay.dec (not measured yet)
+  0.000212 MyD*-   K+                          SVS;  # [PDG 2023]
+  0.00016  MyD*-   K_1+                        SVV_HELAMP 0.228 0.0 0.932 0.0 0.283 0.0; # from decay.dec (not measured yet)
+  0.00016  MyD*-   K'_1+                       SVV_HELAMP 0.228 0.0 0.932 0.0 0.283 0.0; # from decay.dec (not measured yet)
+  0.00005  MyD*-   K+    pi0                   PHSP; # from decay.dec (not measured yet)
+Enddecay
+CDecay anti-B0sig
+# ------------------------------------------------------------------------------
+Decay MyD*-
+  1.0   MyAntiD0    pi-     VSS;
+Enddecay
+CDecay MyD*+
+# ------------------------------------------------------------------------------
+Decay MyAntiD0
+  1.0   pi+         pi-    PHSP;
+Enddecay
+CDecay MyD0
+# ------------------------------------------------------------------------------
+End

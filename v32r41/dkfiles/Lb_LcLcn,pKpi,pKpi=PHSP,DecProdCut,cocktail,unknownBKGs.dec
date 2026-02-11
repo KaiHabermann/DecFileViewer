@@ -1,0 +1,267 @@
+# EventType: 15896011
+
+# Descriptor: [Lambda_b0 -> Lambda_c+ Lambda_c~- n0 ]cc
+
+# NickName: Lb_LcLcn,pKpi,pKpi=PHSP,DecProdCut,cocktail,unknownBKGs
+
+# Cuts: DaughtersInLHCb
+
+# CPUTime: < 1 min
+# Documentation: This is the decay file for the background studies of decay Lambda_b -> Lambda_c+ anti-Lambda_c- n. decay modes here have unknown BR.
+# EndDocumentation
+
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Ned Howarth
+# Email: ned.howarth@liverpool.ac.uk
+# Date: 20231024
+#####=====================Aliases==========================#####
+
+#Define Lambda_c
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+
+#Define D-
+Alias MyD-   D-
+Alias MyD+   D+
+ChargeConj MyD-  MyD+
+
+#Define D(*)0
+Alias     MyDst        D*0
+Alias Myanti-Dst       anti-D*0
+ChargeConj MyDst       Myanti-Dst
+#
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+
+#Define K*0
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+
+#Define Lambda(1520)0
+Alias      MyLambda(1520)0         Lambda(1520)0
+Alias      Myanti-Lambda(1520)0    anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0         Myanti-Lambda(1520)0
+
+#=========Define Lc Resonant states===============#
+
+Alias MyLambda_c(2880)+ Lambda_c(2880)+
+Alias Myanti-Lambda_c(2880)- anti-Lambda_c(2880)-
+ChargeConj MyLambda_c(2880)+ Myanti-Lambda_c(2880)-
+
+#=========Define Charm resonances==========#
+Alias MySigma_c++       Sigma_c++
+Alias Myanti-Sigma_c--  anti-Sigma_c--
+ChargeConj MySigma_c++  Myanti-Sigma_c--
+#
+Alias MySigma_c*++       Sigma_c*++
+Alias Myanti-Sigma_c*--  anti-Sigma_c*--
+ChargeConj MySigma_c*++  Myanti-Sigma_c*--
+#
+Alias MySigma_c0 Sigma_c0
+Alias Myanti-Sigma_c0 anti-Sigma_c0
+ChargeConj MySigma_c0 Myanti-Sigma_c0
+#
+Alias MySigma_c*0 Sigma_c*0
+Alias Myanti-Sigma_c*0 anti-Sigma_c*0
+ChargeConj MySigma_c*0 Myanti-Sigma_c*0
+
+Alias MyXi_cc*++ Xi_cc*++
+Alias Myanti-Xi_cc*-- anti-Xi_cc*--
+ChargeConj MyXi_cc*++ Myanti-Xi_cc*--
+#
+Alias MyXi_cc*0 Xi_c*0
+Alias Myanti-Xi_cc*0 anti-Xi_c*0
+ChargeConj MyXi_cc*0 Myanti-Xi_cc*0
+#
+Alias MyXi_c+ Xi_c+
+Alias Myanti-Xi_c- anti-Xi_c-
+ChargeConj MyXi_c+ Myanti-Xi_c-
+#
+Alias MyXi_c0 Xi_c0
+Alias Myanti-Xi_c0 anti-Xi_c0
+ChargeConj MyXi_c0 Myanti-Xi_c0
+#
+Alias MyXi_c*+ Xi_c*+
+Alias Myanti-Xi_c*- anti-Xi_c*-
+ChargeConj MyXi_c*+ Myanti-Xi_c*-
+#
+Alias MyXi_c*0 Xi_c*0
+Alias Myanti-Xi_c*0 anti-Xi_c*0
+ChargeConj MyXi_c*0 Myanti-Xi_c*0
+#
+Alias MyXi_c(2790)+ Xi_c(2790)+
+Alias Myanti-Xi_c(2790)- anti-Xi_c(2790)-
+ChargeConj MyXi_c(2790)+ Myanti-Xi_c(2790)-
+#
+Alias MyXi_c(2790)0 Xi_c(2790)0
+Alias Myanti-Xi_c(2790)0 anti-Xi_c(2790)0
+ChargeConj MyXi_c(2790)0 Myanti-Xi_c(2790)0
+#
+Alias Mychi_c0 chi_c0
+ChargeConj Mychi_c0 Mychi_c0
+
+#####================Lb_Decays======================#####
+
+Decay Lambda_b0sig
+  #Lc modes
+  0.01795  MyLambda_c+ Myanti-Dst K-            PHSP;
+  0.29653  MyLambda_c+ pi+ pi- mu- anti-nu_mu   PHSP;
+  0.00390  MyLambda_c+ MyD0 K-                  PHSP;
+  0.02029  MyLambda_c+ p+ anti-p- K-            PHSP;
+  0.01951  MyLambda_c+ anti-p- n0               PHSP;
+  0.01951  MyLambda_c+ anti-p- pi+ pi-          PHSP;
+  #charm resonances
+  0.12095  MyLambda_c(2880)+  pi-               PHSP;
+  0.15607  MyXi_cc*++ pi-  pi-                  PHSP;
+  0.27312  MyXi_cc*0  pi+  pi-                  PHSP;
+  0.00390  MyXi_c+ pi- pi+ pi-                  PHSP;
+  0.00390  MyXi_c+ anti-p- n0                   PHSP;
+  0.00390  MyXi_c0 pi+ pi-                      PHSP;
+  0.00390  MyXi_c0 p+ anti-p-                   PHSP;
+  0.00390  MyXi_c0 K+ K-                        PHSP;
+  0.00195  MyXi_c*+ pi- pi+ pi-                 PHSP;
+  0.00195  MyXi_c*+ anti-p- n0                  PHSP;
+  0.00195  MyXi_c*0 pi+ pi-                     PHSP;
+  0.00195  MyXi_c*0 p+ anti-p-                  PHSP;
+  0.00195  MyXi_c*0 K+ K-                       PHSP;
+  0.00078  MyXi_c(2790)+ pi- pi+ pi-            PHSP;
+  0.00078  MyXi_c(2790)+ anti-p- n0             PHSP;
+  0.00078  MyXi_c(2790)0 pi+ pi-                PHSP;
+  0.00078  MyXi_c(2790)0 p+ anti-p-             PHSP;
+  0.00078  MyXi_c(2790)0 K+ K-                  PHSP;
+  0.00390  MySigma_c++ MyD- K-                  PHSP;
+  0.00390  MySigma_c*++ MyD- K-                 PHSP;
+  0.02926  Mychi_c0 p+ K-                       PHSP;
+  0.00195  Mychi_c0 p+ pi-                      PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+###================Lc_Decays======================###
+
+Decay MyLambda_c+
+  0.331         p+   K-   pi+                 PHSP;
+  0.236         p+   K-   pi+   pi0           PHSP;
+  0.052         p+   K-   pi+   pi0   pi0     PHSP;
+  0.006         p+   K-   pi+   pi-   pi+     PHSP;  
+  0.007         p+   K-   K+                  PHSP;
+  0.024         p+   pi-  pi+                 PHSP;
+  0.105         p+   Myanti-K*0               PHSP;
+  0.115         MyLambda(1520)0   pi+         PHSP;
+  0.024         n0 pi+ pi- pi+                PHSP;
+  0.100         n0 K- pi+ pi+                 PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+
+#####================All_other_Sub-Decays======================#####
+
+Decay MyD-
+  1.0 K+  pi-  pi-              PHSP;
+Enddecay
+
+Decay MyK*0
+  1.0      K+  pi-              VSS;
+Enddecay
+CDecay Myanti-K*0
+
+Decay Myanti-Dst
+  1.0    Myanti-D0   pi0        VSS; 
+Enddecay
+CDecay MyDst
+
+Decay Myanti-D0
+  1.00    K+   pi-              PHSP;
+Enddecay
+CDecay MyD0
+
+Decay MyLambda(1520)0
+  1.00       p+      K-         PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#============Lc_resonances================#
+Decay MyLambda_c(2880)+
+   0.18  MySigma_c++   pi-      PHSP; 
+   0.18  MySigma_c0    pi+      PHSP;
+   0.18  MySigma_c*++  pi-      PHSP; 
+   0.18  MySigma_c*0   pi+      PHSP;
+   0.28  MyLambda_c+   pi+ pi-  PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2880)-
+
+#================charm================#
+Decay MySigma_c++
+  1.00      MyLambda_c+  pi+   PHSP;
+Enddecay
+CDecay Myanti-Sigma_c-- 
+
+Decay MySigma_c*++
+  1.00      MyLambda_c+  pi+   PHSP;
+Enddecay
+CDecay Myanti-Sigma_c*--
+
+Decay MySigma_c0
+  1.00       MyLambda_c+  pi-  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+
+Decay MySigma_c*0
+  1.00       MyLambda_c+  pi-  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c*0
+
+Decay MyXi_cc*++
+  1.00    MyLambda_c+  pi+     PHSP;
+Enddecay
+CDecay Myanti-Xi_cc*--
+
+Decay MyXi_cc*0
+  1.00    MyLambda_c+  pi-     PHSP;
+Enddecay
+CDecay Myanti-Xi_cc*0
+
+Decay MyXi_c+
+  1.00    p+ K-  pi+           PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+
+Decay MyXi_c0
+  0.5    p+ K- K- pi+          PHSP;
+  0.5    MyLambda_c+  pi-      PHSP;
+Enddecay
+CDecay Myanti-Xi_c0
+
+Decay MyXi_c*+
+  1.00    MyXi_c+ gamma        PHSP;
+Enddecay
+CDecay Myanti-Xi_c*-
+
+Decay MyXi_c*0
+  1.00    MyXi_c0 gamma       PHSP;
+Enddecay
+CDecay Myanti-Xi_c*0
+
+Decay MyXi_c(2790)+
+  0.5     MyXi_c*+ pi0         PHSP;
+  0.5     MyXi_c*0 pi+         PHSP;
+Enddecay
+CDecay Myanti-Xi_c(2790)-
+
+Decay MyXi_c(2790)0
+  0.5     MyXi_c*0 pi0         PHSP;
+  0.5     MyXi_c*+ pi-         PHSP;
+Enddecay
+CDecay Myanti-Xi_c(2790)0
+
+Decay Mychi_c0
+  0.331   pi+ pi- K+ K-             PHSP;
+  0.158   pi+ pi- K+ K- pi0         PHSP;
+  0.423   pi+ pi- pi+ pi-           PHSP;
+  0.023   p+ anti-n0 pi- pi0        PHSP;
+  0.025   anti-p- n0 pi+ pi0        PHSP;
+  0.039   p+ anti-p- pi+ pi-        PHSP;
+Enddecay
+
+End

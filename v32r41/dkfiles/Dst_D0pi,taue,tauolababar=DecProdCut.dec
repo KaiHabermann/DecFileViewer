@@ -1,0 +1,48 @@
+# EventType: 27385001
+#
+# Descriptor: {[D*(2010)+ -> (D0 -> (tau+ -> pi+ pi+ pi- anti-nu_tau) e-) pi+]cc, [D*+ -> (D0 -> e+ (tau- -> pi- pi- pi+ nu_tau) ) pi+]cc}
+#
+# NickName: Dst_D0pi,taue,tauolababar=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Michele Atzeni
+# Email: michele.atzeni@cern.ch
+# Date: 20230627
+#
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+#
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+#
+Decay MyD0
+  0.500   Mytau+   e-   PHSP;
+  0.500   Mytau-   e+   PHSP;
+Enddecay
+CDecay MyantiD0
+#
+Decay Mytau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+End

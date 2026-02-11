@@ -1,0 +1,112 @@
+# EventType: 25463000
+#
+# Descriptor: {[Lambda_c+ -> pi+ pi- pi+ ... ]cc}
+# NickName: Lc_3piX_cocktail,upto6prongs=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# from Gauss.Configuration import *
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[((Charm & LongLived) ==> ^(pi+||p+) ^pi- ^pi+ {X} {X} {X})]CC'
+# tightCut.Cuts      =    {
+#     '[pi+]cc'  : 'inAcc',
+#     '[p+]cc'  : 'inAcc',      
+#     }         
+# tightCut.Preambulo += [       
+#     'inAcc = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     ]         
+#
+# EndInsertPythonCode
+
+# Documentation: Lc -> 3pi X cocktail, background decays for Ds -> tau nv, tau -> 3pi nv.
+# EndDocumentation
+#
+# CPUTime: <1 min 
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Chen Chen
+# Email: chen.chen@cern.ch
+# Date: 20230425
+ 
+#
+Alias           Myomega2pi    omega
+ChargeConj      Myomega2pi    Myomega2pi
+#
+Alias           Myeta2pi      eta
+ChargeConj      Myeta2pi      Myeta2pi
+#
+Alias   MySigma*+      Sigma*+
+Alias   Myanti-Sigma*-     anti-Sigma*-
+ChargeConj      MySigma*+   Myanti-Sigma*-
+#
+Alias   MySigma*-      Sigma*-
+Alias   Myanti-Sigma*+     anti-Sigma*+
+ChargeConj      MySigma*-   Myanti-Sigma*+
+
+Decay Lambda_c+sig
+0.0044  p+  anti-K0    Myeta2pi    PHSP; # x 0.27888 (eta -> 2pi X)
+0.016   p+  K_S0    pi+     pi-     PHSP;
+0.0014  p+  K-    pi+     pi+   pi-     PHSP;
+0.00461 p+    pi+   pi-         PHSP;
+0.0023  p+    pi+   pi-  pi+   pi-        PHSP;
+
+0.01    MySigma*+  pi+  pi-         PHSP; 
+0.005   MySigma*+  rho0         PHSP; 
+0.076   MySigma*-  pi+  pi+         PHSP; 
+0.015   Lambda0     pi+     rho0  PHSP;
+
+0.00253 MySigma*+   Myeta2pi  PHSP;
+0.00259 Lambda0    pi+     Myeta2pi PHSP;
+0.013   Lambda0     pi+     Myomega2pi  PHSP;  # 0.9085 (omega -> 2pi X) 
+
+0.002   Sigma0  pi+ Myeta2pi    PHSP;
+0.045   Sigma+    pi+     pi-     PHSP;
+0.0187  Sigma-    pi+     pi+     PHSP;
+0.011   Sigma0  pi- pi+ pi+     PHSP;
+0.015   Sigma+ Myomega2pi  PHSP;
+0.021   Sigma-  pi0 pi+ pi+     PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+
+#
+Decay MySigma*+
+1.0     Lambda0     pi+     PHSP;
+Enddecay
+CDecay Myanti-Sigma*- 
+#
+Decay MySigma*-
+1.0     Lambda0     pi-     PHSP;
+Enddecay
+CDecay Myanti-Sigma*+ 
+
+
+Decay Myeta2pi 
+# 0.27888
+0.2292      pi-     pi+     pi0                             ETA_DALITZ; # (0.2292 +- 0.0028);
+0.0422      gamma   pi-     pi+                             PHSP; # (0.0422 +- 0.0008);
+#0.0069      gamma   e+      e-                              PHSP; # (0.0069 +- 0.0004);
+#0.00031     gamma   mu+     mu-                             PHSP; # (0.00031 +- 0.00004);
+#0.000268    pi+     pi-     e+      e-                      PHSP; # (0.000268 +- 0.000011);
+#0.0000058   mu+     mu-                                     PHSP; # (0.0000058 +- 0.0000008);
+Enddecay
+ 
+ 
+Decay Myomega2pi 
+# 0.9085
+0.892       pi-     pi+     pi0                             OMEGA_DALITZ; # (0.892 +- 0.007);
+0.0153      pi-     pi+                                     VSS; # (0.0153 +0.0011-0.0013);
+#0.0001255   Myeta2pi        gamma                           VSP_PWAVE; # (0.00045 +- 0.00004) x 0.27888 (eta -> 2pi X);
+#0.00077     pi0     e+      e-                              PHOTOS PHSP; # (0.00077 +- 0.00006);
+#0.000134    pi0     mu+     mu-                             PHOTOS PHSP; # (0.000134 +- 0.000018);
+#0.0000736   e+      e-                                      PHSP; # (0.0000736 +- 0.0000015);
+#0.000074    mu+     mu-                                     PHSP; # (0.000074 +- 0.000018);
+Enddecay
+ 
+
+End

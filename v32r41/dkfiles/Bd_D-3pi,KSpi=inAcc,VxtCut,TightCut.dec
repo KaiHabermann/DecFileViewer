@@ -1,0 +1,102 @@
+# EventType: 11166140
+# 
+# Descriptor: [B0 -> (D- -> pi- (KS0-> pi+ pi-)) pi+ pi- pi+]cc
+# 
+# NickName: Bd_D-3pi,KSpi=inAcc,VxtCut,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[B0 ==> (D- ==> ^pi- ^(KS0 => ^pi+ ^pi-)) ^pi+ ^pi+ ^pi- ]CC'
+# tightCut.Cuts      =    {
+#    '[pi+]cc'   : 'inAcc',
+#    'KS0'       : 'decayBeforeTT'
+# }
+# tightCut.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import millimeter,micrometer,MeV,GeV',
+#    'inAcc       = in_range ( 0.005 , GTHETA , 0.400 )' ,
+#    'decayBeforeTT = GVEV & ( GFAEVX ( GVZ , 1.e+10 ) < 2400 * millimeter)'
+# ]
+# EndInsertPythonCode
+#
+#
+# Documentation: Possible Background for Lb->Lc(->V0h)3pi 
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email: biplab.dey@cern.ch
+# Date: 20240717
+#
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias      MyD_1-     D_1-
+Alias      MyD_1+     D_1+
+ChargeConj MyD_1+     MyD_1-
+#
+Alias      MyD_2*+    D_2*+ 
+Alias      MyD_2*-    D_2*-
+ChargeConj MyD_2*-    MyD_2*+
+#
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+#
+Alias        MyKS0         K_S0
+ChargeConj   MyKS0         MyKS0
+#
+
+Decay B0sig
+0.72   Mya_1+ MyD-                     SVS;
+0.08   MyD-  rho0  pi+                  PHSP;
+0.14   MyD-  Myf_2  pi+                  PHSP;
+0.03   MyD_2*- pi+                      STS;
+0.03   MyD_1- pi+                       SVS;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD-
+  1.00  pi- MyKS0   PHSP;
+Enddecay
+CDecay MyD+
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+#
+Decay MyD_2*-
+1.000    MyD-  pi+  pi-                      PHSP;
+Enddecay
+CDecay MyD_2*+
+#
+Decay MyD_1+
+1.0    MyD+  pi- pi+                        PHSP;
+Enddecay
+CDecay MyD_1-
+#
+Decay Myf_2
+  1.0000  pi+ pi-                                  TSS ;
+Enddecay
+#
+Decay MyKS0
+  1.000   pi+         pi-       PHSP;
+Enddecay
+#
+End
+

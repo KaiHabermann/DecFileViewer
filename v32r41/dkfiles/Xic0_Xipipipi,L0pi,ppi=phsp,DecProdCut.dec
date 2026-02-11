@@ -1,0 +1,43 @@
+# EventType: 26106183
+#
+# Descriptor: [Xi_c0 -> (Xi- ->(Lambda0 -> p+ pi-) pi-) pi+ pi- pi+]cc
+#
+# NickName: Xic0_Xipipipi,L0pi,ppi=phsp,DecProdCut
+#
+# Cuts: LHCbAcceptance
+# CPUTime: < 1 min
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Chuangxin Lin
+# Email:       chuangxin.lin@cern.ch
+# Date:        20210919
+#
+#
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+#
+Alias      MyXim      Xi-
+Alias      MyAntiXip  anti-Xi+
+ChargeConj MyXim      MyAntiXip
+#
+Decay Xi_c0sig
+  1.0  MyXim   pi+   pi-   pi+   PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+#
+Decay MyXim
+  1.000     MyLambda0   pi-      PHSP;
+Enddecay
+CDecay MyAntiXip
+#
+Decay MyLambda0
+  1.000   p+          pi-        PHSP;
+Enddecay
+CDecay MyAntiLambda0
+#
+End

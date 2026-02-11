@@ -1,0 +1,27 @@
+# EventType: 14513003
+#
+# Descriptor: [B_c+ => e+ e- nu_mu mu+]cc
+#
+# NickName: Bc_EEMuNuM=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: B_c+ => e+ e- nu_mu mu+ decay file. Phase space model. DughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Martino Borsato
+# Email: martino.borsato@cern.ch
+# Date: 20221118
+#
+#
+Decay B_c+sig
+   1.0000 e+ e- mu+ nu_mu PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+End

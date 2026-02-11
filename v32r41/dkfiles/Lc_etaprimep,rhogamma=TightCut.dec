@@ -1,0 +1,59 @@
+# EventType: 25103221
+#
+# Descriptor: [Lambda_c+ -> (eta_prime -> (rho(770)0 -> pi+ pi-) gamma) p+]cc
+#
+#
+# NickName: Lc_etaprimep,rhogamma=TightCut
+#
+#                                                                          
+# Cuts: LoKi::GenCutTool/TightCut                                          
+#                                                                          
+# InsertPythonCode:                                                        
+#                                                                          
+# from Configurables import LoKi__GenCutTool                               
+# gen = Generation()                                                       
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )                
+# tightCut = gen.SignalPlain.TightCut                         
+# tightCut.Decay     = '^[ Lambda_c+ => ( eta_prime => ( rho(770)0 => ^pi+ ^pi- ) ^gamma ) ^p+]CC'    
+# tightCut.Cuts      =    {                                   
+#     'gamma'     : ' inAcc',
+#     '[pi+]cc'    : ' inAcc & dauCuts',                      
+#     '[p+]cc'    : ' inAcc & dauCuts',                      
+#     '[Lambda_c+]cc'   : 'Lcuts' }                                
+# tightCut.Preambulo += [                                     
+#     'inAcc = in_range ( 0.005, GTHETA, 0.400 ) ' ,          
+#     'dauCuts = ( (GPT > 200 * MeV) & ( GP > 600 * MeV))',   
+#     'Lcuts = (GPT > 1000 * MeV)' ]  
+# EndInsertPythonCode   
+#   
+#   
+#
+# Documentation: Forces a Lambda_c+ to ( eta_prime => (rho0 => pi+ pi-) gamma ) p+ with generator level cuts 
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Simone Stracka
+# Email: simone.stracka@cern.ch
+# Date: 20211119
+#
+Alias       my_eta'   eta'
+ChargeConj  my_eta'   my_eta'
+Alias       my_rho0   rho0
+ChargeConj  my_rho0   my_rho0
+#
+Decay  Lambda_c+sig
+1.00000  my_eta'  p+         PHOTOS PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+#    
+Decay  my_eta'
+  1.000     my_rho0    gamma                                   SVP_HELAMP  1.0 0.0 1.0 0.0;
+Enddecay
+#
+Decay my_rho0
+1.000    pi+ pi-                       PHOTOS   VSS;
+Enddecay
+
+End

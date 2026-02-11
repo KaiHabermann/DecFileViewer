@@ -1,0 +1,38 @@
+# EventType: 12163498
+#
+# Descriptor: [B- -> (D0 -> K- pi+) K- (pi0 -> gamma gamma)]cc
+#
+# NickName: Bu_D0Kpi0,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay products in acceptance and photons of the pi0 in the EMC 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Vincent Tisserand
+# Email: vincent.tisserand@clermont.in2p3.fr
+# Date: 20230310
+#
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+Alias Mypi0 pi0
+#
+Decay B-sig
+  1.000     MyD0 K- Mypi0             PHSP;
+Enddecay
+CDecay B+sig
+#
+Decay MyD0
+  1.000        K-   pi+              PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay Mypi0
+1.0000  gamma gamma                         PHSP;
+Enddecay
+#
+End

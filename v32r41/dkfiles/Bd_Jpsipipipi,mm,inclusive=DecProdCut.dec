@@ -1,0 +1,90 @@
+# EventType: 11443010
+#
+# Descriptor: [B0 -> (J/psi -> mu+ mu-) a_1+ pi- ]cc
+#
+# NickName: Bd_Jpsipipipi,mm,inclusive=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: [B0 -> (Jpsi -> mu mu) a_1+ pi- X]cc, inclusive mode to 3pi final state.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Wenqian HUANG
+# Email: wenqian.huang@cern.ch
+# Date: 20190408
+# CPUTime: < 1 min
+#
+Alias    MyJpsi    J/psi                                                
+ChargeConj    MyJpsi    MyJpsi                                                
+#                                                        
+Alias    Myomega    omega                                                
+ChargeConj    Myomega    Myomega                                                
+#                                                        
+Alias    MyK_S0    K_S0                                                
+ChargeConj    MyK_S0    MyK_S0                                                
+#                                                        
+Alias    Myeta    eta                                                
+ChargeConj    Myeta    Myeta                                                
+#                                                        
+Alias    Myf_0    f_0                                                
+ChargeConj    Myf_0    Myf_0                                                
+#                                                        
+Alias    Myf_2    f_2                                                
+ChargeConj    Myf_2    Myf_2 
+#                                               
+Decay B0sig                        
+0.000014300     MyJpsi    pi+    pi+    pi-    pi-                 PHSP; #PDG Live 20190408, B0->Jpsi4pi: 1.43e-5
+0.004470000     MyJpsi    a_1+    pi-                              PHSP; #PDG Live 20190408, D0->a_1+pi-: 4.47e-3
+0.000290000     MyJpsi    a_1-    pi+                              PHSP; # " D0->a_1-pi+: 2.3e-4 + 6.0e-5
+0.001830000     MyJpsi    rho0    rho0                             PHSP; # " D0->rho0rho0:1.83e-3
+0.000533360     MyJpsi    Myf_0    pi+    pi-                      PHSP; # " D0->f0(980)pi+pi-: 1.8e-4
+0.000473413     MyJpsi    Myf_2    pi+    pi-                      PHSP; # " D0->f2(1270)pi+pi-: 3.7e-4
+0.001510000     MyJpsi    pi+    pi+    pi-    pi-    pi0          PHSP; # "
+0.000298239     MyJpsi    Myeta    pi+    pi-                      PHSP; # " D0->etapi+pi-: 1.09e-3
+0.001455081     MyJpsi    Myomega    pi+    pi-                    PHSP; # " D0->omegapi+pi-: 1.6e-3
+0.000420000     MyJpsi    pi+    pi+    pi+    pi-    pi-    pi-   PHSP; # "
+Enddecay                            
+CDecay anti-B0sig                        
+
+#                                                        
+Decay MyJpsi                                                    
+1.000000000     mu+    mu-                        PHOTOS    VLL;                    
+Enddecay                                                        
+#                                                        
+Decay Myf_2                                                    
+0.565000000     pi+    pi-                        TSS;                        
+0.071000000     pi+    pi-    pi0    pi0                PHSP;                        
+0.028000000     pi+    pi-    pi+    pi-                PHSP;                        
+0.010415089     MyK_S0    MyK_S0                        TSS;                        
+0.001889455     Myeta    Myeta                        TSS;                        
+Enddecay                                                        
+#                                                        
+Decay Myomega                                                    
+0.892000000     pi-    pi+    pi0                    OMEGA_DALITZ;                        
+0.015300000     pi-    pi+                        VSS;                        
+0.000125863     Myeta    gamma                        VSP_PWAVE;                        
+0.001500000     pi+    pi-    gamma                    PHSP;                        
+0.000500000     pi+    pi-    pi+    pi-                PHSP;                        
+Enddecay                                                        
+#                                                        
+Decay MyK_S0                                                    
+0.691086452     pi+    pi-                        PHSP;                        
+0.000000201     pi+    pi-    pi0                    PHSP;                        
+0.001722185     pi+    pi-    gamma                    PHSP;                        
+0.000042831     pi+    pi-    e+    e-                PHSP;                        
+Enddecay                                                        
+#                                                        
+Decay Myeta                                                    
+0.227400000     pi-    pi+    pi0                    ETA_DALITZ;                        
+0.046000000     gamma    pi-    pi+                    PHSP;                        
+0.000214200     pi+    pi-    e+    e-                PHSP;                        
+Enddecay                                                        
+#                                                        
+Decay Myf_0                                                    
+0.666700000     pi+    pi-                        PHSP;                        
+Enddecay
+#
+End                                                        

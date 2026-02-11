@@ -1,0 +1,90 @@
+# EventType: 12495400
+# 
+# Descriptor:  [B+ ==> ( D0 => K- pi+ ) ( D~0 => K+ pi- ) K+ { pi+ } { pi- }]CC 
+# 
+# NickName: Bu_D0D0KX=TightCuts
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: The decay B+ -> ( D0D~0, D*0D~0, D0D~*0, D*0D~*0, D*+D*- ) K+ with D0-> K- pi+
+#                with the tight generator cuts  
+# EndDocumentation
+#
+# Sample: SignalRepeatedHadronization
+#
+#InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool, ToolSvc
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal     = generation.SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut            = signal.TightCut
+# tightCut.Decay      = '^[B+ ==> ^( D0 => ^K- ^pi+ ) ^( D~0 => ^K+ ^pi- ) ^K+ { pi+ } { pi- }]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV',
+#     'inAcc          =  in_range ( 0.005 , GTHETA , 0.400 )   ' ,
+#     'inEta          =  in_range ( 1.95  , GETA   , 5.050 )   ' ,
+#     'goodTrack      =  inAcc & inEta & ( GPT > 190 * MeV )   ' ,
+# ]
+# tightCut.Cuts       =    {
+#     '[pi+]cc'       : 'goodTrack & in_range ( 3 * GeV , GP , 200 * GeV ) ' ,
+#     '[K+]cc'        : 'goodTrack & in_range ( 3 * GeV , GP , 200 * GeV ) ' ,
+#     '[D0]cc'        : 'in_range ( 1.9 , GY , 4.6) ' ,
+#     '[B+]cc'        : 'in_range ( 1.9 , GY , 4.6) ' ,
+#     }
+# # Generator efficiency histos:
+# tightCut.XAxis = ( "GPT/GeV" , 0.0 , 25.0 , 25 )
+# tightCut.YAxis = ( "GY"      , 2.0 ,  4.5 , 10 )
+# print tightCut 
+# EndInsertPythonCode
+#
+# PhysicsWG:    Onia 
+# Tested:       Yes
+# Responsible:  Vanya BELYAEV
+# Email:        Ivan.Belyaev@cern.ch
+# Date:         20190707
+# CPUTime:     <1min
+
+
+Alias           My-D0           D0
+Alias           My-anti-D0      anti-D0
+ChargeConj      My-D0           My-anti-D0
+
+Alias           My-D*0          D*0
+Alias           My-anti-D*0     anti-D*0
+ChargeConj      My-D*0          My-anti-D*0
+
+Alias           My-D*+          D*+
+Alias           My-D*-          D*-
+ChargeConj      My-D*+          My-D*-
+
+Decay B+sig
+  0.25          My-D0  My-anti-D*0 K+  PHSP ;
+  0.25          My-D*0 My-anti-D0  K+  PHSP ;
+  0.10          My-D0  My-anti-D0  K+  PHSP ;
+  0.20          My-D*0 My-anti-D*0 K+  PHSP ;
+  0.20          My-D*+ My-D*-      K+  PHSP ;
+Enddecay
+CDecay B-sig
+
+Decay My-D0
+  1.000         K-     pi+            PHSP ; 
+Enddecay
+CDecay My-anti-D0
+
+Decay My-D*0
+  0.353         My-D0  gamma          VSP_PWAVE ; 
+  0.647         My-D0  pi0            VSS ; 
+Enddecay
+CDecay My-anti-D*0
+
+Decay My-D*+
+  1.000         My-D0  pi+            VSS ; 
+Enddecay
+CDecay My-D*-
+
+#
+End
+#
+

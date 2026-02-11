@@ -1,0 +1,23 @@
+// Created by https://github.com/scikit-hep/decaylanguage
+digraph DecayChainGraph {
+	graph [comment="Created by https://github.com/scikit-hep/decaylanguage" engine=dot format=png name=DecayChainGraph rankdir=LR]
+	node [fontname=Helvetica fontsize=11 shape=oval]
+	edge [fontcolor="#4c4c4c" fontsize=11]
+	mother [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#568dba"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">Lambda_b0sig</TD></TR></TABLE>> shape=none]
+	dec31831 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyLambda_c+</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">Mytau-</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p2">&#x03bd;&#773;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> shape=none]
+	mother -> dec31831 [label=1.0]
+	dec31832 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">p</TD><TD BORDER="0" CELLPADDING="2">K<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec31831:p0 -> dec31832 [label=0.028]
+	dec31833 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">p</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">Myanti-K*0</TD></TR></TABLE>> shape=none]
+	dec31831:p0 -> dec31833 [label=0.01065]
+	dec31834 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">K<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec31833:p1 -> dec31834 [label=0.6657]
+	dec31835 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x0394;(1232)<SUP>++</SUP></TD><TD BORDER="0" CELLPADDING="2">K<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec31831:p0 -> dec31835 [label=0.0086]
+	dec31836 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyLambda(1520)0</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03c0;<SUP>+</SUP></TD></TR></TABLE>> shape=none]
+	dec31831:p0 -> dec31836 [label=0.00414]
+	dec31837 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">p</TD><TD BORDER="0" CELLPADDING="2">K<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec31836:p0 -> dec31837 [label=0.23]
+	dec31838 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03bc;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;&#773;<SUB>&#x03bc;</SUB></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec31831:p1 -> dec31838 [label=0.1736]
+}

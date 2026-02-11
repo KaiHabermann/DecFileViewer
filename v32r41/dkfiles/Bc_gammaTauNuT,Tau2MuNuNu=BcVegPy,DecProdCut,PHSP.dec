@@ -1,0 +1,37 @@
+# EventType: 14511202
+#
+# Descriptor: [B_c+ => gamma (tau+ => mu+ nu_mu anti-nu_tau) nu_tau]cc
+#
+# NickName: Bc_gammaTauNuT,Tau2MuNuNu=BcVegPy,DecProdCut,PHSP
+#
+# Documentation: Bc => tau nu gamma with tau => mu nu nu. Produced as a background for the Bc -> mu nu gamma signal. 
+#                Bc decayed with phase space model. Tau -> MuNuNu decayed with TAULNUNU model. Daughters in acceptance.
+# EndDocumentation
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Martino Borsato
+# Email: martino.borsato@cern.ch
+# Date: 20241202
+#
+Alias		MyTau+	tau+
+Alias		MyTau-	tau-
+ChargeConj	MyTau+	MyTau-
+#
+Decay B_c+sig
+      1.0	MyTau+	nu_tau	gamma PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyTau+
+      1.0   mu+         nu_mu      anti-nu_tau    TAULNUNU;
+Enddecay
+CDecay MyTau-
+#
+End
+#

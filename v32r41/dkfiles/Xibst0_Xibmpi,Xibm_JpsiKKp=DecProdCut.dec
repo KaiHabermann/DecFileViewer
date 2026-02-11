@@ -1,0 +1,47 @@
+# EventType: 16146010
+# NickName: Xibst0_Xibmpi,Xibm_JpsiKKp=DecProdCut
+# Descriptor: [Sigma_b0 -> (Xi_b- -> ( J/psi(1S) -> mu+ mu- ) p+ K- K- ) pi+]cc
+#
+# Documentation:
+#   Decay Xib*0 -> Xib- pi+ with Xib- -> Jpsi K- K- p+ 
+#   Xibst0 not known by Pythia, substitute with Sigma_b0 with assigned mass 5.9532 GeV
+#   Daughters in LHCb Acceptance
+# EndDocumentation
+#
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: " Sigma_b0   112   5212 0.0  5.95320  6.000000e-020       Sigma_b0   5212  1.000000e-004", " Sigma_b~0  113  -5212  0.0  5.95320  6.000000e-020  anti-Sigma_b0  -5212  1.000000e-004"
+#
+# Email: nicola.skidmore@cern.ch
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1min
+# Responsible:  Nicola Skidmore
+# Date: 20181119
+#
+Alias      MyXib-      Xi_b-
+Alias      Myanti-Xib+ anti-Xi_b+
+ChargeConj Myanti-Xib+ MyXib-
+#
+Alias      MyJ/psi       J/psi 
+ChargeConj MyJ/psi       MyJ/psi
+
+
+# Force Sb- (stand-in for Xib*-) to decay to Xib0 pi-:
+Decay Sigma_b0sig
+1.000    MyXib-        pi+      PHSP;
+Enddecay
+CDecay anti-Sigma_b0sig
+#
+Decay MyXib-
+1.000  MyJ/psi   p+ K- K-                           PHSP;
+Enddecay
+CDecay Myanti-Xib+
+#
+Decay MyJ/psi 
+1.000     mu+  mu-         PHOTOS VLL; 
+Enddecay 
+#
+End
+

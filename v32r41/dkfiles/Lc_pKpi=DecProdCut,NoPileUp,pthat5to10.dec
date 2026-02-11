@@ -1,0 +1,42 @@
+# EventType: 25103043
+#
+# Descriptor: [Lambda_c+ -> p+ K- pi+]cc
+#
+# NickName: Lc_pKpi=DecProdCut,NoPileUp,pthat5to10
+#
+# Cuts: DaughtersInLHCb
+# Production:Pythia8
+#
+# InsertPythonCode:
+# from Gaudi.Configuration import importOptions
+# importOptions('$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py')
+# from Configurables import Pythia8Production
+# Generation(genAlgName).SignalPlain.addTool(Pythia8Production)
+# Generation(genAlgName).SignalPlain.Pythia8Production.Commands+=[
+#     "HardQCD:all = on",
+#     "PhaseSpace:pTHatMin = 5.0",
+#     "PhaseSpace:pTHatMax = 10.0"]
+#
+# # Keep 2 -> 2 hard process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = (
+#     "( GBARCODE >= 1 ) & ( GBARCODE <= 6 )")
+#
+# EndInsertPythonCode
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# # CPUTime: < 1 min
+# Responsible: Manuel Ramirez Garcia
+# Email: mramiga@umich.edu
+# Date: 20240601
+#
+Decay Lambda_c+sig
+  0.02800   p+  K-  pi+  PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+#
+End

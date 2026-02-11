@@ -1,0 +1,42 @@
+# EventType: 42311004
+#
+# Descriptor: pp -> [mu+ nu_mu]cc ... 
+#
+# NickName: W_munumu=10GeV,MG
+# Production: Madgraph
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 10*GeV LeptonIsFromMother true NumberOfbquarks -1
+# ExtraOptions: Wmunu
+#
+# InsertPythonCode:
+# #Configure the event type.
+# from Configurables import Gauss, Generation, MadgraphProduction
+# from GaudiKernel import SystemOfUnits
+# from Gaudi.Configuration import importOptions
+#
+# # Madgraph options.
+# Generation(genAlgName).Special.addTool(MadgraphProduction)
+# sampleGenToolsOpts = {
+#     "Commands": ["import model loop_sm-ckm",
+#                  "generate p p > mu+ vm [QCD]",
+#                  "add process p p > mu- vm~ [QCD]"
+#                         ],
+#      "DecEff": 0.25523}
+# Gauss().SampleGenerationToolOptions.update(sampleGenToolsOpts)
+#
+# EndInsertPythonCode
+#
+# CPUTime: < 1 min
+# Documentation: 1 lepton with pT > 10 GeV aMC@NLO, gen cuts to select the W diagram 
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Nate Grieser
+# Email: ngrieser@cern.ch
+# Date: 20230502
+#
+End
+#

@@ -1,0 +1,72 @@
+# EventType: 15196131
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> (Lambda0 -> p+ pi-) pi+) (D_s- -> K+ K- pi-)]cc
+#
+# NickName: Lb_LcDs,Lambdapi=TightCut 
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: 2 min
+#
+# Documentation: Lb -> Lc Ds, Lc -> Lambda pi. Lambda reconstructible as Down-tracks or Long-tacks. Loose kinematic cuts on tracks not from Lambda decay. For Lambda require it to decay before 2.7m.
+# EndDocumentation
+#
+# InsertPythonCode:
+##
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut  = Generation().SignalPlain.TightCut
+# tightCut.Decay = "[ Lambda_b0 ==>  (Lambda_c+ ==> ^(Lambda0 ==> p+ pi- ) ^pi+) (D_s- ==> ^K+ ^K- ^pi-) ]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range",
+# "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, mm",
+# "inAcc = in_range(10*mrad,GTHETA,400*mrad)",
+# "EVZ   = GFAEVX(GVZ,0)",
+#  ]
+# tightCut.Cuts      =    {
+# 	'[pi+]cc'  : "inAcc & ( GP > 2000 * MeV ) & ( GPT > 200 * MeV )",
+# 	'[K+]cc'   : "inAcc & ( GP > 2000 * MeV ) & ( GPT > 200 * MeV )",
+# 	'[Lambda0]cc'  : "( EVZ < 2700 * mm ) & (GCHILDCUT(inAcc, '[Lambda0 => ^p+ pi-]CC')) & (GCHILDCUT(inAcc, '[Lambda0 => p+ ^pi-]CC'))",
+#  }  
+# EndInsertPythonCode
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible:  Tianze Rong
+# Email: tianze.rong@cern.ch
+# Date: 20230925
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Alias      MyLambda     Lambda0
+Alias      MyantiLambda anti-Lambda0
+ChargeConj MyLambda     MyantiLambda
+#
+Alias	MyDs-	D_s-
+Alias	MyDs+	D_s+
+ChargeConj	MyDs-	MyDs+
+#
+Decay Lambda_b0sig
+  1.000    MyLambda_c+        MyDs-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+# 
+Decay MyLambda_c+
+  1.000    MyLambda      pi+              PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda
+  1.000        p+      pi-                PHSP;
+Enddecay
+CDecay MyantiLambda
+#
+Decay MyDs-
+  1.000		K+	K-	pi-		D_DALITZ;
+Enddecay
+CDecay MyDs+
+#
+End
+#

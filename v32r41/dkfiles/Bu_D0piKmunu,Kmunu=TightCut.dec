@@ -1,0 +1,207 @@
+# EventType: 12575472 
+#
+# Descriptor: [B+ -> (anti-D0 -> K+ mu- anti-nu_mu) pi+ K- mu+ nu_mu]cc
+#
+# NickName: Bu_D0piKmunu,Kmunu=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LoKi__GenCutTool
+#
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[B+ --> K+ K- mu+ mu- ... ]CC"
+# tightCut.Preambulo += [
+#                        "from GaudiKernel.SystemOfUnits import MeV", 
+#                        "inAcc     = ( (GPX/GPZ < 0.38) & (GPX/GPZ > -0.38) & (GPY/GPZ < 0.28) & (GPY/GPZ > -0.28) & (GTHETA > 0.01))", 
+#                        "good_kaon = inAcc & (GP > 1500 * MeV) & ('K+' == GABSID)" ,
+#                        "good_muon = inAcc & (GP > 1500 * MeV) & ('mu+' == GABSID)" , ]
+# tightCut.Cuts = {'[B+]cc' : "( 2 == GNINTREE ( good_kaon ) ) & ( 2 == GNINTREE ( good_muon ) )"}
+# EndInsertPythonCode
+#
+# Documentation: 
+# Series of semi-leptonic B+ decays resulting in D0 pi K mu nu with D0 -> K mu nu.
+# The decfile contains a series of modes including excited D mesons, tau decays and additional pi0.
+# Two kaons and two muons are required to be in acceptance.
+# The decfile is intended for background studies for analyses of b -> s tau tau decays with single-prong tau decays.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20250116
+#
+Alias            MyD_0*+        D_0*+
+Alias            MyD_0*-        D_0*-
+ChargeConj       MyD_0*+        MyD_0*-
+#
+Alias            MyD_0*0        D_0*0
+Alias            Myanti-D_0*0   anti-D_0*0
+ChargeConj       MyD_0*0        Myanti-D_0*0
+#
+Alias            MyD_10         D_10
+Alias            Myanti-D_10    anti-D_10
+ChargeConj       MyD_10         Myanti-D_10
+#
+Alias            MyD'_10        D'_10
+Alias            Myanti-D'_10   anti-D'_10
+ChargeConj       MyD'_10        Myanti-D'_10
+#
+Alias            MyD_2*0        D_2*0
+Alias            Myanti-D_2*0   anti-D_2*0
+ChargeConj       MyD_2*0        Myanti-D_2*0
+#
+Alias            MyD*+          D*+
+Alias            MyD*-          D*-
+ChargeConj       MyD*+          MyD*-
+#
+Alias            MyD*0          D*0
+Alias            Myanti-D*0     anti-D*0
+ChargeConj       MyD*0          Myanti-D*0
+#
+Alias            MyD+           D+
+Alias            MyD-           D-
+ChargeConj       MyD+           MyD-
+#
+Alias            MyD0           D0
+Alias            Myanti-D0      anti-D0
+ChargeConj       MyD0           Myanti-D0
+#
+Alias            MyK*+          K*+
+Alias            MyK*-          K*-
+ChargeConj       MyK*+          MyK*-
+#
+Alias            MyK*0          K*0
+Alias            Myanti-K*0     anti-K*0
+ChargeConj       MyK*0          Myanti-K*0
+#
+Alias            Mytau+         tau+
+Alias            Mytau-         tau-
+ChargeConj       Mytau+         Mytau-
+#
+Decay B+sig 
+  0.104          Myanti-D0      K-      mu+         nu_mu    pi+     PHSP;
+  0.005          Myanti-D0      K-      Mytau+      nu_tau   pi+     PHSP;
+  0.104          Myanti-D0      MyK*-   mu+         nu_mu    pi+     PHSP;
+  0.005          Myanti-D0      MyK*-   Mytau+      nu_tau   pi+     PHSP;
+  0.260          Myanti-D*0     K-      mu+         nu_mu    pi+     PHSP;
+  0.011          Myanti-D*0     K-      Mytau+      nu_tau   pi+     PHSP;
+  0.260          Myanti-D*0     MyK*-   mu+         nu_mu    pi+     PHSP;
+  0.011          Myanti-D*0     MyK*-   Mytau+      nu_tau   pi+     PHSP;
+  0.014          Myanti-D_0*0   K-      mu+         nu_mu    pi+     PHSP;
+  0.0006         Myanti-D_0*0   K-      Mytau+      nu_tau   pi+     PHSP;
+  0.014          Myanti-D_0*0   MyK*-   mu+         nu_mu    pi+     PHSP;
+  0.0006         Myanti-D_0*0   MyK*-   Mytau+      nu_tau   pi+     PHSP;
+  0.013          Myanti-D_10    K-      mu+         nu_mu    pi+     PHSP;
+  0.0006         Myanti-D_10    K-      Mytau+      nu_tau   pi+     PHSP;
+  0.013          Myanti-D_10    MyK*-   mu+         nu_mu    pi+     PHSP;
+  0.0006         Myanti-D_10    MyK*-   Mytau+      nu_tau   pi+     PHSP;
+  0.014          Myanti-D'_10   K-      mu+         nu_mu    pi+     PHSP;
+  0.0006         Myanti-D'_10   K-      Mytau+      nu_tau   pi+     PHSP;
+  0.014          Myanti-D'_10   MyK*-   mu+         nu_mu    pi+     PHSP;
+  0.0006         Myanti-D'_10   MyK*-   Mytau+      nu_tau   pi+     PHSP;
+  0.005          Myanti-D_2*0   K-      mu+         nu_mu    pi+     PHSP;
+  0.0002         Myanti-D_2*0   K-      Mytau+      nu_tau   pi+     PHSP;
+  0.005          Myanti-D_2*0   MyK*-   mu+         nu_mu    pi+     PHSP;
+  0.0002         Myanti-D_2*0   MyK*-   Mytau+      nu_tau   pi+     PHSP;
+  0.019          MyD-      pi+  K-      mu+         nu_mu    pi+     PHSP;
+  0.0008         MyD-      pi+  K-      Mytau+      nu_tau   pi+     PHSP;
+  0.022          MyD*-     pi+  K-      mu+         nu_mu    pi+     PHSP;
+  0.0010         MyD*-     pi+  K-      Mytau+      nu_tau   pi+     PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD_0*+ 
+  0.9500         MyD0           pi+                               PHSP;
+  0.0248         MyD*0          pi+     pi0                       PHSP;
+  0.0168         MyD*+          pi+     pi-                       PHSP;
+  0.0084         MyD*+          pi0     pi0                       PHSP;
+Enddecay
+CDecay MyD_0*-
+#
+Decay MyD_0*0
+  0.9500         MyD0           pi0                               PHSP;
+  0.0230         MyD*0          pi+     pi-                       PHSP;
+  0.0155         MyD*+          pi-     pi0                       PHSP;
+  0.0115         MyD*0          pi0     pi0                       PHSP;
+Enddecay
+CDecay Myanti-D_0*0
+#
+Decay MyD_10
+  0.3821         MyD*+          pi-                               VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+  0.2822         MyD*0          pi0                               VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+  0.2548         MyD_0*+        pi-                               PHSP;
+  0.0809         MyD_0*0        pi0                               PHSP;
+Enddecay
+CDecay Myanti-D_10
+#
+Decay MyD'_10
+  0.4547         MyD*+          pi-                               VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+  0.3358         MyD*0          pi0                               VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+  0.1397         MyD0           pi+     pi-                       PHSP;
+  0.0698         MyD0           pi0     pi0                       PHSP;
+Enddecay
+CDecay Myanti-D'_10
+#
+Decay MyD_2*0
+  0.4750         MyD*+          pi-                               TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+  0.2375         MyD*0          pi0                               TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+  0.2375         MyD0           pi0                               TSS;
+  0.0255         MyD_0*+        pi-                               PHSP;
+  0.0081         MyD_0*0        pi0                               PHSP;
+  0.0080         MyD0           pi+     pi-                       PHSP;
+  0.0040         MyD0           pi0     pi0                       PHSP;
+  0.0020         MyD*0          pi+     pi-                       PHSP;
+  0.0014         MyD*+          pi-     pi0                       PHSP;
+  0.0010         MyD*0          pi0     pi0                       PHSP;
+Enddecay
+CDecay Myanti-D_2*0
+#
+Decay MyD*+
+  0.677          MyD0           pi+                               VSS; 
+  0.307          MyD+           pi0                               PHSP; 
+  0.016          MyD+           gamma                             PHSP; 
+Enddecay
+CDecay MyD*-
+#
+Decay MyD*0
+  0.647          MyD0           pi0                               VSS;
+  0.353          MyD0           gamma                             VSP_PWAVE;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD+
+  0.0352          Myanti-K*0            mu+         nu_mu         ISGW2;
+  0.0019          K-            pi+     mu+         nu_mu         PHSP;
+  0.0010          K-      pi0   pi+     mu+         nu_mu         PHSP;
+Enddecay
+CDecay MyD-
+#
+Decay MyD0 
+  0.341          K-             mu+     nu_mu                     ISGW2;
+  0.189          MyK*-          mu+     nu_mu                     ISGW2;
+  0.160          K-      pi0    mu+     nu_mu                     PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyK*+
+  1.000          K+             pi0                               VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyK*0
+  1.000          K+             pi-                               VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Mytau+
+  0.1739         mu+     nu_mu  anti-nu_tau                       TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

@@ -1,0 +1,72 @@
+# EventType: 12545070
+#
+# Descriptor: [B+ -> (J/psi(1S) -> mu+ mu-) K+ (pi+ -> mu+ nu_mu) (pi- -> mu- anti-nu_mu)]cc
+#
+# NickName: Bu_JpsiKpipi,mm,munu=phsp,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# ParticleValue: "pi+ 8 211 1.0 0.13957061 2.603300e-09 pi+ 211 0.000000e+000", "pi- 9 -211 -1.0 0.13957061 2.603300e-09 pi- -211 0.000000e+000"
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay     = '[ B+ ==> (J/psi(1S) ==> ^mu+ ^mu-) ^K+ ^(pi+ ==> ^mu+ nu_mu) ^(pi- ==> ^mu- nu_mu~) ]CC'
+#tightCut.Cuts      =    {
+#'[K+]cc'    : ' goodTrack ' ,
+#'[pi+]cc'   : ' (goodTrack) & (decay) ' ,
+#'[mu+]cc'   : ' (goodTrack) & ( GP > 2000 * MeV ) '
+#}
+#tightCut.Preambulo += [
+#'from GaudiKernel.SystemOfUnits import ns, MeV, meter',
+#'from GaudiKernel.PhysicalConstants import c_light',
+#'inAcc = ( in_range( 0.001, GTHETA, 0.400) ) & ( in_range( 1.4, GETA, 5.6) )  ',
+#'goodTrack  = ( GPT > 110 * MeV ) & ( GP > 1100 * MeV ) & ( inAcc )',
+#"GVZ = LoKi.GenVertices.PositionZ() ",
+#"decay = in_range ( -1.1 * meter, GFAEVX ( GVZ, 100 * meter ), 19 * meter )",
+#]
+#EndInsertPythonCode
+#
+#
+# CPUTime: 1 min
+#
+# Documentation: B+ -> J/psi(1S) K+ pi+ pi- phsp decay, pions forced to decay in flight and pion lifetime shortened 10x for that. J/psi -> mu+ mu-, all daughters in acceptance.
+# EndDocumentation
+# 
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Vitalii Lisovskyi
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20221110
+
+
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+
+Alias        MyPi+  pi+
+Alias        MyPi-  pi-
+ChargeConj   MyPi+  MyPi-
+
+Decay B+sig
+  1.0000   MyJ/psi K+ MyPi+ MyPi-         PHSP;
+Enddecay
+CDecay B-sig
+
+
+Decay MyJ/psi
+  1.0000   mu+   mu-                PHOTOS VLL;
+Enddecay
+
+Decay MyPi+
+  0.999877 mu+ nu_mu        SLN;
+  0.000200 mu+ nu_mu gamma  PHSP;
+  0.000123 e+ nu_e          SLN;
+Enddecay
+CDecay MyPi-
+
+
+End

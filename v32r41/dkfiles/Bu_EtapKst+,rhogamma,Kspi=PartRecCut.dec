@@ -1,0 +1,73 @@
+# EventType: 12105315
+# 
+# Descriptor: [B+ -> (K*(892)+ -> (KS0 -> pi+ pi-) pi+) (eta_prime -> (rho(770)0 -> pi+ pi-) gamma)]cc
+# 
+# NickName: Bu_EtapKst+,rhogamma,Kspi=PartRecCut
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# Documentation: Kst+ to KSpi and etaprime to rho0gamma(SVP_HELAMP). Tight cuts adapted for partially reconstructed decays in B2Kspipipi AmAn
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Pablo Baladron Rodriguez
+# Email: pablo.baladron.rodriguez@cern.ch
+# Date: 20211016
+# CPUTime: < 1 min
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '^[B+ => (K*(892)+ => (KS0 => pi+ pi-) pi+) (eta_prime => (rho(770)0 => pi+ pi-) gamma)]CC'
+# tightCut.Preambulo += [ "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#                          , "inAcc = in_range(1.9, GETA, 5.0)" 
+#                          , "isGoodPi      = ( ( GPT > 0.5*GeV ) & inAcc & ( 'pi+' == GABSID ) )"
+#                          , "isGoodPiKs      = ( ( GP > 2.*GeV ) & inAcc & ( 'pi+' == GABSID ) )"
+#                          , "isGoodKs      = ( ( 'KS0' == GABSID ) & (GNINTREE( isGoodPiKs, 1 ) > 1 ))"
+#                          , "isGoodrho      = ( ( 'rho(770)0' == GABSID ) & (GNINTREE( isGoodPi, 1 ) > 1 ))"
+#                          , "isGoodKstr      = ( ( 'K*(892)+' == GABSID ) & (GNINTREE( isGoodPi, 1 ) > 0 ) & ( GNINTREE( isGoodKs, 1 ) > 0 ))"
+#                          , "isGoodB        = ( ( 'B+' == GABSID ) & ( GNINTREE( isGoodrho, 4 ) > 0 ) & ( GNINTREE( isGoodKstr, 1 ) > 0 ))" ]
+# tightCut.Cuts	= {
+#	'[B+]cc' : 'isGoodB'}
+# EndInsertPythonCode
+
+Alias      MyKst+    K*+
+Alias      MyKst-    K*-
+ChargeConj MyKst+    MyKst-
+Alias      MyKs      K_S0
+ChargeConj MyKs      MyKs
+Alias       myeta'  eta'
+Alias       myrho0  rho0
+ChargeConj  myeta'  myeta'
+ChargeConj  myrho0  myrho0
+
+
+#
+Decay B+sig
+  1.000     MyKst+    myeta'      PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyKst+
+  1.000  MyKs pi+                        VSS;
+Enddecay
+CDecay MyKst-
+#
+Decay MyKs
+  1.000   pi+     pi-         PHSP;
+Enddecay
+#
+Decay   myeta'
+  1.000    myrho0    gamma      SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+#
+Decay   myrho0
+  1.000     pi+     pi-          VSS;
+Enddecay
+#
+End
+
+

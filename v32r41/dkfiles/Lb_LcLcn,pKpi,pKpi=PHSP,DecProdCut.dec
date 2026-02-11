@@ -1,0 +1,34 @@
+# EventType: 15196810
+
+# Descriptor: [Lambda_b0 -> Lambda_c+ Lambda_c~- n ]cc
+
+# NickName: Lb_LcLcn,pKpi,pKpi=PHSP,DecProdCut
+
+# Cuts: DaughtersInLHCb
+
+# CPUTime: < 1 min
+# Documentation: This is the decay file for the decay Lambda_b -> Lambda_c+ anti-Lambda_c- n 
+# EndDocumentation
+
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Ned Howarth
+# Email: ned.howarth@liverpool.ac.uk
+# Date: 20220911
+
+#Define Lambda_c
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+
+Decay Lambda_b0sig
+  1.000  n0 MyLambda_c+  Myanti-Lambda_c-   PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyLambda_c+
+  1.000         p+      K-      pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+
+End

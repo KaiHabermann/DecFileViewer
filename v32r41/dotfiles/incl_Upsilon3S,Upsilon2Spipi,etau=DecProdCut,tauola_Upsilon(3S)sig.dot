@@ -1,0 +1,17 @@
+// Created by https://github.com/scikit-hep/decaylanguage
+digraph DecayChainGraph {
+	graph [comment="Created by https://github.com/scikit-hep/decaylanguage" engine=dot format=png name=DecayChainGraph rankdir=LR]
+	node [fontname=Helvetica fontsize=11 shape=oval]
+	edge [fontcolor="#4c4c4c" fontsize=11]
+	mother [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#568dba"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">Upsilon(3S)sig</TD></TR></TABLE>> shape=none]
+	dec342 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyUpsilon</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03c0;<SUP>+</SUP></TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p2">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> shape=none]
+	mother -> dec342 [label=1.0]
+	dec343 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">Mytau-</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">e<SUP>+</SUP></TD></TR></TABLE>> shape=none]
+	dec342:p0 -> dec343 [label=0.5]
+	dec344 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec343:p0 -> dec344 [label=1.0]
+	dec345 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">Mytau+</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">e<SUP>-</SUP></TD></TR></TABLE>> shape=none]
+	dec342:p0 -> dec345 [label=0.5]
+	dec346 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec345:p0 -> dec346 [label=1.0]
+}

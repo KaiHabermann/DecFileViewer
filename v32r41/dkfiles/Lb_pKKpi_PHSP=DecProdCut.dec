@@ -1,0 +1,26 @@
+# EventType: 15104012
+#
+# Descriptor: [ Lambda_b0 -> p+ K- K+ pi- ]cc
+#
+# NickName: Lb_pKKpi_PHSP=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes 
+# CPUTime: 1 min 
+# Responsible: Zhanwen Zhu
+# Email: zhzhu@cern.ch
+# Date: 20210719
+#
+Decay Lambda_b0sig
+  1.000    p+    K-    K+    pi-   PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#
+

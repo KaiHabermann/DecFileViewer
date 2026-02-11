@@ -1,0 +1,64 @@
+# EventType: 26374021
+#
+# Descriptor: [Sigma_c++ -> (Lambda_c+ -> p+ e+ mu-) pi+]cc
+#
+# NickName: Sc++_Lcpi,pemu=TightCut
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Sigma_c++ -> Lambda_c+pi+, Lambda_c -> p e mu LFV, PHSP MODEL, 
+# GL cuts, double arrows in Decay
+# EndDocumentation
+#
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Jolanta Brodzicka
+# Email:       jolanta.brodzicka@cern.ch
+# Date:        20200810
+# 
+# CPUTime: 7min
+#
+# InsertPythonCode:
+#
+#
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ Sigma_c++ => ^( Lambda_c+ =>  ^p+ ^(mu+|e+) ^(mu-|e-)) pi+ ]CC'
+# tightCut.Cuts      =    {
+#     '[e+]cc'        : ' goodElectron & inAcc & inCaloAcc ',
+#     '[mu+]cc'       : ' goodMuon & inAcc   ' , 
+#     '[p+]cc'        : ' goodProton & inAcc ', 
+#     '[Lambda_c+]cc' : ' goodLambdac & ~GHAS (GBEAUTY, HepMC.ancestors)' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter, micrometer',
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ', 
+#     'inCaloAcc   = ( in_range(0.000, abs(GPX/GPZ), 0.300) & in_range(0.000, abs(GPY/GPZ), 0.250) & (GPZ > 0) ) ',
+#     'goodElectron   = ( GPT > 0.2 * GeV ) & ( GP > 0.2 * GeV ) ',
+#     'goodProton = ( GPT > 0.2 * GeV ) & ( GP > 0.2 * GeV ) ', 
+#     'goodMuon   = ( GPT > 0.2 * GeV ) & ( GP > 2. * GeV ) ' , 
+#     'goodLambdac  = ( GTIME > 50 * micrometer ) ' ]
+#
+# EndInsertPythonCode
+#
+
+
+Alias MyLambda_c+                   Lambda_c+
+Alias Myanti-Lambda_c-              anti-Lambda_c-
+ChargeConj MyLambda_c+              Myanti-Lambda_c-
+#
+Decay Sigma_c++sig
+  1.000    MyLambda_c+  pi+                     PHSP;
+Enddecay
+CDecay anti-Sigma_c--sig
+#
+Decay MyLambda_c+
+  0.50000         p+      e-      mu+     PHSP;
+  0.50000         p+      e+      mu-     PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+
+End
+#

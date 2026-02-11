@@ -1,0 +1,51 @@
+# EventType: 12195200
+# 
+# Descriptor: [B+ -> (D*(2007)0 -> (D0 -> K- pi+) gamma) (D~0 -> K+ pi-) K+]cc
+#
+# NickName: Bu_Dst0D0barK,Kpi,D0gamma_Kpi=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ -> D*0 D~0 K+ with D*0 going to D0 gamma, D0 going to K pi
+# EndDocumentation
+# 
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Yi Jiang
+# Email: y.jiang@cern.ch
+# Date: 20241206
+# CPUTime: < 1 min
+#
+Alias My_D0   D0
+Alias My_anti-D0 anti-D0
+Alias My2_D0   D0
+Alias My2_anti-D0 anti-D0
+Alias My_D*0  D*0
+Alias My_anti-D*0 anti-D*0
+
+ChargeConj My_anti-D0 My_D0
+ChargeConj My_anti-D*0 My_D*0
+ChargeConj My2_D0 My2_anti-D0
+
+Decay My_D0
+  1.0 K- pi+ 		 		PHSP;
+Enddecay
+CDecay My_anti-D0
+
+Decay My2_anti-D0
+  1.0 K+ pi-                               PHSP;
+Enddecay
+CDecay My2_D0
+
+
+Decay My_D*0
+  1.0 My_D0 gamma  			PHSP;
+Enddecay
+CDecay My_anti-D*0
+
+Decay B+sig
+  1.0 My_D*0 My2_anti-D0 K+ 		PHSP;
+Enddecay
+CDecay B-sig
+
+End

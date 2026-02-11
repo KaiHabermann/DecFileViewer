@@ -1,0 +1,41 @@
+# EventType: 15164480
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ K- pi+) pi- (pi0 -> gamma gamma) ]cc
+#
+# NickName: Lb_Lcpipi0,Lc_pkpi=DecProdCut
+# 
+# Cuts: DaughtersInLHCb
+#
+#CPUTime: 5min
+#
+# Documentation: This is the decay file for the decay Lambda_b0 -> (Lambda_c+ -> p+ K- pi+ ) pi- pi0
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Lanling Lu
+# Email: lanlinglu@.cern.ch
+# Date:   20240304
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias      Mypi0  pi0
+ChargeConj Mypi0  Mypi0
+#
+Decay Lambda_b0sig
+  1.000    MyLambda_c+  pi-  Mypi0    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay Mypi0
+  1.000     gamma      gamma               PHSP;
+Enddecay
+#
+End

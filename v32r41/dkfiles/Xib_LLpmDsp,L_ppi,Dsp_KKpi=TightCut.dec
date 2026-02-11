@@ -1,0 +1,81 @@
+# EventType: 16168140
+#
+# Descriptor: [Xi_b0 -> (Lambda0 ->  p+ pi-) (Lambda0 -> p+ pi-) p~- (D_s+ -> K+ K- pi+)]cc
+#
+# NickName: Xib_LLpmDsp,L_ppi,Dsp_KKpi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation:
+#    Xib0 decays to  Lambda Lambda anti proton and Ds,
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[ Xi_b0 ==> ^(Lambda0 =>  ^p+ ^pi-) ^(Lambda0 =>  ^p+ ^pi-) ^p~- (D_s+ => ^K+ ^K- ^pi+)  ]CC'
+# tightCut.Preambulo += [
+#     "GVX = LoKi.GenVertices.PositionX() " ,
+#     "GVY = LoKi.GenVertices.PositionY() " ,
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,
+#     "from GaudiKernel.SystemOfUnits import meter, millimeter, GeV, mrad" ,
+#     "decayx = in_range ( -0.3 * meter, GFAEVX ( GVX, 100 * meter ), 0.3 * meter ) ",
+#     "decayy = in_range ( -0.3 * meter, GFAEVX ( GVY, 100 * meter ), 0.3 * meter ) ",
+#     "decayz = in_range ( -1.0 * meter, GFAEVX ( GVZ, 100 * meter ), 2.5 * meter ) ",
+#     "theta  =  GTHETA<250*mrad ",
+#     "InAcc = in_range ( 0.010 , GTHETA , 0.400 )",
+# ]
+# tightCut.Cuts      =    {
+#     '[Lambda0]cc' : 'decayx & decayy & decayz & theta',
+#     '[p+]cc'      : 'InAcc',
+#     '[K+]cc'      : 'InAcc',
+#     '[pi+]cc'     : 'InAcc',
+#                         }
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Ellinor Eckstein, Xabier Cid Vidal
+# Email: ellinor.eckstein@cern.ch, xabier.cid.vidal@cern.ch
+# Date: 20240205
+#
+#
+Alias   MyLambda01       Lambda0
+Alias   Myanti-Lambda01   anti-Lambda0
+ChargeConj  MyLambda01      Myanti-Lambda01
+#
+Alias   MyLambda02       Lambda0
+Alias   Myanti-Lambda02   anti-Lambda0
+ChargeConj  MyLambda02      Myanti-Lambda02
+#
+Alias       MyDs+       D_s+
+Alias       MyDs-       D_s-
+ChargeConj  MyDs+       MyDs-
+
+
+Decay Xi_b0sig
+    1.000   MyLambda01     MyLambda02      anti-p-  MyDs+      PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyLambda01
+    1.000   p+  pi-     PHSP;
+Enddecay
+CDecay  Myanti-Lambda01
+#
+Decay MyLambda02
+    1.000   p+  pi-     PHSP;
+Enddecay
+CDecay  Myanti-Lambda02
+#
+Decay   MyDs+
+1.000   K+  K-  pi+     D_DALITZ;
+Enddecay
+CDecay  MyDs-
+#
+End

@@ -1,0 +1,36 @@
+# EventType: 12513411
+#
+# Descriptor: [B+ -> (eta -> pi+ pi- pi0) mu+ nu_mu]cc
+#
+# NickName: Bu_etamunu,pipipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ -> (eta -> pi+ pi- pi0) mu+ nu_mu (PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Marcus Madurai
+# Email:       marcus.madurai@cern.ch
+# Date:        20250804
+#
+Alias Myeta eta
+ChargeConj Myeta  Myeta
+#
+Decay B+sig
+1.000       Myeta       mu+       nu_mu       PHOTOS PHSP;
+Enddecay
+CDecay B-sig
+#
+#
+Decay Myeta
+1.000       pi-           pi+      pi0        ETA_DALITZ;
+Enddecay
+#
+End
+#
+

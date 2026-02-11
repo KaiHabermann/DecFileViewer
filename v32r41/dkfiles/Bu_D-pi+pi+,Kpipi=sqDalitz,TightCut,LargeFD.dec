@@ -1,0 +1,71 @@
+# EventType: 12165069
+#
+# Descriptor: [B+ ==>  (D- ==>  K+ pi- pi-) pi+ pi+ ]cc
+#
+# NickName: Bu_D-pi+pi+,Kpipi=sqDalitz,TightCut,LargeFD
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 5 min
+#
+# Documentation:
+# decay file for B+ -> D- pi+ pi+, D- -> K+ pi- pi-, flat in the square DP
+# with large transverse flight distance and high transverse momentum (e.g. for heavy flavour tracking)
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool, Pythia8Production
+# from Gauss.Configuration import *
+# gen = Generation().SignalRepeatedHadronization
+# # adapt to have minimum parton PT and switch on main/representative hard qcd bbbar 
+# # production for fast generation (to cope with inefficiency of generator cuts)
+# gen.addTool( Pythia8Production, name = 'Pythia8Production' )
+# gen.Pythia8Production.Commands += [
+#              'HardQCD:all = off',
+#              'SoftQCD:all = off',
+#              'HardQCD:gg2bbbar = on',
+#              'HardQCD:qqbar2bbbar = on',
+#              'PhaseSpace:pTHatMin = 5.0',
+#         ]
+# gen.addTool( LoKi__GenCutTool,'TightCut')
+# tightCut = gen.TightCut
+# tightCut.Decay = '^([B+ ==> (D- ==> ^K+ ^pi- ^pi-) ^pi+ ^pi+]CC)'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'from LoKiCore.math import sqrt, pow2',
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.5  , GETA   , 5.5 )            ' ,
+#     'goodTrack    =  ( inAcc & inEta )                          ' ,
+#     'highPT       =  ( GPT > 4.0 * GeV )                         ' ,
+#     "largeFD      =  ( sqrt( pow2( GCHILD( GFAEVX( GVX, 0 ), ( 'D-' == GABSID ) ) - GFAPVX(GVX,0) ) + pow2( GCHILD( GFAEVX( GVY, 0 ), ( 'D-' == GABSID ) ) - GFAPVX(GVY,0) ) ) > 4.0 * mm ) " ,
+# ]
+# tightCut.Cuts     =    {
+#     '[B+]cc'    : 'inEta & highPT & largeFD ' ,
+#     '[pi+]cc'   : 'goodTrack ',
+#     '[K+]cc'    : 'goodTrack ',
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Maarten van Veghel
+# Email: m.van.veghel@cern.ch
+# Date: 20250501
+#
+Alias        MyD-         D-
+Alias        MyD+         D+
+ChargeConj   MyD+         MyD-
+#
+Decay B+sig
+  1.000     MyD-     pi+  pi+      FLATSQDALITZ;
+Enddecay
+CDecay B-sig
+#
+Decay MyD-
+  1.000        K+       pi-    pi-          D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End
+#

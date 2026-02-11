@@ -1,0 +1,27 @@
+# EventType: 11116010
+#
+# Descriptor: [B0 -> K+ pi- pi+ pi- mu+ mu-]cc
+#
+# NickName: Bd_Kpipipimumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B0 -> K+ pi- pi+ pi- mu+ mu- (PHSP)
+# EndDocumentation
+#
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Harry Cliff
+# Email:       harry.victor.cliff@cern.ch
+# Date:        20210210
+# CPUTime: <1 min
+#
+#
+Decay B0sig
+ 1.0     K+ pi- pi+ pi- mu+ mu- PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#

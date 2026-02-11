@@ -1,0 +1,42 @@
+# EventType: 14113400
+#
+# Descriptor: [B_c+ ->  mu+ mu- (rho(770)+ -> pi+ (pi0 -> gamma gamma))]cc
+#
+# NickName: Bc_rhomumu=PHSP,BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to rho mu+ mu- with PHSP model, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Fernando Abudinen
+# Email: fernando.abudinen@cern.ch
+# Date: 20230424
+#
+Alias      MyRho+     rho+
+Alias      MyRho-     rho-
+ChargeConj MyRho+ MyRho-
+Alias      Mypi0  pi0
+ChargeConj Mypi0  Mypi0
+#
+Decay B_c+sig
+  1.000   mu+  mu-  MyRho+          PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyRho+
+  1.000   pi+    Mypi0              VSS;
+Enddecay
+CDecay MyRho-
+#
+Decay Mypi0
+  1.000   gamma      gamma          PHSP;
+Enddecay
+#
+End
+

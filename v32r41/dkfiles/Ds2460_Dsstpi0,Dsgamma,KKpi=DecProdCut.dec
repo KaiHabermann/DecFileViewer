@@ -1,0 +1,48 @@
+# EventType: 27163680
+#
+# Descriptor: [D_s1+ -> ( D_s*+ -> (D_s+ => K+ K- pi+ ) gamma) (pi0 -> gamma gamma) ]cc
+#
+# NickName: Ds2460_Dsstpi0,Dsgamma,KKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Resolution studies
+# EndDocumentation
+#
+# CPUTime:  1.5 min
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible:     Ricardo Vazquez Gomez
+# Email: rvazquez@cern.ch
+# Date: 20190411
+#
+Alias        MyD_s*+        D_s*+
+Alias        MyD_s*-        D_s*-
+ChargeConj   MyD_s*-        MyD_s*+
+Alias MyD_s- D_s-
+Alias MyD_s+ D_s+
+ChargeConj MyD_s+ MyD_s-
+Alias      Mypi0     pi0
+ChargeConj Mypi0     Mypi0
+#
+Decay D_s1+sig
+  1.000     MyD_s*+ Mypi0                       PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay D_s1-sig
+#
+Decay MyD_s*+
+  1.000     MyD_s+  gamma      VSP_PWAVE;
+Enddecay
+CDecay MyD_s*-
+#
+Decay  MyD_s+
+  1.000     K+ K- pi+   D_DALITZ ;
+Enddecay
+CDecay MyD_s-
+#
+Decay Mypi0 
+  1.000      gamma   gamma   PHSP;
+Enddecay
+#
+End

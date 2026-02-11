@@ -1,0 +1,26 @@
+# EventType: 12103030
+#
+# Descriptor: [B+ -> K+ pi+ K-]cc
+#
+# NickName: Bu_K+pi+K-=sqDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Flat on square Dalitz plot 
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Angel Campoverde
+# Email: angel.campoverde@cern.ch 
+# Date: 20221115
+#
+Decay B+sig
+1.000       K+     pi+     K-     FLATSQDALITZ;
+Enddecay
+CDecay B-sig
+#
+End
+

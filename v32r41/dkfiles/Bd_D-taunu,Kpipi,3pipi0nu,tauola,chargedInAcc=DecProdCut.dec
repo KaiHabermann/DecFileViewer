@@ -1,0 +1,46 @@
+# EventType: 11563001
+#
+# Descriptor: {[[B0]nos ->(D- -> K+ pi- pi-) (tau+ -> pi+ pi- pi+ pi0 anti-nu_tau) nu_tau]cc, [[B0]os -> (D+ -> K- pi+ pi+) (tau- -> pi- pi+ pi- pi0 nu_tau) anti-nu_tau]cc}
+#
+# NickName: Bd_D-taunu,Kpipi,3pipi0nu,tauola,chargedInAcc=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# Documentation: B0 to D- tau nu, with D- -> K pi pi. 
+# Tau forced to 3pi pi0 nu final state using TAUOLA model.
+# The pi0 is not forced into the acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible:  Beatriz Garcia Plana, Antonio Romero Vidal
+# Email: beatriz.garcia.plana@cern.ch, antonio.romero@usc.es
+# Date: 20180202
+#
+Alias         MyD+     D+
+Alias         MyD-     D-
+ChargeConj    MyD+     MyD-
+#
+Alias         MyTau-   tau-
+Alias         MyTau+   tau+
+ChargeConj    MyTau-   MyTau+
+#
+Decay B0sig
+  1.00        MyD-     MyTau+    nu_tau     ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  1.000       K+       pi-       pi-        D_DALITZ;
+Enddecay
+CDecay MyD+
+#    
+Decay MyTau-
+  1.00	     TAUOLA 8;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

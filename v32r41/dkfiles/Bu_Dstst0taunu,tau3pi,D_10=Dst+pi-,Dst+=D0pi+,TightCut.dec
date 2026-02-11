@@ -1,0 +1,98 @@
+# EventType: 12567001
+#
+# Descriptor: [B- => (D_10 => (D*+ => (D0 => K- pi+) pi+ ) pi-) (tau- => pi- pi+ pi- nu_tau) anti-nu_tau]cc
+# NickName: Bu_Dstst0taunu,tau3pi,D_10=Dst+pi-,Dst+=D0pi+,TightCut
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+# InsertPythonCode:
+#
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+# gen = Generation(genAlgName).SignalRepeatedHadronization
+# gen.addTool( LoKi__GenCutTool, "TightCut" )
+# tightCut = gen.TightCut
+# tightCut.Decay = "[(B- => ( D_1(2420)0 => pi- ( D*(2010)+ => pi+ ( D0 => K- pi+ ) ) ) ( tau- => pi+ pi- pi- nu_tau) nu_tau~ ) ]CC"
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import MeV, GeV",
+#     "inAcc = ( GPZ > 0 ) & ( GPT > 45 * MeV ) & ( GP > 1.6 * GeV ) & in_range ( 1.8, GETA, 5.0 ) & in_range ( 0.005, GTHETA, 0.400 )",
+#     "good_slow_pion = ('pi+' == GABSID) & (GPT > 45 * MeV) & inAcc",
+#     "good_Tau_pion   = ('pi+' == GABSID) & (GPT > 240 * MeV) & inAcc",
+#     "good_D0_pion   = ('pi+' == GABSID) & (GPT > 240 * MeV) & inAcc",
+#     "good_D0_kaon   = ('K+'  == GABSID) & (GPT > 240 * MeV) & inAcc",
+#     "good_D0        = ('D0'  == GABSID) & (GPT > 1.5 * GeV) & ( GP > 15. * GeV ) & GCHILDCUT(good_D0_kaon, 'Charm => ^(K+|K-) (pi+|pi-)') & GCHILDCUT(good_D0_pion, 'Charm => (K+|K-) ^(pi+|pi-)')",
+#     "good_Dstar     = ('D*(2010)+' == GABSID) & GCHILDCUT(good_slow_pion, 'Charm => Charm ^(pi+|pi-)')",
+#     "good_Tau     = ('tau+' == GABSID) & GCHILDCUT(good_Tau_pion, 'Lepton => ^(pi+|pi-) (pi+|pi-) (pi+|pi-)')",
+#     "good_Dstst     = ('D_1(2420)0' == GABSID) & GCHILDCUT(good_slow_pion, 'Charm => Charm ^(pi+|pi-)')",
+#     "good_B       = ('B+' == GABSID)"
+# ]
+# tightCut.Cuts = {
+#     "[B-]cc"  :  "good_B",
+#     "[D_1(2420)0]cc" : "good_Dstst",
+#     "[tau+]cc" : "good_Tau",
+#     "[D*(2010)+]cc" : "good_Dstar",
+#     "[D0]cc" : "good_D0"
+# }
+# EndInsertPythonCode
+#
+# Documentation: Signal decay of B- -> D**0 tau- nu modes. D**0 -> D*+ pi-, D*+ -> D0 pi, D0 -> K pi, tau -> 3 pions . Cuts for B -> D* tau nu, tau-> 3pi 2015+2016 analysis.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Luke Scantlebury-Smead
+# Email: luke.george.scantlebury.smead@cern.ch
+# Date: 20190213
+
+# Tauola steering options
+Define TauolaCurrentOption 0
+Define TauolaBR1 1.0
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyD0         D0
+Alias      MyAntiD0     anti-D0
+ChargeConj MyD0         MyAntiD0
+#
+Alias      MyD*-        D*-
+Alias      MyD*+        D*+
+ChargeConj MyD*-        MyD*+
+#
+Alias      MyD_10         D_10
+Alias      MyAntiD_10     anti-D_10
+ChargeConj MyD_10         MyAntiD_10
+#
+Decay B-sig
+# FORM FACTORS as per HFAG PDG10
+1.00  MyD_10     Mytau-  anti-nu_tau         PHOTOS  ISGW2;
+#
+Enddecay
+CDecay B+sig
+#
+SetLineshapePW MyD_10 MyD*+ pi- 2
+SetLineshapePW MyAntiD_10 MyD*- pi+ 2
+#
+Decay MyD_10
+1.00    MyD*+ pi-                         PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyAntiD_10
+#
+Decay MyD*+
+1.0       MyD0   pi+                   VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.00   K-  pi+                           PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD0
+#
+Decay Mytau-
+  1.0000    TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+End
+#

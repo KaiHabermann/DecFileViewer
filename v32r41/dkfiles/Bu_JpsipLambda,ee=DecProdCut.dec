@@ -1,0 +1,38 @@
+# EventType: 12155111
+#
+# Descriptor: [B+ -> anti-Lambda0 p+ J/psi(1S)]cc
+# NickName: Bu_JpsipLambda,ee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Non resonant B+ -> anti-Lambda0 p+ Jpsi, the Jpsi is forced to decay to two electrons, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Lukas Calefice
+# Email: lukas.calefice@cern.ch
+# Date: 20210413
+# CPUTime: < 1min 
+#
+Alias MyJpsi	      J/psi
+ChargeConj MyJpsi     MyJpsi
+Alias MyLambda0       Lambda0
+Alias Myanti-Lambda0  anti-Lambda0
+ChargeConj MyLambda0  Myanti-Lambda0
+#
+Decay B+sig
+  1.000        Myanti-Lambda0        p+        MyJpsi     PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyLambda0
+  1.000   p+   pi-     HELAMP   0.936   0.0   0.351   0.0;
+Enddecay
+CDecay Myanti-Lambda0
+#
+Decay MyJpsi
+  1.000     e+  e-     PHOTOS VLL;
+Enddecay
+#
+End

@@ -1,0 +1,120 @@
+# EventType: 15865049
+# Descriptor: [Lambda_b0 ==> (Lambda_c+ -> p+ K- pi+) pi+ pi-  pi- pi+ pi- ]cc
+#
+# NickName: Lb_Sig2455piminustaunu,3pinu,Lcpi,pKpi=cocktail,TightCut
+#
+#
+## Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# ParticleValue: "eta(1475) 826 100331 0.0 1.47500000 7.743673e-24 eta(1475) 100331 0.00000000"
+# 
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = "[Lambda_b0 --> (Sigma_c++ => (Lambda_c+ ==> p+ K- pi+) pi+) pi- (tau- => pi- pi- pi+  nu_tau ) nu_tau~ ]CC"
+# tightCut.Preambulo += [
+#   "from LoKiCore.functions import in_range",
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#   "goodTrack = in_range(0.010, GTHETA, 0.400) & ( GPT > 130 * MeV ) & ( GP  > 1200 * MeV )",
+#   "goodLc = ('Lambda_c+' == GABSID) & (3 == GNINTREE(goodTrack))",
+#   "goodLb = GINTREE(goodLc) & (GNINTREE(goodTrack) >= 3)"
+#  ]
+# tightCut.Cuts = {
+#  "[Lambda_b0]cc" : "goodLb"
+# }
+# EndInsertPythonCode
+#
+# Documentation: Lb->Sigma_c++ pi- tau-, tau- to 3 pi
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Racha Cheaib
+# Email: rcheaib@cern.ch
+# Date: 20250108
+# CPUTime: 5min
+#
+## Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+
+Alias      MyLambda_c+             Lambda_c+
+Alias      Myanti-Lambda_c-        anti-Lambda_c-
+ChargeConj MyLambda_c+             Myanti-Lambda_c-
+
+#
+Alias      MySigma_c++             Sigma_c++
+Alias      Myanti-Sigma_c--        anti-Sigma_c--
+ChargeConj MySigma_c++             Myanti-Sigma_c--
+#
+#
+Alias      MyK*0                   K*0
+Alias      Myanti-K*0              anti-K*0
+ChargeConj MyK*0                   Myanti-K*0
+#
+Alias      MyLambda(1520)0         Lambda(1520)0
+Alias      Myanti-Lambda(1520)0    anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0         Myanti-Lambda(1520)0
+#
+Alias      Mya_1-                  a_1-
+Alias      Mya_1+                  a_1+
+ChargeConj Mya_1+                  Mya_1-
+#
+Alias      Myf_2                   f_2
+ChargeConj Myf_2                   Myf_2
+#
+#
+Alias      Mytau-                  tau-
+Alias      Mytau+                  tau+
+ChargeConj Mytau+                  Mytau-
+#
+Alias      MySigma_c*++             Sigma_c*++
+Alias      Myanti-Sigma_c*--        anti-Sigma_c*--
+ChargeConj MySigma_c*++             Myanti-Sigma_c*--
+#
+Decay Lambda_b0sig
+  1.0    MySigma_c++    pi-        Mytau-   anti-nu_tau     PHSP; 
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+  0.02800 p+                 K-      pi+   PHSP;
+  0.016   p+                 Myanti-K*0    PHSP;
+  0.00860 Delta++            K-            PHSP;
+  0.00414 MyLambda(1520)0    pi+           PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+#
+Decay MySigma_c++
+1. MyLambda_c+ pi+                           PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+Decay MyK*0
+  1.0 K+                  pi-           VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Mya_1+
+  1.000   rho0               pi+           VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay Myf_2
+  1.000  pi+                 pi-           TSS ;
+Enddecay
+#
+Decay Mytau-
+ 1.0 TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+Decay MyLambda(1520)0
+  1.0   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+End

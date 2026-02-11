@@ -1,0 +1,55 @@
+# EventType: 15826000
+#
+# Descriptor: {[Lambda_b0 -> p+ K- (tau+ -> pi+ pi- pi+ (pi0) anti-nu_tau) (tau- -> e- anti-nu_e nu_tau)]cc, [Lambda_b0 -> p+ K- (tau- -> pi- pi+ pi- (pi0) nu_tau) (tau+ -> e+ nu_e anti-nu_tau)]cc }
+#
+# NickName: Lb_pKtautau,3pipi0e=DecProdCut,tauolababar,phsp
+#
+# Cuts: DaughtersInLHCb
+# 
+#
+# Documentation: Lb decay to p K tau tau.
+# One tau leptons decay in the 3-prong charged pion mode along with 3pi pi0 mode using the Tauola BaBar model.
+# The other tau leptons decay in electron mode.
+# All final-state products in the acceptance.
+# EndDocumentation
+#
+#
+#
+# CPUTime: 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Yunxuan Song
+# Email: yunxuan.song@cern.ch
+# Date: 20230216
+#
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         Mytau1+      tau+
+Alias         Mytau1-      tau-
+ChargeConj    Mytau1+      Mytau1-
+Alias         Mytau2+      tau+
+Alias         Mytau2-      tau-
+ChargeConj    Mytau2+      Mytau2-
+#
+Decay Lambda_b0sig
+    0.5     p+     K-    Mytau1+     Mytau2-         PHSP;
+    0.5     p+     K-    Mytau1-     Mytau2+         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mytau1+
+  9.31        TAUOLA 5;
+  4.62        TAUOLA 8;
+Enddecay
+CDecay Mytau1-
+#
+Decay Mytau2-
+  1.00        e-        anti-nu_e       nu_tau   TAULNUNU;
+Enddecay
+CDecay Mytau2+
+#
+End
+
+

@@ -1,0 +1,90 @@
+# EventType: 18298030
+#
+# Descriptor: [Upsilon(4S) -> (Lambda_b0 -> (Lambda_c+ -> p K- pi+) pi-) (Lambda_b~0 -> (Lambda_c~- -> p~- K+ pi-) pi+)]cc
+#
+# NickName: Upsilon11314_LbLbbar,Lb=Lcpi,DecProdCut
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon4S
+#
+# ParticleValue: "Upsilon(4S)  849  300553  0.0  11.31380000  3.210791e-23  Upsilon(4S)  300553  0.03900000"
+#
+# Documentation: Upsilon(11314) decay to LbLbbar final state.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# CPUTime: 5min
+# Tested: Yes
+# Responsible: Jiaqi Yang
+# Email: jiaqi.yang@cern.ch
+# Date: 20241119
+
+Alias      MyLambda_b0        Lambda_b0
+Alias Myanti-Lambda_b0   anti-Lambda_b0
+ChargeConj MyLambda_b0 Myanti-Lambda_b0
+#
+Alias       MyLambda_c+       Lambda_c+
+Alias       Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj  MyLambda_c+       Myanti-Lambda_c- 
+# Define Lambda(1520)0
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+# Define K*0
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+# Define Delta++
+Alias      MyDelta++      Delta++
+Alias      Myanti-Delta-- anti-Delta--
+ChargeConj MyDelta++      Myanti-Delta--
+#
+Alias       MyJpsi                J/psi
+ChargeConj  MyJpsi               MyJpsi
+
+#
+Decay Upsilon(4S)sig
+  1.000  MyLambda_b0  Myanti-Lambda_b0  PHSP;
+Enddecay
+
+#
+Decay MyLambda_b0
+  0.048356    MyLambda_c+ pi- pi+ pi- PHSP ;
+  0.03077     MyLambda_c+ pi-  PHSP ;
+  0.001907    MyJpsi p+ K-  PHSP ;
+Enddecay
+CDecay Myanti-Lambda_b0
+#
+Decay MyLambda_c+
+    0.02800         p+      K-      pi+          PHSP;
+    0.01065         p+      Myanti-K*0           PHSP;
+    0.00860         MyDelta++ K-                 PHSP;
+    0.00414         MyLambda(1520)0 pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+    0.6657      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyLambda(1520)0
+  0.23   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay MyDelta++
+  1.000 p+ pi+ PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+Decay MyJpsi
+  1.000  mu+      mu-    PHOTOS   VLL;
+Enddecay
+
+#
+End
+#

@@ -1,0 +1,26 @@
+# EventType: 15114230
+#
+# Descriptor: [Lambda_b0 -> p+ pi- mu+ mu- gamma]cc
+#
+# NickName: Lb_ppimumugamma=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Five body Lambda_b0 to  p pi mu mu gamma decay with generic phase space model, for studies of partially-reconstructed backgrounds to Lb->ppimumu       
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes 
+# CPUTime: < 1 min
+# Responsible: yuxi
+# Email: yuxi.gao@cern.ch
+# Date: 20241211
+#
+
+Decay Lambda_b0sig
+  1.000   p+ pi-  mu+   mu- gamma PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+End
+#

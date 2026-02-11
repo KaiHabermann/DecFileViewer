@@ -1,0 +1,58 @@
+# EventType: 12147170
+#
+# Descriptor: [B+ -> (K*(892)+ -> (K_S0 -> pi+ pi-) pi+) (psi(2S) -> (J/psi(1S) -> mu+ mu-) pi+ pi-)]cc
+#
+# NickName: Bu_psi2SKst+,Jpsipipi,KSpi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ -> psi(2S) K*(892)+ decay, psi(2S) ->J/psi(1S) pi+ pi-, J/psi -> mu+ mu-,K*(892) -> K_S0 pi+, K_S0 -> pi+ pi-,  Decay products in acceptance
+# EndDocumentation
+#
+# CPUTime:  1min
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: sujuan wu
+# Email: wsj2022@mails.ccnu.edu.cn
+# Date: 20240819
+#
+Alias      MyJ/psi  J/psi
+Alias      Mypsi(2S)  psi(2S)
+Alias      MyKstp   K*+
+Alias      MyKstm   K*-
+Alias      MyK_S0   K_S0
+
+ChargeConj Mypsi(2S)  Mypsi(2S)
+ChargeConj MyJ/psi  MyJ/psi
+ChargeConj MyKstp   MyKstm
+ChargeConj MyK_S0   MyK_S0
+#
+#
+#
+Decay B+sig
+  1.000    Mypsi(2S)   MyKstp         PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Mypsi(2S)
+  1.000         MyJ/psi         pi+   pi-         PHSP;
+Enddecay
+#
+Decay MyKstp
+  1.000         MyK_S0        pi+             VSS;  
+Enddecay
+CDecay MyKstm
+#
+Decay MyJ/psi
+  1.000         mu+        mu-        PHOTOS VLL;
+Enddecay
+#
+Decay MyK_S0
+  1.000         pi+        pi-        PHSP;
+Enddecay
+#
+End
+#
+
+
+

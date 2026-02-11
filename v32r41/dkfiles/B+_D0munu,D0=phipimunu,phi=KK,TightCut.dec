@@ -1,0 +1,58 @@
+# EventType: 12575001
+#
+# Descriptor: [B+ -> (anti-D0 -> (phi(1020) -> K+ K-) pi+ mu- anti-nu_mu) mu+ nu_mu]cc
+#
+# NickName: B+_D0munu,D0=phipimunu,phi=KK,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.@Production.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.@Production.TightCut
+# tightCut.Decay = "([B+ --> K+ K- pi+ mu- mu+ ...]CC)"
+# tightCut.Preambulo += ["from LoKiCore.functions import in_range",
+#                        "good_charged = ( in_range ( 0.010 , GTHETA , 0.400 ) & (('K+' == GABSID) | ('mu+' == GABSID) | ('pi-' == GABSID)))"]
+# tightCut.Cuts = {'[B+]cc' : "( 4 <= GNINTREE ( good_charged ) )"}
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Gediminas Sarpis
+# Email: gediminas.sarpis@cern.ch
+# Date: 20240508
+#
+# CPUTime: < 2 min
+#
+# Documentation: B+-> (anti-D0 -> (phi -> KK) pi+ mu- anti-nu_mu) mu+ nu_mu
+#        background studies for Lb->pKtaumu
+# EndDocumentation
+#
+#
+#
+Alias      MyD0       D0
+Alias 	   MyAntiD0   anti-D0
+ChargeConj MyD0       MyAntiD0
+#
+Alias   MyPhi phi
+ChargeConj  MyPhi MyPhi
+#
+Decay B+sig
+  1.000     MyAntiD0 mu+ nu_mu PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyAntiD0
+  1.000     MyPhi pi+ mu- anti-nu_mu         PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay MyPhi
+  1.000     K+ K-                          VSS;
+Enddecay
+#
+End

@@ -1,0 +1,36 @@
+# EventType: 14113021
+#
+# Descriptor: [B_c+ -> (B*0 -> mu+ mu-) pi+]cc
+#
+# NickName: Bc_Bst0Pi,mm=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to B*0(to mu+ mu- {,gamma} {,gamma}), pi+ with SVS model, daughters in acceptance 
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Fernando Abudinen, Thomas Blake, Michal Kreps
+# Email: fernando.abudinen-gallego@warwick.ac.uk
+# Date: 20210119
+#
+Alias      MyB*0      B*0
+Alias      MyAnti-B*0 anti-B*0
+ChargeConj MyB*0      MyAnti-B*0
+#
+Decay B_c+sig
+  1.000     MyB*0   pi+             SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyB*0
+  1.000     mu+       mu-             PHOTOS   VLL;
+Enddecay
+CDecay MyAnti-B*0
+#
+End
+#

@@ -1,0 +1,34 @@
+# EventType: 11154051
+#
+# Descriptor: {[[B0]nos -> (psi(2S) -> e+ e- ) K+ pi-]cc, [[B0]os -> (psi(2S) -> e+ e- ) K- pi+]cc}
+#
+# NickName: Bd_psi2SKpi,ee,phsp=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 -> psi2S K pi phase space MC for studies in RKpi at high Kpi mass
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Martin Andersson
+# Email: martin.andersson@cern.ch
+# Date: 20221103
+# CPUTime: < 1 min
+#
+
+#
+#
+Alias      Mypsi(2S)    psi(2S)
+ChargeConj Mypsi(2S)    Mypsi(2S)
+#
+Decay B0sig
+  1.000        Mypsi(2S)   K+ pi-      PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mypsi(2S)
+  1.000        e+       e-         PHOTOS  VLL;
+Enddecay
+#
+End

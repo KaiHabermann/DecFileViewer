@@ -1,0 +1,85 @@
+# EventType: 15298016
+# 
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ K- pi+) (D_s1(2460)- -> (D_s- -> K+ K- pi-) pi+ pi-)]cc
+# 
+# NickName: Lb_LcDs2460,pKpi,Dspipi,KKpi=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: 
+# 	Decay file for Lb -> Lc+ D_s1(2460)-, 
+# 	Lc+ decays to p K- pi+; D_s1(2460)- decays to  Ds- pi+ pi-, and Ds- decays to K+ K- pi-,
+# 	decay products in acceptance.
+# 	K*0, Delta++ and Lambda(1520)0 resonances are included in Lambda_c decay.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Kunpeng Yu 
+# Email: kunpeng.yu@cern.ch
+# Date: 20231028
+#
+Alias      MyD_s(2460)-          D_s1-
+Alias      Myanti-D_s(2460)+     D_s1+
+ChargeConj MyD_s(2460)-          Myanti-D_s(2460)+ 
+#
+Alias      MyD_s-               D_s-
+Alias      Myanti-D_s+          D_s+
+ChargeConj MyD_s-               Myanti-D_s+
+#
+Alias      MyLambda_c+          Lambda_c+
+Alias      Myanti-Lambda_c-     anti-Lambda_c-
+ChargeConj MyLambda_c+          Myanti-Lambda_c-
+#
+Alias      MyK*0                K*0
+Alias      Myanti-K*0           anti-K*0
+ChargeConj MyK*0                Myanti-K*0
+#
+Alias      MyDelta++            Delta++
+Alias      Myanti-Delta--       anti-Delta--
+ChargeConj MyDelta++            Myanti-Delta--
+#
+Alias      MyLambda(1520)0      Lambda(1520)0
+Alias      Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+#
+Decay Lambda_b0sig
+ 1.00 MyLambda_c+	MyD_s(2460)-	PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyD_s(2460)-
+ 1.00 MyD_s-	pi+	pi-		PHSP;
+Enddecay
+CDecay Myanti-D_s(2460)+
+#
+Decay MyD_s-
+ 1.00 K-	K+	pi-		PHSP;
+Enddecay
+CDecay Myanti-D_s+
+#
+Decay MyLambda_c+
+ 0.17 MyDelta++	K-			PHSP;
+ 0.21 Myanti-K*0	p+		PHSP;
+ 0.08 MyLambda(1520)0	pi+		PHSP;
+ 0.54 p+		K-	pi+	PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+ 1.00 K+	pi-			PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyDelta++
+ 1.00 p+	pi+			PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+Decay MyLambda(1520)0
+ 1.00 p+	K-			PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+End

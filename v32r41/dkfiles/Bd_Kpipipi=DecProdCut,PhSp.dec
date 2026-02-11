@@ -1,0 +1,31 @@
+# EventType: 11104091
+#
+# Descriptor: [B0 -> K+ pi- pi+ pi-]cc
+#
+# NickName: Bd_Kpipipi=DecProdCut,PhSp
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# Flat phase space in the analysis region of B0 -> Kst rho0.
+# Daughters in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Xingyu Tong
+# Email: xingyu.tong@cern.ch
+# Date: 20221031
+#
+Define m12_min 0.0   # The model will take at least m1+m2
+Define m12_max 1.25   # Must be in GeV/c^2
+Define m34_min 0.0   # The model will take at least m1+m2
+Define m34_max 1.25   # Must be in GeV/c^2
+#
+Decay B0sig
+  1.000 K+ pi- pi+ pi- FOURBODYPHSP m12_min m12_max m34_min m34_max;
+Enddecay
+CDecay anti-B0sig
+#
+End

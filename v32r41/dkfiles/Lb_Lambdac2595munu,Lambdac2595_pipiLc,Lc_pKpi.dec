@@ -1,0 +1,68 @@
+# EventType: 15576099
+#
+# Descriptor:  Lambda_b0 => ( Lambda_c(2595)+ => (Lambda_c+ => ^p+  ^K- ^pi+ )  pi+ pi- )  mu- nu_mu~
+#
+# NickName: Lb_Lambdac2595munu,Lambdac2595_pipiLc,Lc_pKpi
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: 
+#   Event generation of Lambda_b0 -> ( Lambda_c(2595)+ -> (Lambda_c+ -> p+  K- pi+ )  pi+ pi- )  mu- nu_mu~ with stripping aligned cuts for background studies.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Saul Lopez
+# Email: saul.lopez.solino@cern.ch
+# Date: 20220228
+# CPUTime: 3 min
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ ^(Lambda_b0 => ( Lambda_c(2595)+ => (Lambda_c+ => p+  K- pi+ )  pi+ pi- )  mu- nu_mu~ )]CC'
+# tightCut.Cuts      =    {
+#     '[Lambda_b0]cc'  : ' isGoodLb '
+# }
+# tightCut.Preambulo += [ "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#                       , "inAcc = in_range(1.9, GETA, 5.0)" 
+#                       , "isGoodKaon     = ( ( GPT > 0.25*GeV ) & inAcc & ( 'K+' == GABSID ) )"
+#                       , "isGoodPiC      = ( ( GPT > 0.25*GeV ) & inAcc & ( 'pi+' == GABSID ) )"
+#                       , "isGoodPi2595   = ( ( GPT > 0.10*GeV ) & inAcc & ( 'pi+' == GABSID ) )"
+#                       , "isGoodP        = ( ( GPT > 0.25*GeV ) & inAcc & ( 'p+' == GABSID ) )"
+#                       , "isGoodMu       = ( ( GPT > 0.25*GeV ) & inAcc & ( 'mu+' == GABSID ) )"
+#                       , "isGoodLc       = ( ( 'Lambda_c+' == GABSID ) & ( GNINTREE( isGoodKaon, 1 ) > 0 ) & ( GNINTREE( isGoodP, 1 ) > 0 ) & ( GNINTREE( isGoodPiC, 1 ) > 0 ) )"
+#                       , "isGoodLc2595   = ( ( 'Lambda_c(2595)+' == GABSID ) & ( GNINTREE( isGoodLc, 1 ) > 0) & ( GNINTREE ( isGoodPi2595, 1 ) > 1 ) )"
+#                       , "isGoodLb       = ( ( 'Lambda_b0' == GABSID ) & ( GNINTREE( isGoodLc2595, 1 ) > 0 ) & ( GNINTREE(isGoodMu, 1 ) > 0 ) )" ]
+# EndInsertPythonCode
+#
+#
+Alias MyLambda_c(2593)+ Lambda_c(2593)+
+Alias Myanti-Lambda_c(2593)- anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+ Myanti-Lambda_c(2593)-
+#
+Alias      MyLambda_c+         Lambda_c+
+Alias      MyLambda_c-	       anti-Lambda_c-
+ChargeConj MyLambda_c+         MyLambda_c-
+#
+#
+Decay Lambda_b0sig
+  1.0000    MyLambda_c(2593)+        mu-  anti-nu_mu        PHOTOS   BaryonPCR  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c(2593)+
+  1.0000     MyLambda_c+   pi+    pi-   PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+#
+Decay MyLambda_c+
+  1.0000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay MyLambda_c-
+
+End

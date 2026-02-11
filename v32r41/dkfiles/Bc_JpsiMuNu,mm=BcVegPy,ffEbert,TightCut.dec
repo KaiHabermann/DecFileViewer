@@ -1,0 +1,57 @@
+# EventType: 14543013 
+#
+# Descriptor: [B_c+ => (J/psi(1S) => mu+ mu-) mu+ nu_mu]cc
+#
+# NickName: Bc_JpsiMuNu,mm=BcVegPy,ffEbert,TightCut
+#
+# Production: BcVegPy
+#
+# Cuts: LoKi::GenCutToolWithDecay/TightCut
+#
+# InsertPythonCode:
+#from Configurables import LoKi__GenCutToolWithDecay
+#from Gauss.Configuration import *
+#generation = Generation(genAlgName)
+#production = generation.Special
+#production.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+#production.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+#tightCut = production.TightCut
+#tightCut.SignalPID = 'B_c+'
+#tightCut.PreDecay = False
+#tightCut.Decay = "[ B_c+ ==> ^(J/psi(1S) => ^mu+ ^mu-) ^mu+ nu_mu ]CC"
+#tightCut.Preambulo += [
+#  "from LoKiCore.functions import in_range"  ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV"  ,
+#]
+#tightCut.Cuts      =    {
+# '[mu+]cc'  : " in_range( 1.60, GETA, 5.10) & (GP > 2.5*GeV) ",
+# 'J/psi(1S)'  : " (GPT > 1*GeV) & ( GMINTREE(GP, 'mu+'==GABSID) > 3*GeV ) & ( GMAXTREE(GPT, 'mu+'==GABSID) > 1*GeV ) & ( GMINTREE(GPT, 'mu+'==GABSID) > 450*MeV ) ",
+#}
+# EndInsertPythonCode
+
+# Documentation: Bc+ to J/psi mu, J/psi -> mumu. Form factor model by Ebert et al., doi:10.1103/PhysRevD.82.034032. Radiative mode included. Tight cuts on muon acceptance and momenta of muons and Jpsi.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Zishuo Yang
+# Email: zishuo.yang@cern.ch
+# Date: 20191201
+# CPUTime: < 1min
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+Decay MyJ/psi
+  1.00000  mu+        mu-                               PHOTOS VLL ;
+Enddecay
+#
+Decay B_c+sig
+  1.00000  MyJ/psi    mu+            nu_mu              PHOTOS BC_VMN 2;
+Enddecay
+CDecay B_c-sig
+#
+End
+
+
+

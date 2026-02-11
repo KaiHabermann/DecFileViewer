@@ -1,0 +1,59 @@
+# EventType: 11676430
+#
+# Descriptor: [B0 -> (D*(2010)- -> (D~0 -> K+ pi- (omega(782) -> pi+ pi- pi0)) pi-) mu+ nu_mu]cc
+#
+# NickName: Bd_Dstmunu,Kpipipipi0=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: For pion tracking asymmetry analysis
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Xuhao Yuan
+# Email: xuhao.yuan@{nospam}cern.ch
+# Date: 20230201
+# CPUTime: < 1 min
+#
+Alias          MyD*+      D*+
+Alias          MyD*-      D*-
+ChargeConj     MyD*-      MyD*+
+
+Alias          MyD0       D0
+Alias          Myanti-D0  anti-D0
+ChargeConj     MyD0       Myanti-D0
+
+Alias          MyKst      K*0
+Alias          Myanti-Kst anti-K*0
+ChargeConj     MyKst      Myanti-Kst
+
+Alias          MyOmega    omega
+ChargeConj     MyOmega    MyOmega
+
+Decay B0sig
+  1.000 MyD*- mu+ nu_mu PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+  1.000 Myanti-D0 pi- PHSP;
+Enddecay
+CDecay MyD*+
+#
+Decay Myanti-D0
+  0.013  MyKst pi- pi+ pi0 PHSP;
+  0.068  K+ pi- MyOmega PHSP;
+  0.0065 MyKst MyOmega PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay MyOmega
+  1.000  pi+ pi- pi0 PHSP;
+Enddecay
+#
+Decay MyKst
+  1.000  K+ pi- PHSP;
+Enddecay
+CDecay Myanti-Kst
+End

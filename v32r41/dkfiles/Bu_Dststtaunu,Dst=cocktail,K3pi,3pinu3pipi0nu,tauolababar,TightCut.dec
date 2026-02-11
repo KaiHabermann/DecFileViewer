@@ -1,0 +1,125 @@
+# EventType: 12666030
+#
+# Descriptor: {[ B+ --> (tau+ -> pi+ pi- pi+ anti-nu_tau) nu_tau ( D*- => (D~0 ==> K+ pi- pi+ pi-) pi- ) ... ]cc}
+#
+# NickName: Bu_Dststtaunu,Dst=cocktail,K3pi,3pinu3pipi0nu,tauolababar,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal = generation.SignalRepeatedHadronization
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = signal.TightCut
+# tightCut.Decay = '[ [B-]cc --> (D0 ==> K- pi+ pi- pi+) ... ]CC'
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,'inAcc = ( 0 < GPZ )  &  ( 200 * MeV < GPT ) & ( 900 * MeV < GP ) & in_range ( 1.8 , GETA , 5.2 )'
+#     ,"nPiB = GNINTREE(('pi+' == GABSID) & inAcc & ( GNINTREE ( ('KS0' == GABSID) | ('KL0' == GABSID), HepMC.parents)==0 ), HepMC.descendants)"
+#     ,"nKB = GNINTREE(('K+' == GABSID) & inAcc, HepMC.descendants)"
+#     ,"npB = GNINTREE(('p+' == GABSID) & inAcc , HepMC.descendants)"
+#     ,"nMuB = GNINTREE(('mu+' == GABSID) & inAcc & ( GNINTREE ( ('KS0' == GABSID) | ('KL0' == GABSID), HepMC.parents)==0 ), HepMC.descendants)"
+#     ,"neB = GNINTREE(('e+' == GABSID) & inAcc & ( GNINTREE ( ('KS0' == GABSID) | ('KL0' == GABSID), HepMC.parents)==0 ), HepMC.descendants)"
+#     ,"goodD0 = GINTREE(( 'D0'  == GABSID ) & (GP>19000*MeV) & (GPT>1900*MeV) & ( GNINTREE(( 'K-' == GABSID ) & ( GPT > 350*MeV ) & ( GP > 3900*MeV ) & inAcc, HepMC.descendants) == 1 ) & ( GNINTREE(( 'pi+' == GABSID ) & ( GPT > 200*MeV ) & ( GP > 1900*MeV ) & inAcc, HepMC.descendants) == 3 ))"
+#     ,"goodB = ( goodD0 & (nPiB+nKB+nMuB+neB+npB >= 7) )"
+# ]
+# tightCut.Cuts = {
+#     '[B-]cc': 'goodB'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: Sum of B+ -> D** tau nu modes. D** -> D*-(->D0pi-) X, D0 -> K3pi. Cuts for B -> D* tau nu, D*->piD0(->K3pi) tau-> 3pi analysis.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Antonio Romero Vidal
+# Email: antonio.romero@usc.es
+# Date: 20240510
+#
+##############
+#
+# Tauola steering options
+# # The following forces the tau to decay into 3 charged pions (not pi+2pi0)
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+# 
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyD0         D0
+Alias      MyAntiD0     anti-D0
+ChargeConj MyD0         MyAntiD0
+#
+Alias      MyD*-        D*-
+Alias      MyD*+        D*+
+ChargeConj MyD*-        MyD*+
+#
+Alias      MyD_10         D_10
+Alias      MyAntiD_10     anti-D_10
+ChargeConj MyD_10         MyAntiD_10
+#
+Alias      MyD_0*0         D_0*0
+Alias      MyAntiD_0*0     anti-D_0*0
+ChargeConj MyD_0*0         MyAntiD_0*0
+#
+Alias      MyD'_10         D'_10
+Alias      MyAntiD'_10     anti-D'_10
+ChargeConj MyD'_10         MyAntiD'_10
+#
+Alias      MyD_2*0         D_2*0
+Alias      MyAntiD_2*0     anti-D_2*0
+ChargeConj MyD_2*0         MyAntiD_2*0
+#
+Decay B-sig
+#  0.00   MyD_0*0     Mytau-  anti-nu_tau     PHOTOS  ISGW2; # 0.00373*0
+  0.00133   MyD'_10     Mytau-  anti-nu_tau     PHOTOS  ISGW2; # 0.00403*0.33 ;
+  0.00151   MyD_10      Mytau-  anti-nu_tau     PHOTOS  ISGW2; # 0.00721*0.21 ;
+  0.0005    MyD_2*0     Mytau-  anti-nu_tau     PHOTOS  ISGW2; # 0.00385*0.13 ;
+Enddecay
+CDecay B+sig
+#
+SetLineshapePW MyD_10 MyD*+ pi- 2
+SetLineshapePW MyAntiD_10 MyD*- pi+ 2
+#
+SetLineshapePW MyD_2*0 MyD*+ pi- 2
+SetLineshapePW MyAntiD_2*0 MyD*- pi+ 2
+#
+Decay Mytau-
+  0.6666        TAUOLA 5;
+  0.3333        TAUOLA 8;
+Enddecay
+CDecay Mytau+
+#
+Decay MyD0
+  1.00      K-           pi+        pi+        pi-      LbAmpGen DtoKpipipi; # (0.0822 +- 0.0014) incl.;
+Enddecay
+CDecay MyAntiD0
+#
+Decay MyD*+
+  0.6770    MyD0  pi+                          PHOTOS VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD'_10
+  0.33    MyD*+ pi-                          PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAntiD'_10
+#
+Decay MyD_10
+  0.21   MyD*+ pi-                           PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyAntiD_10
+#
+Decay MyD_2*0
+  0.13    MyD*+ pi-                          PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAntiD_2*0
+#
+End
+#

@@ -1,0 +1,45 @@
+# EventType: 18144041
+#
+# Descriptor: chi_c1(1P) -> (J/psi -> mu+ mu-) mu+ mu-
+#
+# NickName: incl_b=chic1,Jpsimumu,DecProdCut
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: LoKi::FullGenEventCut/b2Chic1Filter
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "b2Chic1Filter" )
+# SignalFilter = Generation(genAlgName).b2Chic1Filter
+# SignalFilter.Code = " has(isB2cc)"
+# SignalFilter.Preambulo += [
+#   "isB2cc = ((GDECTREE('(Beauty & LongLived) --> chi_c1(1P) ...')))"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: chi_c1 decays to J/psi mu mu, keep only particles in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20190701
+#
+Alias       MyJpsi   J/psi
+ChargeConj  MyJpsi   MyJpsi
+#
+Decay chi_c1
+  1.000  MyJpsi mu+ mu-       PHOTOS  PHSP;
+Enddecay
+#
+Decay MyJpsi
+  1.000  mu+    mu-           PHOTOS  VLL;
+Enddecay
+#
+End
+#
+

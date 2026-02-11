@@ -1,0 +1,33 @@
+# EventType: 11166085
+# 
+# Descriptor: [B0 -> (D- -> K+ pi- pi-) anti-p- p+ pi+]cc
+# 
+# NickName: Bd_D-ppbarpi,Kpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bd -> D- p pbar pi with D- -> K pi pi, decay products in acceptance. Includes resonances in D- decay
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Chen Chen
+# Email: chen.chen@cern.ch
+# Date: 20180418
+#
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+#
+Decay B0sig
+  1.000     MyD-     p+   anti-p-   pi+   PHSP;
+  Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+  1.000        K+        pi-        pi-             D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End

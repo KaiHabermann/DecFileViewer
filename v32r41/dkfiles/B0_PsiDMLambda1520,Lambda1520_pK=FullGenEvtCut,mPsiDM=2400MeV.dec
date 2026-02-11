@@ -1,0 +1,59 @@
+# EventType: 11502003
+#
+# Descriptor: [B0 -> (Lambda(1520)0 -> p+ K-) H_30 ]cc
+#
+# NickName: B0_PsiDMLambda1520,Lambda1520_pK=FullGenEvtCut,mPsiDM=2400MeV
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/B0toDM
+#
+# Documentation:
+#   Decay a B0 to a Lambda(1520)0 -> pK and a redefined H_30 for our need, acting the latter as stable Dark Matter candidate. The mass of the H_30 is 2.4 GeV.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Saul Lopez 
+# Email: saul.lopez.solino@cern.ch
+# Date: 20210930
+#
+#
+# InsertPythonCode:
+# from Configurables import LHCb__ParticlePropertySvc, LoKi__GenCutTool
+# LHCb__ParticlePropertySvc().Particles = [
+# "H_30     89       36      0.0     2.400000        1.000000e+16    A0      36      0.00"
+# ]
+# ## Generator level cuts:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "B0toDM" )
+# tracksInAcc = Generation(genAlgName).B0toDM
+# tracksInAcc.Code = " count ( isGoodB ) > 0 "
+# ### - HepMC::IteratorRange::descendants   4
+# tracksInAcc.Preambulo += [ "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#                          , "inAcc = in_range(1.9, GETA, 5.0)" 
+#                          , "isGoodKaon     = ( ( GPT > 0.50*GeV ) & inAcc & ( 'K+' == GABSID ) )"
+#                          , "isGoodP        = ( ( GPT > 0.50*GeV ) & inAcc & ( 'p+' == GABSID ) )"
+#                          , "isGoodL0       = ( ( 'Lambda(1520)0' == GABSID ) & ( GNINTREE( isGoodKaon, 1 ) > 0 ) & ( GNINTREE( isGoodP, 1 ) > 0 ) )"
+#                          , "isGoodB        = ( ( 'B0' == GABSID ) & ( GNINTREE( isGoodL0, 1 ) > 0 ) )" ]
+# EndInsertPythonCode
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+Alias  MyH_30     A0
+Alias  Myanti-H_30    A0
+ChargeConj MyH_30   Myanti-H_30
+#
+Decay B0sig
+    1.000   MyLambda(1520)0   MyH_30    PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyLambda(1520)0
+    1.000       p+          K-              PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+End
