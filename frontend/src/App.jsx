@@ -195,9 +195,8 @@ function App() {
   // Filter and sort logic
   let filteredData = data.filter(item => {
     // 1. Text Search (Global)
-    // Handle both single descriptor (string) and multiple descriptors (array)
-    const descriptors = Array.isArray(item.descriptor) ? item.descriptor : 
-                       (item.descriptors || [item.descriptor || '']);
+    // Descriptors are always a list
+    const descriptors = item.descriptors || [];
     const descriptorText = descriptors.join(' ').toLowerCase();
     
     const matchesText = 
@@ -254,10 +253,8 @@ function App() {
         bVal = b.date || '';
       } else if (sortField === 'descriptor') {
         // Count the number of descriptors
-        const aDescriptors = Array.isArray(a.descriptor) ? a.descriptor : 
-                           (a.descriptors || [a.descriptor || '']);
-        const bDescriptors = Array.isArray(b.descriptor) ? b.descriptor : 
-                           (b.descriptors || [b.descriptor || '']);
+        const aDescriptors = a.descriptors || [];
+        const bDescriptors = b.descriptors || [];
         aVal = aDescriptors.length;
         bVal = bDescriptors.length;
       }
@@ -892,7 +889,7 @@ function App() {
                 <td>{item.physicsWG || '-'}</td>
                 <td style={{fontFamily: 'monospace', fontSize: '0.9em'}}>
                   {(() => {
-                    const descriptors = item.descriptors || (Array.isArray(item.descriptor) ? item.descriptor : [item.descriptor]);
+                    const descriptors = item.descriptors || [];
                     const firstDesc = descriptors[0] || '';
                     return firstDesc && firstDesc.length > 20 ? firstDesc.substring(0, 20) + '...' : firstDesc;
                   })()}
@@ -933,7 +930,7 @@ function App() {
               <div className="info-row">
                 <strong>Descriptor:</strong> 
                 <div className="descriptor-box">
-                  {(selectedItem.descriptors || (Array.isArray(selectedItem.descriptor) ? selectedItem.descriptor : [selectedItem.descriptor])).map((desc, idx, arr) => (
+                  {(selectedItem.descriptors || []).map((desc, idx, arr) => (
                     <React.Fragment key={idx}>
                       {desc}
                       {idx < arr.length - 1 && <br />}

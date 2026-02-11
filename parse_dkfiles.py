@@ -7,10 +7,11 @@ import argparse
 from datetime import datetime
 from decaylanguage import DecFileParser, DecayChainViewer
 
-DKFILES_DIR = 'DecFiles/dkfiles'
-OUTPUT_FILE = 'frontend/public/data.json'
-DECFILES_PUBLIC_DIR = 'frontend/public/dkfiles'
-DOT_FILES_DIR = 'frontend/public/dotfiles'
+# Default values (can be overridden via commandline arguments)
+DEFAULT_DKFILES_DIR = 'DecFiles/dkfiles'
+DEFAULT_OUTPUT_FILE = 'frontend/public/data.json'
+DEFAULT_DECFILES_PUBLIC_DIR = 'frontend/public/dkfiles'
+DEFAULT_DOT_FILES_DIR = 'frontend/public/dotfiles'
 
 
 def parse_file(filepath):
@@ -143,7 +144,7 @@ def build_decay_structure_for_mode(mother, mode, dfp, aliases, visited=None):
 
 global_decy_structure_list = []
 
-def generate_decay_dot_files(filepath, filename_no_ext, cutoff):
+def generate_decay_dot_files(filepath, filename_no_ext, cutoff, dot_files_dir):
     dot_files = []
     roots = []
     decay_structures = []
@@ -189,10 +190,11 @@ def generate_decay_dot_files(filepath, filename_no_ext, cutoff):
         for mother in roots:
             safe_mother = mother.replace('/', '_').replace('+', 'p').replace('-', 'm').replace('*', 'st')
             dot_name = f"{filename_no_ext}_{safe_mother}.dot"
-            output_path = os.path.join(DOT_FILES_DIR, dot_name)
+            output_path = os.path.join(dot_files_dir, dot_name)
             
             # Skip if already exists
             if os.path.exists(output_path):
+                # Store path relative to the output directory (same format as original)
                 dot_files.append(f"dotfiles/{dot_name}")
                 continue
 
@@ -209,6 +211,7 @@ def generate_decay_dot_files(filepath, filename_no_ext, cutoff):
                 with open(output_path, 'w') as f:
                     f.write(dot_source)
                 
+                # Store path relative to the output directory (same format as original)
                 dot_files.append(f"dotfiles/{dot_name}")
                 
             except Exception as e:
@@ -318,7 +321,21 @@ def main():
                         help='Parse a specific file')
     parser.add_argument('-c', '--cutoff', type=int, default=200,
                         help='Cutoff for the number of decays in the decay structure')
+    parser.add_argument('-o', '--output', type=str, default=DEFAULT_OUTPUT_FILE,
+                        help='Output JSON file path (default: frontend/public/data.json)')
+    parser.add_argument('-d', '--dkfiles-dir', type=str, default=DEFAULT_DKFILES_DIR,
+                        help='Directory containing .dec files (default: DecFiles/dkfiles)')
+    parser.add_argument('--dkfiles-output', type=str, default=DEFAULT_DECFILES_PUBLIC_DIR,
+                        help='Output directory for copied .dec files (default: frontend/public/dkfiles)')
+    parser.add_argument('--dotfiles-dir', type=str, default=DEFAULT_DOT_FILES_DIR,
+                        help='Output directory for .dot files (default: frontend/public/dotfiles)')
     args = parser.parse_args()
+    
+    # Use arguments or defaults
+    DKFILES_DIR = args.dkfiles_dir
+    OUTPUT_FILE = args.output
+    DECFILES_PUBLIC_DIR = args.dkfiles_output
+    DOT_FILES_DIR = args.dotfiles_dir
     
     data = []
     all_particles = set()
@@ -367,7 +384,7 @@ def main():
         if event_type:
             # Generate DOT files for decay chains
             filename_no_ext = os.path.splitext(filename)[0]
-            dot_files, new_descriptors, particles, decay_structures = generate_decay_dot_files(filepath, filename_no_ext, args.cutoff)
+            dot_files, new_descriptors, particles, decay_structures = generate_decay_dot_files(filepath, filename_no_ext, args.cutoff, DOT_FILES_DIR)
 
             # Handle multiple descriptors
             if new_descriptors:
@@ -383,7 +400,6 @@ def main():
 
             data.append({
                 'eventType': event_type,
-                'descriptor': descriptors[0] if len(descriptors) == 1 else descriptors,  # Single string or list of strings
                 'descriptors': descriptors,  # Always a list for consistency
                 'filename': filename,
                 'particles': particles,
@@ -423,7 +439,7 @@ def main():
     }
 
     with open(OUTPUT_FILE, 'w') as f:
-        json.dump(output_data, f)
+        json.dump(output_data, f, separators=(',', ':'))
         
     print(f"Done. Processed {len(data)} files. Found {len(all_particles)} unique particles. Saved to {OUTPUT_FILE}")
     print(f"Git commit: {git_short_hash or 'N/A'}")
