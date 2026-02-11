@@ -143,9 +143,11 @@ function App() {
       })
       .then(releasesList => {
         if (Array.isArray(releasesList) && releasesList.length > 0) {
-          setReleases(releasesList);
-          // Use the last element (newest release) as default
-          setSelectedRelease(releasesList[releasesList.length - 1]);
+          // Reverse to show newest first (latest at top)
+          const sortedReleases = [...releasesList].reverse();
+          setReleases(sortedReleases);
+          // Use the first element (newest release) as default
+          setSelectedRelease(sortedReleases[0]);
         } else {
           // Fallback: try to load from root data.json if releases.json is empty or invalid
           console.warn('No releases found, falling back to root data.json');
