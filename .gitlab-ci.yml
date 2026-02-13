@@ -30,7 +30,7 @@ create-pages:
         echo "Processing branch: $BRANCH"
         cd DecFiles
         git fetch origin $BRANCH
-        git checkout $BRANCH origin/$BRANCH
+        git checkout $BRANCH
         LATEST_RELEASE=$(git tag -l "v*" --merged HEAD | grep -E "^v[0-9]+r[0-9]+" | sort -V | tail -1)
         cd ..
         python3 handle_release.py "$LATEST_RELEASE" --repo-path DecFiles
