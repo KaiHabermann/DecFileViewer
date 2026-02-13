@@ -3,7 +3,7 @@ image: python:3.12.5
 
 variables:
   REPO_URL: 'https://gitlab.cern.ch/lhcb-datapkg/Gen/DecFiles.git'
-  BRANCHES: 'Sim10 Sim09 sim08b'
+  BRANCHES: 'Sim10 Sim09'
 
 create-pages:
   pages:
