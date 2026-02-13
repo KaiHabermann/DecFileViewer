@@ -33,7 +33,7 @@ create-pages:
         git checkout $BRANCH
         LATEST_RELEASE=$(git tag -l "v*" --merged HEAD | grep -E "^v[0-9]+r[0-9]+" | sort -V | tail -1)
         cd ..
-        python3 handle_release.py "$LATEST_RELEASE" --repo-path DecFiles
+        python3 handle_release.py "$LATEST_RELEASE" --repo-path DecFiles -n 1000
       done
     # Build the frontend
     - cd frontend

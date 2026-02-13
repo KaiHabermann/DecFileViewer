@@ -116,6 +116,12 @@ def main():
         default=None,
         help='Path to existing DecFiles repository (if not provided, will clone to temp directory)'
     )
+    parser.add_argument(
+        "-n", "--num-files",
+        type=int,
+        default=None,
+        help='Number of files to parse (default: all)'
+    )
     args = parser.parse_args()
     
     release_name = args.release
@@ -183,7 +189,7 @@ def main():
         '--output', output_json,
         '--dkfiles-output', dkfiles_output,
         '--dotfiles-dir', dotfiles_dir
-    ]
+    ] + (['-n', str(args.num_files)] if args.num_files else [])
     
     result = subprocess.run(cmd, capture_output=False)
     if result.returncode != 0:
