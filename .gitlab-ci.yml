@@ -1,5 +1,10 @@
 # The Docker image that will be used to build your app
-image: node:lts
+image: python:3.11
+
+variables:
+  REPO_URL: 'https://gitlab.cern.ch/lhcb-datapkg/Gen/DecFiles.git'
+  BRANCHES: 'Sim10 Sim09 sim08b'
+
 create-pages:
   pages:
     # The folder that contains the files to be exposed at the Page URL
@@ -8,9 +13,29 @@ create-pages:
     # This ensures that only pushes to the default branch will trigger
     # a pages deploy
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-  # Functions that should be executed before the build script is run
   before_script:
+    # Install system dependencies
+    - apt-get update -qq && apt-get install -y -qq git nodejs npm
+    # Install Python dependencies
+    - pip install --quiet -r requirements.txt
+    # Clone DecFiles repository
+    - git clone $REPO_URL DecFiles
+    - cd DecFiles
+    - git fetch --all --tags
+    - cd ..
+  script:
+    # Process each branch to find latest release and run handle_release.py
+    - |
+      for BRANCH in $BRANCHES; do
+        echo "Processing branch: $BRANCH"
+        cd DecFiles
+        git fetch origin $BRANCH
+        git checkout -b $BRANCH origin/$BRANCH
+        LATEST_RELEASE=$(git tag -l "v*" --merged HEAD | grep -E "^v[0-9]+r[0-9]+" | sort -V | tail -1)
+        cd ..
+        python3 handle_release.py "$LATEST_RELEASE" --repo-path DecFiles
+      done
+    # Build the frontend
     - cd frontend
     - npm ci
-  script:
     - npm run build
