@@ -38,4 +38,4 @@ create-pages:
     # Build the frontend
     - cd frontend
     - npm ci
-    - npm run build
+    - VITE_BASE_PATH=/ npm run build
