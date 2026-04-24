@@ -693,14 +693,11 @@ function App() {
                     background: 'white'
                   }}
                 >
-                  {releases.map((release, index) => {
-                    const isLatest = index === 0; // Latest is now at the top
-                    return (
-                      <option key={release} value={release}>
-                        {release}{isLatest ? ' (Latest)' : ''}
-                      </option>
-                    );
-                  })}
+                  {releases.map((release) => (
+                    <option key={release} value={release}>
+                      {release}
+                    </option>
+                  ))}
                 </select>
               </div>
             )}

@@ -117,14 +117,21 @@ def main():
         help='Path to existing DecFiles repository (if not provided, will clone to temp directory)'
     )
     parser.add_argument(
+        '--name',
+        type=str,
+        default=None,
+        help='Override the release name used for directory naming and releases.json (default: same as release tag)'
+    )
+    parser.add_argument(
         "-n", "--num-files",
         type=int,
         default=None,
         help='Number of files to parse (default: all)'
     )
     args = parser.parse_args()
-    
-    release_name = args.release
+
+    release_tag = args.release
+    release_name = args.name if args.name else release_tag
     
     # Create release directory in public folder
     release_dir = os.path.join(PUBLIC_DIR, release_name)
@@ -138,27 +145,27 @@ def main():
             print(f"Error: Repository path {repo_path} does not exist")
             sys.exit(1)
         # Checkout the release in the existing repo
-        print(f"Checking out release {release_name} in existing repository...")
+        print(f"Checking out release {release_tag} in existing repository...")
         result = subprocess.run(
             ['git', 'fetch', '--all', '--tags'],
             cwd=repo_path,
             capture_output=True
         )
         result = subprocess.run(
-            ['git', 'checkout', release_name],
+            ['git', 'checkout', release_tag],
             cwd=repo_path,
             capture_output=True,
             text=True
         )
         if result.returncode != 0:
-            print(f"Error checking out release {release_name}: {result.stderr}")
+            print(f"Error checking out release {release_tag}: {result.stderr}")
             sys.exit(1)
         temp_dir = None
     else:
         # Clone to temporary directory
         temp_dir = tempfile.mkdtemp(prefix='decfiles_release_')
         try:
-            repo_path = clone_and_checkout_release(release_name, temp_dir)
+            repo_path = clone_and_checkout_release(release_tag, temp_dir)
         except Exception as e:
             print(f"Error during repository checkout: {e}")
             if temp_dir and os.path.exists(temp_dir):
