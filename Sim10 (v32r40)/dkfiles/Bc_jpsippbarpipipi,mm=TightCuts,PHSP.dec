@@ -1,0 +1,60 @@
+# EventType: 14147022
+#
+# Descriptor: [B_c+ -> (J/psi(1S) -> mu+ mu- ) p+ p~- pi+ pi+ pi-]cc
+#
+# NickName: Bc_jpsippbarpipipi,mm=TightCuts,PHSP
+#
+# Production: BcVegPy
+#
+# Cuts: LoKi::GenCutToolWithDecay/TightCut
+#
+# Documentation: Non resonant baryonic Bc decay with three pions, Jpsi forced into mu+ mu-, using BcVegPy generator. 
+#                Daughter in acceptance and TightCuts are used. The efficiency is (3.091 +- 0.304)% from Generation log 
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutToolWithDecay
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.Special.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+# gen.Special.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+# #
+# tightCut = gen.Special.TightCut
+# tightCut.SignalPID = 'B_c+'
+# tightCut.Decay = '[(B_c+ => (J/psi(1S) => ^mu+ ^mu- ) ^p+ ^p~- ^pi+ ^pi+ ^pi- )]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'inAcc        = in_range ( 0.005 , GTHETA , 0.400 ) ' ,
+#     'inEta        = in_range ( 1.9   , GETA   , 5.00  ) ' ,
+#     'goodTrack    =  inAcc & inEta                      ' ,     
+#     ]
+# tightCut.Cuts     =    {
+#     '[pi+]cc'        : 'goodTrack & ( GP  >   2.5 * GeV ) & ( GPT  >   130 * MeV ) ' , 
+#     '[p+]cc'         : 'goodTrack & ( GP  >   8.0 * GeV ) & ( GPT  >   130 * MeV ) ' , 
+#     '[mu+]cc'        : 'goodTrack & ( GP  >   3.0 * GeV ) & ( GPT  >   450 * MeV ) ' 
+#     }
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Dmitrii Pereima
+# Email: Dmitrii.Pereima@cern.ch
+# Date: 20220620
+# CPUTime: < 1 min
+#
+Alias      MyJ/psi    J/psi
+ChargeConj MyJ/psi    MyJ/psi
+#
+Decay B_c+sig
+  1.000        MyJ/psi     p+      anti-p-     pi+     pi+     pi-     PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000        mu+       mu-        VLL;
+Enddecay
+#
+End

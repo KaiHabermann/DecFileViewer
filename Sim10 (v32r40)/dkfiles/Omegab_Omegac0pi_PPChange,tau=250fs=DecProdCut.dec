@@ -1,0 +1,36 @@
+# EventType: 16165038
+#
+# Descriptor: [Xi_b- -> (Omega_c0 -> p+ K- K- pi+) pi-]cc
+#
+# NickName: Omegab_Omegac0pi_PPChange,tau=250fs=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "Xi_b- 122 5132 -1.0 6.050 1.5e-012 Xi_b- 5132 0.000000e+000", "Xi_b~+ 123 -5132 1.0 6.050 1.5e-012 anti-Xi_b+ -5132 0.000000e+000", "Omega_c0   104  4332  0.0  2.6975 2.5000e-013   Omega_c0   4332   0.00", "Omega_c~0   105  -4332  0.0   2.6975   2.5000e-013   anti-Omega_c0  -4332   0.00"
+#
+# Documentation: Xi_b used a proxy for Omega_b. Omegac lifetime updated according the recent LHCb measurement.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: M. Pappagallo
+# Email:  marco.pappagallo@cern.ch
+# Date: 20190605
+#
+Alias MyOmega_c0 Omega_c0
+Alias Myanti-Omega_c0 anti-Omega_c0
+ChargeConj MyOmega_c0 Myanti-Omega_c0
+#
+Decay Xi_b-sig
+  1.0    MyOmega_c0  pi-                  PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyOmega_c0
+  1.0   p+   K-  K-  pi+                  PHSP;
+Enddecay
+CDecay Myanti-Omega_c0
+#
+End
+

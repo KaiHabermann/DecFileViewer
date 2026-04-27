@@ -1,0 +1,67 @@
+# EventType: 15808000
+#
+# Descriptor: {[Lambda_b0 -> p+ K- (tau+ -> pi+ pi- pi+ (pi0) anti-nu_tau) (tau- -> pi- pi+ pi- (pi0) nu_tau)]cc}
+#
+# NickName: Lb_pKtautau,3pipi03pipi0=TightCut,tauolababar,phsp
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# 
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# from Configurables import ToolSvc
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = "[^(Lambda_b0 ==> p+ K- (tau+ ==> pi+ pi- pi+ {pi0} nu_tau~) (tau- ==> pi- pi+ pi- {pi0} nu_tau))]CC"
+# tightCut.Preambulo += [
+# 	'from LoKiCore.functions import in_range',
+#   	'from GaudiKernel.SystemOfUnits import GeV, MeV',
+#   	'inAcc    = in_range ( 1.80 , GETA , 5.10 )',
+#   	'goodProton = ( GPT > 0.2 * GeV ) & ( GP > 3 * GeV ) & inAcc',
+#   	'goodKaon   = ( GPT > 0.2 * GeV ) & ( GP > 1 * GeV ) & inAcc',
+#   	'goodPi     = ( GPT > 0.2 * GeV ) & ( GP > 1 * GeV ) & inAcc',
+#   	'goodTau    = ( GPT > 1.0 * GeV ) & ( GP > 10* GeV ) & (GNINTREE(("pi+"==GABSID) & goodPi, HepMC.children) > 0)',
+#   	'goodLb     = ( GPT > 5.0 * GeV ) & ( GNINTREE(("p+"==GABSID) & goodProton, HepMC.children) > 0) & (GNINTREE(("K+"==GABSID) & goodKaon, HepMC.children) > 0) & (GNINTREE(("tau+"==GABSID) & goodTau, HepMC.children) > 0)'
+# ]
+# tightCut.Cuts      =    {
+# 	'[Lambda_b0]cc'  : 'goodLb'
+#    }
+# EndInsertPythonCode
+#
+# Documentation: Lb decay to p K tau tau.
+# Both tau leptons decay in the 3-prong charged pion mode along with 3pi pi0 mode using the Tauola BaBar model.
+# All final-state products in the acceptance.
+# EndDocumentation
+#
+#
+#
+# CPUTime: 4 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Yunxuan Song
+# Email: yunxuan.song@cern.ch
+# Date: 20230215
+#
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias        Mytau+    tau+
+Alias        Mytau-    tau-
+ChargeConj   Mytau+    Mytau-
+#
+Decay Lambda_b0sig
+    1.000     p+     K-    Mytau+     Mytau-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mytau-
+  9.31        TAUOLA 5;
+  4.62        TAUOLA 8;
+Enddecay
+CDecay Mytau+
+#
+End
+
+

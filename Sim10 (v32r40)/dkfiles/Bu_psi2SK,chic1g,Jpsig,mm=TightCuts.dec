@@ -1,0 +1,69 @@
+# EventType: 12143211 
+#
+# Descriptor: [B+ ->  (psi(2S) -> gamma (chi_c1(1P) -> (J/psi(1S) -> mu+ mu-) gamma )) K+ ]cc
+#
+# NickName: Bu_psi2SK,chic1g,Jpsig,mm=TightCuts
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: <1min
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[ B+  =>  ( Meson => ^gamma (Meson => ( J/psi(1S) => ^mu+ ^mu-) ^gamma ))  ^K+]CC'
+# tightCut.Cuts      =    {
+#     'gamma'     : ' goodGamma ' ,
+#     '[mu+]cc'   : ' goodMuon  ' , 
+#     '[K+]cc'    : ' goodKaon  ' } 
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5      ' , 
+#     'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5      ' , 
+#     'goodMuon  = ( GPT > 500  * MeV ) & ( GP > 6 * GeV )     & inAcc   ' , 
+#     'goodKaon  = ( GPT > 150  * MeV )                        & inAcc   ' , 
+#     'goodPion  = ( GPT > 150  * MeV )                        & inAcc   ' , 
+#     'goodGamma = ( 0 < GPZ ) & ( 150 * MeV < GPT ) & inEcalX & inEcalY ' ]
+#
+# EndInsertPythonCode
+#
+# Documentation:  
+#   Tight generator level cuts applied for all final state particles,
+#   which increases the statistics with the factor of ~2 .
+# EndDocumentation
+#
+# PhysicsWG:   Onia
+# Tested:      Yes
+# Responsible: Liming Zhang
+# Email:       liming.zhang@cern.ch
+# Date:        20181214
+#
+Alias      Mychi_c1   chi_c1
+ChargeConj Mychi_c1 Mychi_c1
+Alias      Mypsi2S   psi(2S)
+ChargeConj Mypsi2S Mypsi2S
+Alias      MyJ/psi    J/psi
+ChargeConj MyJ/psi  MyJ/psi
+#
+Decay B+sig
+  1.00     Mypsi2S  K+                   SVS  ;
+Enddecay
+CDecay B-sig
+#
+Decay Mypsi2S 
+  1.000     Mychi_c1  gamma  PHSP ;
+Enddecay
+#
+Decay Mychi_c1 
+  1.000     MyJ/psi  gamma  VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+End

@@ -1,0 +1,68 @@
+# EventType: 15584086
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c(2625)+ -> (D0 -> K- e+ nu_e) p+) e- anti-nu_e]cc
+#
+# NickName: Lb_Lc2940enu,D0p,Kenu=LHCbAcceptance,HighVisMass,EvtGenCut
+#
+# Cuts: LHCbAcceptance
+#
+# InsertPythonCode:
+# #
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation()
+#
+# gen.SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/HighVisMass"
+# evtgendecay.addTool(LoKi__GenCutTool ,'HighVisMass')
+# evtgendecay.HighVisMass.Decay   = '[^(Lambda_b0 => (Lambda_c(2625)+ => (D0 => K- e+ nu_e) p+) e- nu_e~)]CC'
+# evtgendecay.HighVisMass.Cuts    = { '[Lambda_b0]cc' : "visMass" }
+# evtgendecay.HighVisMass.Preambulo += ["visMass  = ( ( GMASS ( 'e+' == GID , 'e-' == GID, 'p+' == GABSID, 'K-' == GABSID ) ) > 4500 * MeV ) " ]
+#
+# EndInsertPythonCode
+#
+# Documentation: Lb decaying to D0 p e- nu_e~, where the D0 p is forced through a MODIFIED LAMBDA_C+ with mass just above the D0p invariant mass. This is so the model Baryonlnu can be utilized. Built from work by Xixin Liang on analogue D02Kpi modes.
+# EndDocumentation
+#
+# CPUTime: < 1min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Dan Thompson
+# Email: dan.thompson@cern.ch
+# Date: 20230710
+# 
+# ParticleValue: "Lambda_c(2625)+ 104124   104124   1.0   2.9396 -0.020  Lambda_c(2625)+ 0 0.08", "Lambda_c(2625)~- -104124   -104124   -1.0   2.9396 -0.020  anti-Lambda_c(2625)- 0 0.08"
+#
+Alias		MyD0		D0
+Alias		MyAntiD0	anti-D0
+ChargeConj	MyD0		MyAntiD0
+#
+Alias		MyLambda_c(2625)+		Lambda_c(2625)+
+Alias		MyAntiLambda_c(2625)-		anti-Lambda_c(2625)-
+ChargeConj	MyLambda_c(2625)+		MyAntiLambda_c(2625)-
+#
+Alias		MyLambda0		Lambda0
+Alias		MyAntiLambda0		anti-Lambda0
+ChargeConj	MyLambda0		MyAntiLambda0
+#
+Decay Lambda_b0sig
+ 1.0  MyLambda_c(2625)+	e-	anti-nu_e	PHOTOS Lb2Baryonlnu 1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c(2625)+
+ 1.0	MyD0	p+	PHSP;
+Enddecay
+CDecay MyAntiLambda_c(2625)-
+#
+Decay MyD0
+  1.000    K-  e+  nu_e                 ISGW2;
+Enddecay
+CDecay MyAntiD0
+#
+End

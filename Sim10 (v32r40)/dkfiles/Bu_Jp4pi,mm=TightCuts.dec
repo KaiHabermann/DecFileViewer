@@ -1,0 +1,93 @@
+# EventType: 12245411
+#
+# Descriptor: [B+ ==> (J/psi(1S) => mu+ mu- ) pi+ pi+ pi- (pi0 -> gamma gamma)]CC
+#
+# NickName: Bu_Jp4pi,mm=TightCuts
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: [B+ -> (Jpsi -> mu mu) pi+ pi+ pi- pi0]cc, exclusive mode to Jpsi 3pi pi0 final state.
+# EndDocumentation
+#
+# Sample: SignalRepeatedHadronization
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName) 
+# signal     = generation.SignalRepeatedHadronization 
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut   = signal.TightCut
+#
+# tightCut.Decay = '^[B+ ==> ^(J/psi(1S) => ^mu+ ^mu- ) ^pi+ ^pi+ ^pi- (pi0 -> ^gamma ^gamma)]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'inAcc        = in_range ( 0.005 , GTHETA , 0.400 ) ' ,
+#     'inEcalX      = abs ( GPX / GPZ ) < 4.5 / 12.5      ' , 
+#     'inEcalY      = abs ( GPY / GPZ ) < 3.5 / 12.5      ' , 
+#     'inEcalHole = ( abs ( GPX / GPZ ) < 0.25 / 12.5 ) & ( abs ( GPY / GPZ ) < 0.25 / 12.5 ) ' ,
+#     'inEta        = in_range ( 1.9   , GETA   , 5.00  ) ' ,
+#     'inY          = in_range ( 1.9   , GY     , 4.9  ) ' ,
+#     'goodTrack    = inAcc & inEta                       ' ,   
+#     'goodGamma    = ( 0 < GPZ ) & ( 150 * MeV < GPT ) & inEcalX & inEcalY & ~inEcalHole',
+#     'longLived    = 75 * micrometer < GTIME                                   ',
+#     'goodB        = inY & longLived                                           ',
+#     ]
+# tightCut.Cuts     =    {
+#     '[B+]cc'         : 'goodB',
+#     '[pi+]cc'        : 'goodTrack & ( GP  >   2.5 * GeV ) & ( GPT  >   130 * MeV ) ' , 
+#     '[mu+]cc'        : 'goodTrack & ( GP  >   3.0 * GeV ) & ( GPT  >   450 * MeV ) ' ,
+#     'J/psi(1S)'      : 'inY' ,
+#     'gamma'          : 'goodGamma' ,
+#     }
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Dmitry Golubkov
+# Email: dmitry.yu.golubkov@cern.ch
+# Date: 20241120
+# CPUTime: < 3 min
+#
+Alias    MyJpsi    J/psi                                                
+ChargeConj    MyJpsi    MyJpsi                                                
+#                                                        
+Alias    Myomega    omega                                                
+ChargeConj    Myomega    Myomega                                                
+#                                                        
+Alias    Myb_1+    b_1+                                                
+Alias    Myb_1-    b_1-
+ChargeConj    Myb_1+    Myb_1-                                                
+#
+Alias    Myeta    eta                                                
+ChargeConj    Myeta    Myeta                                                
+#                                                        
+#
+Decay B+sig
+0.4           MyJpsi    pi+    pi+    pi-    pi0      PHSP;                        
+0.1           MyJpsi    pi+    Myomega                PHSP;                        
+0.1           MyJpsi    pi+    Myeta                  PHSP;                        
+0.4           MyJpsi    Myb_1+                        SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay                                                        
+CDecay B-sig
+#                                                        
+Decay MyJpsi                                                    
+1.000000000     mu+    mu-                        PHOTOS    VLL;                    
+Enddecay                                                        
+#                                                        
+Decay Myomega                                                    
+1.    pi-    pi+    pi0                    OMEGA_DALITZ;                        
+Enddecay                                                        
+#                                                        
+Decay Myeta                                                    
+1.    pi-    pi+    pi0                    ETA_DALITZ;                        
+Enddecay                                                        
+#                                                        
+Decay Myb_1+
+0.9984   Myomega pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Myb_1-
+#
+End                                                        

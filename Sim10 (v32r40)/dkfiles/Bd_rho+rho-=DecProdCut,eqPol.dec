@@ -1,0 +1,39 @@
+# EventType: 11102412
+#
+# Descriptor: [B0 -> (rho(770)+ -> pi+ (pi0 -> gamma gamma)) (rho(770)- -> pi- (pi0 -> gamma gamma))]cc
+#
+# NickName: Bd_rho+rho-=DecProdCut,eqPol
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: No CP violation, equal polarisation, pi0 forced to gamma gamma, decay products in LHCb
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Jeremy Dalseno
+# Email: jeremy.peter.dalseno@cern.ch
+# Date: 20200312
+
+Alias		MyRho+	rho+
+Alias		MyRho-	rho-
+ChargeConj	MyRho+	MyRho-
+Alias		Mypi0	pi0
+ChargeConj	Mypi0	Mypi0
+
+Decay B0sig
+      1.0	MyRho+	MyRho-	SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyRho+
+      1.0	pi+	Mypi0	VSS;
+Enddecay
+CDecay MyRho-
+
+Decay Mypi0
+      1.0	gamma	gamma	PHSP;
+Enddecay
+
+End

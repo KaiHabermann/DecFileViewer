@@ -1,0 +1,60 @@
+# EventType: 13166190
+#
+# Descriptor: [B_s0 -> (D_s- -> K- (KS0 -> pi+ pi-)) pi+ pi+ pi-]cc
+#
+# NickName: Bs_Dspipipi,KSpi=inAcc,VxtCut,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[B_s0 ==> (D_s- ==> ^K- ^(KS0 => ^pi+ ^pi-)) ^pi+ ^pi+ ^pi- ]CC'
+# tightCut.Cuts      =    {
+#    '[K+]cc'    : 'inAcc' ,
+#    '[pi+]cc'   : 'inAcc',
+#    'KS0'       : 'decayBeforeTT'
+# }
+# tightCut.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import millimeter,micrometer,MeV,GeV',
+#    'inAcc       = in_range ( 0.005 , GTHETA , 0.400 )' ,
+#    'decayBeforeTT = GVEV & ( GFAEVX ( GVZ , 1.e+10 ) < 2400 * millimeter)'
+# ]
+# EndInsertPythonCode
+#
+# Documentation: Bs->Dspipipi, Ds->KsK, background for Lb->Lc(->pKs)3pi
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email: biplab.dey@cern.ch
+# Date: 20240716
+# CPUTime: 1 min
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias        MyKS0         K_S0
+ChargeConj   MyKS0         MyKS0
+#
+Decay B_s0sig
+1.0     MyD_s-  pi+ pi+ pi-         PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s-
+1.000     K-   MyKS0  PHSP;
+Enddecay
+CDecay MyD_s+
+#
+Decay MyKS0
+  1.000   pi+         pi-       PHSP;
+Enddecay
+#
+End

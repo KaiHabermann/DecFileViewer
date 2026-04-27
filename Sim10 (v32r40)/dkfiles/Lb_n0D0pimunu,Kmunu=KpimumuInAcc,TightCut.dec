@@ -1,0 +1,54 @@
+# EventType: 15574062
+#
+# Descriptor: [Lambda_b0 -> (D0 -> K- mu+ nu_mu) n0 pi+  mu- anti-nu_mu]cc
+#
+# NickName: Lb_n0D0pimunu,Kmunu=KpimumuInAcc,TightCut
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20230531
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation().SignalPlain.addTool( LoKi__GenCutTool,'TightCut')
+# kpimumuInAcc = Generation().SignalPlain.TightCut
+# kpimumuInAcc.Decay = '[Lambda_b0 ==> ^mu+ ^mu- nu_mu nu_mu~ K- pi+ n0]CC'
+# kpimumuInAcc.Preambulo += [
+#     'inAcc        = (in_range(0.010, GTHETA, 0.400))',
+#     'onePionInAcc = (GNINTREE( ("pi-"==GABSID) & inAcc) >= 1)',
+#     'oneKaonInAcc = (GNINTREE( ("K-"==GABSID) & inAcc) >= 1)'
+#     ]
+# kpimumuInAcc.Cuts = {
+#     '[Lambda_b0]cc' : 'onePionInAcc & oneKaonInAcc',
+#     '[mu+]cc'       : 'inAcc'
+#     }
+#
+# EndInsertPythonCode
+#
+# CPUTime: 2 min
+#
+# Documentation: Lb -> D0 n0 pi mu nu decays with D0 -> K mu nu
+# EndDocumentation
+#
+Alias       MyD0            D0
+Alias       Myanti-D0       anti-D0
+ChargeConj  MyD0            Myanti-D0
+#
+Decay Lambda_b0sig
+  1.000     MyD0 n0  pi+    mu-    anti-nu_mu  PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+Decay MyD0
+  1.000     K-              mu+    nu_mu       ISGW2;  
+Enddecay
+CDecay Myanti-D0
+#
+End
+

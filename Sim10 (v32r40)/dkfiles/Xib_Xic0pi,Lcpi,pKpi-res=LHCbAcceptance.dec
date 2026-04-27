@@ -1,0 +1,82 @@
+# EventType: 16295030
+#
+# Descriptor: ${Xibm}[Xi_b- ==> ${Xibpi}pi- ${Xic0}(Xi_c0 ==> ${Xic0pi}pi- ${Lc}(Lambda_c+ ==> ${Lcp}p+ ${LcK}K- ${Lcpi}pi+))]CC
+#
+# ParticleValue: "Xi_c0 765 4132 0 2.47088 0.155e-12 Xi_c0 4132 0", "Xi_c~0 765 -4132 0 2.47088 0.155e-12 anti-Xi_c0 -4132 0"
+#
+# NickName: Xib_Xic0pi,Lcpi,pKpi-res=LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation:
+# Xi_b- forced to pi- Xi_c0, Xi_c0 -> Lambda_c+ pi-, Lambda_c+ -> p K pi including resonances;
+# Xi_c0 lifetime corrected
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Michael Wilkinson (Syracuse University)
+# Email: miwilkin@syr.edu
+# Date: 20200414
+#
+# Define Xi_c0
+Alias      MyXi_c0       Xi_c0
+Alias      Myanti-Xi_c0  anti-Xi_c0
+ChargeConj MyXi_c0       Myanti-Xi_c0
+#
+# Define Lambda_c+
+Alias      MyLambda_c+      Lambda_c+
+Alias      Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+      Myanti-Lambda_c-
+#
+# Define K*(892)
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+# Define Delta++
+Alias      MyDelta++      Delta++
+Alias      Myanti-Delta-- anti-Delta--
+ChargeConj MyDelta++      Myanti-Delta--
+#
+# Define Lambda(1520)0
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+Decay Xi_b-sig
+  1.00 MyXi_c0         pi-              PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyXi_c0
+  1.00 MyLambda_c+     pi-              PHSP;
+Enddecay
+CDecay Myanti-Xi_c0
+#
+Decay MyLambda_c+
+  0.0196 p+              Myanti-K*0       PHSP;
+  0.0108 MyDelta++       K-               PHSP;
+  0.0220 MyLambda(1520)0 pi+              PHSP;
+  0.0350 p+              K-         pi+   PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+  1.0000 K+              pi-              VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyDelta++
+  1.0000 p+              pi+              PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+Decay MyLambda(1520)0
+  1.0000 p+              K-               PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+End
+#

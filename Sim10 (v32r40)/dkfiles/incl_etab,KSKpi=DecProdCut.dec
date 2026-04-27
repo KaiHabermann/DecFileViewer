@@ -1,0 +1,37 @@
+# EventType: 18304102
+#   
+# Descriptor: Upsilon(1S) -> (KS0 -> pi+ pi-) K+ pi-
+#
+# NickName: incl_etab,KSKpi=DecProdCut
+#
+# Documentation: Etab decay to KS0 K+ and pi- daughters in acceptance. The charges of the K and the pi mesons can change (cc decay)
+# EndDocumentation
+#
+# Sample:         SignalPlain
+# Cuts:           UpsilonDaughtersInLHCb
+# ExtraOptions:   Upsilon1S
+#
+# # --  Define Upsilon(1S) as eta_b  -- #
+# ParticleValue: "Upsilon(1S)   387    553     0.0  9.3987        0.000000e+00     Upsilon   553    0.00000000"
+#
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Luis Miguel Garcia martin
+# Email: lgarciam@cern.ch
+# Date: 20240710
+# CPUTime: <1 min
+#
+Alias MyKS0 K_S0
+ChargeConj MyKS0 MyKS0
+#
+Decay Upsilonsig
+  0.5 MyKS0 K- pi+ PHSP;
+  0.5 MyKS0 K+ pi- PHSP;
+Enddecay
+#
+Decay MyKS0
+  1.000 pi+ pi- PHSP;
+Enddecay
+#
+End

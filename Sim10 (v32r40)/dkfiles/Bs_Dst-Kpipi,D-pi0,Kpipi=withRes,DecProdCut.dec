@@ -1,0 +1,159 @@
+# EventType: 13266401
+#
+# Descriptor: {[[B_s0]nos -> (D*(2010)- => (D- => K+ pi- pi-) pi0) K- pi+ pi+]cc, [[B_s0]os -> (D*(2010)+ => (D+ => K- pi+ pi+) pi0) K+ pi- pi-]cc}
+#
+# NickName: Bs_Dst-Kpipi,D-pi0,Kpipi=withRes,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+#
+# from Configurables import LHCb__ParticlePropertySvc
+# LHCb__ParticlePropertySvc().Particles = [ 
+#  ###                    GEANTID   PDGID   CHARGE   MASS(GeV)       TLIFE(s)             EVTGENNAME           PYTHIAID   MAXWIDTH
+#  "Ds(1)(2860)+          1073      30433   1.0      2.85900000      4.140023e-24         Ds(1)(2860)+         0          0.00",
+#  "Ds(1)(2860)-          1074     -30433  -1.0      2.85900000      4.140023e-24         Ds(1)(2860)-         0          0.00",
+#  "D''*0                 1075      30423   0.0      2.62700000      4.668537e-24         D''*0                0          0.00",
+#  "D''*~0                1076     -30423   0.0      2.62700000      4.668537e-24         anti-D''*0           0          0.00",
+#  "Ds(1)(3040)+          1076     110433   1.0      3.04400000      1.645659e-24         Ds(1)(3040)+         0          0.00",
+#  "Ds(1)(3040)-          1077    -110433  -1.0      3.04400000      1.645659e-24         Ds(1)(3040)-         0          0.00",
+#  "kappa0                1078    9000311   0.0      0.84500000      1.406546e-24         kappa0               0          0.00",
+#  "kappa~0               1079   -9000311   0.0      0.84500000      1.406546e-24         anti-kappa0          0          0.00",
+# ]
+#
+# EndInsertPythonCode
+#
+# Documentation: Includes resonances in Bs and D- decays
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: D. Craik
+# Email: dcraik@cern.ch
+# Date: 20240112
+# CPUTime: 2 mins
+#
+Alias      My2536+        D'_s1+
+Alias      My2536-        D'_s1-
+ChargeConj My2536+        My2536-
+#
+Alias      My2860+        Ds(1)(2860)+
+Alias      My2860-        Ds(1)(2860)-
+ChargeConj My2860+        My2860-
+#
+Alias      My3040+        Ds(1)(3040)+
+Alias      My3040-        Ds(1)(3040)-
+ChargeConj My3040+        My3040-
+#
+Alias      My2430         D'_10
+Alias      My2430b        anti-D'_10
+ChargeConj My2430         My2430b
+#
+Alias      My2460         D_2*0
+Alias      My2460b        anti-D_2*0
+ChargeConj My2460         My2460b
+#
+Alias      My2600         D''*0
+Alias      My2600b        anti-D''*0
+ChargeConj My2600         My2600b
+#
+Alias      Mykappa        kappa0
+Alias      Mykappab       anti-kappa0
+ChargeConj Mykappa        Mykappab
+#
+Alias      MyK*           K*0
+Alias      MyK*b          anti-K*0
+ChargeConj MyK*           MyK*b
+#
+Alias      MyK0*          K_0*0
+Alias      MyK0*b         anti-K_0*0
+ChargeConj MyK0*          MyK0*b
+#
+Alias      MyD*+           D*+
+Alias      MyD*-           D*-
+ChargeConj MyD*+           MyD*-
+#
+Alias      MyD+           D+
+Alias      MyD-           D-
+ChargeConj MyD+           MyD-
+
+Decay B_s0sig
+#Ds**
+0.04 My2860-       pi+        SVS;
+0.10 My3040-       pi+        SVS;
+#D**K**
+0.20 MyD*- pi+  Mykappa       PHSP;
+0.20 MyD*- pi+  MyK*          PHSP;
+0.06 MyD*- pi+  MyK0*         PHSP;
+##D_1(2430)
+0.13 My2430b Mykappa          SVS;
+0.10 My2430b MyK*             SVV_HELAMP 0.200 0.0 0.866 0.0 0.458 0.0;
+0.03 My2430b MyK0*            SVS;
+##D_2(2460)*
+0.03 My2460b  Mykappa         STS;
+0.03 My2460b  MyK*            PHSP;
+0.01 My2460b  MyK0*           STS;
+##D(2600)*
+0.03 My2600b  Mykappa         SVS;
+0.03 My2600b  MyK*            PHSP;
+0.01 My2600b  MyK0*           SVS;
+Enddecay
+CDecay anti-B_s0sig
+
+Decay MyD*-
+1.0  MyD-  pi0                VSS;
+Enddecay
+CDecay MyD*+
+
+Decay MyD-
+1.0  K+  pi-  pi-             D_DALITZ;
+Enddecay
+CDecay MyD+
+
+#RESONANCES
+Decay My2860-
+0.45 MyD*-  Mykappa            PHSP;
+0.40 MyK*  MyD*-               PHSP;
+0.15 MyD*-  MyK0*              PHSP;
+Enddecay
+CDecay My2860+
+
+Decay My3040-
+0.45 MyD*-  Mykappa            PHSP;
+0.40 MyK*  MyD*-               PHSP;
+0.15 MyD*-  MyK0*              PHSP;
+Enddecay
+CDecay My3040+
+
+Decay My2430b
+1.0 MyD*-  pi+                 PHSP;
+Enddecay
+CDecay My2430
+
+Decay My2460b
+1.0 MyD*-  pi+                 PHSP;
+Enddecay
+CDecay My2460
+
+Decay My2600b
+1.0 MyD*-  pi+                 PHSP;
+Enddecay
+CDecay My2600
+
+Decay Mykappa
+1.0  K-  pi+                  PHSP;
+Enddecay
+CDecay Mykappab
+
+Decay MyK*
+1.0  K-  pi+                  VSS;
+Enddecay
+CDecay MyK*b
+
+Decay MyK0*
+1.0  K-  pi+                  PHSP;
+Enddecay
+CDecay MyK0*b
+
+End
+

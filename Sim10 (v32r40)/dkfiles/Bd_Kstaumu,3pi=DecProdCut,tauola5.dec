@@ -1,0 +1,50 @@
+# EventType: 11516100 
+#
+# Descriptor:  {[[B0]nos -> mu+ (tau- -> pi+ pi- pi- nu_tau) (KS0 -> pi+ pi-)]cc, [[B0]nos -> (tau+ -> pi+ pi- pi+ anti-nu_tau) mu- (KS0 -> pi+ pi-)]cc, [[B0]os -> mu- (tau+ -> pi+ pi- pi+ anti-nu_tau) (KS0 -> pi+ pi-)]cc, [[B0]os -> (tau- -> pi+ pi- pi- nu_tau) mu+ (KS0 -> pi+ pi-)]cc} 
+#
+# NickName: Bd_Kstaumu,3pi=DecProdCut,tauola5 
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: Bd decay to Ks tau mu (LFV)
+# Ks decays to pipi final state.
+# Tau lepton decay in the 3-prong charged pion mode using the Tauola 5 model (BaBar). 
+# All final-state products in the acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Francesco Polci
+# Email: francesco.polci@lpnhe.in2p3.fr
+# Date: 20241217
+#
+
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+Alias         MyK0s      K_S0
+ChargeConj    MyK0s      MyK0s
+#
+Decay B0sig
+  0.500       MyK0s      Mytau+    mu-         BTOSLLBALL 6;
+  0.500       MyK0s      mu+        Mytau-     BTOSLLBALL 6;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK0s
+  1.000        pi+           pi-             PHSP;
+Enddecay
+#
+Decay Mytau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+End

@@ -1,0 +1,112 @@
+# EventType: 11894401
+# Descriptor: {[B0 -> (D_s1(2536)+ -> (D*(2007)0 => (D0-> K- pi+) pi~0)  K+) (D*- => (anti-D0 -> K+ mu- anti-nu_mu ) pi- )]cc , [B0 -> (D_s2(2573)*+ -> (D0-> K- pi+) K+) (D*- => (D~0 -> K+ mu- anti-nu_mu ) pi- )]cc}
+# NickName: Bd_DsststDst,D0KDpi,KpimunuX=cocktail,LHCbAcceptance
+# CPUTime: < 1 min
+# Cuts: LHCbAcceptance
+#
+# Documentation:  Forced B0 decay to a combination of Ds**D and D*Ds**. Force the D+-/D0 to a semileptonic decay.
+#                 For background study of semileptonic Bs->(Ds**->KKpi)MuNu decays.
+#                 Requires that the mu from charm and the 4 charged hadrons from other charm are in acc.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Alejandro Rodriguez
+# Email: a.rodriguez.alvarez@cern.ch
+# Date: 20250429
+#
+Alias      MyD'_s1+      D'_s1+
+Alias      MyD'_s1-      D'_s1-
+ChargeConj MyD'_s1+      MyD'_s1-
+#
+Alias      MyD_s2*+      D_s2*+
+Alias      MyD_s2*-      D_s2*-
+ChargeConj MyD_s2*+      MyD_s2*-
+#
+Alias      MyD*0         D*0
+Alias      Myanti-D*0     anti-D*0
+ChargeConj MyD*0         Myanti-D*0
+#
+Alias      MyD+       D+
+Alias      MyD-       D-
+ChargeConj MyD+       MyD-
+#
+Alias      MyD*+      D*+
+Alias      MyD*-      D*-
+ChargeConj MyD*+      MyD*-
+#
+Alias      MyD0       D0
+Alias      Myanti-D0  anti-D0
+ChargeConj MyD0       Myanti-D0
+#
+Alias      MyD01      D0
+Alias      Myanti-D01 anti-D0
+ChargeConj MyD01      Myanti-D01
+#
+Decay B0sig
+  0.0177 MyD'_s1+     MyD-                        SVS; 
+  0.0177 MyD'_s1+     MyD*-                       SVV_HELAMP 0.4904 0.0 0.7204 0.0 0.4904 0.0;
+  0.0177 MyD_s2*+     MyD-                        STS; 
+  0.0177 MyD_s2*+     MyD*-                       PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD'_s1+
+  1.0 MyD*0  K+       	    VVS_PWAVE 0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyD'_s1-
+#
+Decay MyD_s2*+
+  1.0 MyD01  K+                TSS;
+Enddecay
+CDecay MyD_s2*-
+#
+Decay MyD*0
+  0.647 MyD01  pi0               PHOTOS VSS;
+  0.353 MyD01  gamma             PHOTOS VSP_PWAVE;
+Enddecay
+CDecay Myanti-D*0
+#
+Decay MyD01
+  1.0   K-  pi+               PHOTOS PHSP;
+Enddecay
+CDecay Myanti-D01
+#
+Decay MyD*-
+  0.6770    Myanti-D0 pi-                        VSS;
+  0.3070    MyD-      pi0                        VSS;
+  0.0160    MyD-      gamma                      VSP_PWAVE;
+Enddecay
+CDecay MyD*+
+#
+Decay MyD-
+  0.055000000 K*0     mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.094000000 K0      mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.002773020 K_10    mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.002927076 K_2*0   mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.003312218 pi0     mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.002002736 eta     mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.000385142 eta'    mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.002500000 rho0    mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  0.002156793 omega   mu-     anti-nu_mu                      PHOTOS  ISGW2; 
+  ##Split this contribution into resonant, nonresonant
+  ##0.039000000 K+      pi-     mu-     anti-nu_mu              PHOTOS   PHSP; 
+  0.002000000 K+      pi-     mu-     anti-nu_mu              PHOTOS   PHSP;
+  0.001078397 K0      pi0     mu-     anti-nu_mu              PHOTOS   PHSP; 
+  0.000382000 mu-     anti-nu_mu                              PHOTOS   SLN; 
+Enddecay
+CDecay MyD+
+#
+Decay MyD0
+  0.019200000 K*-     mu+     nu_mu                           PHOTOS  ISGW2;
+  0.033300000 K-      mu+     nu_mu                           PHOTOS  ISGW2;
+  0.000815539 K_1-    mu+     nu_mu                           PHOTOS  ISGW2;
+  0.001374504 K_2*-   mu+     nu_mu                           PHOTOS  ISGW2;
+  0.002370000 pi-     mu+     nu_mu                           PHOTOS  ISGW2;
+  0.002015940 rho-    mu+     nu_mu                           PHOTOS  ISGW2;
+  0.001007970 anti-K0 pi-     mu+     nu_mu                   PHOTOS   PHSP;
+  0.000549802 K-      pi0     mu+     nu_mu                   PHOTOS   PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End

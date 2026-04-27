@@ -1,0 +1,34 @@
+# EventType: 25115000
+#
+# Descriptor: [Lambda_c+ -> (Sigma+ -> mu+ mu-) pi+ pi-]cc
+#
+# NickName: Lc_Sigmapipi,pmumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase space decay model
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Tom Hadavizadeh, Sam Dekkers
+# Email:       tom.hadavizadeh@monash.edu, sam.dekkers@monash.edu
+# Date:        20240318
+#
+Alias      MySigma+  Sigma+
+Alias      MySigma-  anti-Sigma-
+ChargeConj MySigma+  MySigma-
+#
+Decay Lambda_c+sig
+  1.000   MySigma+ pi+ pi- PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+#
+Decay MySigma+
+  1.000   p+ mu+ mu- PHSP;
+Enddecay
+CDecay MySigma-
+#
+End

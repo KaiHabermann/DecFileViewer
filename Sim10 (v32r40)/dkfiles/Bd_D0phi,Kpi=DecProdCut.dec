@@ -1,0 +1,40 @@
+# EventType: 11164005
+#
+# Descriptor: {[[B0]nos -> (D~0 -> K+ pi-) (phi(1020) -> K+ K-)]cc, [[B0]os -> (D0 -> K- pi+) (phi(1020) -> K- K+)]cc}
+#
+# NickName: Bd_D0phi,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: CP violation
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Zhipeng Tang
+# Email: zhipeng.tang@cern.ch
+# Date: 20171123
+# CPUTime: < 1 min
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias      MyPhi       phi
+ChargeConj MyPhi       MyPhi
+#
+Decay B0sig
+  1.000     MyPhi       Myanti-D0               SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Myanti-D0
+  1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay MyPhi
+  1.000        K+        K-                     VSS;
+Enddecay
+#
+End
+

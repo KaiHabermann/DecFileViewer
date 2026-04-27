@@ -1,0 +1,82 @@
+# EventType: 12335101
+# 
+# Descriptor: [ B+ -> K+ (eta_c -> p+ (Lambda~0 -> p~- pi+) K-)]cc 
+# 
+# NickName: Bu_etacK,pLambdabarK=HELAMP,TightCut
+#
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[B+ ==> ^K+ (Meson ==> ^X+ (Baryon => ^X- ^X+) ^X-)]CC"
+# tightCut.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import MeV",
+# "InAcc = in_range ( 0.005 , GTHETA , 0.400 )",
+# "goodKpi  = ( GP > 1000 * MeV ) & ( GPT > 100 * MeV ) & InAcc",
+# "goodp    = ( GP > 5000 * MeV ) & ( GPT > 200 * MeV ) & InAcc"
+# ]
+# tightCut.Cuts = {
+# '[pi+]cc' : "goodKpi",
+# '[K+]cc'  : "goodKpi",
+# '[p+]cc'  : "goodp"
+# }
+#
+# EndInsertPythonCode
+# 
+# Documentation:
+#                 Lambda0 forced into p pi.
+#                 Lambda0 -> p pi helicity amplitude from 2019 combination in PRL 123, 182301.
+#                 All charged final state tracks are required to be within the LHCb acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Liang Sun
+# Email: lsun@cern.ch
+# Date: 20230301
+#
+#
+
+Alias       MyLambda      Lambda0
+Alias       MyantiLambda  anti-Lambda0
+Alias      MyLambda(1520)0      Lambda(1520)0
+Alias      Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+
+ChargeConj  MyLambda      MyantiLambda
+Alias Myetac eta_c
+ChargeConj Myetac Myetac
+
+#
+Decay B+sig
+  1.000     Myetac          K+                 PHSP; 
+Enddecay
+CDecay B-sig
+#
+Decay MyLambda
+  1.000     p+            pi-                HELAMP 0.9276 0.0 0.3735 0.0;
+Enddecay
+CDecay MyantiLambda
+
+Decay Myetac
+  0.391     p+  MyantiLambda    K-  PHSP; # 0.5*2.5/(2.5+3.1*0.45/2)
+  0.109     MyLambda(1520)0  MyantiLambda    PHSP; # 0.5*(1-2.5/(2.5+3.1*0.45/2))
+  0.391     anti-p-  MyLambda    K+  PHSP;
+  0.109     Myanti-Lambda(1520)0  MyLambda    PHSP;
+Enddecay
+
+Decay Myanti-Lambda(1520)0
+  1.000   anti-p-          K+        PHSP;
+Enddecay
+CDecay MyLambda(1520)0
+
+
+#
+End
+#

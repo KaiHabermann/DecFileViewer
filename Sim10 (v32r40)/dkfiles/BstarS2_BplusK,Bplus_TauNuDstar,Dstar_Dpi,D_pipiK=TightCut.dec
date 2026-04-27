@@ -1,0 +1,77 @@
+# EventType: 17565080
+#
+# Descriptor: [B*_s20 -> K- (B+ -> tau+ nu_tau (D_2*0 -> pi+ (D- -> K+ pi- pi-)))]cc
+#
+# NickName: BstarS2_BplusK,Bplus_TauNuDstar,Dstar_Dpi,D_pipiK=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation:
+#    Decay a B+ to a pi D -> Kpipi and a tau which we are not interested in reconstructing since this is a 
+#    acting as an exclusive background for DM analysis. The B+ comes from a B*_s20.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: 3 min
+# Responsible: Saul Lopez
+# Email: saul.lopez.solino@cern.ch
+# Date: 20230622
+#
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalRepeatedHadronization.addTool( LoKi__GenCutTool, "TightCut" )
+#
+# tightCut = Generation().SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '[^(B*_s20 => (B+ =>  (D*_2(2460)~0 =>  (D- => K+ pi- pi-) pi+) tau+ nu_tau) K- ) ]CC'
+# ### - HepMC::IteratorRange::descendants   4
+# tightCut.Preambulo += [ "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#                          , "inAcc = in_range(1.9, GETA, 5.0)" 
+#                          , "isGoodKaon       = ( ( GPT > 0.15*GeV ) & inAcc & ( 'K+' == GABSID ) )"
+#                          , "isGoodPi         = ( ( GPT > 0.15*GeV ) & inAcc & ( 'pi+' == GABSID ) )"
+#                          , "isGoodD          = ( ( 'D+' == GABSID ) & ( GNINTREE( isGoodKaon, 1 ) > 0 ) & ( GNINTREE( isGoodPi, 1 ) > 1 )  )"
+#                          , "isGoodDstar      = ( ( 'D*_2(2460)0' == GABSID ) & ( GNINTREE( isGoodPi, 1 ) > 0) & ( GNINTREE ( isGoodD, 1 ) > 0) )"
+#                          , "isGoodTau        = ( ( 'tau-' == GABSID ) )"
+#                          , "isGoodNeutrinazo = ( ( 'nu_tau' == GABSID ) )"
+#                          , "isGoodB          = ( ( 'B+' == GABSID ) & ( GNINTREE( isGoodDstar, 1 ) > 0 ) & ( GNINTREE ( isGoodTau, 1) > 0 ) & ( GNINTREE ( isGoodNeutrinazo, 1) > 0 ))"
+#                          , "isGoodKaonB      = ( ( GPT > 0.10*GeV ) & inAcc & ( 'K+' == GABSID ) )"
+#                          , "isGoodBstar      = ( ( 'B*_s20' == GABSID ) & ( GNINTREE( isGoodB, 1 ) > 0 ) & ( GNINTREE( isGoodKaonB, 1 ) > 0 ) )"]
+# tightCut.Cuts ={
+# "[B*_s20]cc" : "isGoodBstar"
+# }
+# EndInsertPythonCode
+#
+Alias      MyD-      D-
+Alias      MyD+      D+
+ChargeConj MyD-    MyD+
+#
+Alias  MyDstar         D_2*0
+Alias  Myanti-Dstar    anti-D_2*0
+ChargeConj MyDstar   Myanti-Dstar
+#
+Alias      MyB+      B+
+Alias      MyB-      B-
+ChargeConj MyB+      MyB-
+#
+Decay B_s2*0sig
+    1.000  MyB+   K-   TSS;
+Enddecay
+CDecay anti-B_s2*0sig
+#
+Decay MyB+
+    1.000   Myanti-Dstar  tau+  nu_tau    ISGW2;
+Enddecay
+CDecay MyB-
+#
+Decay MyDstar
+    1.000   MyD+  pi-   TSS;
+Enddecay
+CDecay Myanti-Dstar
+#
+Decay MyD-
+    1.000  K+ pi- pi-  D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End

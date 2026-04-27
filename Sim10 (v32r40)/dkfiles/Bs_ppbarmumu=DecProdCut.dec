@@ -1,0 +1,27 @@
+# EventType: 13114066
+#
+# Descriptor: [B_s0 -> p+ anti-p- mu+ mu-]cc
+#
+# NickName: Bs_ppbarmumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Non resonant Bs -> ppbar mu+ mu-, decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Maik Becker
+# Email: maik.becker@cern.ch
+# Date: 20200825
+# CPUTime: < 1min 
+#
+#
+Decay B_s0sig
+  1.000        p+        anti-p-        mu+        mu-        PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+#
+End
+

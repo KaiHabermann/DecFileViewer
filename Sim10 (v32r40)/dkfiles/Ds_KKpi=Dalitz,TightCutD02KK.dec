@@ -1,0 +1,63 @@
+# EventType: 23103000
+#
+# Descriptor: [D_s+ -> K+ K- pi+]cc
+#
+# NickName: Ds_KKpi=Dalitz,TightCutD02KK
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation:
+#   Prompt D_s+ -> K+ K- pi+, tight cuts to match Run3 HLT2 requirements of D02KK
+#   This decay file is intended for studies of peaking background 
+#   in D0->hh CPV measurements.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation() 
+# signal     = generation.SignalPlain 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[D_s+ ==> ^K+ ^K- pi+]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import micrometer, millimeter, MeV, GeV                                                                                       " ,
+#     "from LoKiCore.math import atan2, sqrt                                                                                                                        " ,
+#     "CS               = LoKi.GenChild.Selector                                                                                                                    " ,
+#     "inAccLoose       =  in_range ( 0.012 , GTHETA , 0.35 ) & in_range ( -0.3  , atan2(GPX , GPZ), 0.3  ) & in_range ( -0.26 , atan2(GPY , GPZ), 0.26 )           " ,
+#     "fastTrack        =  ( GPT > 775 * MeV ) & ( GP  > 4.85 * GeV )                                                                                               " ,
+#     "goodTrack        =  inAccLoose & fastTrack                                                                                                                   " ,
+#     "KKinD0MassWindow =  GMASS(CS('[D_s+ ==> ^K+ K- pi+]CC'), CS('[D_s+ ==> K+ ^K- pi+]CC')) > 1.65 * GeV                                                         " ,
+#     "GPXKK            =  GCHILD( GPX, ('K+' == GID ) ) + GCHILD( GPX, ('K-' == GID ) )                                                                            " ,
+#     "GPYKK            =  GCHILD( GPY, ('K+' == GID ) ) + GCHILD( GPY, ('K-' == GID ) )                                                                            " ,
+#     "GPZKK            =  GCHILD( GPZ, ('K+' == GID ) ) + GCHILD( GPZ, ('K-' == GID ) )                                                                            " ,
+#     "GPTKK            =  sqrt(GPXKK*GPXKK + GPYKK*GPYKK)                                                                                                          " ,
+#     "GTHETAKK         =  atan2( GPTKK, GPZKK )                                                                                                                    " ,
+#     "inAccKK          =  in_range ( 0.014 , GTHETAKK , 0.30 ) & in_range ( -0.28 , atan2(GPXKK , GPZKK), 0.28 ) & in_range ( -0.24 , atan2(GPYKK , GPZKK), 0.24 ) " ,
+#     "goodKK           =  inAccKK & KKinD0MassWindow & ( GPTKK > 1.94 * GeV )                                                                                      " ,
+#     "longLived        =  GFLIGHT > 0.05 * millimeter                                                                                                              " ,
+#     "Bancestors       =  GNINTREE ( GBEAUTY , HepMC.ancestors )                                                                                                   " ,
+#     "notFromB         =  0 == Bancestors                                                                                                                          "
+# ]
+# tightCut.Cuts     =    {
+#     "[D_s+]cc" : "notFromB & goodKK & longLived " ,
+#     "[K+]cc"   : "goodTrack                     " ,
+#     "[K-]cc"   : "goodTrack                     "
+#     }
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Federico Betti
+# Email: federico.betti@cern.ch
+# Date: 20250416
+# CPUTime: 1 min
+#
+Decay D_s+sig
+  1.000        K+        K-        pi+             D_DALITZ;
+Enddecay
+CDecay D_s-sig
+#
+End

@@ -1,0 +1,25 @@
+# EventType: 32123001
+#
+# Descriptor: [Sigma+ -> p+ e+ e-]cc
+#
+# NickName: Sigma+_pee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Sigma+-> p+ e+ e- with phase space model, DaughtersInLHCb cut.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Gabriele Martelli 
+# Email: gabriele.martelli@cern.ch
+# Date: 20250220
+# CPUTime: < 1 min
+#
+Decay       Sigma+sig
+  1.000      p+  e+ e-   PHSP;
+Enddecay
+CDecay anti-Sigma-sig
+#
+End
+#

@@ -1,0 +1,28 @@
+# EventType: 18112024
+#
+# Descriptor: Upsilon(3S) -> mu+ mu- 
+#
+# NickName: incl_Upsilon3S,mm=DecProdCut,BeamGas
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+#
+# Documentation: Upsilon(3S) decay to mu+ mu- for BeamGas collisions, radiative mode included, Upsilon(3S) daughters in acceptance
+# EndDocumentation
+#
+# SpecialGeneration: EmbeddedGeneration
+#
+# PhysicsWG: IFT 
+# Tested: Yes
+# CPUTime: 10min
+# Responsible: Federica Fabiano
+# Email: federica.fabiano@cern.ch
+# Date: 20250207
+#
+#
+Decay Upsilon(3S)sig
+  1.000         mu+        mu-        VLL;
+Enddecay
+#
+End
+#

@@ -1,0 +1,41 @@
+# EventType: 15144022
+#
+# Descriptor: [Lambda_b0 -> (J/psi(1S) => mu+ mu-) (N(1520)0 -> p+ pi-)]cc
+#
+# NickName: Lb_JpsiN1520,mmppi=phsp,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda_b0 to a J/psi and N(1520)0 with J/psi to dimuons and N(1520)0 to ppi.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Lukas Calefice
+# Email:  lukas.calefice@cern.ch
+# Date: 20240214
+# CPUTime: < 2 min
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+Alias      MyNst         N(1520)0
+Alias      MyantiNst     anti-N(1520)0
+ChargeConj MyNst       	 MyantiNst
+#
+Decay Lambda_b0sig
+  1.000    MyJ/psi  MyNst               PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                    PHOTOS  VLL;
+Enddecay
+#
+Decay MyNst
+  1.000     p+  pi-                    PHSP;
+Enddecay
+CDecay MyantiNst
+#
+End
+#

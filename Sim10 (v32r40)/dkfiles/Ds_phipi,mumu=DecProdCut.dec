@@ -1,0 +1,31 @@
+# EventType: 23113025
+#
+# Descriptor: [D_s+ -> (phi -> mu+ mu-) pi+]cc
+#
+# NickName: Ds_phipi,mumu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces a Ds+ to ( phi -> mu+ mu- ) pi+ 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Mengzhen Wang 
+# Email: mengzhen.wang@cern.ch
+# Date: 20180109 
+# CPUTime: 3 min
+#
+Alias       my_phi   phi
+ChargeConj  my_phi   my_phi
+#
+Decay  D_s+sig
+  1.000     my_phi   pi+    PHOTOS SVS ;
+Enddecay
+CDecay D_s-sig
+#
+Decay  my_phi
+  1.000     mu+      mu-    PHOTOS VLL ;
+Enddecay
+#
+End

@@ -1,0 +1,62 @@
+# EventType: 23103431 
+#
+# Descriptor: [D_s+ -> ( eta -> pi+ pi- ( pi0 -> gamma gamma ) ) pi+]cc
+#
+# NickName: Ds+_etapi,pipipi0,gg=TightCut
+#
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool, 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = '[^(D_s+ ==> (eta -> ^pi+ ^pi- ^( pi0 -> ^gamma ^gamma )) ^pi+)]CC'
+#
+# tightCut.Cuts = {
+# 	'[pi+]cc'	:	'inAcc & piCuts',
+# 	'[D_s+]cc'	:	'Dcuts',
+#   	'gamma' 	: 	'goodPhoton',  
+# 	'pi0'		:	'goodPi0'}
+# tightCut.Preambulo += [
+#	  'inAcc = in_range(0.005, GTHETA, 0.400) & in_range(1.8, GETA, 5.0)',
+#	  'piCuts = ( (GPT>250 * MeV) & ( GP > 2000 * MeV))',
+#	  'Dcuts = (GPT> 2000 * MeV)',
+#   	  'goodPi0 = (GPT>1000 * MeV)',
+#	  'inEcalX = abs( GPX/GPZ ) <4.5/10',
+#	  'inEcalY = abs( GPY/GPZ ) <3.5/10',
+#	  'inEcalHole = (abs (GPX/GPZ) <0.25/12.5 ) & (abs(GPY/GPZ)<0.25/12.5)',
+#	  'goodPhoton = (GPT >100 * MeV) & (GPZ>0) & inEcalX & inEcalY & ~inEcalHole']
+# EndInsertPythonCode	
+#
+# Documentation: Forces a D_s+ to eta to pi+ with eta to pi+ pi- ( pi0 -> gamma gamma ) with generator level cuts 
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Arnau Brossa
+# Email: arnau.brossa@cern.ch
+# Date: 20230712
+#
+Alias       my_eta   eta
+ChargeConj  my_eta   my_eta
+Alias       my_pi0   pi0
+ChargeConj  my_pi0   my_pi0
+#
+Decay  D_s+sig
+  1.000     my_eta   pi+                   PHOTOS PHSP ;
+Enddecay
+CDecay D_s-sig
+#
+Decay  my_eta
+  1.000     pi+      pi-    my_pi0  PHOTOS ETA_DALITZ ;
+Enddecay
+#
+Decay  my_pi0
+  1.000     gamma gamma   PHSP ;
+Enddecay
+#
+End

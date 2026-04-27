@@ -1,0 +1,59 @@
+# EventType: 49942002
+#
+# Descriptor: [psi(2S) -> (J/psi(1S) -> mu+ mu-) ...]CC
+# NickName: cep_psi2S_psi1SX,mumu=Psi,MuMuInAcc
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/cepInAcc
+# Production: SuperChic2
+#
+# InsertPythonCode:
+#
+# # SuperChic2 options.
+# from Configurables import SuperChic2Production
+# Generation(genAlgName).Special.addTool(SuperChic2Production)
+# Generation(genAlgName).Special.SuperChic2Production.Commands += [
+#     "SuperChic2:proc = 52", # Psi(2S)[mu,mu] production.
+#     "SuperChic2:decays = false"] # Turn off SuperChic2 decays
+#
+# # Cuts on the psi(2S).
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut, "cepInAcc")
+# cepInAcc = Generation(genAlgName).cepInAcc
+# cepInAcc.Code = "( count( goodPsi2S ) == 1 )"
+# cepInAcc.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#     "inAcc       = in_range ( 1.95 , GETA , 5.050 ) ",
+#     "goodMuplus  = GINTREE( ( GID == -13 ) & inAcc )",
+#     "goodMuminus = GINTREE( ( GID ==  13 ) & inAcc )",
+#     "goodPsi2S = ( ( GABSID == 100443 ) & goodMuplus & goodMuminus )"]
+# 
+# # Keep the CEP process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+# Documentation:
+# Central exclusive production of psi(2S)[psi(1S)[mu mu] X] with muons in the acceptance
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Cristina Sanchez Gras
+# Email: cristina.sanchez.gras@cern.ch
+# Date: 20201012
+#
+Alias MyJpsi J/psi
+ChargeConj MyJpsi MyJpsi
+
+Decay psi(2S)
+0.336000 MyJpsi pi+ pi- VVPIPI;
+0.177300 MyJpsi pi0 pi0 VVPIPI;
+0.032800 MyJpsi eta PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+0.001300 MyJpsi pi0 PARTWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+
+Decay MyJpsi
+1.000000 mu+ mu- PHOTOS VLL;
+Enddecay
+End

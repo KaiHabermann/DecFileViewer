@@ -1,0 +1,75 @@
+# EventType: 40109011
+#
+# Descriptor: Higgs'0 -> (A0 -> tau+ tau-) (A0 -> tau+ tau-)
+# NickName: Higgs_AA_tautautautau,mH=125GeV,mA=10GeV,tA=10000ps,Hnarrow,MSdec
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/A1InAcceptance
+# Production: Pythia8
+#
+# Documentation:
+# Higgs->2A1->4tau. Simulated using Pythia's H_10 and H_30 particles redefined
+# for our needs, modified from originial 40114000
+# EndDocumentation
+#
+# InsertPythonCode:
+# from Gaudi.Configuration import *
+# from Configurables import GiGaHiggsParticles, GiGaPhysListModular
+# gigaHiggsPart = GiGaHiggsParticles()                                                             
+# gigaHiggsPart.Higgses = ["H_30"]                                                                 
+# GiGaPhysListModular("ModularPL").PhysicsConstructors += [gigaHiggsPart]                          
+# 
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut, "A1InAcceptance")
+# tracksInAcc = Generation(genAlgName).A1InAcceptance
+# tracksInAcc.Code = "count(isGoodDVfromA1) > 0"
+# tracksInAcc.Preambulo += [
+#       "from GaudiKernel.SystemOfUnits import GeV, mrad, meter",
+#       "isA1 = ( ('H_30' == GID) & (GTHETA < 400.0*mrad))",
+#       "GVZ = LoKi.GenVertices.PositionZ() " ,
+#       "vz      = GFAEVX ( GVZ, 0 * meter ) " ,
+#       "decayz =  ( (vz >   (13 * meter ) ) & (vz <   (20 * meter ) ) )",
+#       "isGoodDVDaughterTau = ('tau+' == GABSID)",
+#       "isGoodDVfromA1 = (isA1 & decayz & (GNINTREE(isGoodDVDaughterTau, 4) > 1))"]
+# from Gaudi.Configuration import importOptions
+# importOptions("$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py")
+# from Configurables import Pythia8Production
+# Generation(genAlgName).Special.addTool(Pythia8Production)
+# Generation(genAlgName).Special.Pythia8Production.Commands += [                          
+#     "Higgs:useBSM = on", "HiggsBSM:allH2 = on", "35:mWidth = 4e-03",                     
+#     "35:m0 = 125.0", "35:doForceWidth = true", "35:doExternalDecay = true"]
+# EndInsertPythonCode                                                                              
+#
+# ParticleValue: "H_20 88 35 0.0 125.000 1.6e-022 Higgs'0 35 0.0e+00", "H_30 89 36 0.0 10 1e-08 A0 36 0.0e+00"
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Xabier Cid Vidal
+# Email: xabier.cid.vidal@cern.ch
+# Date: 20230802
+# CPUTime: < 1 min
+#
+Alias MyA A0
+ChargeConj MyA MyA
+
+Decay Higgs'0
+1.000       MyA    MyA     PHSP;
+Enddecay
+
+# Tauola steering options
+Define TauolaCurrentOption -1
+Define TauolaBR1 1.0
+
+Alias         Mytau+   tau+
+Alias         Mytau-   tau-
+ChargeConj    Mytau+   Mytau-
+#
+Decay MyA
+  1.000       Mytau+   Mytau-       PHSP;
+Enddecay
+#
+Decay Mytau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay Mytau+
+
+End

@@ -1,0 +1,60 @@
+# EventType: 12575032
+#
+# Descriptor: [B- -> (D0 -> K+ pi- pi- pi+) anti-nu_mu mu- ]cc
+#
+# NickName: Bu_D0munu,piKpipi=TightCuts,AmpGen
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#gen = Generation(genAlgName)
+#gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay = '[B- => (D0 => ^K+ ^pi- ^pi- ^pi+ ) nu_mu~ ^mu-]CC'
+#tightCut.Preambulo += [
+#   'from GaudiKernel.SystemOfUnits import MeV' ,
+#   'from LoKiCore.functions import in_range',
+#   'inAcc     = in_range ( 0.010 , GTHETA , 0.400 ) ',
+#   'goodD     = ( GPT > 675 * MeV ) & ( GP > 9950 * MeV )',
+#   'goodMu     = ( GPT > 800 * MeV ) & ( GP > 3000 * MeV ) & inAcc',
+#   ]
+#tightCut.Cuts = {
+#   '[pi+]cc'         : 'inAcc',
+#   '[K-]cc'          : 'inAcc',
+#   '[mu-]cc'         : 'goodMu',
+#   '[D0]cc'          : 'goodD',
+#   }
+#EndInsertPythonCode
+#
+# Documentation:
+#   Doubly Cabibbo suppressed D decay.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Daniel O'Hanlon
+# Email: daniel.ohanlon@cern.ch
+# Date: 20200601
+#
+Alias      MyD0         D0
+Alias      Myanti-D0    anti-D0
+ChargeConj MyD0         Myanti-D0
+#
+Decay B-sig
+  1.000   MyD0     mu-  anti-nu_mu        PHOTOS  ISGW2;
+ Enddecay
+CDecay B+sig
+#
+noPhotos
+Decay MyD0
+  1.0 K+ pi- pi- pi+ LbAmpGen DtopiKpipi;
+Enddecay
+CDecay Myanti-D0
+#
+End
+#

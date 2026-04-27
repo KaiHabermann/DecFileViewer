@@ -1,0 +1,48 @@
+# EventType: 13196092
+#
+# Descriptor: [B_s0 -> (Lambda_c+ -> p+ K- pi+) (Xi_c~- -> p~- K+ pi-)]cc
+#
+# NickName: Bs_LcXic,pKpi,pKpi=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: B_s0 -> Lambda_c+ Xi_c~-, Xi_c+ -> pbarK+Pi- and Lambda_c+ -> p+K-Pi+ with intermediate states
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime:< 1min
+# Responsible: haoqiang
+# Email: haoqiang.zhao@cern.ch
+# Date: 20221213
+#
+Alias MyXi_c+ Xi_c+
+Alias Myanti-Xi_c- anti-Xi_c-
+ChargeConj MyXi_c+ Myanti-Xi_c-
+
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+
+# Define B0 decay
+Decay B_s0sig
+  1.000    MyLambda_c+        Myanti-Xi_c-         PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+Decay MyXi_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+
+
+End
+#
+

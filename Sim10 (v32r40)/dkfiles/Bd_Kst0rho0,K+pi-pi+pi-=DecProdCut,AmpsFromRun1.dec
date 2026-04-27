@@ -1,0 +1,60 @@
+# EventType: 11104043
+#
+# Descriptor: [B0 => (K*0 => K+ pi-) (rho0 => pi+ pi-)]cc
+#
+# NickName: Bd_Kst0rho0,K+pi-pi+pi-=DecProdCut,AmpsFromRun1
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+#
+# B0 decaying into vector K*(892)0 and vector rho(770) with K*(892)0 decaying to K+ pi-
+# and rho(770)0 decaying to pi+ pi-.
+# Daughters in LHCb acceptance.
+# Values of the transversity amplitudes are taken from Run 1 LHCb analysis http://arxiv.org/abs/1812.07008.
+#
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Matthew Monk
+# Email: matthew.david.monk@cern.ch
+# Date: 20221024
+#
+Define Azero  0.405 # Mod. of Azero
+Define pAzero 1.57  # Phase of Azero
+Define Aplus  0.020 # Mod. of Aplus
+Define pAplus 1.211 # Phase of Aplus
+Define Aminus 0.914 # Mod. of Aminus
+Define pAminus 0.786 # Phase of Aminus
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+Alias      Myrho0     rho0
+ChargeConj Myrho0     Myrho0
+#
+Decay B0sig
+ 1.000  MyK*0       Myrho0  SVV_HELAMP Aplus pAplus Azero pAzero Aminus pAminus;
+Enddecay
+# Need to specify the CC decay explicitly as SVV_HELAMP does not apply the parity flip
+# Means that the plus and minus amplitdues must swap
+#
+Decay anti-B0sig
+ 1.000  Myanti-K*0  Myrho0  SVV_HELAMP Aminus pAminus Azero pAzero Aplus pAplus;
+Enddecay
+#
+Decay MyK*0
+ 1.000  K+    pi-       VSS;
+Enddecay
+#
+CDecay Myanti-K*0
+#
+Decay Myrho0
+ 1.000  pi+    pi-      VSS;
+Enddecay
+#
+#
+End
+#

@@ -1,0 +1,105 @@
+# EventType: 16265006
+#
+# Descriptor: [Sigma_b*- -> (Lambda_b0 -> (Lambda_c+ -> p+ K- pi+ ) pi-) pi-]cc
+#
+# NickName: Sigmabstarminus_Lambdab0pi,Lambdab0_Lambdacpi,Lambdac_pKpi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation:
+#     Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Pablo Menendez
+# Email: pablo.menendez@cern.ch
+# Date: 20250720
+#
+#
+# InsertPythonCode:
+# from Configurables import LHCb__ParticlePropertySvc, LoKi__GenCutTool
+# LHCb__ParticlePropertySvc().Particles = [
+# "Sigma_b-   114    5112     -1.0     5.83474000      8.776160e-23   Sigma_b-         5112    0.00",
+# "Sigma_b~+  115   -5112      1.0     5.83474000      8.776160e-23   anti-Sigma_b+   -5112    0.00"
+# ]
+# ## Generator level cuts:
+# Generation().SignalRepeatedHadronization.addTool( LoKi__GenCutTool, "TightCut" )
+#
+# tightCut = Generation().SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '[^(Sigma_b- => (Lambda_b0 => ( Lambda_c+ ==> p+ K- pi+) pi- ) pi-)]CC'
+# ### - HepMC::IteratorRange::descendants   4
+# tightCut.Preambulo += [  "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#                          , "inAcc = in_range(1.9, GETA, 5.0)" 
+#                          , "isGoodKaon  = ( ( GPT > 0.10*GeV ) & inAcc & ( 'K+' == GABSID ) )"
+#                          , "isGoodPiLc    = ( ( GPT > 0.10*GeV ) & inAcc & ( 'pi+' == GABSID ) )"
+#                          , "isGoodP     = ( ( GPT > 0.10*GeV ) & inAcc & ( 'p+' == GABSID ) )"
+#                          , "isGoodLc     = ( ( 'Lambda_c+' == GABSID ) & ( GNINTREE( isGoodKaon, 4 ) > 0 ) & ( GNINTREE( isGoodPiLc, 4 ) > 0 ) & ( GNINTREE( isGoodP, 4 ) > 0 ) )"
+#                          , "isGoodPiLb    = ( ( GPT > 0.10*GeV ) & inAcc & ( 'pi+' == GABSID ) )"
+#                          , "isGoodLb    = ( ( 'Lambda_b0' == GABSID ) & ( GNINTREE( isGoodLc, 1 ) > 0  ) & ( GNINTREE( isGoodPiLb, 1 ) > 0  ) )"
+#                          , "isGoodPiSig = ( ( GPT > 0.10*GeV ) & inAcc & ( 'pi+' == GABSID ) )"
+#                          , "isGoodSigma = ( ( 'Sigma_b-' == GABSID ) & ( GNINTREE( isGoodLb, 1 ) > 0 ) & ( GNINTREE( isGoodPiSig, 1 ) > 0 ) )"]
+# tightCut.Cuts = {
+# "[Sigma_b-]cc" : "isGoodSigma"
+# }
+# EndInsertPythonCode
+#
+
+Alias MyLambda_b0 Lambda_b0
+Alias Myanti-Lambda_b0 anti-Lambda_b0
+ChargeConj MyLambda_b0 Myanti-Lambda_b0
+
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+
+Alias MyDelta++ Delta++
+Alias Myanti-Delta-- anti-Delta--
+ChargeConj MyDelta++ Myanti-Delta--
+
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+
+################################################################
+Decay Sigma_b-sig
+  1.000    MyLambda_b0        pi-     PHSP;
+Enddecay
+CDecay anti-Sigma_b+sig
+
+Decay MyLambda_b0
+  1.000    MyLambda_c+        pi-     PHSP;
+Enddecay
+CDecay Myanti-Lambda_b0
+################################################################
+Decay MyLambda_c+
+  0.548         p+      K-      pi+          PHSP;
+  0.195         p+      Myanti-K*0           PHSP;
+  0.180         MyDelta++   K-               PHSP;
+  0.077         MyLambda(1520)0 pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#                                                                                                                                                                                                 
+Decay MyK*0
+  0.6657      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+#                                                                                                                                                                                                 
+Decay MyLambda(1520)0
+  0.23   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+
+Decay MyDelta++
+ 1.00 p+  pi+                       PHSP;
+Enddecay
+CDecay  Myanti-Delta--        
+
+
+End

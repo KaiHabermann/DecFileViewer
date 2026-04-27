@@ -1,0 +1,78 @@
+# EventType: 14163611
+#
+# Descriptor: [B_c+ -> (D_s*+ => (D_s+ => K+ K- pi+) gamma) (pi0 => gamma gamma)]cc
+#
+# NickName: Bc_Dsstpi0,DsG,KKpi,gg=BcVegPy,TightCut
+#
+# Production: BcVegPy
+#
+# Cuts: LoKi::GenCutToolWithDecay/TightCut
+#
+# Documentation: B_c+ -> (D*_s+ => (D_s+ => K+ K- pi+) gamma) (pi0 -> gamma gamma), background for Bc->DsstG 
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutToolWithDecay
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.Special.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+# gen.Special.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+# #
+# tightCut = gen.Special.TightCut
+# tightCut.SignalPID = 'B_c+'
+# tightCut.Decay = '[B_c+ ==> (D*_s+ => (D_s+ => ^K+ ^K- ^pi+) gamma)  ^(pi0 => gamma gamma) ]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     "inAcc          = in_range ( 0.005 , GTHETA , 0.400 ) " ,
+#     "inEcalX        =   abs ( GPX / GPZ ) < 4.5  / 12.5",
+#     "inEcalY        =   abs ( GPY / GPZ ) < 3.5  / 12.5",
+#     "inEcalHole     = ( abs ( GPX / GPZ ) < 0.25 / 12.5 ) & ( abs ( GPY / GPZ ) < 0.25 / 12.5 )",
+#     "InEcal         = inEcalX & inEcalY & ~inEcalHole ",
+#     "goodPhoton     = ('gamma' == GABSID) & ( GPT > 1.8 * GeV ) & InEcal",
+#     ]
+# tightCut.Cuts     =    {
+#     '[K+]cc'         : ' inAcc' , 
+#     '[pi+]cc'        : ' inAcc' , 
+#     'pi0'            : ' GINTREE(goodPhoton)',
+#     }
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email: biplab.dey@.cern.ch 
+# Date: 20240527
+# CPUTime: < 1 min
+#
+Alias      MyD*_s-     D_s*-
+Alias      MyD*_s+     D_s*+
+ChargeConj MyD*_s+     MyD*_s-
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      Mypi0    pi0
+ChargeConj Mypi0    Mypi0
+#
+Decay B_c+sig
+  1.000   MyD*_s+   Mypi0  PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyD*_s+
+  1.000 MyD_s+  gamma    VSP_PWAVE;
+Enddecay
+CDecay MyD*_s-
+#
+Decay MyD_s+
+  1.0   K+ K-  pi+   PHSP;
+Enddecay
+CDecay MyD_s-
+#
+Decay Mypi0
+  1.000        gamma    gamma            PHSP;
+Enddecay
+#
+End

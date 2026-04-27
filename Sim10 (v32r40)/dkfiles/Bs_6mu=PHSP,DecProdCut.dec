@@ -1,0 +1,28 @@
+# EventType: 13116010 
+#
+# Descriptor: [B_s0 => mu+ mu- mu+ mu- mu+ mu-]cc
+#
+# NickName: Bs_6mu=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: The B_s0 -> 6mu decay in the phase space approach 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Titus Mombaecher
+# Email: Titus.Mombacher@cern.ch
+# Date: 20210630
+# CPUTime: <1min
+#
+
+
+
+Decay B_s0sig
+   1.000   mu+  mu-  mu+  mu- mu+ mu-  PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+End

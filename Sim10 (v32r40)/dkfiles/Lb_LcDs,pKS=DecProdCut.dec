@@ -1,0 +1,51 @@
+# EventType: 15196120
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> (KS0 -> pi+ pi-) p+) (D_s- -> K+ K- pi-)]cc
+#
+# NickName: Lb_LcDs,pKS=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible:  Tianze Rong
+# Email: tianze.rong@cern.ch
+# Date: 20230925
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Alias	MyDs-	D_s-
+Alias	MyDs+	D_s+
+ChargeConj	MyDs-	MyDs+
+#
+Alias	MyKS0	K_S0
+ChargeConj	MyKS0	MyKS0
+#
+Decay Lambda_b0sig
+  1.000    MyLambda_c+        MyDs-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+# 
+Decay MyLambda_c+
+  1.000    MyKS0      p+              PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyKS0
+  1.000        pi+      pi-                PHSP;
+Enddecay
+#
+Decay MyDs-
+  1.000		K+	K-	pi-		D_DALITZ;
+Enddecay
+CDecay MyDs+
+#
+End
+#

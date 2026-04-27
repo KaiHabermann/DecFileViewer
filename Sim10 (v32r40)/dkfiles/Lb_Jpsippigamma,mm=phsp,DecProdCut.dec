@@ -1,0 +1,33 @@
+# EventType: 15144221 
+#
+# Descriptor: [Lambda_b0 -> p+ pi- (J/psi(1S) -> mu+ mu-) gamma]cc
+#
+# NickName: Lb_Jpsippigamma,mm=phsp,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda_b0 to 4-body p+ pi- J/psi gamma with J/psi to dimuons; for studies of part-reco backgrounds to Lambdab->Jpsippi.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: yuxi
+# Email:  yuxi.gao@cern.ch
+# Date: 20241212
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+#
+Decay Lambda_b0sig
+  1.000    MyJ/psi  p+ pi- gamma              PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                          VLL;
+Enddecay
+#
+End
+#

@@ -1,0 +1,42 @@
+# EventType: 22102000
+#
+# Descriptor: { [ D0 => K- pi+ ]cc }
+#
+# NickName: b_D03piInclBkg,Kpi=TightCut
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/B2D03piBkg
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "B2D03piBkg" )
+# tightCut = Generation(genAlgName).B2D03piBkg
+# tightCut.Code = "( ( count(B2D0X)>0 ) & ( count(X23piX)>0 ) & ( count(goodB2D03piX)==0 ) )"
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,'inAcc = ( 0 < GPZ )  &  ( 200 * MeV < GPT ) & ( 1200 * MeV < GP ) & in_range ( 1.8 , GETA , 5.0 ) & in_range ( 0.005 , GTHETA , 0.400 )'
+#     ,"goodB2D03piX = GDECTREE('[ ( Beauty & LongLived ) --> (D0 => K- pi+) pi- pi+ pi- ... ]CC')"
+#     ,"goodB2D0X = GDECTREE('[ ( Beauty & LongLived ) --> (D0 => K- pi+) ... ]CC')"
+#     ,"B2D0X = ( GBEAUTY & goodB2D0X & ( GNINTREE ( ('D0' == GABSID) & (GP>8000*MeV) & (GPT>1000*MeV) & ( GNINTREE(( 'K-' == GABSID ) & ( GPT > 1400*MeV ) & ( GP > 4000*MeV ) & inAcc, HepMC.descendants) == 1 ) & ( GNINTREE(( 'pi+' == GABSID ) & ( GPT > 200*MeV ) & ( GP > 1600*MeV ) & inAcc, HepMC.descendants) == 1 ), HepMC.descendants ) > 0 ) )"
+#     ,"goodX23piX = GDECTREE('[ ( LongLived ) --> pi- pi+ pi- ... ]CC')"
+#     ,"X23piX = ( (GBEAUTY | GCHARM) & goodX23piX & ( GNINTREE ( ('pi+' == GABSID) & inAcc & ( GNINTREE ( ('KS0' == GABSID) | ('KL0' == GABSID), HepMC.parents)==0 ), HepMC.descendants ) >= 3 ) )"
+# ]
+# EndInsertPythonCode
+#
+# Documentation: Combinatorial background D0/3pi for B2XTauNu analyses.
+# EndDocumentation
+#
+# CPUTime: <2 min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Antonio Romero Vidal
+# Email: antonio.romero@cern.ch
+# Date: 20200324
+#
+Decay D0sig
+1.00      K-         pi+                           PHSP;
+Enddecay
+CDecay anti-D0sig
+#
+End

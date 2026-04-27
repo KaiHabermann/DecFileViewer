@@ -1,0 +1,33 @@
+# EventType: 15154032
+#
+# Descriptor: [Lambda_b0 -> p+ pi- (psi(2S) => e+ e-)]cc
+#
+# NickName: Lb_psi2Sppi,ee=phsp,DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda_b0 phase-space three-body decay to p+pi- psi(2S) with psi(2S) to e+e-.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Lukas Calefice
+# Email: lukas.calefice@cern.ch
+# Date: 20240212
+#
+Alias      Mypsi2S       psi(2S)
+ChargeConj Mypsi2S       Mypsi2S
+#
+Decay Lambda_b0sig
+  1.000    Mypsi2S  p+ pi-	PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mypsi2S
+  1.000     e+  e-	PHOTOS VLL;
+Enddecay
+#
+End
+#

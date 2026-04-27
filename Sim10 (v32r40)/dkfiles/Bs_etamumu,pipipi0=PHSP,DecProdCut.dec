@@ -1,0 +1,39 @@
+# EventType: 13114405
+#
+# Descriptor: [B_s0 -> (eta -> pi+ pi- (pi0 -> gamma gamma)) mu+ mu-]cc
+#
+# NickName: Bs_etamumu,pipipi0=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+# CutsOptions: NeutralThetaMin 0.005 NeutralThetaMax 0.400 MinTrackP 1900*MeV
+#
+# Documentation: Decay file for Bs0 -> (eta -> pi+ pi- pi0) mu+ mu- (PHSP)
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# CPUTime: < 1 min
+# Responsible: Raul Rabadan
+# Email:       raul.iraq.rabadan.trejo@cern.ch
+# Date:        20241213
+#
+Alias      Myeta  eta
+Alias      Mypi0  pi0
+ChargeConj Myeta  Myeta
+ChargeConj Mypi0  Mypi0
+#
+Decay B_s0sig
+  1.0        Myeta     mu+     mu-   PHSP;
+Enddecay                           			 						
+CDecay anti-B_s0sig
+#
+Decay Myeta
+  1.0        pi-      pi+      Mypi0   ETA_DALITZ;
+Enddecay
+#
+Decay Mypi0
+  1.0        gamma    gamma            PHSP;
+Enddecay
+#
+End
+#

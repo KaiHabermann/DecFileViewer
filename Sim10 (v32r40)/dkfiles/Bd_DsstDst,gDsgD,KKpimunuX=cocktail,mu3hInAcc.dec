@@ -1,0 +1,135 @@
+# EventType: 11876200
+#
+# Descriptor: [[B0]cc ==> (D_s+ => K+ K- pi+) ([D-,D0] => mu- anti-nu_mu ...) ...]cc
+#
+# NickName: Bd_DsstDst,gDsgD,KKpimunuX=cocktail,mu3hInAcc
+#
+# Cuts: BeautyTomuCharmTo3h
+#
+# Documentation:
+# Force B0 to combination of  DsD, Ds*D, DsD*, and Ds*D*.
+# In each case, force Ds to decay KKPi,
+# then force D0/- to decay semileptonically.
+# For background study of semileptonic Bs->(Ds->KKpi)MuNu decays.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Michael Wilkinson
+# Email: miwilkin@syr.edu
+# Date: 20201207
+#
+Alias      MyD'_s1+   D'_s1+
+Alias      MyD'_s1-   D'_s1-
+ChargeConj MyD'_s1+   MyD'_s1-
+Alias      MyD_s1+   D_s1+
+Alias      MyD_s1-   D_s1-
+ChargeConj MyD_s1+   MyD_s1-
+Alias      MyD_s0*+   D_s0*+
+Alias      MyD_s0*-   D_s0*-
+ChargeConj MyD_s0*+   MyD_s0*-
+Alias      MyD_s*+   D_s*+
+Alias      MyD_s*-   D_s*-
+ChargeConj MyD_s*+   MyD_s*-
+Alias      MyD_s+    D_s+
+Alias      MyD_s-    D_s-
+ChargeConj MyD_s+    MyD_s-
+Alias      MyD+      D+
+Alias      MyD-      D-
+ChargeConj MyD+      MyD-
+Alias      MyD*+     D*+
+Alias      MyD*-     D*-
+ChargeConj MyD*+     MyD*-
+Alias      MyD0      D0
+Alias      Myanti-D0 anti-D0
+ChargeConj MyD0      Myanti-D0
+#
+Decay B0sig
+  0.0072 MyD-      MyD_s+   PHSP;  # PDG2020
+  0.0080 MyD*-     MyD_s+   SVS;  # PDG2020
+  0.0074 MyD_s*+   MyD-     SVS;  # PDG2020
+  0.0177 MyD_s*+   MyD*-    SVV_HELAMP 0.4904 0.0 0.7204 0.0 0.4904 0.0;  # PDG2020
+  0.00106 MyD_s0*+ MyD-     PHSP;  # PDG2020
+  0.00150 MyD*-    MyD_s0*+ SVS;  # PDG2020
+  0.00350 MyD_s1+  MyD-     SVS;  # PDG2020
+  0.00930 MyD_s1+  MyD*-    SVV_HELAMP 0.4904 0.0 0.7204 0.0 0.4904 0.0;  # PDG2020, helamp duplicate from D_s*
+  0.00350 MyD'_s1+ MyD-     SVS;  # duplicate from D_s1+
+  0.00930 MyD'_s1+ MyD*-    SVV_HELAMP 0.4904 0.0 0.7204 0.0 0.4904 0.0;  # duplicate from D_s1+, helamp duplicate from D_s*
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD_s0*+
+  1.0 MyD_s+ pi0 PHOTOS PHSP;
+Enddecay
+CDecay MyD_s0*-
+#
+Decay MyD_s1+
+  0.480 MyD_s*+  pi0         PHOTOS PHSP;
+  0.180 MyD_s+   gamma       PHOTOS PHSP;
+  0.043 MyD_s+   pi+   pi-   PHOTOS PHSP;
+  0.080 MyD_s*+  gamma       PHOTOS PHSP;
+  0.037 MyD_s0*+ gamma       PHOTOS PHSP;
+Enddecay
+CDecay MyD_s1-
+#
+Decay MyD'_s1+
+  0.5 MyD_s*+ gamma     PHOTOS PHSP;
+  0.5 MyD_s+  pi+   pi- PHOTOS PHSP;
+Enddecay
+CDecay MyD'_s1-
+#
+Decay MyD_s*+
+  0.935 MyD_s+ gamma VSP_PWAVE;
+  0.058 MyD_s+ pi0   VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s+
+  0.0539 K+ K- pi+ PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD*-
+  0.677 Myanti-D0 pi-   VSS;
+  0.307 MyD-      pi0   VSS;
+  0.016 MyD-      gamma VSP_PWAVE;
+Enddecay
+CDecay MyD*+
+#
+Decay MyD-
+  0.000374000           mu- anti-nu_mu PHOTOS   SLN; # PDG2020
+  # the sum of the following ~ width of "mu + anything" in PDG2020 within 0.5 sigma
+  0.052700000 K*0       mu- anti-nu_mu PHOTOS ISGW2; # PDG2020
+  0.087600000 K0        mu- anti-nu_mu PHOTOS ISGW2; # PDG2020
+  0.001803297 K_10      mu- anti-nu_mu PHOTOS ISGW2; # scaled from DECAY.DEC using PDG2020 non-resonant K+ pi- BF
+  0.001903480 K_2*0     mu- anti-nu_mu PHOTOS ISGW2; # scaled from DECAY.DEC using PDG2020 non-resonant K+ pi- BF
+  0.000230000 K_0*0     mu- anti-nu_mu PHOTOS ISGW2; # PDG2020 upper limit
+  0.001500000 K''*0     mu- anti-nu_mu PHOTOS ISGW2; # PDG2020 upper limit
+  0.003500000 pi0       mu- anti-nu_mu PHOTOS ISGW2; # PDG2020
+  0.001110000 eta       mu- anti-nu_mu PHOTOS ISGW2; # PDG2020 for electron
+  0.000200000 eta'      mu- anti-nu_mu PHOTOS ISGW2; # PDG2020 for electron
+  0.002400000 rho0      mu- anti-nu_mu PHOTOS ISGW2; # PDG2020
+  0.001690000 omega     mu- anti-nu_mu PHOTOS ISGW2; # PDG2020 for electron
+  0.002450000 pi+   pi- mu- anti-nu_mu PHOTOS  PHSP; # PDG2020 for electron
+  0.001900000 K+    pi- mu- anti-nu_mu PHOTOS  PHSP; # PDG2020 (non-resonant; K*0 mu nu handled above)
+  0.000780440 K0    pi0 mu- anti-nu_mu PHOTOS  PHSP; # scaled from DECAY.DEC using PDG2020 non-resonant K+ pi- BF
+Enddecay
+CDecay MyD+
+#
+Decay MyD0
+  # the sum of the following is >> width of "mu + anything" in PDG2020
+  0.018900000 K*-         mu+ nu_mu PHOTOS ISGW2; # PDG2020
+  0.034100000 K-          mu+ nu_mu PHOTOS ISGW2; # PDG2020
+  0.000760000 K_1-        mu+ nu_mu PHOTOS ISGW2; # PDG2020 for electron
+  0.000802222 K_2*-       mu+ nu_mu PHOTOS ISGW2; # scaled to K_1- using ratio K_2*0 / K_10 above
+  0.002670000 pi-         mu+ nu_mu PHOTOS ISGW2; # PDG2020
+  0.001500000 rho-        mu+ nu_mu PHOTOS ISGW2; # PDG2020 for electron
+  0.014400000 anti-K0 pi- mu+ nu_mu PHOTOS  PHSP; # PDG2020 for electron
+  0.016000000 K-      pi0 mu+ nu_mu PHOTOS  PHSP; # PDG2020 for electron
+  0.001450000 pi-     pi0 mu+ nu_mu PHOTOS  PHSP; # PDG2020 for electron
+Enddecay
+CDecay Myanti-D0
+#
+End

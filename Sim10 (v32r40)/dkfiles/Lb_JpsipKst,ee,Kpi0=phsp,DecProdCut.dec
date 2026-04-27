@@ -1,0 +1,45 @@
+# EventType: 15154401
+#
+# Descriptor: [Lambda_b0 -> (K*(892)- -> K- pi0) p+ (J/psi(1S) -> e+ e-)]cc
+#
+# NickName: Lb_JpsipKst,ee,Kpi0=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Three-body Lambda_b0 to  p K* J/psi with J/psi to dielectrons.
+# EndDocumentation
+#
+# CPUTime: 2 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Vitalii Lisovskyi (and Yasmine Amhis)
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20210916
+#
+
+Alias MyKst+ K*+
+Alias MyKst- K*-
+ChargeConj MyKst+ MyKst-
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+#
+
+Decay Lambda_b0sig
+  1.000  MyKst- p+   MyJ/psi  PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+
+Decay MyJ/psi
+  1.000     e+  e-                    PHOTOS  VLL;
+Enddecay
+
+Decay MyKst-
+ 1.0 K- pi0 VSS;
+Enddecay
+CDecay MyKst+
+
+End
+#

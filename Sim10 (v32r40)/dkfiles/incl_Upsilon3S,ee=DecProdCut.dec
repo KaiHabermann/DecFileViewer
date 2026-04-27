@@ -1,0 +1,27 @@
+# EventType: 18122021
+#
+# Descriptor: Upsilon(3S) -> e+ e-
+#
+# NickName: incl_Upsilon3S,ee=DecProdCut
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Upsilon(3S) decay to e+ e-, radiative mode included, Upsilon(3S) daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: F.Wilson
+# Email: Fergus.Wilson@cern.ch
+# Date: 20211021
+#
+#
+Decay Upsilon(3S)sig
+  1.000         e+        e-        VLL;
+Enddecay
+#
+End
+#

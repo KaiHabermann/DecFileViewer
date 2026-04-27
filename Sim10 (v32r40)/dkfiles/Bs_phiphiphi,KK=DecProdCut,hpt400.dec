@@ -1,0 +1,36 @@
+# EventType: 13106012
+#
+# Descriptor: [B_s0 => (phi(1020) => K+ K-) (phi(1020) => K+ K-) (phi(1020) => K+ K-)]cc
+#
+# NickName: Bs_phiphiphi,KK=DecProdCut,hpt400
+#
+# Cuts: DaughtersInLHCbAndWithDaughAndBCuts
+#
+# ExtraOptions: B2PhiPhi
+#
+# CPUTime: < 1 min
+#
+# Documentation: 
+#    Bs decay to 3phi, and phi decays to K+ K-, daughters in acceptance
+#    with track pT > 400 MeV
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Vsevolod Yeroshenko
+# Email: vsevolod.yeroshenko@cern.ch
+# Date: 20191205
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi  
+#
+Decay B_s0sig
+  1.0000       MyPhi     MyPhi     MyPhi   PHSP; 
+Enddecay
+CDecay anti-B_s0sig
+ #
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End

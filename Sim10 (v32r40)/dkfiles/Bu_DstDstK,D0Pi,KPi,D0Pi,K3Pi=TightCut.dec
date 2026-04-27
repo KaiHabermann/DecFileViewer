@@ -1,0 +1,84 @@
+# EventType: 12199014
+# NickName: Bu_DstDstK,D0Pi,KPi,D0Pi,K3Pi=TightCut
+# Descriptor: [B+ -> (D*(2010)+ -> (D0 -> K- pi+) pi+) (D*(2010)- -> (D~0 -> K+ pi- pi- pi+) pi-) K+]cc
+#
+# Documentation: Decay file for B+- -> D*+- D*-+ K+- with B decay flat in dalitz plot
+# EndDocumentation
+# CPUTime: < 1 min
+#
+#
+#Cuts: LoKi::GenCutTool/TightCut
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+#tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+#tightCut.Decay = '^[B+ -> ^(D*(2010)+ ==> ^(D0 => ^K- ^pi+) ^pi+) ^(D*(2010)- ==> ^(D~0 => ^K+ ^pi- ^pi- ^pi+)^pi-) ^K+]CC'
+#tightCut.Preambulo += [
+#    'GVZ = LoKi.GenVertices.PositionZ()',
+#    'from GaudiKernel.SystemOfUnits import millimeter',
+#    'inAcc        = (in_range(0.005, GTHETA, 0.400) & in_range ( 1.8 , GETA , 5.2))',
+#    'goodB        = (GP > 25000 * MeV) & (GPT > 1500 * MeV)',
+#    'goodD        = (GP > 8000 * MeV) & (GPT > 400 * MeV)',
+#    'goodK        = in_range( 1.3 * GeV , GP , 200 * GeV) & (GPT >  80 * MeV)',
+#    'goodPi       = in_range( 1.3 * GeV , GP , 200 * GeV) & (GPT >  80 * MeV)',
+#]
+#tightCut.Cuts = {
+#    '[B+]cc'   : 'goodB',
+#    '[D*(2010)+]cc' : 'goodD',
+#    '[D0]cc'   : 'goodD',
+#    '[K+]cc'   : 'inAcc & goodK',
+#    '[pi+]cc'  : 'inAcc & goodPi'
+#    }
+#EndInsertPythonCode
+# 
+# Date:   20201106
+#
+# Responsible: Ruiting Ma
+# Email: ma.ruiting@cern.ch
+# PhysicsWG: B2OC
+#
+# Tested: Yes
+
+Alias My_D0             D0
+Alias My_anti-D0        anti-D0
+Alias My_D0_K3Pi        D0
+Alias My_anti-D0_K3Pi   anti-D0
+Alias My_D*+            D*+
+Alias My_D*-            D*-
+Alias My_D*+_K3Pi       D*+
+Alias My_D*-_K3Pi       D*-
+
+ChargeConj My_anti-D0   My_D0
+ChargeConj My_anti-D0_K3Pi   My_D0_K3Pi 
+ChargeConj My_D*-       My_D*+
+ChargeConj My_D*-_K3Pi  My_D*+_K3Pi
+
+Decay My_D0
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay My_anti-D0
+
+Decay My_D0_K3Pi
+  1.0  K-  pi+   pi+   pi-  LbAmpGen DtoKpipipi;
+Enddecay
+CDecay My_anti-D0_K3Pi
+
+Decay My_D*+
+  1.0 My_D0 pi+  PHSP;
+Enddecay
+CDecay My_D*-
+
+Decay My_D*+_K3Pi
+  1.0 My_D0_K3Pi pi+  PHSP;
+Enddecay
+CDecay My_D*-_K3Pi
+
+Decay B+sig
+  1.0 My_D*+ My_D*-_K3Pi K+ PHSP;
+Enddecay
+CDecay B-sig
+
+End

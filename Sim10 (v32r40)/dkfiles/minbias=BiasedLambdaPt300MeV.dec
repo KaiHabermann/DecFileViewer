@@ -1,0 +1,40 @@
+# EventType: 33000000
+#
+# Descriptor: pp => ?
+#
+# NickName: minbias=BiasedLambdaPt300MeV
+#
+# Cuts: None
+# Sample: MinimumBias
+#
+# Documentation: BiasedLambdaPt300MeV
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).FullGenEventCutTool = "LoKi::FullGenEventCut/PbarCut"
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "PbarCut" )
+# PbarCut = Generation(genAlgName).PbarCut
+# PbarCut.OutputLevel=2
+# PbarCut.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import GeV, mrad, meter"    ,
+#    "mineta = -3.3"                                          ,
+#    "maxeta = 1.1"                                           ,
+#    "isLambda = ( ('Lambda0' == GABSID) & (GPT > 0.3 *GeV) & (in_range(mineta, GETA, maxeta)) & (GCHILDCUT(in_range( mineta, GETA, maxeta), 1)) & (GCHILDCUT( in_range(mineta, GETA, maxeta), 2) )) "
+#
+# ]
+#
+# PbarCut.Code = " ( has ( isLambda ) ) "
+# EndInsertPythonCode
+#
+# SpecialGeneration: BeamGasGeneration
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Elisabeth Niel
+# Email: niel@lal.in2p3.fr
+# Date: 20190222
+# CPUTime: < 1 min
+End

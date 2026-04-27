@@ -1,0 +1,85 @@
+# EventType: 12243220
+#
+# Descriptor: [B+ -> (X_1(3872) -> (psi(2S) -> mu+ mu-) gamma) K+]cc
+#
+# ParticleValue: "X_1(3872) 1016 9920443 0 3.87164 -0.00119 X_1(3872) 9920443 0"
+#
+# NickName: Bu_X3872K,psig=TightCuts
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '^[B+ => (Meson -> ^((J/psi(1S) | psi(2S)) => ^mu+ ^mu-) ^gamma) ^K+]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV                 ',
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 )                                       ',
+#     'inEta      = in_range ( 1.95  , GETA   , 5.050 )                                       ',
+#     'inY        = in_range ( 1.9   , GY     , 4.7   )                                       ',
+#     'fastTrack  = ( GPT > 180 * MeV ) & in_range( 2.9 * GeV, GP, 210 * GeV )                ',
+#     'longLived  = 75 * micrometer < GTIME                                                   ',
+#     'inEcalX    = abs ( GPX / GPZ ) < 4.5 / 12.5                                            ',
+#     'inEcalY    = abs ( GPY / GPZ ) < 3.5 / 12.5                                            ',
+#     'inECAL     = inEcalX & inEcalY                                                         ',
+#     'inEcalHole = ( abs ( GPX / GPZ ) < 0.25 / 12.5 ) & ( abs ( GPY / GPZ ) < 0.25 / 12.5 ) ',
+#     'goodK   = inAcc & inEta & fastTrack                     ',
+#     'goodMu  = inAcc & inEta & fastTrack & (GPT > 500 * MeV) ',
+#     'goodG   = inECAL & ~inEcalHole & ( GPT > 150 * MeV )    ',
+#     'goodPsi = inY                                           ',
+#     'goodB   = inY & longLived                               ',
+# ]
+# tightCut.Cuts  = {
+#     '[B+]cc'             : 'goodB'  ,
+#     'J/psi(1S) | psi(2S)': 'goodPsi',
+#     'gamma'              : 'goodG'  ,
+#     '[mu+]cc'            : 'goodMu' ,
+#     '[K+]cc'             : 'goodK'  ,
+# }
+# EndInsertPythonCode
+#
+# Documentation:
+#    Tight generator level cuts applied for all final state particles,
+#    which increases the statistics with a factor of ~3:
+#    Efficiency w/  tight cuts    in output           (13.76 +- 1.28)%
+#                                 in GeneratorLog.xml ( 7.43 +- 0.97)%
+#    Efficiency w/o tight cuts    in output           (39.88 +- 1.55)%
+#                                 in GeneratorLog.xml (20.94 +- 1.28)%
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Slava Matiunin
+# Email: Viacheslav.Matiunin@<no-spam>cern.ch
+# Date: 20211105
+# CPUTime: <1 min
+#
+Alias      MyX_1(3872)   X_1(3872)
+ChargeConj MyX_1(3872) MyX_1(3872)
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi     MyJ/psi
+#
+Alias      Mypsi(2S)     psi(2S)
+ChargeConj Mypsi(2S)   Mypsi(2S)
+#
+Decay B+sig
+    1.0000  MyX_1(3872) K+     SVS ;
+Enddecay
+CDecay B-sig
+#
+Decay MyX_1(3872)
+    0.5000  MyJ/psi     gamma  VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 ;
+    0.5000  Mypsi(2S)   gamma  VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 ;
+Enddecay
+#
+Decay MyJ/psi
+    1.0000  mu+         mu-    PHOTOS  VLL ;
+Enddecay
+Decay Mypsi(2S)
+    1.0000  mu+         mu-    PHOTOS  VLL ;
+Enddecay
+#
+End

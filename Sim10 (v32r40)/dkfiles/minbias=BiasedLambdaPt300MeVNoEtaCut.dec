@@ -1,0 +1,37 @@
+# EventType: 30000004
+#
+# Descriptor: pp => ?
+#
+# NickName: minbias=BiasedLambdaPt300MeVNoEtaCut
+#
+# Cuts: None
+#
+# Documentation: BiasedLambdaPt300MeVNoEtaCut
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().FullGenEventCutTool = "LoKi::FullGenEventCut/PbarCut"
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "PbarCut" )
+# PbarCut = Generation().PbarCut
+# PbarCut.OutputLevel=2
+# PbarCut.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import GeV, mrad, meter"    ,  
+#  
+#    "isLambda = ( ('Lambda0' == GABSID) & (GPT > 0.3 *GeV) ) "
+#
+# ]
+#
+# PbarCut.Code = " ( has ( isLambda ) ) "
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Camilla De Angelis
+# Email: camilla.de.angelis@cern.ch
+# Date: 20230427
+# CPUTime: < 1 min
+End

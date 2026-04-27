@@ -1,0 +1,26 @@
+# EventType: 12513051
+#
+# Descriptor: [B- -> p+ anti-p-  mu- anti-nu_mu]cc
+#
+# NickName: Bu_ppmunu=DecProdCutpQCD
+#
+# Cuts: DaughtersInLHCb
+# 
+# CPUTime: < 1 min
+#
+# Documentation: pQCD decay, decay products in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2SL 
+# Tested: Yes
+# Responsible: Ryan Newcombe
+# Email: ryan.newcombe@cern.ch
+# Date: 20191129 
+#
+Decay B-sig
+  1.000    p+  anti-p-   mu-  anti-nu_mu   BToDiBaryonlnupQCD 67.7 -280.0 -38.3 -840.1 -10.1 -157.0 800000;
+Enddecay
+CDecay B+sig
+#
+End
+#

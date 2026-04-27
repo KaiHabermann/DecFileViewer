@@ -1,0 +1,62 @@
+# $Id: Bu_KDarkBoson2pi0pipi,gg,m=3000MeV,t=1ps,DecProdCut.dec  $
+#
+# This is the decay file for the decay B+ -> DARK BOSON (-> PI0 (-> gamma gamma) PI+ PI-) K+ 
+#
+# EventType: 12103486
+#
+# Descriptor: [B+ -> (H_10 -> (pi0 -> gamma gamma) pi+ pi-) K+]cc
+#
+# NickName: Bu_KDarkBoson2pi0pipi,gg,m=3000MeV,t=1ps,DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb
+# InsertPythonCode:
+#from Gauss.Configuration import *
+#from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+#from Configurables import Gauss, PrintMCTree, PrintMCDecayTreeTool, HistogramPersistencySvc, NTupleSvc, DumpHepMCDecay, DumpHepMCTree, GaussMonitor__CheckLifeTimeHepMC, GaussMonitor__CheckLifeTimeMC, GiGa, GiGaPhysListModular, GiGaHiggsParticles, GenerationToSimulation, PythiaProduction
+#
+#
+#
+#ParticlePropertySvc().Particles = [ "H_10     87      25  0.0        3.0   1.0000e-12      Higgs0   25   0.000000e+000" ]
+#ApplicationMgr().ExtSvc    += [ ParticlePropertySvc() ]
+#
+#gigaHiggsPart = GiGaHiggsParticles()
+#gigaHiggsPart.Higgses = ["H_10"] # H_10, H_20, H_30
+#GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]#
+#
+#
+#EndInsertPythonCode
+#
+#
+# 
+# Documentation: File for B+ -> Dark Boson (-> pi0 (-> gamma gamma) pi+ pi-) K+
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Daniel Craik
+# Email: dcraik@cern.ch 
+# Date:   20200616
+# CPUTime: <1min
+
+#
+Alias      MyDB    Higgs0
+Alias      MyPiz       pi0
+
+ChargeConj MyDB  MyDB
+#
+Decay MyPiz
+1.000      gamma gamma       PHSP;             
+Enddecay
+#
+Decay MyDB
+1.000      MyPiz  pi+  pi-       PHSP;             
+Enddecay
+#
+Decay B+sig
+1.000         K+  MyDB        PHSP;
+Enddecay
+CDecay B-sig
+#
+End
+#

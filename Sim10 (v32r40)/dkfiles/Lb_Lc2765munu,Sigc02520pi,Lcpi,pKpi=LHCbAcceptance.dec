@@ -1,0 +1,55 @@
+# EventType: 15576008
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c(2625)+ -> (Sigma_c*0 -> (Lambda_c+ -> p+ K- pi+) pi-) pi+) mu- anti-nu_mu]cc
+#
+# NickName: Lb_Lc2765munu,Sigc02520pi,Lcpi,pKpi=LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Lb decaying to Lambda_c(2765) mu- anti-nu_mu. Lc2765 not defined in evtgen, so we modify the Lc2625 mass and use with Lb2Baryonlnu. 
+# Lc(2765) then forced to Sigma_c0(2520) pi+, Sigma_c (2520) forced to Lc pi
+#
+# EndDocumentation
+#
+# CPUTime: < 1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Hang Pham
+# Email: hpham02@syr.edu
+# Date: 20240404
+#
+# ParticleValue: "Lambda_c(2625)+ 104124   104124   1.0   2.7666000 -0.05  Lambda_c(2625)+ 0 0.2", "Lambda_c(2625)~- -104124   -104124   -1.0   2.7666000 -0.05  anti-Lambda_c(2625)- 0 0.2"
+#
+Alias		MyLambda_c+			Lambda_c+
+Alias		MyAntiLambda_c-			anti-Lambda_c-
+ChargeConj	MyLambda_c+			MyAntiLambda_c-
+#
+Alias		MyLambda_c(2625)+		Lambda_c(2625)+
+Alias		MyAntiLambda_c(2625)-		anti-Lambda_c(2625)-
+ChargeConj	MyLambda_c(2625)+		MyAntiLambda_c(2625)-
+#
+Alias		MySigma_c*0			Sigma_c*0
+Alias		MyAntiSigma_c*0			anti-Sigma_c*0
+ChargeConj	MySigma_c*0			MyAntiSigma_c*0
+#
+Decay Lambda_b0sig
+ 1.00     MyLambda_c(2625)+	mu-	anti-nu_mu		 Lb2Baryonlnu 1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c(2625)+
+ 1.0     MySigma_c*0	pi+	PHSP;
+Enddecay
+CDecay MyAntiLambda_c(2625)-
+#
+Decay MySigma_c*0
+ 1.0	MyLambda_c+	pi-	PHSP;
+Enddecay
+CDecay MyAntiSigma_c*0
+#
+Decay MyLambda_c+
+ 1.0     p+	K-	pi+	PHSP;
+Enddecay
+CDecay MyAntiLambda_c-
+#
+End

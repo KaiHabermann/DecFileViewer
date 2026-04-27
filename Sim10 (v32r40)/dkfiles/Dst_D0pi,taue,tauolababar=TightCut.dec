@@ -1,0 +1,69 @@
+# EventType: 27385002
+#
+# Descriptor: {[D*(2010)+ -> (D0 -> (tau+ -> pi+ pi+ pi- anti-nu_tau) e-) pi+]cc, [D*+ -> (D0 -> e+ (tau- -> pi- pi- pi+ nu_tau) ) pi+]cc}
+#
+# NickName: Dst_D0pi,taue,tauolababar=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ D*(2010)+ ==> ^( D0 ==> ((tau+ ==> ^pi+ ^pi+ ^pi- nu_tau~) || (tau- ==> ^pi- ^pi- ^pi+ nu_tau)) ^(e- || e+) ) ^pi+ ]CC'
+# tightCut.Cuts      =    {
+#     '[D0]cc' : 'goodDZ',
+#     '[e-]cc' : 'goodElectron',
+#     '[pi-]cc'  : 'goodPion' }
+# tightCut.Preambulo += [
+#     'inAcc          = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodElectron   = ( GP > 1. * GeV ) & ( GPT > 0.20 * GeV ) & inAcc' ,
+#     'goodPion       = ( GP > 1. * GeV ) & ( GPT > 0.20 * GeV ) & inAcc',
+#     'goodDZ         = ( GP > 20 * GeV ) & ( GPT > 2 * GeV)' ]  
+#
+# EndInsertPythonCode
+#
+# Documentation:
+# Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance and has cuts on the momenta of daughters and D0
+# EndDocumentation
+#
+# CPUTime:  1.3 min
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Michele Atzeni
+# Email: michele.atzeni@cern.ch
+# Date: 20230803
+#
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+#
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+#
+Decay MyD0
+  0.500   Mytau+   e-   PHSP;
+  0.500   Mytau-   e+   PHSP;
+Enddecay
+CDecay MyantiD0
+#
+Decay Mytau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+End
+

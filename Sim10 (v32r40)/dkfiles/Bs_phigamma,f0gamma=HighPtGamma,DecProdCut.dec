@@ -1,0 +1,54 @@
+# EventType: 13102270
+#
+# Descriptor: [B_s0 -> (phi(1020) -> (f_0(980) -> pi+ pi- ) gamma) gamma]cc
+#
+# NickName: Bs_phigamma,f0gamma=HighPtGamma,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# FullEventCuts: LoKi::FullGenEventCut/BRadiativeCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "BRadiativeCut" )
+# radCut = Generation().BRadiativeCut
+# radCut.Code = " ( count ( isGoodB ) > 0 ) "
+# radCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#   , "NGoodGamma = GINTREE(('gamma' == GABSID) & (GPT >1.5*GeV))"
+#   , "isGoodB    = (GBEAUTY & NGoodGamma)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: phi forced into f0(pi+ pi-)gamma, decay products in acceptance, with gamma PT > 1.5
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Olivier Deschamps
+# Email:  odescham@in2p3.fr
+# Date: 20251017
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+Alias      Myf_0    f_0
+ChargeConj Myf_0    Myf_0
+Particle   Myf_0    0.980  0.092
+
+#
+Decay Myf_0
+  1.000       pi+      pi-      PHSP;
+Enddecay
+#
+Decay   MyPhi
+  1.000       Myf_0      gamma     PHSP;
+Enddecay
+#
+Decay B_s0sig
+  1.0000      MyPhi   gamma     SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B_s0sig
+#
+End
+

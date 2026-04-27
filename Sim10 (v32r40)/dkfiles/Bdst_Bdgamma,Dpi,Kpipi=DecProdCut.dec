@@ -1,0 +1,44 @@
+# EventType: 17164201 
+#
+# Descriptor: [(B*0 => ^([B0]nos => ^(D- => ^K+ ^pi- ^pi-) ^pi+) ^gamma) || (B*0 => ^([B0]os => ^(D+ => ^K- ^pi+ ^pi+) ^pi-) ^gamma)]CC 
+#
+# NickName: Bdst_Bdgamma,Dpi,Kpipi=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B*0 decay 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Liupan An 
+# Email: liupan.an@cern.ch
+# Date: 20190718
+#
+Alias B*0sig B*0
+Alias anti-B*0sig anti-B*0
+ChargeConj B*0sig anti-B*0sig
+Alias MyB0 B0
+Alias Myanti-B0 anti-B0
+ChargeConj MyB0 Myanti-B0
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD+        MyD-
+#
+Decay B*0sig
+  1.000  MyB0  gamma  VSP_PWAVE;
+Enddecay
+CDecay anti-B*0sig
+Decay MyB0
+  1.000     MyD-      pi+          PHSP;
+Enddecay
+CDecay Myanti-B0
+# D_DALITZ includes resonances contributions (K*(892), K*(1430), K*(1680))
+Decay MyD-
+  1.000    K+        pi-    pi-          D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End
+

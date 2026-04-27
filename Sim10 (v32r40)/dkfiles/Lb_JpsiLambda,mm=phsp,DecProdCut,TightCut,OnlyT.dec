@@ -1,0 +1,77 @@
+# EventType: 15144106
+#
+# Descriptor: [Lambda_b0 -> (J/psi(1S) -> mu+ mu-) (Lambda0 -> p+ pi-)]cc
+#
+# NickName: Lb_JpsiLambda,mm=phsp,DecProdCut,TightCut,OnlyT
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# CPUTime: 3 min
+#
+# PolarizedLambdab: yes
+#
+# Documentation: Lambda0 forced into p pi, includes radiative mode. Decay products in acceptance, and only decaying the Lambda after 2.5m
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Louis Henry
+# Email: louis.henry@cern.ch
+# Date: 20220203
+#
+# InsertPythonCode:
+##
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+##
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = '[Lambda_b0 ==> ^(J/psi(1S) ==> ^mu+ ^mu-) ^(Lambda0 ==> ^p+ ^pi-)]CC'
+##
+# tightCut.Cuts = {
+#     '[p+]cc'    : ' good_proton ' ,
+#     '[pi-]cc'   : ' good_pion ' ,
+#     '[Lambda0]cc'   : 'good_lambda ' ,
+#     '[mu+]cc'   : ' good_muon ' ,
+#     '[J/psi(1S)]cc' : 'good_jpsi'
+#    }
+##
+# tightCut.Preambulo += [
+#    "from GaudiKernel.SystemOfUnits import GeV",
+#    "from GaudiKernel.SystemOfUnits import mm",
+#    "EVZ     = GFAEVX(GVZ,0)",
+#    "inAcc_charged  = in_range ( 0.010 , GTHETA , 0.400 )" ,
+#    "inEta          = in_range ( 1.8   , GETA   , 5.1   )" ,
+#
+#    "good_pion   = ('pi+' == GABSID) & inAcc_charged" ,
+#    "good_proton = ('p+' == GABSID) & inAcc_charged" ,
+#    "good_lambda = (EVZ > 2500*mm) & (EVZ < 8000*mm)",
+#    "good_muon   = ( 'mu+' == GABSID ) & inAcc_charged &  inEta" ,
+#
+#    "good_jpsi   = GINTREE(good_muon)",
+#    ]
+# EndInsertPythonCode
+
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+#
+Decay Lambda_b0sig
+  1.000    MyLambda          MyJ/psi                 PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+Decay MyLambda
+  1.000   p+          pi-                      PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#
+

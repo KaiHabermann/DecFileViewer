@@ -1,0 +1,68 @@
+# EventType:  15198100
+# NickName: Lb_D+D-Lambda,KPiPi,KPiPi,PPi,TightCut
+# Descriptor: [Lambda_b0 -> (D+ -> K- pi+ pi+) (D- -> K+ pi- pi-) ( Lambda0-> p+ pi-)]cc
+#
+# Cuts: LoKi::GenCutTool/TightCut 
+#
+# Documentation: Lambda_b0   forced flat dalitz plot. 
+#    Decay file for Lambda_b0 -> D+ D- Lambda0 
+# EndDocumentation
+# CPUTime:  10 min
+# 
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#Generation(genAlgName).SignalPlain.addTool( LoKi__GenCutTool,'TightCut')
+#tightCut = Generation(genAlgName).SignalPlain.TightCut
+#tightCut.Decay = '[Lambda_b0 ==> (D+ ==> ^K- ^pi+ ^pi+) (D- ==> ^K+ ^pi- ^pi-) ^( Lambda0 ==> p+ pi-)]CC'
+#tightCut.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import GeV, millimeter',
+#    'GVZ = LoKi.GenVertices.PositionZ()',
+#    'inAcc        = in_range(0.01, GTHETA, 0.400) & in_range(1.9, GETA, 5.1)',
+#     'goodKaon = ( GPT > 0.15 * GeV ) & (GP> 2.*GeV)  & inAcc ' ,
+#     'goodProton = ( GPT > 0.15 * GeV ) & (GP> 2.*GeV)  & inAcc ' ,
+#     'goodpi  = ( GPT > 0.15 * GeV ) & ( GP > 2. * GeV ) & inAcc ',
+#     "goodL0 = (GFAEVX(abs(GVZ),0) < 2500.0 * millimeter) &(GINTREE ( ( 'pi+' == GABSID ) & ( GP > 1.3 * GeV ) )) & (GINTREE ( ( 'p+' == GABSID ) & ( GP > 1.3 * GeV ) ))"
+#]
+#tightCut.Cuts = {
+#    '[pi+]cc'         : 'goodpi',
+#    '[K+]cc'          : 'goodKaon',
+#    '[p+]cc'          : 'goodProton',
+#    '[Lambda0]cc'     : 'goodL0'
+#    }
+#EndInsertPythonCode
+#
+#
+# Date:   20210307
+# Responsible: Tianwen Zhou
+# Email: zhoutw@stu.pku.edu.cn
+# PhysicsWG: Onia
+# Tested: Yes
+
+Alias       MyD+          D+
+Alias       MyD-          D-
+ChargeConj  MyD+          MyD-        
+#
+Alias   MyLambda  Lambda0
+Alias   MyAntiLambda  anti-Lambda0
+ChargeConj  MyLambda  MyAntiLambda
+#
+
+Decay       MyD+
+ 1.000      K-  pi+   pi+      D_DALITZ;
+Enddecay
+CDecay MyD- 
+#
+Decay MyLambda
+  1.0   p+   pi-       PHSP;
+Enddecay
+CDecay MyAntiLambda
+#
+Decay Lambda_b0sig
+  1.000 MyD+ MyD- MyLambda PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+End

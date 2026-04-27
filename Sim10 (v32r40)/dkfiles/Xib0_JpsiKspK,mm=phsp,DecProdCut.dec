@@ -1,0 +1,40 @@
+# EventType: 16146149
+#
+# Descriptor: [Xi_b0 -> (J/psi(1S) -> mu+ mu-) (K_S0 -> pi+ pi-) p+ K-]cc
+#
+# NickName: Xib0_JpsiKspK,mm=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Xi_b0 decay to (Jpsi -> mu+ mu-), KS0 forced into pi+ pi- and p+ K-.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Chuangxin Lin
+# Email: chuangxin.lin@cern.ch
+# Date: 20221019
+#
+Alias      MyKS          K_S0
+ChargeConj MyKS          MyKS
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+#
+Decay Xi_b0sig
+  1.000      MyJ/psi    MyKS    p+    K-        PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyJ/psi
+  1.000      mu+        mu-                     VLL;
+Enddecay
+#
+Decay MyKS
+  1.000      pi+        pi-                     PHSP;
+Enddecay
+#
+End
+#
+

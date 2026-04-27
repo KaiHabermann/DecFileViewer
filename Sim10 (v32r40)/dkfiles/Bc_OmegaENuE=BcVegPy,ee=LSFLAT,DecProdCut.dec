@@ -1,0 +1,40 @@
+# EventType: 14523023
+#
+# Descriptor: [B_c+ -> (omega(782) -> e+ e-) nu_e e+]cc
+#
+# NickName: Bc_OmegaENuE=BcVegPy,ee=LSFLAT,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: B_c+ -> (omega(782) -> e+ e-) nu_e e+ decay file. Phase space model. DaughtersInLHCb. flat dielectron shape.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Tom Wolf
+# Email: towolf@cern.ch
+# Date: 20240527
+#
+#
+Alias MyW omega
+ChargeConj MyW MyW
+#
+LSFLAT MyW
+ChangeMassMin MyW 0.0011
+ChangeMassMax MyW 1.5
+#
+Decay B_c+sig
+   1.0000   MyW   e+   nu_e    PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyW
+   1.000    e+ e-   PHOTOS VLL;
+Enddecay
+#
+#
+End
+#

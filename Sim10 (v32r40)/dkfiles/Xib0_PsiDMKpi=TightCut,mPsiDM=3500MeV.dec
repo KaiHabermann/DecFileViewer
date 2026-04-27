@@ -1,0 +1,53 @@
+# EventType: 16502045
+#
+# Descriptor: [Xi_b~0 -> pi- K+  H_30 ]cc
+#
+# NickName: Xib0_PsiDMKpi=TightCut,mPsiDM=3500MeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation:
+#    Decay a Xi_b0 ->  to a K+ pi- and a redefined H_30 for our need, acting the latter as stable Dark Matter candidate.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: 1 min
+# Responsible: Saul Lopez
+# Email: saul.lopez.solino@cern.ch
+# Date: 20211111
+#
+#
+# InsertPythonCode:
+# from Configurables import LHCb__ParticlePropertySvc, LoKi__GenCutTool
+# LHCb__ParticlePropertySvc().Particles = [
+# "H_30      89       36      0.0     3.500000        1.000000e+16           A0      36      0.00"
+# ]
+# ## Generator level cuts:
+# from Configurables import LoKi__GenCutTool
+# Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool, "TightCut" )
+#
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '[^(Xi_b~0 => pi- K+  H_30) ]CC'
+# ### - HepMC::IteratorRange::descendants   4
+# tightCut.Preambulo += [ "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#                          , "inAcc = in_range(1.9, GETA, 5.0)" 
+#                          , "isGoodKaon   = ( ( GPT > 0.20*GeV ) & inAcc & ( 'K+' == GABSID ) )"
+#                          , "isGoodPi    = ( ( 'pi+' == GABSID ) & inAcc & ( GPT > 0.20*GeV ) )"
+#                          , "isGoodXib   = ( ( 'Xi_b0' == GABSID ) & ( GNINTREE( isGoodPi, 1 ) > 0 ) & ( GNINTREE( isGoodKaon, 1 ) > 0 ) )" ]
+# tightCut.Cuts = {
+# "[Xi_b~0]cc" : "isGoodXib"
+# }
+# EndInsertPythonCode
+#
+Alias  MyH_30     A0
+Alias  Myanti-H_30    A0
+ChargeConj MyH_30   Myanti-H_30
+#
+Decay Xi_b0sig
+    1.000    pi+     K-   MyH_30    PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+End
+

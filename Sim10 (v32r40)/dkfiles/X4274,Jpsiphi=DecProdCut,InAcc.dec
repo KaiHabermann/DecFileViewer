@@ -1,0 +1,80 @@
+# EventType: 28144007
+#
+# Descriptor: psi(2S) -> (J/psi(1S) -> mu+ mu-) (phi -> K+ K-) 
+#
+# NickName: X4274,Jpsiphi=DecProdCut,InAcc 
+#
+# Cuts: DaughtersInLHCb
+# 
+# CPUTime: < 10 min
+#
+# ParticleValue: "psi(2S)             128         100443   0.0      4.273      1.175e-23                     psi(2S)         100443      1.40000000"
+#
+# Documentation: X4274 decay to Jpsi phi with  daughters in acceptance  
+# psi(2S) is used for this X4274 generation.
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# # -- modify Pythia8 to only generate from Charmonium processes -- #
+# from Configurables import Generation, MinimumBias, Pythia8Production, Inclusive, SignalPlain, SignalRepeatedHadronization, Special
+#
+# Pythia8TurnOffMinbias  = [ "SoftQCD:all     = off" ]
+# Pythia8TurnOffMinbias += [ "Bottomonium:all = off" ]
+# Pythia8TurnOffMinbias += [ "Charmonium:all  =  on" ]
+#
+# gen = Generation(genAlgName)
+# gen.addTool( MinimumBias , name = "MinimumBias" )
+# gen.MinimumBias.ProductionTool = "Pythia8Production"
+# gen.MinimumBias.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.MinimumBias.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Inclusive , name = "Inclusive" )
+# gen.Inclusive.ProductionTool = "Pythia8Production"
+# gen.Inclusive.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Inclusive.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalPlain , name = "SignalPlain" )
+# gen.SignalPlain.ProductionTool = "Pythia8Production"
+# gen.SignalPlain.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalPlain.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalRepeatedHadronization , name = "SignalRepeatedHadronization" )
+# gen.SignalRepeatedHadronization.ProductionTool = "Pythia8Production"
+# gen.SignalRepeatedHadronization.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalRepeatedHadronization.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Special , name = "Special" )
+# gen.Special.ProductionTool = "Pythia8Production"
+# gen.Special.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Special.Pythia8Production.Commands += Pythia8TurnOffMinbias
+# # -- END  -- #
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Yixiong Zhou 
+# Email: yixiong.zhou@cern.ch 
+# Date: 20191101
+#
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+Alias      Myphi   phi
+ChargeConj Myphi   Myphi
+#
+#
+Decay psi(2S)sig
+  1.000         MyJ/psi   Myphi        PHSP; 
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+   mu-   PHOTOS VLL;
+Enddecay
+#
+Decay Myphi
+  1.000     K+ K-                    PHSP;
+Enddecay 
+#
+End
+#

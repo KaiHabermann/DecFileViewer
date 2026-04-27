@@ -1,0 +1,156 @@
+# EventType: 12865420
+#
+# Descriptor: [ [B+]cc --> ^(D- ==> ^K+ ^pi- ^pi-) ... ]CC
+# NickName: Bu_D+X,Kpipi=cocktail,TightCut,ACPKKCuts
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Inclusive D+ => K pi pi produced in B+ decays, with cuts optimized for ACPKK
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# signal     = Generation(genAlgName).SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[ [B+]cc --> ^(D- ==> ^K+ ^pi- ^pi-) ... ]CC'
+# tightCut.Preambulo += [
+# 'from GaudiKernel.SystemOfUnits import MeV, GeV, micrometer ',
+# 'import math',
+# 'inAcc      = in_range (2 , GETA ,  4.5 ) & (GPT > 240 * MeV) & (GP > 900 * MeV)',
+# 'HarmCuts = ( GCHILD(GPT,"K+" == GABSID) > 750 *MeV ) & ( GCHILD(GP,"K+" == GABSID) > 4900 *MeV ) & ( GNINTREE( ("pi+" == GABSID) & (GPT > 750 *MeV) & (GP > 4900 *MeV) ) > 1.5 ) & ( GNINTREE( ("pi+" == GABSID) & (GPT > 1.4 *GeV)  ) > 0 ) & ( GPT > 2.9 *GeV ) & in_range (2 , GETA ,  4.5 )',
+# ]
+# tightCut.Cuts       = {
+#     '[pi+]cc'         : 'inAcc',
+#     '[K+]cc'          : 'inAcc',
+#     '[D+]cc'       	: 'HarmCuts'
+# }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Federico Betti
+# Email: federico.betti@cern.ch
+# Date: 20200914
+# CPUTime: 2 min
+#
+#
+Alias	MyD-	D-
+Alias	MyD+	D+
+ChargeConj	MyD+	MyD-
+#
+Alias	MyD*-	D*-
+Alias	MyD*+	D*+
+ChargeConj	MyD*+	MyD*-
+#
+Alias	MyD_0*0		D_0*0
+Alias 	Myanti-D_0*0	anti-D_0*0
+ChargeConj	MyD_0*0 Myanti-D_0*0
+#
+Alias	MyD_10		D_10
+Alias	Myanti-D_10	anti-D_10
+ChargeConj	MyD_10	Myanti-D_10
+#
+Alias	MyD'_10		D'_10
+Alias	Myanti-D'_10	anti-D'_10
+ChargeConj	MyD'_10	Myanti-D'_10
+#
+Alias	MyD_2*0		D_2*0
+Alias	Myanti-D_2*0	anti-D_2*0
+ChargeConj	MyD_2*0	Myanti-D_2*0
+#
+Alias	MyD'_s1+	D'_s1+
+Alias 	MyD'_s1-	D'_s1-
+ChargeConj	MyD'_s1+	MyD'_s1-
+#
+Decay B+sig
+ # WARNING: all the decays of excited MyD have been scaled by the corresponding BR (see "total" below), if not already taken into account in PDG
+ 0.0044		MyD-		pi+	e+	nu_e	GOITY_ROBERTS;     
+ 0.000979   	Myanti-D_10   	e+   	nu_e         	ISGW2;
+ 0.00087   	Myanti-D'_10   	e+   	nu_e        	ISGW2;
+ 0.00254   	Myanti-D_2*0   	e+   	nu_e        	ISGW2;
+ 0.0044		MyD-		pi+	mu+	nu_mu	GOITY_ROBERTS;     
+ 0.000979   	Myanti-D_10   	mu+   	nu_mu         	ISGW2;
+ 0.00087   	Myanti-D'_10   	mu+   	nu_mu        	ISGW2;
+ 0.00254   	Myanti-D_2*0   	mu+   	nu_mu        	ISGW2;
+ # for the four below, assume l/tau = 3
+ 0.0015		MyD-		pi+	tau+	nu_tau	PHSP;     
+ 0.000326   	Myanti-D_10   	tau+   	nu_tau         	ISGW2;
+ 0.00029   	Myanti-D'_10   	tau+   	nu_tau        	ISGW2;
+ 0.000848   	Myanti-D_2*0   	tau+   	nu_tau        	ISGW2;
+ 0.00044	MyD*-    	pi+     pi+             PHSP;
+ 0.00107	MyD-    	pi+     pi+             PHSP;
+ 0.0048		MyD*-    	pi+     pi+	pi0     PHSP;
+ 0.00084	MyD*-    	pi+     pi+	pi+ pi- PHSP;
+ 0.00048	Myanti-D_10	pi+		    	SVS;
+ 0.000408	Myanti-D_2*0	pi+			STS;
+ 0.00064 	Myanti-D_0*0 	pi+                     PHSP;
+ 0.0005   	Myanti-D'_10  	pi+                     SVS;
+ 0.00008	MyD'_s1+	anti-D0			PHSP; # 2.3E-4 / 0.85;
+ 0.00014	MyD'_s1+	anti-D*0		PHSP; # 3.9E-4 / 0.85;
+ 0.00026	anti-D*0 	MyD*+                   SVV_HELAMP 0.56 0.0 0.96 0.0 0.47 0.0;
+ 0.00063	D*0		MyD+			SVS;
+ 0.00013	MyD*+ 		anti-D0                 SVS;
+ 0.00038	MyD+		anti-D0  		PHSP;
+ 0.00155	anti-D0		MyD+	K0		PHSP;
+ 0.0021		anti-D*0	MyD+	K0		PHSP;
+ 0.0012		anti-D0		MyD*+	K0		PHSP;
+ 0.0030		anti-D*0	MyD*+	K0		PHSP;
+ 0.00011	MyD-		D+	K+		PHSP;
+ 0.00011	D-		MyD+	K+		PHSP;
+ 0.00015	MyD-		D*+	K+		PHSP; # 0.00063*BR(D*+ -> D+ X)/(1+BR(D*+ -> D+ X));
+ 0.00048	D-		MyD*+	K+		PHSP; # 0.00063/(1+BR(D*+ -> D+ X));
+ 0.00015	MyD*-		D+	K+		PHSP; # 0.00060*BR(D*+ -> D+ X)/(1+BR(D*+ -> D+ X));
+ 0.00045	D*-		MyD+	K+		PHSP; # 0.00060/(1+BR(D*+ -> D+ X));
+ 0.000426	MyD*-		D*+	K+		PHSP;
+ 0.000426	D*-		MyD*+	K+		PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD'_s1+
+# total 0.298
+ 0.27		MyD*+		K0			VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0; # 0.85, then multiplied by B(D*+ -> D+ X);
+ 0.028		MyD+		pi-	K+		PHSP;
+Enddecay
+CDecay MyD'_s1-
+#
+Decay MyD_0*0 
+# total 0.667
+ 1.000		MyD+		pi-			PHSP; # expected 0.667 (DECAY.DEC);
+Enddecay
+CDecay Myanti-D_0*0
+#
+Decay MyD_10
+# total 0.667
+ 1.000		MyD*+	pi-			VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0; # expected 0.667 (DECAY.DEC);
+Enddecay
+CDecay Myanti-D_10
+#
+Decay MyD'_10
+# total 0.667
+ 1.000		MyD*+	pi-			VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0; # expected 0.667 (DECAY.DEC);
+Enddecay
+CDecay Myanti-D'_10
+#
+Decay MyD_2*0
+# total 0.5265
+ 0.0675		MyD*+	pi-			TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0; # 0.2090 expected (DECAY.DEC), then multiplied by B(D*+ -> D+ X);
+ 0.4590    	MyD+  	pi-                     TSS; # expected (DECAY.DEC);
+Enddecay
+CDecay Myanti-D_2*0
+#
+Decay MyD*+
+# total 0.323
+ 0.307		MyD+	pi0			VSS;
+ 0.016		MyD+	gamma			VSP_PWAVE; 
+Enddecay
+CDecay MyD*-
+#
+Decay MyD+
+ 1.000		K-	pi+	pi+		D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+End

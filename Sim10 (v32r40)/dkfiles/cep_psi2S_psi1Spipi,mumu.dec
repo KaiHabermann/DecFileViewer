@@ -1,0 +1,51 @@
+# EventType: 49144001
+#
+# Descriptor: psi(2S) -> (psi(1S) -> mu+ mu-) pi+ pi-
+# NickName: cep_psi2S_psi1Spipi,mumu
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/cepInAcc
+# Production: SuperChic2
+#
+# InsertPythonCode:
+# # Stop pile-up generation.
+# Generation(genAlgName).PileUpTool = "FixedNInteractions"
+#
+# # SuperChic options.
+# from Configurables import SuperChicProduction
+# Generation(genAlgName).Special.addTool(SuperChicProduction)
+# Generation(genAlgName).Special.SuperChicProduction.Commands += [
+#     "xflag psip",    # Psi(2S) production.
+#     "phdecay psipi"] # Use the psi(1S)[mu,mu] pi pi decay for the psi(2S).
+# 
+# # SuperChic2 options.
+# from Configurables import SuperChic2Production
+# Generation(genAlgName).Special.addTool(SuperChic2Production)
+# Generation(genAlgName).Special.SuperChic2Production.Commands += [
+#     "SuperChic2:proc = 53"] # Psi(2S)[mu,mu,pi,pi] production.
+#
+# # Cuts on the psi(2S).
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut, "cepInAcc")
+# cepInAcc = Generation(genAlgName).cepInAcc
+# cepInAcc.Code = "( count( out1 ) == 1 )"
+# cepInAcc.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#     "out1 = ( ( GABSID == 100443 ) & ( GETA > 1.0 ) & ( GETA < 6.0 ) )"]
+# 
+# # Keep the CEP process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+# Documentation:
+# central exclusive production of psi(2S)[psi(1S)[mu mu] pi pi]
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Philip Ilten
+# Email: philten@cern.ch
+# Date: 20150717
+#
+End

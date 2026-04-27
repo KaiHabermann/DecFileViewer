@@ -1,0 +1,258 @@
+# EventType: 22463000
+#
+# Descriptor: {[D0 -> pi+ pi- pi+ ... ]cc}
+# NickName: D0_3piX_cocktail,upto6prongs=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# from Gauss.Configuration import *
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[((Charm & LongLived) ==> ^pi+ ^pi- ^pi+ {X} {X} {X}),  ((Charm & LongLived) ==> ^pi- ^pi+ ^pi- {X} {X} {X}), ((Charm & LongLived) ==> ^pi+ ^K- ^pi+ {X} {X} {X}),  ((Charm & LongLived) ==> ^pi- ^K+ ^pi- {X} {X} {X}), ((Charm & LongLived) ==> ^pi+ ^pi- ^(e+||mu+||K+) {X} {X} {X}),  ((Charm & LongLived) ==> ^pi- ^pi+ ^(e-||mu-||K-) {X} {X} {X}),  ((Charm & LongLived) => (tau+ ==> ^pi+ ^pi- ^pi+ {X} {X} {X} Nu) Nu), ((Charm & LongLived) => (tau- ==> ^pi- ^pi+ ^pi- {X} {X} {X} Nu) Nu) ]'
+# tightCut.Cuts      =    {
+#     '[pi+]cc'  : 'inAcc',
+#     '[mu+]cc'  : 'inAcc',
+#     '[e+]cc'  : 'inAcc',
+#     '[K+]cc'  : 'inAcc',
+#     } 
+# tightCut.Preambulo += [
+#     'inAcc = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     ] 
+#
+# EndInsertPythonCode
+
+
+
+# Documentation: D0 -> 3pi X cocktail, background decays for Ds -> tau nv, tau -> 3pi nv.  Decays are taken from  13496400
+# EndDocumentation
+#
+# CPUTime: <1 min 
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Chen Chen
+# Email: chen.chen@cern.ch
+# Date: 20230425
+ 
+Alias           MyK'_102pi     K'_10
+Alias           Myanti-K'_102pi     anti-K'_10
+ChargeConj      MyK'_102pi     Myanti-K'_102pi
+#
+Alias           MyK*0_pi        K*0
+Alias           Myanti-K*0_pi   anti-K*0
+ChargeConj      MyK*0_pi        Myanti-K*0_pi
+#
+Alias           MyK*-pi       K*-
+Alias           MyK*+pi       K*+
+ChargeConj      MyK*-pi       MyK*+pi
+#
+Alias           MyK_102pi     K_10
+Alias           Myanti-K_102pi     anti-K_10
+ChargeConj      MyK_102pi     Myanti-K_102pi
+#
+Alias           MyK_1-2pi     K_1-
+Alias           MyK_1+2pi     K_1+
+ChargeConj      MyK_1-2pi     MyK_1+2pi
+#
+Alias           Mya_1+3pi     a_1+
+Alias           Mya_1-3pi     a_1-
+ChargeConj      Mya_1+3pi     Mya_1-3pi
+#
+Alias           Mytau+3pi     tau+
+Alias           Mytau-3pi     tau-
+ChargeConj      Mytau+3pi     Mytau-3pi
+#
+Alias           Myomega2pi    omega
+ChargeConj      Myomega2pi    Myomega2pi
+#
+Alias           Myphi2pi      phi
+ChargeConj      Myphi2pi      Myphi2pi
+#
+Alias           Myeta2pi      eta
+ChargeConj      Myeta2pi      Myeta2pi
+#
+Alias           Myetap2pi     eta'
+ChargeConj      Myetap2pi     Myetap2pi
+#
+Alias           Myf_02pi      f_0
+ChargeConj      Myf_02pi      Myf_02pi
+
+ 
+# D0 decay
+Decay anti-D0sig
+#
+0.0112       K+         pi-        pi+        pi-                           PHSP; # (0.0811 +- 0.0015) incl.;
+0.0426       Mya_1-3pi  K+                                                  SVS; # (0.0426 +- 0.0032);
+0.0060       K+         pi-        rho0                                     PHSP; # (0.0060 +- 0.0016);
+0.0059       MyK*0_pi   pi+        pi-                                      PHSP; # (0.0059  - 0.0005) !!!;
+0.0100       MyK*0_pi   rho0                                                SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; # (0.0100 +- 0.0005) !!!;
+0.0054       MyK_1+2pi  pi-                                                 SVS; # (0.0054 +- 0.0016);
+
+0.013        MyK*0_pi   pi+        pi-        pi0                           PHSP; # (0.013 +- 0.005) !!!;
+0.01862      K+         pi-        Myomega2pi                               PHSP; # (0.027 +- 0.005) - (0.0065 +- 0.0030) x 0.9085 (omega -> 2pi X);
+0.0065       MyK*0_pi   Myomega2pi                                          SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; # (0.0065 +- 0.0030) ;
+0.0025662    K+         pi-        Myeta2pi                                 PHSP; # 0.009201803 x 0.27888 (eta -> 2pi X);
+0.0061192    K+         pi-        Myetap2pi                                PHSP; # 0.0075 x 0.80897 (etap -> 2pi X);
+
+0.00062      pi+        pi+        pi-        pi-                           PHSP;
+0.0025       Mya_1-3pi  pi+                                                 SVS; # (0.00447 +- 0.00031);
+0.0025       Mya_1+3pi  pi-                                                 SVS; # (0.0034 +- 0.00009);
+0.00183      rho0       rho0                                                SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; # (0.00183 +- 0.00013);
+
+0.00261      K_S0       pi+        pi-        pi+        pi-                PHSP; # (0.00261 +- 0.00209);
+0.00261      K_L0       pi+        pi-        pi+        pi-                PHSP; 
+
+0.00022      K+         pi-        pi-        pi+        pi-        pi+     PHSP; # (0.00022 +- 0.00006);
+0.0024424    pi+        pi-        pi+        pi-        pi0                PHSP;
+0.000304     Myeta2pi   pi-        pi+                                      PHSP; # (0.00109 +- 0.00016) x 0.27888 (eta -> 2pi X) !!!;
+0.0014536    Myomega2pi pi-        pi+                                      PHSP; # (0.0016 +- 0.0005) x 0.9085 (omega -> 2pi X) !!!;
+0.000420000  pi+        pi-        pi+        pi-        pi+        pi-     PHSP; # (0.00042 +- 0.00012);
+
+0.0001590    Myphi2pi   pi+        pi-                                      PHSP; # 0.001012198 x 0.1571 (phi -> 2pi X) !!!;
+0.000364     Myetap2pi  pi-        pi+                                      PHSP; # (0.00045 +- 0.00017) x 0.80897 (etap -> 2pi X) !!!;
+
+0.0000061    Myphi2pi   Myeta2pi                                            PHSP; # (0.00014 +- 0.00005) x 0.1571 (phi -> 2pi X) x 0.27888 (eta -> 2pi X);
+0.0002986    MyK*0_pi   Myeta2pi                                            SVS; # 0.001610316 x 0.6650 (K*0 -> K+ pi-) x 0.27888 (eta -> 2pi X);
+# 
+0.0004950    MyK*0_pi   Myetap2pi                                           SVS; # 0.000920180 x 0.6650 (K*0 -> K+ pi-) x 0.80897 (etap -> 2pi X);
+0.00013066   Myeta2pi   Myeta2pi                                            PHSP; # (0.00168 +- 0.00020) x 0.27888 (eta -> 2pi X) x 0.27888 (eta -> 2pi X);
+0.00023688   Myeta2pi   Myetap2pi                                           PHSP; # (0.00105 +- 0.00026) x 0.27888 (eta -> 2pi X) x 0.80897 (etap -> 2pi X);
+#
+Enddecay
+CDecay D0sig
+
+
+Decay Myeta2pi 
+# 0.27888
+0.2292      pi-     pi+     pi0                             ETA_DALITZ; # (0.2292 +- 0.0028);
+0.0422      gamma   pi-     pi+                             PHSP; # (0.0422 +- 0.0008);
+#0.0069      gamma   e+      e-                              PHSP; # (0.0069 +- 0.0004);
+#0.00031     gamma   mu+     mu-                             PHSP; # (0.00031 +- 0.00004);
+#0.000268    pi+     pi-     e+      e-                      PHSP; # (0.000268 +- 0.000011);
+#0.0000058   mu+     mu-                                     PHSP; # (0.0000058 +- 0.0000008);
+Enddecay
+#
+Decay Myf_02pi 
+# 0.6667
+0.6667   pi+  pi-                                           PHSP;
+Enddecay
+#
+Decay Myphi2pi 
+# 0.1571
+# (0.1524 +- 0.0033);
+0.1524      pi+     pi-     pi0                             PHI_DALITZ;
+0.003634    Myeta2pi        gamma                           VSP_PWAVE; # (0.01303 +- 0.00025) x 0.27888 (eta -> 2pi X);
+#0.0002973   e+      e-                                      PHOTOS VLL; # (0.0002973 +- 0.0000034);
+#0.000286    mu+     mu-                                     PHOTOS VLL; # (0.000286 +- 0.000019);
+#0.00003012  Myeta2pi        e+      e-                      PHSP; # (0.000108 +- 0.000004) x 0.27888 (eta -> 2pi X);
+#0.00021468  Myf_02pi        gamma                           PHSP; # (0.000322 +- 0.000019) x 0.6667 (f_0 -> 2pi);
+#0.000073    pi+     pi-                                     PHSP; # (0.000073 +- 0.000013);
+#0.0000427   Myomega2pi      pi0                             PHSP; # (0.000047 +- 0.000005) x 0.9085 (omega -> 2pi X);
+#0.000041    pi+     pi-     gamma                           PHSP; # (0.000041 +- 0.000013);
+#0.0000039   pi+     pi-     pi+     pi-                     PHSP; # (0.0000039 +0.0000028 -0.0000022);
+#0.0000133   pi0     e+      e-                              PHSP; # (0.0000133 +0.0000007 -0.0000010);
+#0.00002027  pi0     Myeta2pi        gamma                   PHSP; # (0.0000727 +- 0.0000030) x 0.27888 (eta -> 2pi X);
+#0.00005032  Myetap2pi       gamma                           PHSP; # (0.0000622 +- 0.0000021) x 0.80897 (etap -> 2pi X);
+#0.000014    mu+     mu-     gamma                           PHSP; # (0.000014 +- 0.000005);
+Enddecay
+#
+Decay Myomega2pi 
+# 0.9085
+0.892       pi-     pi+     pi0                             OMEGA_DALITZ; # (0.892 +- 0.007);
+0.0153      pi-     pi+                                     VSS; # (0.0153 +0.0011-0.0013);
+#0.0001255   Myeta2pi        gamma                           VSP_PWAVE; # (0.00045 +- 0.00004) x 0.27888 (eta -> 2pi X);
+#0.00077     pi0     e+      e-                              PHOTOS PHSP; # (0.00077 +- 0.00006);
+#0.000134    pi0     mu+     mu-                             PHOTOS PHSP; # (0.000134 +- 0.000018);
+#0.0000736   e+      e-                                      PHSP; # (0.0000736 +- 0.0000015);
+#0.000074    mu+     mu-                                     PHSP; # (0.000074 +- 0.000018);
+Enddecay
+#
+Decay Myetap2pi 
+# 0.80897
+0.426       pi+     pi-     eta                               PHSP; # (0.426 +- 0.7);
+0.06358     pi0     pi0     Myeta2pi                          PHSP; # (0.228 +- 0.008) x 0.27888 (eta -> 2pi X);
+0.289       rho0    gamma                                     SVP_HELAMP  1.0 0.0 1.0 0.0; # (0.289 +- 0.005);
+0.0238027   Myomega2pi      gamma                             SVP_HELAMP  1.0 0.0 1.0 0.0; # (0.0262 +- 0.0013) x 0.9085 (omega -> 2pi X);
+#0.000109    gamma   mu-     mu+                               PHOTOS   PHSP; # (0.000109 +- 0.000027);
+#0.000473    gamma   e-      e+                                PHOTOS   PHSP; # (0.000473 +- 0.000030);
+0.00361     pi+     pi-     pi0                               PHSP;  # (0.00361 +- 0.00017);
+0.0024      pi+     pi-     e+      e-                        PHSP;  # (0.0024 +0.0013-0.0010);
+Enddecay
+#
+Decay Mytau-3pi 
+# 0.1367
+#
+0.0902                                                           TAUOLA 5;
+0.0449                                                           TAUOLA 8;
+#0.0902      pi-     pi-     pi+     nu_tau                       TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4; # (0.0902 +- 0.0005);
+#0.0449      nu_tau  pi-     pi+     pi-     pi0                  PHSP;
+#
+#0.000501526 nu_tau  pi-     pi-     pi+     pi0     pi0          PHSP;
+#0.000155646 nu_tau  pi-     pi-     pi+     pi0     pi0     pi0  PHSP;
+0.000501526                                                      TAUOLA 10;
+0.000155646                                                      TAUOLA 13;
+#
+#0.000821 nu_tau  pi-     pi-     pi-     pi+     pi+             PHSP; # (0.000821 +- 0.000031);
+#0.000162 nu_tau  pi-     pi-     pi-     pi+     pi+     pi0     PHSP; # (0.000162 +- 0.000011);
+#(0.000821 +- 0.000031);
+#(0.000162 +- 0.000011);
+0.000821                                                         TAUOLA 11; 
+0.000162                                                         TAUOLA 12; 
+#
+#0.0003876   nu_tau eta pi- pi0 PYTHIA 21; (0.00139 +- 0.00007) x 0.27888 (eta -> 2pi X);
+#0.003199387 nu_tau pi- omega pi0 PYTHIA 21;
+#
+Enddecay
+CDecay Mytau+3pi
+#
+Decay Mya_1+3pi 
+# 0.492
+0.492    rho0    pi+                               VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-3pi
+#
+Decay MyK*0_pi
+0.6650   K+      pi-                               VSS; # (0.99754 +-0.00021 )*2/3;
+Enddecay
+CDecay Myanti-K*0_pi
+#
+Decay MyK*+pi 
+# 0.666
+0.6660   K0    pi+                               VSS; # (0.99900 +-0.00009 )*2/3;
+Enddecay
+CDecay MyK*-pi
+#
+Decay MyK'_102pi 
+# 0.451785
+0.4194   MyK*+pi pi-                               VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0; # (0.94 +- 0.06)*2/3 x 0.6657 (K*- -> anti-K0 pi-);
+0.01     rho0    K0                                VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0; # 0.01;
+0.009085 Myomega2pi      K0                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0; # 0.01 x 0.9085 (omega -> 2pi X);
+0.0133   K0      pi+     pi-                       PHSP; # 0.0133;
+Enddecay
+CDecay Myanti-K'_102pi
+#
+Decay MyK_1+2pi 
+# 0.35536
+0.1400   rho0    K+                                VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.07096  MyK*0_pi        pi+                       VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0; # 0.1067 x 0.6650 (K*0 -> K+ pi-);
+#To large masses can cause infinit loops
+#0.1100   omega   K+                                VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.1444   K+      pi+     pi-                       PHSP;
+Enddecay
+CDecay MyK_1-2pi
+#
+Decay MyK_102pi 
+# 0.45537
+0.14     rho0    K0                                VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0; # (0.42 +- 0.06)*1/3;
+0.07103  MyK*+pi pi-                               VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0; # (0.16 +- 0.05)*2/3 x 0.6657 (K*+ -> K0 pi+);
+#To large masses can cause infinit loops
+0.09994  Myomega2pi      K0                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0; # (0.11 +- 0.02) x 0.9085 (omega -> 2pi X);
+0.1444   K0      pi+     pi-                       PHSP; # 0.1444;
+Enddecay
+CDecay Myanti-K_102pi
+ 
+End

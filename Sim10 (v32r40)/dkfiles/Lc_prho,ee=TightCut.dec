@@ -1,0 +1,54 @@
+# EventType: 25123013
+# 
+# Descriptor: [Lambda_c+ -> p+ (rho0 -> e- e+)]cc
+# 
+# NickName: Lc_prho,ee=TightCut
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Lambda_c -> pee through rh0->ee
+# GL cuts, double arrows		 
+#                
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Marcin Chrzaszcz, Jolanta Brodzicka
+# Email:       mchrzasz@cern.ch, jolanta.brodzicka@cern.ch
+# Date:        20190208
+# CPUTime: <1min
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ Lambda_c+ => ^p+ (rho(770)0 => ^e- ^e+)]CC'
+# tightCut.Cuts      =    {
+#     '[e+]cc'        : ' goodElectron & inAcc & inCaloAcc ' , 
+#     '[p+]cc'        : ' goodProton & inAcc ' , 
+#     '[Lambda_c+]cc' : ' goodLambdac & ~GHAS (GBEAUTY, HepMC.ancestors)' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter, micrometer',
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'inCaloAcc   = ( in_range(0.000, abs(GPX/GPZ), 0.300) & in_range(0.000, abs(GPY/GPZ), 0.250) & (GPZ > 0) )',
+#     'goodProton = ( GPT > 0.2 * GeV ) & ( GP > 2. * GeV ) ' , 
+#     'goodElectron = ( GPT > 0.2 * GeV ) & ( GP > 2. * GeV )',
+#     'goodLambdac  = ( GTIME > 50 * micrometer ) ' ]
+#
+# EndInsertPythonCode
+
+Alias      Myrho   rho0
+ChargeConj Myrho   Myrho
+
+Decay Lambda_c+sig
+  1.00000     p+   Myrho    PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+# 
+Decay  Myrho
+  1.000     e+      e-    PHOTOS VLL ;
+Enddecay
+#
+End

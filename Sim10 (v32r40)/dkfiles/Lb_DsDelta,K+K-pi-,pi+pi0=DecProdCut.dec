@@ -1,0 +1,48 @@
+# EventType: 15164430
+# NickName: Lb_DsDelta,K+K-pi-,pi+pi0=DecProdCut
+# Descriptor: [Lambda_b0 -> (D_s- -> K+ K- pi-) (Delta+ -> p+ pi0)]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda_b^0 -> Ds^- Delta+ (daughters in LHCb)
+# EndDocumentation:
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+#
+# Responsible: Lennaert Bel
+# Email: L.Bel@{nospam}cern.ch
+# Date:   20180110
+# CPUTime: < 1min 
+#
+
+# Define my particles (Ds & Delta)
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+
+Alias      MyDelta+     Delta+
+Alias      MyantiDelta- anti-Delta-
+ChargeConj MyDelta+     MyantiDelta- 
+
+# Lb -> Ds Delta
+Decay Lambda_b0sig
+  1.0000    MyD_s-    MyDelta+            PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+# Ds
+Decay MyD_s-
+  1.0000    K+    K-    pi-          D_DALITZ;
+Enddecay
+CDecay MyD_s+
+
+# Delta
+Decay MyDelta+  
+  1.000   p+ pi0        PHSP;              
+Enddecay
+CDecay MyantiDelta-
+
+#
+End
+#

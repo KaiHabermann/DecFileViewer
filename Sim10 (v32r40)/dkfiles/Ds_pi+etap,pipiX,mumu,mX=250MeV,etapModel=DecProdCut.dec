@@ -1,0 +1,56 @@
+# EventType: 23115025
+# 
+# Descriptor: [D_s+ -> (eta' -> pi+ pi- (Higgs0 -> mu+ mu-)) pi+]cc
+# 
+# NickName: Ds_pi+etap,pipiX,mumu,mX=250MeV,etapModel=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+#
+# from Gauss.Configuration import*
+# from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+# from Configurables import GiGaPhysListModular, GiGaHiggsParticles
+#
+# ParticlePropertySvc().Particles = ["H_10 87 25 0.0 0.25 0.0 Higgs0 25 0.000000e+000"]
+#
+# gigaHiggsPart = GiGaHiggsParticles()
+# gigaHiggsPart.Higgses = ["H_10"] 
+# GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]
+#
+#
+# EndInsertPythonCode
+#
+#
+#
+# Documentation: Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Miguel Fernandez Gomez
+# Email: miguel.fernandez.gomez@cern.ch
+# Date: 20240708
+# CPUTime: <1min
+#
+
+#
+Alias MyEtap eta'
+ChargeConj MyEtap MyEtap
+Alias      MyScalar    Higgs0
+ChargeConj MyScalar    MyScalar
+#
+Decay D_s+sig
+  1.000   MyEtap pi+   PHSP;
+Enddecay
+CDecay D_s-sig
+#
+Decay MyEtap
+  1.000 MyScalar pi+ pi- PHSP;
+Enddecay
+#
+Decay MyScalar
+  1.000 mu+ mu- PHSP;
+Enddecay
+End
+#

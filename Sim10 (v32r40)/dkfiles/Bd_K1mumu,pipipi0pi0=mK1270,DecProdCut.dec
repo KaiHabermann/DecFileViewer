@@ -1,0 +1,68 @@
+##
+# EventType: 11214500
+#
+# NickName: Bd_K1mumu,pipipi0pi0=mK1270,DecProdCut
+# Descriptor: [B0 -> (K_10 -> pi- pi+ pi0 pi0) mu+ mu-]cc
+#              
+# Cuts: DaughtersInLHCbAndWithMinP
+# CutsOptions: NeutralThetaMin 0.005 NeutralThetaMax 0.400 MinTrackP 1900*MeV
+#
+# Documentation: B0->K_1(1270)0 mu+ mu - decay, K_1(1270)0 -> K0s rho0; K_1(1270)0 -> K0s omega; K_1(1270)0 -> K*+( K0s pi+) pi-;
+#                K0s -> pi0 pi0, Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# CPUTime: < 1 min 
+# Responsible: Raul Rabadan
+# Email: raul.iraq.rabadan.trejo@cern.ch
+# Date: 20241213
+
+Alias      MyK1_1270        K_10 
+Alias      Myanti-K1_1270   anti-K_10
+ChargeConj MyK1_1270        Myanti-K1_1270
+
+Alias      MyK*+       K*+
+Alias      MyK*-       K*-
+ChargeConj MyK*+       MyK*-
+
+Alias      Myrho0     rho0
+ChargeConj Myrho0     Myrho0
+
+Alias       Myomega  omega
+ChargeConj  Myomega  Myomega
+
+Alias      MyK0s K_S0
+ChargeConj MyK0s MyK0s
+#
+Decay B0sig
+  1.0        MyK1_1270     mu+     mu-   PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK1_1270
+  0.30        MyK*-       pi+                       VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.50        Myrho0      MyK0s                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.20        Myomega     MyK0s                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Myanti-K1_1270
+#
+Decay MyK*+
+  1.000        MyK0s     pi+                           PHSP;
+Enddecay
+CDecay MyK*-
+#
+Decay Myrho0
+  1.000        pi-     pi+                             VSS; 
+Enddecay
+#
+Decay Myomega
+  1.000        pi-     pi+                             VSS; 
+Enddecay
+#
+Decay MyK0s
+  1.000        pi0     pi0                             PHSP;
+Enddecay
+#
+End
+#

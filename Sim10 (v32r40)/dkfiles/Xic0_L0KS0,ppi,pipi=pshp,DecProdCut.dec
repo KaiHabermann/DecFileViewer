@@ -1,0 +1,44 @@
+# EventType:  26104189
+#
+# Descriptor: [Xi_c0 -> (KS0 -> pi+ pi-) (Lambda0 -> p+ pi-)]cc
+#
+# NickName: Xic0_L0KS0,ppi,pipi=pshp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Xi_c0 decay to L0 KS0 by phase space model
+# EndDocumentation
+
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: Miroslav Saur, Ziyi Wang
+# Email: miroslav.saur@cern.ch, ziyi.wang@cern.ch
+# Date: 20210413
+#
+#
+Alias      MyKS0        K_S0
+ChargeConj MyKS0        MyKS0
+Alias      MyL0     Lambda0
+Alias      MyantiL0 anti-Lambda0
+ChargeConj MyL0     MyantiL0
+#
+#
+Decay Xi_c0sig
+  1.000 MyL0    MyKS0   PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+#
+Decay MyKS0
+ 1.000    pi+       pi-      PHSP;
+Enddecay
+#
+Decay MyL0
+  1.000        p+      pi-      PHSP;
+Enddecay
+CDecay MyantiL0
+#
+End
+#

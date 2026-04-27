@@ -1,0 +1,44 @@
+# EventType: 14575001 
+# 
+# Descriptor: [B_c+ -> (B_s0 -> (D_s- -> K+ K- pi-) pi+) mu+ nu_mu]cc
+#
+# NickName: Bc+_Bsmu+nu,Ds-pi+=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to Bs mu nu with ISGW2 model, Bs forced to Ds pi, decay products in acceptance, BcVegPy  
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Tamaki Holly McGrath
+# Email: tamaki.holly.mcgrath@cern.ch
+# Date: 20200501
+#
+#
+Alias           MyB_s0          B_s0
+Alias           Myanti-B_s0     anti-B_s0
+ChargeConj      MyB_s0          Myanti-B_s0
+Alias		MyD_s+		D_s+
+Alias		MyD_s-		D_s-
+ChargeConj	MyD_s+		MyD_s-
+#
+Decay B_c+sig
+  1.000 MyB_s0 mu+ nu_mu PHOTOS ISGW2;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyB_s0
+  1.000 MyD_s- pi+ PHSP;
+Enddecay
+CDecay Myanti-B_s0
+#
+Decay MyD_s-
+  1.000 K+ K- pi- D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+End

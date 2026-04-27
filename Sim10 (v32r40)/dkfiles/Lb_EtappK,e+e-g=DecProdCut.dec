@@ -1,0 +1,40 @@
+# EventType: 15124211
+#
+# Descriptor: [Lambda_b0 -> p+ K- (eta' ->  e+ e- gamma)]cc
+#
+# NickName: Lb_EtappK,e+e-g=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: eta_prime decays to e+e-gamma
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes 
+# Responsible: Vitalii Lisovskyi (and Yasmine Amhis)
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20210715
+#
+
+
+
+Alias       myeta'  eta'
+ChargeConj  myeta'  myeta'
+Alias 	    myeta   eta
+ChargeConj  myeta   myeta
+
+
+Decay Lambda_b0sig
+  1.000   p+ K-  myeta' PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay   myeta'
+  1.000   e+ e- gamma		PI0_DALITZ;
+Enddecay
+#
+End
+#
+

@@ -1,0 +1,52 @@
+# EventType: 12137101 
+#
+# Descriptor: [B+ -> (eta_c(1S) -> (K_S0 -> pi+ pi-) pi+ K-) K+ (phi(1020) -> K+ K-) ]cc
+#
+# NickName: Bu_etacphiK,KsKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B->eta_c phi K , eta_c-> KsKpi
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Youhua Yang
+# Email: youhua.yang@cern.ch
+# Date: 20231201
+# CPUTime: < 2 min
+
+
+
+
+Alias       Myeta_c   eta_c
+ChargeConj  Myeta_c   Myeta_c
+
+Alias       MyPhi       phi
+ChargeConj  MyPhi       MyPhi
+
+Alias      MyKs       K_S0
+ChargeConj MyKs       MyKs
+
+
+#  PDG Id = 521
+Decay B+sig
+ 1.0000   Myeta_c MyPhi K+           PHSP;
+Enddecay
+CDecay B-sig
+
+#  PDG Id = 333
+Decay MyPhi
+ 1.0000    K+ K-                 PHSP;
+Enddecay
+
+#  PDG Id = 441
+Decay Myeta_c
+  0.026     MyKs  pi+ K-           PHSP;
+Enddecay
+
+Decay MyKs
+1.000   pi+     pi-          PHSP;
+Enddecay
+
+End

@@ -1,0 +1,46 @@
+# EventType: 13774072 
+# 
+# Descriptor: {[[B_s0]nos -> (D- -> K0 mu- anti-nu_mu) K+ pi- mu+ nu_mu]cc, [[B_s0]os -> (D+ -> anti-K0 mu+ nu_mu) K- pi+ mu- anti-nu_mu]cc}
+#
+# NickName: Bs_DKpimunu,munuCocktail=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B_s0 to D- K+ pi- mu+ nu_mu, with D- -> X mu- anti-nu_mu and X neutral
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: H. Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20220126
+# CPUTime: < 1 min
+#
+Alias        Mytau+       tau+
+Alias        Mytau-       tau-
+ChargeConj   Mytau+       Mytau-
+#
+Alias        MyD-         D-
+Alias        MyD+         D+
+ChargeConj   MyD-         MyD+
+#
+Decay B_s0sig
+  0.500      MyD-   K+    pi-     mu+    nu_mu  PHSP;
+  0.500      MyD-   K+    pi-     Mytau+ nu_tau PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD-
+  0.0876     K0     mu-   anti-nu_mu            ISGW2;
+  0.0035     pi0    mu-   anti-nu_mu            ISGW2;
+  0.00037           mu-   anti-nu_mu            SLN;
+Enddecay
+CDecay MyD+
+#
+Decay Mytau+
+  1.000      mu+    nu_mu anti-nu_tau           TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End
+#

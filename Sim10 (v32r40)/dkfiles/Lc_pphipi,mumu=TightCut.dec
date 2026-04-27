@@ -1,0 +1,59 @@
+# EventType: 25113411
+# 
+# Descriptor: [Lambda_c+ -> p+ (phi(1020) -> mu- mu+) pi0]cc
+# 
+# NickName: Lc_pphipi,mumu=TightCut
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Lambda_c -> p mu mu pi0 through phi->mumu
+# GL cuts, double arrows		 
+#                
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Marcin Chrzaszcz, Jolanta Brodzicka
+# Email:       mchrzasz@cern.ch, jolanta.brodzicka@cern.ch
+# Date:        20190723
+#
+# CPUTime: <1min
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[Lambda_c+ => ^p+ (phi(1020) => ^mu- ^mu+) ^( pi0 -> ^gamma ^gamma )]CC'
+# tightCut.Cuts      =    {
+#     '[mu+]cc'       : ' goodMuon & inAcc   ', 
+#     '[p+]cc'        : ' goodProton & inAcc ', 
+#     '[pi0]cc'       : ' goodPi0 & inAcc ', 
+#     '[gamma]cc'     : ' goodPi0Gamma & inCaloAcc ',
+#     '[Lambda_c+]cc' : ' goodLambdac & ~GHAS (GBEAUTY, HepMC.ancestors)' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter, micrometer',
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'inCaloAcc   = ( in_range(0.000, abs(GPX/GPZ), 0.300) & in_range(0.000, abs(GPY/GPZ), 0.250) & (GPZ > 0) ) ',
+#     'goodMuon   = ( GPT > 0.2 * GeV ) & ( GP > 0.2 * GeV ) ', 
+#     'goodProton = ( GPT > 0.2 * GeV ) & ( GP > 0.2 * GeV ) ', 
+#     'goodPi0 = ( GPT > 0.1 * GeV ) ',
+#     'goodPi0Gamma = ( GPT > 0.05 * GeV ) ',
+#     'goodLambdac  = ( GTIME > 50 * micrometer ) ' ]
+#
+# EndInsertPythonCode
+
+Alias      MyPhi    phi
+ChargeConj MyPhi    MyPhi
+
+Decay Lambda_c+sig
+  1.00000         p+      MyPhi   pi0   PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+Decay  MyPhi
+  1.000     mu+      mu-    PHOTOS VLL ;
+Enddecay
+ 
+#
+End

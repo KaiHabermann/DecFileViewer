@@ -1,0 +1,47 @@
+# EventType: 12165333
+#
+# Descriptor: [B+ -> K+ (anti-D*0 -> (anti-D0 -> (K_S0 -> pi+ pi-) pi+ pi-) gamma)]cc
+#
+# NickName: Bu_Dst0K,D0gamma,KSpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ forced to D*0 K+, D*0 forced to D0 gamma, D0 forced PHSP decay to KS pi+ pi-. Only DaughtersInLHCb generator level cuts.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Marcelo Bovill
+# Email: marcelo.bovill@cern.ch
+# Date: 20250128
+# CPUTime: <1min
+#
+Alias MyD*0       D*0
+Alias Myanti-D*0  anti-D*0
+ChargeConj MyD*0  Myanti-D*0
+Alias MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj MyD0   Myanti-D0
+Alias myK_S0      K_S0
+ChargeConj myK_S0 myK_S0
+##
+Decay B+sig
+  1.000     Myanti-D*0  K+               SVS;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-D*0
+1.000    Myanti-D0  gamma                      VSP_PWAVE;
+Enddecay
+CDecay MyD*0
+#
+Decay Myanti-D0
+  1.000     myK_S0 pi+  pi-        PHSP;
+Enddecay
+CDecay MyD0
+#
+Decay myK_S0
+  1.000     pi+  pi-                      PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,43 @@
+# EventType: 13674020
+#
+# Descriptor: {[[B_s0]nos -> (D_0 -> K- pi+) (tau- -> mu- anti-nu_mu nu_tau) K+ anti-nu_tau]cc, [[B_s0]os -> (D~0 -> K+ pi-) (tau+ -> mu+ nu_mu anti-nu_tau) K- nu_tau]cc}
+#
+# NickName: Bs_D0Ktau,Kpi,muantinunu=DecProdCut
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb, B0 forced into D0 tau- K pair.tau- forced into mu- anti-nu_mu nu_tau.
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Piet Nogga (University of Bonn)
+# Email: piet.nogga@cern.ch
+# Date: 20240321
+#
+
+Alias      MyD0        D0
+Alias      MyantiD0   anti-D0
+Alias      myTau-      tau-
+Alias      myTau+      tau+
+ChargeConj MyD0       MyantiD0
+ChargeConj myTau-     myTau+
+
+#
+Decay anti-B_s0sig
+  1.00         MyD0 myTau- K+ anti-nu_tau   PHSP;
+Enddecay
+CDecay B_s0sig
+#
+Decay MyD0
+  1.00         K- pi+          PHSP;
+Enddecay
+CDecay MyantiD0
+#
+Decay myTau-
+  1.00         mu- anti-nu_mu nu_tau TAULNUNU;
+Enddecay
+CDecay myTau+
+#
+End
+#

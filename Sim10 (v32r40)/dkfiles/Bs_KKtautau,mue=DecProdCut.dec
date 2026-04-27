@@ -1,0 +1,44 @@
+# EventType: 13514063
+#
+# Descriptor: {[[B_s0]nos -> K+ K- (tau+ -> mu+ nu_mu nu_tau~) (tau- -> e- nu_e~ nu_tau)]cc, [[B_s0]os -> K+ K- (tau- -> mu- nu_mu~ nu_tau) (tau+ -> e+ nu_e nu_tau~)]cc}
+#
+# NickName: Bs_KKtautau,mue=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bs -> K K tau(-> mu nu nu) tau(-> e nu nu) decays
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20220318
+#
+Alias          Mytau_e+   tau+
+Alias          Mytau_e-   tau-
+ChargeConj     Mytau_e+   Mytau_e-
+#
+Alias          Mytau_m+   tau+
+Alias          Mytau_m-   tau-
+ChargeConj     Mytau_m+   Mytau_m-
+#
+Decay B_s0sig
+   0.500       K+         K-        Mytau_e+    Mytau_m-      PHSP;
+   0.500       K+         K-        Mytau_m+    Mytau_e-      PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mytau_e+
+   1.000       e+         nu_e      anti-nu_tau               TAULNUNU;
+Enddecay
+CDecay Mytau_e-
+#
+Decay Mytau_m+
+   1.000       mu+        nu_mu     anti-nu_tau               TAULNUNU;
+Enddecay
+CDecay Mytau_m-
+#
+End

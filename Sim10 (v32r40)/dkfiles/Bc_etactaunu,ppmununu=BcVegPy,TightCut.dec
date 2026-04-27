@@ -1,0 +1,66 @@
+# EventType: 14543031
+# 
+# Descriptor: [B_c+ => (eta_c => p+ anti-p-) (tau+ => mu+ nu_mu nu_tau~) nu_tau]cc
+# 
+# NickName: Bc_etactaunu,ppmununu=BcVegPy,TightCut
+#
+# Production: BcVegPy
+#
+# Cuts: LoKi::GenCutToolWithDecay/TightCut
+#
+# Documentation: decay of Bc+ => eta_c tau+ nu_tau, forced into tau+ to mu+ nu_mu nu_tau~ and eta_c to ppbar,
+#        	 using BcVegPy generator and tight cuts on acceptance
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutToolWithDecay
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.Special.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+# gen.Special.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+# #
+# tightCut = gen.Special.TightCut
+# tightCut.SignalPID = 'B_c+'
+# tightCut.Decay = '[B_c+ => (eta_c(1S) => ^p+ ^p~-) (tau+ => ^mu+ nu_mu nu_tau~) nu_tau]CC'
+# tightCut.Preambulo += [
+#     'inAcc   = in_range ( 0.010 , GTHETA , 0.400 ) '
+#     ]
+# tightCut.Cuts = {
+#     '[p+]cc'  : ' ( GPT > 0.4 * GeV ) & inAcc ',
+#     '[mu+]cc' : ' inAcc ',
+#     }
+# 
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Santiago Gómez Arias
+# Email: sgomezar@cern.ch
+# Date: 20190722 
+# CPUTime: <1min
+#
+Alias      MyTau-   tau-
+Alias      MyTau+   tau+
+ChargeConj MyTau-   MyTau+
+#
+Alias Myetac eta_c
+ChargeConj Myetac Myetac
+#
+Decay MyTau-
+  1.000  mu-         anti-nu_mu    nu_tau             PHOTOS TAULNUNU;
+Enddecay
+CDecay MyTau+
+#
+Decay Myetac
+  1.000 p+ anti-p- PHSP;
+Enddecay
+#
+Decay B_c+sig
+  1.000     Myetac      MyTau+        nu_tau               PHSP;
+Enddecay
+CDecay B_c-sig
+#
+End

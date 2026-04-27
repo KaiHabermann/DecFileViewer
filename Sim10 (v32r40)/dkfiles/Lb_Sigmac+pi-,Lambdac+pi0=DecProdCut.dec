@@ -1,0 +1,58 @@
+# EventType: 15164521
+#
+# Descriptor: [Lambda_b0 -> (Sigma_c+ -> (Lambda_c+ -> p+ (KS0 -> pi+ pi-)) pi0) pi-]cc
+#
+# NickName: Lb_Sigmac+pi-,Lambdac+pi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb acceptance, Sigmac+ -> Lambdac+ pi0, Lambdac+ -> pKS
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Daniel O'Hanlon
+# Email: daniel.ohanlon@cern.ch
+# Date: 20190501
+#
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias MySigma_c+       Sigma_c+
+Alias Myanti-Sigma_c-  anti-Sigma_c-
+ChargeConj MySigma_c+  Myanti-Sigma_c-
+#
+Alias      MyKS       K_S0
+ChargeConj MyKS       MyKS
+#
+Alias      Mypi0        pi0
+ChargeConj Mypi0        Mypi0
+#
+Decay Lambda_b0sig
+  1.000 MySigma_c+ pi- PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MySigma_c+
+  1.000  MyLambda_c+ Mypi0 PHSP;
+Enddecay
+CDecay Myanti-Sigma_c-
+#
+Decay MyLambda_c+
+  1.000  p+ MyKS PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay Mypi0
+  1.000        gamma      gamma           PHSP;
+Enddecay
+#
+Decay MyKS
+  1.000        pi+      pi-                 PHSP;
+Enddecay
+#
+End
+#

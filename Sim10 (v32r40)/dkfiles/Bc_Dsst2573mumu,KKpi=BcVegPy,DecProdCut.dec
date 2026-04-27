@@ -1,0 +1,46 @@
+# EventType: 14175051
+#
+# Descriptor:  [B_c+ -> (D_s2*+ -> (D0 -> K- pi+) K+) mu+ mu-]cc
+#
+# NickName:  Bc_Dsst2573mumu,KKpi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts:  BcDaughtersInLHCb
+#
+# Documentation:  Decay file for Bc -> Ds2*(2573) mu+ mu- decays where Ds2*(2573) decays to D0 K+ and D0 further decays to K- pi+  
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Niladri Sahoo
+# Email:       Niladri.Sahoo@cern.ch
+# Date:        20220629
+# 
+# CPUTime:     < 1min
+#
+
+Alias        MyD_s2*+   D_s2*+
+Alias        MyD_s2*-   D_s2*-
+ChargeConj   MyD_s2*+   MyD_s2*-
+Alias	     MyD0	D0
+Alias	     Myanti-D0  anti-D0
+ChargeConj   MyD0       Myanti-D0 
+
+Decay B_c+sig
+  1.000     MyD_s2*+   mu+    mu-     PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyD_s2*+
+  1.000     MyD0 K+                   TSS;
+Enddecay
+CDecay MyD_s2*-
+#
+Decay MyD0
+  1.000     K-  pi+                   PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End
+#

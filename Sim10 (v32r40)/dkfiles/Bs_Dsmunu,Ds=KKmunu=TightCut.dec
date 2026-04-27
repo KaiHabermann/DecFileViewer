@@ -1,0 +1,51 @@
+# EventType: 13574001
+#
+# Descriptor: [B_s0 -> (D_s- -> K+ K- mu- anti-nu_mu) mu+ nu_mu]cc
+#
+# NickName: Bs_Dsmunu,Ds=KKmunu=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.@Production.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.@Production.TightCut
+# tightCut.Decay = "([B_s0 --> K+ K- mu- mu+ ...]CC)"
+# tightCut.Preambulo += ["from LoKiCore.functions import in_range",
+#                        "good_charged = ( in_range ( 0.010 , GTHETA , 0.400 ) & (('K+' == GABSID) | ('mu+' == GABSID) ))"]
+# tightCut.Cuts = {'[B_s0]cc' : "( 4 <= GNINTREE ( good_charged ) )"}
+#
+# EndInsertPythonCode
+#
+# Documentation: Bs->Dsmunu with Ds->KKmunu and DecProdCut
+#        background studies for Lb->pKtaumu
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Gediminas Sarpis
+# Email: gediminas.sarpis@cern.ch
+# Date: 20240508
+#
+# CPUTime: < 2 min
+#
+
+Alias MyD_s+ D_s+
+Alias MyD_s- D_s-
+ChargeConj MyD_s+ MyD_s-
+
+Decay B_s0sig
+  1.000        MyD_s- mu+ nu_mu   PHOTOS ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD_s-
+1.000         K+ K- mu- anti-nu_mu PHSP;
+Enddecay
+CDecay MyD_s+
+#
+End
+#

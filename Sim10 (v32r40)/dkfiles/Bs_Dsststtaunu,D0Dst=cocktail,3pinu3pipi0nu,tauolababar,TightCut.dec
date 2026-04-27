@@ -1,0 +1,128 @@
+# EventType: 13863000
+#
+# Descriptor: {[[B_s0]nos ==> (tau+ -> pi+ pi- pi+ anti-nu_tau) nu_tau (D~0 -> K+ pi-) ]cc, [[B_s0]os ==> (tau- -> pi- pi+ pi- nu_tau) anti-nu_tau (D0 -> K- pi+) ]cc}
+#
+# NickName: Bs_Dsststtaunu,D0Dst=cocktail,3pinu3pipi0nu,tauolababar,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal = generation.SignalRepeatedHadronization
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = signal.TightCut
+# tightCut.Decay = '[ ( (Beauty & LongLived) --> (D0 => K- pi+) pi- pi+ ...) ]CC'
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,'inAcc = ( 0 < GPZ )  &  ( 200 * MeV < GPT ) & ( 1200 * MeV < GP ) & in_range ( 1.8 , GETA , 5.0 ) & in_range ( 0.005 , GTHETA , 0.400 )'
+#     ,"goodD0 = GINTREE(( 'D0'  == GABSID ) & (GP>8000*MeV) & (GPT>1000*MeV) & ( GNINTREE(( 'K-' == GABSID ) & ( GPT > 1400*MeV ) & ( GP > 4000*MeV ) & inAcc, HepMC.descendants) == 1 ) & ( GNINTREE(( 'pi+' == GABSID ) & ( GPT > 200*MeV ) & ( GP > 1600*MeV ) & inAcc, HepMC.descendants) == 1 ))"
+#     ,"nPiB = GCOUNT(('pi+' == GABSID) & inAcc & ( GNINTREE ( ('KS0' == GABSID) | ('KL0' == GABSID), HepMC.parents)==0 ), HepMC.descendants)"
+#     ,"goodB = ( ( GNINTREE(  ( 'D0'==GABSID ) , HepMC.descendants) == 1 ) & ( nPiB >= 4) )"
+# ]
+# tightCut.Cuts = {
+#     '[D0]cc': 'goodD0',
+#     '[B_s0]cc': 'goodB'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: Sum of Bs -> Ds** tau nu modes. Ds** -> D0 X, D0 -> K pi. Cuts for B -> D* tau nu, tau-> 3pi #analysis.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Ricardo Vazquez Gomez
+# Email: rvazquez@cern.ch
+# Date: 20210421
+#
+# Tauola steering options
+# # The following forces the tau to decay into 3 charged pions (not pi+2pi0)
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyD0         D0
+Alias      MyAntiD0     anti-D0
+ChargeConj MyD0         MyAntiD0
+#
+Alias      MyD*-        D*-
+Alias      MyD*+        D*+
+ChargeConj MyD*-        MyD*+
+#
+Alias      MyD*0        D*0
+Alias      MyAntiD*0    anti-D*0
+ChargeConj MyD*0        MyAntiD*0
+#
+Alias      MyD_s1+         D_s1+
+Alias      MyD_s1-         D_s1-
+ChargeConj MyD_s1+         MyD_s1-
+#
+Alias      MyD_s0*+         D_s0*+
+Alias      MyD_s0*-         D_s0*-
+ChargeConj MyD_s0*+         MyD_s0*-
+#
+Alias      MyD'_s1+         D'_s1+
+Alias      MyD'_s1-         D'_s1-
+ChargeConj MyD'_s1+         MyD'_s1-
+#
+Alias      MyD_s2*+         D_s2*+
+Alias      MyD_s2*-         D_s2*-
+ChargeConj MyD_s2*+         MyD_s2*-
+#
+
+#
+Decay B_s0sig
+0.0070   MyD'_s1-   Mytau+    nu_tau        PHOTOS  ISGW2;
+0.0070   MyD_s2*-   Mytau+    nu_tau        PHOTOS  ISGW2;
+
+  #
+Enddecay
+CDecay anti-B_s0sig
+
+
+Decay MyD'_s1-
+0.5000   MyD*- anti-K0                       VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.5000   MyAntiD*0 K-                       VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay MyD'_s1+
+#
+
+
+Decay MyD_s2*+
+0.0500    MyD*+ K0                         TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+0.0500    MyD*0 K+                         TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+0.4700    MyD0  K+                         TSS;
+Enddecay
+CDecay MyD_s2*-
+#
+
+Decay MyD*0
+  0.619   MyD0  pi0                            PHOTOS VSS;
+  0.381   MyD0  gamma                          PHOTOS VSP_PWAVE;
+Enddecay
+CDecay MyAntiD*0
+
+
+Decay MyD*-
+1.0       MyAntiD0   pi-                   VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay MyD0
+  1.00   K-  pi+                           PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD0
+#
+Decay Mytau-
+  0.6666        TAUOLA 5;
+  0.3333        TAUOLA 8;
+Enddecay
+CDecay Mytau+
+#
+End

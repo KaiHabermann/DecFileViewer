@@ -1,0 +1,94 @@
+# EventType: 11266008
+#
+# Descriptor: {[[B0]nos -> (D- -> K+ pi- pi-) pi+ pi- pi+]cc, [[B0]os -> (D+ -> K- pi+ pi+) pi- pi+ pi-]cc}
+#
+# NickName: Bd_D-pipipi,Kpipi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal = generation.SignalRepeatedHadronization
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = signal.TightCut
+# tightCut.Decay = '[^( [B0]cc ==> ^(D+ => K- pi+ pi+) pi- pi+ pi- ) ]CC'
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#      ,"CS  = LoKi.GenChild.Selector"
+#     ,'goodDp = ( (GP>12000*MeV) & (GPT>1500*MeV) & ( (GCHILD(GPT,("K+" == GABSID )) > 1400*MeV) & (GCHILD(GP,("K+" == GABSID )) > 5000*MeV) & in_range ( 0.010 , GCHILD(GTHETA,("K+" == GABSID )) , 0.400 ) ) & ( (GCHILD(GPT,CS("[D+ => K- ^pi+ pi+ ]CC")) > 200*MeV) & (GCHILD(GP,CS("[D+ => K- ^pi+ pi+ ]CC")) > 1600*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[D+ => K- ^pi+ pi+ ]CC")) , 0.400 ) ) & ( (GCHILD(GPT,CS("[D+ => K- pi+ ^pi+ ]CC")) > 200*MeV) & (GCHILD(GP,CS("[D+ => K- pi+ ^pi+ ]CC")) > 1600*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[D+ => K- pi+ ^pi+ ]CC")) , 0.400 ) )  )'
+#     ,'goodB = ( ( (GCHILD(GPT,CS("[ [B0]cc ==> (D+ => K- pi+ pi+) ^pi- pi+ pi-]CC")) > 200*MeV) & (GCHILD(GP,CS("[ [B0]cc ==> (D+ => K- pi+ pi+) ^pi- pi+ pi-]CC")) > 1200*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[ [B0]cc ==> (D+ => K- pi+ pi+) ^pi- pi+ pi-]CC")) , 0.400 ) ) & ( (GCHILD(GPT,CS("[ [B0]cc ==> (D+ => K- pi+ pi+) pi- ^pi+ pi-]CC")) > 200*MeV) & (GCHILD(GP,CS("[ [B0]cc ==> (D+ => K- pi+ pi+) pi- ^pi+ pi-]CC")) > 1200*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[ [B0]cc ==> (D+ => K- pi+ pi+) pi- ^pi+ pi-]CC")) , 0.400 ) ) & ( (GCHILD(GPT,CS("[ [B0]cc ==> (D+ => K- pi+ pi+) pi- pi+ ^pi-]CC")) > 200*MeV) & (GCHILD(GP,CS("[ [B0]cc ==> (D+ => K- pi+ pi+) pi- pi+ ^pi-]CC")) > 1200*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[ [B0]cc ==> (D+ => K- pi+ pi+) pi- pi+ ^pi-]CC")) , 0.400 ) ) )'
+# ]
+# tightCut.Cuts = {
+#      '[D+]cc': 'goodDp'
+#     ,'[B0]cc': 'goodB'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: B0 -> (D+ -> Kpipi) pi- pi+ pi-. Daughters in LHCb Acceptance and passing StrippingB0d2DTauNuForB2XTauNuAllLines cuts.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Antonio Romero Vidal
+# Email: antonio.romero@usc.es
+# Date: 20200629
+# CPUTime: < 1 min
+#
+Alias      MyD_1+       D_1+
+Alias      MyD_1-       D_1-
+ChargeConj MyD_1+       MyD_1-
+#
+Alias      MyD0         D0
+Alias      Myanti-D0    anti-D0
+ChargeConj MyD0         Myanti-D0
+#
+Alias      MyD-         D-
+Alias      MyD+         D+
+ChargeConj MyD-         MyD+
+#
+Alias      Mya_1-       a_1-
+Alias      Mya_1+       a_1+
+ChargeConj Mya_1+       Mya_1-
+#
+Alias      Myrho0       rho0
+ChargeConj Myrho0       Myrho0
+#
+Alias      Myf_2        f_2
+ChargeConj Myf_2        Myf_2
+#
+Decay B0sig
+0.75   Mya_1+    MyD-                 SVS;
+0.13   MyD-      Myrho0    pi+        PHSP;
+0.10   MyD-      Myf_2     pi+        PHSP;
+0.02   MyD_1-    pi+                  SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD-
+# D_DALITZ includes resonances contributions (K*(892), K*(1430), K*(1680))
+  1.000   K+     pi-       pi-        D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+Decay Mya_1+
+  1.000   Myrho0 pi+                 VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay MyD_1+
+  1.000   MyD+   pi+       pi-       PHSP;
+Enddecay
+CDecay MyD_1-
+#
+Decay Myf_2
+  1.0000  pi+   pi-                  TSS ;
+Enddecay
+#
+Decay Myrho0
+  1.000   pi+   pi-                  VSS;
+Enddecay
+#
+End

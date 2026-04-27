@@ -1,0 +1,62 @@
+# EventType: 26104989 
+#
+# Descriptor: [Xi_c0 -> (Xi- -> (Lambda0 -> p+ pi-) pi-) pi+]cc
+# NickName: Xic0_Xipi,L0pi,ppi=phsp,TightCut,OnlyT 
+# 
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool(LoKi__GenCutTool,"TightCut")
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = "^[Xi_c0 => ^(Xi- => ^(Lambda0 => p+ pi-) ^pi-) ^pi+]CC"
+# tightCut.Cuts = {
+#   "[Xi_c0]cc"   : "(GP>10.0*GeV) & (GPT>600*MeV) & inY",
+#   "[Xi-]cc"     : "(GP>9.8*GeV) & (GPT>400*MeV) & inY",
+#   "[Lambda0]cc" : "(GP>5.0*GeV) & (GPT>100*MeV) & inY & (EVZ > 2500 * mm) & (EVZ < 8000 * mm)",
+#   "[pi-]cc"     : "(GP>1.0*GeV) & inAcc"
+# }
+# tightCut.Preambulo += [
+#   "inAcc = in_range(0.010,GTHETA,0.400) & in_range(1.95,GETA,5.05)",
+#   "inY   = in_range(1.9,LoKi.GenParticles.Rapidity(),4.6)",
+#   "EVZ   = GFAEVX(GVZ,0)",
+# ]
+# EndInsertPythonCode
+#
+#
+# Documentation: Decay file for Xic0 -> Xi- pi+, Xi- -> Lambda pi- with PHSP model
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Ziyi Wang 
+# Email: ziyi.wang@cern.ch
+# Date: 20240508
+# CPUTime: 5 min
+#
+Alias      MyXim      Xi-
+Alias      Myanti-Xip anti-Xi+
+ChargeConj MyXim      Myanti-Xip
+#
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+#
+Decay MyLambda0
+  1.0     p+   pi-     PHSP; 
+Enddecay
+CDecay MyAntiLambda0
+#
+Decay MyXim
+  1.0     MyLambda0   pi-      PHSP;
+Enddecay
+CDecay Myanti-Xip
+#
+Decay Xi_c0sig
+  1.0     MyXim   pi+      PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+#
+End

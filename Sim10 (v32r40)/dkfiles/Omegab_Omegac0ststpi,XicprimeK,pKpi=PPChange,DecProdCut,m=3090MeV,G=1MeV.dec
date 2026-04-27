@@ -1,0 +1,55 @@
+# EventType: 16165235
+#
+# Descriptor: [Xi_b- -> pi- [Omega_c*0 -> K- [Xi'_c -> gamma [Xi_c+ -> p+ K- pi+] ] ] ]cc
+#
+# NickName: Omegab_Omegac0ststpi,XicprimeK,pKpi=PPChange,DecProdCut,m=3090MeV,G=1MeV
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "Xi_b- 122 5132 -1.0 6.050 1.57e-012 Xi_b- 5132 0.000000e+000", "Xi_b~+ 123 -5132 1.0 6.050 1.57e-012 anti-Xi_b+ -5132 0.000000e+000", "Omega_c*0 498 4334 0.0 3.090 6.582e-022 Omega_c*0 4334 0.005", "Omega_c*~0 499 -4334 0.0 3.090 6.582e-022 anti-Omega_c*0 -4334 0.005"
+#
+# Documentation: Search for new excited Omega_c0 states. Mass=3090MeV and Width=1MeV.
+# Xi_b- instead of Omega_b-; Omega_c*0 instead of Omega_c**0.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: 1min
+# Responsible: Ilia Belov
+# Email:  ilia.belov@cern.ch
+# Date: 20240315
+#
+Alias MyOmegac     Omega_c*0
+Alias Myanti-Omegac anti-Omega_c*0
+ChargeConj MyOmegac    Myanti-Omegac
+#
+Alias MyXi'_c+     Xi'_c+
+Alias Myanti-Xi'_c- anti-Xi'_c-
+ChargeConj MyXi'_c+    Myanti-Xi'_c-
+#
+Alias MyXi_c+     Xi_c+
+Alias Myanti-Xi_c- anti-Xi_c-
+ChargeConj MyXi_c+    Myanti-Xi_c-
+#
+Decay Xi_b-sig
+  1.0    MyOmegac   pi-                  PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyOmegac
+  1.000    MyXi'_c+  K-               PHSP;
+Enddecay
+CDecay Myanti-Omegac
+#
+Decay MyXi'_c+
+  1.000    MyXi_c+ gamma               PHSP;
+Enddecay
+CDecay Myanti-Xi'_c-
+#
+Decay MyXi_c+
+  1.000         p+      K-      pi+     PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+#
+End
+

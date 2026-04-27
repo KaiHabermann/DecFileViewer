@@ -1,0 +1,38 @@
+# EventType: 11104560
+#
+# Descriptor: [Beauty -> pi+ pi- (KS0 -> pi+ pi-) (pi0 -> gamma gamma)]cc
+#
+# NickName: Bd_Kspi+pi-pi0=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: 1 min
+#
+# Documentation: Bkgd for Kspipigamma, all in PHSP, pi pi in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email:  biplab.dey@.cern.ch
+# Date: 20180228
+#
+Alias      MyK0s  K_S0
+ChargeConj MyK0s  MyK0s
+#
+Alias      Mypi0        pi0
+ChargeConj Mypi0        Mypi0
+#
+Decay B0sig
+  1.000   pi+  pi-    MyK0s      Mypi0         PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK0s
+  1.000   pi+         pi-       PHSP;
+Enddecay
+#
+Decay Mypi0
+  1.000        gamma      gamma           PHSP;
+Enddecay
+#
+End

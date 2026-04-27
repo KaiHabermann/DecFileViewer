@@ -1,0 +1,431 @@
+# EventType: 14575600
+#
+# Descriptor: {[B_c+ -> K (B_s0 -> (D_s+ -> 3h) mu- anti-nu_mu)]cc}
+#
+# NickName: Bc_KBs,Dsmunu,3h=cocktail,mu4hinAcc
+#
+# Cuts: LoKi::GenCutToolWithDecay/TightCut
+# 
+# Production: BcVegPy
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutToolWithDecay
+# gen = Generation(genAlgName)
+# gen.Special.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+# #
+# tightCut = gen.Special.TightCut
+# tightCut.SignalPID = 'B_c+'
+# tightCut.Decay = '^[ B_c+ --> X ... ]CC'
+# tightCut.Cuts  = { '[B_c+]cc' : 'goodB' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import MeV',
+#     "inAcc = (0 < GPZ) & (100 * MeV < GPT) & in_range(1.8, GETA, 5.0) & in_range(0.005, GTHETA, 0.400)",
+#     "PiOrK = ( GABSID == 'pi+' ) | ( GABSID == 'K+')",
+#     "hasMu = 1 <= GNINTREE ( (GABSID == 'mu-') & inAcc , HepMC.descendants )",
+#     'goodB = hasMu & (4 <= GNINTREE ( PiOrK & inAcc , HepMC.descendants ))' ]
+#
+# EndInsertPythonCode
+#
+# Documentation: Sum of Bc -> K Bs modes with (Bs -> (Ds -> 3 hadrons) mu nu) final state. TightCut.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Joao Coelho
+# Email: coelho@lal.in2p3.fr
+# Date: 20190121
+# CPUTime: <5s
+#
+#
+Alias  MyB_s*0  B_s*0
+Alias  Myanti-B_s*0  anti-B_s*0
+ChargeConj  MyB_s*0  Myanti-B_s*0
+#
+Alias  MyB_s0  B_s0
+Alias  Myanti-B_s0  anti-B_s0
+ChargeConj  MyB_s0  Myanti-B_s0
+#
+Alias  MyD_s*+  D_s*+
+Alias  MyD_s*-  D_s*-
+ChargeConj  MyD_s*+  MyD_s*-
+#
+Alias  MyD_s1+  D_s1+
+Alias  MyD_s1-  D_s1-
+ChargeConj  MyD_s1+  MyD_s1-
+#
+Alias  MyD_s0*+  D_s0*+
+Alias  MyD_s0*-  D_s0*-
+ChargeConj  MyD_s0*+  MyD_s0*-
+#
+Alias  MyD_s+  D_s+
+Alias  MyD_s-  D_s-
+ChargeConj  MyD_s+  MyD_s-
+#
+Alias  Myphi2pi  phi
+ChargeConj  Myphi2pi  Myphi2pi
+#
+Alias  Myrho+  rho+
+Alias  Myrho-  rho-
+ChargeConj  Myrho+  Myrho-
+#
+Alias  Myrho0  rho0
+ChargeConj  Myrho0  Myrho0
+#
+Alias  Myeta2pi  eta
+ChargeConj  Myeta2pi  Myeta2pi
+#
+Alias  Myf_0  f_0
+ChargeConj  Myf_0  Myf_0
+#
+Alias  Myomega2pi  omega
+ChargeConj  Myomega2pi  Myomega2pi
+#
+Alias  Myeta'2pi  eta'
+ChargeConj  Myeta'2pi  Myeta'2pi
+#
+Alias  Myeta0pi  eta
+ChargeConj  Myeta0pi  Myeta0pi
+#
+Alias  Myeta'0pi  eta'
+ChargeConj  Myeta'0pi  Myeta'0pi
+#
+Alias  Myomega0pi  omega
+ChargeConj  Myomega0pi  Myomega0pi
+#
+Alias  Myphi0pi  phi
+ChargeConj  Myphi0pi  Myphi0pi
+#
+Alias  Myf_0N  f_0
+ChargeConj  Myf_0N  Myf_0N
+#
+Alias  Myf_2  f_2
+ChargeConj  Myf_2  Myf_2
+#
+Alias  Myf'_0  f'_0
+ChargeConj  Myf'_0  Myf'_0
+#
+Alias  Myf_0(1500)  f_0(1500)
+ChargeConj  Myf_0(1500)  Myf_0(1500)
+#
+Alias  MyK*0  K*0
+Alias  Myanti-K*0  anti-K*0
+ChargeConj  MyK*0  Myanti-K*0
+#
+Alias  MyK*+  K*+
+Alias  MyK*-  K*-
+ChargeConj  MyK*+  MyK*-
+#
+Alias  MyK_S0  K_S0
+ChargeConj  MyK_S0  MyK_S0
+#
+Alias  MyK0  K0
+Alias  Myanti-K0  anti-K0
+ChargeConj  MyK0  Myanti-K0
+#
+Alias  Mya_1+  a_1+
+Alias  Mya_1-  a_1-
+ChargeConj  Mya_1+  Mya_1-
+
+
+#
+# Total B_c+sig = 0.000428980
+#
+Decay B_c+sig
+0.000317985  MyB_s0  K+  PHSP;
+0.000110995  MyB_s*0  K+  SVS;
+Enddecay
+CDecay B_c-sig
+
+#
+# Total MyB_s*0 = 0.029998582
+#
+Decay MyB_s*0
+0.029998582  MyB_s0  gamma  VSP_PWAVE;
+Enddecay
+CDecay Myanti-B_s*0
+
+#
+# Total MyB_s0 = 0.029998582
+#
+Decay MyB_s0
+0.008076541  MyD_s-  mu+  nu_mu  PHOTOS HQET2 1.185 1.081;
+0.018845263  MyD_s*-  mu+  nu_mu  PHOTOS HQET2 1.207 0.920 1.406 0.853;
+0.001538389  MyD_s1-  mu+  nu_mu  PHOTOS ISGW2;
+0.001538389  MyD_s0*-  mu+  nu_mu  PHOTOS ISGW2;
+Enddecay
+CDecay Myanti-B_s0
+
+#
+# Total MyD_s*+ = 0.384597211
+#
+Decay MyD_s*+
+0.362290573  MyD_s+  gamma  VSP_PWAVE; #[Reconstructed PDG2011];
+0.022306638  MyD_s+  pi0  VSS; #[Reconstructed PDG2011];
+Enddecay
+CDecay MyD_s*-
+
+#
+# Total MyD_s1+ = 0.384597211
+#
+Decay MyD_s1+
+0.307677769  MyD_s*+  pi0  PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.076919442  MyD_s+  gamma  VSP_PWAVE;
+Enddecay
+CDecay MyD_s1-
+
+#
+# Total MyD_s0*+ = 0.384597211
+#
+Decay MyD_s0*+
+0.384597211  MyD_s+  pi0  PHSP;
+Enddecay
+CDecay MyD_s0*-
+
+#
+# Total MyD_s+ = 0.384597211
+#
+Decay MyD_s+
+0.003811325  K+  K-  pi+  PHSP; #[Reconstructed PDG2011];
+0.007470197  K_L0  K+  pi+  pi-  PHSP; #[Reconstructed PDG2011];
+0.000490000  K+  K-  K+  PHSP; #[Reconstructed PDG2011];
+0.004200000  K+  pi+  pi-  PHSP; #[Reconstructed PDG2011];
+0.000686038  K_L0  K_L0  pi+  pi+  pi-  PHSP; #[Reconstructed PDG2011];
+0.002424003  K_L0  pi+  pi+  pi-  PHSP; #[Reconstructed PDG2011];
+0.000129000  K+  K+  pi-  PHSP; #[Reconstructed PDG2011];
+0.029048145  Myphi2pi  pi+  SVS; #[Reconstructed PDG2011];
+0.054223204  Myphi2pi  Myrho+  SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; #[Reconstructed PDG2011];
+0.004920530  Myphi2pi  pi+  pi0  PHSP; #[Reconstructed PDG2011];
+0.002460265  Myphi2pi  pi+  pi0  pi0  PHSP; #[Reconstructed PDG2011];
+0.000098411  Myphi2pi  K+  SVS; #[Reconstructed PDG2011];
+0.004265040  Myeta2pi  pi+  PHSP; #[Reconstructed PDG2011];
+0.024332600  Myrho+  Myeta2pi  SVS; #[Reconstructed PDG2011];
+0.003126049  Myeta2pi  pi+  pi0  PHSP; #[Reconstructed PDG2011];
+0.001042016  Myeta2pi  pi+  pi0  pi0  PHSP; #[Reconstructed PDG2011];
+0.000380026  Myeta2pi  K+  PHSP; #[Reconstructed PDG2011];
+0.000041681  Myeta2pi  K+  pi0  PHSP; #[Reconstructed PDG2011];
+0.002740609  Myeta0pi  pi+  pi-  pi+  PHSP; #[Reconstructed PDG2011];
+0.000109624  Myeta0pi  K+  pi+  pi-  PHSP; #[Reconstructed PDG2011];
+0.026298755  Myeta'2pi  pi+  PHSP; #[Reconstructed PDG2011];
+0.085964599  Myrho+  Myeta'2pi  SVS; # Decrease compared to PDG 2014 to preserve unitarity after;
+0.007913140  Myeta'2pi  pi+  pi0  PHSP; #[Reconstructed PDG2011];
+0.001107316  Myeta'2pi  K+  PHSP; #[Reconstructed PDG2011];
+0.000105509  Myeta'2pi  K+  pi0  PHSP; #[Reconstructed PDG2011];
+0.002090529  Myomega2pi  pi+  SVS; #[Reconstructed PDG2011];
+0.025449921  Myomega2pi  pi+  pi0  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000196200  Myrho0  pi+  SVS; # PDG 2014;
+0.002700000  Myrho0  K+  SVS; #[Reconstructed PDG2011];
+0.005234960  Myf_0  pi+  PHSP; # PDG 2014;
+0.001391939  Myphi0pi  pi+  pi-  pi+  PHSP; #[Reconstructed PDG2011];
+0.000027778  Myeta'0pi  K+  pi+  pi-  PHSP; #[Reconstructed PDG2011];
+0.001331148  Myomega0pi  pi+  pi+  pi-  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.001157032  Myf_2  pi+  PHSP; # PDG 2014;
+0.002995069  Myf'_0  pi+  PHSP; # PDG 2014;
+0.001709830  Myf_0(1500)  pi+  PHSP; # PDG 2014;
+0.020297592  Myanti-K*0  K+  SVS; #[Reconstructed PDG2011];
+0.036858401  Myanti-K*0  MyK*+  SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; #[Reconstructed PDG2011];
+0.000608928  Myanti-K*0  K+  pi0  PHSP; #[Reconstructed PDG2011];
+0.001560882  Myanti-K*0  MyK*+  pi0  PHSP; #[Reconstructed PDG2011];
+0.004008774  MyK*0  pi+  SVS; #[Reconstructed PDG2011];
+0.002537199  MyK*0  Myrho+  SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; #[Reconstructed PDG2011];
+0.002537199  MyK*0  pi+  pi0  PHSP; #[Reconstructed PDG2011];
+0.002937493  MyK_S0  K+  pi+  pi-  PHSP; #[Reconstructed PDG2011];
+0.000078649  MyK_S0  MyK_S0  pi+  pi+  pi-  PHSP; #[Reconstructed PDG2011];
+0.000887368  MyK_S0  pi+  pi+  pi-  PHSP; #[Reconstructed PDG2011];
+0.000612238  Mya_1+  MyK0  SVS; #[Reconstructed PDG2011];
+Enddecay
+CDecay MyD_s-
+
+#
+# Total Myphi2pi = 0.645514334
+#
+Decay Myphi2pi
+0.489000000  K+  K-  VSS; #[Reconstructed PDG2011];
+0.042500000  Myrho+  pi-  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.042500000  Myrho0  pi0  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.042500000  Myrho-  pi+  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.025000000  pi+  pi-  pi0  PHSP;
+0.003578806  Myeta2pi  gamma  VSP_PWAVE; #[Reconstructed PDG2011];
+0.000214677  Myf_0  gamma  PHSP; #[Reconstructed PDG2011];
+0.000074000  pi+  pi-  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000042720  Myomega2pi  pi0  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000041000  pi+  pi-  gamma  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000019876  pi0  Myeta2pi  gamma  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000043255  Myeta'2pi  gamma  PHSP; #[New mode added] #[Reconstructed PDG2011];
+Enddecay
+
+#
+# Total Myrho+ = 1.000000000
+#
+Decay Myrho+
+1.000000000  pi+  pi0  VSS;
+Enddecay
+CDecay Myrho-
+
+#
+# Total Myrho0 = 1.000000000
+#
+Decay Myrho0
+1.000000000  pi+  pi-  VSS;
+Enddecay
+
+#
+# Total Myeta2pi = 0.273400000
+#
+Decay Myeta2pi
+0.227400000  pi-  pi+  pi0  ETA_DALITZ; #[Reconstructed PDG2011];
+0.046000000  gamma  pi-  pi+  PHSP; #[Reconstructed PDG2011];
+Enddecay
+
+#
+# Total Myf_0 = 0.666700000
+#
+Decay Myf_0
+0.666700000  pi+  pi-  PHSP;
+Enddecay
+
+#
+# Total Myomega2pi = 0.908925764
+#
+Decay Myomega2pi
+0.892000000  pi-  pi+  pi0  OMEGA_DALITZ; #[Reconstructed PDG2011];
+0.015300000  pi-  pi+  VSS; #[Reconstructed PDG2011];
+0.000125764  Myeta2pi  gamma  VSP_PWAVE; #[Reconstructed PDG2011];
+0.001500000  pi+  pi-  gamma  PHSP;
+Enddecay
+
+#
+# Total Myeta'2pi = 0.692072499
+#
+Decay Myeta'2pi
+0.310638240  pi+  pi-  Myeta0pi  PHSP; #[Reconstructed PDG2011];
+0.059327800  pi0  pi0  Myeta2pi  PHSP; #[Reconstructed PDG2011];
+0.293511000  Myrho0  gamma  SVP_HELAMP 1.0 0.0 1.0 0.0; #[Reconstructed PDG2011];
+0.024995459  Myomega2pi  gamma  SVP_HELAMP 1.0 0.0 1.0 0.0; #[Reconstructed PDG2011];
+0.003600000  pi+  pi-  pi0  PHSP; #[New mode added] #[Reconstructed PDG2011];
+Enddecay
+
+#
+# Total Myeta0pi = 0.719070000
+#
+Decay Myeta0pi
+0.393100000  gamma  gamma  PHSP; #[Reconstructed PDG2011];
+0.325700000  pi0  pi0  pi0  PHSP; #[Reconstructed PDG2011];
+0.000270000  gamma  gamma  pi0  PHSP; #[Reconstructed PDG2011];
+Enddecay
+
+#
+# Total Myeta'0pi = 0.182206101
+#
+Decay Myeta'0pi
+0.156038190  pi0  pi0  Myeta0pi  PHSP; #[Reconstructed PDG2011];
+0.002287911  Myomega0pi  gamma  SVP_HELAMP 1.0 0.0 1.0 0.0; #[Reconstructed PDG2011];
+0.022200000  gamma  gamma  PHSP; #[Reconstructed PDG2011];
+0.001680000  pi0  pi0  pi0  PHSP; #[Reconstructed PDG2011];
+Enddecay
+
+#
+# Total Myomega0pi = 0.083196772
+#
+Decay Myomega0pi
+0.082800000  pi0  gamma  VSP_PWAVE; #[Reconstructed PDG2011];
+0.000330772  Myeta0pi  gamma  VSP_PWAVE; #[Reconstructed PDG2011];
+0.000066000  pi0  pi0  gamma  PHSP; #[Reconstructed PDG2011];
+Enddecay
+
+#
+# Total Myphi0pi = 0.115036319
+#
+Decay Myphi0pi
+0.104648196  K_L0  MyK_S0  VSS; #[Reconstructed PDG2011];
+0.009412626  Myeta0pi  gamma  VSP_PWAVE; #[Reconstructed PDG2011];
+0.000687600  pi0  gamma  VSP_PWAVE; #[Reconstructed PDG2011];
+0.000113000  pi0  pi0  gamma  PHSP; #[Reconstructed PDG2011];
+0.000107323  Myf_0N  gamma  PHSP; #[Reconstructed PDG2011];
+0.000003910  Myomega0pi  pi0  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000052276  pi0  Myeta0pi  gamma  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000011388  Myeta'0pi  gamma  PHSP; #[New mode added] #[Reconstructed PDG2011];
+Enddecay
+
+#
+# Total Myf_0N = 0.333300000
+#
+Decay Myf_0N
+0.333300000  pi0  pi0  PHSP;
+Enddecay
+
+#
+# Total Myf_2 = 0.659786375
+#
+Decay Myf_2
+0.565000000  pi+  pi-  TSS;
+0.071000000  pi+  pi-  pi0  pi0  PHSP; #[Reconstructed PDG2011];
+0.023000000  K+  K-  TSS;
+0.000786375  Myeta0pi  Myeta2pi  TSS; #[Reconstructed PDG2011];
+Enddecay
+
+#
+# Total Myf'_0 = 0.630000000
+#
+Decay Myf'_0
+0.520000000  pi+  pi-  PHSP;
+0.075000000  pi+  pi-  pi0  pi0  PHSP;
+0.035000000  K+  K-  PHSP;
+Enddecay
+
+#
+# Total Myf_0(1500) = 0.296428091
+#
+Decay Myf_0(1500)
+0.009455323  Myeta0pi  Myeta'2pi  PHSP; #[Reconstructed PDG2011];
+0.000946488  Myeta2pi  Myeta'0pi  PHSP; #[Reconstructed PDG2011];
+0.010026281  Myeta0pi  Myeta2pi  PHSP; #[Reconstructed PDG2011];
+0.233000000  pi+  pi-  PHSP;
+0.043000000  K+  K-  PHSP;
+Enddecay
+
+#
+# Total MyK*0 = 0.665700000
+#
+Decay MyK*0
+0.665700000  K+  pi-  VSS;
+Enddecay
+CDecay Myanti-K*0
+
+#
+# Total MyK*+ = 0.768998397
+#
+Decay MyK*+
+0.434698397  MyK0  pi+  VSS;
+0.332300000  K+  pi0  VSS;
+0.002000000  K+  gamma  VSP_PWAVE;
+Enddecay
+CDecay MyK*-
+
+#
+# Total MyK_S0 = 0.305988876
+#
+Decay MyK_S0
+0.305986452  pi0  pi0  PHSP; #[Reconstructed PDG2011];
+0.000000025  pi0  gamma  gamma  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000002399  gamma  gamma  PHSP; #[New mode added] #[Reconstructed PDG2011];
+Enddecay
+
+#
+# Total MyK0 = 0.652994438
+#
+Decay MyK0
+0.500000000  K_L0  PHSP;
+0.152994438  MyK_S0  PHSP;
+Enddecay
+CDecay Myanti-K0
+
+#
+# Total Mya_1+ = 0.492000000
+#
+Decay Mya_1+
+0.492000000  Myrho0  pi+  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+
+End

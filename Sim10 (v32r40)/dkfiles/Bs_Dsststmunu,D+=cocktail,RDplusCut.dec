@@ -1,0 +1,101 @@
+# 
+#
+# EventType: 13874003
+#
+# Descriptor: {[[B_s0]nos ==> nu_mu mu+ (D- -> K+ pi- pi-) ]cc, [[B_s0]os => anti_nu_mu mu- (D+ -> K- pi+ pi+) ]cc}
+#
+# NickName: Bs_Dsststmunu,D+=cocktail,RDplusCut
+# Cuts: 'LoKi::GenCutTool/TightCut'
+# InsertPythonCode:
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#gen = Generation(genAlgName)
+#gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay = "[ (Beauty) ==> ^(D- -> ^K+ ^pi- ^pi- {gamma} {gamma} {gamma}) ^mu+ nu_mu {X} {X} {X} {X} {X} {X} {X} {X} ]CC"
+#tightCut.Preambulo += [
+#  "from LoKiCore.functions import in_range"  ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV"  ,
+#  "pipiKP     = GSUMTREE(GP, (('pi+' == GABSID) | ('K+' == GABSID)))" ,
+#  "pipiKPT     = GSUMTREE(GPT, (('pi+' == GABSID) | ('K+' == GABSID)))" ,
+#]
+#tightCut.Cuts      =    {
+# '[pi+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 150 * MeV )" ,
+# '[K-]cc'   : " in_range( 0.010 , GTHETA , 0.400 ) & ( GPT > 150 * MeV )" ,
+# '[mu+]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) & (GP > 2500* MeV) ",
+# '[D+]cc'   : "( pipiKP > 15000 * MeV ) & (pipiKPT > 2300 * MeV)"
+#    }
+# EndInsertPythonCode
+#
+# Documentation: Sum of Bs -> Ds** mu nu modes. Ds** -> D+ X, D+ -> K pi pi. Cuts for B -> D+ tau nu, tau-> mu #analysis.
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Patrick Owen
+# Email: powen@physik.uzh.ch
+# Date: 20200626
+#
+
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyD+         D+
+Alias      MyD-         D-
+ChargeConj MyD+         MyD-
+#
+Alias      MyD*-        D*-
+Alias      MyD*+        D*+
+ChargeConj MyD*-        MyD*+
+#
+Alias      MyD'_s1+         D'_s1+
+Alias      MyD'_s1-         D'_s1-
+ChargeConj MyD'_s1+         MyD'_s1-
+#
+Alias      MyD_s2*+         D_s2*+
+Alias      MyD_s2*-         D_s2*-
+ChargeConj MyD_s2*+         MyD_s2*-
+#
+
+#
+Decay B_s0sig
+0.66   MyD'_s1-   mu+    nu_mu        PHOTOS  ISGW2;
+0.33   MyD_s2*-   mu+    nu_mu        PHOTOS  ISGW2;
+
+  #
+Enddecay
+CDecay anti-B_s0sig
+
+
+Decay MyD'_s1-
+0.3000   MyD*- anti-K0                       VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.1000   MyD- anti-K0                       VSS;
+Enddecay
+CDecay MyD'_s1+
+#
+
+
+Decay MyD_s2*+
+0.0500    MyD*+ K0                         TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+0.4700    MyD+  K0                         TSS;
+Enddecay
+CDecay MyD_s2*-
+#
+
+
+#
+Decay MyD+
+  1.000   K-  pi+  pi+                    PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+Decay MyD*+
+  0.3070    MyD+  pi0                     PHOTOS VSS;
+  0.0160    MyD+  gamma                   PHOTOS VSP_PWAVE;
+Enddecay
+CDecay MyD*-
+
+#
+End

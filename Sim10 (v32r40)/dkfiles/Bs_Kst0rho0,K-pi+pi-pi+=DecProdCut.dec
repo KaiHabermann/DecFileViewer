@@ -1,0 +1,46 @@
+# EventType: 13104048
+# Descriptor: [B_s0 -> (anti-K*0 -> K- pi+) (rho0 -> pi+ pi-)]cc
+#
+# NickName:  Bs_Kst0rho0,K-pi+pi-pi+=DecProdCut
+# Documentation: 
+# Bs decay to anti-K*(892)0 and rho(770)0
+# With anti-K*(892)0 decaying to K- pi+
+# and rho(770)0 decaying to pi+ pi-
+# Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# CPUTime: 1 min
+#
+# PhysicsWG: BnoC
+#
+# Cuts: DaughtersInLHCb
+#
+# Responsible:  Matthew Monk
+# Email: matthew.david.monk@cern.ch
+#
+# Tested: Yes
+# Date: 20211130
+#
+Alias      Myanti-K*0  anti-K*0
+Alias      MyK*0       K*0
+ChargeConj Myanti-K*0  MyK*0
+Alias      Myrho0      rho0
+ChargeConj Myrho0      Myrho0
+#
+Decay B_s0sig
+  1.000    Myrho0     Myanti-K*0    SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Myrho0
+1.000    pi+     pi-              VSS;
+Enddecay
+#
+Decay Myanti-K*0
+  1.000    K-    pi+             VSS;
+Enddecay
+CDecay MyK*0 
+#
+#
+End
+#

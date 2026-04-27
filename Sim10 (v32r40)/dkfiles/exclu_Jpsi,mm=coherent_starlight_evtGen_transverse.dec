@@ -1,0 +1,38 @@
+# EventType: 24142008
+#
+# Descriptor: J/psi(1S) -> mu+ mu-
+#
+# NickName: exclu_Jpsi,mm=coherent_starlight_evtGen_transverse
+#
+# Cuts: DiLeptonInAcceptance
+# ExtraOptions: JpsiTransverse
+# Documentation: Jpsitomumu with STARlight
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import Generation, Special, StarLightProduction
+# Generation(genAlgName).SampleGenerationTool = 'Special'
+# Generation(genAlgName).addTool(Special)
+# Generation(genAlgName).Special.CutTool = ''
+# Generation(genAlgName).Special.ProductionTool = 'StarLightProduction'
+# Generation(genAlgName).FullGenEventCutTool = 'DiLeptonInAcceptance'
+# Generation(genAlgName).Special.addTool(StarLightProduction)
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['PROD_PID = 443013']
+# Generation(genAlgName).Special.StarLightProduction.Decays = False
+# Generation(genAlgName).Special.StarLightProduction.Commands += ['PROD_MODE = 2']
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Albert Bursche
+# Email: bursche@cern.ch
+# Date: 20200424
+
+Decay J/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+End

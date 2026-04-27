@@ -1,0 +1,34 @@
+# EventType: 17512081
+#
+# Descriptor: [B*_s20 -> (B+ -> rho(770)0 mu+ nu_mu) K-]cc
+#
+# NickName: Bs2st_BuK,rhomunu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for Bs** -> (B+ -> rho(770)0 mu+ nu_mu) K-, DaughtersInLHCb
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Maria Poliakova
+# Email: mpolyako@syr.edu
+# Date: 20190529
+#
+Alias      MyB      B+
+Alias      MyantiB  B-
+ChargeConj MyB      MyantiB
+#
+Decay B_s2*0sig
+1.0000    MyB   K-              TSS;
+Enddecay
+CDecay anti-B_s2*0sig
+#
+Decay MyB
+1.0000     rho0 mu+ nu_mu       PHOTOS ISGW2;
+Enddecay
+CDecay MyantiB
+#
+End
+ 

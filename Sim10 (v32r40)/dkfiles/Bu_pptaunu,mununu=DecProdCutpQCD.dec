@@ -1,0 +1,36 @@
+# EventType: 12513061
+#
+# Descriptor: [B- -> p+ anti-p- (tau- -> mu- anti-nu_mu nu_tau) anti-nu_tau]cc
+#
+# NickName: Bu_pptaunu,mununu=DecProdCutpQCD
+#
+# Cuts: DaughtersInLHCb
+# 
+# CPUTime: < 1 min
+#
+# Documentation: pQCD decay, decay products in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2SL 
+# Tested: Yes
+# Responsible: Ryan Newcombe 
+# Email: ryan.newcombe@cern.ch
+# Date: 20191129 
+#
+#
+Alias Mytau- tau-
+Alias Mytau+ tau+
+ChargeConj Mytau- Mytau+
+
+Decay B-sig
+  1.000    p+  anti-p-  Mytau-  anti-nu_tau    PHOTOS  BToDiBaryonlnupQCD 67.7 -280.0 -38.3 -840.0 -10.1 -157.0 800000;
+Enddecay
+CDecay B+sig
+#
+Decay Mytau-
+  0.1741    mu-  anti-nu_mu  nu_tau    PHOTOS  TAULNUNU;
+Enddecay
+CDecay Mytau+
+#
+End
+#

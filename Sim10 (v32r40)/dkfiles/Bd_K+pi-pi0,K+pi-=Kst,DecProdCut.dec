@@ -1,0 +1,60 @@
+# EventType: 11102454
+#
+# Descriptor: {[[B0]nos => K+ pi- (pi0 -> gamma gamma)]cc, [[B0]os => K- pi+ (pi0 -> gamma gamma)]cc}
+#
+# NickName: Bd_K+pi-pi0,K+pi-=Kst,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: K+pi-= K*(892)0 or K*00 (LASS parameterisation). Using parameters and coefficients from arXiv:1105.0125. pi0 foreced to gamma gamma. Decay products in acceptance.
+# EndDocumentation
+#
+# Tested: Yes
+# Date: 20240111
+# Responsible: Fionn Bishop
+# Email: fionn.caitlin.ros.bishop@cern.ch
+# PhysicsWG: RD
+# CPUTime: <1 min
+#
+Alias      Mypi0    pi0
+ChargeConj Mypi0    Mypi0
+
+Decay B0sig
+1.000 K+ pi- Mypi0 PTO3P
+
+        SCANPDF 10000
+
+        AMPLITUDE       RESONANCE       AB      K*0
+        ANGULAR         BC
+        TYPE            RBW_ZEMACH
+        DVFF            BLATTWEISSKOPF  3.4
+        COEFFICIENT     POLAR_DEG       0.57     17
+
+        AMPLITUDE       LASS            AB  1.412   0.294   2.07 3.32  1.8
+        ANGULAR         BC
+        COEFFICIENT     POLAR_DEG       0.91    10
+
+        ;
+Enddecay
+Decay anti-B0sig
+1.000 K- pi+ Mypi0 PTO3P
+        SCANPDF 10000
+
+        AMPLITUDE       RESONANCE       AB      K*0
+        ANGULAR         BC
+        TYPE            RBW_ZEMACH
+        DVFF            BLATTWEISSKOPF  3.4
+        COEFFICIENT     POLAR_DEG       0.49    29 
+
+        AMPLITUDE       LASS            AB  1.412   0.294   2.07 3.32  1.8
+        ANGULAR         BC
+        COEFFICIENT     POLAR_DEG       0.78    13
+
+        ;
+Enddecay
+
+
+Decay Mypi0
+  1.000        gamma      gamma            PHSP;
+Enddecay
+End

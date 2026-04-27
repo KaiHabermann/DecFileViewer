@@ -1,0 +1,85 @@
+# EventType: 15865015
+# Descriptor: [Lambda_b0 -> (Lambda_c(2625)+ -> (Lambda_c+ -> p+ K- pi+) pi+ pi-)  (tau- -> pi- pi+ pi- pi0 nu_tau) anti-nu_tau ]cc
+#
+# NickName: Lb_Lc2625taunu,pKpi=cocktail,tau3pipi0,DecProdCut,tauolababar
+#
+# Cuts: DaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# CPUTime: 1min
+#
+# Documentation: Lb->Lc3pi decay taking into account both resonances for the Lc
+# and the 3pi part. Two modes using Lc* resonances are also added.
+# This decfile is designed to provide the most suitable production for the
+# normalisation channel of Lb->Lctaunu, tau->3pi(pi0)nu_tau.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Guy Wormser
+# Email: wormser@lal.in2p3.fr
+# Date: 20180109
+#
+
+
+Alias      MyLambda_c+             Lambda_c+
+Alias      Myanti-Lambda_c-        anti-Lambda_c-
+ChargeConj MyLambda_c+             Myanti-Lambda_c-
+#
+Alias      MyLambda_c(2593)+       Lambda_c(2593)+
+Alias      Myanti-Lambda_c(2593)-  anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+       Myanti-Lambda_c(2593)-
+#
+Alias      MyLambda_c(2625)+       Lambda_c(2625)+
+Alias      Myanti-Lambda_c(2625)-  anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+       Myanti-Lambda_c(2625)-
+#
+Alias      MyK*0                   K*0
+Alias      Myanti-K*0              anti-K*0
+ChargeConj MyK*0                   Myanti-K*0
+#
+Alias      MyLambda(1520)0         Lambda(1520)0
+Alias      Myanti-Lambda(1520)0    anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0         Myanti-Lambda(1520)0
+#
+Alias      Mytau-                  tau-
+Alias      Mytau+                  tau+
+ChargeConj Mytau+                  Mytau-
+#
+Alias      Myf_2                   f_2
+ChargeConj Myf_2                   Myf_2
+#
+#
+Decay Lambda_b0sig
+  0.63    MyLambda_c(2625)+        Mytau-   anti-nu_tau     PHOTOS   Lb2Baryonlnu  1 1 1 1; 
+  
+
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+# Lc->pKpi:
+  0.02800 p+                 K-      pi+   PHSP;
+  0.016   p+                 Myanti-K*0    PHSP;
+  0.00860 Delta++            K-            PHSP;
+  0.00414 MyLambda(1520)0    pi+           PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda_c(2625)+
+  1.000  MyLambda_c+   pi+    pi-          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+#
+Decay MyLambda_c(2593)+
+  1.000  MyLambda_c+   pi+    pi-          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+
+# tau -> pi- pi+ pi- nu_tau
+Decay Mytau-
+ 1. TAUOLA 8;
+Enddecay
+CDecay Mytau+
+#
+End

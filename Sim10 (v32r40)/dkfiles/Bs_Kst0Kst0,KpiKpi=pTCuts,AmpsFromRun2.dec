@@ -1,0 +1,70 @@
+# EventType: 13104008
+#
+# Descriptor: [B_s0 => (K*(892)0 => K+ pi-) (K*(892)~0 => K- pi+)]cc
+#
+# NickName: Bs_Kst0Kst0,KpiKpi=pTCuts,AmpsFromRun2
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+#
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '[^( B_s0 -> (K*(892)0 -> ^K+ ^pi-) (K*(892)~0 -> ^K- ^pi+) )]CC'
+#
+# tightCut.Preambulo += [
+#   "in_acc = in_range( 0.010 , GTHETA , 0.400 )",
+#   "good_track = ( GPT > 300 * MeV ) & in_acc",
+#   "good_Bs = ( ( GMINTREE(GPT,GID=='K+') + GMINTREE(GPT,GID=='K-') + GMINTREE(GPT,GID=='pi-') + GMINTREE(GPT,GID=='pi+') ) > 3000 * MeV )"
+# ]
+#
+# tightCut.Cuts = {
+#   '[pi+]cc' : 'good_track',
+#   '[K-]cc'  : 'good_track',
+#   '[B_s0]cc': 'good_Bs'
+# }
+# EndInsertPythonCode
+#
+# Documentation: B_s0 -> K*(892)0(-> K+ pi-) K*(892)~0(->K- pi+) 
+# Sum of pTs of daughters is required to be greater than 3000MeV.
+# Kaons and pions in acceptance and required to have pT > 300MeV.
+# Transversity amplitudes from Run 1+2 result https://cds.cern.ch/record/2940689/
+#
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+#
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Ritwik Mangrulkar
+# Email: ritwik.mangrulkar@cern.ch
+# Date: 20251031
+#
+Define Azero  0.39875 # Mod. of Azero (updated from 0.45607)
+Define pAzero 0.0     # Phase of Azero
+Define Apar   0.58481 # Mod. of Apar (updated from 0.54498)
+Define pApar  2.41    # Phase of Apar (updated from 2.40)
+Define Aperp  0.70711 # Mod. of Aperp (updated from 0.70356)
+Define pAperp 2.62    # Phase of Aperp (from Run 1 time-dep analysis arXiv:1712.08683)
+Define beta_s 0.0     # Weak phase
+Define eta    1.0     # B tag (+1 or -1). Set to 1 as is ignored in the model
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj MyK*0       Myanti-K*0  
+#
+Decay B_s0sig
+  1.000    MyK*0    Myanti-K*0   PVV_CPLH beta_s eta Apar pApar Azero pAzero Aperp pAperp; 
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyK*0
+  1.000 K+ pi- VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+

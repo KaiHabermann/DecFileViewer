@@ -1,0 +1,58 @@
+# EventType: 12199111
+#
+# Descriptor: [B+ -> Sigma_c++ Lambda_c~- KS0]cc
+#
+# NickName: Bu_Sigmac++LcKs0,pKpi,pKpi=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+# Documentation: This is the decay file for the decay B+ -> Sigma_c++ anti-Lambda_c~- KS0
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Ned Howarth
+# Email: ned.francis.howarth@cern.ch
+# Date: 20250609
+#
+
+#Define Lambda_c
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+
+#Define Sigma_c++
+Alias MySigma_c++ Sigma_c++
+Alias Myanti-Sigma_c-- anti-Sigma_c--
+ChargeConj MySigma_c++ Myanti-Sigma_c--
+#
+
+#Define K_S0
+Alias MyKS0 K_S0
+ChargeConj MyKS0 MyKS0
+#
+ 
+Decay B+sig
+  1.000  MyKS0 MySigma_c++  Myanti-Lambda_c- PHSP;
+Enddecay
+CDecay B-sig
+
+# BR = 1
+
+Decay MySigma_c++
+  1.000     pi+     MyLambda_c+      PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+
+Decay MyLambda_c+
+  1.000         p+      K-      pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+
+Decay MyKS0
+  1.000         pi+     pi-     PHSP;
+Enddecay
+#
+End

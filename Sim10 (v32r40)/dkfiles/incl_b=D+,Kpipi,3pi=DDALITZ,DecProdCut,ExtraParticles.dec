@@ -1,0 +1,51 @@
+# EventType: 21263005
+#
+# Descriptor: [D+ => K- pi+ pi+]cc
+# Cuts: DaughtersInLHCbAndCutsForDFromB
+# CutsOptions: DPtCuts 1600*MeV DaughtersPtMinCut 200*MeV DaughtersPtMaxCut 1500*MeV DaughtersPMinCut 1950*MeV SignalID 411
+# FullEventCuts: ExtraParticlesInAcceptance
+#
+# CPUTime: 4 min
+#
+# NickName: incl_b=D+,Kpipi,3pi=DDALITZ,DecProdCut,ExtraParticles
+# Documentation: Inclusive D+3pi events from b decays.
+#                The 3pi must come from a stable b-hadron and are in LHCb acceptance.
+#
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import ExtraParticlesInAcceptance
+# from GaudiKernel.SystemOfUnits import mm, mrad, MeV
+#
+# stable_b_hadrons = [ 511, 521, 531, 541, 5122 ]
+# stable_b_hadrons += [-pid for pid in stable_b_hadrons]
+#
+# Generation(genAlgName).FullGenEventCutTool = "ExtraParticlesInAcceptance"
+# Generation(genAlgName).addTool( ExtraParticlesInAcceptance )
+# Generation(genAlgName).ExtraParticlesInAcceptance.WantedIDs = [211, -211]
+# Generation(genAlgName).ExtraParticlesInAcceptance.NumWanted = 3
+# Generation(genAlgName).ExtraParticlesInAcceptance.RequiredAncestors = stable_b_hadrons
+# Generation(genAlgName).ExtraParticlesInAcceptance.AtLeast = True
+# Generation(genAlgName).ExtraParticlesInAcceptance.ExcludeSignalDaughters = True
+# Generation(genAlgName).ExtraParticlesInAcceptance.AllFromSameB = False
+# Generation(genAlgName).ExtraParticlesInAcceptance.ZPosMax = 200.*mm
+# Generation(genAlgName).ExtraParticlesInAcceptance.PtMin = 150.*MeV
+#
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Benedetto G. Siddi
+# Email: bsiddi@cern.ch
+# Date: 20200421
+#
+
+Decay D+sig
+  1.000        K-        pi+        pi+             PHOTOS D_DALITZ;
+Enddecay
+CDecay D-sig
+#
+End
+

@@ -1,0 +1,55 @@
+# EventType: 23523010
+#
+# Descriptor: [D_s+ -> p+ p~- e+ nu_e]cc 
+#
+# NickName: Ds_ppenu=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[D_s+ =>  ^p+ ^p~- ^e+ nu_e]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity () ## to be sure       ',
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )               ',
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )               ',
+#     'fastTrack    =  ( GPT > 300 * MeV ) & ( GP  > 3.0 * GeV )         ',
+#     'eCuts        =  ( GPT > 30 * MeV )                                ',
+#     'goodProton   =  inAcc & inEta & fastTrack                         ',
+#     'goodElectron =  inAcc & inEta & eCuts                             ',
+#     'longLived    =  75 * micrometer < GTIME                           ',
+#     'inY          =  in_range ( 1.9   , GY     , 4.6   )               ',
+#     'goodDs       =  inY & longLived     & ( GPT > 800 * MeV )         ',
+#     'Bancestors   =  GNINTREE ( GBEAUTY , HepMC.ancestors )            ',
+#     'notFromB     =  0 == Bancestors                                   '
+# ]
+#
+# tightCut.Cuts     = {
+#     '[D_s+]cc': 'goodDs & notFromB',
+#     '[p+]cc'  : 'goodProton',
+#     '[e+]cc'  : 'goodElectron'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: Ds+ forced to decay to p+ anti-p- e+ nu_e, with generator level cuts.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@cern.ch
+# Date: 20250121
+#
+Decay D_s+sig
+   1.00   p+   anti-p-   e+   nu_e   PHSP;
+Enddecay
+CDecay D_s-sig
+
+End

@@ -1,0 +1,58 @@
+# EventType: 13526452
+#
+# Descriptor: {[[B_s0]nos -> (K*(892)0 -> K+ pi-) (K*(892)~0 -> K- pi+) (tau+ -> pi+ anti-nu_tau) (tau- -> e- anti-nu_e nu_tau)]cc, [[B_s0]os -> (K*(892)0 -> K+ pi-) (K*(892)~0 -> K- pi+) (tau- -> pi- nu_tau) (tau+ -> e+ nu_e anti-nu_tau)]cc}
+#
+# NickName: Bs_KstKsttautau,epi=TracksInAcc
+#
+# Cuts: DaughtersInLHCb
+# ExtraOptions: TracksInAcc
+#
+# Documentation: Bs -> K*0 K*~0 tau(-> pi nu) tau(-> e nu nu) decays
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20230509
+#
+Alias          Mytau_pi+   tau+
+Alias          Mytau_pi-   tau-
+ChargeConj     Mytau_pi+   Mytau_pi-
+#
+Alias          Mytau_e+   tau+
+Alias          Mytau_e-   tau-
+ChargeConj     Mytau_e+   Mytau_e-
+#
+Alias         MyK*       K*0
+Alias         Myanti-K*  anti-K*0
+ChargeConj    MyK*       Myanti-K*
+#
+Decay B_s0sig
+  0.500       MyK*       Myanti-K*     Mytau_e+     Mytau_pi-        PHSP;
+  0.500       MyK*       Myanti-K*     Mytau_pi+    Mytau_e-         PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mytau_pi+
+   0.1082       pi+                  anti-nu_tau               TAUSCALARNU;
+   0.2549       pi+       pi0        anti-nu_tau               TAUHADNU -0.108 0.775 0.149 1.364 0.400;
+   0.0926       pi+       pi0   pi0  anti-nu_tau               TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay Mytau_pi-
+#
+Decay Mytau_e+
+   1.000       e+         nu_e      anti-nu_tau               TAULNUNU;
+Enddecay
+CDecay Mytau_e-
+#
+Decay MyK*
+  1.000       K+         pi-                                   VSS;
+Enddecay
+CDecay Myanti-K*
+#
+End
+
+

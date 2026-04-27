@@ -1,0 +1,82 @@
+# EventType: 12165514
+#
+# Descriptor: [B- -> (D0 -> (KS0 -> pi+ pi-) pi+ pi- pi0) (rho(770)- -> pi- pi0)]cc
+#
+# NickName: Bu_D0rho-,KSpipipi0=TightCut,looser,PHSP
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '^[B- => ^(D0 => ^(KS0 ==> pi+ pi-) pi+ pi- ^pi0) (rho(770)- => pi- pi0)]CC'
+# tightCut.Preambulo += [
+#     'GVZ = LoKi.GenVertices.PositionZ() ' ,
+#     'from GaudiKernel.SystemOfUnits import millimeter',
+#     'inAcc        = (in_range (0.005, GTHETA, 0.400))',
+#     'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5      ' ,
+#     'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5      ' ,
+#     'goodB        = (GP > 27000 * MeV) & (GPT > 1400 * MeV) & (GTIME > 0.105 * millimeter)',
+#     'goodD        = (GP > 12000 * MeV) & (GPT > 150 * MeV)',
+#     'goodKS       = (GNINTREE(("KS0"==GABSID) & (GP >  3500 * MeV) & (GFAEVX(abs(GVZ), 0) < 2500.0 * millimeter))>0.5)',
+#     'goodDaugPi  = (GNINTREE (("pi+" == GABSID) & (GP > 1000 * MeV) & inAcc, 1) > 1.5)',
+#     'goodKsDaugPi = (GNINTREE (("pi+" == GABSID) & (GP > 1800 * MeV) & inAcc, 1) > 1.5)',
+#     'goodPi0      =  (GNINTREE( ("pi0"==GABSID) & (GP > 1400 * MeV) & (GPT > 450 * MeV) & inAcc, 1) > 0.5)',
+#     'goodPi0Gamma = (GNINTREE( ("gamma"==GABSID) & (GP > 550 * MeV) & (GPT > 180 * MeV) & inEcalX  & inEcalY  & inAcc, 1) > 1.5)',
+# ]
+# tightCut.Cuts      =    {
+#     '[B-]cc'         : 'goodB',
+#     '[D0]cc'         : 'goodD & goodDaugPi & goodPi0 & goodKS' ,
+#     '[KS0]cc'        : 'goodKsDaugPi',
+#     '[pi0]cc'        : 'goodPi0Gamma',
+#     }
+# EndInsertPythonCode
+#
+# Documentation: B to D0rho, D0 to Ks0pipipi0 (phase space), K0s forced into pi+ pi- and rho into pi+pi0, 
+# D0 decay without resonance, decay products in acceptance and looser cuts
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: 2 min
+# Responsible: Yajing Wei
+# Email: yajing.wei@cern.ch
+# Date: 20240729
+#
+Alias        MyRho-     rho-
+Alias        MyRho+     rho+
+ChargeConj   MyRho-     MyRho+
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj Myanti-D0        MyD0
+Alias myK_S0      K_S0
+ChargeConj myK_S0 myK_S0
+##
+Decay B-sig
+  1.000     MyRho-  MyD0               SVS;
+Enddecay
+CDecay B+sig
+#
+#
+Decay MyRho-
+  1.000   pi-   pi0              VSS;
+Enddecay
+Decay MyRho+
+  1.000  pi+ pi0                 VSS ;
+Enddecay
+#
+#
+Decay MyD0
+1.000     myK_S0 pi+  pi- pi0       PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay myK_S0
+1.000     pi+  pi-               PHSP;
+Enddecay
+#
+End
+

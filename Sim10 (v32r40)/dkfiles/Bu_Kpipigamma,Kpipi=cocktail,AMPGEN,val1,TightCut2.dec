@@ -1,0 +1,49 @@
+# EventType: 12103273
+#
+# NickName: Bu_Kpipigamma,Kpipi=cocktail,AMPGEN,val1,TightCut2
+#
+# Descriptor: [ B+ -> (K_1+ -> (X ->  K+ pi- pi+)) gamma ]cc
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# Generation(genAlgName).SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[(B+ ==> ^K+ ^pi- ^pi+ ^gamma)]CC'
+# tightCut.Cuts      =    {
+#     '[B+]cc'    : ' goodB     ' ,
+#     '[K+]cc'    : ' goodTrack ' ,
+#     '[pi+]cc'   : ' goodTrack ' ,
+#     'gamma'     : ' goodGamma ' }
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 )       ' ,
+#     'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5            ' ,
+#     'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5            ' ,
+#     'goodB     = ( GBEAUTY )                               ' ,
+#     'goodTrack = ( GPT >  200. * MeV ) & inAcc             ' ,
+#     'goodGamma = ( GPT > 2000. * MeV ) & inEcalX & inEcalY ' ]
+# EndInsertPythonCode
+#
+# Documentation: B+->K_res+ gamma decay, with K_res+ -> XX-> K+pi+pi- LbAmpGen BtoKpipigamma_val1 (simplified signal) model, decay products in acceptance; track_PT > 200. *MeV, gamma_PT  2.*GeV
+# EndDocumentation
+#
+# CPUTime: 1min
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Preema Pais
+# Email: preema.rennee.pais@cern.ch
+# Date: 20210418
+#
+#
+## Disable PHOTOS for AmpGen model
+noPhotos
+Decay B+sig
+   1.000        K+  pi-  pi+  gamma  LbAmpGen BtoKpipigamma_val1;
+Enddecay
+CDecay B-sig
+#
+#
+End
+#

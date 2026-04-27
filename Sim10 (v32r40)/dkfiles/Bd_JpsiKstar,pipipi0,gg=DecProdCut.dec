@@ -1,0 +1,51 @@
+# $Id: Bd_JpsiKstar,pipipi0,gg=DecProdCut.dec  $
+#
+# This is the decay file for the decay B0 -> J/psi (-> PI+ PI- PI0 (-> gamma gamma)) K* 
+#
+# EventType: 11134450
+#
+# Descriptor: [B0 -> (J/psi(1S) -> pi+ pi- (pi0 -> gamma gamma)) (K*(892)0 -> K+ pi-)]cc
+#
+# NickName: Bd_JpsiKstar,pipipi0,gg=DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb
+# 
+# Documentation: File for B0 -> J/psi(1S) (-> pi+ pi- pi0 (-> gamma gamma)) K*(892)0 (-> K+ pi-) 
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Daniel Craik
+# Email: dcraik@cern.ch 
+# Date:   20200617
+# CPUTime: <1min
+
+#
+Alias      MyJpsi      J/psi
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+Alias      MyPiz       pi0
+
+ChargeConj Myanti-K*0  MyK*0
+#
+Decay MyPiz
+1.000      gamma gamma       PHSP;             
+Enddecay
+#
+Decay MyJpsi
+1.000       pi+     pi-    MyPiz       PHSP;
+Enddecay
+#
+Decay MyK*0
+1.000        K+        pi-         VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay B0sig
+1.000         MyJpsi MyK*0      PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#

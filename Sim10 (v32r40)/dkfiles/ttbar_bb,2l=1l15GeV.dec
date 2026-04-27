@@ -1,0 +1,48 @@
+# EventType: 41900012
+#
+# Descriptor: pp -> (t -> b l nu_l) (t~ -> b~ l nu_l) ...
+# NickName: ttbar_bb,2l=1l15GeV
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 15*GeV LeptonIsFromMother true NumberOfbquarks -1
+#
+#
+# Documentation: 1 lepton with pT > 15 GeV from ttbar production
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+#Generation().PileUpTool = "FixedLuminosityForRareProcess"
+#
+#from Gaudi.Configuration import *
+#importOptions( "$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py" )
+#
+#Generation().Special.Pythia8Production.Commands += [
+#    "TimeShower:pTmaxMatch = 0", #Kinematic limit
+#    "SpaceShower:pTmaxMatch = 0", #Kinematic limit
+#    "SpaceShower:pTdampMatch = 1", #Apply damping
+#    "TimeShower:pTdampMatch = 1", #Apply damping
+#    "SpaceShower:rapidityOrder = off", #pT ordering!
+#    "SpaceShower:phiIntAsym = off", #Pythia asymmetric showering bug
+#    "Top:gg2ttbar = on",
+#    "Top:qqbar2ttbar = on",
+#    "24:onMode = off",
+#    "6:onMode = on",
+#    "24:onIfAny = 11 -11",
+#    "24:onIfAny = 13 -13",
+#    #"PartonLevel:FSR = on", # final state radiation
+#    #"PartonLevel:ISR = on", # initial state radiation
+#    #"PartonLevel:MI = off", # multiple interactions
+#]
+# EndInsertPythonCode
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: <1 min
+# Responsible: Gabe Nowak (Cincinnati)
+# Email: ganowak@cern.ch
+# Date: 20220901
+#
+End
+#

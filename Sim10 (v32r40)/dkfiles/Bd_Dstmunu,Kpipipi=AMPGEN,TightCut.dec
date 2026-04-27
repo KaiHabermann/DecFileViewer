@@ -1,0 +1,63 @@
+# EventType: 11576030
+#
+# Descriptor: [B0 -> (D*- -> (anti-D0 -> K+ pi- pi- pi+) pi-) mu+ nu_mu]cc
+## See GenCutTool decay descriptor for something you might want to use with DaVinci
+# NickName: Bd_Dstmunu,Kpipipi=AMPGEN,TightCut
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# Generation(genAlgName).SignalRepeatedHadronization.addTool(LoKi__GenCutTool,'TightCut')
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "([[B0]nos ==> (D*(2010)- ==> ([D~0]nos ==> ^K+ ^pi- ^pi- ^pi+) ^pi-) ^mu+ nu_mu]CC) || "\
+#                  "([[B0]nos ==> (D*(2010)- ==> ([D~0]os  ==> ^K- ^pi+ ^pi+ ^pi-) ^pi-) ^mu+ nu_mu]CC) || "\
+#                  "([[B0]os  ==> (D*(2010)+ ==> ([D0]nos  ==> ^K- ^pi+ ^pi+ ^pi-) ^pi+) ^mu- nu_mu]CC) || "\
+#                  "([[B0]os  ==> (D*(2010)+ ==> ([D0]os   ==> ^K+ ^pi- ^pi- ^pi+) ^pi+) ^mu- nu_mu]CC)"
+# tightCut.Preambulo += [
+#   "from LoKiCore.functions import in_range"  ,
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#   "inAcc = in_range(0.005,GTHETA,0.4)"
+#  ]
+# tightCut.Cuts = {
+#   '[pi+]cc'  : "inAcc & (GPT > 100*MeV) & (GP>2*GeV)",
+#   '[K+]cc'   : "inAcc & (GPT > 100*MeV) & (GP>2*GeV)",
+#   '[mu+]cc'  : "inAcc & (GPT > 500*MeV) & (GP>3*GeV)",
+# }
+# EndInsertPythonCode
+#
+# Documentation: For D -> K3Pi mixing analysis
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Marian Stahl
+# Email: marian.stahl@{nospam}cern.ch
+# Date: 20191210
+# CPUTime: < 1 min
+#
+Alias          MyD*+      D*+
+Alias          MyD*-      D*-
+ChargeConj     MyD*-      MyD*+
+
+Alias          MyD0       D0
+Alias          Myanti-D0  anti-D0
+ChargeConj     MyD0       Myanti-D0
+
+#rho^2,R1 and R2 from HFLAV Spring '19 https://hflav-eos.web.cern.ch/hflav-eos/semi/spring19/html/ExclusiveVcb/exclBtoDstar.html
+Decay B0sig
+  1.000 MyD*- mu+ nu_mu PHOTOS HQET 1.122 1.27 0.852;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+  1.000 Myanti-D0 pi- VSS;
+Enddecay
+CDecay MyD*+
+#
+## Disable PHOTOS for all AmpGen models
+noPhotos
+Decay Myanti-D0
+  1.000 K+ pi- pi- pi+ LbAmpGen DtoKpipipi;
+Enddecay
+CDecay MyD0
+End

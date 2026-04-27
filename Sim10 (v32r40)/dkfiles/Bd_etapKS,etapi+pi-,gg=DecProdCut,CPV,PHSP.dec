@@ -1,0 +1,52 @@
+# EventType: 11104505
+#
+# Descriptor: [B0 -> (eta' -> (eta -> gamma gamma) pi+ pi-) (K_S0 -> pi+ pi-)]cc
+#
+# NickName: Bd_etapKS,etapi+pi-,gg=DecProdCut,CPV,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: CP violating parameters set to 2020 HFLAV averages, Ks forced into pi+ pi-, eta' into eta pi+ pi-, eta into gamma gamma, multi-body decays uniformly in phase space
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Jeremy Dalseno
+# Date: 20200304
+# Email: jeremy.peter.dalseno@cern.ch
+#
+# P(1) = Dmd
+# P(2) = DG/G
+# P(3) = |q/p|
+# P(4) = arg(q/p)
+# P(5) = |Af|
+# P(6) = arg(Af)
+# P(7) = |Abarf|
+# P(8) = arg(Abarf)
+
+Alias		MyEta'	eta'
+Alias		MyEta	eta
+Alias		MyKs	K_S0
+ChargeConj	MyEta'	MyEta'
+ChargeConj	MyEta	MyEta
+ChargeConj	MyKs	MyKs
+
+Decay B0sig
+      1.0	MyEta'	MyKs	SSD_CP 0.5065e12 0 1 +0.681553212 0.951189731 0 1 0;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyEta'
+      1.0	MyEta	pi+	pi-	PHSP;
+Enddecay
+
+Decay MyEta
+      1.0	gamma	gamma	PHSP;
+Enddecay
+
+Decay MyKs
+      1.0	pi+	pi-	PHSP;
+Enddecay
+
+End

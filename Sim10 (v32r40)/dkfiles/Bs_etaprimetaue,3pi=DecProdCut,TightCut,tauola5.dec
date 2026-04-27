@@ -1,0 +1,73 @@
+# EventType: 13726210
+#
+# Descriptor: {[B_s0 -> (eta' -> (rho0 -> pi+ pi-) gamma) e+ (tau- -> pi- pi+ pi- nu_tau)]cc, [B_s0 -> (eta' -> (rho0 -> pi+ pi-) gamma) e- (tau+ -> pi+ pi- pi+ anti-nu_tau)]cc}
+#
+# NickName: Bs_etaprimetaue,3pi=DecProdCut,TightCut,tauola5
+#
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#gen = Generation()
+#gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay = "([ (Beauty) ==>  ( eta_prime ==> ( rho(770)0 ==> ^pi+ ^pi- ) gamma )  e+ (tau- ==> ^pi- ^pi+ ^pi- nu_tau) ]CC || [ (Beauty) ==>  ( eta_prime ==> ( rho(770)0 ==> ^pi+ ^pi- ) gamma )  e- (tau+ ==> ^pi+ ^pi- ^pi+ nu_tau~) ]CC)"
+#tightCut.Preambulo += [
+#  "from LoKiCore.functions import in_range"  ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV"  
+#]
+#tightCut.Cuts      =    {
+# '[pi+]cc'   : " in_range( 0.010 , GTHETA , 0.400 ) & ( GPT > 250 * MeV )  " 
+#    }
+# EndInsertPythonCode
+
+#
+# Documentation: Bs decay to eta' tau e.
+# Eta prime forced into pi+ pi- gamma
+# Tau leptons decays in the 3-prong charged pion mode using latest Tauola BaBar model.
+# All final-state products in the acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: 1 min
+# Tested: Yes
+# Responsible: Tommaso Fulghesu
+# Email: tommaso.fulghesu@cern.ch
+# Date: 20211216
+#
+
+# Tauola steering options
+Define TauolaCurrentOption 0
+Define TauolaBR1 1.0
+#
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+Alias         Myeta'     eta'
+ChargeConj    Myeta'     Myeta'
+Alias         Myrho0     rho0
+ChargeConj    Myrho0     Myrho0
+#
+Decay B_s0sig
+  0.500       Myeta'      e+    Mytau-    PHOTOS BTOSLLBALL;
+  0.500       Myeta'      Mytau+    e-    PHOTOS BTOSLLBALL;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay  Myeta'
+  1.000     Myrho0    gamma                   SVP_HELAMP  1.0 0.0 1.0 0.0;
+Enddecay
+#
+Decay Myrho0
+  1.000    pi+ pi-                            PHOTOS   VSS;
+Enddecay
+
+Decay Mytau-
+  1.000                                       TAUOLA 5;   
+Enddecay
+CDecay Mytau+
+#
+End

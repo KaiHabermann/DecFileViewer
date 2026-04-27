@@ -1,0 +1,50 @@
+# EventType: 16144010
+#
+# Descriptor: [Sigma_b0 -> (Xi_b- -> H_30 (J/psi(1S) -> mu+ mu-) p~-) pi+]cc
+#
+# NickName: Xib5945_Xib-pi+,SJpsip-=DecProdCut,mS=1400MeV
+# 
+# Documentation:
+#   Decay a Sigma_b0 to a Xi_b- ( -> H_30 JPsi p-) and pi+
+#   Sigma_b0 as stand in for Xi_b0(5945) as its not known to pythia
+#   H_30 as stand in for a Sexaquark (uuddss) as stable DM candidate
+# EndDocumentation
+# 
+# 
+# Cuts: DaughtersInLHCb
+# 
+# ParticleValue: " Sigma_b0    112    5212   0.0      5.9523      7.3e-22    Sigma_b0        5212      0.00000000", "Sigma_b~0   113    -5212   0.0      5.9523      7.3e-22     anti-Sigma_b0       -5212      0.00000000", "H_30     89       36      0.0     1.875        1.000000e+16    A0      36      0.00"
+# 
+# 
+# CPUTime: <1min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Ellinor Eckstein
+# Email: ellinor.eckstein@cern.ch
+# Date: 20230426
+#
+Alias       MyXi_b-      Xi_b-
+Alias       Myanti-Xi_b+ anti-Xi_b+
+ChargeConj  MyXi_b-      Myanti-Xi_b+
+#
+Alias       MyJpsi      J/psi
+ChargeConj  MyJpsi      MyJpsi
+
+
+
+# Force Sigma_b0 (stand in for Xi_b0(5945)) to decay to Xi_b- pi+:
+Decay Sigma_b0sig
+1.000   MyXi_b-  pi+     PHSP;
+Enddecay
+CDecay anti-Sigma_b0sig 
+#
+Decay MyXi_b-
+1.000   A0  MyJpsi   anti-p-      PHSP;
+Enddecay
+CDecay  Myanti-Xi_b+
+#
+Decay MyJpsi
+1.000   mu+     mu-     PHOTOS VLL;
+Enddecay
+#
+End

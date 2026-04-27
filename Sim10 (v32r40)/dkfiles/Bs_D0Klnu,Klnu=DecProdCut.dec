@@ -1,0 +1,80 @@
+# EventType: 13574063 
+#
+# Descriptor: {[[B_s0]nos -> (anti-D0 -> K+ mu- anti-nu_mu) K- e+ nu_e]cc, [[B_s0]os -> (D0 -> K- mu+ nu_mu) K+ e- anti-nu_e]cc}
+#
+# NickName: Bs_D0Klnu,Klnu=DecProdCut
+#
+# Cuts: DaughtersInLHCb          
+#
+# Documentation: semi-leptonic B_s0 -> D0 K l nu decays, where l can be a muon or an electron
+# EndDocumentation
+#
+# PhysicsWG: RD
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20220318
+#
+Alias            MyD0_e           D0
+Alias            Myanti-D0_e      anti-D0
+ChargeConj       MyD0_e           Myanti-D0_e
+#
+Alias            MyD0_m           D0
+Alias            Myanti-D0_m      anti-D0
+ChargeConj       MyD0_m           Myanti-D0_m
+#
+Alias            MyK*+            K*+
+Alias            MyK*-            K*-
+ChargeConj       MyK*+            MyK*-
+#
+Alias            Mytau_e+         tau+
+Alias            Mytau_e-         tau-
+ChargeConj       Mytau_e+         Mytau_e-
+#
+Alias            Mytau_m+         tau+
+Alias            Mytau_m-         tau-
+ChargeConj       Mytau_m+         Mytau_m-
+#
+Decay B_s0sig 
+  0.104          Myanti-D0_e      K-      mu+         nu_mu         PHSP;
+  0.104          Myanti-D0_m      K-      e+          nu_e          PHSP;
+  0.104          Myanti-D0_e      K-      Mytau_m+    nu_tau        PHSP;
+  0.104          Myanti-D0_m      K-      Mytau_e+    nu_tau        PHSP;
+  0.104          Myanti-D0_e      MyK*-   mu+         nu_mu         PHSP;
+  0.104          Myanti-D0_m      MyK*-   e+          nu_e          PHSP;
+  0.104          Myanti-D0_e      MyK*-   Mytau_m+    nu_tau        PHSP;
+  0.104          Myanti-D0_m      MyK*-   Mytau_e+    nu_tau        PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD0_m
+  0.341          K-               mu+     nu_mu                     ISGW2;
+  0.189          MyK*-            mu+     nu_mu                     ISGW2;
+  0.160          K-      pi0      mu+     nu_mu                     PHSP;
+Enddecay
+CDecay Myanti-D0_m
+#
+Decay MyD0_e
+  0.341          K-               e+     nu_e                       ISGW2;
+  0.189          MyK*-            e+     nu_e                       ISGW2;
+  0.160          K-      pi0      e+     nu_e                       PHSP; 
+Enddecay
+CDecay Myanti-D0_e
+#
+Decay MyK*+
+  1.000          K+               pi0                               VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay Mytau_e+
+   1.000         e+      nu_e     anti-nu_tau                       TAULNUNU;
+Enddecay
+CDecay Mytau_e-
+#
+Decay Mytau_m+
+   1.000         mu+     nu_mu    anti-nu_tau                       TAULNUNU;
+Enddecay
+CDecay Mytau_m-
+#
+End

@@ -1,0 +1,35 @@
+# EventType: 15164033 
+# 
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ K+ K-) K-]cc
+# 
+# NickName: Lb_LcK,pKK=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb -> Lc K with Lc -> p K K, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Yang-Jie Su
+# Email: yangjie@cern.ch
+# Date: 20220307
+#
+
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+#
+Decay Lambda_b0sig
+1.000        MyLambda_c+ K-     PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+ 1.0 p+      K+      K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End

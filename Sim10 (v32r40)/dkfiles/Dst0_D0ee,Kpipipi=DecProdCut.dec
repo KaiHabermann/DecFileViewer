@@ -1,0 +1,36 @@
+# EventType: 27186011
+#
+# Descriptor: [D*0 -> (D0 -> K- pi- pi+ pi+) e+ e-]cc
+#
+# NickName: Dst0_D0ee,Kpipipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D*0 -> D0ee decay file, asking the final state particles to be in LHCb acceptance
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Carlos Cocha
+# Email: carlos.eduardo.cocha.toapaxi@cern.ch
+# Date: 20230605
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+##
+Decay D*0sig
+1.00 MyD0  e+ e-           VTOSLL;
+Enddecay
+CDecay anti-D*0sig
+#
+Decay MyD0
+1.00  K-  pi-  pi+  pi+    LbAmpGen DtoKpipipi;
+Enddecay
+Decay Myanti-D0
+1.0   K+  pi+  pi-  pi-    LbAmpGen DtoKpipipi;
+Enddecay
+#
+End
+
+

@@ -1,0 +1,52 @@
+# EventType: 16297030
+# 
+# Descriptor: [Xi_b- -> (Xi_c0 -> p+ K- K- pi+) (D_s- -> K+ K- pi-)]cc
+# 
+# NickName: Xib-_XicDs,pKKpi,KKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Xib- -> Xic0 Ds with Xic0 -> p K K pi and Ds -> K K pi, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Yiduo Shang
+# Email: yshang@cern.ch
+# Date: 20210131
+#
+Alias      MyD_s-               D_s-
+Alias      Myanti-D_s+          D_s+
+ChargeConj MyD_s-               Myanti-D_s+
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias MyXi_c0 Xi_c0
+Alias Myanti-Xi_c0 anti-Xi_c0
+ChargeConj MyXi_c0 Myanti-Xi_c0
+#
+Decay MyXi_c0
+  0.5   p+  K-     Myanti-K*0                           PHSP;
+  0.5   p+   K-  K-  pi+                                 PHSP;
+Enddecay
+CDecay Myanti-Xi_c0
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Xi_b-sig
+ 1.00 MyXi_c0	MyD_s-		PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyD_s-
+ 1.00 K-	K+	pi-		D_DALITZ;
+Enddecay
+CDecay Myanti-D_s+
+#
+End

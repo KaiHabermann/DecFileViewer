@@ -1,0 +1,43 @@
+# EventType: 11164466
+#
+# Descriptor: {[[B0]nos => pi+ pi- (D~0 -> K+ pi- pi0)]cc, [[B0]os => pi- pi+ (D0 -> K- pi+ pi0)]cc}
+#
+# NickName: Bd_D0pipi,Kpipi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 decay with phase space model - DaughtersInLHCb required
+# EndDocumentation
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Vincent Tisserand
+# Email: vincent.tisserand@clermont.in2p3.fr
+# Date: 20181129
+#
+
+
+Alias MyD0       D0
+Alias Myanti-D0  anti-D0
+ChargeConj MyD0  Myanti-D0
+Alias Mypi0 pi0
+
+
+Decay B0sig
+1.0   Myanti-D0 pi+ pi-              PHSP;
+Enddecay
+CDecay anti-B0sig
+
+
+#
+Decay Myanti-D0
+  1.000      K+ pi- Mypi0       D_DALITZ;
+Enddecay
+CDecay MyD0
+#
+
+Decay Mypi0
+1.0000  gamma gamma                         PHSP;
+Enddecay
+
+End

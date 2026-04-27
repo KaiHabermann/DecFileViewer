@@ -1,0 +1,42 @@
+# EventType: 11164097
+#
+# Descriptor: {[B0 -> pi+ (D*(2010)- -> pi- (D~0 -> pi+ pi-))]cc}
+#
+# NickName: Bd_Dst-pi+,D0pi,pipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D*+ forced into D0 pi+, D0 forced to pi+ pi-
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Andy Morris 
+# Email: Andy.Morris@warwick.ac.uk 
+# Date: 20201215
+# CPUTime: < 1 min
+#
+Alias             MyD*-       D*-
+Alias             Myanti-D0   anti-D0
+Alias             MyD*+       D*+
+Alias             MyD0        D0
+ChargeConj        MyD*+       MyD*-
+ChargeConj        MyD0        Myanti-D0
+#
+Decay B0sig
+1.000        MyD*-     pi+                    SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+1.000        Myanti-D0 pi-                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay Myanti-D0
+1.000        pi+       pi-                    PHSP;
+Enddecay
+CDecay MyD0
+#
+End
+

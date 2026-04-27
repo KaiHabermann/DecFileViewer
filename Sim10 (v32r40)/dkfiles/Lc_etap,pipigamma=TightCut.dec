@@ -1,0 +1,50 @@
+# EventType: 25103270
+#
+# Descriptor: [Lambda_c+ => ( eta => pi+ pi- gamma) p+]cc
+#
+# NickName: Lc_etap,pipigamma=TightCut 
+#
+# Cuts: LoKi::GenCutTool/TightCut         
+#                                        
+# InsertPythonCode:                       
+#                                         
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation()                         
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )  
+# tightCut = gen.SignalPlain.TightCut        
+# tightCut.Decay     = '^[Lambda_c+ => ( eta => ^pi+ ^pi- ^gamma) ^p+]CC'                      
+# tightCut.Cuts      =    {                                  
+#     'gamma'    : ' inAcc',                     
+#     '[pi+]cc'    : ' inAcc & dauCuts',                     
+#     '[p+]cc'     : ' inAcc & dauCuts',                    
+#     '[Lambda_c+]cc'   : 'Lcuts' }                               
+# tightCut.Preambulo += [                                  
+#     'inAcc = in_range ( 0.005, GTHETA, 0.400 ) ' ,       
+#     'dauCuts = ( (GPT > 200 * MeV) & ( GP > 600 * MeV))',
+#     'Lcuts = (GPT > 1000 * MeV)' ]                  
+# EndInsertPythonCode  
+#   
+#
+# Documentation: Forces a Lambda_c+ to ( eta => pi+ pi- gamma ) p+ with generator level cuts 
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Simone Stracka
+# Email: simone.stracka@cern.ch
+# Date: 20211119
+#
+Alias       my_eta   eta
+ChargeConj  my_eta   my_eta
+#
+Decay  Lambda_c+sig
+1.00000  my_eta  p+         PHOTOS PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+#
+Decay  my_eta
+  1.000     pi+      pi-    gamma  PHOTOS PHSP ;
+Enddecay
+#
+End

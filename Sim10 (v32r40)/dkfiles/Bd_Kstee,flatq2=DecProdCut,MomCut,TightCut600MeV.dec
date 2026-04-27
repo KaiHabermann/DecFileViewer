@@ -1,0 +1,65 @@
+# EventType: 11124009 
+#
+# Descriptor: {[[B0]nos -> e+ e- (K*(892)0 -> K+ pi-)]cc, [[B0]os -> e- e+ (K*(892)~0 -> K- pi+)]cc}
+#
+# NickName: Bd_Kstee,flatq2=DecProdCut,MomCut,TightCut600MeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/HighVisMass"
+# evtgendecay.addTool(LoKi__GenCutTool ,'HighVisMass')
+# evtgendecay.HighVisMass.Decay = '[^(B0 => (K*(892)0 => K+ pi- ) e+ e- )]CC'
+# evtgendecay.HighVisMass.Cuts  = { '[B0]cc' : "visMass" }
+# evtgendecay.HighVisMass.Preambulo += ["visMass = ( ( GMASS ( 'e+' == GID , 'e-' == GID ) ) < 600 * MeV )" ]
+# 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay   = '[(B0 => (K*(892)0 => ^K+ ^pi- ) ^e+ ^e- )]CC'
+# tightCut.Cuts    =    {
+#     '[K+]cc'	      : "inAcc",
+#     '[pi-]cc'    : "inAcc",
+#     '[e+]cc'     : "inAcc",
+#     '[e-]cc'     : "inAcc"}
+# tightCut.Preambulo += [
+#     "inAcc   = ( 240 * MeV  < GPT )   & in_range (   1.85 , GETA ,  5.05 )"]
+# EndInsertPythonCode
+#
+#
+# Documentation: Decay products in acceptance, tightcut 600 MeV
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Fabrice Desse
+# Email: fabrice.desse@cern.ch
+# Date: 20181219
+# CPUTime: 20 sec
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+#
+Decay B0sig
+  1.000        MyK*0     e+     e-               FLATQ2 1;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000        K+        pi-                    PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+#

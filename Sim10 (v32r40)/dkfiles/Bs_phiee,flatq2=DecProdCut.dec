@@ -1,0 +1,36 @@
+# EventType: 13124029
+#
+# Descriptor: [B_s0 -> (phi(1020) -> K+ K-) e+ e-]cc
+#
+# NickName: Bs_phiee,flatq2=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B_s0 -> (phi(1020) -> K+ K-) e+ e- (FLATQ2)
+# EndDocumentation
+#
+#
+# CPUTime: 1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Guillaume Pietrzyk
+# Email:       guillaume.pietrzyk@cern.ch
+# Date:        20211104
+#
+# $Id$
+#
+Alias MyPhi phi
+ChargeConj MyPhi MyPhi
+#
+Decay B_s0sig
+ 1.0  MyPhi e+ e- FLATQ2 1;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+ 1.0  K+ K- VSS;
+Enddecay
+
+End
+#

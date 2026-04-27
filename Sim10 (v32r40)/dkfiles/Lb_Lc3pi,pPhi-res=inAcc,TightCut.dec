@@ -1,0 +1,189 @@
+# EventType: 15266080
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ (phi(1020) -> K+ K-)) pi- pi+ pi-]cc
+#
+# NickName: Lb_Lc3pi,pPhi-res=inAcc,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = '[Lambda_b0 ==> (Lambda_c+ ==> ^p+ (phi(1020) => ^K- ^K+) ) ^pi- ^pi+ ^pi-]CC'
+# tightCut.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import millimeter,micrometer,MeV,GeV',
+#    'inAcc       = in_range ( 0.005 , GTHETA , 0.400 )' ,
+# ]
+# tightCut.Cuts      =    {
+#     '[p+]cc'        : 'inAcc'   ,
+#     '[K+]cc'        : 'inAcc'     , 
+#     '[pi+]cc'       : 'inAcc' }
+#
+# EndInsertPythonCode
+#
+#ParticleValue: "Xi*_cc++               4424        4424   2.0      2.8006      -0.06           Xi_cc*++             4424      0.00","Xi*_cc~--             -4424       -4424  -2.0      2.8006      -0.06           anti-Xi_cc*--       -4424      0.00","Xi_c*0                 4314        4314   0.0      2.8006      -0.06           Xi_c*0               4314      0.00","Xi_c*~0               -4314       -4314   0.0      2.8006      -0.06           anti-Xi_c*0         -4314      0.00","Sigma_c*0              4114        4114   0.0      2.51848        -0.0153         Sigma_c*0            4114      0.0000","Sigma_c*~0        -4114       -4114   0.0      2.51848        -0.0153         anti-Sigma_c*0      -4114      0.0000","Lambda_c(2625)+          104124      104124     1.0     2.62811     -0.0001       Lambda_c(2625)+     0     0.00", "Lambda_c(2625)~-       -104124         -104124     -1.0     2.62811        -0.0001       anti-Lambda_c(2625)-  0         0.00"
+#
+# Documentation: The file is for the study of charmed resonances in Lambda_b0 -> Lambda_c+ pi- pi+ pi- decay. We take the Lambda_b0 decays to resonances as well as to Lambda_c+a1(1260) in equal proportions. Sigma_c(2800) resonances are not in the LHCb particle list, so we modify Xi*_cc++ and Xi_c*0. Lambda_c decay model is based on the model of S. Blusk (event type 15266005). 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: 5min
+# Responsible: Biplab Dey
+# Email: biplab.dey@cern.ch
+# Date: 20240608
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Alias MyLambda_c(2593)+ Lambda_c(2593)+
+Alias Myanti-Lambda_c(2593)- anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+ Myanti-Lambda_c(2593)-
+#
+Alias MyLambda_c(2625)+ Lambda_c(2625)+
+Alias Myanti-Lambda_c(2625)- anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+ Myanti-Lambda_c(2625)-
+#
+Alias MyLambda_c(2880)+ Lambda_c(2880)+
+Alias Myanti-Lambda_c(2880)- anti-Lambda_c(2880)-
+ChargeConj MyLambda_c(2880)+ Myanti-Lambda_c(2880)-
+#
+Alias MySigma_c0 Sigma_c0
+Alias Myanti-Sigma_c0 anti-Sigma_c0
+ChargeConj MySigma_c0 Myanti-Sigma_c0
+#
+Alias MySigma_c++ Sigma_c++
+Alias Myanti-Sigma_c-- anti-Sigma_c--
+ChargeConj MySigma_c++ Myanti-Sigma_c--
+#
+Alias MySigma_c*0 Sigma_c*0
+Alias Myanti-Sigma_c*0 anti-Sigma_c*0
+ChargeConj MySigma_c*0 Myanti-Sigma_c*0
+#
+Alias MySigma_c*++ Sigma_c*++
+Alias Myanti-Sigma_c*-- anti-Sigma_c*--
+ChargeConj MySigma_c*++ Myanti-Sigma_c*--
+#
+Alias MySigma_c*(2800)++ Xi_cc*++
+Alias Myanti-Sigma_c*(2800)-- anti-Xi_cc*--
+ChargeConj MySigma_c*(2800)++ Myanti-Sigma_c*(2800)--
+#
+Alias MySigma_c*(2800)0 Xi_c*0
+Alias Myanti-Sigma_c*(2800)0 anti-Xi_c*0
+ChargeConj MySigma_c*(2800)0 Myanti-Sigma_c*(2800)0
+#
+Alias      Myf_2 f_2
+ChargeConj Myf_2 Myf_2
+#
+Alias      Myrho0   rho0
+ChargeConj Myrho0   Myrho0
+#
+Alias      Myf'_0   f'_0 
+ChargeConj Myf'_0   Myf'_0 
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay Lambda_b0sig
+  0.10    MyLambda_c+        Mya_1-         PHSP;
+  0.10    MyLambda_c(2593)+  pi-            PHSP;
+  0.10    MyLambda_c(2625)+  pi-            PHSP;
+  0.10    MyLambda_c(2880)+  pi-            PHSP;
+  0.10    MySigma_c++        pi-  pi-       PHSP;
+  0.10    MySigma_c*++       pi-  pi-       PHSP;
+  0.10    MySigma_c*(2800)++ pi-  pi-       PHSP;
+  0.10    MySigma_c0         pi+  pi-       PHSP;
+  0.10    MySigma_c*0        pi+  pi-       PHSP;
+  0.10    MySigma_c*(2800)0  pi+  pi-       PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mya_1+
+  0.894   Myrho0 pi+       VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.106   Myf'_0 pi+       PHSP;
+Enddecay
+CDecay Mya_1-
+#
+Decay MyPhi
+  1.000   K+         K-         VSS;
+Enddecay
+#
+Decay MyLambda_c+
+  1.0 p+ MyPhi                  PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda_c(2593)+
+  0.36      MySigma_c++         pi-                      PHSP; 
+  0.36      MySigma_c0          pi+                      PHSP;
+  0.28      MyLambda_c+         pi+    pi-               PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+#
+Decay MyLambda_c(2625)+
+  1.0000     MyLambda_c+  pi+  pi-            PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+#
+Decay MyLambda_c(2880)+
+   0.18      MySigma_c++         pi-                      PHSP; 
+   0.18      MySigma_c0          pi+                      PHSP;
+   0.18      MySigma_c*++        pi-                      PHSP; 
+   0.18      MySigma_c*0         pi+                      PHSP;
+   0.28      MyLambda_c+         pi+    pi-               PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2880)-
+#
+Decay MySigma_c++
+  1.0000    MyLambda_c+  pi+                  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+
+Decay MySigma_c0
+  1.0000    MyLambda_c+  pi-                  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+#
+Decay MySigma_c*++
+  1.0000    MyLambda_c+  pi+                  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c*--
+#
+Decay MySigma_c*0
+  1.0000    MyLambda_c+  pi-                  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c*0
+#
+Decay MySigma_c*(2800)++
+  1.0000    MyLambda_c+  pi+                  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c*(2800)--
+#
+Decay MySigma_c*(2800)0
+  1.0000    MyLambda_c+  pi-                  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c*(2800)0
+#
+Decay Myf_2
+  1.0000  pi+ pi-                             TSS;
+Enddecay
+#
+Decay Myrho0
+  1.0000  pi+ pi-                             VSS;
+Enddecay
+#
+Decay Myf'_0
+  1.0000  pi+ pi-                             PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,69 @@
+# EventType: 15498002
+# Descriptor: [Lambda_b0 -> (Lambda_c(2625)+ -> (Lambda_c+ -> p+ K- pi+) pi+ pi-) (D_s- -> pi- pi+ pi-) ]cc
+# 
+# NickName: Lb_Lc2625Ds,Lcpipi,pipipi=DecProdCut
+# Cuts: DaughtersInLHCb
+# Documentation: Lb -> Lc(2625) Ds and Lc -> p K pi with D_s- -> pi- pi+ pi- .
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Federica Borgato, Anna Lupato
+# Email: federica.borgato@cern.ch, alupato@cern.ch
+# Date: 20220919
+# CPUTime: <1m
+#
+Alias      MyLc(2625)+           Lambda_c(2625)+
+Alias      MyLc(2625)-           anti-Lambda_c(2625)-
+ChargeConj MyLc(2625)+           MyLc(2625)-
+#
+Alias      MyMainLc+             Lambda_c+
+Alias      MyMainLc-             anti-Lambda_c-
+ChargeConj MyMainLc+             MyMainLc-
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+Alias      MyD_s+                D_s+
+Alias      MyD_s-                D_s-
+ChargeConj MyD_s+                MyD_s-
+#
+Alias      MyDelta++             Delta++
+Alias      Myanti-Delta--        anti-Delta--
+ChargeConj MyDelta++             Myanti-Delta--
+#
+Decay Lambda_b0sig
+ 1.0           MyLc(2625)+         MyD_s-              PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLc(2625)+
+ 1.000  MyMainLc+   pi+    pi-          PHSP;
+Enddecay
+CDecay MyLc(2625)-
+#
+Decay MyMainLc+
+  0.03500 p+              K-         pi+ PHSP;
+  0.01980 p+              anti-K*0       PHSP;
+  0.01090 MyDelta++       K-             PHSP;
+  0.02200 MyLambda(1520)0 pi+            PHSP;
+Enddecay
+CDecay MyMainLc-
+#
+Decay MyD_s-
+  1 pi- pi+ pi- D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+Decay MyLambda(1520)0
+  1.0   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay MyDelta++
+  1 p+ pi+  PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+End

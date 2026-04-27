@@ -1,0 +1,35 @@
+# EventType: 13104170
+#
+# NickName: Bs_LambdaLambda,ppi=DecProdCut
+#
+# Descriptor: [B_s0 -> (Lambda0 -> p+ pi-) (Lambda~0 -> p~- pi+)]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B_s0 -> Lambda0 Lambda~0, Lambda0 forced into p pi
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: 2min
+# Responsible: Hang Yin, Qundong Han
+# Email: qundong.han@cern.ch
+# Date: 20220803
+#
+#
+Alias      MyLambda     Lambda0
+Alias      MyantiLambda anti-Lambda0
+ChargeConj MyLambda     MyantiLambda
+#
+Decay B_s0sig
+  1.000        MyLambda    MyantiLambda      PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyLambda
+  1.000        p+      pi-                   PHSP;
+Enddecay
+CDecay MyantiLambda
+#
+End
+#

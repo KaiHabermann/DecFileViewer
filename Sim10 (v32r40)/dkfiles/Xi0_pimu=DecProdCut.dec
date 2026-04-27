@@ -1,0 +1,26 @@
+# EventType: 35112021
+#
+# Descriptor: [Xi0 -> pi+ mu- ]cc
+#
+# NickName: Xi0_pimu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Xi0 decay to pi+ mu-, DaughtersInLHCb cut.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Xiaokang Zhou
+# Email: xiaokang.zhou@cern.ch
+# Date: 20210505
+#
+Decay Xi0sig
+  1.000         pi+        mu-        PHSP;
+Enddecay
+CDecay anti-Xi0sig
+#
+End
+

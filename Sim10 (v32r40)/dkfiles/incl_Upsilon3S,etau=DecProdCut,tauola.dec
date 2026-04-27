@@ -1,0 +1,44 @@
+# EventType: 18121020
+#
+# Descriptor: [Upsilon(3S) -> (tau+ -> pi+ pi- pi+ anti-nu_tau) e-]
+#
+# NickName: incl_Upsilon3S,etau=DecProdCut,tauola
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Upsilon(3S) decay to e+ tau-, Upsilon(1S) daughters in acceptance.
+# taus decay in the 3-prong charged pion mode using the Tauola BaBar model.
+# All final-state products in the acceptance.
+#
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: F Wilson
+# Email: Fergus.Wilson@stfc.ac.uk
+# Date: 20211021
+#
+#
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         Mytau+   tau+
+Alias         Mytau-   tau-
+ChargeConj    Mytau+   Mytau-
+#
+Decay Upsilon(3S)sig
+  0.5         Mytau-   e+        PHSP;
+  0.5         Mytau+   e-        PHSP;
+Enddecay
+#
+Decay Mytau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+End
+#

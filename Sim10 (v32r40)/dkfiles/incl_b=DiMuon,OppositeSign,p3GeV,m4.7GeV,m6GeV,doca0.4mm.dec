@@ -1,0 +1,47 @@
+# EventType: 10012012
+#
+# Descriptor: pp => [<Xb>]cc ...
+#
+# NickName: incl_b=DiMuon,OppositeSign,p3GeV,m4.7GeV,m6GeV,doca0.4mm
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: DiLeptonInAcceptance
+# Sample: RepeatDecay.Inclusive
+#
+# Documentation: Di-muon filter, OppositeSign, 
+#                p(mu1) > 3GeV and p(mu2) > 3GeV ,
+#                4.7GeV < dimuon mass < 6GeV, 
+#                doca(mu1,mu2) < 0.4*mm,
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import Generation, RepeatDecay, Inclusive, DiLeptonInAcceptance
+# from GaudiKernel.SystemOfUnits import GeV, MeV, mm
+#
+# Generation(genAlgName).SampleGenerationTool = "RepeatDecay"
+# Generation(genAlgName).addTool( RepeatDecay ) 
+# Generation(genAlgName).RepeatDecay.NRedecay =  100
+# Generation(genAlgName).RepeatDecay.addTool( Inclusive ) 
+# Generation(genAlgName).RepeatDecay.Inclusive.ProductionTool = "PythiaProduction"
+# Generation(genAlgName).FullGenEventCutTool = "DiLeptonInAcceptance"
+# Generation(genAlgName).addTool( DiLeptonInAcceptance ) 
+# Generation(genAlgName).DiLeptonInAcceptance.RequireOppositeSign = True
+# Generation(genAlgName).DiLeptonInAcceptance.RequireSameSign = False
+# Generation(genAlgName).DiLeptonInAcceptance.LeptonOnePMin = 3*GeV 
+# Generation(genAlgName).DiLeptonInAcceptance.LeptonTwoPMin = 3*GeV 
+# Generation(genAlgName).DiLeptonInAcceptance.MinMass = 4700*MeV
+# Generation(genAlgName).DiLeptonInAcceptance.MaxMass = 6000*MeV
+# Generation(genAlgName).DiLeptonInAcceptance.PreselDoca = True
+# Generation(genAlgName).DiLeptonInAcceptance.DocaCut = 0.4*mm
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Flavio Archilli
+# Email: flavio.archilli@cern.ch
+# Date:   20160318
+# CPUTime: 3 min
+#
+End

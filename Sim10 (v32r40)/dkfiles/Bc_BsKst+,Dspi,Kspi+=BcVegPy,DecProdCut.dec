@@ -1,0 +1,62 @@
+# EventType: 14367100  
+#  
+# Descriptor: [B_c+ -> (B_s0 -> (D_s- -> K+ K- pi-) pi+) (K*(892)+ -> (KS0 -> pi+ pi-) pi+)]cc
+#
+# NickName: Bc_BsKst+,Dspi,Kspi+=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to Bs K*(892)+, Bs forced to Ds pi, K*(892)+ forced to Ks pi+, decay products in acceptance, BcVegPy  
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Tamaki Holly McGrath
+# Email: tamaki.holly.mcgrath@cern.ch
+# Date: 20210714
+#
+#
+Alias	   	MyK*+		K*+
+Alias      	MyK*-     	K*-
+ChargeConj 	MyK*+          	MyK*-		
+Alias      	MyKs    	K_S0
+ChargeConj 	MyKs    	MyKs
+Alias           MyB_s0          B_s0
+Alias           Myanti-B_s0     anti-B_s0
+ChargeConj      MyB_s0          Myanti-B_s0
+Alias           MyD_s+          D_s+
+Alias           MyD_s-          D_s-
+ChargeConj      MyD_s+          MyD_s-
+#
+Decay B_c+sig
+1.00	MyK*+	MyB_s0	SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyK*+
+1.00	MyKs	pi+	VSS;
+Enddecay
+CDecay  MyK*-
+#
+Decay MyB_s0
+1.00	MyD_s-	pi+	PHSP;
+Enddecay
+CDecay Myanti-B_s0
+#
+Decay MyKs
+0.6920	pi+	pi-	PHSP;
+0.3069	pi0	pi0	PHSP;
+Enddecay
+#
+Decay MyD_s-
+1.00	K-	K+	pi-	D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+
+#
+End
+

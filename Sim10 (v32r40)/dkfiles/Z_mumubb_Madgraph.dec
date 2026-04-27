@@ -1,0 +1,62 @@
+# EventType: 42912009
+#                                                                               
+# Descriptor: pp -> (Z-> mu mu) (b b~)...
+#                                                                               
+# NickName: Z_mumubb_Madgraph
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/TwoBTwoLeptonFromZ0
+# Production: Madgraph
+#                                                                               
+# InsertPythonCode:
+# # Configure the event type.
+# from Configurables import (Generation, Special)
+# from GaudiKernel import SystemOfUnits
+# from Gaudi.Configuration import importOptions
+#
+# # Generation options.
+# Generation(genAlgName).PileUpTool           = "FixedLuminosityForRareProcess"
+# Generation(genAlgName).DecayTool            = ""
+# Generation(genAlgName).SampleGenerationTool = "Special"
+#
+# # Special options.
+# Generation(genAlgName).addTool(Special)
+# Generation(genAlgName).Special.CutTool        = ""
+# Generation(genAlgName).Special.DecayTool      = ""
+#
+# # Madgraph options.
+# from Configurables import Gauss
+# from GaudiKernel import SystemOfUnits
+# 
+# sampleGenToolsOpts = {
+#     "Commands": ["generate p p > mu+ mu- b b~ [QCD]",
+#                  " set mll_sf 40" # Min invariant mass of l+l- (same flavour) lepton pair
+#              	  ],
+#     "DecEff": 0.025 # The decfile level efficiency.
+# }
+# Gauss().SampleGenerationToolOptions.update(sampleGenToolsOpts)
+# 
+# # Generation cut
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "TwoBTwoLeptonFromZ0" )
+# tracksInAcc = Generation(genAlgName).TwoBTwoLeptonFromZ0
+# tracksInAcc.Code = " ( (count ( isGoodbquark ) > 1) & (count ( isGoodLepton ) >1)) "
+# tracksInAcc.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#     , "isGoodbquark   = ( GINTREE( GBEAUTY & ( GTHETA < 400.0*mrad )))"
+#     , "isGoodLepton   = ((  'Z0' == GABSID ) & GINTREE( GLEPTON & ( GTHETA < 400.0*mrad )))"
+# ]
+#
+# EndInsertPythonCode
+#                                                                               
+# Documentation: 2 b-quark and 2 mu in the LHCb Acc. Z min mass cut is applied by Madgraph directly when used as production
+# EndDocumentation                                                              
+#                                                                               
+# PhysicsWG: Exotica                                                            
+# Tested: Yes                                                                   
+# CPUTime: < 1 min                                                              
+# Responsible: Bartek Rachwal                                                 
+# Email: bartlomiej.rachwal@cern.ch                                               
+# Date: 20200605                                                                
+#                                                                               
+End
+#

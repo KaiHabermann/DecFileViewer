@@ -1,0 +1,53 @@
+# EventType: 49512211
+#
+# Descriptor: gamma gamma => (tau+-> mu+ nu_mu anti-nu_tau) (tau- -> mu- anti-nu_mu nu_tau)
+# NickName: cep_tautau_mumu=MuMuInACC
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/cepInAcc
+# Production: SuperChic2
+#
+# InsertPythonCode:
+# 
+# # SuperChic2 options.
+# from Configurables import SuperChic2Production
+# Generation(genAlgName).Special.addTool(SuperChic2Production)
+# Generation(genAlgName).Special.SuperChic2Production.Commands += [
+#     "SuperChic2:proc    = 58"] #[tau tau] generation
+#
+# # Cuts on the tau.
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut, "cepInAcc")
+# cepInAcc = Generation(genAlgName).cepInAcc
+# cepInAcc.Code = "( count( goodTau ) == 2 )"
+# cepInAcc.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#     "inAcc       = in_range ( 1.95 , GETA , 5.050 ) ",
+#     "goodMuplus  = GINTREE( ( GID == -13 ) & inAcc )",
+#     "goodMuminus = GINTREE( ( GID ==  13 ) & inAcc )",
+#     "goodTau = ( (GABSID == 15) & (goodMuplus | goodMuminus) )"]
+#
+# # Keep the CEP process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+#
+#
+#
+#
+# Documentation:
+# Central exclusive production of [tau tau] with further decays into mu in the acceptance
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Yiwei Liu
+# Email: yiweil@cern.ch
+# Date: 20230209
+#
+Decay tau+
+  1.000     mu+          nu_mu      anti-nu_tau    TAULNUNU;
+Enddecay
+CDecay tau-
+End

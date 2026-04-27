@@ -1,0 +1,45 @@
+# EventType: 12575020
+#
+# Descriptor: [B+ -> (anti-D_0*0 -> K+ (D_s- => K- K+ pi-)) mu+ nu_mu]cc
+#
+# NickName: Bu_Dst0mu+nu,KDs,K-K+pi-=cocktail,LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: LHCb Acceptance, D_0*0 intermediate used to trick generator into using better parameters via ISGW2; D_s- forced into KKpi with resonances via D_DALITZ
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Michael Wilkinson (Syracuse University)
+# Email: miwilkin@syr.edu
+# Date: 20171117
+#
+
+Alias      MyD_0*0       D_0*0
+Alias      Myanti-D_0*0  anti-D_0*0
+ChargeConj MyD_0*0       Myanti-D_0*0
+
+Alias      MyD_s-        D_s-
+Alias      MyD_s+        D_s+
+ChargeConj MyD_s-        MyD_s+
+
+#
+Decay B+sig
+  1.00         Myanti-D_0*0 mu+          nu_mu        ISGW2;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-D_0*0
+  1.00         MyD_s-       K+                        PHSP;
+Enddecay
+CDecay MyD_0*0
+#
+Decay MyD_s-
+  1.00         K-           K+           pi-          PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+End
+#

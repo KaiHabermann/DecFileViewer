@@ -1,0 +1,53 @@
+# EventType: 14165409 
+#   
+# Descriptor: [B_c+ -> (B_s0 -> (D_s- -> K+ K- pi-) pi+) (rho(770)+ -> pi+ pi0)]cc
+#
+# NickName: Bc_Bsrho+,Dspi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to Bs rho+, rho+ forced to pi+ pi0, Bs forced to Ds pi, decay products in acceptance, BcVegPy  
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Tamaki Holly McGrath
+# Email: tamaki.holly.mcgrath@cern.ch
+# Date: 20210713
+#
+#
+Alias           MyB_s0          B_s0
+Alias           Myanti-B_s0     anti-B_s0
+ChargeConj      MyB_s0          Myanti-B_s0
+Alias		MyRho+		rho+
+Alias		MyRho-		rho-
+ChargeConj	MyRho+		MyRho-
+Alias		MyD_s+		D_s+
+Alias		MyD_s-		D_s-
+ChargeConj	MyD_s+		MyD_s-
+#
+Decay B_c+sig
+1.00	MyRho+	MyB_s0	SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyRho+
+1.00	pi+	pi0	VSS;
+Enddecay
+CDecay MyRho-
+#
+Decay MyB_s0
+1.00	MyD_s-	pi+	PHSP;
+Enddecay
+CDecay Myanti-B_s0
+#
+Decay MyD_s-
+1.00	K-	K+	pi-	D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+End
+

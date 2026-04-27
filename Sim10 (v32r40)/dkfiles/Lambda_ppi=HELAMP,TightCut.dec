@@ -1,0 +1,65 @@
+# EventType: 33102102
+#
+# Descriptor: [Lambda0 -> p+ pi-]cc
+# NickName: Lambda_ppi=HELAMP,TightCut
+# Cuts: LoKi::GenCutTool/GenSigCut
+# FullEventCuts: LoKi::FullGenEventCut/GenEvtCut
+# InsertPythonCode:
+# from Configurables import (ToolSvc, EvtGenDecayWithCutTool, LoKi__GenCutTool, LoKi__FullGenEventCut)
+# Generation(genAlgName).SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# EvtGenCut = ToolSvc().EvtGenDecayWithCutTool
+# EvtGenCut.DecayFile = ToolSvc().EvtGenDecay.UserDecayFile
+# EvtGenCut.CutTool = "LoKi::GenCutTool/HyperonDTCut"
+# EvtGenCut.addTool(LoKi__GenCutTool,"HyperonDTCut")
+# EvtGenCut.HyperonDTCut.Decay = "^[Lambda0 => p+ pi-]CC"
+# EvtGenCut.HyperonDTCut.Preambulo += [
+#   "from LoKiCore.functions import in_range",
+#   "from GaudiKernel.SystemOfUnits import mm"
+# ]
+# EvtGenCut.HyperonDTCut.Cuts = {
+#   "[Lambda0]cc" : "in_range(0.02*mm,GCTAU,80*mm)"
+# }
+# Generation(genAlgName).SignalPlain.addTool(LoKi__GenCutTool,"GenSigCut")
+# SigCut = Generation(genAlgName).SignalPlain.GenSigCut
+# SigCut.Decay = "^[Lambda0 => ^p+ ^pi-]CC"
+# SigCut.Filter = True
+# SigCut.Preambulo += [
+#   "from LoKiCore.functions import in_range",
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, mm",
+#   "inAcc = in_range(10*mrad,GTHETA,400*mrad) & in_range(1.95,GETA,5.05)",
+#   "EVZ   = GFAEVX(GVZ,0)",
+#   "OVZ   = GFAPVX(GVZ,0)",
+# ]
+# SigCut.Cuts = {
+#   "[Lambda0]cc" : "(GP>6.8*GeV) & (GPT>390*MeV) & in_range(1.9,LoKi.GenParticles.Rapidity(),4.6) & in_range(1*mm,EVZ-OVZ,900*mm)",
+#   "[p+]cc"      : "(GP>5.8*GeV) & (GPT>290*MeV) & inAcc",
+#   "[pi-]cc"     : "(GP>1.9*GeV) & (GPT>95*MeV) & inAcc"
+# }
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut,"GenEvtCut")
+# EvtCut = Generation(genAlgName).GenEvtCut
+# EvtCut.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import mm",
+#   "EVZ                   = GFAEVX(GVZ,0)",
+#   "EVR                   = GFAEVX(GVRHO,0)",
+#   "HyperonFromLongTracks = GSIGNALINLABFRAME & (GABSID=='Lambda0') & (EVR<42*mm) & (EVZ<666*mm)"
+# ]
+# EvtCut.Code = "has(HyperonFromLongTracks)"
+# EndInsertPythonCode
+#
+# Documentation: For Run3 trigger line development. Lambda forced to decay in Velo. Helicity amplitude from 2019 combination in PRL 123, 182301. Cut efficiency about 3%.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Marian Stahl
+# Email: marian.stahl@{nospam}cern.ch
+# Date: 20201027
+# CPUTime: < 1 min
+#
+Decay Lambda0sig
+  1.0     p+   pi-      HELAMP 0.9276 0.0 0.3735 0.0;
+Enddecay
+CDecay anti-Lambda0sig
+#
+End

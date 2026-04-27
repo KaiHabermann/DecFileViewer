@@ -1,0 +1,53 @@
+# EventType: 11198520
+#
+# Descriptor: [B0 -> (KS0 -> pi+ pi-) (Sigma_c+ -> pi0 (Lambda_c+ -> p+ K- pi+)) (Lambda_c~- -> p~- K+ pi-)]cc
+# 
+# NickName: Bd_LcSigmac,pKpi,pKpi,pipi=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+# Documentation: This is the decay file for the decay B0 -> (Sigma_c+ -> pi0 Lambda_c+) anti-Lambda_c- KS0 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Shuqi Sheng
+# Email: shuqi.sheng@cern.ch
+# Date: 20240918
+# 
+
+#Define Lambda_c
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+
+#Define Sigma_c
+Alias MySigma_c+ Sigma_c+
+Alias Myanti-Sigma_c- anti-Sigma_c-
+ChargeConj MySigma_c+ Myanti-Sigma_c-
+
+#Define K_S0
+Alias MyKS0 K_S0
+ChargeConj MyKS0 MyKS0
+
+Decay B0sig
+  1.000  MySigma_c+  Myanti-Lambda_c-  MyKS0  PHSP;
+Enddecay
+CDecay anti-B0sig
+
+Decay MySigma_c+
+  1.000         pi0     MyLambda_c+      PHSP;
+Enddecay
+CDecay Myanti-Sigma_c-
+
+Decay MyLambda_c+
+  1.000         p+      K-      pi+        PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+
+Decay MyKS0
+  1.000         pi+     pi-     PHSP;
+Enddecay
+           
+End

@@ -1,0 +1,52 @@
+# EventType: 18146001
+#
+# Descriptor: psi(2S) -> (J/psi -> mu+ mu-) (pi+ -> mu+ nu_mu) (pi- -> mu- nu_mu~)
+#
+# NickName: incl_b=psi2S,Jpsipipi,munumunu,DecProdCut,PPChange
+#
+# Cuts: LHCbAcceptance
+# FullEventCuts: LoKi::FullGenEventCut/b2psi2SFilter
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "b2psi2SFilter" )
+# SignalFilter = Generation(genAlgName).b2psi2SFilter
+# SignalFilter.Code = " has(isB2cc)"
+# SignalFilter.Preambulo += [
+#   "isB2cc = ((GDECTREE('(Beauty & LongLived) --> psi(2S) ...')))"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: psi(2S) decays to J/psi pi pi. Pions decay in flight. Only particles in acceptance. 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Marco Pappagallo
+# Email: marco.pappagallo@cern.ch
+# Date: 20190701
+#
+Alias       MyJpsi   J/psi
+ChargeConj  MyJpsi   MyJpsi
+Alias       MyPi-  pi-
+Alias       MyPi+  pi+
+ChargeConj  MyPi-  MyPi+
+#
+Decay psi(2S)
+  1.0000   MyJpsi  MyPi+  MyPi-        VVPIPI;
+Enddecay
+#
+Decay MyJpsi
+  1.000  mu+    mu-           PHOTOS  VLL;
+Enddecay
+#
+Decay MyPi-
+  1.000         mu-       anti-nu_mu      PHSP;
+Enddecay
+CDecay MyPi+
+#
+End
+#

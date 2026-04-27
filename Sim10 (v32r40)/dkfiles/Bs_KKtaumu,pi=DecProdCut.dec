@@ -1,0 +1,39 @@
+# EventType: 13514091
+#
+# Descriptor: {[[B_s0]nos -> K+ K- mu+ (tau- -> pi- nu_tau)]cc, [[B_s0]os -> K+ K- mu- (tau+ -> pi+ anti-nu_tau)]cc}
+#
+# NickName: Bs_KKtaumu,pi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bs -> K K tau mu, with taus decaying to a pion and a neutrino
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: 1 min
+# Tested: Yes
+# Responsible: Lais Lavra
+# Email: lais.soares.lavra@cern.ch
+# Date: 20230712
+#
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+#
+Decay B_s0sig
+  0.500       K+         K-        Mytau+    mu-        PHSP;
+  0.500       K+         K-        mu+       Mytau-     PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mytau-
+  1.00       pi-         nu_tau               TAUSCALARNU;
+Enddecay
+CDecay Mytau+
+#
+End

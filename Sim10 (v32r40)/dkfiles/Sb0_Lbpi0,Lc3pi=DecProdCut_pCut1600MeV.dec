@@ -1,0 +1,142 @@
+# EventType: 16466410
+# NickName: Sb0_Lbpi0,Lc3pi=DecProdCut_pCut1600MeV
+# Descriptor: [Sigma_b0 -> (Lambda_b0 -> (Lambda_c+ -> p+ K- pi+ ) pi- pi+ pi-) pi0]cc
+#
+# Documentation: Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# 
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Responsible:  Yunxuan Song
+# Email: yunxuan.song@cern.ch
+#
+# Tested: Yes
+# CPUTime: <1min
+# Date: 20240319
+#
+
+#Alias Sigma_b0sig Sigma_b0
+#Alias anti-Sigma_b0sig anti-Sigma_b0
+#ChargeConj Sigma_b0sig anti-Sigma_b0sig
+
+Alias MyLambda_b0 Lambda_b0
+Alias Myanti-Lambda_b0 anti-Lambda_b0
+ChargeConj MyLambda_b0 Myanti-Lambda_b0
+
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+
+Alias      MyK*0          K*0
+Alias      Myanti-K*0     anti-K*0
+ChargeConj MyK*0          Myanti-K*0
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+Alias MyLambda_c(2593)+ Lambda_c(2593)+
+Alias Myanti-Lambda_c(2593)- anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+ Myanti-Lambda_c(2593)-
+#
+Alias MyLambda_c(2625)+ Lambda_c(2625)+
+Alias Myanti-Lambda_c(2625)- anti-Lambda_c(2625)-
+ChargeConj MyLambda_c(2625)+ Myanti-Lambda_c(2625)-
+#
+Alias MySigma_c0 Sigma_c0
+Alias Myanti-Sigma_c0 anti-Sigma_c0
+ChargeConj MySigma_c0 Myanti-Sigma_c0
+#
+Alias MySigma_c++ Sigma_c++
+Alias Myanti-Sigma_c-- anti-Sigma_c--
+ChargeConj MySigma_c++ Myanti-Sigma_c--
+#
+Alias      Myf_2 f_2
+ChargeConj Myf_2 Myf_2
+#
+Alias      Myrho0   rho0
+ChargeConj Myrho0   Myrho0
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+
+
+Decay Sigma_b0sig
+  1.000    MyLambda_b0        pi0     PHSP;
+Enddecay
+CDecay anti-Sigma_b0sig
+
+Decay MyLambda_b0
+  0.53    MyLambda_c+        Mya_1-         PHSP;
+  0.10    MyLambda_c+        Myrho0  pi-    PHSP;
+  0.14    MyLambda_c+        Myf_2   pi-    PHSP;
+  0.03    MyLambda_c(2593)+  pi-            PHSP;
+  0.06    MyLambda_c(2625)+  pi-            PHSP;
+  0.05    MySigma_c++        pi-  pi-       PHSP;
+  0.09    MySigma_c0         pi+  pi-       PHSP;
+Enddecay
+CDecay Myanti-Lambda_b0
+
+Decay MyLambda_c+
+  0.02800         p+      K-      pi+          PHSP;
+  0.01065         p+      Myanti-K*0           PHSP;
+  0.00860         Delta++ K-                   PHSP;
+  0.00414         MyLambda(1520)0 pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+
+Decay MyLambda(1520)0
+    0.23   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+
+Decay Mya_1+
+    1.000   Myrho0 pi+       VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay MyLambda_c(2593)+
+    0.24000      MySigma_c++         pi-                      PHSP; 
+    0.24000      MySigma_c0          pi+                      PHSP;
+    0.18000      MyLambda_c+         pi+    pi-               PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+#
+Decay MyLambda_c(2625)+
+    1.0000     MyLambda_c+  pi+  pi-            PHSP;
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+#
+Decay MySigma_c++
+    1.0000    MyLambda_c+  pi+                  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+#
+Decay MySigma_c0
+    1.0000    MyLambda_c+  pi-                  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+#
+Decay Myf_2
+    1.0000  pi+ pi-                             TSS;
+Enddecay
+#
+Decay MyK*0
+    1.000   K+  pi-                             VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Myrho0
+    1.0000  pi+ pi-                             VSS;
+Enddecay
+#
+
+#
+End
+#

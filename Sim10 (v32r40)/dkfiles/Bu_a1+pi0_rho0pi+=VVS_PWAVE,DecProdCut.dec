@@ -1,0 +1,48 @@
+# EventType: 12103405
+#
+# Descriptor: [B+ -> ( a_1(1260)+ ->  (rho(770)0 -> pi+ pi-) pi+) pi0]CC
+#
+# NickName: Bu_a1+pi0_rho0pi+=VVS_PWAVE,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: a1 forced into rho0 pi+
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Daniel O'Hanlon
+# Email: daniel.ohanlon@cern.ch
+# Date: 20181212
+#
+Alias      Mya_1+      a_1+
+Alias      Mya_1-      a_1-
+ChargeConj Mya_1+      Mya_1-
+#
+Alias      MyRho0      rho0
+ChargeConj MyRho0      MyRho0
+#
+Alias      MyPi0      pi0
+ChargeConj MyPi0      MyPi0
+#
+Decay B+sig
+  1.000        Mya_1+    MyPi0            SVS;
+Enddecay
+CDecay B-sig
+#
+Decay Mya_1+
+  1.000        MyRho0    pi+              VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay MyRho0
+  1.000        pi+       pi-              VSS;
+Enddecay
+#
+Decay MyPi0
+  1.000        gamma       gamma          PHSP;
+Enddecay
+#
+End
+#

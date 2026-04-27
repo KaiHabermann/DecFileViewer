@@ -1,0 +1,133 @@
+# EventType: 14497001
+#
+# Descriptor: [ B_c+ -> Charm Charm ... ]cc
+#
+# NickName: Bc_DDmuX=cocktail,TightCut
+#
+# Production: BcVegPy
+#
+# ParticleValue: "B_c+ 77 541 1.0 6.2745 0.510e-12 B_c+ 541 0.00000000", " B_c- 78 -541 -1.0 6.2745 0.510e-12 B_c- -541 0.00000000"
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Bc with mass and lifetime from PDG-2025.
+# Decays to cocktail of 15+ DDmunu(h1h2) modes. D mesons reconstructed in cocktail of decay modes.
+# Coherent with the Tbc_DDmuX=cocktail,TightCut file.
+# Produced via BcVegPy package with Tight cuts using B_c+, thus may have too soft pT spectra.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Ivan Polyakov
+# Email: ivan.polyakov@cern.ch
+# Date: 20250411
+# CPUTime: <1min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutToolWithDecay
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.Special.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+# gen.Special.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+# SignalFilter = gen.Special.TightCut
+# SignalFilter.SignalPID = 'B_c+'
+# SignalFilter.Decay = "^[B_c+ -> Charm Charm ... ]CC"
+# SignalFilter.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import  GeV, mm",
+#   "inAcc         = in_range ( 0.005 , GTHETA , 0.400 ) &  in_range ( 1.9 , GETA , 5.1 )", 
+#   "muon          = ('mu-' == GABSID)",
+#   "pion          = ('pi+' == GABSID)",
+#   "kaon          = ('K+' == GABSID)",
+#   "goodMuon      = ((GP > 5 * GeV) & (GPT > 0.29 * GeV) & inAcc)",
+#   "goodHadron    = ((GP > 3 * GeV) & (GPT > 0.19 * GeV) & inAcc)",
+#   "Dstp          = GDECTREE('[D*(2010)+ => D0 pi+]CC')",
+#   "DDpimu        = GDECTREE('[B_c+ => Charm Charm [pi+]cc mu- nu_mu~]CC')",
+#   "Dstp_pi       = '[D*(2010)+ => D0 ^pi+]CC'",
+#   "DDpimu_pi     = '[B_c+ => Charm Charm ^[pi+]cc mu- nu_mu~]CC'",
+#   "NpiBadAll     = GNINTREE( pion & ~goodHadron)",
+#   "NpiBadDstp    = GNINTREE( Dstp  & GCHILDCUT( ~goodHadron, Dstp_pi ))",
+#   "NpiBadDDpimu  = GNINTREE( DDpimu & GCHILDCUT( ~goodHadron, DDpimu_pi ))",
+#   "piCuts        = (NpiBadAll == NpiBadDstp + NpiBadDDpimu)",  
+#   "kaonCuts      = ~GINTREE( kaon & ~goodHadron )",
+#   "goodMuonFromB = ((GP > 5.9 * GeV) & (GPT > 0.95 * GeV) & inAcc)",
+#   "DDmu          = GDECTREE('[B_c+ => Charm Charm mu- nu_mu~]CC')",
+#   "DDXmu         = GDECTREE('[B_c+ => Charm Charm X mu- nu_mu~]CC')",
+#   "muAll         = ~GINTREE( muon & ~goodMuon )",
+#   "muFromDDmu    = ~GINTREE( DDmu & GCHILDCUT( ~goodMuonFromB, muon ))",
+#   "muFromDDXmu   = ~GINTREE( DDXmu & GCHILDCUT( ~goodMuonFromB, muon ))",
+#   "muCuts        = ( muAll & muFromDDmu & muFromDDXmu )",
+#   "ctauCut       = GTIME > 0.03 * mm",
+#   "allcuts       = ( muCuts & piCuts & kaonCuts & ctauCut)",
+#   ]
+# SignalFilter.Cuts =  { "[B_c+]cc" : "allcuts" }
+# EndInsertPythonCode
+#
+Alias      MyD0        D0
+Alias      MyAntiD0    anti-D0
+ChargeConj MyD0        MyAntiD0
+#
+Alias      MyDp        D+
+Alias      MyDm        D-
+ChargeConj MyDp        MyDm
+#
+Alias      MyDst0        D*0
+Alias      MyAntiDst0    anti-D*0
+ChargeConj MyDst0        MyAntiDst0
+#
+Alias      MyDstp        D*+
+Alias      MyDstm        D*-
+ChargeConj MyDstp        MyDstm
+#
+Decay B_c+sig
+  # sum = 1.00, aim equal or similar statistics output
+  0.0625	MyD0     MyAntiD0    mu+  nu_mu   	PHOTOS PHSP; 
+  0.0625	MyDst0   MyAntiD0    mu+  nu_mu   	PHOTOS PHSP;
+  0.0625	MyDst0   MyAntiDst0  mu+  nu_mu   	PHOTOS PHSP;
+  #
+  0.0625	MyDp	 MyDm	     mu+  nu_mu   	PHOTOS PHSP;
+  0.0625	MyDstp	 MyDm	     mu+  nu_mu   	PHOTOS PHSP;
+  0.0625	MyDstp	 MyDstm	     mu+  nu_mu   	PHOTOS PHSP;
+  #
+  0.0625	MyD0	 MyDm	     pi+  mu+  nu_mu   	PHOTOS PHSP;
+  0.0625	MyDst0	 MyDm	     pi+  mu+  nu_mu   	PHOTOS PHSP;
+  0.0625	MyD0	 MyDstm	     pi+  mu+  nu_mu   	PHOTOS PHSP;
+  0.0625	MyDst0	 MyDstm	     pi+  mu+  nu_mu   	PHOTOS PHSP;
+  #
+  0.0625	MyDp	 MyAntiD0    pi-  mu+  nu_mu   	PHOTOS PHSP;
+  0.0625	MyDstp	 MyAntiD0    pi-  mu+  nu_mu   	PHOTOS PHSP;
+  0.0625	MyDp	 MyAntiDst0  pi-  mu+  nu_mu   	PHOTOS PHSP;
+  0.0625	MyDstp	 MyAntiDst0  pi-  mu+  nu_mu   	PHOTOS PHSP;
+  #
+  0.0625	MyD0     MyAntiD0    pi0  mu+  nu_mu   	PHOTOS PHSP;
+  0.0625	MyDp	 MyDm	     pi0  mu+  nu_mu   	PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyD0
+  # sum = 1.000, relative BRs from PDG
+  # effective efficiency ~0.5 of that of the D0->K-pi+ mode
+  0.325         K- pi+            PHSP;
+  0.675         K- pi+ pi+ pi-    PHSP;
+Enddecay
+CDecay MyAntiD0
+#
+Decay MyDp
+  1.000         K- pi+ pi+        D_DALITZ; 
+Enddecay
+CDecay MyDm
+#
+Decay MyDst0
+   0.619	MyD0	pi0	VSS;
+   0.381	MyD0	gamma	VSP_PWAVE;
+Enddecay
+CDecay MyAntiDst0
+#
+Decay MyDstp
+   0.677	MyD0	pi+	VSS;
+   0.307	MyDp	pi0	VSS;
+   0.016	MyDp	gamma	VSP_PWAVE;
+Enddecay
+CDecay MyDstm
+#
+End
+#

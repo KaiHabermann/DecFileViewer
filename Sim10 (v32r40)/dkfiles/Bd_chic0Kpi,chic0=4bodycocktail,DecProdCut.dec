@@ -1,0 +1,39 @@
+# EventType: 11336000
+#
+# Descriptor: [B0 -> K+ (chi_c0 -> pi+ pi- K+ K-) pi-]cc
+#
+# NickName: Bd_chic0Kpi,chic0=4bodycocktail,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Chi_c0(1P) forced to 2pi2pi, 2K2K, 2K2pi, 2p2pi or 2p2K
+#
+# EndDocumentation
+# 
+# PhysicsWG: B2Ch
+# Tested: Yes
+# CPUTime:< 1 min
+# Responsible: Yanxi Zhang
+# Email: yanxi.zhang@cern.ch
+# Date: 20190529 
+#
+
+Alias      Mychi_c0   chi_c0
+ChargeConj Mychi_c0   Mychi_c0
+
+#
+Decay B0sig
+  1.0000          Mychi_c0    K+ pi-          PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mychi_c0
+  0.40     pi+   pi- pi+  pi-                 PHSP;
+  0.40     pi+   pi- K+  K-                 PHSP;
+  0.05     p+   anti-p-  K+  K-                 PHSP;
+  0.05     p+   anti-p-  pi+  pi-                 PHSP;
+  0.10     K+    K-  K+   K-                  PHSP;
+Enddecay
+#
+End
+

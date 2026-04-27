@@ -1,0 +1,100 @@
+# EventType: 26265070
+#
+# Descriptor: {[Lambda_c(2625)+ -> (Lambda_c+ -> p K- pi+) pi+ pi- ]cc}
+#
+# NickName: Lc2625_Lcpipi,pKpi-res=DecProdCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# ParticleValue: "Sigma_c*+  62  4214 1.0 2.6281 1.3164e-021      Sigma_c*+  4214 0.0285", "Sigma_c*~- 63 -4214 -1.0 2.6281 1.3164e-021 anti-Sigma_c*- -4214 0.0285"
+#
+# CPUTime: < 5 min
+#
+# Documentation: Lambda_c(2625)+ forced to Lambda_c+ pi+ pi-,
+#                daughters required to be in the acceptance of LHCb
+#                and Lc daughters with minimum PT of 200 MeV,
+#                Now Lc2625 is produced by replacing the mass of Xic0 
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal     = generation.SignalPlain
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[ Sigma_c*+ ==> ^( Lambda_c+ ==> ^p+ ^K- ^pi+) pi+ pi- ]CC'
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 ) '
+#     ,'fastTrack    =  ( GPT > 200 * MeV )'
+# ]
+# tightCut.Cuts     =    {
+#      '[p+]cc'     : 'inAcc & fastTrack'
+#     ,'[K-]cc'     : 'inAcc & fastTrack'
+#     ,'[pi+]cc'    : 'inAcc & fastTrack'
+#     }
+#
+# # Generator efficiency histos:
+# tightCut.XAxis = ( "GCHILD(GPT,'Lambda_c+'==GABSID)/GeV" , 0.   , 20.0, 40  )
+# tightCut.YAxis = ( "GCHILD(GY ,'Lambda_c+'==GABSID)   "  , 2.0 ,  4.5 , 10  )  
+#
+# EndInsertPythonCode
+#
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Jibo He
+# Email:       jibo.he@cern.ch
+# Date:        20180911
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+# Define Lambda(1520)0
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+# Define K*0
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+# Define Delta++
+Alias      MyDelta++      Delta++
+Alias      Myanti-Delta-- anti-Delta--
+ChargeConj MyDelta++      Myanti-Delta--
+#
+Decay Sigma_c*+sig
+  1.00   MyLambda_c+  pi+ pi-                    PHSP;
+Enddecay
+CDecay anti-Sigma_c*-sig
+#
+Decay MyLambda_c+
+    0.02800         p+      K-      pi+          PHSP;
+    0.01065         p+      Myanti-K*0           PHSP;
+    0.00860         MyDelta++ K-                 PHSP;
+    0.00414         MyLambda(1520)0 pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+    0.6657      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyLambda(1520)0
+  0.23   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay MyDelta++
+  1.000 p+ pi+ PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#      
+End

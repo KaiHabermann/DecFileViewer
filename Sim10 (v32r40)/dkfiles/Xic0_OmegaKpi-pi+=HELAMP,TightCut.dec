@@ -1,0 +1,94 @@
+# EventType: 26106182
+#
+# Descriptor: [Xi_c0 -> (Omega- -> (Lambda0 -> p+ pi-) K-) K+ pi- pi+]cc
+# NickName: Xic0_OmegaKpi-pi+=HELAMP,TightCut
+# Cuts: LoKi::GenCutTool/GenSigCut
+# FullEventCuts: LoKi::FullGenEventCut/GenEvtCut
+# ExtraOptions: SwitchOffAllPythiaProcesses
+# InsertPythonCode:
+# from Configurables import (Pythia8Production, ToolSvc, EvtGenDecayWithCutTool, LoKi__GenCutTool, LoKi__FullGenEventCut)
+# Generation(genAlgName).SignalPlain.addTool(Pythia8Production, name="Pythia8Production")
+# Generation(genAlgName).SignalPlain.Pythia8Production.Commands += ["SoftQCD:all=off","HardQCD:hardccbar=on"]
+# Generation(genAlgName).SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# EvtGenCut = ToolSvc().EvtGenDecayWithCutTool
+# EvtGenCut.DecayFile = ToolSvc().EvtGenDecay.UserDecayFile
+# EvtGenCut.CutTool = "LoKi::GenCutTool/HyperonDTCut"
+# EvtGenCut.addTool(LoKi__GenCutTool,"HyperonDTCut")
+# EvtGenCut.HyperonDTCut.Decay = "^[Xi_c0 => ^(Omega- => ^(Lambda0 => p+ pi-) K-) K+ pi- pi+]CC"
+# EvtGenCut.HyperonDTCut.Preambulo += [
+#   "from LoKiCore.functions import in_range",
+#   "from GaudiKernel.SystemOfUnits import mm"
+# ]
+# EvtGenCut.HyperonDTCut.Cuts = {
+#   "[Lambda0]cc" : "in_range(0.02*mm,GCTAU,80*mm)",
+#   "[Omega-]cc"  : "in_range(0.02*mm,GCTAU,120*mm)",
+#   "[Xi_c0]cc"   : "GCTAU>0.005*mm",
+# }
+# Generation(genAlgName).SignalPlain.addTool(LoKi__GenCutTool,"GenSigCut")
+# SigCut = Generation(genAlgName).SignalPlain.GenSigCut
+# SigCut.Decay = "^[Xi_c0 => ^(Omega- => ^(Lambda0 => ^p+ ^pi-) ^K-) ^K+ ^pi- ^pi+]CC"
+# SigCut.Filter = True
+# SigCut.Preambulo += [
+#   "from LoKiCore.functions import in_range",
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, mm",
+#   "inAcc = in_range(10*mrad,GTHETA,400*mrad) & in_range(1.95,GETA,5.05)",
+#   "inY   = in_range(1.9,LoKi.GenParticles.Rapidity(),4.6)",
+#   "EVZ   = GFAEVX(GVZ,0)",
+#   "OVZ   = GFAPVX(GVZ,0)",
+# ]
+# SigCut.Cuts = {
+#   "[Xi_c0]cc"   : "(GP>17.5*GeV) & (GPT>980*MeV) & inY & in_range(1*mm,GCHILD(EVZ, (GABSID=='Omega-'))-EVZ,900*mm)",
+#   "[Omega-]cc"  : "(GP>9.8*GeV) & (GPT>490*MeV) & inY & in_range(1*mm,GCHILD(EVZ, (GABSID=='Lambda0'))-EVZ,900*mm)",
+#   "[Lambda0]cc" : "(GP>8.8*GeV) & (GPT>390*MeV) & inY",
+#   "[p+]cc"      : "(GP>5.9*GeV) & (GPT>290*MeV) & inAcc",
+#   "[K+]cc"      : "(GP>1.9*GeV) & (GPT>95*MeV) & inAcc",
+#   "[pi-]cc"     : "(GP>1.9*GeV) & (GPT>95*MeV) & inAcc"
+# }
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut,"GenEvtCut")
+# EvtCut = Generation(genAlgName).GenEvtCut
+# EvtCut.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import mm",
+#   "EVZ                    = GFAEVX(GVZ,0)",
+#   "EVR                    = GFAEVX(GVRHO,0)",
+#   "HyperonsFromLongTracks = GSIGNALINLABFRAME & (GABSID=='Xi_c0') & (GCHILDCUT((EVR<42*mm) & (EVZ<666*mm), '[Xi_c0 => ^Omega- K+ pi- pi+]CC'))"\
+#                                             " & (GCHILDCUT((EVR<42*mm) & (EVZ<666*mm), '[Xi_c0 => (Omega- => ^Lambda0 K-) K+ pi- pi+]CC'))"
+#  ]
+# EvtCut.Code = "has(HyperonsFromLongTracks)"
+# EndInsertPythonCode
+#
+# Documentation: For Run3 trigger line development. Hyperons forced to decay in Velo. Lambda -> p pi helicity amplitude from 2019 combination in PRL 123, 182301.
+#                Omega decay uses PHSP since it's decay asymmetry is close to 0. Xic0 decay uses PHSP as well. Should be a fair approximation due to small energy release.
+#                Cut efficiency about 0.4%.
+# EndDocumentation
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Marian Stahl
+# Email: marian.stahl@{nospam}cern.ch
+# Date: 20201216
+# CPUTime: 8 min
+#
+Alias      MyOm      Omega-
+Alias      Myanti-Op anti-Omega+
+ChargeConj MyOm      Myanti-Op
+#
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+#
+Decay MyLambda0
+  1.0     p+   pi-      HELAMP 0.9276 0.0 0.3735 0.0;
+Enddecay
+CDecay MyAntiLambda0
+#
+Decay MyOm
+  1.0     MyLambda0   K-      PHSP;
+Enddecay
+CDecay Myanti-Op
+#
+Decay Xi_c0sig
+  1.0     MyOm   K+   pi-   pi+      PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+#
+End

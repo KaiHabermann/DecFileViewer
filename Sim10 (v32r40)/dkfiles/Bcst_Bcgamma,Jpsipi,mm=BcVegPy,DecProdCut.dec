@@ -1,0 +1,44 @@
+# EventType: 14143221
+#
+# Descriptor: [B_c*+ -> (B_c+ -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) pi+) gamma]cc
+#
+# NickName: Bcst_Bcgamma,Jpsipi,mm=BcVegPy,DecProdCut 
+#
+# Production: BcVegPy
+# ExtraOptions: BcstVegPyOpts
+# Cuts: BcDaughtersInLHCb
+# CutsOptions: BcPdgId 543
+#
+#
+# Documentation: Bc(1^3S_1) decay to Bc and gamma with phase space model.
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Liupan An
+# Email: liupan.an@cern.ch
+# Date: 20210416
+# CPUTime: <1 min
+#
+Alias       MyB_c+    B_c+
+Alias       MyB_c-    B_c-
+ChargeConj  MyB_c+    MyB_c-
+Alias       MyJ/psi   J/psi
+ChargeConj  MyJ/psi   MyJ/psi
+#
+Decay B_c*+sig
+  1.000     MyB_c+    gamma           PHSP;
+Enddecay
+CDecay B_c*-sig
+#
+Decay MyB_c+
+  1.000     MyJ/psi   pi+             SVS;
+Enddecay
+CDecay MyB_c-
+#
+Decay MyJ/psi
+  1.000     mu+       mu-             PHOTOS   VLL;
+Enddecay
+#
+End
+#

@@ -1,0 +1,44 @@
+# EventType: 15514062
+#
+# Descriptor: [Lambda_b0 -> p+ K- (tau+ -> mu+ nu_mu anti-nu_tau) (tau- -> mu- anti-nu_mu nu_tau)]cc
+#
+# NickName: Lb_pKtautau,mue=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda_b -> p K tau(-> mu nu nu) tau(-> e nu nu) decays
+# EndDocumentation
+#
+# CPUTime: < 2 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Hanae Tilquin
+# Email: hanae.tilquin@cern.ch
+# Date: 20230507
+#
+Alias          Mytau_e+   tau+
+Alias          Mytau_e-   tau-
+ChargeConj     Mytau_e+   Mytau_e-
+#
+Alias          Mytau_m+   tau+
+Alias          Mytau_m-   tau-
+ChargeConj     Mytau_m+   Mytau_m-
+#
+Decay Lambda_b0sig
+   0.500       p+     K-    Mytau_e+     Mytau_m-     PHSP;
+   0.500       p+     K-    Mytau_m+     Mytau_e-     PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mytau_e+
+   1.000       e+         nu_e      anti-nu_tau               TAULNUNU;
+Enddecay
+CDecay Mytau_e-
+#
+Decay Mytau_m+
+   1.000       mu+        nu_mu     anti-nu_tau               TAULNUNU;
+Enddecay
+CDecay Mytau_m-
+#
+End
+

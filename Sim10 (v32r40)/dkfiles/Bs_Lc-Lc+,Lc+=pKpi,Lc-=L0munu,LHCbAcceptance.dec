@@ -1,0 +1,43 @@
+# EventType: 13774080
+#
+# Descriptor: [B_s0 -> (Lambda_c~- -> Lambda0~ mu- nu_mu~)(Lambda_c+ -> p+ K- pi+)]cc
+#
+# NickName: Bs_Lc-Lc+,Lc+=pKpi,Lc-=L0munu,LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Bs0 decaying to two Lambda_c baryons, one Lambda_c forced to pKpi, the second forced to semileptonic. 
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Responsible: Wren Vetens
+# Email: wsvetens@syr.edu
+# Date: 20250410
+# Tested: Yes
+#
+Alias		MyLambda_c+	Lambda_c+
+Alias		MyLambda_c~-	anti-Lambda_c-
+ChargeConj	MyLambda_c+	MyLambda_c~-
+#
+Alias		MySLLambda_c+	Lambda_c+
+Alias		MySLLambda_c~-	anti-Lambda_c-
+ChargeConj	MySLLambda_c+	MySLLambda_c~-
+#
+Decay B_s0sig
+ 0.00001	MyLambda_c~-	MySLLambda_c+	PHSP; #Unobsered, 95% CI PDG Limit on BF < 0.00008
+ 0.00001	MySLLambda_c~-	MyLambda_c+	    PHSP; #Unobsered, 95% CI PDG Limit on BF < 0.00008
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MySLLambda_c+
+0.02000		Lambda0		mu+ 	nu_mu 	PHSP;
+Enddecay
+CDecay MySLLambda_c~-
+#
+Decay MyLambda_c+
+  1.000         p+      K-      pi+          PHSP;
+Enddecay
+CDecay MyLambda_c~-
+#
+End

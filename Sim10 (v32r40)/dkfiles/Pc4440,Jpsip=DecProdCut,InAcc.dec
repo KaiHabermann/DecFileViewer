@@ -1,0 +1,45 @@
+# EventType: 26143012
+#
+# NickName: Pc4440,Jpsip=DecProdCut,InAcc 
+#
+# Descriptor: [Sigma_c+ -> (J/psi(1S) -> mu+ mu-) p+]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Sample: SignalRepeatedHadronization
+#
+# ParticleValue: "Sigma_c+ 83 4212 1.0 4.4405 2.144e-23 Sigma_c+ 4212 0.3" , "Sigma_c~- 84 -4212 -1.0 4.4405 2.144e-23 anti-Sigma_c- -4212 0.3"
+#
+# InsertPythonCode:
+# # Generation(genAlgName).SignalPlain.SignalPIDList = [ 4212, -4212 ]
+# Generation(genAlgName).SignalRepeatedHadronization.SignalPIDList = [ 4212, -4212 ]
+# 
+# EndInsertPythonCode
+#
+# Documentation: Pc4440 decay to Jpsi p+ in PHSP model with daughters In LHCb Acceptance. 
+# Sigma_c+ is used for this Pc4440 generation.
+#
+#
+# EndDocumentation
+#
+# PhysicsWG:   Onia 
+# Tested:      Yes
+# Responsible: Qingnian Xu 
+# Email:       qingnian.xu@cern.ch 
+# Date:        20190103
+# CPUTime:     <1min
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+
+Decay Sigma_c+sig
+  1.000    MyJ/psi          p+  PHSP;
+Enddecay
+CDecay anti-Sigma_c-sig
+
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+End
+

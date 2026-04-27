@@ -1,0 +1,48 @@
+# EventType: 12335056
+#
+# Descriptor: [B+ -> ( (chi_c0(1P) -> pi+ pi-) || (chi_c0(1P) -> K+ K-) || (chi_c0(1P) -> p+ anti-p-) ) K+ (phi(1020) -> K+ K-) ]cc
+#
+# NickName: Bu_Chic0phiK,hh=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B->Chic0 phi K , phi-> KK
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Youhua Yang
+# Email: youhua.yang@cern.ch
+# Date: 20221022
+# CPUTime: < 2 min
+
+
+
+
+Alias       Mychi_c0   chi_c0
+ChargeConj  Mychi_c0   Mychi_c0
+
+Alias       MyPhi       phi
+ChargeConj  MyPhi       MyPhi
+
+#  PDG Id = 521
+Decay B+sig
+ 1.0000   Mychi_c0 MyPhi K+           PHSP;
+Enddecay
+CDecay B-sig
+
+#  PDG Id = 333
+Decay MyPhi
+ 1.0000    K+ K-                 PHSP;
+Enddecay
+
+#  PDG Id = 441
+Decay Mychi_c0
+  0.00605     K+   K-                  PHSP;
+  0.00021     p+   anti-p-             PHSP;
+  0.0085     pi+   pi-                  PHSP;
+Enddecay
+
+
+
+End

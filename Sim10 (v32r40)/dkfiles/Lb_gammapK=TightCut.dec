@@ -1,0 +1,50 @@
+# EventType: 15102215
+#
+# Descriptor: [Lambda_b0 -> p+ K- gamma]cc
+#
+# NickName: Lb_gammapK=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# Generation(genAlgName).SignalPlain.addTool( LoKi__GenCutTool, "TightCut" )
+#
+# tightCut = Generation(genAlgName).SignalPlain.TightCut
+# tightCut.Decay  = '[^(Lambda_b0 => ^p+ ^K- ^gamma)]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV"
+#   , "mpK        = ( GMASS ( 'p+' == GABSID, 'K+' == GABSID ) < 3.15 * GeV ) "
+#   , "inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) " 
+#   , "goodGamma  = (GPT > 1.5*GeV) "
+#   ]
+# tightCut.Cuts   = {
+#     "[Lambda_b0]cc" : " mpK "
+#   , "[p+]cc"        : " inAcc "
+#   , "[K-]cc"        : " inAcc "
+#   , "gamma"         : " goodGamma "
+# }
+#
+# EndInsertPythonCode
+#
+#
+# Documentation: Lambda_b0 forced into p K gamma with PHSP decay
+# Tight generator cuts on p and K acceptance, gamma PT > 1.5 GeV, m(pK) < 3.15 GeV 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Carla Marin
+# Email: carla.marin.benito@cern.ch
+# Date:   20200416
+# CPUTime: 2 min
+#
+
+Decay Lambda_b0sig
+  1.000    p+          K-         gamma PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#

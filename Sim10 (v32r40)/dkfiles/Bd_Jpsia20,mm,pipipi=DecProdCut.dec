@@ -1,0 +1,38 @@
+# EventType: 11144442
+#
+# Descriptor: [B0 -> (J/psi(1S) -> mu+ mu-) (a_2(1320)0 -> pi+ pi- pi0) ]cc
+#
+# NickName: Bd_Jpsia20,mm,pipipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0-> Jpsi a_2(1320)0 decay, Jpsi->mu mu  a_2(1320)0-> pi+pi-pi0  decay, Decay products in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Ganrong Wang
+# Email: ganrong.wang@cern.ch
+# Date: 20211104
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+Alias      MyA1_1320  a_20
+ChargeConj MyA1_1320  MyA1_1320
+#
+Decay B0sig
+1.000         MyJ/psi     MyA1_1320      PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyJ/psi
+1.000         mu+         mu-          PHOTOS VLL;
+Enddecay
+#
+Decay MyA1_1320
+ 1.000   pi+ pi- pi0          PHSP;
+Enddecay
+#
+End
+#

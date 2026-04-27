@@ -1,0 +1,62 @@
+# EventType: 14573433
+#
+# Descriptor: [B_c+ -> (D*(2007)0 -> (D0 -> K- pi+) pi0) mu+ nu_mu]cc
+#
+# NickName: Bc_Dst0munu,D0pi0,Kpi=BcVegPy,TightDecProdCut,ffISGW2
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+# FullEventCuts: LoKi::FullGenEventCut/TightCuts
+#
+# Documentation: Bc decay to D*0, mu+ and nu_mu with ISGW2 model. Charged daughters in acceptance. Momentum cuts 95% those from the stripping.
+# EndDocumentation
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "TightCuts" )
+# tightCuts = Generation(genAlgName).TightCuts
+# tightCuts.Code = "( count ( hasGoodB ) > 0 )"
+#
+# tightCuts.Preambulo += [
+#       "from GaudiKernel.SystemOfUnits import GeV"
+#     , "hasGoodMu         = GINTREE(( 'mu+' == GABSID ) & ( GPT > 0.95*GeV  ) & ( GP > 5.70*GeV ))"
+#     , "hasGoodD0         = GINTREE(( 'D0'  == GABSID ) & ( GNINTREE(( 'K-' == GABSID ) & ( GPT > 0.23*GeV ) & ( GP > 1.9*GeV )) == 1 ) & ( GNINTREE(( 'pi+' == GABSID ) & ( GPT > 0.23*GeV ) & ( GP > 1.9*GeV )) == 1 ))"
+#     , "hasGoodDst0       = GINTREE(( 'D*(2007)0' == GABSID ) & hasGoodD0 )"
+#     , "hasGoodB          = ( GBEAUTY & GCHARM & hasGoodDst0 & hasGoodMu )"
+#      ]
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Alison Tully
+# Email: alison.tully@cern.ch
+# Date: 20210204
+#
+Alias MyD*0       D*0
+Alias Myanti-D*0  anti-D*0
+ChargeConj MyD*0  Myanti-D*0
+Alias MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj MyD0   Myanti-D0
+#
+Decay B_c+sig
+  1.000         MyD*0   mu+   nu_mu          PHOTOS ISGW2;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyD*0
+1.000        MyD0           pi0             VSS;
+Enddecay
+Decay Myanti-D*0
+1.000       Myanti-D0       pi0             VSS;
+Enddecay
+#
+Decay MyD0
+  1.000         K-          pi+             PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End

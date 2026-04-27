@@ -1,0 +1,42 @@
+# EventType: 13198020
+#
+# Descriptor: [B0 -> Lambda_c+ Lambda_c~- K- pi+]cc
+#
+# NickName: Bs_LcLcKpi,pKpi,pKpi=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+# Documentation: This is the decay file for the decay Bs0 -> Lambda_c+ anti-Lambda_c- K- Pi+ 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Ned Howarth
+# Email: nhowarth@cern.ch
+# Date: 20240319
+#
+
+#Define Lambda_c
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+
+#
+Decay B_s0sig
+  1.000  K- MyLambda_c+  Myanti-Lambda_c-  pi+ PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+# BR = 1
+Decay MyLambda_c+
+  1.000         p+      K-      pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#Decay anti-Lambda_c-
+#  1.000         p~-      K+     pi-          PHSP;
+#Enddecay
+#
+#
+End

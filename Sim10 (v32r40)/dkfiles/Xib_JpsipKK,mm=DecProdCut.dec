@@ -1,0 +1,34 @@
+# EventType: 16145037
+#
+# Descriptor: [Xi_b- -> ( J/psi(1S) -> mu+ mu- ) p+ K- K- ]cc
+#
+# NickName: Xib_JpsipKK,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Xi_b- decay to (Jpsi -> mu+ mu-) and p+ K- K-
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jianyu Zhang
+# Email: jianyu.zhang@cern.ch
+# Date: 20221101
+#
+Alias      MyJ/psi         J/psi
+ChargeConj MyJ/psi       MyJ/psi
+# 
+Decay Xi_b-sig 
+1.000      MyJ/psi p+ K- K- PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyJ/psi
+1.000      mu+  mu-         VLL;
+Enddecay
+#
+End
+#
+

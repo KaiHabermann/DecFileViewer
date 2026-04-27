@@ -1,0 +1,54 @@
+# EventType: 23103111
+#
+# Descriptor: [D_s+ -> (K_S0 -> pi+ pi-) K+]cc
+#
+# NickName: Ds+_KsK+=phsp,TightCut,ACPKKCuts
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Ds+ forced into Ks K+, Ks forced into pi-pi+. Tight cuts to match the selection for ACP(D02KK) measurement with prompt decays.
+# EndDocumentation
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# signal     = Generation(genAlgName).SignalPlain
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# cuts   = signal.TightCut
+# cuts.Decay      = '^[D_s+ => ^(KS0 => pi+ pi-) ^K+]CC'
+# cuts.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import MeV, GeV, micrometer ',
+#     'import math',
+#     'inAcc_Dp      = ( GVEV & (GTIME > 0.15 * 122.95 * micrometer ) )', 
+#     'LL_KS0      = ( GNINTREE( ("pi+" == GABSID ) & in_range( 2 , GETA , 4.5 ) ) > 1.5 ) & ( GFAEVX(GVZ,0) > -100.0 * mm ) & ( GFAEVX(GVZ,0) < 500.0 * mm ) & ( GFAEVX(abs(GVX),0) < 40.0 * mm ) & ( GFAEVX(abs(GVY),0) < 40.0 * mm ) & GVEV',
+#     'HarmCuts_Kp   = in_range (2 , GETA ,  4.5) & (GPT > 1.4 *GeV) & (GP > 4.9 *GeV)',
+#     'HarmCuts_KS0  = in_range (2 , GETA ,  4.5)',
+#     'HarmCuts_Dp  =  in_range (2 , GETA ,  4.5) & ( GPT > 2.9 *GeV )',
+# ]
+# cuts.Cuts       = {
+#     '[K+]cc'         : 'HarmCuts_Kp',
+#     'KS0'             : 'LL_KS0 & HarmCuts_KS0',
+#     '[D_s+]cc'          : 'inAcc_Dp & HarmCuts_Dp',
+# }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Serena Maccolini
+# Email: serena.maccolini@cern.ch
+# Date: 2020619
+# CPUTime: 1 min
+#
+Alias        MyK0s   K_S0
+ChargeConj   MyK0s   MyK0s
+#
+Decay D_s+sig
+  1.000        MyK0s         K+              PHSP;
+Enddecay
+CDecay D_s-sig
+#
+Decay MyK0s
+  1.000        pi+           pi-             PHSP;
+Enddecay
+#
+End

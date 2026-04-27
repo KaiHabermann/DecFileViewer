@@ -1,0 +1,182 @@
+# EventType: 11874014
+#
+# Descriptor: [ [B0]cc --> ( D*(2010)+ => (D0 => K- K+ ) pi+ ) mu- ... ]CC
+#
+# NickName: Bd_DstmuX,KK=cocktail,hqet,TightCut,TurboSLCuts,BRCorr1
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Sum of D* mu nu_mu X and D* tau nu_tau X; D*+ forced into D0 pi+, D0 forced into KK, D0 and muon in LHCb acceptance. Force the tau- into mu-  nu_tau  anti-nu_mu. Tight cuts to match Run2 HLT requirements of SL D02HH
+# EndDocumentation 
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# signal     = Generation(genAlgName).SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[ [B0]cc --> (D0 => K- K+ ) mu- ... ]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import MeV',
+#     'from LoKiCore.math import atan2',
+#     'inAcc = in_range ( 0.01 , GTHETA , 0.4 ) & in_range ( -0.4  , atan2(GPX , GPZ), 0.4  ) & in_range ( -0.28 , atan2(GPY , GPZ), 0.28 ) ',
+#     'inAccLoose = in_range ( 0. , GTHETA , 0.4 ) & in_range ( -0.33 , atan2(GPX , GPZ), 0.33 ) & in_range ( -0.27 , atan2(GPY , GPZ), 0.27 ) ',
+#     'fastTrack = ( GPT > 190 * MeV ) & ( GP  > 1950 * MeV ) ',
+#     'goodTrack = inAcc & fastTrack ',
+#     'goodD0 = inAccLoose & ( GPT > 50 * MeV ) & ( 2 == GNINTREE( goodTrack ) ) & ( "D0" == GABSID )',
+#     'goodMuon = inAcc & ( GPT > 950 * MeV ) & ( GP > 3600 * MeV ) & ( "mu-" == GABSID )',
+#     'goodB = inAccLoose & GINTREE( goodD0 ) & GINTREE( goodMuon )',
+# ]
+# tightCut.Cuts = {
+#     '[B0]cc' : 'goodB',
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Federico Betti
+# Email: federico.betti@cern.ch
+# Date: 20191210
+# CPUTime: < 1 min
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyD0         D0
+Alias      MyAntiD0     anti-D0
+ChargeConj MyD0         MyAntiD0
+#
+Alias      MyD*-        D*-
+Alias      MyD*+        D*+
+ChargeConj MyD*-        MyD*+
+#
+Alias      MyD_10         D_10
+Alias      MyAntiD_10     anti-D_10
+ChargeConj MyD_10         MyAntiD_10
+#
+Alias      MyD_1+         D_1+
+Alias      MyD_1-         D_1-
+ChargeConj MyD_1+         MyD_1-
+#
+Alias      MyD_0*+         D_0*+
+Alias      MyD_0*-         D_0*-
+ChargeConj MyD_0*+         MyD_0*-
+#
+Alias      MyD_0*0         D_0*0
+Alias      MyAntiD_0*0     anti-D_0*0
+ChargeConj MyD_0*0         MyAntiD_0*0
+#
+Alias      MyD'_10         D'_10
+Alias      MyAntiD'_10     anti-D'_10
+ChargeConj MyD'_10         MyAntiD'_10
+#
+Alias      MyD'_1+         D'_1+
+Alias      MyD'_1-         D'_1-
+ChargeConj MyD'_1+         MyD'_1-
+#
+Alias      MyD_2*+         D_2*+
+Alias      MyD_2*-         D_2*-
+ChargeConj MyD_2*+         MyD_2*-
+#
+Alias      MyD_2*0         D_2*0
+Alias      MyAntiD_2*0     anti-D_2*0
+ChargeConj MyD_2*0         MyAntiD_2*0
+#
+Decay B0sig 
+  0.0501   MyD*-        mu+  nu_mu         PHOTOS HQET2 1.122 0.910 1.270 0.852; #rho^2 ha1 R1 R2; HFLAG Spring 2019;
+  0.0005640  MyD_0*-    mu+  nu_mu         PHOTOS  ISGW2;
+  0.0006500  MyD'_1-    mu+  nu_mu         PHOTOS  ISGW2;
+  0.0017494  MyD_1-     mu+  nu_mu         PHOTOS  ISGW2;
+  0.0006198  MyD_2*-    mu+  nu_mu         PHOTOS  ISGW2;
+  0.000462   MyD*-  pi0  mu+  nu_mu        PHOTOS  GOITY_ROBERTS;
+  0.000645   MyD*-  pi0 pi0   mu+  nu_mu   PHOTOS  PHSP;
+  0.002451   MyD*-  pi+ pi-   mu+  nu_mu   PHOTOS  PHSP;
+  0.002604   MyD*-    Mytau+ nu_tau        PHOTOS  ISGW2;
+  0.000082   MyD_1-   Mytau+ nu_tau        PHOTOS  ISGW2;
+  0.000027   MyD_0*-   Mytau+ nu_tau       PHOTOS  ISGW2;
+  0.000056   MyD'_1-   Mytau+ nu_tau       PHOTOS  ISGW2;
+  0.000041   MyD_2*-   Mytau+ nu_tau       PHOTOS  ISGW2;
+  #
+Enddecay
+CDecay anti-B0sig
+#
+SetLineshapePW MyD_1+ MyD*+ pi0 2
+SetLineshapePW MyD_1- MyD*- pi0 2
+SetLineshapePW MyD_10 MyD*+ pi- 2
+SetLineshapePW MyAntiD_10 MyD*- pi+ 2
+#
+SetLineshapePW MyD_2*+ MyD*+ pi0 2
+SetLineshapePW MyD_2*- MyD*- pi0 2
+SetLineshapePW MyD_2*0 MyD*+ pi- 2
+SetLineshapePW MyAntiD_2*0 MyD*- pi+ 2
+#
+Decay MyD_0*+ 
+0.04     MyD*+ pi0 pi0                     PHOTOS PHSP;
+0.08     MyD*+ pi+ pi-                     PHOTOS PHSP;
+Enddecay
+CDecay MyD_0*-
+#
+Decay MyD_0*0
+0.08    MyD*+ pi- pi0                      PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_0*0
+#
+Decay MyD'_1+
+0.250     MyD*+ pi0                        PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyD'_1-
+#
+Decay MyD'_10
+0.500    MyD*+ pi-                         PHOTOS VVS_PWAVE  1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAntiD'_10
+#
+Decay MyD_1+
+0.200    MyD*+ pi0                         PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.0208    MyD_0*0 pi+                      PHOTOS PHSP;
+0.0156    MyD_0*+ pi0                      PHOTOS PHSP;
+Enddecay
+CDecay MyD_1-
+#
+Decay MyD_10
+0.400    MyD*+ pi-                         PHOTOS VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.0312    MyD_0*+ pi-                      PHOTOS PHSP;
+0.0104    MyD_0*0 pi0                      PHSP;
+Enddecay
+CDecay MyAntiD_10
+#
+Decay MyD_2*+
+0.087    MyD*+ pi0                         PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+0.0117    MyD_0*0 pi+                      PHOTOS PHSP;
+0.0088    MyD_0*+ pi0                      PHOTOS PHSP;
+0.004     MyD*+ pi0 pi0                    PHOTOS PHSP;
+0.008     MyD*+ pi+ pi-                    PHOTOS PHSP;
+Enddecay
+CDecay MyD_2*-
+#
+Decay MyD_2*0
+0.173    MyD*+ pi-                         PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+0.0176    MyD_0*+ pi-                      PHOTOS PHSP;
+0.0059    MyD_0*0 pi0                      PHSP;
+0.008     MyD*+ pi- pi0                    PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_2*0
+#
+Decay MyD*-
+1.0       MyAntiD0   pi-                   VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay MyD0
+  1.00   K-  K+                           PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD0
+#
+Decay Mytau-
+  1.00      mu-  nu_tau  anti-nu_mu        PHOTOS TAULNUNU;
+Enddecay
+CDecay Mytau+
+#
+End

@@ -1,0 +1,57 @@
+# EventType: 13196062
+#
+# Descriptor: [B_s0 -> (D_s+ => K+ K- pi+) (D_s- => K- pi+ pi-)]cc
+#
+# NickName: Bs_DsDs,KKpiKpipi=bothDDALITZ,DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: B_s0 -> DsDs includes resonances in Ds decay via D_Dalitz, One Ds->Kpipi and the other Ds->3pi
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Louis Gerken
+# Email: louis.gerken@cern.ch
+# Date: 20190619
+# CPUTime: < 1min
+#
+
+# -------------------------
+# DEFINE THE Ds+ AND Ds-
+# -------------------------
+Alias      MyD_s+     D_s+
+Alias      MyD_s-     D_s-
+ChargeConj MyD_s+     MyD_s-
+
+Alias      MyD_sK2pi+     D_s+
+Alias      MyD_sK2pi-     D_s-
+ChargeConj MyD_sK2pi+     MyD_sK2pi-
+
+# ---------------
+# Decay of the B0
+# ---------------
+Decay B_s0sig
+  1.000     MyD_s+     MyD_sK2pi-      PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+# -----------------
+# Decay of the Ds+
+# -----------------
+Decay MyD_s+
+  1.0     K+         K-        pi+     D_DALITZ;
+Enddecay
+CDecay MyD_s-
+
+# -----------------
+# Decay of the Ds-
+# -----------------
+Decay MyD_sK2pi-
+  1.0     K-        pi+        pi-     D_DALITZ;
+Enddecay
+CDecay MyD_sK2pi+
+
+End

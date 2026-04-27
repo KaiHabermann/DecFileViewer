@@ -1,0 +1,57 @@
+# EventType: 11146422
+#
+# Descriptor: [B0 -> (J/psi(1S) -> mu+ mu-) (omega -> pi+ pi- (pi0 -> gamma gamma)) pi- K+]cc
+#
+# NickName: Bd_JpsiOmegaKpi,mm=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 decays to Jpsi(to mu+ mu-), omega (to pi+ pi- pi0) and K+ pi- 
+# 
+#                 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Salil Joshi
+# Email: salil.joshi@ncbj.gov.pl
+# Date: 20250429
+# CPUTime:< 1 min
+#
+#
+#
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+Alias       Myomega         omega
+ChargeConj  Myomega       Myomega
+#
+Alias       Mypi0         pi0
+ChargeConj  Mypi0        Mypi0
+#
+#
+Decay B0sig
+  1.00000   MyJ/psi Myomega  pi-   K+     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+#
+Decay Myomega
+  1.000      pi-        pi+     Mypi0     OMEGA_DALITZ;
+Enddecay
+#
+#
+Decay Mypi0
+  1.000       gamma     gamma      PHSP;
+Enddecay
+#
+#
+Decay MyJ/psi
+  1.00000   mu+         mu-         PHOTOS VLL;
+Enddecay
+#
+#
+#
+End
+#
+

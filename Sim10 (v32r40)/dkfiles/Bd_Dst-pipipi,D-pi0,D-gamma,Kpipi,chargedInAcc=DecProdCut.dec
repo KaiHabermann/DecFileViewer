@@ -1,0 +1,74 @@
+# EventType: 11466409
+#
+# Descriptor: {[[B0]nos -> (D*- -> {pi0, gamma} (D- -> K+ pi- pi-) ) pi+ pi- pi+]cc, [[B0]os -> (D*+ -> {pi0, gamma} (D+ -> K- pi+ pi+) ) pi- pi+ pi-]cc}
+#
+# NickName: Bd_Dst-pipipi,D-pi0,D-gamma,Kpipi,chargedInAcc=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# Documentation: D*- > {pi0, gamma} (D- -> K+ pi- pi- )
+# The {pi0,gamma} is not forced into the acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Beatriz Garcia Plana, Antonio Romero Vidal
+# Email: beatriz.garcia.plana@cern.ch, antonio.romero@usc.es
+# Date: 20180203
+# CPUTime: < 1 min
+#
+Alias      MyD*-        D*-
+Alias      MyD*+        D*+
+ChargeConj MyD*-        MyD*+
+#
+Alias      MyD-         D-
+Alias      MyD+         D+
+ChargeConj MyD-         MyD+
+#
+Alias      Mya_1-       a_1-
+Alias      Mya_1+       a_1+
+ChargeConj Mya_1+       Mya_1-
+#
+Alias      Myrho0       rho0
+ChargeConj Myrho0       Myrho0
+#
+Alias      Myf_2        f_2
+ChargeConj Myf_2        Myf_2
+#
+Decay B0sig
+0.70   MyD*-  Mya_1+                 SVV_HELAMP 0.200 0.0 0.866 0.0 0.458 0.0;
+0.13   MyD*-  Myf_2     pi+          PHSP;
+0.12   MyD*-  Myrho0    pi+          PHSP;
+0.05   MyD*-  pi+  pi-  pi+          PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+# BR(D*- -> D- pi0)   = 30.7% (PDG2017)
+# BR(D*- -> D- gamma) = 1.6% (PDG201)
+  0.950  MyD-   pi0                VSS;
+  0.050  MyD-   gamma              VSP_PWAVE;
+Enddecay
+CDecay MyD*+
+#
+Decay MyD-
+# D_DALITZ includes resonances contributions (K*(892), K*(1430), K*(1680))
+  1.000    K+    pi-    pi-          D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+Decay Mya_1+
+  1.000   Myrho0 pi+                 VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay Myf_2
+  1.0000  pi+ pi-                    TSS ;
+Enddecay
+#
+Decay Myrho0
+  1.000        pi+        pi-        VSS;
+Enddecay
+#
+End

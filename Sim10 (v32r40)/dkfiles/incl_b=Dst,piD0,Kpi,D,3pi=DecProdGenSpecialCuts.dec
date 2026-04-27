@@ -1,0 +1,60 @@
+# EventType: 27163077
+#
+# Descriptor: [D*(2010)+ -> (D0 -> K- pi+) pi+]cc
+# Cuts: DaughtersInLHCbAndCutsForDstarFromB
+# CutsOptions: D0PtCuts 1.500*GeV DaughtersPtMinCut 150*MeV DaughtersPtMaxCut 150*MeV DaughtersPMinCut 1.00*GeV SoftPiPtCut 100*MeV
+# FullEventCuts: ExtraParticlesInAcceptance
+#
+# CPUTime: <1 min
+#
+# NickName: incl_b=Dst,piD0,Kpi,D,3pi=DecProdGenSpecialCuts
+# Documentation: Inclusive D*3pi events from b decays.
+#                The 3pi must come from a stable b-hadron and are in LHCb acceptance.
+#                Requires another D0 or D+ in the event.
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import ExtraParticlesInAcceptance
+# from GaudiKernel.SystemOfUnits import mm
+#
+# stable_b_hadrons = [511, 521, 531, 5122, 541, 5112, 5212, 5222, 5132, 5232, 5312, 5322, 5332, 5142, 5242, 5412, 5342, 5442, 5512, 5522, 5532, 5542, 5554]
+# stable_b_hadrons += [-pid for pid in stable_b_hadrons]
+#
+# Generation(genAlgName).FullGenEventCutTool = "ExtraParticlesInAcceptance"
+# Generation(genAlgName).addTool( ExtraParticlesInAcceptance )
+# Generation(genAlgName).ExtraParticlesInAcceptance.WantedIDs = [211, -211]
+# Generation(genAlgName).ExtraParticlesInAcceptance.NumWanted = 5
+# Generation(genAlgName).ExtraParticlesInAcceptance.RequiredAncestors = stable_b_hadrons
+# Generation(genAlgName).ExtraParticlesInAcceptance.AtLeast = True
+# Generation(genAlgName).ExtraParticlesInAcceptance.ExcludeSignalDaughters = False
+# Generation(genAlgName).ExtraParticlesInAcceptance.AllFromSameB = False
+# Generation(genAlgName).ExtraParticlesInAcceptance.ZPosMax = 200.*mm
+# Generation(genAlgName).ExtraParticlesInAcceptance.ExtraIDs = [411, -411, 421, -421]
+# Generation(genAlgName).ExtraParticlesInAcceptance.NumExtra = 2
+# Generation(genAlgName).ExtraParticlesInAcceptance.AtLeastExtra = True
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Guy Wormser, Dawid Gerstel, Adam Morris
+# Email: guy.wormser@cern.ch, dawid.piotr.gerstel@cern.ch, adam.morris@cern.ch
+# Date: 20180405
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.0   K-  pi+    PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End

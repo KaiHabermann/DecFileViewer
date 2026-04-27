@@ -1,0 +1,44 @@
+# EventType: 14175046
+# 
+# Descriptor: [B_c+ -> (psi(2S) -> mu+ mu-) (D+ -> K- pi+ pi+ ) ]cc
+# 
+# NickName: Bc_psi2SD+,mmKpipi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Bc decay to psi(2S) (mu mu) D (K pi pi), with Dalitz decay model for D+ decay  
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Fabian Christoph Glaser
+# Email: fabian.christoph.glaser@cern.ch
+# Date: 20251103
+#
+#
+Alias      Mypsi2S    psi(2S)
+ChargeConj Mypsi2S    Mypsi2S
+Alias      MyD+     D+
+Alias      MyD-     D-
+ChargeConj MyD+     MyD-
+#
+Decay B_c+sig
+  1.000  Mypsi2S    MyD+   PHOTOS SVS  ;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mypsi2S
+  1.000    mu+        mu-       PHOTOS VLL ;
+Enddecay
+#
+Decay MyD+
+  1.000        K-        pi+        pi+             D_DALITZ;
+Enddecay
+CDecay MyD-
+#
+End
+#

@@ -1,0 +1,51 @@
+# EventType: 15154301
+#
+# Descriptor: [Lambda_b0 -> (psi(2S) -> e+ e-) (Sigma0 -> (Lambda0 -> p+ pi-) gamma)]cc
+# NickName: Lb_psi2SSigma0,ee,Lambdagamma,ppi=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb->psi(2S) Sigma0 (isospin violated), 
+#                with Sigma0->Lambda0 gamma, Lambda0 forced into p pi, including radiative mode. 
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Niladri Sahoo
+# Email:  Niladri.Sahoo@cern.ch
+# CPUTime: 2 min
+# Date: 20211018
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias      MySigma      Sigma0
+Alias      Myanti-Sigma anti-Sigma0
+ChargeConj Myanti-Sigma MySigma
+Alias	   Mypsi2s	psi(2S)
+ChargeConj Mypsi2s	Mypsi2s
+#
+Decay Lambda_b0sig
+  1.000    MySigma          Mypsi2s                 PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MySigma
+  1.000    MyLambda	    gamma                   PHSP;
+Enddecay
+CDecay Myanti-Sigma
+#
+Decay Mypsi2s
+  1.000     e+  e-                                  PHOTOS  VLL;
+Enddecay
+#
+Decay MyLambda
+  1.000        p+          pi-        HELAMP 0.936 0.0 0.351 0.0;
+Enddecay
+#
+Decay Myanti-Lambda
+  1.000   anti-p-          pi+        HELAMP 0.351 0.0 0.936 0.0;
+Enddecay
+#
+End
+#

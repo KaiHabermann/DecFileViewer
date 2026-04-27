@@ -1,0 +1,72 @@
+# EventType: 11144003
+#
+# Descriptor: {[[B0]nos -> (J/psi(1S) -> mu+ mu-) (K*(892)0 -> K+ pi-)]cc, [[B0]os -> (J/psi(1S) -> mu+ mu-) (K*(892)~0 -> K- pi+)]cc}
+#
+# NickName: Bd_JpsiKst,mm=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.@Production.addTool( LoKi__GenCutTool, 'TightCut')
+# tightCut = gen.@Production.TightCut
+# tightCut.Decay = '^[B0 -> (J/psi(1S) => ^mu+ ^mu-) (K*(892)0 -> ^K+ ^pi-)]CC'
+# tightCut.Preambulo += [
+#   'from GaudiKernel.SystemOfUnits import picosecond',
+#   'from GaudiKernel.PhysicalConstants import c_light',
+#   'inAcc  = in_range(0.005, GTHETA, 0.400)',
+#   'goodB  = (GTIME > (0.2 * picosecond * c_light))',
+# ] 
+# tightCut.Cuts = {
+#   '[B0]cc' : 'goodB',
+#   '[mu+]cc': 'inAcc',
+#   '[mu-]cc': 'inAcc',
+#   '[K+]cc' : 'inAcc',
+#   '[pi-]cc': 'inAcc',
+# }
+# EndInsertPythonCode
+#
+# Documentation: Includes radiative mode, no CP violation, daughters in LHCb, B0 lifetime > 0.2 ps
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: David Bacher
+# Email: david.lukas.bacher@cern.ch
+# Date: 20250408
+#
+Define Hp 0.159
+Define Hz 0.775
+Define Hm 0.612
+Define pHp 1.563
+Define pHz 0.0
+Define pHm 2.712
+#
+Alias      MyJ/psi    J/psi
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+ChargeConj MyJ/psi    MyJ/psi
+#
+Decay B0sig
+  1.000         MyJ/psi   MyK*0          SVV_HELAMP Hp pHp Hz pHz Hm pHm;
+Enddecay
+Decay anti-B0sig
+  1.000         MyJ/psi   Myanti-K*0     SVV_HELAMP Hm pHm Hz pHz Hp pHp;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+       mu-            PHOTOS VLL;
+Enddecay
+#
+Decay MyK*0
+  1.000         K+        pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End
+

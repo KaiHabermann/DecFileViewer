@@ -1,0 +1,52 @@
+# EventType: 16163401
+#
+# Descriptor: [Sigma_b- -> (Xi_b0 ->  p+ K- (D0 -> pi0 pi0 )) pi-]cc
+#
+# NickName: Xibst-_Xib0pi-,pK-D0=DecProdCut
+# 
+# Documentation:
+#   Decay a Xib*- to a Xi_b0, going to p+ K- D0
+#   Sigma_b- as stand in for Xi*_b- as its not known to evtgen
+#   The D0 then decays invisibly
+#   This is a control mode for the wrong-sign tagging-pion line of
+#   Xib*- -> (Xi_b0 ->  p- K+ S) pi- 
+# EndDocumentation
+# 
+# Cuts: DaughtersInLHCb
+# 
+#  ParticleValue: " Sigma_b-   114   5112 -1.0  5.95533  2.506e-21       Sigma_b-   5112  0.000000e+00", " Sigma_b~+  115  -5112  1.0  5.95533  2.506e-21  anti-Sigma_b+  -5112  0.000000e+00"
+# 
+# 
+# CPUTime: <1min
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Patrick Koppenburg
+# Email: patrick.koppenburg@cern.ch
+# Date: 20241206
+#
+Alias       MyXi_b0      Xi_b0
+Alias       Myanti-Xi_b0 anti-Xi_b0
+ChargeConj  MyXi_b0      Myanti-Xi_b0
+#
+Alias       MyD0       D0
+Alias       MyD0b      anti-D0
+ChargeConj  MyD0       MyD0b
+
+
+# Force Sigma_b- (stand in for Xi*_b-) to decay to Xi_b0 pi-:
+Decay Sigma_b-sig
+1.000   MyXi_b0  pi-     PHSP;
+Enddecay
+CDecay anti-Sigma_b+sig 
+#
+Decay MyXi_b0
+1.000   K- p+   MyD0      PHSP;
+Enddecay
+CDecay  Myanti-Xi_b0
+#
+Decay   MyD0
+1.000   pi0 pi0 PHSP;
+Enddecay
+CDecay  MyD0b
+#
+End

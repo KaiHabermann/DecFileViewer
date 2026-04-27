@@ -1,0 +1,49 @@
+# EventType: 12147125
+#
+# Descriptor: [B+ ->  (K_S0 -> pi+ pi-) pi+ (X_1(3872) -> (J/psi(1S) -> mu+ mu-) pi+ pi-)]cc
+#
+# NickName: Bu_X3872KSpi,Jpsipipi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ -> X_1(3872) K_S0 pi+ decay, X_1(3872) ->J/psi(1S) pi+ pi-, J/psi -> mu+ mu-, K_S0 -> pi+ pi-  Decay products in acceptance
+# EndDocumentation
+#
+# CPUTime:  1min
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: sujuan wu
+# Email: wsj2022@mails.ccnu.edu.cn
+# Date: 20240902
+#
+Alias      MyJ/psi  J/psi
+Alias      MyX_1(3872)  X_1(3872)
+Alias      MyK_S0   K_S0
+ChargeConj MyX_1(3872)  MyX_1(3872)
+ChargeConj MyJ/psi  MyJ/psi
+ChargeConj MyK_S0   MyK_S0 
+#
+#
+#
+Decay B+sig
+  1.000    MyX_1(3872)   MyK_S0   pi+         PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyX_1(3872)
+  1.000         MyJ/psi         pi+   pi-         PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+        mu-        PHOTOS VLL;
+Enddecay
+#
+Decay MyK_S0
+  1.000         pi+        pi-        PHSP;
+Enddecay
+#
+End
+#
+
+
+

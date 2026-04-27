@@ -1,0 +1,36 @@
+# EventType: 27103120
+#
+# Descriptor: [D*_s- -> (Lambda0 -> p+ pi-) p~- ]cc
+#
+# NickName: Dsst_LambdaPbar_ppi=DecProd
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+#    Weak decays of Ds* to ppbarpi final state.
+#    Daughters in LHCb.
+# EndDocumentation
+#
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min 
+# Responsible: Yao Wang 
+# Email: yao.wang@cern.ch
+# Date: 20250907
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj MyLambda  Myanti-Lambda
+#
+Decay D_s*-sig
+  1.000        MyLambda      anti-p-                 PHSP;
+Enddecay
+CDecay D_s*+sig
+#
+Decay MyLambda
+      1.000 p+  pi- PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End

@@ -1,0 +1,42 @@
+# $Id: Bd_KEtapr,Etapipi,gg,DecProdCut.dec  $
+#
+# This is the decay file for the decay B+ -> ETA' (-> ETA (-> gamma gamma) PI+ PI-) K+ 
+#
+# EventType: 12103469
+#
+# Descriptor: [B+ -> (eta_prime -> (eta -> gamma gamma) pi+ pi-) K+]cc
+#
+# NickName: Bu_KEtapr,Etapipi,gg,DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb
+# 
+# Documentation: File for B+ -> eta' (-> eta (-> gamma gamma) pi+ pi-) K+
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Daniel Craik
+# Email: dcraik@cern.ch 
+# Date:   20191123
+# CPUTime: <1min
+
+#
+Alias      MyEta'    eta'
+Alias      MyEta       eta
+#
+Decay MyEta
+1.000      gamma gamma       PHSP;             
+Enddecay
+#
+Decay MyEta'
+1.000      MyEta  pi+  pi-       PHSP;             
+Enddecay
+#
+Decay B+sig
+1.000         K+  MyEta'     PHSP;
+Enddecay
+CDecay B-sig
+#
+End
+#

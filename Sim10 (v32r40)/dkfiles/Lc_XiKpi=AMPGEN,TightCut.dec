@@ -1,0 +1,99 @@
+# EventType: 25105196
+#
+# Descriptor: [Lambda_c+ -> (Xi- -> (Lambda0 -> p+ pi-) pi-) K+ pi+]cc
+# NickName: Lc_XiKpi=AMPGEN,TightCut
+# Cuts: LoKi::GenCutTool/GenSigCut
+# FullEventCuts: LoKi::FullGenEventCut/GenEvtCut
+# ExtraOptions: SwitchOffAllPythiaProcesses
+# InsertPythonCode:
+# from Configurables import (Pythia8Production, ToolSvc, EvtGenDecayWithCutTool, LoKi__GenCutTool, LoKi__FullGenEventCut)
+# Generation(genAlgName).SignalPlain.addTool(Pythia8Production, name="Pythia8Production")
+# Generation(genAlgName).SignalPlain.Pythia8Production.Commands += ["SoftQCD:all=off","HardQCD:hardccbar=on"]
+# Generation(genAlgName).SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool( EvtGenDecayWithCutTool )
+# EvtGenCut = ToolSvc().EvtGenDecayWithCutTool
+# EvtGenCut.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# EvtGenCut.CutTool = "LoKi::GenCutTool/HyperonLTCut"
+# EvtGenCut.addTool(LoKi__GenCutTool,"HyperonLTCut")
+# EvtGenCut.HyperonLTCut.Decay = "[Lambda_c+ ==> ^(Xi- => ^(Lambda0 => p+ pi-) pi-) K+ pi+]CC"
+# EvtGenCut.HyperonLTCut.Preambulo += [
+#   "from GaudiKernel.PhysicalConstants import c_light",
+#   "from GaudiKernel.SystemOfUnits import mm, ns"
+#   ]
+# EvtGenCut.HyperonLTCut.Cuts = {
+#   '[Xi-]cc'       : "(GCTAU>0.0019*ns*c_light) & (GCTAU<100*mm)",
+#   '[Lambda0]cc'   : "(GCTAU>0.0044*ns*c_light) & (GCTAU<380*mm)"
+# }
+# #
+# Generation(genAlgName).SignalPlain.addTool(LoKi__GenCutTool,'GenSigCut')
+# SigCut = Generation(genAlgName).SignalPlain.GenSigCut
+# SigCut.Decay = "[^(Lambda_c+ ==> ^(Xi- => ^(Lambda0 => p+ pi-) pi-) ^K+ ^pi+)]CC"
+# SigCut.Filter = True
+# SigCut.Preambulo += [
+#   "from LoKiCore.functions import in_range"  ,
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, mm",
+#   "inAcc = in_range(10*mrad,GTHETA,400*mrad)",
+#   "EVZ   = GFAEVX(GVZ,0)",
+#   "OVZ   = GFAPVX(GVZ,0)"
+#  ]
+# SigCut.Cuts = {
+#   '[Lambda_c+]cc' : "(GP>19.8*GeV) & (GPT>1.45*GeV) & (EVZ-OVZ>0.23*mm) & (EVZ-OVZ<180*mm) & (GCHILD(EVZ, (GABSID=='Xi-'))-EVZ>0)",
+#   '[Xi-]cc'       : "(GP>9.9*GeV) & (GPT>690*MeV) & (GCHILD(EVZ, (GABSID=='Lambda0'))-EVZ>0) & (GCHILDCUT(inAcc & (GP>1.45*GeV) & (GPT>195*MeV), '[Xi- => Lambda0 ^pi-]CC'))",
+#   '[Lambda0]cc'   : "(GP>6.9*GeV) & (GPT>490*MeV) & (GCHILDCUT((GP>4.95*GeV) & (GPT>290*MeV), '[Lambda0 => ^p+ pi-]CC'))"\
+#                     " & (GCHILDCUT((GP>1.35*GeV) & (GPT>75*MeV), '[Lambda0 => p+ ^pi-]CC'))",
+#   '[pi+]cc'       : "(GP>0.95*GeV) & (GPT>140*MeV) & inAcc",
+#   '[K+]cc'        : "(GP>2.95*GeV) & (GPT>240*MeV) & inAcc"
+# }
+# #
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut,'GenEvtCut')
+# EvtCut = Generation(genAlgName).GenEvtCut
+# EvtCut.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV, mm, mrad",
+#   "inAcc  = in_range(10*mrad,GTHETA,400*mrad)",
+#   "EVZ    = GFAEVX(GVZ,0)",
+#   "EVR    = GFAEVX(GVRHO,0)",
+#   "OVZ    = GFAPVX(GVZ,0)",
+#   "goodLc = GSIGNALINLABFRAME & (GABSID=='Lambda_c+') & (EVR<6*mm) & (GCHILDCUT((EVR<42*mm) & (EVZ<666*mm), '[Lambda_c+ ==> ^Xi- K+ pi+]CC'))"\
+#           " & (GCHILDCUT(((EVZ>300*mm) | ((GCHILDCUT(inAcc, '[Lambda0 => ^p+ pi-]CC')) & (GCHILDCUT(inAcc, '[Lambda0 => p+ ^pi-]CC'))))"\
+#           " & ((EVZ<500*mm) | ((GP>12.4*GeV) & (GPT>590*MeV) & (GCHILDCUT((GP>9.4*GeV) & (GPT>340*MeV), '[Lambda0 => ^p+ pi-]CC'))"\
+#           " &  (GCHILDCUT((GP>2.95*GeV) & (GPT>170*MeV), '[Lambda0 => p+ ^pi-]CC')))), '[Lambda_c+ ==> (Xi- => ^Lambda0 pi-) K+ pi+]CC'))"
+#  ]
+# EvtCut.Code = "has(goodLc)"
+# EndInsertPythonCode
+#
+# Documentation: For excited Xi spectroscopy. Cuts slightly looser than Hlt2CharmHadXim2LamPim_{DD,LL}LTurbo to account for resolution. Xi forced to decay in Velo.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Marian Stahl
+# Email: marian.stahl@{nospam}cern.ch
+# Date: 20201216
+# CPUTime: 1 min
+#
+Alias      MyXim      Xi-
+Alias      Myanti-Xip anti-Xi+
+ChargeConj MyXim      Myanti-Xip
+#
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+#
+Decay MyLambda0
+  1.000     p+   pi-      PHSP;
+Enddecay
+CDecay MyAntiLambda0
+#
+Decay MyXim
+  1.000     MyLambda0   pi-      PHSP;
+Enddecay
+CDecay Myanti-Xip
+#
+## Disable PHOTOS for all AmpGen models
+noPhotos
+Decay Lambda_c+sig
+  1.000 MyXim K+ pi+      LbAmpGen LctoXiKpi 0.0 0.0 0.0;
+Enddecay
+CDecay anti-Lambda_c-sig
+#
+End

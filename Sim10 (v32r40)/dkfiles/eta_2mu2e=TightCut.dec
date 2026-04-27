@@ -1,0 +1,47 @@
+# EventType: 39114032
+#
+# Descriptor: eta => mu+ mu- e+ e-
+#
+# NickName: eta_2mu2e=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: eta decay to two muons and two electrons. 
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = 'eta => ^mu+ ^mu- ^e+ ^e-'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import meter, GeV" ,
+#     "inAcc        =  in_range ( 0.01 , GTHETA , 0.400 )     " ,
+#     "inEta       =  in_range ( 1.5  , GETA   , 5.5 )        " , 
+#     "inP       =  ( GP > 1.85  *  GeV ) ",
+#     "goodMuon     =  inAcc & inP & inEta  " ,
+#     "goodElectron     =  inAcc & inP & inEta  " ,
+# ]
+# tightCut.Cuts      =    {
+#     "[mu+]cc"      : "goodMuon",
+#     "[e+]cc"       : "goodElectron"
+#                         }
+# EndInsertPythonCode
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Vitalii Lisovskyi
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20210719
+#
+Decay etasig
+  1.0       mu+  mu-  e+  e-        PHSP;
+Enddecay
+#
+End
+#

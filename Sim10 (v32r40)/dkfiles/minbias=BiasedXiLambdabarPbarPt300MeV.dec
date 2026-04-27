@@ -1,0 +1,47 @@
+# EventType: 30000003
+#
+# Descriptor: pp => [Xi~+ ->  (Lambda~0 -> p~- pi+) pi+] ...
+#
+# NickName: minbias=BiasedXiLambdabarPbarPt300MeV
+#
+# Cuts: None
+# Sample: MinimumBias
+#
+# Documentation: EPOS MB events, filtered for Xi~+ -> (Lambda~0 -> p~- pi+) pi+ decays in VELO acceptance 
+# for fixed target collisions.
+# Note that generator-level cuts are defined in the c.m. frame for fixed target events generated with EPOS.
+# Rapidity in [-2.8 , 0.7] in the c.m. frame, includes the lab rapidity range [2,5] for all
+# beam energy values in the [2500,6500] GeV range (c.m. rapidities in [4.3,4.8]).
+# The lifetime cut forbids lambdas to flight more that 2 m in the lab, for gamma factors above 36 (corresponding to beam energy of 2500 GeV)
+# EndDocumentation
+#
+# SpecialGeneration: BeamGasGeneration
+#
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).FullGenEventCutTool = "LoKi::FullGenEventCut/PbarCut"
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "PbarCut" )
+# PbarCut = Generation(genAlgName).PbarCut
+# PbarCut.OutputLevel=2
+# PbarCut.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import GeV, meter"       ,
+# "mineta = -2.8"                                          ,
+# "maxeta = 0.7"                                           ,
+# "isXiPbar = ( ('Xi~+' == GID) & (GINTREE((('Lambda~0' == GID) & (GPT > 0.3 *GeV) & (in_range(mineta, GETA, maxeta)) & (in_range ( -1 * meter, GTIME, 2 * meter * GM  / (36 * (GE + GPZ )))) & (GINTREE(('p~-' == GID) & (in_range(mineta, GETA, maxeta))))  & (GINTREE(('pi+' == GID) & (in_range(mineta, GETA, maxeta)))) ))) )"
+# ]
+#
+# PbarCut.Code = " ( has ( isXiPbar ) ) "
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Giacomo Graziani
+# Email:  Giacomo.Graziani@cern.ch
+# Date: 20210325
+# CPUTime: < 1 min
+End
+

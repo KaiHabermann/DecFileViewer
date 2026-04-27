@@ -1,0 +1,66 @@
+# EventType: 27162413
+#
+# Descriptor: [D*0 -> (D0 -> K- pi+) (pi0 -> gamma gamma)]cc
+#
+# NickName: Dst0_D0pi0,Kpi=TightCut,gammaConv
+#
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#InsertPythonCode:
+#
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#gen = Generation(genAlgName)
+#gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+#tightCut = gen.SignalPlain.TightCut
+#tightCut.Decay = '^[D*(2007)0 => ^(D0 ==> ^K- ^pi+) ^(pi0 ==> ^gamma ^gamma)]CC'
+#
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import MeV" ,
+#     "from LoKiCore.functions import in_range"
+# ]
+#tightCut.Cuts = {
+#   '[D*(2007)0]cc'   : '(GP >  6000 * MeV)',
+#   '[D0]cc'          : '(GP >  3000 * MeV)',
+#   '[K-]cc'          : '(GP >  1500 * MeV) & (GPT > 50 * MeV) & (in_range(0.010, GTHETA, 0.400))',
+#   '[pi+]cc'         : '(GP >  1500 * MeV) & (GPT > 50 * MeV) & (in_range(0.010, GTHETA, 0.400))'
+#   }
+#
+#EndInsertPythonCode
+#
+# PostFilter: ConversionFilter
+# PostFilterOptions: Mother "D*(2007)0" MinP 1500 MinPT 50 MaxSearchDepth 2 MatchSearchDepth True
+#
+# Documentation: D*0 -> D0pi0 decay file, asking the final state particles to be in the acceptance and have enough momentum to make it into long tracks. Filter such that at least one gamma from the pi0 converts, and the electrons have enough momentum to make it into long tracks.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Michel De Cian
+# Email: michel.de.cian@cern.ch
+# Date: 20190522 
+# CPUTime: < 1min
+#
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias      MyPi0       pi0
+ChargeConj MyPi0       MyPi0
+##
+Decay D*0sig
+1. MyD0  MyPi0    VSS;
+Enddecay
+CDecay anti-D*0sig
+#
+Decay MyD0
+1.     K-  pi+        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyPi0
+1.  gamma gamma      PHSP;
+Enddecay
+#
+End
+

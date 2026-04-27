@@ -1,0 +1,83 @@
+# EventType:  15196101
+# NickName:  Lb_Xic3080D0,D0Lambda,KPi,KPi,PPi=TightCut 
+# Descriptor: [Lambda_b0 -> (MyXi_c(3080)0 ->(D0 -> K- pi+) ( Lambda0-> p+ pi-)) (D~0 -> K+ pi-)]cc
+#
+# Cuts: LoKi::GenCutTool/TightCut 
+#
+#Documentation: Lb decays to excited Xi_c(3080)0, with Xi_c(3080)0 decaying to D0 Lambda0.
+#Since Xi_c(3080)0 is not included in EvtGen, we modify Xi_c(2815)0 to replace it.
+#All final state particles are required to be within the tight cut.
+# EndDocumentation
+# CPUTime:  5 min
+
+
+#ParticleValue: "Xi_c(2815)0          1057      104312   0.0      3.0799      2.94305e-24              Xi_c(2815)0           0      0.0000000", "Xi_c(2815)~0         1058     -104312   0.0      3.0799    2.94305e-24   anti-Xi_c(2815)0           0      0.0000000"
+# 
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#Generation(genAlgName).SignalPlain.addTool( LoKi__GenCutTool,'TightCut')
+#tightCut = Generation(genAlgName).SignalPlain.TightCut
+#tightCut.Decay = '[Lambda_b0 ==> (Xi_c(2815)0 ==> (D0 ==> ^K- ^pi+ ) ^( Lambda0 ==> ^p+ ^pi-))(D~0 ==> ^K+ ^pi-) ]CC'
+#tightCut.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import GeV, millimeter',
+#    'GVZ = LoKi.GenVertices.PositionZ()',
+#    'inAcc        = in_range(0.01, GTHETA, 0.400) & in_range(1.9, GETA, 5.1)',
+#     'goodKaon = ( GPT > 0.15 * GeV ) & (GP> 2.*GeV)  & inAcc ' ,
+#     'goodProton = ( GPT > 0.15 * GeV ) & (GP> 2.*GeV)  & inAcc ' ,
+#     'goodpi  = ( GPT > 0.15 * GeV ) & ( GP > 2. * GeV ) & inAcc ',
+#     "goodL0 = (GFAEVX(abs(GVZ),0) < 2500.0 * millimeter) &(GINTREE ( ( 'pi+' == GABSID ) & ( GP > 1.3 * GeV ) )) & (GINTREE ( ( 'p+' == GABSID ) & ( GP > 1.3 * GeV ) ))"
+#]
+#tightCut.Cuts = {
+#    '[pi+]cc'         : 'goodpi',
+#    '[K+]cc'          : 'goodKaon',
+#    '[p+]cc'          : 'goodProton',
+#    '[Lambda0]cc'     : 'goodL0'
+#    }
+#EndInsertPythonCode
+#
+#
+# Date:   20210605
+# Responsible: Tianwen Zhou
+# Email: zhoutw@stu.pku.edu.cn
+# PhysicsWG: Onia
+# Tested: Yes
+
+Alias MyXi_c(3080)0  Xi_c(2815)0 
+Alias My_anti-Xi_c(3080)0  anti-Xi_c(2815)0 
+ChargeConj MyXi_c(3080)0 My_anti-Xi_c(3080)0
+
+Alias My_D0    D0
+Alias My_anti-D0    anti-D0
+ChargeConj My_D0   My_anti-D0 
+#
+Alias   MyLambda  Lambda0
+Alias   MyAntiLambda  anti-Lambda0
+ChargeConj  MyLambda  MyAntiLambda
+#
+Decay Lambda_b0sig
+1.000 MyXi_c(3080)0  My_anti-D0   PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyXi_c(3080)0
+ 1.000  My_D0  MyLambda   PHSP;
+Enddecay
+CDecay  My_anti-Xi_c(3080)0
+#
+Decay My_D0
+1.000 K- pi+   PHSP;
+Enddecay
+CDecay My_anti-D0
+#
+Decay MyLambda
+1.0   p+   pi-       PHSP;
+Enddecay
+CDecay MyAntiLambda
+#
+
+#
+
+End
+

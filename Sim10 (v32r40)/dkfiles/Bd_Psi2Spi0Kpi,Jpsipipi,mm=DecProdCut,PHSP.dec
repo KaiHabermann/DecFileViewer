@@ -1,0 +1,51 @@
+# EventType: 11146401
+#
+# Descriptor: [B0 -> (psi(2S) -> (J/psi(1S) -> mu+ mu-) pi+ pi-) (pi0 -> gamma gamma) pi- K+]cc
+#
+# NickName: Bd_Psi2Spi0Kpi,Jpsipipi,mm=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 decays to Psi(2S)(to Jpsi(to mu+ mu-) and pi+ pi-) and pi0 K+ pi- with phase space model
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Salil Joshi
+# Email: salil.joshi@ncbj.gov.pl
+# Date: 20231204
+# CPUTime:< 1 min
+#
+#
+Alias       Mypsi(2S)  psi(2S)
+ChargeConj  Mypsi(2S)  Mypsi(2S)
+#
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+#
+Alias      Mypi0       pi0
+ChargeConj Mypi0       Mypi0
+#
+#
+Decay B0sig
+  1.00000   Mypsi(2S)  Mypi0  pi-  K+      PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+#
+Decay Mypsi(2S)
+  1.00000   MyJ/psi   pi+   pi-        VVPIPI;
+Enddecay
+#
+Decay Mypi0
+  1.00000     gamma   gamma            PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.00000     mu+          mu-        PHOTOS VLL;
+Enddecay
+#
+#
+End
+#

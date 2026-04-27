@@ -1,0 +1,45 @@
+# EventType: 12763000
+#
+# Descriptor: {[B+ -> p+ p~- (D_s+ -> (tau+ -> mu+ nu_mu anti-nu_tau) nu_tau)]cc, [B- -> p+ p~- (D_s- -> (tau- -> mu- anti-nu_mu nu_tau) anti-nu_tau)]cc}
+#
+# NickName: Bu_Dsppbar,taunu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: B+ decay with phase space model in acceptance, Ds decays to tau nu, tau goes muonically
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Mark Smith 
+# Email: mark.smith@cern.ch
+# Date: 20180206
+#
+
+Alias MyDs+ D_s+
+Alias MyDs- D_s-
+ChargeConj MyDs+ MyDs-
+
+Alias MyTau- tau-
+Alias MyTau+ tau+
+ChargeConj MyTau- MyTau+
+
+Decay B+sig
+1.0   p+  anti-p- MyDs+              PHSP;
+Enddecay
+CDecay B-sig
+
+
+Decay MyDs+
+1.0   MyTau+ nu_tau		SLN;
+Enddecay
+CDecay MyDs-
+
+Decay MyTau+
+0.1741    mu+  nu_mu  anti-nu_tau    PHOTOS  TAULNUNU;
+Enddecay
+CDecay MyTau-
+
+End

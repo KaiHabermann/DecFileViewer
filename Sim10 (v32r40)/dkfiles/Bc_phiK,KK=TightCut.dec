@@ -1,0 +1,51 @@
+# EventType: 14103012
+#
+# Descriptor: [B_c+ -> (phi(1020) -> K+ K-) K+]cc
+#
+# NickName: Bc_phiK,KK=TightCut
+#
+# Production: BcVegPy
+#
+# Cuts: LoKi::GenCutToolWithDecay/TightCut
+#
+# Documentation: Phi forced to K+K-, phase space decay, decay products in acceptance, momentum cut in kaons
+# EndDocumentation
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutToolWithDecay
+# from Gauss.Configuration import *
+# #
+# Generation().Special.addTool( LoKi__GenCutToolWithDecay , 'TightCut' )
+# Generation().Special.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+# Generation().Special.TightCut.SignalPID = 'B_c+'
+# Generation().Special.TightCut.Decay = "[B_c+ => (phi(1020) => ^K+ ^K-) ^K+]CC"
+# Generation().Special.TightCut.Cuts = {
+#     'K+' : ' ( GPT > 0.5 * GeV ) & inAcc ',
+#     'K-' : ' ( GPT > 0.5 * GeV ) & inAcc '
+#     }
+# Generation().Special.TightCut.Preambulo += [
+#     'inAcc   = in_range ( 0.010 , GTHETA , 0.400 ) '
+#     ]
+# # -- END  -- #
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Jonnatan Pereira
+# Email: jonnatan.pereira.betencur@cern.ch
+# Date: 20221103
+# CPUTime: <1 min
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B_c+sig
+1.000      MyPhi  K+   SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyPhi
+  1.000        K+        K-                 VSS;
+Enddecay
+#
+End
+

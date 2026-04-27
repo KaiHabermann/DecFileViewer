@@ -1,0 +1,39 @@
+# EventType: 15608000
+#
+# Descriptor: {[Lambda_b0 -> p+ K- (tau+ -> pi+ pi- pi+ anti-nu_tau) (tau- -> pi- pi+ pi- nu_tau)]cc}
+#
+# NickName: Lb_pKtautau,3pi3pi=DecProdCut,tauolababar,phsp
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda_b to p K tau mu decay, with tau hadronic decays into 3 charged pions using the Tauola model.  
+# EndDocumentation
+#
+# CPUTime: 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Tommaso Fulghesu
+# Email: tommaso.fulghesu@cern.ch
+# Date: 20211216
+#
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias        Mytau+    tau+
+Alias        Mytau-    tau-
+ChargeConj   Mytau+    Mytau-
+#
+Decay Lambda_b0sig
+    1.000     p+     K-    Mytau+     Mytau-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mytau-
+    1.00    TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+End

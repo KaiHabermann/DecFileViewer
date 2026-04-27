@@ -1,0 +1,77 @@
+
+# $Id: Bu_KDarkBoson2MuMu,m=4500MeV,t=16ns,TightCut.dec  $
+#
+# This is the decay file for the decay B+ -> DARK BOSON (-> MU+ MU-) K+
+#
+# EventType: 12113949
+#
+# Descriptor: [B+ -> K+ (Higgs0 -> mu+ mu-)]cc
+#
+# NickName: Bu_KDarkBoson2MuMu,m=4500MeV,t=16ns,TightCut
+#
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+#from Configurables import Gauss, PrintMCTree, PrintMCDecayTreeTool, HistogramPersistencySvc, NTupleSvc, DumpHepMCDecay, DumpHepMCTree, GaussMonitor__CheckLifeTimeHepMC, GaussMonitor__CheckLifeTimeMC, GiGa, GiGaPhysListModular, GiGaHiggsParticles, GenerationToSimulation, PythiaProduction
+#
+#
+#
+#
+#ParticlePropertySvc().Particles = [ "H_10     87      25  0.0        4.500   16.000e-9      Higgs0   25   0.000000e+000" ]
+#ApplicationMgr().ExtSvc    += [ ParticlePropertySvc() ]
+#
+#gigaHiggsPart = GiGaHiggsParticles()
+#gigaHiggsPart.Higgses = ["H_10"] # H_10, H_20, H_30
+#GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]#
+#
+# generation = Generation(genAlgName)
+# signal     = generation.SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[B+ => K+ ^(H_10 => mu+ mu-)]CC'
+# tightCut.Preambulo += [
+#     'inAcc        =  in_range ( 0.0 , GTHETA , 0.400 )         ' ,
+# 	  ]
+# tightCut.Cuts     =    {
+#     '[H_10]cc'      : 'inAcc' ,
+#     }
+#
+#
+#EndInsertPythonCode
+#
+#
+#
+# Documentation: File for B+ -> Dark Boson (-> mu mu) K+
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Simone Libralon
+# Email: simone.libralon@cern.ch
+# Date:   20241002
+# CPUTime: <1min
+
+#
+Alias MyDB    Higgs0
+
+ChargeConj MyDB  MyDB
+
+#
+Decay MyDB
+1.000         mu+      mu-       PHSP;
+Enddecay
+#
+
+#
+Decay B+sig
+1.000         K+  MyDB           PHSP;
+Enddecay
+CDecay B-sig
+#
+
+End
+#
+

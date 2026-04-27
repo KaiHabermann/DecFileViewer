@@ -1,0 +1,40 @@
+# EventType: 13166420
+#
+# Descriptor: [B_s0 => (D_s- => pi+ pi- pi- pi0) pi+ pi+ pi-]CC
+#
+# NickName: Bs_Ds3pi,3pipi0=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Bs->Dspipipi, Ds->pipipipi0, with generator level cut p>1600MeV
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Ya Zhao
+# Email: ya.zhao@cern.ch
+# Date: 20250805
+# CPUTime: < 1 min
+#
+
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+
+#
+Decay B_s0sig
+1.000    MyD_s-    pi+    pi+    pi-    PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+
+#
+Decay MyD_s-
+1.000    pi+    pi-    pi-    pi0    PHSP;
+Enddecay
+CDecay MyD_s+
+#
+
+End

@@ -1,0 +1,107 @@
+# EventType: 12873404
+#
+# Descriptor: [[B-] ==> (D0 -> K- pi+) mu- anti-nu_mu]cc
+#
+# NickName: Bu_D0Xmunu,D0=cocktail,bcl,bgl,isgw2,LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Sum of B+ -> D0Xmunu modes with (D0 -> K- pi+) final state, including D*(*). BFs corrected for forced final states and unseen modes predicted through isospin extrapolation.
+# EndDocumentation
+#
+#
+#
+# CPUTime: < 4 min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Wren Vetens
+# Email: wren.vetens@cern.ch
+# Date: 20240925
+#
+Alias           MyD0            D0
+Alias           MyAntiD0        anti-D0
+ChargeConj      MyD0            MyAntiD0
+#
+Alias           MyD*0           D*0
+Alias           MyAntiD*0       anti-D*0
+ChargeConj      MyD*0           MyAntiD*0
+#
+Alias           MyD_0*0         D_0*0
+Alias           MyAntiD_0*0     anti-D_0*0
+ChargeConj      MyD_0*0         MyAntiD_0*0
+#
+Alias           MyD*+           D*+
+Alias           MyD*-           D*-
+ChargeConj      MyD*+           MyD*-
+#
+Alias           MyD_10          D_10
+Alias           MyAntiD_10      anti-D_10
+ChargeConj      MyD_10          MyAntiD_10
+#
+Alias           MyD'_10         D'_10
+Alias           MyAntiD'_10     anti-D'_10
+ChargeConj      MyD'_10         MyAntiD'_10
+#
+Alias           MyD_2*0         D_2*0
+Alias           MyAntiD_2*0     anti-D_2*0
+ChargeConj      MyD_2*0         MyAntiD_2*0
+#
+Decay B-sig
+   0.055300	MyD*0		mu-	anti-nu_mu		    PHOTOS BTOXELNU BGL 0.0318 -0.114 0.01222 0.014 -0.0082 -0.05; # form factors from https://journals.aps.org/prd/abstract/10.1103/PhysRevD.109.094515
+   0.022100	MyD0		mu-	anti-nu_mu		    PHOTOS BTOXELNU BCL 0.836 -2.66 -0.07 0.0 0.647 0.27 -0.09 0.0; # form factors from https://journals.aps.org/prd/abstract/10.1103/PhysRevD.92.054510
+   0.000450	MyD_0*0		mu-	anti-nu_mu		    PHOTOS ISGW2;
+   0.005067	MyD_10		mu-	anti-nu_mu		    PHOTOS ISGW2;
+   0.002001	MyD'_10		mu-	anti-nu_mu		    PHOTOS ISGW2;
+   0.002191	MyD_2*0		mu-	anti-nu_mu		    PHOTOS ISGW2;
+   0.000515 MyD0	pi0    mu-	anti-nu_mu	    PHOTOS GOITY_ROBERTS;
+   0.000691	MyD*0	pi+ pi-   mu-	anti-nu_mu	PHOTOS PHSP;
+   0.000230	MyD*0	pi0 pi0   mu-	anti-nu_mu	PHOTOS PHSP;
+   0.000312	MyD*+	pi- pi0   mu-	anti-nu_mu	PHOTOS PHSP;
+   0.000019	MyD*0	eta   mu-	anti-nu_mu	    PHOTOS PHSP;
+Enddecay
+CDecay B+sig
+#
+Decay MyD0
+   1.000	K-	pi+	PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD0
+#
+Decay MyD*0
+   0.647	MyD0	pi0	    PHOTOS VSS;
+   0.353	MyD0	gamma   PHOTOS VSP_PWAVE;
+   0.00391  MyD0	e+ e-	PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD*0
+#
+Decay MyD*+
+   1.000	MyD0	pi+	PHOTOS VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD_0*0
+   0.500	MyD0	pi0	    PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_0*0
+#
+Decay MyD_10
+   0.677	MyD*+	pi-		PHOTOS VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+   0.500	MyD*0	pi0		PHOTOS VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+   0.372	MyD0	pi+ pi-	PHOTOS PHSP;
+   0.248	MyD0	pi0 pi0	PHOTOS PHSP;
+Enddecay
+CDecay MyAntiD_10
+#
+Decay MyD'_10
+   0.677	MyD*+	pi-	PHOTOS VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+   0.500	MyD*0	pi0	PHOTOS VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAntiD'_10
+#
+Decay MyD_2*0
+   0.500	MyD0   pi0	PHOTOS TSS;
+   0.376	MyD*+   pi-	PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+   0.277	MyD*0   pi0	PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MyAntiD_2*0
+#
+End

@@ -1,0 +1,49 @@
+# EventType: 18153021
+#
+# Descriptor: Upsilon(3S) -> (Upsilon(2S) -> tau+ e-) pi+ pi- 
+#
+# NickName: incl_Upsilon3S,Upsilon2Spipi,etau=DecProdCut,tauola
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Upsilon(3S) decay to Upsilon(2S)(to e+ tau- {,gamma} {,gamma}) pi+ pi- with phase space mode, Upsilon daughters in acceptance. taus decay in the 3-prong charged pion mode using the Tauola BaBar model.
+# 
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Fergus Wilson
+# Email: fergus.wilson@stfc.ac.uk
+# Date: 20230215
+#
+#
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         Mytau+   tau+
+Alias         Mytau-   tau-
+ChargeConj    Mytau+   Mytau-
+#
+Alias      MyUpsilon Upsilon(2S)
+ChargeConj MyUpsilon MyUpsilon
+
+Decay Upsilon(3S)sig
+  1.000     MyUpsilon    pi+        pi-        PHSP;
+Enddecay
+#
+Decay MyUpsilon
+  0.5         Mytau-   e+        PHSP;
+  0.5         Mytau+   e-        PHSP;
+Enddecay
+#
+Decay Mytau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+End
+#

@@ -1,0 +1,93 @@
+# EventType: 44102000
+#
+# Descriptor: pivDiag -> K+K-
+#
+# NickName: HiddenValley_HiggsPortal_KK_1.02GeV_5ps
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/HiddenValleyDiKaon
+#
+# InsertPythonCode:     
+# from Gaudi.Configuration import *                                                                     
+# Generation().PileUpTool = "FixedLuminosityForRareProcess"
+# importOptions( "$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py" )
+# from Configurables import Pythia8Production
+# Generation().Special.ProductionTool = "Pythia8Production"
+# Generation().Special.addTool( Pythia8Production )
+# 
+# ## Pythia8 production commands
+# GlobalParameters    = ["PartonLevel:MPI = on",
+#                       "PartonLevel:ISR = on",
+#                       "PartonLevel:FSR = on",
+#                       "HadronLevel:Hadronize = on"]
+# HiggsProduction     = ["HiggsSM:all = on",
+#                        "25:onMode = off",
+#                        "25:addChannel = 1 1 103  4900101 -4900101"]
+# HidValleyParameters = ["HiddenValley:FSR = on",
+#                       "HiddenValley:fragment = on",
+#                       "HiddenValley:alphaOrder = 1",
+#                       "HiddenValley:alphaFSR = 0.7",
+#                       "HiddenValley:Ngauge = 3",
+#                       "HiddenValley:Lambda = 4",
+#                       "HiddenValley:pTminFSR = 1",
+#                       "HiddenValley:nFlav = 1",
+#                       "HiddenValley:probVector = 0"]
+# HidPartParameters   = ["4900101:m0 = 1",                     # qv mass
+#                        "4900113:m0 = 1.02",                  # Rhov mass
+#                        "4900111:m0 = 1.02",                  # Piv mass (GeV)
+#                        "4900111:tau0 = 1.49896",             # Piv lifetime (5 ps) in mm (c = 0.299792 mm/ps)
+#                        "4900111:onMode = on",
+#                        "4900111:mayDecay = on",
+#                        "4900111:addChannel 1 1 1 321 -321",  # K+ K-
+#                        "321:mayDecay = on"]
+# Generation().Special.Pythia8Production.Commands += GlobalParameters
+# Generation().Special.Pythia8Production.Commands += HiggsProduction
+# Generation().Special.Pythia8Production.Commands += HidValleyParameters
+# Generation().Special.Pythia8Production.Commands += HidPartParameters
+# 
+# ## Property Particle table update:
+# from Configurables import LHCb__ParticlePropertySvc as PPS
+# PPS().Particles = ["gv       4900021  4900021  0.0  0.0   0.0      gv        4900021 0",
+#                    "Zv       4900023  4900023  0.0  125.0 6.58e-23 Zv        4900023 1e-2",
+#                    "qv       4900101  4900101  0.0  1.0   0.0      qv        4900101 0",
+#                    "qvbar   -4900101 -4900101  0.0  1.0   0.0      qvbar    -4900101 0",
+#                    "pivDiag  4900111  4900111  0.0  1.02  5e-12    pivDiag   4900111 2.0e-11",
+#                    "pivUp    4900211  4900211  0.0  1.02  0.0      pivUp     4900211 0",
+#                    "pivDn   -4900211 -4900211  0.0  1.02  0.0      pivDn    -4900211 0",
+#                    "rhovDiag 4900113  4900113  0.0  1.02  0.0      rhovDiag  4900113 0",
+#                    "rhovUp   4900213  4900213  0.0  1.02  0.0      rhovUp    4900213 0",
+#                    "rhovDn  -4900213 -4900213  0.0  1.02  0.0      rhovDn   -4900213 0"]
+# 
+# ## Geant4 classes:
+# from Configurables import GenerationToSimulation
+# from Configurables import GiGaHiddenValleyParticles, GiGaPhysListModular
+# GenerationToSimulation("GenToSim").KeepCode = "in_list( GABSID, [ 'pivDiag', 'gv', 'qv', 'qvbar' ] )"
+# gigaHVPart = GiGaHiddenValleyParticles()
+# gigaHVPart.HiddenValley = ["pivDiag", "gv", "qv", "qvbar"]
+# GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHVPart ]
+# 
+# ## Generator level cuts:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "HiddenValleyDiKaon" )
+# tracksInAcc = Generation().HiddenValleyDiKaon
+# tracksInAcc.Code = " count ( isGoodHV ) > 1 "
+# ### - HepMC::IteratorRange::descendants   4
+# tracksInAcc.Preambulo += [ "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#                          , "isGoodKaon = ( ( GP > 2.*GeV ) & ( GTHETA < 400.0*mrad ) & ( 'K+' == GABSID ) )"
+#                          , "isGoodHV   = ( ( 'pivDiag' == GID ) & ( GNINTREE( isGoodKaon, 4 ) > 1 ) )" ]
+# EndInsertPythonCode
+#
+# Documentation: HV pion decaying into KK, at least two HV pions in the event, 1.02 GeV and 5 ps.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Carlos Vazquez Sierra
+# Email: carlos.vazquez.sierra@cern.ch
+# Date: 20200617
+# CPUTime: < 1 min
+#
+End
+#
+
+

@@ -1,0 +1,61 @@
+# EventType: 15574035
+# 
+# Descriptor: [Lambda_b0 -> (D0 -> K- mu+ nu_mu) p+ pi-]cc
+# 
+# NickName: Lb_D0ppi,Kmunu=DecProdCut,HighVisMass,EvtGenCut
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+# #
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation()
+#
+# gen.SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/HighVisMass"
+# evtgendecay.addTool(LoKi__GenCutTool ,'HighVisMass')
+# evtgendecay.HighVisMass.Decay   = '[^(Lambda_b0 => (D0 => K- mu+ nu_mu) pi- p+)]CC'
+# evtgendecay.HighVisMass.Cuts    = { '[Lambda_b0]cc' : "visMass" }
+# evtgendecay.HighVisMass.Preambulo += ["visMass  = ( ( GMASS ( 'pi-' == GABSID , 'mu+' == GABSID, 'p+' == GABSID, 'K-' == GABSID ) ) > 4500 * MeV ) " ]
+#
+# EndInsertPythonCode
+#
+# Documentation: Adapted from "Lb_D0penu,D0=Kenu,TightCut.dec" with cuts similar to "Lb_Lcmunu,L0enu=DecProdCut,HighVisMass,EvtGenCut.dec".
+# Hadronic Lambda_b decay into D0 p pi. D0 decays semileptonically to K- mu nu.
+# Generator level cut applied to have a visible mass larger than 4.5 GeV.
+# Semileptonic background for Lb->Lambda(1520)emu.
+# EndDocumentation
+#
+# CPUTime: 2 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Dan Thompson   
+# Email: dan.thompson@cern.ch
+# Date: 20211125
+#
+#
+#
+Alias MyD0       D0
+Alias Myanti-D0  anti-D0
+ChargeConj MyD0  Myanti-D0
+#
+###
+Decay Lambda_b0sig
+  1.000    MyD0  p+  pi-    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyD0
+  1.000    K-  mu+  nu_mu                 ISGW2;
+Enddecay
+CDecay Myanti-D0
+#
+#
+End
+#

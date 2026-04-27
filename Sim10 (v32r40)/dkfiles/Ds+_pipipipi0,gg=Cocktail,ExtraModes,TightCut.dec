@@ -1,0 +1,79 @@
+# EventType: 23203492
+#
+# Descriptor: {[D_s+ -> ( f_0 -> pi+ pi- )( rho+ -> pi+ ( pi0 -> gamma gamma ))]cc,[D_s+ -> ( rho0 -> pi+ pi- )( rho+ -> pi+ ( pi0 -> gamma gamma ))]cc,[D_s+ -> ( f_0 -> pi+ pi- ) pi+ ( pi0 -> gamma gamma )]cc,[D_s+ -> ( rho0 -> pi+ pi- ) pi+ ( pi0 -> gamma gamma )]cc,[D_s+ -> ( rho+ -> pi+ ( pi0 -> gamma gamma) ) pi+ pi-]cc}
+#
+# NickName: Ds+_pipipipi0,gg=Cocktail,ExtraModes,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool, 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = '[^(D_s+ ==> ^pi+ ^pi- ^( pi0 -> ^gamma ^gamma ) ^pi+)]CC'
+#
+# tightCut.Cuts = {
+# 	'[pi+]cc'	:	'inAcc & piCuts',
+# 	'[D_s+]cc'	:	'Dcuts',
+#   	'gamma' 	: 	'goodPhoton',  
+# 	'pi0'		:	'goodPi0'}
+# tightCut.Preambulo += [
+#	  'inAcc = in_range(0.005, GTHETA, 0.400) & in_range(1.8, GETA, 5.0)',
+#	  'piCuts = ( (GPT>250 * MeV) & ( GP > 2000 * MeV))',
+#	  'Dcuts = (GPT> 2000 * MeV)',
+#   	  'goodPi0 = (GPT>1000 * MeV)',
+#	  'inEcalX = abs( GPX/GPZ ) <4.5/10',
+#	  'inEcalY = abs( GPY/GPZ ) <3.5/10',
+#	  'inEcalHole = (abs (GPX/GPZ) <0.25/12.5 ) & (abs(GPY/GPZ)<0.25/12.5)',
+#	  'goodPhoton = (GPT >100 * MeV) & (GPZ>0) & inEcalX & inEcalY & ~inEcalHole']
+# EndInsertPythonCode	
+#
+# Documentation: Forces a D_s+ to pi+ pi- ( pi0 -> gamma gamma ) pi+ with generator level cuts 
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Arnau Brossa
+# Email: arnau.brossa@cern.ch
+# Date: 20221115
+#
+Alias       my_pi0   pi0
+ChargeConj  my_pi0   my_pi0
+Alias 	    my_rho0  rho0
+ChargeConj  my_rho0  my_rho0
+Alias	    my_rho+  rho+
+Alias 	    my_rho-  rho-
+ChargeConj  my_rho+  my_rho-
+Alias 	    my_f_0    f_0
+ChargeConj  my_f_0    my_f_0
+#
+Decay  D_s+sig
+  0.2      my_rho+  my_f_0                PHOTOS SVS ;
+  0.2      my_rho0  my_rho+               PHOTOS SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0 ;
+  0.2      my_f_0   pi+   my_pi0          PHOTOS PHSP ;
+  0.2      my_rho0  pi+   my_pi0          PHOTOS PHSP ;
+  0.2      my_rho+  pi+   pi-             PHOTOS PHSP ;
+Enddecay
+CDecay D_s-sig
+#
+Decay  my_f_0
+  1.000     pi+   pi-     PHOTOS PHSP ;
+Enddecay
+#
+Decay  my_rho0
+  1.000     pi+   pi-     PHOTOS VSS ;
+Enddecay
+#
+Decay  my_rho+
+  1.000     pi+   my_pi0  PHOTOS VSS ;
+Enddecay
+CDecay my_rho-
+#
+Decay  my_pi0
+  1.000     gamma gamma   PHSP ;
+Enddecay
+#
+End

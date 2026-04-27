@@ -1,0 +1,46 @@
+# EventType: 40512000
+#
+# Descriptor: gamma gamma -> (tau+-> mu+ nu_mu anti-nu_tau) (tau- -> mu- anti-nu_mu nu_tau)
+#
+# NickName: exclu_tautau,mm=two_photon_starlight_evtGen
+#
+# Cuts: DiLeptonInAcceptance
+# Documentation: tau pair production from two photon with STARlight and muonic decay of taus
+# EndDocumentation
+#
+# CPUTime: < 2 min
+#
+# InsertPythonCode:
+# from Configurables import Generation, Special, StarLightProduction
+# Generation().DecayTool = 'EvtGenDecay'
+# Generation().SampleGenerationTool = 'Special'
+# Generation().addTool(Special)
+# Generation().Special.CutTool = ''
+# Generation().Special.DecayTool = ''
+# Generation().Special.ProductionTool = 'StarLightProduction'
+# Generation().FullGenEventCutTool = 'DiLeptonInAcceptance'
+# Generation().Special.addTool(StarLightProduction)
+# Generation().Special.StarLightProduction.Commands += ['PROD_PID = 15']
+# Generation().Special.StarLightProduction.Commands += ['PROD_MODE = 1']
+#
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Lakshan Madhan
+# Email: lakshan.madhan@cern.ch
+# Date: 20230119
+#
+#
+Alias        Mytau+    tau+
+Alias        Mytau-    tau-
+ChargeConj   Mytau+    Mytau-
+#
+#
+Decay Mytau+
+  1.000     mu+          nu_mu      anti-nu_tau    TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

@@ -1,0 +1,63 @@
+# EventType: 15268118
+#
+# Descriptor: [Lambda_b0 -> ( Lambda_c+ -> p+ K- pi+ ) pi- (Lambda0 -> p+ pi-) Myanti_Lambda0]cc
+#
+# NickName: Lb_LcpiLLbar,pKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda_b -> Lambda_c pi Lambda0 Lambda~0, Lambda_c is forced to  p+ K- pi+ final state, through several intermediate resonances. decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Fanjie Meng
+# Email: fanjie.meng@cern.ch
+# Date: 20240711
+#
+
+Alias MyLambda_c        Lambda_c+
+Alias Myanti_Lambda_c   anti-Lambda_c-
+ChargeConj MyLambda_c   Myanti_Lambda_c
+#
+Alias MyK0              K*0
+Alias Myanti_K0         anti-K*0
+ChargeConj MyK0         Myanti_K0
+#
+Alias MyLambda0         Lambda0
+Alias Myanti_Lambda0    anti-Lambda0
+ChargeConj MyLambda0    Myanti_Lambda0
+#
+Alias MyDeltapp         Delta++
+Alias Myanti_Deltamm    anti-Delta--
+ChargeConj MyDeltapp    Myanti_Deltamm
+#
+Decay Lambda_b0sig
+1.000 MyLambda_c pi-    MyLambda0 Myanti_Lambda0                PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c
+ 0.008600000 MyDeltapp  K-                                      PHSP;
+ 0.010700000 p+         Myanti_K0                               PHSP;
+ 0.025400000 p+         K-      pi+                             PHSP;
+Enddecay
+CDecay Myanti_Lambda_c
+#
+Decay MyK0
+  1.000      K+         pi-                                     VSS;
+Enddecay
+CDecay Myanti_K0
+#
+Decay MyLambda0
+  1.000      p+          pi-                                    PHSP;
+Enddecay
+CDecay Myanti_Lambda0
+#
+Decay MyDeltapp
+  1.000      p+          pi+                                    PHSP;
+Enddecay
+CDecay Myanti_Deltamm
+End
+

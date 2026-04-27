@@ -1,0 +1,68 @@
+# EventType: 11166473
+#
+# Descriptor: {[[B0]nos => (D*(2007)~0 -> (D~0 -> pi+ pi- pi+ pi-) (pi0 -> gamma gamma)) K+ pi-]cc, [[B0]os => (D*(2007)0 -> (D0 -> pi+ pi- pi+ pi-) (pi0 -> gamma gamma)) K- pi+]cc}
+#
+# NickName: Bd_Dst0Kpi,D0pi0,pipipipi=BsqDalitz,DPHSP,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut 
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+#tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+#tightCut.Decay = '^[Beauty => (D*(2007)~0 -> ^(D~0 => ^pi+ ^pi- ^pi+ ^pi-) pi0) ^K+ ^pi-]CC'
+#tightCut.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import millimeter',
+#    'inAcc        = in_range(0.005, GTHETA, 0.400) & in_range(1.8, GETA, 5.2)',
+#    'inY          = in_range(1.8, GY, 4.8)',
+#    'goodH        = (GP > 1000 * MeV) & (GPT > 98 * MeV) & inAcc',
+#    'goodB0       = (GP > 25000 * MeV) & (GPT > 1500 * MeV) & (GTIME > 0.05 * millimeter) & inY',
+#    'goodD0       = (GP > 10000 * MeV) & (GPT > 500 * MeV) & inY',
+#    'goodBDaugK   = (GNINTREE( ("K+" == GABSID) & (GP > 2000 * MeV), 1) > 0.5)',
+#    'goodBDaugPi  = (GNINTREE( ("pi+" == GABSID) & (GP > 2000 * MeV), 1) > 0.5)'
+#]
+#tightCut.Cuts = {
+#    '[pi+]cc'         : 'goodH',
+#    '[K+]cc'          : 'goodH',
+#    'Beauty'          : 'goodB0 & goodBDaugK & goodBDaugPi', 
+#    '[D0]cc'          : 'goodD0'
+#    }
+#EndInsertPythonCode
+#
+# Documentation: B0 decay with flat square Dalitz model, Dst0 forced to D0 pi0, D0 forced to pi+ pi- pi+ pi-, tight cuts 
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Yuya Shimizu 
+# Email: yuya.shimizu@cern.ch 
+# Date: 20201204
+#
+
+Alias MyD*0       D*0
+Alias Myanti-D*0  anti-D*0
+Alias MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj MyD*0  Myanti-D*0
+ChargeConj MyD0   Myanti-D0
+
+
+Decay B0sig
+  1.0   Myanti-D*0   K+        pi-  FLATSQDALITZ;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD*0
+  1.0   MyD0         pi0            VSS;
+Enddecay
+CDecay Myanti-D*0
+
+Decay MyD0
+  1.0   pi+    pi-    pi+    pi-    PHSP;
+Enddecay
+CDecay Myanti-D0
+
+End

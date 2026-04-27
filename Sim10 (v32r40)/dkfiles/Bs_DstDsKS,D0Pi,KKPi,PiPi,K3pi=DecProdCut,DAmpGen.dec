@@ -1,0 +1,57 @@
+# EventType: 13199104
+# NickName: Bs_DstDsKS,D0Pi,KKPi,PiPi,K3pi=DecProdCut,DAmpGen
+# Descriptor: [B_s0 -> (D*(2010)+ -> (D0 -> K- pi+ pi+ pi-) pi+) (D_s- -> K+ K- pi-) (K_S0 -> pi+ pi-)]cc
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:  Bs forced flat in dalitz plot. decay products in acceptance
+#    Decay file for B_s0 -> D* Ds KS, with D0->K3pi
+# EndDocumentation
+# CPUTime: < 1 min
+#
+# Date:   20250403
+# Responsible: Yi Jiang
+# Email: y.jiang@cern.ch
+# PhysicsWG: B2OC
+# Tested: Yes
+
+Alias My_D*+  D*+
+Alias My_D*-  D*-
+ChargeConj My_D*- My_D*+
+#
+Alias My_D0   D0
+Alias My_anti-D0 anti-D0
+ChargeConj My_anti-D0 My_D0
+#
+Alias My_D_s-    D_s-
+Alias My_D_s+    D_s+
+ChargeConj  My_D_s-    My_D_s+
+#
+Alias myK_S0  K_S0
+ChargeConj myK_S0 myK_S0
+#
+Decay myK_S0
+  1.0   pi+   pi-       PHSP;
+Enddecay
+#
+Decay My_D_s-
+  1.000 K+ K- pi-   D_DALITZ;
+Enddecay
+CDecay My_D_s+
+#
+Decay My_D0
+  1.0 K- pi+ pi+ pi- LbAmpGen DtoKpipipi;
+Enddecay
+CDecay My_anti-D0
+#
+Decay My_D*+
+  1.0 My_D0 pi+  PHSP;
+Enddecay
+CDecay My_D*-
+#
+Decay B_s0sig
+  1.0 My_D*+ My_D_s- myK_S0 PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+End

@@ -1,0 +1,43 @@
+# EventType: 11198090
+# 
+# Descriptor: [B0 -> D_s1(2536)+ D-]cc
+# 
+# NickName: Bd_Ds2536D,DKpi,Kpipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb 
+#
+# Documentation: Decay products in acceptance,
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Chen Chen
+# Email: chen.chen@cern.ch
+# Date: 20190304
+# CPUTime: <1min
+
+Alias My_D+   D+
+Alias My_D-   D-
+ChargeConj My_D- My_D+
+
+Alias My_Ds+ D'_s1+
+Alias My_Ds- D'_s1-
+ChargeConj My_Ds- My_Ds+
+
+Decay My_D-
+  1.0 K+ pi- pi- D_DALITZ;
+Enddecay
+CDecay My_D+
+
+Decay My_Ds+
+  1.0 My_D+ K+ pi- PHSP;
+Enddecay
+CDecay My_Ds-
+
+Decay B0sig
+  1.0 My_Ds+ My_D- PHSP;
+Enddecay
+CDecay anti-B0sig
+
+End
+

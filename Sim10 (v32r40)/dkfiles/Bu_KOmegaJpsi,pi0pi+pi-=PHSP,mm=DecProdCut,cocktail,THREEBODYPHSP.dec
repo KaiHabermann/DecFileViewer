@@ -1,0 +1,100 @@
+# EventType: 12245401
+# 
+# Descriptor: [B+ -> (J/psi(1S) -> mu+ mu-) K+ (omega(782) -> pi+ pi- (pi0 -> gamma gamma))]cc
+# 
+# NickName: Bu_KOmegaJpsi,pi0pi+pi-=PHSP,mm=DecProdCut,cocktail,THREEBODYPHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ -> K+ (Omega -> pi+ pi- (pi0 -> gamma gamma)) (Jpsi -> mu+ mu-), PHSP. Daughters in LHCb Cut.
+# Used for amplitude analysis of B+ -> K+ Omega Jpsi. With correct omega decay model and invariant mass distributions better matching that seen in data.
+# EndDocumentation
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Da Yu Tou
+# Email: da.yu.tou@cern.ch
+# Date: 20230428
+# CPUTime: 2 min
+#
+#
+Alias      MyJpsi        J/psi
+ChargeConj MyJpsi        MyJpsi
+#
+Alias      MyW           omega
+ChargeConj MyW           MyW
+#
+Alias      MyP0          pi0
+ChargeConj MyP0          MyP0
+#
+Alias      MyK_1+        K_1+
+Alias      MyK_1-        K_1-
+ChargeConj MyK_1+        MyK_1-
+#
+Alias      My_X_3872     X_1(3872)
+ChargeConj My_X_3872     My_X_3872
+#
+Alias      My_psi_4415   psi(4415)
+ChargeConj My_psi_4415   My_psi_4415
+#
+
+
+LSNONRELBW MyK_1+
+BlattWeisskopf MyK_1+ 0.0
+Particle MyK_1+ 1.28 0.3
+ChangeMassMin MyK_1+ 1.0
+ChangeMassMax MyK_1+ 2.3
+
+LSNONRELBW MyK_1-
+BlattWeisskopf MyK_1- 0.0
+Particle MyK_1- 1.28 0.3
+ChangeMassMin MyK_1- 1.0
+ChangeMassMax MyK_1- 2.3
+
+LSNONRELBW My_X_3872
+BlattWeisskopf My_X_3872 0.0
+Particle My_X_3872 3.9 0.3
+ChangeMassMin My_X_3872 3.6
+ChangeMassMax My_X_3872 5.0
+
+LSNONRELBW My_psi_4415
+BlattWeisskopf My_psi_4415 0.0
+Particle My_psi_4415 4.2 0.3
+ChangeMassMin My_psi_4415 3.6
+ChangeMassMax My_psi_4415 5.0
+
+
+Decay B+sig
+  0.25   MyJpsi MyW K+  PHSP;
+  0.25   MyJpsi MyK_1+ PHSP;
+  0.25    My_X_3872 K+  PHSP;
+  0.25    My_psi_4415 K+  PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyJpsi
+  1.000    mu+    mu-         PHOTOS VLL;
+Enddecay
+#
+Decay MyK_1+
+  1.000    MyW K+             PHOTOS PHSP;
+Enddecay
+CDecay MyK_1-
+#
+Decay My_X_3872
+  1.000    MyJpsi MyW         PHSP;
+Enddecay
+#
+Decay My_psi_4415
+  1.000    MyJpsi MyW         PHSP;
+Enddecay
+#
+Decay MyW
+  1.000    pi+    pi-    MyP0   PHOTOS   OMEGA_DALITZ;
+Enddecay
+#
+Decay MyP0
+  1.000    gamma    gamma       PHSP;
+Enddecay
+#
+
+End

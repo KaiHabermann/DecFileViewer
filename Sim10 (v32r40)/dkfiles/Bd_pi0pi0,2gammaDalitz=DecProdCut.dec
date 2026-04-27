@@ -1,0 +1,38 @@
+# EventType: 11122410
+#
+# Descriptor: {[B0 -> (pi0 -> gamma gamma) (pi0 -> e+ e- gamma)]cc}
+#
+# NickName: Bd_pi0pi0,2gammaDalitz=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 decay with phase space model - DaughtersInLHCb required
+# EndDocumentation
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Vincent Tisserand
+# Email: vincent.tisserand@clermont.in2p3.fr
+# Date: 20230306
+#
+
+
+Alias MyPi0_1 pi0
+Alias MyPi0_2 pi0
+
+
+Decay B0sig
+ 1.0   MyPi0_1 MyPi0_2              PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyPi0_1
+  1.000      gamma gamma       PHSP;
+Enddecay
+#
+
+Decay MyPi0_2
+ 1.0000      e+      e-      gamma                           PI0_DALITZ;
+Enddecay
+
+End

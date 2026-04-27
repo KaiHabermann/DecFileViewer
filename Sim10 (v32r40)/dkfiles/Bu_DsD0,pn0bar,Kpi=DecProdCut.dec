@@ -1,0 +1,42 @@
+# EventType: 12193000
+#
+# Descriptor: [B+ -> (D_s+ -> p+ n~0) (D~0 -> K+ pi-)]cc
+#
+# NickName: Bu_DsD0,pn0bar,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Eduardo Rodrigues
+# Email: eduardo.rodrigues@cern.ch
+# Date: 20250122
+#
+Alias      MyD_s+   D_s+
+Alias      MyD_s-   D_s-
+ChargeConj MyD_s+   MyD_s-
+
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj   MyD0   Myanti-D0
+
+Decay B+sig
+   1.0   MyD_s+   Myanti-D0   PHSP;
+Enddecay
+CDecay B-sig
+
+Decay MyD_s+
+   1.0   p+   anti-n0   PHSP;
+Enddecay
+CDecay MyD_s-
+
+Decay Myanti-D0
+   1.0   K+   pi-   PHSP;
+Enddecay
+CDecay MyD0
+
+End

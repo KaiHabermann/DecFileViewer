@@ -1,0 +1,149 @@
+# EventType: 16874047
+#
+# Descriptor: [Xi_b0 --> (Xi_c+ ==> p+ K- pi+) anti-nu_mu mu-]cc
+#
+# NickName: Xib0_Xicpmunu,pKpi_PPChange,PDG24=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool(LoKi__GenCutTool ,'TightCut')
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[ Xi_b0 --> (Xi_c+ ==> p+   K-  pi+) mu- nu_mu~ ...  ]CC'
+# tightCut.Preambulo += [
+#    "from LoKiCore.functions import in_range",
+#    "from GaudiKernel.SystemOfUnits import MeV, GeV",
+#    "goodTrack = in_range(0.005, GTHETA, 0.400) & (GPT > 0.1 * GeV) & (GP  > 0.5 * GeV)",
+#    "goodXb = (GNINTREE(goodTrack) >= 4)"
+#  ]
+# tightCut.Cuts      =    {
+#  "[Xi_b0]cc" : "goodXb"
+# }
+# EndInsertPythonCode
+#
+# Documentation: Xib0 -> Xic+ mu nu_mu with Xic+ ->p K  pi including resonances
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 10 min
+# Responsible: R. Cheaib
+# Email:  rcheaib@cern.ch
+# Date: 20250310
+
+
+Alias MyXi_c+ Xi_c+
+Alias Myanti-Xi_c- anti-Xi_c-
+ChargeConj MyXi_c+ Myanti-Xi_c-
+#
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+#
+Alias      MyK_0*0    K_0*0
+Alias      Myanti-K_0*0 anti-K_0*0
+ChargeConj MyK_0*0   Myanti-K_0*0 
+#
+
+Alias      MyDelta++  Delta++
+Alias      Myanti-Delta--  anti-Delta--
+ChargeConj MyDelta++  Myanti-Delta--
+
+Alias MyLambda(1690)0 Lambda(1690)0
+Alias Myanti-Lambda(1690)0 anti-Lambda(1690)0
+ChargeConj  MyLambda(1690)0 Myanti-Lambda(1690)0
+
+Alias MyLambda(1520)0 Lambda(1520)0
+Alias Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj  MyLambda(1520)0 Myanti-Lambda(1520)0
+#
+#
+Alias MyXi'_c+ Xi'_c+ 
+Alias Myanti-Xi'_c- anti-Xi'_c-
+ChargeConj MyXi'_c+ Myanti-Xi'_c- 
+
+Alias MyXi_c*+ Xi_c*+
+Alias Myanti-Xi_c*- anti-Xi_c*-
+ChargeConj MyXi_c*+ Myanti-Xi_c*- 
+#
+#
+#
+Decay Xi_b0sig
+  0.750     MyXi_c+   mu- anti-nu_mu                    PHSP;
+  0.070    MyXi'_c+  mu- anti-nu_mu                    PHSP;
+  0.070     MyXi_c*+  mu- anti-nu_mu                    PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+#
+Decay MyXi_c+
+  0.40   p+   K-  pi+                                    PHSP;
+  0.12   MyDelta++ K-                                      PHSP;
+  0.12   p+      Myanti-K*0                              PHSP;
+  0.25   p+      Myanti-K_0*0                            PHSP; 
+  0.13   MyLambda(1690)0 pi+                             PHSP;
+  0.02   MyLambda(1520)0 pi+                             PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+#
+Decay MyXi'_c+
+1.0    gamma  MyXi_c+                    PHSP;
+Enddecay
+CDecay Myanti-Xi'_c-
+
+Decay MyXi_c*+
+0.5    gamma  MyXi_c+                    PHSP;
+0.5    pi0    MyXi_c+                    PHSP;
+Enddecay
+CDecay Myanti-Xi_c*-
+
+Decay MyDelta++
+1.0000    p+  pi+                     PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK_0*0
+  1.000 K+ pi-                    PHSP;
+Enddecay
+CDecay Myanti-K_0*0
+#
+#
+Decay MyLambda(1690)0
+  1.0      p+  K-               PHSP;
+Enddecay
+CDecay Myanti-Lambda(1690)0
+
+Decay MyLambda(1520)0
+  1.0      p+  K-               PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+
+#
+End
+
+
+
+
+
+
+
+
+
+
+
+
+
+

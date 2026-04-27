@@ -1,0 +1,34 @@
+# EventType: 12173010
+#
+# Descriptor: [B+ -> (D*(2007)~0 -> mu+ mu-) pi+]cc
+#
+# NickName: Bu_Dst0Pi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ decay to anti-D*0(to mu+ mu- {,gamma} {,gamma}), pi+ with SVS model, daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Fernando Abudinen, Thomas Blake, Michal Kreps
+# Email: fernando.abudinen-gallego@warwick.ac.uk
+# Date: 20210119
+#
+Alias      MyD*0      D*0
+Alias      MyAnti-D*0 anti-D*0
+ChargeConj MyD*0      MyAnti-D*0
+#
+Decay B+sig
+  1.000     MyAnti-D*0  pi+                   SVS;
+Enddecay
+CDecay B-sig
+#
+Decay MyAnti-D*0
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+CDecay MyD*0
+#
+End
+

@@ -1,0 +1,42 @@
+# EventType: 12113460
+#
+# Descriptor: [B+ -> (rho+ -> pi+ (pi0 -> gamma gamma)) mu+ mu-]cc
+#
+# NickName: Bu_rhomumu,pipi=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+# CutsOptions: NeutralThetaMin 0.005 NeutralThetaMax 0.400 MinTrackP 1900*MeV
+#
+# Documentation: Decay file for B+ -> (rho+ -> pi+ (pi0 -> gamma gamma)) mu+ mu- (PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Raul Rabadan
+# Email:       raul.iraq.rabadan.trejo@cern.ch
+# Date:        20230914
+#
+Alias      Myrho+      rho+
+Alias      Myrho-      rho-
+ChargeConj Myrho+      Myrho-
+Alias      Mypi0       pi0
+#
+Decay B+sig
+  1.000         Myrho+    mu+     mu-  PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Myrho+
+  1.000         pi+       Mypi0        VSS;
+Enddecay
+CDecay Myrho-
+#
+Decay Mypi0   
+ 1.000          gamma     gamma        PHSP;    
+Enddecay
+#
+End
+#

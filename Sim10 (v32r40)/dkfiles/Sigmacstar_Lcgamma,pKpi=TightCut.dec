@@ -1,0 +1,58 @@
+# EventType: 26163272
+# NickName: Sigmacstar_Lcgamma,pKpi=TightCut
+# Descriptor: [Sigma_c*+ -> (Lambda_c+ -> p+ K- pi+) gamma]cc
+#
+# Documentation: 
+#   Decay Sigma_c*+ -> Lambda_c+ gamma, with Lambda_c+ -> p K pi. 
+#   Daughters in LHCb Acceptance with custom acceptance and P,Pt cuts. 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation().SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+#
+# tightCut = Generation().SignalPlain.TightCut
+# tightCut.Decay     = '[Sigma_c*+ => (Lambda_c+ => ^p+ ^K- ^pi+) ^gamma]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import MeV" ,
+#     "from LoKiCore.functions import in_range"
+# ]
+# tightCut.Cuts      =    {
+#     'gamma'   : "( GPT > 300*MeV ) & ( in_range(  0.030 , abs ( GPX/GPZ ) , 0.300 ) |  in_range(  0.030 , abs ( GPY/GPZ ) , 0.250 ) ) ",
+#     '[p+]cc'  : " in_range( 0.010 , GTHETA , 0.300 ) & ( GPT > 150 * MeV ) & ( GP > 1600*MeV ) " ,
+#     '[K+]cc'  : " in_range( 0.010 , GTHETA , 0.300 ) & ( GPT > 150 * MeV ) & ( GP > 1600*MeV ) " ,
+#     '[pi+]cc' : " in_range( 0.010 , GTHETA , 0.300 ) & ( GPT > 150 * MeV ) & ( GP > 1600*MeV ) "
+# }
+# EndInsertPythonCode
+#
+#
+# Responsible: Liupan An 
+# Email: liupan.an@cern.ch
+#
+# Tested: Yes
+# Date: 20230724
+# CPUTime: 4 min
+#
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+Decay Sigma_c*+sig
+  1.000    MyLambda_c+        gamma     PHSP;
+Enddecay
+CDecay anti-Sigma_c*-sig
+#
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End
+#

@@ -1,0 +1,117 @@
+# EventType: 15996200
+#
+# Descriptor: [[Lambda_b0] -> (Lambda_c(2593)+ -> (Lambda_c+ -> mu+ nu_mu Lambda0) pi+ pi-) (D*_s- -> (D_s- -> K+ K- pi-) gamma)]cc
+#
+# NickName: Lb_LcDs,Xmunu,KKpi=LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Sum of Lb to Lc Ds, Lc forced to semileptonic, Ds forced to hadronic
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Scott Ely
+# Email: seely@syr.edu
+# Date: 20180403
+#
+Alias		MyD_s+			D_s+
+Alias		MyD_s-			D_s-
+ChargeConj	MyD_s+			MyD_s-
+#
+Alias		MyD_s*+			D_s*+
+Alias		MyD_s*-			D_s*-
+ChargeConj	MyD_s*+			MyD_s*-
+#
+Alias		MyLambda_c+		Lambda_c+
+Alias		MyLambda_c-		anti-Lambda_c-
+ChargeConj	MyLambda_c+		MyLambda_c-
+#
+Alias		MyLambda_c(2593)+	Lambda_c(2593)+
+Alias		MyLambda_c(2593)-	anti-Lambda_c(2593)-
+ChargeConj	MyLambda_c(2593)+	MyLambda_c(2593)-
+#
+Alias		MyLambda_c(2880)+	Lambda_c(2880)+
+Alias		MyLambda_c(2880)-	anti-Lambda_c(2880)-
+ChargeConj	MyLambda_c(2880)+	MyLambda_c(2880)-
+#
+Alias		MyLambda_c(2625)+	Lambda_c(2625)+
+Alias		MyLambda_c(2625)-	anti-Lambda_c(2625)-
+ChargeConj	MyLambda_c(2625)+	MyLambda_c(2625)-
+#
+Alias		MyD_s0*+		D_s0*+
+Alias		MyD_s0*-		D_s0*-
+ChargeConj	MyD_s0*+		MyD_s0*-
+#
+Alias		MyD_s1+			D_s1+
+Alias		MyD_s1-			D_s1-
+ChargeConj	MyD_s1+			MyD_s1-
+#
+Decay Lambda_b0sig
+ 0.01100		MyLambda_c+		MyD_s-		PHSP;
+ 0.00740		MyLambda_c(2593)+	MyD_s-		PHSP;
+ 0.00800		MyLambda_c+		MyD_s*-		PHSP;
+ 0.01770		MyLambda_c(2593)+	MyD_s*-		PHSP;
+ 0.00060		MyLambda_c(2625)-	MyD_s+		PHSP;
+ 0.00120		MyLambda_c(2625)-	MyD_s*+		PHSP;
+ 0.00480		MyLambda_c(2880)-	MyD_s+		PHSP;
+ 0.00400		MyLambda_c(2880)-	MyD_s*+		PHSP;
+ 0.00500		MyLambda_c+		MyD_s-	pi0	PHSP;
+ 0.00800		MyLambda_c+		MyD_s0*-	PHSP;
+ 0.00800		MyLambda_c+		MyD_s1-		PHSP;
+Enddecay
+CDecay anti-Lambda_b0
+#
+Decay MyLambda_c(2593)+
+ 0.67		MyLambda_c+	pi+	pi-	PHSP;
+Enddecay
+CDecay MyLambda_c(2593)-
+#
+Decay MyLambda_c(2625)+
+ 0.67		MyLambda_c+	pi+	pi-	PHSP;
+Enddecay
+CDecay MyLambda_c(2625)-
+#
+Decay MyLambda_c(2880)+
+ 0.67		MyLambda_c+	pi+	pi-	PHSP;
+Enddecay
+CDecay MyLambda_c(2880)-
+#
+Decay MyLambda_c+
+0.00300		mu+	nu_mu	n0		PHSP;
+0.02000		mu+ 	nu_mu 	Lambda0		PHSP;
+0.00500 	mu+ 	nu_mu 	Sigma0 		PHSP;
+0.00500 	mu+ 	nu_mu 	Sigma*0 	PHSP;
+0.00200 	mu+ 	nu_mu 	Delta0 		PHSP;
+0.00600 	mu+ 	nu_mu 	p+     pi- 	PHSP;
+0.00600 	mu+ 	nu_mu 	n0     pi0 	PHSP;
+Enddecay
+CDecay MyLambda_c-
+#
+Decay MyD_s+
+ 1.0000		K+	K-	pi+	PHSP;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+ 0.93500        MyD_s+  gamma           VSP_PWAVE;
+ 0.05800        MyD_s+  pi0             VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s0*+
+ 1.0000         MyD_s+          pi0             PHSP;
+Enddecay
+CDecay MyD_s0*-
+#
+Decay MyD_s1+
+ 0.4800         MyD_s*+         pi0             PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+ 0.1800         MyD_s+          gamma           VSP_PWAVE;
+ 0.0430         MyD_s+          pi+     pi-     PHSP;
+ 0.0037         MyD_s0*+        gamma           PHSP;
+ #0.0800        MyD_s*+         gamma           PHSP;
+Enddecay
+CDecay MyD_s1-
+#
+End

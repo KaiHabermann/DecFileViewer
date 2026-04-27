@@ -1,0 +1,51 @@
+# EventType: 16114540
+#
+# Descriptor: [Xi_b0 -> (Xi0 -> (Lambda0 -> p+ pi-) (pi0 -> gamma gamma) )  mu+ mu-]cc
+#
+# NickName: Xib0_Xi0mumu,Lambdapi=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Rare Xib0 decay to Ximumu,  Xi0 forced to go Lambda pi0, Lambda forced to go to p pi, includes radiative mode.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Mick Mulder 
+# Email: mick.mulder@cern.ch
+# Date: 20200330
+# CPUTime:<1min
+#
+Alias           MyPi0           pi0 
+ChargeConj      MyPi0           MyPi0
+#
+Alias      MyXi     Xi0
+Alias      Myanti-Xi anti-Xi0
+ChargeConj Myanti-Xi MyXi
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+# 
+Decay Xi_b0sig 
+1.000    MyXi       mu+  mu-      PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyXi
+1.000     MyLambda  MyPi0                    PHSP;
+Enddecay
+CDecay Myanti-Xi
+#
+Decay MyLambda
+1.000   p+          pi-                PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+Decay MyPi0
+1.000   gamma	    gamma PHSP;
+Enddecay
+#
+End
+#
+

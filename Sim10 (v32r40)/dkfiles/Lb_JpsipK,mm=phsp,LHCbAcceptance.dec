@@ -1,0 +1,34 @@
+# EventType: 15144002
+#
+# Descriptor: [Lambda_b0 -> p+ K- (J/psi(1S) -> mu+ mu-)]cc
+#
+# NickName: Lb_JpsipK,mm=phsp,LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda_b0 to three-body p+K-J/psi with J/psi to dimuons. 
+# No cuts on daughters for study of generator level efficiency.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Michal Kreps 
+# Email:  michal.kreps@cern.ch
+# Date: 20221005
+# CPUTime: < 1 min
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+#
+Decay Lambda_b0sig
+  1.000    MyJ/psi  p+ K-               PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                    PHOTOS  VLL;
+Enddecay
+#
+End
+#

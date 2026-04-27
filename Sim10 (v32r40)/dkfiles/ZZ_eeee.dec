@@ -1,0 +1,37 @@
+# EventType: 42124000
+#
+# Descriptor: pp => (Z0 => e+ e-) (Z0 => e+ e-)
+#
+# NickName: ZZ_eeee
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/ParsInAcc
+#
+# InsertPythonCode:
+# from Configurables import Generation, Special, PowhegProduction
+# Generation(genAlgName).addTool( Special )
+# Generation(genAlgName).Special.addTool( PowhegProduction )
+# Generation(genAlgName).Special.PowhegProduction.Commands += [ "mllmin 3.d0", "only-e  1"]
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "ParsInAcc" )
+# tracksInAcc = Generation(genAlgName).ParsInAcc
+# tracksInAcc.Code = " ( ( count ( isGoodLepton ) > 3 ) ) "
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodLepton   = ( ( 11 == GABSID ) & GCHARGED & ( GTHETA < 400.0*mrad ) & (GTHETA > 10.0*mrad) & ( GPT > 2.*GeV ) )"
+#    ]
+# EndInsertPythonCode
+#
+# ExtraOptions: ZZeeee_powheg
+#
+# CPUTime: < 1 min
+#
+# Documentation:  ZZ decay into four electrons, and all electrons must within LHCb acceptance with pT greater than 2 GeV.
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Hang Yin
+# Email: hang.yin@cern.ch
+# Date: 20200911
+#
+End

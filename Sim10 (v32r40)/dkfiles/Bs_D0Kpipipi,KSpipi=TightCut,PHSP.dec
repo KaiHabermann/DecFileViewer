@@ -1,0 +1,71 @@
+# EventType: 13168110
+#
+# Descriptor: {[[B_s0]nos -> (D~0 -> (KS0 -> pi+ pi-) pi+ pi-) K- pi+ pi- pi+]cc, [[B_s0]os -> (D0 -> (KS0 -> pi+ pi-) pi+ pi-) K+ pi- pi+ pi-]cc}
+#
+# NickName: Bs_D0Kpipipi,KSpipi=TightCut,PHSP
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '^[Beauty ==> ^(D~0 ==> ^(KS0 ==> ^pi+ ^pi-) ^pi+ ^pi-) ^K- ^pi+ ^pi- ^pi+]CC'
+# tightCut.Preambulo += [
+#     'GVZ = LoKi.GenVertices.PositionZ() ' ,
+#     'from GaudiKernel.SystemOfUnits import millimeter',
+#     'from GaudiKernel.SystemOfUnits import ns',
+#     'from GaudiKernel.PhysicalConstants import c_light',
+#     'inAcc        = (in_range (0.005, GTHETA, 0.400))',
+#     'goodB        = ( GCTAU > 0.1e-3 * ns * c_light )',
+#     'goodD        = (GP > 20000 * MeV) & (GPT > 2000 * MeV)',
+#     'goodKS       = (GFAEVX(abs(GVZ), 0) < 2500.0 * millimeter)',
+#     'goodDDaugPi  = (GNINTREE (("pi+" == GABSID) & (GP > 2000 * MeV) & inAcc, 4) > 3.5)',
+#     'goodKsDaugPi = (GNINTREE (("pi+" == GABSID) & (GP > 2000 * MeV) & inAcc, 4) > 1.5)',
+#     'goodBachKPia = (GNINTREE ((("K+" == GABSID) | ("pi+" == GABSID)) & (GP > 2000 * MeV) & (GPT > 100 * MeV) & inAcc, 4) > 4.5)',
+#     'goodBachKPib = (GNINTREE ((("K+" == GABSID) | ("pi+" == GABSID)) & (GP > 2000 * MeV) & (GPT > 300 * MeV) & inAcc, 4) > 1.5)'
+# ]
+# tightCut.Cuts      =    {
+#     '[B_s0]cc'       : 'goodB  & goodBachKPia & goodBachKPib',
+#     '[D0]cc'         : 'goodD  & goodDDaugPi',
+#     '[KS0]cc'        : 'goodKS & goodKsDaugPi',
+#     '[pi+]cc'        : 'inAcc',
+#     '[K+]cc'         : 'inAcc'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: Bs decay to D0 K pi pi pi. D0 to KS0 pi pi without resonances, KS0 forced into pi+ pi-, decay products in acceptance. 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1 min
+# Responsible: George Lovell
+# Email: george.lovell@cern.ch
+# Date: 20190405
+#
+Alias MyD0       D0
+Alias Myanti-D0  anti-D0
+ChargeConj MyD0  Myanti-D0
+#
+Alias MyKs       K_S0
+ChargeConj MyKs  MyKs
+#
+Decay B_s0sig
+  1.000   Myanti-D0 K- pi+ pi- pi+ PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD0
+  1.000    MyKs       pi-         pi+          PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyKs
+  1.000    pi+        pi-         PHSP;
+Enddecay
+#
+End
+#

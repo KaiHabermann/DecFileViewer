@@ -1,0 +1,68 @@
+# EventType: 15198007
+# NickName: Lb_D0Dsp,K3Pi,KKPi=sqDalitz13,TightCut
+# Descriptor: [Lambda_b~0 -> (D_s- -> K+ K- pi-) (D0 -> K- pi+ pi+ pi-) p+]cc
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#Generation(genAlgName).SignalPlain.addTool( LoKi__GenCutTool,'TightCut')
+#tightCut = Generation(genAlgName).SignalPlain.TightCut
+#tightCut.Decay = '^[Lambda_b0 => ^(D_s- => ^K+ ^K- ^pi-) ^(D0 => ^K- ^pi+ ^pi+ ^pi-) ^p+ ]CC'
+#tightCut.Preambulo += [
+#    'GVZ = LoKi.GenVertices.PositionZ()',
+#    'from GaudiKernel.SystemOfUnits import millimeter',
+#    'inAcc        = (in_range(0.005, GTHETA, 0.400) & in_range ( 1.8 , GETA , 5.2))',
+#    'goodLb       = (GP > 25000 * MeV) & (GPT > 1500 * MeV)',
+#    'goodD        = (GP > 8000 * MeV) & (GPT > 400 * MeV)',
+#    'goodK        = in_range( 1.3 * GeV , GP , 200 * GeV) & (GPT >  80 * MeV)',
+#    'goodPi       = in_range( 1.3 * GeV , GP , 200 * GeV) & (GPT >  80 * MeV)',
+#    'goodP        = in_range( 4.0 * GeV , GP , 200 * GeV) & (GPT >  400 * MeV)',
+#]
+#tightCut.Cuts = {
+#    '[Lambda_b0]cc'   : 'goodLb',
+#    '[D_s+]cc' : 'goodD',
+#    '[D0]cc'   : 'goodD',
+#    '[K+]cc'   : 'inAcc & goodK',
+#    '[pi+]cc'  : 'inAcc & goodPi',
+#    '[p+]cc'   : 'inAcc & goodP',
+#    }
+#EndInsertPythonCode
+#
+# Documentation:  Lambda_b0 flat in sq13 Dalitz plot. D_s+ resonant decay forced
+#    Decay file for Lambda_b0 => D0 D_s- p+
+# EndDocumentation
+# CPUTime: < 3 min
+# 
+# Date:   20210724
+# Responsible: Ruiting Ma
+# Email: ma.ruiting@cern.ch
+# PhysicsWG: B2OC
+# Tested: Yes
+
+Alias My_D0    D0
+Alias My_anti-D0    anti-D0
+ChargeConj My_D0   My_anti-D0 
+
+Alias My_D_s-    D_s-
+Alias My_D_s+    D_s+
+ChargeConj  My_D_s-    My_D_s+
+#
+Decay My_D0
+  1.0  K-  pi+   pi+   pi-  LbAmpGen DtoKpipipi;
+Enddecay
+CDecay My_anti-D0
+#
+Decay My_D_s+
+  1.0   K+  K-   pi+   D_DALITZ;
+Enddecay
+CDecay My_D_s-
+#
+Decay Lambda_b0sig
+  1.000 My_D0 p+ My_D_s- FLATSQDALITZ;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+End

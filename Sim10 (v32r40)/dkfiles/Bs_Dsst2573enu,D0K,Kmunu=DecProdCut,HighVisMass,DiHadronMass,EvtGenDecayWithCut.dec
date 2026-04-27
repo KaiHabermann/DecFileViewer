@@ -1,0 +1,70 @@
+# EventType: 13574094
+#
+# Descriptor: [B_s0 -> (D_s2*- -> (D~0 -> K+  mu- nu_mu~) K-) e+ nu_e]cc
+#
+# NickName: Bs_Dsst2573enu,D0K,Kmunu=DecProdCut,HighVisMass,DiHadronMass,EvtGenDecayWithCut
+#
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+# #
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation(genAlgName)
+# #
+# gen.SignalRepeatedHadronization.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/HighVisMass"
+# evtgendecay.addTool(LoKi__GenCutTool ,'HighVisMass')
+# evtgendecay.HighVisMass.Decay   = '[^(B_s0 => (D*_s2- => (D~0 => K+  mu- nu_mu~) K-) e+ nu_e)]CC'
+# evtgendecay.HighVisMass.Preambulo += [
+#     "visMass = ( ( ( GMASS ( 'e-' == GABSID , 'mu-' == GABSID, 'K+' == GID, 'K-' == GID ) ) > 4200 * MeV ) & ( ( GMASS ( 'K+' == GID, 'K-' == GID ) ) > 1000 * MeV ) & ( ( GMASS ( 'K+' == GID, 'K-' == GID ) ) < 1040 * MeV ) )",
+# ]
+# evtgendecay.HighVisMass.Cuts    = {
+#     '[B_s0]cc' : "visMass"
+# }
+# EndInsertPythonCode
+# Documentation: background for Bs0 -> phi mu e LFV search
+# selected to have a four-body visible mass larger than 4.2 GeV
+# and two-hadron visible mass in a +-20 MeV window around the phi(1020) mass
+# using EvtGenDecayWithCutTool
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Jan-Marc Basels
+# Email: jan-marc.basels@cern.ch
+# Date: 20210121
+# CPUTime: < 1 min
+#
+
+Alias		    MyD_s2*-   D_s2*-
+Alias		    MyD_s2*+   D_s2*+
+ChargeConj	MyD_s2*-   MyD_s2*+
+
+Alias		    Myanti-D0  anti-D0
+Alias		    MyD0	     D0
+ChargeConj	Myanti-D0  MyD0
+
+
+Decay B_s0sig
+  1.000	   MyD_s2*- e+ nu_e     PHOTOS ISGW2;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s2*-
+  1.000    Myanti-D0 K-         PHOTOS TSS;
+Enddecay
+CDecay MyD_s2*+
+#
+Decay Myanti-D0
+  1.000    K+ mu- anti-nu_mu    PHOTOS ISGW2;
+Enddecay
+CDecay MyD0
+#
+End
+#

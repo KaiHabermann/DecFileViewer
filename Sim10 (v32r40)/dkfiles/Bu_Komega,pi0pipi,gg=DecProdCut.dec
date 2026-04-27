@@ -1,0 +1,43 @@
+# $Id: Bu_Komega,pi0pipi,gg=DecProdCut.dec  $
+#
+# This is the decay file for the decay B+ -> OMEGA (-> PI+ PI- PI0 (-> gamma gamma)) K+ 
+#
+# EventType: 12103489
+#
+# Descriptor: [B+ -> K+ (omega(782) -> pi+ pi- (pi0 -> gamma gamma))]cc
+#
+# NickName: Bu_Komega,pi0pipi,gg=DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb
+# 
+# Documentation: File for B+ -> K+ omega(782) (-> pi+ pi- pi0 (-> gamma gamma))
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Daniel Craik
+# Email: dcraik@cern.ch 
+# Date:   20200616
+# CPUTime: <1min
+
+#
+Alias      MyOmega     omega
+Alias      MyPiz       pi0
+
+#
+Decay MyPiz
+1.000      gamma gamma       PHSP;             
+Enddecay
+#
+Decay MyOmega
+1.000       pi+     pi-    MyPiz       OMEGA_DALITZ;
+Enddecay
+#
+Decay B+sig
+1.000         K+  MyOmega       PHSP;
+Enddecay
+CDecay B-sig
+#
+End
+#

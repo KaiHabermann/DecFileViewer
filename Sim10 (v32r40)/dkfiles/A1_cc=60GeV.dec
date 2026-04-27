@@ -1,0 +1,51 @@
+# EventType: 40900023
+#
+# Descriptor: pp -> (A_1 -> c anti-c) ... 
+#
+# NickName: A1_cc=60GeV
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/A1_ccinAcc
+#
+# InsertPythonCode:
+# from Configurables import Generation
+# from Gaudi.Configuration import *
+# Generation(genAlgName).PileUpTool = "FixedLuminosityForRareProcess"
+# importOptions( "$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py" )
+# from Configurables import Special, Pythia8Production
+# Generation(genAlgName).addTool( Special )
+# Generation(genAlgName).Special.addTool( Pythia8Production )
+# Generation(genAlgName).Special.Pythia8Production.Commands += [
+#             "SpaceShower:rapidityOrder = off" # pT ordering
+#             ,"Higgs:useBSM = on" # Switch Higgs BSM on
+#             ,"HiggsBSM:allA3 = on" # Switch H_30 (A0) production on
+#             ,"36:onMode = off" # Turn off all decays for A0
+#             ,"36:onIfAny = 4" # Turn on only A0->cc decay
+#             ,"PartonLevel:FSR=on" # FSR by PYTHIA8 (NOT PHOTOS)
+#             ,"36:doForceWidth = on" # Fix maximum width to avoid problems with 2->1 processes
+#         ]
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "A1_ccinAcc" )
+# tracksInAcc = Generation(genAlgName).A1_ccinAcc
+# tracksInAcc.Code = "count ( isGoodCFromA1 ) > 1"
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodC = ( ( 'c' == GABSID ) & ( GTHETA < 400.0*mrad ) )"
+#    , "isFromA1  = ( 1 == GNINTREE( 'H_30' == GABSID , 0 ) )"
+#    , "isGoodCFromA1 = ( isGoodC & isFromA1 )" ]
+# EndInsertPythonCode
+#
+# ParticleValue: "H_30 89 36 0.0 60.0 1e-20 A0 36 0.0e+00"
+#
+# Documentation: A1 with mass = 60 GeV decaying in two c-jets, all particles in the acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Exotica 
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Lorenzo Sestini
+# Email: sestini@cern.ch
+# Date: 20191203
+#
+End
+#

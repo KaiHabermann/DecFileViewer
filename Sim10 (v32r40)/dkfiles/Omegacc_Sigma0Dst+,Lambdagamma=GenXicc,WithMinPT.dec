@@ -1,0 +1,73 @@
+# EventType: 26165355
+#
+# Descriptor: [Omega_cc+ -> (Sigma0 -> (Lambda0 -> p+ pi-) gamma) ( D*(2010)+ -> (D0 -> K- pi+) pi+ ) ]cc
+#
+# NickName: Omegacc_Sigma0Dst+,Lambdagamma=GenXicc,WithMinPT
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCbAndWithMinPT
+#
+# CutsOptions: MinXiccPT 2500*MeV 
+#
+# CPUTime: < 1 min
+#
+# ParticleValue: "Omega_cc+ 510 4432  1.0  3.738    0.08e-12   Omega_cc+ 4432 0.0", "Omega_cc~- 511 -4432 -1.0 3.738  0.08e-12 anti-Omega_cc- -4432 0."
+# Documentation: Omega_cc+ decay to Sigma0 D*(2010)+ by phase space model,
+# Sigma0 decay to Lambda0 gamma,
+# Lambda0 decay to p+ pi-,
+# D*(2010)+ decay to D0 pi+,
+# D0 decay to K- pi+,
+# all daughters of Omega_cc+ are required to be in the acceptance of LHCb,
+# and the Omega_cc+ PT is required to be larger than 2500 MeV,
+# Omega_cc+ is required to be generated with the lifetime of 80fs.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Xingyu Tong
+# Email: xingyu.tong@cern.ch
+# Date: 20250418
+#
+Alias             MyD*+       D*+
+Alias             MyD0        D0
+Alias             MyD*-       D*-
+Alias             Myanti-D0   anti-D0
+ChargeConj        MyD*+       MyD*-
+ChargeConj        MyD0        Myanti-D0
+#
+Alias        MySigma         Sigma0
+Alias        MyantiSigma     anti-Sigma0
+ChargeConj   MySigma         MyantiSigma
+Alias       MyLambda      Lambda0
+Alias       MyantiLambda  anti-Lambda0
+ChargeConj  MyLambda      MyantiLambda
+#
+Decay Omega_cc+sig
+    1.000             MySigma     MyD*+          PHSP;
+Enddecay
+CDecay anti-Omega_cc-sig
+#
+Decay MyD*+
+    1.000             MyD0        pi+            VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+    1.000             K-          pi+            PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MySigma
+    1.000      MyLambda     gamma          PHSP;
+Enddecay
+CDecay MyantiSigma
+#
+Decay MyLambda
+    1.000               p+            pi-                PHSP;
+Enddecay
+CDecay MyantiLambda
+#
+End
+#
+

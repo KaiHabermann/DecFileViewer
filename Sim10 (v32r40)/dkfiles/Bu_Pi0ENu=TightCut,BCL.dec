@@ -1,0 +1,39 @@
+# EventType: 12521402
+#
+# Descriptor: [B+ => pi0 nu_e e+]cc 
+#
+# NickName: Bu_Pi0ENu=TightCut,BCL
+#
+# Documentation: Decay file for B+ => pi0 e+ nu_e with BCL form factors. No cuts on pi0, as this will mostly be used for background studies.
+# EndDocumentation
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation().SignalRepeatedHadronization
+# gen.addTool( LoKi__GenCutTool, "TightCut" )
+# SignalFilter = gen.TightCut
+# SignalFilter.Decay = "[B+ => pi0 ^e+ nu_e]CC"
+# SignalFilter.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import  GeV",
+#   "inAcc               = in_range ( 0.005 , GTHETA , 0.400 ) &  in_range ( 1.9 , GETA , 5.1 )", 
+#   "eCuts               = (GP > 5 * GeV) &  (GPT > 1.2 * GeV) & inAcc",
+#   ]
+# SignalFilter.Cuts =  { "[e+]cc" : "eCuts" }
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Alice Moro
+# Email: a.moro23@campus.unimib.it
+# Date: 20250306
+#
+Decay B+sig
+  1.000   pi0   e+  nu_e     PHOTOS BTOXELNU BCL 0.419 -0.495 -0.43 0.22 0.510 -1.700 1.53 4.52;
+Enddecay
+CDecay B-sig
+#
+End
+#

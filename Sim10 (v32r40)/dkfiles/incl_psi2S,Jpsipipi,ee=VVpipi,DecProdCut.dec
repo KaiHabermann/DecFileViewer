@@ -1,0 +1,31 @@
+# EventType: 28154002
+#
+# Descriptor: psi(2S) -> (J/psi(1S) -> e+ e- {,gamma} {,gamma}) pi+ pi- 
+#
+# NickName: incl_psi2S,Jpsipipi,ee=VVpipi,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: psi(2S) daughters in acceptance, VVPipi decay model, JPsi to di-electron
+# EndDocumentation
+#
+# CPUTime: <5min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Renato Quagliani
+# Email: rquaglia@cern.ch
+# Date: 20240502
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+#
+Decay psi(2S)sig
+  1.000     MyJ/psi    pi+        pi-        VVPIPI;
+Enddecay
+#
+Decay MyJ/psi
+  1.000     e+  e-          PHOTOS VLL;
+Enddecay
+#
+End
+

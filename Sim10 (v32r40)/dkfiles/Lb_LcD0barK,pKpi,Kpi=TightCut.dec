@@ -1,0 +1,146 @@
+# EventType: 15296020
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ K- pi+) (D~0 ->  K+ pi-) K-]cc
+# NickName: Lb_LcD0barK,pKpi,Kpi=TightCut
+# Cuts: LoKi::GenCutTool/GenSigCut
+# #
+# InsertPythonCode:
+# from Configurables import (ToolSvc, EvtGenDecayWithCutTool, LoKi__GenCutTool)
+# Generation().SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool( EvtGenDecayWithCutTool )
+# EvtGenCut = ToolSvc().EvtGenDecayWithCutTool
+# EvtGenCut.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# EvtGenCut.CutTool = "LoKi::GenCutTool/LbLTCut"
+# EvtGenCut.addTool(LoKi__GenCutTool,"LbLTCut")
+# EvtGenCut.LbLTCut.Decay = "[^(Lambda_b0 ==> Lambda_c+ D~0 K-)]CC"
+# EvtGenCut.LbLTCut.Preambulo += [ "from GaudiKernel.PhysicalConstants import c_light", "from GaudiKernel.SystemOfUnits import ns" ]
+# EvtGenCut.LbLTCut.Cuts = { "[Lambda_b0]cc" : "(GCTAU>0.00015*ns*c_light)" }
+# #
+# Generation().SignalPlain.addTool(LoKi__GenCutTool,'GenSigCut')
+# SigCut = Generation().SignalPlain.GenSigCut
+# SigCut.Decay = "[^(Lambda_b0 ==> ^(Lambda_c+ ==> ^p+ ^K- ^pi+) ^(D~0 ==> ^K+ ^pi-) ^K-)]CC"
+# SigCut.Filter = True
+# SigCut.Preambulo += [
+#   "from LoKiCore.functions import in_range"  ,
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, mm",
+#   "inAcc = in_range(10*mrad,GTHETA,400*mrad) & in_range(1.95,GETA,5.05)",
+#   "inY   = in_range(1.9,LoKi.GenParticles.Rapidity(),4.6)",
+#   "EVZ   = GFAEVX(GVZ,0)",
+#   "OVZ   = GFAPVX(GVZ,0)"
+#  ]
+# SigCut.Cuts = {
+#   '[Lambda_b0]cc' : "(GP>31*GeV) & (GPT>3.9*GeV) & (EVZ-OVZ>0.18*mm) & inY",
+#   '[Lambda_c+]cc' : "(GP>11.8*GeV) & (GPT>980*MeV) & inY",
+#   '[D~0]cc '      : "(GP>10.8*GeV) & (GPT>880*MeV) & inY",
+#   '[p+]cc'        : "(GP>3.95*GeV) & (GPT>190*MeV) & inAcc",
+#   '[K+]cc'        : "(GP>2.45*GeV) & (GPT>140*MeV) & inAcc",
+#   '[pi+]cc'       : "(GP>1.45*GeV) & (GPT>90*MeV) & inAcc"
+# }
+# #
+# EndInsertPythonCode
+# #
+# Documentation: Lb -> Lc D~0 K with semi-realistic Lc -> p K pi model and an attempt to model the Lb -> Lc D~0 K decay.
+#                Using the most prominent (spin 1) Ds and Xic resonances to model the Lb -> Lc D~0 K Dalitz plot.
+#                The helicity amplitude of the resonant decays is chosen equal to that of the Lb -> Lc Ds* decay.
+#                Cut efficiency about 1/7.
+# EndDocumentation
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: 4 min
+# Responsible: Marian Stahl
+# Email: marian.stahl@{nospam}cern.ch
+# Date: 20211219
+# #
+Alias      MyLambda_c+           Lambda_c+
+Alias      Myanti-Lambda_c-      anti-Lambda_c-
+ChargeConj MyLambda_c+           Myanti-Lambda_c-
+#
+Alias      MyDs1st(2700)+  D*(2S)+
+Alias      MyDs1st(2700)-  D*(2S)-
+ChargeConj MyDs1st(2700)+  MyDs1st(2700)-
+#
+## kinematic boundaries from Dalitz plot
+ChangeMassMin D*(2S)- 2.359
+ChangeMassMax D*(2S)- 3.333
+ChangeMassMin D*(2S)+ 2.359
+ChangeMassMax D*(2S)+ 3.333
+## today's PDGlive
+Particle  D*(2S)-  2.714 0.122
+Particle  D*(2S)+  2.714 0.122
+#
+# somehow the HELAMP including Xic(2790) expects 12 parameters. is it a spin 3/2 particle in the DB?
+Alias      MyXic(2790)0          Xi'_c0
+Alias      Myanti-Xic(2790)0     anti-Xi'_c0
+ChargeConj MyXic(2790)0          Myanti-Xic(2790)0
+## kinematic boundaries from Dalitz plot
+ChangeMassMin Xi'_c0      2.78
+ChangeMassMax Xi'_c0      3.61
+ChangeMassMin anti-Xi'_c0 2.78
+ChangeMassMax anti-Xi'_c0 3.61
+## today's PDGlive
+Particle  Xi'_c0       2.7939 0.01
+Particle  anti-Xi'_c0  2.7939 0.01
+#
+Alias      MyD0                  D0
+Alias      Myanti-D0             anti-D0
+ChargeConj MyD0                  Myanti-D0
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+Alias      MyK*0                 K*0
+Alias      Myanti-K*0            anti-K*0
+ChargeConj MyK*0                 Myanti-K*0
+#
+Alias      MyDelta++             Delta++
+Alias      Myanti-Delta--        anti-Delta--
+ChargeConj MyDelta++             Myanti-Delta--
+#
+## to mitigate effective loss of statistics when reweighting
+Decay  Lambda_b0sig
+  0.24  MyLambda_c+ Myanti-D0 K-   PHSP;
+  0.75  MyLambda_c+ MyDs1st(2700)- HELAMP  1 0 1 0 0 0 0 0;
+  0.01  MyXic(2790)0 Myanti-D0     PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay  MyDs1st(2700)-
+  1    Myanti-D0 K-  VSS;
+Enddecay
+CDecay MyDs1st(2700)+
+#
+Decay  MyXic(2790)0
+  1    MyLambda_c+ K- PHSP;
+Enddecay
+CDecay Myanti-Xic(2790)0
+#
+Decay Myanti-D0
+  1 K+ pi- PHSP;
+Enddecay
+CDecay MyD0
+#
+# Define Lambda_c+ decay
+# Branching ratios from PDG 2016
+Decay MyLambda_c+
+  0.0350 p+              K-         pi+ PHSP;
+  0.0198 p+              Myanti-K*0     PHSP;
+  0.0109 MyDelta++       K-             PHSP;
+  0.0220 MyLambda(1520)0 pi+            PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda(1520)0
+  1 p+ K- PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay MyK*0
+  1 K+ pi-  VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyDelta++
+  1 p+ pi+  PHSP;
+Enddecay
+CDecay Myanti-Delta--
+End

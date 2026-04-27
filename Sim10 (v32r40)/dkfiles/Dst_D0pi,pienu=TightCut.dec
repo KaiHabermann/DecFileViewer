@@ -1,0 +1,59 @@
+# EventType: 27583001
+#
+# Descriptor: [D*(2010)+ -> (D0 -> pi- e+ nu_e) pi+]cc
+#
+# NickName: Dst_D0pi,pienu=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = '^[D*(2010)+ -> ^(D0 -> ^pi- ^e+ nu_e) pi+]CC'
+# tightCut.Cuts      =    {
+#     '[e+]cc'   : ' goodElectron  ' ,
+#     '[pi-]cc'    : ' goodPion  ' ,
+#     '[D0]cc'    : ' goodD     ' ,
+#     '[D*(2010)+]cc'   : ' goodDst & goodSlowPion  ', }
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) & in_range( 1.9 , GETA , 5.0 )' ,
+#     'goodElectron  = ( GPT > 500  * MeV ) & ( GP > 6 * GeV )     & inAcc   ' ,
+#     'goodKaon  = ( GPT > 300  * MeV ) & ( GP > 2 * GeV )     & inAcc   ' ,
+#     'goodPion  = ( GPT > 300  * MeV ) & ( GP > 2 * GeV )     & inAcc   ' ,
+#     'goodSlowPion  = GCHILDCUT (  ( GPT > 300  * MeV ) & ( GP > 1000  * MeV ) & inAcc , "Charm =>  Charm ^(pi+|pi-)"  )',
+#     'goodD     = ( GPT > 250  * MeV ) & ( GP > 3 * GeV )', 
+#     'goodDst   = ( GPT > 500  * MeV ) & ( GP > 1 * GeV )', ]
+#
+# EndInsertPythonCode
+#
+# Documentation: Requires D0 to decay into pi- e+ nu. For D2Klnu analysis. Tight cuts.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Lorenzo Capriotti
+# Email: lorenzo.capriotti@cern.ch
+# Date: 20180926
+# CPUTime: < 1 min
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.000 pi- e+ nu_e PHOTOS ISGW2;  
+Enddecay
+CDecay MyantiD0
+#
+End
+

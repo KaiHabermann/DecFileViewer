@@ -1,0 +1,38 @@
+# EventType: 13144410
+#
+# Descriptor: [B_s0 -> (psi(2S) -> mu+ mu-) (eta -> pi+ pi- pi0)]cc
+#
+# NickName: Bs_psi2Seta,mm,pipipi=DecProdCut
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+# CutsOptions: NeutralThetaMin 0.005 NeutralThetaMax 0.400 MinTrackP 1900*MeV
+#
+# Documentation: Includes radiative mode, No CP violation, pi0 not forced
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Raul Rabadan
+# Email: raul.iraq.rabadan.trejo@cern.ch
+# Date: 20240916
+#
+Alias Mypsi2s  psi(2S)
+Alias MyEta    eta
+ChargeConj  Mypsi2s  Mypsi2s
+ChargeConj  MyEta    MyEta
+#
+Decay B_s0sig
+1.000         Mypsi2s     MyEta        SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mypsi2s
+1.000         mu+         mu-          PHOTOS VLL;
+Enddecay
+#
+Decay MyEta
+1.000         pi-         pi+          pi0        ETA_DALITZ;
+Enddecay
+End
+#

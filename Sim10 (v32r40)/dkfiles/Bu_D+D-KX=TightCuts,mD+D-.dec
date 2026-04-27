@@ -1,0 +1,99 @@
+# EventType: 12307000
+# 
+# Descriptor:  [B+ ==> D+ D- K+ { pi0 } { pi0 } { gamma } { gamma } ]CC 
+# 
+# NickName: Bu_D+D-KX=TightCuts,mD+D- 
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: The decay B+ -> { D*+D-, D+D*- } K+ with D*+ -> D+pi0 or D+gamma, 
+#                D+-> K- pi+ pi+ with the tight generator cuts. 
+#                The D0 -> K- pi+ pi+  decay model is taken from ???. 
+#                The mass of D+D- system is required to be less than 3.81 GeV. 
+#                To be efficient some cuts are applied via EvtGenDecayWithCut tool 
+#                - many thanks to Michael Wilkinson for inspiring  examples. 
+# EndDocumentation
+#
+# Sample: SignalRepeatedHadronization
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool, ToolSvc, EvtGenDecayWithCutTool
+# from Gauss.Configuration import *
+#
+# ToolSvc().addTool ( EvtGenDecayWithCutTool )
+# evtgen = ToolSvc().EvtGenDecayWithCutTool  
+# evtgen.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgen.CutTool   = "LoKi::GenCutTool/SmallDD"
+# evtgen.addTool( LoKi__GenCutTool , 'SmallDD' )
+# small_DD = evtgen.SmallDD 
+# small_DD.Decay      = ' ^[B+ ==> D+ D- K+ {pi0} {pi0} ]CC '
+# small_DD.Preambulo += [ 
+#     "from GaudiKernel.SystemOfUnits import GeV "                 ,
+#     "mass_DD        = GMASS    ( 'D+' == GID , 'D-' ==  GID ) "  ,
+#     ]
+# small_DD.Cuts       = { 
+#    '[B+]cc' : '( mass_DD < 3.81 * GeV )' 
+# }
+#
+# generation = Generation()
+# signal     = generation.SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# signal.DecayTool = "EvtGenDecayWithCutTool"
+# 
+# tightCut            = signal.TightCut
+# tightCut.Decay      = '^[B+ ==> ^(D+ => ^K- ^pi+ ^pi+) ^(D- ==> ^K+ ^pi- ^pi-) ^K+ {pi0} {pi0} ]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV',
+#     'inAcc          =  in_range ( 0.005 , GTHETA , 0.400 ) ' ,
+#     'inEta          =  in_range ( 1.95  , GETA   , 5.050 ) ' ,
+#     'good_track     =  inAcc & inEta & ( GPT > 190 * MeV ) & in_range ( 3 * GeV , GP , 200 * GeV ) ' ,
+# ]
+# tightCut.Cuts       =    {
+#     '[K+]cc'        : 'good_track'  ,
+#     '[pi+]cc'       : 'good_track'  ,
+#     '[D+]cc'        : 'in_range ( 1.9 , GY , 4.7) ' ,
+#     '[B+]cc'        : 'in_range ( 1.9 , GY , 4.7) ' ,
+#     }
+# # Generator efficiency histos (optional):
+# tightCut.XAxis = ( "GPT/GeV" , 0.0 , 25.0 , 25 )
+# tightCut.YAxis = ( "GY"      , 2.0 ,  4.5 , 10 )
+# EndInsertPythonCode
+#
+# PhysicsWG:   Onia
+# Tested:      Yes 
+# Responsible: Vanya BELYAEV
+# Email:       Ivan.Belyaev@cern.ch
+# Date:        20221205
+# CPUTime:     5min
+
+
+Alias           My-D+           D+
+Alias           My-D-           D-
+ChargeConj      My-D+           My-D-
+
+Alias           My-D*+          D*+
+Alias           My-D*-          D*-
+ChargeConj      My-D*+          My-D*-
+
+Decay B+sig
+  0.45          My-D+  My-D*-  K+  PHSP ;
+  0.45          My-D*+ My-D-   K+  PHSP ;
+  0.10          My-D*+ My-D*-  K+  PHSP ;
+Enddecay
+CDecay B-sig
+
+Decay My-D+
+  1.0          K- pi+ pi+          D_DALITZ ;
+Enddecay
+CDecay My-D-
+
+Decay My-D*+
+  0.95         My-D+  pi0          VSS ; 
+  0.05         My-D+  gamma        VSP_PWAVE ; 
+Enddecay
+CDecay My-D*-
+
+#
+End
+#

@@ -1,0 +1,55 @@
+# EventType: 34112001
+#
+# Descriptor: K_S0 -> mu+ mu- H_30
+#
+# NickName: KS_mumuALP_m=100MeV=TightCut
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# Documentation: K_S0 -> mu+ mu- ALP with phase space model, tight generator cut
+# EndDocumentation
+#
+# InsertPythonCode:                                                                          
+# #
+# from Configurables import LHCb__ParticlePropertySvc, LoKi__GenCutTool
+# LHCb__ParticlePropertySvc().Particles = [
+# "H_30     89       36      0.0     0.100000        1.000000e+16    A0      36      0.00"
+# ]                                                                                          
+# from Configurables import LoKi__GenCutTool                                                 
+# gen = Generation(genAlgName)                                                                         
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )                                  
+# #                                                                                          
+# tightCut = gen.SignalPlain.TightCut                                                        
+# tightCut.Decay     = 'KS0 => mu+ mu- H_30'                                                      
+# tightCut.Preambulo += [                                                                    
+#     "GVX = LoKi.GenVertices.PositionX() " ,                                                
+#     "GVY = LoKi.GenVertices.PositionY() " ,                                                
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,                                                
+#     "from GaudiKernel.SystemOfUnits import meter, millimeter, GeV" ,                       
+#     "vx      = GFAEVX ( GVX, 100 * meter ) " ,                                             
+#     "vy      = GFAEVX ( GVY, 100 * meter ) " ,                                             
+#     "rho2    = vx**2 + vy**2 " ,                                                           
+#     "rhoK  =  rho2 < (30 * millimeter )**2 " ,                                             
+#     "decay = in_range ( -1 * meter,  GFAEVX ( GVZ, 100 * meter ),    1 * meter ) ",                            
+# ]                                                                                          
+# tightCut.Cuts      =    {                                                                  
+#     'KS0'  : ' decay & rhoK ',                                                             
+#                         }                                                                  
+# EndInsertPythonCode        
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Axel Iohner
+# Email: axel.iohner@cern.ch
+# Date: 20250124
+#
+Alias MyH_30     A0
+Alias Myanti-H_30	A0
+ChargeConj MyH_30	Myanti-H_30
+#
+Decay       K_S0sig
+  1.000     mu+     mu-    MyH_30      PHSP;
+Enddecay
+#
+End

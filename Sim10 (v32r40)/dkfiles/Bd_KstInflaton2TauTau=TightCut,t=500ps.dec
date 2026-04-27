@@ -1,0 +1,71 @@
+# EventType: 11100030
+#
+# Descriptor: [B0 => (Higgs''0 => tau+ tau-) K*(892)0]CC
+#
+# NickName: Bd_KstInflaton2TauTau=TightCut,t=500ps
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+# from Configurables import Gauss, PrintMCTree, PrintMCDecayTreeTool, HistogramPersistencySvc, NTupleSvc, DumpHepMCDecay, DumpHepMCTree, GaussMonitor__CheckLifeTimeHepMC, GaussMonitor__CheckLifeTimeMC, GiGa, GiGaPhysListModular, GiGaHiggsParticles, GenerationToSimulation, PythiaProduction
+# ParticlePropertySvc().Particles = [ "H_30 89 36 0.0 4.0 0.500e-9 Higgs''0 36 0.000000e+000" ]
+# ApplicationMgr().ExtSvc += [ ParticlePropertySvc() ]
+#
+# gigaHiggsPart = GiGaHiggsParticles()
+# gigaHiggsPart.Higgses = ["H_30"]
+# GiGaPhysListModular("ModularPL").PhysicsConstructors += [gigaHiggsPart]
+#
+# from Configurables import LoKi__GenCutTool
+# Generation().SignalRepeatedHadronization.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCuts = Generation().SignalRepeatedHadronization.TightCut
+# tightCuts.Decay = '[B0 => ^(H_30 => tau+ tau-) K*(892)0]CC'
+# tightCuts.Preambulo += [
+#       "from GaudiKernel.SystemOfUnits import meter",
+#       "GVZ = LoKi.GenVertices.PositionZ() " ,
+#       "vz      = GFAEVX ( GVZ, 0 * meter ) " ,
+#       "decayinMS =  ( (vz >   (13 * meter ) ) & (vz <   (20 * meter ) ) )",
+#       "isA1 = ( in_range(0.000, GTHETA, 0.400) & decayinMS)"]
+#
+# tightCuts.Cuts = {
+#   '[H_30]cc' : 'isA1'
+#}
+#
+# EndInsertPythonCode
+# Documentation: File for B -> Inflaton (-> tautau) Kst, based on work by Marcin Chrzaszcz, Nicola Serra
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: María Pereira Martínez
+# Email: maria.pereira.martinez@cern.ch
+# Date:   20250514
+# CPUTime: 5min
+#
+Alias MyA Higgs''0
+ChargeConj MyA MyA
+#
+Alias         Mytau+   tau+
+Alias         Mytau-   tau-
+ChargeConj    Mytau+   Mytau-
+#
+Decay B0sig
+  1.000  K*0 MyA   PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyA
+  1.000         Mytau+      Mytau-                    PHSP;
+Enddecay
+#
+#Tauola steering options
+Define TauolaCurrentOption -1
+Define TauolaBR1 1.0
+#
+Decay Mytau-
+  1.00        TAUOLA 0;
+Enddecay
+CDecay Mytau+
+#
+End

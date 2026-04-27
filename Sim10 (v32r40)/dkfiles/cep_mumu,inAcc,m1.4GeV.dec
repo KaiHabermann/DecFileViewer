@@ -1,0 +1,38 @@
+# EventType: 49112000
+#
+# Descriptor: mu+ mu-
+# NickName: cep_mumu,inAcc,m1.4GeV
+# Cuts: None
+# Production: SuperChic2
+#
+# InsertPythonCode:
+# 
+# # SuperChic2 options.
+# from Configurables import SuperChic2Production
+# Generation(genAlgName).Special.addTool(SuperChic2Production)
+# Generation(genAlgName).Special.SuperChic2Production.Commands += [
+#     "SuperChic2:proc    = 57",   # mu,mu production.
+#     "SuperChic2:gencuts = true", # Apply cuts below on pseudorapidity
+#     "SuperChic2:etaamin = 1.95", # mu+ pseudorapidity min
+#     "SuperChic2:etaamax = 5.05", # mu+ pseudorapidity max
+#     "SuperChic2:etabmin = 1.95", # mu- pseudorapidity min
+#     "SuperChic2:etabmax = 5.05", # mu- pseudorapidity max
+#     "SuperChic2:mmin    = 1.4"]  # min mass dimuon 1.4 GeV
+#
+# # Keep the CEP process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+# Documentation:
+# Central exclusive production of [mu mu] with muons in the acceptance, min mass dimuon 1.4 GeV
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Cristina Sanchez Gras
+# Email: cristina.sanchez.gras@cern.ch
+# Date: 20201012
+#
+End

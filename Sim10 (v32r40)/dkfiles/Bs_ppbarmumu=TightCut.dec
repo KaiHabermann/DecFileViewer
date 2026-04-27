@@ -1,0 +1,45 @@
+# EventType: 13114065
+#
+# Descriptor: [B_s0 -> p+ anti-p- mu+ mu-]cc
+#
+# NickName: Bs_ppbarmumu=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool(LoKi__GenCutTool ,'TightCut')
+# #
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay  = '[^(B_s0 ==> ^p+ ^p~- ^mu+ ^mu-)]CC'
+# tightCut.Cuts   =   {
+#     '[p+]cc'      : "inAcc",
+#     '[mu+]cc'     : "inAcc",
+#     '[B_s0]cc'     : "visMass" }
+# tightCut.Preambulo += [
+#     "inAcc   = in_range ( 0.005 , GTHETA , 0.400 ) & in_range ( 1.5 , GETA , 5.5 ) & ( GP > 1. * GeV )" ,
+#     "visMass  = ( ( GMASS ( 'p+' == GID, 'p~-' == GID ) ) < 3500 * MeV ) " ]
+# EndInsertPythonCode
+#
+#
+# Documentation: Non resonant Bs -> ppbar mu+ mu-, decay products in acceptance, ppbar mass below 3.5 GeV
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Vitalii Lisovskyi
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20200229
+# CPUTime: < 1min 
+#
+#
+Decay B_s0sig
+  1.000        p+      anti-p-  mu+ mu-      PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+#
+End
+

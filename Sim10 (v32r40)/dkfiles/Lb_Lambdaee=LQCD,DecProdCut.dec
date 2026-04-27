@@ -1,0 +1,42 @@
+# EventType: 15124102
+#
+# Descriptor: [Lambda_b0 -> (Lambda0 -> p+ pi-) e+ e-]cc
+#
+# NickName: Lb_Lambdaee=LQCD,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda0 forced into p pi, decay with RareLbToLll model from LQCD, 
+#                decay products in acceptance (except products from Lambda)        
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Mick Mulder
+# Email: mick.mulder@cern.ch
+# Date: 20191129
+#
+Alias      MyLambda0      Lambda0
+Alias      Myanti-Lambda0 anti-Lambda0
+ChargeConj MyLambda0      Myanti-Lambda0
+#
+Decay Lambda_b0sig
+  1.000    MyLambda0         e+   e- RareLbToLll LQCD;
+Enddecay
+#
+Decay anti-Lambda_b0sig
+  1.000    Myanti-Lambda0    e-  e+  RareLbToLll LQCD;
+Enddecay
+#
+Decay MyLambda0
+  1.000   p+          pi-    HELAMP 0.936 0.0 0.351 0.0;
+Enddecay
+#
+Decay Myanti-Lambda0
+  1.000   anti-p-          pi+    HELAMP 0.351 0.0 0.936 0.0;
+Enddecay
+#
+End
+#

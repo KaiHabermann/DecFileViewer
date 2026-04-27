@@ -1,0 +1,156 @@
+# EventType: 11244400
+#
+# Descriptor: [B0 -> (J/psi -> mu+ mu- ) K+ pi+ pi0 ]cc
+#
+# ParticleValue: "D*(2640)+  317  100413  1 3.872  -1.e-4 D*(2S)+   100413 0.010", "D*(2640)-  318 -100413 -1 3.872  -1.e-4 D*(2S)-  -100413 0.010" 
+#
+# NickName: Bd_JpsiKpipi0=TightCut 
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: B decay into J/psi K- pi+ pi0 final state via intermediate ( X(3872)+ K- ) or ( J/psi K1(1270)0 ) or ( J/psi K- rho+ ) states in proportion 50/40/10%.
+#                Insteads of hypothetical X(3872)+  the D*(2S)+ is used with modified mass&width.
+#                Mass is set to be 3.872 GeV and the width is 0.1 MeV.   
+#                CPU performance is  ~50 sec/even
+#                The generator level cuts are applied to increase the efficiency by a factor of ~5
+#                The generator level cuts efficiency is (4.4 +/- 0.4)% from (TightCuts) and (2.2 +/- 0.2)% from Generation log 
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation() 
+# signal     = generation.SignalRepeatedHadronization 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[ (B0|B~0) ==> ^( J/psi(1S) => ^mu+ ^mu- ) ^K- ^pi+ ( pi0 -> ^gamma ^gamma ) ]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'inAcc        =   in_range ( 0.005 , GTHETA , 0.400 )       ' ,
+#     'inEta        =   in_range ( 1.95  , GETA   , 5.050 )       ' ,
+#     'inY          =   in_range ( 1.9   , GY     , 4.6   )       ' , 
+#     'inEcalX      =   abs ( GPX / GPZ ) < 4.5  / 12.5           ' ,
+#     'inEcalY      =   abs ( GPY / GPZ ) < 3.5  / 12.5           ' ,
+#     'inEcalHole   = ( abs ( GPX / GPZ ) < 0.25 / 12.5 ) & ( abs ( GPY / GPZ ) < 0.25 / 12.5 )',
+#     'inEcal       =   inEcalX & inEcalY & ~inEcalHole           ' ,
+#     'fastTrack    = ( GPT > 180 * MeV ) & ( GP  > 3.0 * GeV )   ' , 
+#     'goodTrack    =   inAcc & inEta & fastTrack                 ' , 
+#     'goodMuon     = ( GPT > 475 * MeV ) & goodTrack             ' , 
+#     'goodPsi      =   inY                                       ' ,         
+#     'goodPhoton   = ( GPT > 130 * MeV ) & inEcal                ' ,  
+#     'longLived    =   75 * micrometer < GTIME                   ' , 
+#     'goodB        =   inY & longLived                           ' ,
+# ]
+# tightCut.Cuts     =    {
+#     '[B0]cc'         : 'goodB      ' ,
+#     'J/psi(1S)'      : 'goodPsi    ' , 
+#     '[K+]cc'         : 'goodTrack  ' , 
+#     '[pi+]cc'        : 'goodTrack  ' , 
+#     '[mu+]cc'        : 'goodMuon   ' , 
+#     'gamma'          : 'goodPhoton ' , 
+#     }
+#
+# # Generator efficiency histos:
+# tightCut.XAxis = ( "GPT/GeV" , 1.0 , 20.0 , 38  )
+# tightCut.YAxis = ( "GY     " , 2.0 ,  4.5 , 10  )
+#
+# EndInsertPythonCode
+#
+# PhysicsWG:   Onia 
+# Tested:      Yes
+# Responsible: Vanya Belyaev 
+# Email:       Vanya Belyaev@cern.ch
+# Date:        20240122
+# CPUTime:     <1min 
+#
+Alias      MyJpsi         J/psi
+ChargeConj MyJpsi        MyJpsi
+#
+Alias      MyX3872+      D*(2S)+
+Alias      MyX3872-      D*(2S)-
+ChargeConj MyX3872+      MyX3872-
+#
+Alias      MyRho+          rho+
+Alias      MyRho-          rho-
+ChargeConj MyRho+        MyRho-
+#
+Alias      MyPi0         pi0 
+ChargeConj MyPi0         MyPi0 
+#
+Alias      MyK_0*0       K_0*0 
+Alias      Myanti-K_0*0  anti-K_0*0 
+ChargeConj MyK_0*0       Myanti-K_0*0
+#
+Alias      MyK_0*-       K_0*-
+Alias      MyK_0*+       K_0*+
+ChargeConj MyK_0*-       MyK_0*+
+#
+Alias      MyK*0         K*0 
+Alias      Myanti-K*0    anti-K*0 
+ChargeConj MyK*0         Myanti-K*0
+# 
+Alias      MyK*-         K*-
+Alias      MyK*+         K*+
+ChargeConj MyK*-         MyK*+
+#
+Alias      MyK_10        K_10  
+Alias      Myanti-K_10   anti-K_10  
+ChargeConj MyK_10        Myanti-K_10
+#
+Decay B0sig
+  0.50     MyX3872+     K-           SVS  ;
+  0.40     MyJpsi       MyK_10       PHSP ;
+  0.10     MyJpsi       MyRho+   K-  PHSP ;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyRho+
+  1.00     pi+         MyPi0       VSS    ;
+Enddecay
+CDecay MyRho-
+#
+Decay MyJpsi
+  1.00     mu+         mu-           PHOTOS VLL ;
+Enddecay
+##
+Decay MyX3872+
+  1.00    MyJpsi  MyRho+   PHSP ;
+Enddecay
+CDecay MyX3872-
+##
+Decay MyK_10
+  0.50     K-      MyRho+       PHSP ;
+  0.15     MyK_0*0 MyPi0        VSS  ;
+  0.15     MyK_0*- pi+          VSS  ;
+  0.10     MyK*0   MyPi0        PHSP ;
+  0.10     MyK*-   pi+          PHSP ;
+Enddecay
+CDecay Myanti-K_10
+##
+Decay MyK_0*0
+  1.00     K-      pi+          PHSP ;
+Enddecay
+CDecay Myanti-K_0*0
+##
+Decay MyK_0*-
+  1.00     K-      MyPi0        PHSP ;
+Enddecay
+CDecay MyK_0*+
+##
+Decay MyK*0
+  1.00     K-      pi+          VSS  ;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK*-
+  1.00     K-      MyPi0        VSS  ;
+Enddecay
+CDecay MyK*+
+##
+Decay MyPi0
+  1.00     gamma   gamma        PHSP ;
+Enddecay
+##
+End
+#

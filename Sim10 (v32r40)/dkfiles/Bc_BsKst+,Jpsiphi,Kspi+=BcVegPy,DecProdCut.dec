@@ -1,0 +1,73 @@
+# EventType: 14347100
+#  
+# Descriptor: [B_c+ -> (B_s0 -> (J/psi(1S) -> mu+ mu-) (phi(1020) -> K+ K-)) (K*(892)+ -> (KS0 -> pi+ pi-) pi+)]cc
+#
+# NickName: Bc_BsKst+,Jpsiphi,Kspi+=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay to Bs K*(892)+, Bs forced to Jpsi phi, K*(892)+ forced to Ks pi+, decay products in acceptance, BcVegPy  
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Tamaki Holly McGrath
+# Email: tamaki.holly.mcgrath@cern.ch
+# Date: 20210714
+#
+#
+Define betas 0.02
+Define Apara 0.480
+Define Azero 0.722
+Define Aperp 0.499
+Define pApara 3.30
+Define pAzero 0.0
+Define pAperp 3.07
+#
+Alias           MyK*+           K*+
+Alias           MyK*-           K*-
+ChargeConj      MyK*+           MyK*-
+Alias           MyKs            K_S0
+ChargeConj      MyKs            MyKs
+Alias 		MyB_s0 		B_s0
+Alias 		Myanti-B_s0 	anti-B_s0
+ChargeConj 	MyB_s0 		Myanti-B_s0
+Alias 		MyJ/psi 	J/psi
+ChargeConj 	MyJ/psi 	MyJ/psi
+Alias 		MyPhi 		phi
+ChargeConj 	MyPhi 		MyPhi
+#
+Decay B_c+sig
+1.00	MyK*+	MyB_s0	SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyK*+
+1.00	MyKs	pi+	VSS;
+Enddecay
+CDecay MyK*-
+#
+Decay MyB_s0
+  1.000 MyJ/psi MyPhi PVV_CPLH betas 1 Apara pApara Azero pAzero Aperp pAperp;
+Enddecay
+Decay Myanti-B_s0
+  1.000 MyJ/psi MyPhi PVV_CPLH betas 1 Apara pApara Azero pAzero Aperp pAperp;
+Enddecay
+#
+Decay MyKs
+0.6920  pi+     pi-     PHSP;
+0.3069  pi0     pi0     PHSP;
+Enddecay
+#
+Decay MyJ/psi
+1.00	mu-	mu+	PHOTOS VLL;
+Enddecay
+#
+Decay MyPhi
+1.00	K-	K+	VSS;
+Enddecay
+End
+

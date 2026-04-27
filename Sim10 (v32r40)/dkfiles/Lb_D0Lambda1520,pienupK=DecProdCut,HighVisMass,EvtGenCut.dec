@@ -1,0 +1,66 @@
+# EventType: 15584038
+#
+# Descriptor: [Lambda_b0 -> (D0 -> pi- e+ nu_e) (Lambda(1520)0 -> p+ K-)]cc
+#
+# NickName: Lb_D0Lambda1520,pienupK=DecProdCut,HighVisMass,EvtGenCut
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+# #
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation()
+#
+# gen.SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/HighVisMass"
+# evtgendecay.addTool(LoKi__GenCutTool ,'HighVisMass')
+# evtgendecay.HighVisMass.Decay   = '[^(Lambda_b0 => (D0 => pi- e+ nu_e) (Lambda(1520)0 => p+ K-) )]CC'
+# evtgendecay.HighVisMass.Cuts    = { '[Lambda_b0]cc' : "visMass" }
+# evtgendecay.HighVisMass.Preambulo += ["visMass  = ( ( GMASS ( 'pi-' == GABSID , 'e+' == GABSID, 'p+' == GABSID, 'K-' == GABSID) ) > 4500 * MeV ) " ]
+#
+# EndInsertPythonCode
+#
+# Documentation: 
+# Semileptonic Lambda_b decay into D0 Lambda(1520). D0 decays to pi- e nu, L1520 to p K.
+# Generator level cut applied to have a visible mass larger than 4.5 GeV.
+# Semileptonic background for Lb->Lambda(1520)emu.
+# EndDocumentation
+#
+# CPUTime: <1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Dan Thompson   
+# Email: dan.thompson@cern.ch
+# Date: 20211125
+#
+Alias      MyD0          D0
+Alias      Myanti-D0     anti-D0
+ChargeConj MyD0          Myanti-D0
+#
+Alias      MyLambda(1520)0      Lambda(1520)0
+Alias      Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0      Myanti-Lambda(1520)0
+#
+Decay Lambda_b0sig
+  1.000    MyD0  MyLambda(1520)0      PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyD0
+  1.000    pi-  e+  nu_e                 ISGW2;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyLambda(1520)0
+  1.000   p+          K-        PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+End
+#

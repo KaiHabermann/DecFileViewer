@@ -1,0 +1,58 @@
+# EventType: 49000073
+#
+# Descriptor: pp -> ccbar (->muX)
+# NickName: dijet=c,m70GeV,mu
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/twoToTwoWithMuonInAcc
+# Production: Pythia8
+#
+# InsertPythonCode:
+# # Switch off all Pythia 8 options.
+# from Gaudi.Configuration import importOptions
+# importOptions( "$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py" )
+#
+# # Pythia 8 options.
+# from Configurables import Pythia8Production
+# Generation(genAlgName).Special.addTool( Pythia8Production )
+# Generation(genAlgName).Special.Pythia8Production.Commands += [
+#     "HardQCD::hardccbar = on",     # Hard process.
+#     "PhaseSpace:mHatMin = 30.0",   # Minimum invariant mass.
+#     "PhaseSpace:mHatMax = 70.0"]   # Maximum invariant mass.
+# Generation(genAlgName).PileUpTool = "FixedLuminosityForRareProcess"
+#
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut, 'twoToTwoWithMuonInAcc')
+# cutTool = Generation(genAlgName).twoToTwoWithMuonInAcc
+# cutTool.Code = '(count(MuonInAcc)>0) & (count(out1)==1) & (count(out2)==1)'
+# cutTool.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import ns, GeV, mrad',
+#     'GPT = LoKi.GenParticles.TransverseMomentum()',
+#     'isMuon = (GABSID == 13)',
+#     'minPT = ((GTHETA < 400.0*mrad) & (GPT > 5*GeV))',
+#     'MuonInAcc = ((isMuon) & (minPT))',
+#     'out1 = ((GBARCODE == 5) & (GTHETA<400.0*mrad))',
+#     'out2 = ((GBARCODE == 6) & (GTHETA<400.0*mrad))'
+#     ]
+#
+# # Keep 2 -> 2 hard process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = (
+#     "( GBARCODE >= 1 ) & ( GBARCODE <= 6 )")
+# EndInsertPythonCode
+#
+#
+# Documentation:
+# c-dijet production, hard process in acceptance,
+# hard process mass up to 70 GeV,
+# muon with pt > 5GeV required in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: 3 min
+# Responsible: Matthew Bradley
+# Email: mbradley@cern.ch
+# Date: 20200318
+#
+#
+End

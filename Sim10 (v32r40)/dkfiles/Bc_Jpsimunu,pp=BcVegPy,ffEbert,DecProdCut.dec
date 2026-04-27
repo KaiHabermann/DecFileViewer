@@ -1,0 +1,35 @@
+# EventType: 14543026
+# 
+# Descriptor: [B_c+ -> (J/psi -> p+ anti-p-) mu+ nu_mu]cc
+# 
+# NickName: Bc_Jpsimunu,pp=BcVegPy,ffEbert,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: decay of Bc+ -> J/psi (-> p pbar) mu+ and nu_mu, 
+#                using BcVegPy generator and requiring all daughters in LHCb. 
+#                Form factor model by Ebert et al., doi:10.1103/PhysRevD.82.034032. Radiative mode included.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Andrii Usachov
+# Email: andrii.usachov@cern.ch
+# Date: 20210329
+# CPUTime: <1min 
+#
+Alias MyJpsi J/psi
+ChargeConj MyJpsi MyJpsi
+#
+Decay B_c+sig
+  1.000 MyJpsi mu+ nu_mu PHOTOS BC_VMN 2;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJpsi
+  1.000 p+ anti-p- PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,62 @@
+# EventType: 22102411
+#
+# Descriptor: [D0 -> K- pi+ pi0]cc
+#
+# NickName: D0_Kpipi0=TightCut_Prompt_pthat1015
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[D0 -> ^K- ^pi+ ^pi0]CC'
+# tightCut.Cuts      =    {
+#     '[K-]cc'   : ' goodKaon ' , 
+#     '[pi+]cc'   : ' goodPion ' ,
+#     '[pi0]cc'   : ' goodPi0' , 
+#     '[D0]cc'  : ' notFromB  ' } 
+# tightCut.Preambulo += [
+#     'inAcc        = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodKaon     =  inAcc ' , 
+#     'goodPion     =  inAcc ' ,
+#     'goodPi0      =  inAcc ' ,
+#     'Bancestors   =  GNINTREE ( GBEAUTY , HepMC.ancestors )',
+#     'notFromB     =  0 == Bancestors' ] 
+#
+# from Gaudi.Configuration import importOptions
+# importOptions('$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py')
+# from Configurables import Pythia8Production
+# gen.SignalPlain.addTool(Pythia8Production)
+# gen.SignalPlain.Pythia8Production.Commands+=[
+#     "HardQCD:all = on",
+#     "PhaseSpace:pTHatMin = 10.0",
+#     "PhaseSpace:pTHatMax = 15.0"] 
+#
+# # Keep 2 -> 2 hard process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = (
+#     "( GBARCODE >= 1 ) & ( GBARCODE <= 6 )")
+#
+# EndInsertPythonCode
+#
+# Documentation: Prompt D0 to K Pi Pi0 for Lund Plane Analysis (pthatmin 10, pthatmax 15). Dalitz mode including some intermediate resonances,
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible: Ibrahim Chahrour
+# Email: chahrour@umich.edu
+# Date: 20250103
+# CPUTime: < 1 min
+#
+Decay D0sig
+  1.0   K-  pi+ pi0  D_DALITZ;
+Enddecay
+CDecay anti-D0sig
+#
+End
+

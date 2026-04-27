@@ -1,0 +1,76 @@
+# EventType: 11774014
+#
+# Descriptor: [B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+ nu_mu]cc
+#
+# NickName: Bd_DstX,cocktail,D0pi,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+#   Intended to be a copy of 11774004 with looser cuts to be suitable for secondary analysis.
+# EndDocumentation
+#
+# CPUTime: <1min
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Aodhan Burke
+# Email: aodhan.burke@cern.ch
+# Date: 20220413
+#
+Alias      MyD*+    D*+
+Alias      MyD*-    D*-
+ChargeConj MyD*+    MyD*-
+#
+Alias      MyD0     D0
+Alias      MyantiD0 anti-D0
+ChargeConj MyD0     MyantiD0
+#
+Decay B0sig
+    5.05001 MyD*-        mu+        nu_mu                           PHOTOS HQET2 1.122 0.921 1.270 0.852; #rho^2 (ha1 unchanged) R1 R2; HFLAG Spring 2019; normalisation factor ha1 has no impact on kinematics
+    5.05    MyD*-        e+         nu_e                            PHOTOS HQET2 1.122 0.921 1.270 0.852; #rho^2 (ha1 unchanged) R1 R2; HFLAG Spring 2019; normalisation factor ha1 has no impact on kinematics
+    1.57    MyD*-        tau+       nu_tau                          ISGW2;
+    0.274   MyD*-        pi+                                        SVS;
+    1.5     MyD*-        pi+        pi0                             PHSP;
+    0.68    rho+         MyD*-                                      SVV_HELAMP  0.317 0.19 0.936 0.0 0.152 1.47;
+    0.0212  MyD*-        K+                                         SVS;
+    0.03    MyD*-        K0         pi+                             PHSP;
+    0.033   MyD*-        K*+                                        SVV_HELAMP  0.283 0.0 0.932 0.0 0.228 0.0;
+    0.129   MyD*-        K+         anti-K*0                        PHSP;
+    0.721   MyD*-        pi+        pi+        pi-                  PHSP;
+    0.57    MyD*-        rho0       pi+                             PHSP;
+    1.30    MyD*-        a_1+                                       SVV_HELAMP 0.200 0.0 0.866 0.0 0.458 0.0;
+    0.047   MyD*-        K+         pi-        pi+                  PHSP;
+    1.76    MyD*-        pi+        pi+        pi-        pi0       PHSP;
+    0.47    MyD*-        pi+        pi+        pi+    pi-    pi-    PHSP;
+    0.246   MyD*-        omega      pi+                             PHSP;
+    0.80    MyD*-        D_s+                                       SVS;
+    1.77    D_s*+        MyD*-                                      SVV_HELAMP 0.4904 0.0 0.7204 0.0 0.4904 0.0;
+    0.15    MyD*-        D_s0*+                                     SVS;
+    0.93    MyD*-        D_s1+                                      SVV_HELAMP 0.4904 0. 0.7204 0. 0.4904 0.;
+    0.083   MyD*-        D'_s1+                                     PHSP;
+    0.080   MyD*-        D*+                                        SVV_HELAMP 0.56 0.0 0.96 0.0 0.47 0.0;
+    0.080   D*-          MyD*+                                      SVV_HELAMP 0.56 0.0 0.96 0.0 0.47 0.0;
+    0.061   MyD*+        D-                                         SVS;
+    0.247   MyD*-        D0         K+                              PHSP;
+    1.06    MyD*-        D*0        K+                              PHSP;
+    0.18    MyD*-        D+         K0                              PHSP;
+    0.47    D-           MyD*+      K0                              PHSP;
+    0.81    MyD*-        D*+        K0                              PHSP;
+    0.81    D*-          MyD*+      K0                              PHSP;
+    0.14    MyD*-        p+         anti-n0                         PHSP;
+    0.047   MyD*-        p+         anti-p-    pi+                  PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*-
+  1.0   MyantiD0    pi-     VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay MyantiD0
+  1.0   K+          pi-     PHSP;
+Enddecay
+CDecay MyD0
+#
+End

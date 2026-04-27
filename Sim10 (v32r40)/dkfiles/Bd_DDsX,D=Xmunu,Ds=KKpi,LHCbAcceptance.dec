@@ -1,0 +1,251 @@
+# EventType: 11874020
+#
+# Descriptor: [([B0] ==> (D~0 ==> mu- nu_mu~) (D_s+ -> K+ K- pi+)), ([B0] ==> (D- ==> mu- nu_mu~) (D_s+ -> K+ K- pi+))]cc
+#
+# NickName: Bd_DDsX,D=Xmunu,Ds=KKpi,LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: B0 decaying to D Ds+ X cocktail, D forced to semileptonic, Ds+ forced to hadronic. For Ds+Ds- decays one Ds semileptonic, the other hadronic.
+# Amplitudes are all corrected for the forced D0/D+/Ds SL decay. Amplitudes from PDG are used when available, and failing that HFLAV. Amplitudes for D_2*D_s are extrapolated from nonresonant DDspi using the relative branching fractions measured in https://doi.org/10.1103/PhysRevD.108.012017 . Amplitudes for other unobserved final states are my own calculations assuming isospin invariance between decay topologies. 
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Responsible: Wren Vetens
+# Email: wsvetens@syr.edu
+# Date: 20250227
+# Tested: Yes
+#
+Alias		Mytaumu+		tau+
+Alias		Mytaumu-		tau-
+ChargeConj	Mytaumu+		Mytaumu-
+#
+Alias		MySLD+		D+
+Alias		MySLD-		D-
+ChargeConj	MySLD+		MySLD-
+#
+Alias		MySLD0		D0
+Alias		MySLAntiD0	anti-D0
+ChargeConj	MySLD0		MySLAntiD0
+#
+Alias		MySLD*+		D*+
+Alias		MySLD*-		D*-
+ChargeConj	MySLD*+		MySLD*-
+#
+Alias		MySLD*0		D*0
+Alias		MySLAntiD*0	anti-D*0
+ChargeConj	MySLD*0		MySLAntiD*0
+#
+Alias		MyD_s+		D_s+
+Alias		MyD_s-		D_s-
+ChargeConj	MyD_s+		MyD_s-
+#
+Alias		MyD_s*+		D_s*+
+Alias		MyD_s*-		D_s*-
+ChargeConj	MyD_s*+		MyD_s*-
+#
+Alias		MySLD_s+		D_s+
+Alias		MySLD_s-		D_s-
+ChargeConj	MySLD_s+		MySLD_s-
+#
+Alias		MySLD_s*+		D_s*+
+Alias		MySLD_s*-		D_s*-
+ChargeConj	MySLD_s*+		MySLD_s*-
+#
+Alias		MySLD_0*+		D_0*+
+Alias		MySLD_0*-		D_0*-
+ChargeConj	MySLD_0*+		MySLD_0*-
+#
+Alias		MySLD_1+		D_1+
+Alias		MySLD_1-		D_1-
+ChargeConj	MySLD_1+		MySLD_1-
+#
+Alias		MySLD'_1+		D'_1+
+Alias		MySLD'_1-		D'_1-
+ChargeConj	MySLD'_1+		MySLD'_1-
+#
+Alias		MySLD_2*+		D_2*+
+Alias		MySLD_2*-		D_2*-
+ChargeConj	MySLD_2*+		MySLD_2*-
+#
+Alias		MyD_s0*+	D_s0*+
+Alias		MyD_s0*-	D_s0*-
+ChargeConj	MyD_s0*+	MyD_s0*-
+#
+Alias		MyD_s1+		D_s1+
+Alias		MyD_s1-		D_s1-
+ChargeConj	MyD_s1+		MyD_s1-
+#
+Decay B0sig
+ 0.00144	MySLD-		MyD_s+			PHSP;
+ 0.00132	MyD_s*+		MySLD-			SVS;
+ 0.00084	MySLD*-		MyD_s+			SVS;
+ 0.00192	MySLD*-		MyD_s*+			SVV_HELAMP 0.4904 0.0 0.7204 0.0 0.4904 0.0;
+
+ 0.00006	MySLD_0*-		MyD_s+			PHSP;
+ 0.00012	MyD_s*+		    MySLD_0*-		SVS;
+ 0.00006	MySLD'_1-		MyD_s+			SVS;
+ 0.00011	MySLD'_1-		MyD_s*+			SVV_HELAMP 0.48 0.0 0.734 0.0 0.48 0.0;
+ 0.00006	MySLD_1-		MyD_s+			SVS;
+ 0.00011	MySLD_1-		MyD_s*+			SVV_HELAMP 0.48 0.0 0.734 0.0 0.48 0.0;
+ 0.00057	MySLD_2*-		MyD_s+			STS;
+ 0.00114    MySLD_2*-		MyD_s*+			PHSP;
+		
+ 0.00019	MyD_s0*+	MySLD-    		PHSP;
+ 0.00015	MySLD*-		MyD_s0*+		SVS;
+ 0.00072	MyD_s1+		MySLD-			SVS;
+ 0.00103	MySLD*-		MyD_s1+			SVV_HELAMP 0.4904 0.0 0.7204 0.0 0.4904 0.0;
+
+ 0.00051	MyD_s+		MySLD-	    pi0		PHSP;
+ 0.00020	MyD_s+		MySLAntiD0	pi-		PHSP;
+ 0.00102	MyD_s*+		MySLD-	    pi0		PHSP;
+ 0.00039	MyD_s*+		MySLAntiD0	pi-		PHSP;
+ 
+ 0.00001    MyD_s+      MySLD_s-      anti-K0     PHSP;
+ 0.00002    MyD_s*+     MySLD_s*-     anti-K0     PHSP;
+ 0.00001    MyD_s+      MySLD_s*-     anti-K0     PHSP;
+ 0.00001    MyD_s*+     MySLD_s-      anti-K0     PHSP;
+ 0.00001    MyD_s+      MySLD_s-      anti-K*0    PHSP;
+ 0.00002    MyD_s*+     MySLD_s*-     anti-K*0    PHSP;
+ 0.00001    MyD_s+      MySLD_s*-     anti-K*0    PHSP;
+ 0.00001    MyD_s*+     MySLD_s-      anti-K*0    PHSP;
+
+ 0.00003    MyD_s+      MySLD-        pi+     pi-     PHSP;
+ 0.00003    MyD_s*+     MySLD-        pi+     pi-     PHSP;
+ 0.00002    MyD_s+      MySLD*-       pi+     pi-     PHSP;
+ 0.00003    MyD_s*+     MySLD*-       pi+     pi-     PHSP;
+ 0.00003    MyD_s+      MySLD-        pi0     pi0     PHSP;
+ 0.00003    MyD_s*+     MySLD-        pi0     pi0     PHSP;
+ 0.00002    MyD_s+      MySLD*-       pi0     pi0     PHSP;
+ 0.00003    MyD_s*+     MySLD*-       pi0     pi0     PHSP;
+ 0.00002    MyD_s+      MySLAntiD0    pi-     pi0     PHSP;
+ 0.00002    MyD_s*+     MySLAntiD0    pi-     pi0     PHSP;
+ 0.00002    MyD_s+      MySLAntiD*0   pi-     pi0     PHSP;
+ 0.00004    MyD_s*+     MySLAntiD*0   pi-     pi0     PHSP;
+
+Enddecay
+CDecay anti-B0sig
+#
+Decay MySLD*+
+ 0.05403        MySLD+    pi0             VSS;
+ 0.00282        MySLD+    gamma           VSP_PWAVE;
+ 0.04604        MySLD0    pi+             VSS;
+Enddecay
+CDecay MySLD*-
+#
+Decay MySLD*0
+ 0.64700        MySLD0    pi0             VSS;
+ 0.35300        MySLD0    gamma           VSP_PWAVE;
+ 0.00391        MySLD0    e+ e-           PHSP;
+Enddecay
+CDecay MySLAntiD*0
+#
+Decay MySLD+
+  0.000374      mu+             nu_mu           PHOTOS SLN;
+  0.000209      Mytaumu+        nu_tau          PHOTOS SLN;
+  0.03520       anti-K*0        mu+     nu_mu   PHOTOS ISGW2;
+  0.08740       anti-K0         mu+     nu_mu   PHOTOS ISGW2;
+  0.00277       anti-K_10       mu+     nu_mu   PHOTOS ISGW2;
+  0.00293       anti-K_2*0      mu+     nu_mu   PHOTOS ISGW2;
+  0.00405       pi0             mu+     nu_mu   PHOTOS ISGW2;
+  0.00114       eta             mu+     nu_mu   PHOTOS ISGW2;
+  0.00220       eta'            mu+     nu_mu   PHOTOS ISGW2;
+  0.00240       rho0            mu+     nu_mu   PHOTOS ISGW2;
+  0.00182       omega           mu+     nu_mu   PHOTOS ISGW2;
+  0.03650       K-   pi+        mu+     nu_mu   PHOTOS PHSP;
+  0.00120       anti-K0   pi0   mu+     nu_mu   PHOTOS PHSP;
+Enddecay
+CDecay MySLD-
+#
+Decay MySLD0
+ 0.03333		K-	mu+	nu_mu		PHOTOS ISGW2;
+ 0.0192		K*-	mu+	nu_mu			PHOTOS ISGW2;
+ 0.000076	K_1-	mu+	nu_mu		PHOTOS ISGW2;
+ 0.00110	K_2*-	mu+	nu_mu		PHOTOS ISGW2;
+ 0.00238	pi-	mu+	nu_mu			PHOTOS PHSP;
+ 0.00015	rho-	mu+	nu_mu		PHOTOS PHSP;
+ 0.00040	K-	pi0	mu+	nu_mu		PHOTOS PHSP;
+ 0.00120	K-	pi+	pi-	mu+	nu_mu  	PHOTOS PHSP;
+Enddecay
+CDecay MySLAntiD0
+#
+Decay MyD_s+
+ 1.000          K+      K-      pi+     PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MySLD_s+
+ 0.00932        Mytaumu+ nu_tau          PHOTOS SLN;
+ 0.00535        mu+      nu_mu           PHOTOS SLN;
+ 0.02240        phi      mu+     nu_mu   PHOTOS ISGW2;
+ 0.02400        eta      mu+     nu_mu   PHOTOS ISGW2;
+ 0.01100        eta'     mu+     nu_mu   PHOTOS ISGW2;
+ 0.00010        f_0      mu+     nu_mu   PHOTOS ISGW2;
+Enddecay
+CDecay MySLD_s-
+#
+Decay MyD_s*+
+ 0.9350         MyD_s+		gamma           VSP_PWAVE;
+ 0.0580         MyD_s+  	pi0             VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MySLD_s*+
+ 0.9350         MySLD_s+	gamma           VSP_PWAVE;
+ 0.0580         MySLD_s+  	pi0             VSS;
+Enddecay
+CDecay MySLD_s*-
+#
+Decay MySLD_0*+
+   0.059	MySLD+	pi0	PHOTOS PHSP;
+   0.045	MySLD0	pi+	PHOTOS PHSP;
+Enddecay
+CDecay MySLD_0*-
+#
+Decay MySLD_1+
+ 0.031	MySLD*0	pi+		PHOTOS VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+ 0.023	MySLD*+	pi0		PHOTOS VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+ 0.019	MySLD+	pi+	pi-	PHOTOS PHSP;
+ 0.010	MySLD+	pi0	pi0	PHOTOS PHSP;
+ 0.011	MySLD0	pi+	pi0	PHOTOS PHSP;
+Enddecay
+CDecay MySLD_1-
+#
+Decay MySLD'_1+
+ 0.0453	MySLD*0	pi+	PHOTOS VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+ 0.0343 MySLD*+	pi0	PHOTOS VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay MySLD'_1-
+#
+Decay MySLD_2*+
+ 0.029	MySLD0	pi+	PHOTOS TSS;
+ 0.016	MySLD*0	pi+	PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+ 0.038	MySLD+	pi0	PHOTOS TSS;
+ 0.012	MySLD*+	pi0	PHOTOS TVS_PWAVE  0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay MySLD_2*-
+#
+Decay MyD_s0*+
+ 0.900   MyD_s+   pi0                 PHOTOS PHSP;
+ 0.050   gamma  MyD_s*+               PHOTOS SVP;
+ 0.033   MyD_s+   pi+ pi-             PHOTOS PHSP;
+ 0.017   MyD_s+   pi0 pi0             PHOTOS PHSP;
+Enddecay
+CDecay MyD_s0*-
+#
+Decay MyD_s1+
+ 0.48   MyD_s*+ pi0                  PHOTOS VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+ 0.18   MyD_s+  gamma                PHOTOS VSP_PWAVE;
+ 0.043  MyD_s+  pi+ pi-              PHOTOS PHSP;
+ 0.014  MyD_s+  pi0 pi0              PHOTOS PHSP;
+ 0.037  MyD_s0*+ gamma               PHOTOS VSP_PWAVE;
+Enddecay
+CDecay MyD_s1-
+#
+Decay Mytaumu+
+ 0.1739   mu+ nu_mu anti-nu_tau      PHOTOS TAULNUNU;
+Enddecay
+CDecay Mytaumu-
+#
+End

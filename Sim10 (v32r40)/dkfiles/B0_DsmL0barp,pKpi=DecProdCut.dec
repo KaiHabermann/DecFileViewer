@@ -1,0 +1,44 @@
+# EventType: 11166018 
+#
+# Descriptor: [B0 -> ( D_s- => K+ K- pi- ) p+ (Lambda~0 -> p~- pi+)]cc
+#
+# NickName: B0_DsmL0barp,pKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B0 -> Ds- p Lambda~0 with Lambda~0 -> p- pi+, decay products in acceptance. D_s- decay is described by 'D_DALITZ'.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Fanjie Meng
+# Email: fanjie.meng@cern.ch
+# Date: 20240816
+#
+
+Alias MyDsm             D_s-
+Alias MyDsp             D_s+
+ChargeConj MyDsm        MyDsp
+#
+Alias MyLambda0         Lambda0
+Alias Myanti_Lambda0    anti-Lambda0
+ChargeConj MyLambda0    Myanti_Lambda0
+#
+#
+Decay B0sig
+  1.000     MyDsm   p+    Myanti_Lambda0                                PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyDsm
+  1.000     K+      K-    pi-                                           D_DALITZ;
+Enddecay
+CDecay MyDsp
+#
+Decay Myanti_Lambda0
+  1.000     anti-p- pi+                                                 PHSP;
+Enddecay
+CDecay MyLambda0
+#
+End

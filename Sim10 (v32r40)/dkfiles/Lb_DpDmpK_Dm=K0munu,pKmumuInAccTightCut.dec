@@ -1,0 +1,80 @@
+# EventType: 15596900
+#
+# Descriptor: [Lambda_b0 -> (D+ -> anti-K0 mu+ nu_mu ) (D- -> K0 mu- anti-nu_mu ) p+ K-]cc
+#
+# NickName: Lb_DpDmpK_Dm=K0munu,pKmumuInAccTightCut
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Lakshan Madhan
+# Email: lakshan.madhan@cern.ch
+# Date: 20240212
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 2 min
+#
+# Documentation: Lb->D+D-pK with D->K0munu and pKmumu in acceptance, K0 equal decay to KS and KL, KS->pi+pi- or pi0pi0,
+#  		 background studies for Lb->pktautau and Lb->pKtaumu
+# EndDocumentation
+
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation().SignalPlain.addTool( LoKi__GenCutTool,'TightCut')
+# pkmumuInAcc = Generation().SignalPlain.TightCut
+# pkmumuInAcc.Decay = '[^(Lambda_b0 ==> p+ K- ^mu+ ^mu- nu_mu nu_mu~ {X} {X} {X} {X} {X})]CC'
+# pkmumuInAcc.Preambulo += [
+#     'inAcc        = (in_range(0.01, GTHETA, 0.400))',
+#     'twohadronsInAcc = (GNINTREE( (2212==GABSID) & inAcc) >= 1) & (GNINTREE( (321==GABSID) & inAcc) >= 1)'
+#     ]
+# pkmumuInAcc.Cuts = {
+#     '[mu+]cc'   : 'inAcc',
+#     '[Lambda_b0]cc'   : 'twohadronsInAcc'
+#     }
+#
+# EndInsertPythonCode
+#
+#
+#
+#
+Alias      MyD+       D+
+Alias      MyD-       D-
+ChargeConj MyD+       MyD-
+#
+#
+Alias Myanti-K0     anti-K0
+Alias MyK0     K0
+ChargeConj Myanti-K0 MyK0
+#
+#
+Alias MyK_S0     K_S0
+ChargeConj MyK_S0 MyK_S0
+#
+#
+Decay Lambda_b0sig
+  1.000     MyD+ MyD- p+ K- PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+#
+Decay MyD+
+  1.000     Myanti-K0 mu+ nu_mu     PHSP;  
+Enddecay
+CDecay MyD-
+#
+#
+Decay Myanti-K0
+0.5    K_L0     PHSP   ;
+0.5    MyK_S0     PHSP   ;
+Enddecay
+CDecay MyK0
+#
+#
+Decay MyK_S0
+0.691086452   pi+  pi-     PHSP   ;
+0.305986452   pi0  pi0     PHSP   ;
+Enddecay
+#
+End

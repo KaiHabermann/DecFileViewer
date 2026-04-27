@@ -1,0 +1,69 @@
+# EventType: 11166112
+#
+# Descriptor: {[[B0]nos => (D~0 -> (KS0 -> pi+ pi-) K+ K-) K+ pi-]cc, [[B0]os => (D0 -> (KS0 -> pi+ pi-) K+ K-) K- pi+]cc}
+#
+# NickName: Bd_D0Kpi,KSKK=BsqDalitz,DDalitz,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut 
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+#tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+#tightCut.Decay = '^[Beauty => ^(D~0 => ^(KS0 => ^pi+ ^pi-) ^K+ ^K-) ^K+ ^pi-]CC'
+#tightCut.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import millimeter',
+#    'inAcc        = in_range(0.005, GTHETA, 0.400) & in_range(1.8, GETA, 5.2)',
+#    'inY          = in_range(1.8, GY, 4.8)',
+#    'goodH        = (GP > 1000 * MeV) & (GPT > 98 * MeV) & inAcc',
+#    'goodB0       = (GP > 25000 * MeV) & (GPT > 1500 * MeV) & (GTIME > 0.05 * millimeter) & inY',
+#    'goodD0       = (GP > 10000 * MeV) & (GPT > 500 * MeV) & inY',
+#    'goodKS       = (GP > 4000 * MeV) & (GPT > 250 * MeV)',
+#    'goodBDaugK   = (GNINTREE( ("K+" == GABSID) & (GP > 2000 * MeV), 1) > 0.5)',
+#    'goodBDaugPi  = (GNINTREE( ("pi+" == GABSID) & (GP > 2000 * MeV), 1) > 0.5)',
+#    'goodKsDaugPi = (GNINTREE( ("pi+" == GABSID) & (GP > 1750 * MeV), 1) > 1.5)'
+#]
+#tightCut.Cuts = {
+#    '[pi+]cc'         : 'goodH',
+#    '[K+]cc'          : 'goodH',
+#    'Beauty'          : 'goodB0 & goodBDaugK & goodBDaugPi', 
+#    '[D0]cc'          : 'goodD0',
+#    '[KS0]cc'         : 'goodKS & goodKsDaugPi'
+#    }
+#EndInsertPythonCode
+#
+# Documentation: B0 decay with flat square Dalitz model, D0 decay with KSKK model, tight cuts 
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Yuya Shimizu 
+# Email: yuya.shimizu@cern.ch 
+# Date: 20201211
+#
+
+Alias MyD0        D0
+Alias Myanti-D0   anti-D0
+Alias MyKS        K_S0
+ChargeConj MyD0   Myanti-D0
+ChargeConj MyKS   MyKS
+
+
+Decay B0sig
+  1.0   Myanti-D0   K+         pi-  FLATSQDALITZ;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD0
+  1.0   MyKS        K+         K-   D_DALITZ;
+Enddecay
+CDecay Myanti-D0
+
+Decay MyKS
+  1.0   pi+         pi-             PHSP;
+Enddecay
+
+End

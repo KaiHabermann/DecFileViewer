@@ -1,0 +1,34 @@
+# EventType: 14145081
+#
+# Descriptor: [B_c+ -> (psi(2S) -> mu+ mu- ) p+ p~- pi+]cc
+#
+# NickName: Bc_psi2sppbarpi,mm=DecProdCut,PHSP
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decay with baryons, pion, and psi(2S) forced into mu+ mu-, using BcVegPy generator and cuts of BcDaughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Niladri Sahoo
+# Email: Niladri.Sahoo@cern.ch
+# Date: 20250808
+# CPUTime: < 1 min
+#
+Alias      Mypsi2S psi(2S)
+ChargeConj Mypsi2S Mypsi2S
+#
+Decay B_c+sig
+  1.000        Mypsi2S     p+      anti-p-     pi+     PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mypsi2S
+  1.000        mu+       mu-        VLL;
+Enddecay
+#
+End
+

@@ -1,0 +1,34 @@
+# EventType: 18344013
+#
+# Descriptor: Upsilon(2S) -> (Upsilon(1S) -> mu+ e-) pi+ pi- 
+#
+# NickName: incl_Upsilon2S,Upsilon1Spipi,emu=DecProdCut
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Upsilon(2S) decay to Upsilon(1S)(to e+/- mu-/+ {,gamma} {,gamma}) pi+ pi- with phase space mode, Upsilon daughters in acceptance
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Fergus Wilson
+# Email: fergus.wilson@stfc.ac.uk
+# Date: 20230215
+#
+#
+Alias      MyUpsilon Upsilon
+ChargeConj MyUpsilon MyUpsilon
+
+Decay Upsilon(2S)sig
+  1.000     MyUpsilon    pi+        pi-        PHSP;
+Enddecay
+#
+Decay MyUpsilon
+  0.5     e+  mu-                        VLL;
+  0.5     mu+  e-                        VLL;
+Enddecay
+End
+#

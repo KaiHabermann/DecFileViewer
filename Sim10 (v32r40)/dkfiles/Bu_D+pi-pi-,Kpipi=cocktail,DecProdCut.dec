@@ -1,0 +1,55 @@
+# EventType: 12265063
+#
+# Descriptor: [B+ -> (D*_00 -> (D- -> K+ pi- pi-) pi+) pi+]cc
+#
+# NickName: Bu_D+pi-pi-,Kpipi=cocktail,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+# decay file for B+ -> (X => (D- =>  K+ pi- pi-) pi+) pi+
+# prefered name Bu_D+pi-pi-,Kpipi=cocktail,DecProdCut.dec
+#  DaughtersInLHCb
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1 min
+# Responsible: Hangyi Wu
+# Email: hangyi.wu@cern.ch
+# Date: 20220123
+#
+Alias        MyD-           D-
+Alias        MyD+           D+
+ChargeConj   MyD+           MyD-
+Alias        MyD_0*0        D_0*0
+Alias        MyAnti-D_0*0   anti-D_0*0
+ChargeConj   MyD_0*0        MyAnti-D_0*0
+Alias        MyD_2*0        D_2*0
+Alias        MyAnti-D_2*0   anti-D_2*0
+ChargeConj   MyD_2*0        MyAnti-D_2*0
+#
+Decay B+sig
+  0.628     MyD_0*0    pi+           PHOTOS PHSP;
+  0.322     MyD_2*0    pi+           PHOTOS STS;
+  0.050     MyD-       pi+     pi+   PHOTOS PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD_0*0
+  1.000        MyD-       pi+        PHOTOS PHSP; 
+Enddecay
+CDecay MyAnti-D_0*0
+#
+Decay MyD_2*0
+  1.000        MyD-       pi+        PHOTOS TSS;
+Enddecay
+CDecay MyAnti-D_2*0
+#
+Decay MyD-
+  1.000        K+         pi-   pi-  PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End
+#

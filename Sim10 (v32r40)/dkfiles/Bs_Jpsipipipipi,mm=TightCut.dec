@@ -1,0 +1,95 @@
+# EventType: 13246013
+#
+# Descriptor:  [B_s0 -> (X_1(3872) -> (J/psi(1S) -> mu+ mu-) (rho(770)0 -> pi+ pi-)) pi+ pi-]cc
+#
+# NickName: Bs_Jpsipipipipi,mm=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = ' ^( ( Beauty & Strange ) ==> ( Meson ==> ^( J/psi(1S) => ^mu+ ^mu- ) ^pi+ ^pi-) ^pi+ ^pi- ) '
+#
+#
+# tightCut.Cuts      = {
+#     '[mu+]cc'             : ' goodMuon  ' , 
+#     '[pi+]cc'             : ' goodPion  ' , 
+#     'J/psi(1S)'           : ' goodPsi   ' , 
+#     '[B_s0]cc'            : ' goodB     ' 
+#     }
+# 
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import micrometer              ',
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) & in_range ( 1.8 , GETA , 5.2 ) ' , 
+#     'inY        = in_range ( 1.9   , GY     , 4.6   ) ' , 
+#     'longLived  = 75 * micrometer < GTIME             ' , 
+#     'goodMuon   = ( GPT > 500  * MeV ) & ( GP > 6.0 * GeV ) & inAcc ' , 
+#     'goodPion   = ( GPT > 150  * MeV ) & ( GP > 2.5 * GeV ) & inAcc ' , 
+#     'goodPsi    =                                             inY   ' ,
+#     'goodB      = longLived                                 & inY   ' 
+#     ]
+# EndInsertPythonCode
+
+#
+# Documentation:  
+#   Bs -> J/psi pi+pi-pi+pi- final state, 
+#   taking into account the intermediate resonances.  
+#   The tight generator level cuts applied for all 
+#   final state particles, which increases the statistics 
+#   with a good factor factor of ~2.5.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Vanya Belyaev 
+# Email: Ivan.Belyaev@itep.ru
+# Date: 20201105
+#
+Alias       MyPsi(2S)       psi(2S)
+ChargeConj  MyPsi(2S)     MyPsi(2S)
+
+Alias       MyJ/psi           J/psi
+ChargeConj  MyJ/psi         MyJ/psi
+
+
+Alias       MyX_1(3872)   X_1(3872)
+ChargeConj  MyX_1(3872) MyX_1(3872)
+
+Alias       Myrho0             rho0
+ChargeConj  Myrho0           Myrho0
+
+
+# =======================================================
+#  #sum(psi')      =50% 
+#  #sum(X(3870))   = 50%
+# ======================================================= 
+Decay B_s0sig
+  0.500   MyPsi(2S)   pi+ pi-                PHSP ;
+  0.500   MyX_1(3872) pi+ pi-                PHSP ;
+Enddecay
+CDecay anti-B_s0sig
+
+Decay MyJ/psi
+  1.0000   mu+   mu-                VLL    ;
+Enddecay
+
+Decay MyPsi(2S)
+  1.0000   MyJ/psi  pi+  pi-        VVPIPI ;
+Enddecay
+
+Decay MyX_1(3872)
+  1.00000  MyJ/psi  Myrho0  PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 ; 
+Enddecay
+
+Decay Myrho0
+  1.000    pi+ pi-                  VSS    ;
+Enddecay
+
+
+End

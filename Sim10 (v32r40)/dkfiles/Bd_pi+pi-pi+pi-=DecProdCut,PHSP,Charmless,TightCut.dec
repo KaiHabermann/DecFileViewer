@@ -1,0 +1,25 @@
+# EventType: 11104059
+#
+# Descriptor: [B0 -> pi+ pi- pi+ pi-]cc
+#
+# NickName: Bd_pi+pi-pi+pi-=DecProdCut,PHSP,Charmless,TightCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Charmless phase space MC in the region of B0 -> VV, AS with
+# tight cut on on the V mass window
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Jeremy Dalseno
+# Email: jeremy.peter.dalseno@cern.ch
+# Date: 20200403
+
+Decay B0sig
+      1.0	pi+	pi-	pi+	pi-	BNOCB0TO4PICP -1.507964474 0.5065e12 0.0 1.1 0.0 1.86965;
+Enddecay
+CDecay anti-B0sig
+
+End

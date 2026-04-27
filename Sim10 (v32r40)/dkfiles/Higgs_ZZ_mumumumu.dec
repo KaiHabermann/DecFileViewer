@@ -1,0 +1,41 @@
+# EventType: 40114050
+#
+# Descriptor: pp => ( Higgs0 => (Z0 => mu+ mu-) (Z0 => mu+ mu-) )
+#
+# NickName: Higgs_ZZ_mumumumu
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/ParsInAcc
+#
+# InsertPythonCode:
+# from Configurables import Generation, Special, PowhegProduction, Pythia8Production
+# Generation(genAlgName).addTool( Special )
+# Generation(genAlgName).Special.addTool( PowhegProduction )
+# Generation(genAlgName).Special.PowhegProduction.Commands += [ ]
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "ParsInAcc" )
+# tracksInAcc = Generation(genAlgName).ParsInAcc
+# tracksInAcc.Code = " ( ( count ( isGoodLepton ) > 3 ) ) "
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodLepton   = ( ( 13 == GABSID ) & GCHARGED & ( GTHETA < 400.0*mrad ) & (GTHETA > 10.0*mrad) & ( GPT > 2.*GeV ) )"
+#    ]
+#
+# Generation(genAlgName).Special.PowhegProduction.addTool( Pythia8Production )
+# Generation(genAlgName).Special.PowhegProduction.Pythia8Production.Commands += [ "25:onMode = off",
+# "25:onIfMatch = 23 23", "23:onMode = off", "23:onIfMatch = 13 -13" ]
+# EndInsertPythonCode
+#
+# ExtraOptions: ggH_ZZ_powheg
+#
+# CPUTime: < 1 min
+#
+# Documentation:  Higgs -> ZZ decay, then into four muons, and all muons must within LHCb acceptance with pT greater than 2 GeV.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Hang Yin
+# Email: hang.yin@cern.ch
+# Date: 20201005
+End

@@ -1,0 +1,36 @@
+# EventType: 12103093
+#
+# Descriptor: [B+ -> K+ (K*(892)~0 -> K- pi+)]cc
+#
+# NickName: Bu_Kst0K,Kpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: 1 min
+#
+# Documentation: Decay from B+ to anti K*(892)0 K+ followed by anti K*(892)0 into K- pi+
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Tianyu Shi
+# Email: tianyu.shi@cern.ch
+# Date: 20250331
+#
+#
+Alias      MyKst0       K*0
+Alias      Myanti-Kst0  anti-K*0
+ChargeConj MyKst0       Myanti-Kst0
+
+Decay B+sig
+  1.000        K+      Myanti-Kst0     PHSP;
+Enddecay
+CDecay B-sig
+
+Decay MyKst0
+  1.000    K+           pi-                     VSS;
+Enddecay
+CDecay Myanti-Kst0
+#
+End
+

@@ -1,0 +1,69 @@
+# EventType: 12197027
+# NickName: Bu_D0D0K,K3PiandKPi=TightCut,PHSP
+# Descriptor: (B+ -> [([D0]cc -> K- pi+ pi+ pi-)]CC [([D~0]cc -> K+ pi-)]CC K+)||(B- -> [([D0]cc -> K- pi+ pi+ pi-)]CC [([D~0]cc -> K+ pi-)]CC K-)
+# 
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+##
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool( LoKi__GenCutTool , 'TightCut' )
+##
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = ' ^(B+ ==> ^[([D0]cc => ^K- ^pi+ ^pi+ ^pi-)]CC ^[([D~0]cc => ^K+ ^pi-)]CC ^K+)||^(B- ==> ^[([D0]cc => ^K- ^pi+ ^pi+ ^pi-)]CC ^[([D~0]cc => ^K+ ^pi-)]CC ^K-) '
+# tightCut.Preambulo += [
+#     'inAcc = in_range (0.005, GTHETA , 0.400) & in_range (1.8 , GETA , 5.2)',
+#     'goodFinalState = (GPT > 80 * MeV)',
+#     'goodB = (GPT > 4000 * MeV)',
+#     'goodD0K = (GNINTREE( ("K-"==GABSID) & (GP > 800 * MeV) & goodFinalState & inAcc) > 0.5)',
+#     'goodBK = (GNINTREE( ("K+"==GABSID) & goodFinalState & inAcc) > 0.5)',
+#     'goodpi = (GP > 800 * MeV) & goodFinalState & inAcc'
+# ]
+##
+# tightCut.Cuts = {
+#     '[B+]cc'  : 'goodB & goodBK' , 
+#     '[D0]cc'  : 'goodD0K', 
+#     '[K+]cc'  : 'goodFinalState & inAcc',	
+#     '[pi+]cc' : 'goodpi'
+# }
+# EndInsertPythonCode
+#
+# Documentation:
+#    Decay file for B+- -> D0 D0bar K+- , both D0 and D0bar as B goes to K3pi. Generator level cuts applied to daughter particle P, PT and PT cut applied to B+ (cc).
+# EndDocumentation
+#
+# Date: 20210209
+#
+# Responsible: Jake Amey
+# Email: wq20892@bristol.ac.uk
+# PhysicsWG: B2OC
+# CPUTime: < 1 min 
+# Tested: Yes
+
+Alias My_D0_Kpi   		D0
+Alias My_anti-D0_Kpi 	anti-D0
+Alias My_D0_K3pi   		D0
+Alias My_anti-D0_K3pi 	anti-D0
+
+ChargeConj My_anti-D0_Kpi 	My_D0_Kpi
+ChargeConj My_anti-D0_K3pi 	My_D0_K3pi
+
+Decay My_D0_Kpi
+  1.0 K- pi+ 		 		PHSP;
+Enddecay
+CDecay My_anti-D0_Kpi
+
+Decay My_D0_K3pi
+  1.0 K- pi+ pi+ pi-		PHSP;
+Enddecay
+CDecay My_anti-D0_K3pi
+
+Decay B+sig
+  0.5 My_D0_K3pi My_anti-D0_Kpi K+ 	PHSP;
+  0.5 My_D0_Kpi My_anti-D0_K3pi K+      PHSP;
+Enddecay
+CDecay B-sig
+
+End

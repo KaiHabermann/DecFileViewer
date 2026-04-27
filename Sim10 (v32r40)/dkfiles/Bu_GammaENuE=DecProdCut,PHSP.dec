@@ -1,0 +1,25 @@
+# EventType: 12521201
+#
+# Descriptor: [B+ => gamma nu_e e+]cc
+#
+# NickName: Bu_GammaENuE=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ => gamma nu_e e+ decay file. Phase-space model. Daughters in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Alice Moro
+# Email: a.moro23@campus.unimib.it
+# Date: 20250306
+#
+#
+Decay B+sig
+   1.0000 e+ nu_e gamma PHSP;
+Enddecay
+CDecay B-sig
+#
+End

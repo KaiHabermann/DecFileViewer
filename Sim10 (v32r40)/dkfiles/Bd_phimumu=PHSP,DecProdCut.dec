@@ -1,0 +1,34 @@
+# EventType: 11114019 
+#
+# Descriptor: [B0 -> (phi -> K+ K-) mu+ mu-]cc
+#
+# NickName: Bd_phimumu=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: the B0 -> (phi -> K+ K-) mu^+ mu^- decay in the phase space approach 
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Yilong
+# Email: yilong.wang@cern.ch
+# Date: 20210128
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay B0sig
+   1.000   MyPhi  mu+  mu-   PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyPhi
+  1.000        K+        K-                 PHSP;
+Enddecay
+#
+End
+

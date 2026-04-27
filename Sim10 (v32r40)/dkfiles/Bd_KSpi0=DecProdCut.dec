@@ -1,0 +1,39 @@
+# EventType: 11102520
+#
+# Descriptor: [B0 -> (KS -> pi+ pi-) (pi0 -> gamma gamma)]cc
+#
+# NickName: Bd_KSpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: B0 to KS pi0 with KS -> pi+ pi- and pi0 -> gamma gamma, daughters in acceptance
+# EndDocumentation
+# 
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Zishuo Yang
+# Email: zishuo.yang@cern.ch
+# Date: 20180809
+
+Alias   MyKs    K_S0
+ChargeConj MyKs MyKs
+Alias   Mypi0   pi0
+ChargeConj Mypi0    Mypi0
+
+Decay B0sig
+ 1.000  MyKs    Mypi0   PHSP;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyKs
+ 1.000  pi+ pi- PHSP;
+Enddecay
+
+Decay Mypi0
+ 1.000  gamma   gamma   PHSP;
+Enddecay
+
+End
+

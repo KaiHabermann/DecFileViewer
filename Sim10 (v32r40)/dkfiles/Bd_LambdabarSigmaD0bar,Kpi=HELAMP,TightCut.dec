@@ -1,0 +1,86 @@
+# EventType:  11166315
+# 
+# Descriptor: [B0 -> (Lambda~0 -> p~- pi+) (Sigma0 -> (Lambda0 -> p+ pi-) gamma) (D~0 -> K+ pi-)]cc
+# 
+# NickName: Bd_LambdabarSigmaD0bar,Kpi=HELAMP,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[B0 => (Lambda~0 => ^p~- ^pi+) (Sigma0 => (Lambda0 => ^p+ ^pi-) gamma) (D~0 => ^K+ ^pi-)]CC'
+# tightCut.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import MeV",
+# "InAcc = in_range ( 0.005 , GTHETA , 0.400 )",
+# "goodKpi  = ( GP > 1000 * MeV ) & ( GPT > 100 * MeV ) & InAcc",
+# "goodp   = ( GP > 5000 * MeV ) & ( GPT > 200 * MeV ) & InAcc"
+# ]
+# tightCut.Cuts = {
+# '[pi+]cc' : "goodKpi",
+# '[K+]cc'  : "goodKpi",
+# '[p+]cc'  : "goodp"
+# }
+#
+#EndInsertPythonCode
+#
+# Documentation:
+#                 Lambda0 forced into p pi.
+#                 Lambda0 -> p pi helicity amplitude from 2019 combination in PRL 123, 182301.
+#                 All charged final state tracks are required to be within the LHCb acceptance.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Liang Sun
+# Email: lsun@cern.ch
+# Date: 20240613
+# CPUTime: < 1 min
+#
+
+Alias       MySigma      Sigma0
+Alias       MyantiSigma  anti-Sigma0
+ChargeConj  MySigma      MyantiSigma
+Alias       MyLambda      Lambda0
+Alias       MyantiLambda  anti-Lambda0
+ChargeConj  MyLambda      MyantiLambda
+
+Define PKHplus  0.159
+Define PKHzero  0.775
+Define PKHminus 0.612
+Define PKphHplus  1.563
+Define PKphHzero  0.0
+Define PKphHminus 2.712
+#
+Alias       MyD0         D0
+Alias       Myanti-D0   anti-D0
+ChargeConj  MyD0       Myanti-D0
+#
+Decay B0sig
+  1.000 MyantiLambda  MySigma  Myanti-D0          PHSP;
+Enddecay
+CDecay  anti-B0sig
+
+#
+Decay MyD0
+  1.000     K-            pi+                PHSP;
+Enddecay
+CDecay Myanti-D0
+
+#
+Decay MySigma
+1.0000    gamma  MyLambda                     PHSP;
+Enddecay
+CDecay MyantiLambda
+
+Decay MyLambda
+  1.000     p+            pi-                HELAMP 0.9276 0.0 0.3735 0.0;
+Enddecay
+CDecay MyantiLambda
+
+End
+#

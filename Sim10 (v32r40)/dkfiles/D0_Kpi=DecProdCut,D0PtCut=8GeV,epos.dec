@@ -1,0 +1,43 @@
+# EventType: 22102007
+#
+# Descriptor: [D0 -> K- pi+]cc
+#
+# NickName: D0_Kpi=DecProdCut,D0PtCut=8GeV,epos
+#
+# Cuts: None
+#
+# InsertPythonCode:
+#
+#
+# # cut on FullGenEventCutTool due to EPOS embedding
+#
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).FullGenEventCutTool = "LoKi::FullGenEventCut/MinPT"
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "MinPT" )
+# minPT= Generation(genAlgName).MinPT
+# minPT.OutputLevel=2
+# minPT.Preambulo     +=      [
+#   "from GaudiKernel.SystemOfUnits import GeV",
+#   "D0HighPTinAcc   = ( ('D0' == GABSID) & (GPT > 8 *GeV)  & in_range ( 0.010 , GTHETA , 0.400 )  )"
+# ]
+# minPT.Code = " ( has ( D0HighPTinAcc ) ) "
+# EndInsertPythonCode
+#
+# Documentation: Phase space decay model, daughters in acceptance, high pT
+# EndDocumentation
+#
+# SpecialGeneration: EmbeddedGeneration
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Jianqiao Wang
+# Email: jianqiao.wang@cern.ch
+# Date: 20210412
+#
+Decay D0sig
+0.0395   K-  pi+   PHSP;
+Enddecay
+CDecay anti-D0sig
+#
+End

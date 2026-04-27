@@ -1,0 +1,42 @@
+# EventType: 16198040
+# 
+# Descriptor: [Xi_b0 -> (Xi_c+ -> p+ K- pi+) (D_s- -> K+ K- pi-) pi+ pi-]cc
+# 
+# NickName: Xib_XicDspipi,pKpi,KKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Xib -> Xic Ds pi pi with Xic -> p K pi and Ds -> K K pi, decay products in acceptance. 
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Zan Ren
+# Email: zan.ren@cern.ch
+# Date: 20231002
+#
+Alias      MyD_s-               D_s-
+Alias      Myanti-D_s+          D_s+
+ChargeConj MyD_s-               Myanti-D_s+
+#
+Alias      MyXi_c+          Xi_c+
+Alias      Myanti-Xi_c-     anti-Xi_c-
+ChargeConj MyXi_c+          Myanti-Xi_c-
+#
+Decay Xi_b0sig
+ 1.00 MyXi_c+	MyD_s- pi+ pi-	 PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyD_s-
+ 1.00 K-	K+	pi-		PHSP;
+Enddecay
+CDecay Myanti-D_s+
+#
+Decay MyXi_c+
+ 1.00 p+		K-	pi+	PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+#
+End

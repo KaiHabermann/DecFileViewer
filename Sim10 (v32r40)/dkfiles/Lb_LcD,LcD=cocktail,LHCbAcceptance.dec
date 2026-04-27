@@ -1,0 +1,159 @@
+# EventType: 15998001
+#
+# Descriptor: [[Lambda_b0] ==> (Lambda_c(2595)+ -> (Lambda_c+ -> p+ K- pi+) pi+ pi-) (D_s*- -> (D_s- -> K+ K- pi-))]cc
+#
+# NickName: Lb_LcD,LcD=cocktail,LHCbAcceptance
+# Cuts: LHCbAcceptance
+#
+#
+# Documentation: Update of 15998000. Removed tight cuts and two D0 decay, and updated for decay branch fractions. Sum of Lambda_b0 decaying to two D mesons or one Lc and one D, one charm decaying semileptonically. Filtered for a final state with Lcmu. For background study of Lb2LcmunuX modes
+#
+# EndDocumentation
+#
+# CPUTime: < 1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Xixin Liang
+# Email: xliang06@syr.edu
+# Date:   20240417
+#
+#
+Decay Lambda_b0sig
+ 0.01100	Lambda_c+		D_s-	PHSP;
+ 0.00740	Lambda_c(2593)+		D_s-	PHSP;
+ 0.00800	Lambda_c+		D_s*-	PHSP;
+ 0.01770	Lambda_c(2593)+		D_s*-	PHSP;
+
+ 0.00600	Lambda_c(2625)+		D_s-	PHSP;
+ 0.00760	Lambda_c(2625)+		D_s*-	PHSP;
+ 
+ 0.00160	Lambda_c+		D-	anti-K0	PHSP;
+ 0.00380	Lambda_c+		D*-	anti-K0	PHSP;
+ 0.00210	Lambda_c(2593)+		D-	anti-K0	PHSP;
+ 0.00920	Lambda_c(2593)+		D*-	anti-K0	PHSP;
+ 
+ 0.00150	Lambda_c+		anti-D0	K-	PHSP;
+ 0.00630	Lambda_c+		anti-D*0	K-	PHSP;
+ 0.01120	Lambda_c(2593)+		anti-D*0	K-	PHSP;
+ 0.00230	Lambda_c(2593)+		anti-D0	K-	PHSP;
+
+ 0.00250	Lambda_c+		anti-D0	K*-	PHSP;
+ 0.00250	Lambda_c(2593)+		anti-D0	K*-	PHSP;
+ 0.00250	Lambda_c+		anti-D*0	K*-	PHSP;
+ 0.00500	Lambda_c(2593)+		anti-D*0	K*-	PHSP;
+
+ 0.00250	Lambda_c+		D-	anti-K*0	PHSP;
+ 0.00250	Lambda_c(2593)+	D-	anti-K*0	PHSP;
+ 0.00250	Lambda_c+		D*-	anti-K*0	PHSP;
+ 0.00500	Lambda_c(2593)+	D*-	anti-K*0	PHSP;
+
+ 0.00170	D_s-		D+		PHSP;
+ 0.00170	D*+		D_s-		PHSP;
+ 0.00170	D_s*-		D+		PHSP;
+ 0.00170	D_s*-		D*+		PHSP;
+
+#Other decays in DECAY.DEC
+ 0.00500	Lambda_c+	D_s-		pi0	PHSP;
+ 0.00800	Lambda_c+	D_s0*-		PHSP;
+ 0.00800	Lambda_c+	D_s1-			PHSP;
+ 0.00200	Lambda_c+	D-			PHSP;
+ 0.00400	Lambda_c+	D*-			PHSP;
+ 0.00050	Lambda_c+	D-		pi0	PHSP;
+ 0.00050	Lambda_c+	anti-D0		pi-	PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+SetLineshapePW D_1+ D*+ pi0 2
+SetLineshapePW D_1- D*- pi0 2
+SetLineshapePW D_10 D*+ pi- 2
+SetLineshapePW anti-D_10 D*- pi+ 2
+#
+SetLineshapePW D_2*+ D*+ pi0 2
+SetLineshapePW D_2*- D*- pi0 2
+SetLineshapePW D_2*0 D*+ pi- 2
+SetLineshapePW anti-D_2*0 D*- pi+ 2
+#
+Decay Lambda_c(2593)+
+ 0.67		Lambda_c+	pi+	pi-	PHSP;
+Enddecay
+CDecay anti-Lambda_c(2593)-
+#
+Decay Lambda_c+
+ 0.0321		p+	anti-K0			PHSP;
+ 0.0684		p+	K-		pi+	PHSP;
+Enddecay
+CDecay anti-Lambda_c-
+#
+Decay Lambda_c(2625)+
+ 0.67777        Lambda_c+     pi+     pi-     PHSP;
+Enddecay
+CDecay anti-Lambda_c(2625)-
+#
+Decay D0
+ 0.0341          K-      mu+     nu_mu   PHOTOS ISGW2;
+ 0.0189         K*-     mu+     nu_mu  PHOTOS ISGW2;
+ 0.000076       K_1-    mu+     nu_mu  PHOTOS ISGW2;
+ 0.00110        K_2*-   mu+     nu_mu  PHOTOS ISGW2;
+ 0.00267        pi-     mu+     nu_mu  PHOTOS PHSP;
+
+Enddecay
+CDecay anti-D0
+#
+Decay D*0
+ 0.647          D0    pi0             VSS;
+ 0.353          D0    gamma           VSP_PWAVE;
+Enddecay
+CDecay anti-D*0
+#
+Decay D*+
+ 0.67700        D0    pi+             VSS;
+ 0.30700        D+    pi0             VSS;
+ 0.01600        D+    gamma           VSP_PWAVE;
+Enddecay
+CDecay D*-
+#
+Decay D_s*+
+ 0.93500        D_s+  gamma           VSP_PWAVE;
+ 0.05800        D_s+  pi0             VSS;
+Enddecay
+CDecay D_s*-
+#
+Decay D_s+
+  0.00206       anti-K0 mu+     nu_mu            PHOTOS ISGW2;
+  0.00076       anti-K*0        mu+     nu_mu    PHOTOS ISGW2;
+  0.00543       mu+             nu_mu            PHOTOS SLN;
+  0.05437       K+      K-      pi+              PHOTOS D_DALITZ;
+Enddecay
+CDecay D_s-
+#
+Decay D+
+  0.05270       anti-K*0        mu+     nu_mu   PHOTOS ISGW2;
+  0.08760       anti-K0         mu+     nu_mu   PHOTOS ISGW2;
+  0.00277       anti-K_10       mu+     nu_mu   PHOTOS ISGW2;
+  0.00293       anti-K_2*0      mu+     nu_mu   PHOTOS ISGW2;
+  0.03650       K-   pi+        mu+     nu_mu   PHOTOS PHSP;
+  0.00120       anti-K0   pi0   mu+     nu_mu   PHOTOS PHSP;
+  0.09380       K-        pi+   pi+             PHOTOS D_DALITZ;
+Enddecay
+CDecay D-
+#
+Decay D_s1+
+ 0.48000        D_s*+  pi0             PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+ 0.18000        D_s+   gamma           VSP_PWAVE;
+ 0.04300        D_s+   pi+    pi-      PHSP;
+ 0.03700        D_s0*+ gamma           PHSP;
+Enddecay
+CDecay D_s1-
+#
+Decay D_1+
+0.3333    D*+ pi0                        VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+0.6667    D*0 pi+                        VVS_PWAVE  0.0 0.0 0.0 0.0 1.0 0.0;
+Enddecay
+CDecay D_1-
+#
+Decay D_s0*+
+ 1.00000        D_s+  pi0     PHSP;
+Enddecay
+CDecay D_s0*-
+#
+End

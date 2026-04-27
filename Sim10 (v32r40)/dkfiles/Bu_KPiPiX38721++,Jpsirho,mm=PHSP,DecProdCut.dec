@@ -1,0 +1,46 @@
+# EventType: 12147001
+#
+# Descriptor: [B+ -> (X_1(3872) -> (J/psi(1S) -> mu+ mu-) (rho(770)0 -> pi+ pi-)) K+ pi- pi+]cc
+#
+# NickName: Bu_KPiPiX38721++,Jpsirho,mm=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ decay to X_1(3872)(to Jpsi(to mu+ mu-)pi+ pi-) and pi- pi+ K+
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Rashi Sharma, Tomasz Skwarnicki
+# Email: rsharm18@syr.edu
+# Date: 20231113
+# CPUTime: < 1 min
+#
+Alias      MyJ/psi      J/psi
+ChargeConj MyJ/psi      MyJ/psi
+Alias      Myrho0       rho0
+ChargeConj Myrho0       Myrho0
+Alias      MyX_1(3872)  X_1(3872)
+ChargeConj MyX_1(3872)  MyX_1(3872)
+#
+#
+#
+Decay B+sig
+    1.000 MyX_1(3872) K+ pi+ pi- PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyX_1(3872)
+    1.000 MyJ/psi Myrho0 HELAMP 0.707107 0  0.707107 0  0.707107 0  0 0  -0.707107 0  -0.707107 0  -0.707107 0;
+Enddecay
+#
+Decay Myrho0
+    1.000     pi+ pi- PHOTOS VSS;
+Enddecay
+#
+Decay MyJ/psi
+    1.000     mu+ mu- PHOTOS VLL;
+Enddecay
+#
+End
+#

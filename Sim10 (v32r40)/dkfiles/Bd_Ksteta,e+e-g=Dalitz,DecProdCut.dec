@@ -1,0 +1,40 @@
+# EventType: 11124401
+# 
+# Descriptor: [B0 -> (eta -> e+ e- gamma) (K*0 -> K+ pi- )]cc 
+# 
+# NickName: Bd_Ksteta,e+e-g=Dalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Eta decays to e+e-gamma, Kst to K+ pi-
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Fabrice Desse
+# Email: fadesse@cern.ch
+# Date: 20171110
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj MyK*0       Myanti-K*0
+Alias      MyEta       eta
+ChargeConj MyEta       MyEta
+#
+Decay B0sig
+  1.000         MyK*0     MyEta        SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000        K+       pi-              VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyEta
+  1.000         e+   e-   gamma        PHSP;
+Enddecay
+#
+End
+

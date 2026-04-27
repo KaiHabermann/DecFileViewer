@@ -1,0 +1,46 @@
+# EventType: 39102421
+#
+# Descriptor: [eta' -> (eta -> gamma gamma) pi+ pi-]
+#
+# NickName: etaprime_pipieta,gammagamma=pt2GeV
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = '^(eta_prime -> pi+ pi- (eta -> gamma gamma))'
+# tightCut.Cuts = {
+#     'eta_prime' : 'goodEtap'}
+# tightCut.Preambulo += [
+#     'inAcc = in_range(0.01, GTHETA, 0.300)',
+#     'goodEtap = (GPT > 2 * GeV) & inAcc']
+# EndInsertPythonCode
+# Documentation:
+#     eta' -> pi+ pi- (eta -> gamma gamma) with the eta' in fiducial acceptance
+# EndDocumentation
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Tom Boettcher
+# Email: boettcts@ucmail.uc.edu
+# Date: 20230317
+#
+Alias      MyEta   eta
+Alias      eta'sig eta'
+ChargeConj eta'sig eta'sig
+
+Decay MyEta
+  1.00    gamma    gamma   PHSP;
+Enddecay
+
+Decay eta'sig
+  1.00    pi+      pi-     MyEta    PHSP;
+Enddecay
+#
+End

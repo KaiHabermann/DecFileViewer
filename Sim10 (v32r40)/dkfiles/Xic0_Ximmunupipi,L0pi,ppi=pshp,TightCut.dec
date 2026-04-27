@@ -1,0 +1,69 @@
+# EventType: 26516182 
+#
+# Descriptor: [Xi_c0 -> (Xi- -> (Lambda0 -> p+ pi-) pi-) mu+ nu_mu pi+ pi-]cc
+#
+# NickName: Xic0_Ximmunupipi,L0pi,ppi=pshp,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation(genAlgName)
+#
+# gen.SignalPlain.addTool(LoKi__GenCutTool ,'TightCut')
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay   = '[(Xi_c0 => (Xi- => (Lambda0 => ^p+ ^pi-) ^pi-) ^mu+ nu_mu ^pi+ ^pi-)]CC'
+# tightCut.Preambulo += [
+#     'inAcc    = in_range ( 1.80 , GETA , 5.10 ) ' ,
+#     'goodMuon = ( GPT > 0.05 * GeV ) &( GP > 2.5 * GeV ) & inAcc ' ,
+#     'goodProton = ( GPT > 0.05 * GeV ) & in_range ( 4 * GeV, GP, 160 * GeV )  & inAcc ' ,
+#     'goodPion = ( GPT > 0.05 * GeV ) & ( GP > 1 * GeV ) & inAcc ' ,
+#     ]
+# tightCut.Cuts      =    {
+#     '[mu-]cc'  : ' goodMuon ' ,
+#     '[p+]cc'   : ' goodProton ' ,
+#     '[pi+]cc'  : ' goodPion '
+#     }
+# EndInsertPythonCode
+#
+# CPUTime: 2 min
+#
+# Documentation: Xi_c0 decay to Xi- mu+ nu_mu pi+ pi- by phase space model
+# EndDocumentation
+#
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: Miroslav Saur, Ziyi Wang, Yang-Jie Su, Patrik Adlarson, Lars Eklund
+# Email: patrik.harri.adlarson@cern.ch, lars.eklund@cern.ch
+# Date: 20220601
+#
+#
+Alias      MyL0         Lambda0
+Alias      MyantiL0     anti-Lambda0
+ChargeConj MyL0         MyantiL0
+#
+Alias      MyXi-        Xi-
+Alias      Myanti-Xi+   anti-Xi+
+ChargeConj MyXi-        Myanti-Xi+
+#
+Decay Xi_c0sig
+  1.000 MyXi-   mu+   nu_mu   pi+ pi- PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+#
+Decay MyXi-
+  1.000 MyL0 pi-  PHSP;
+Enddecay
+CDecay Myanti-Xi+
+#
+Decay MyL0
+  1.000        p+      pi-      PHSP;
+Enddecay
+CDecay MyantiL0
+#
+End
+#
+

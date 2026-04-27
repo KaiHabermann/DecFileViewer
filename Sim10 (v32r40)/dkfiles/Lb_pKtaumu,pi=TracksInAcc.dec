@@ -1,0 +1,37 @@
+# EventType: 15714472
+#
+# Descriptor: [Lambda_b0 -> p+ K- (tau+ -> pi+ nu_tau) mu-]cc
+#
+# NickName: Lb_pKtaumu,pi=TracksInAcc
+#
+# Cuts: DaughtersInLHCb
+# ExtraOptions: TracksInAcc
+#
+# Documentation: Lambda_b to p K tau mu decay, with taus decaying to single pions
+# EndDocumentation
+#
+# CPUTime: 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Lakshan Madhan 
+# Email: lakshan.madhan@cern.ch
+# Date: 20230705
+#
+Alias        Mytau+    tau+
+Alias        Mytau-    tau-
+ChargeConj   Mytau+    Mytau-
+#
+Decay Lambda_b0sig
+    0.500     p+     K-    Mytau+     mu-            PHSP;
+    0.500     p+     K-    mu+        Mytau-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mytau+
+   0.1082       pi+                  anti-nu_tau               TAUSCALARNU;
+   0.2549       pi+       pi0        anti-nu_tau               TAUHADNU -0.108 0.775 0.149 1.364 0.400;
+   0.0926       pi+       pi0   pi0  anti-nu_tau               TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay Mytau-
+#
+End

@@ -1,0 +1,69 @@
+# EventType: 14145201
+#
+# Descriptor: [B_c+ -> (B_s*0 -> (B_s0 -> (J/psi(1S) -> mu+ mu-) (phi(1020) -> K+ K-)) gamma) pi+]cc
+#
+# NickName: Bc_Bsstarpi+,Bsgamma,Jpsiphi=CPV,update2024,BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc decays, uses BcVegPy generator, includes radiative mode, CP violation, different lifetimes.
+# Updated values for the lifetimes and betas as in PDG (HFLAV) 2024 and amplitudes and phases as in Table I in LHCb, PRL 132, 051802 (2024).
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Fernando Abudinen
+# Email: fernando.abudinen@cern.ch
+# Date: 20250207
+# CPUTime: < 1 min
+#
+# Re-define lifetimes (overrules ParticlePropertyTable)
+# ParticleValue: "B_s0  75  531  0.0  5.36688  1.520e-12  B_s0  531  0.00", "B_s~0  76  -531  0.0  5.36688  1.520e-12  anti-B_s0  -531  0.00", "B_s0H  99996  530  0.0  5.36688  1.622e-12  B_s0H  0  0.00", "B_s0L  99997  350  0.0  5.36688  1.429e-12  B_s0L  0  0.00"
+#
+Define betas   0.020
+Define Apara   0.486
+Define Azero   0.720
+Define Aperp   0.496
+Define pApara  3.146
+Define pAzero  0.0
+Define pAperp  2.903
+#
+Alias      MyB_s*0   B_s*0
+Alias      Myanti-B_s*0    anti-B_s*0
+ChargeConj MyB_s*0   Myanti-B_s*0
+Alias      MyB_s0   B_s0
+Alias      Myanti-B_s0    anti-B_s0
+ChargeConj MyB_s0   Myanti-B_s0
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+Alias      Myphi    phi
+ChargeConj Myphi    Myphi
+#
+Decay B_c+sig
+  1.000         MyB_s*0 pi+          PHOTOS SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyB_s*0
+  1.000         MyB_s0 gamma         VSP_PWAVE;
+Enddecay
+CDecay Myanti-B_s*0
+#
+Decay MyB_s0
+  1.000         MyJ/psi     Myphi        PVV_CPLH betas 1 Apara pApara Azero pAzero Aperp pAperp;
+Enddecay
+Decay Myanti-B_s0
+  1.000         MyJ/psi     Myphi        PVV_CPLH betas 1 Apara pApara Azero pAzero Aperp pAperp;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+       mu-            PHOTOS VLL;
+Enddecay
+#
+Decay Myphi
+  1.000	        K+        K-             VSS;
+Enddecay
+#
+End

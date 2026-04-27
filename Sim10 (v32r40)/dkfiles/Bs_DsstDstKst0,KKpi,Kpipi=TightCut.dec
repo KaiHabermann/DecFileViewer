@@ -1,0 +1,84 @@
+# EventType: 13198600
+# NickName: Bs_DsstDstKst0,KKpi,Kpipi=TightCut
+# Descriptor: [B_s0 -> (D*_s- -> (D_s- -> K+ K- pi-) gamma) (D*+ -> (D+ -> K- pi+ pi+) pi0) (K*0 -> K+ pi-)]cc
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+##
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool , 'TightCut')
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[Beauty => (Charm => (Charm => ^K- ^pi+ ^pi+) X0 ) (Charm => (Charm => ^K+ ^K- ^pi-) X0) (K*(892)0=> ^K+ ^pi-) ]CC"
+# tightCut.Preambulo += [ "from LoKiCore.functions import in_range",
+#                           "from GaudiKernel.SystemOfUnits import  GeV, mrad",
+#                         ]
+#tightCut.Cuts      =    {
+# '[pi+]cc'   : " in_range( 0.010 , GTHETA , 0.400 ) & ( GPT > 250 * MeV )",
+# '[K-]cc'   : "  in_range( 0.010 , GTHETA , 0.400 )  & ( GPT > 250 * MeV )"
+#    }
+# EndInsertPythonCode
+# Documentation: Decay B_s0 -> D*+ D_s*- K*0, D*+ -> D+ pi0/gamma , K*->Kpi
+# EndDocumentation
+# CPUTime: < 1 min
+#
+# Date:   20190528
+# Responsible: Matt Rudolph
+# Email: matthew.scott.rudolph@cern.ch
+# PhysicsWG: B2OC
+# Tested: Yes
+
+Alias My_K*0      K*0
+Alias My_anti-K*0 anti-K*0
+Alias My_D*+  D*+
+Alias My_D*-  D*-
+Alias My_D+  D+
+Alias My_D-  D-
+Alias My_D*_s+  D_s*+
+Alias My_D*_s-  D_s*-
+Alias My_D_s+  D_s+
+Alias My_D_s-  D_s-
+ChargeConj My_D*- My_D*+
+ChargeConj My_K*0 My_anti-K*0
+ChargeConj My_D- My_D+
+ChargeConj My_D*_s- My_D*_s+
+ChargeConj My_D_s- My_D_s+
+
+Decay My_K*0
+  1.0   K+   pi-        VSS;
+Enddecay
+CDecay My_anti-K*0
+
+#D- Decay
+Decay My_D+
+  1.0 K- pi+ pi+ D_DALITZ;
+Enddecay
+CDecay My_D-
+#
+Decay My_D*-
+  0.307 My_D- pi0  VSS;
+  0.016 My_D- gamma  VSP_PWAVE;
+Enddecay
+CDecay My_D*+
+
+
+#Ds- Decay
+Decay My_D_s+
+  1.0 K+ K- pi+ D_DALITZ;
+Enddecay
+CDecay My_D_s-
+#
+Decay My_D*_s-
+  0.058 My_D_s- pi0  VSS;
+  0.935 My_D_s- gamma  VSP_PWAVE;
+Enddecay
+CDecay My_D*_s+
+
+
+Decay B_s0sig
+  1.0 My_D*+ My_D*_s- My_K*0 PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+End

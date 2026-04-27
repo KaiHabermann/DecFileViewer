@@ -1,0 +1,39 @@
+# EventType: 15144120
+#
+# Descriptor: [Lambda_b0 -> n0 (KS0 -> pi+ pi-) (J/psi(1S) -> mu+ mu-)]cc
+#
+# NickName: Lb_NJpsiKS0,mm=phsp,DecProdCut
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation:  Lambda_b0 to three body nKSJpsi with J/psi to dimuons, K0bar forced into p pi
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Youhua Yang, Elisabeth Maria Niel (LLR), 
+# Email:  youhua.yang@cern.ch, elisabeth.maria.niel@cern.ch
+# Date: 20250330
+#
+Alias      MyK_S0    K_S0
+ChargeConj MyK_S0       MyK_S0
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+#
+Decay Lambda_b0sig
+  1.000    n0 MyK_S0   MyJ/psi                 PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+Decay MyK_S0
+  1.000   pi+          pi-                      PHSP;
+Enddecay
+CDecay MyK_S0
+#
+End
+#

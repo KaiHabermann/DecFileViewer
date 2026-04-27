@@ -1,0 +1,154 @@
+# EventType: 11266082
+#
+# Descriptor: {[[B0]nos -> (D- => K+ pi- pi-) K+ pi- pi+]cc, [[B0]os -> (D+ => K- pi+ pi+) K- pi+ pi-]cc}
+#
+# NickName: Bd_D-Kpipi,Kpipi=withRes,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+#
+# from Configurables import LHCb__ParticlePropertySvc
+# LHCb__ParticlePropertySvc().Particles = [ 
+#  ###                    GEANTID   PDGID   CHARGE   MASS(GeV)       TLIFE(s)             EVTGENNAME           PYTHIAID   MAXWIDTH
+#  "K_0(1460)+            1077      20321   1.0      1.48200000      1.959118e-24         K_0(1460)+           0          0.00",
+#  "K_0(1460)-            1078     -20321  -1.0      1.48200000      1.959118e-24         K_0(1460)-           0          0.00",
+# ]
+#
+# EndInsertPythonCode
+#
+#
+# Documentation: Includes resonances in B0 and D- decays
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: D. Craik
+# Email: dcraik@cern.ch
+# Date: 20240107
+# CPUTime: 2 mins
+#
+#
+Alias      My1270+        K_1+
+Alias      My1270-        K_1-
+ChargeConj My1270+        My1270-
+#
+Alias      My1400+        K'_1+
+Alias      My1400-        K'_1-
+ChargeConj My1400+        My1400-
+#
+Alias      My1410+        K'*+
+Alias      My1410-        K'*-
+ChargeConj My1410+        My1410-
+#
+Alias      My1460+        K_0(1460)+
+Alias      My1460-        K_0(1460)-
+ChargeConj My1460+        My1460-
+#
+Alias      My2460         D_2*0
+Alias      My2460b        anti-D_2*0
+ChargeConj My2460         My2460b
+#
+Alias      My2420+        D_1+
+Alias      My2420-        D_1-
+ChargeConj My2420+        My2420-
+#
+Alias      MyK*           K*0
+Alias      MyK*b          anti-K*0
+ChargeConj MyK*           MyK*b
+#
+Alias      MyK0*          K_0*0
+Alias      MyK0*b         anti-K_0*0
+ChargeConj MyK0*          MyK0*b
+#
+Alias      MyK2*          K_2*0
+Alias      MyK2*b         anti-K_2*0
+ChargeConj MyK2*          MyK2*b
+#
+Alias      Myrho          rho0
+ChargeConj Myrho          Myrho
+#
+Alias      MyD+           D+
+Alias      MyD-           D-
+ChargeConj MyD+           MyD-
+
+Decay B0sig
+#D K**
+0.20 My1270+   MyD-           SVS;
+0.18 My1400+   MyD-           SVS;
+0.13 My1410+   MyD-           SVS;
+0.23 My1460+   MyD-           PHSP;
+0.03 MyD-      MyK2*   pi+    PHSP;
+0.09 MyD-      MyK*    pi+    PHSP;
+0.09 MyD-      K+      Myrho  PHSP;
+#D**K**
+0.02 My2460b   MyK*           PHSP;
+#D** K
+0.03 My2420-   K+             SVS;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD-
+1.0  K+  pi-  pi-             D_DALITZ;
+Enddecay
+CDecay MyD+
+
+#RESONANCES
+Decay My2420-
+0.3 MyD-       pi+     pi-    PHSP;
+0.7 Myrho      MyD-           VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay My2420+
+
+Decay My2460b
+1.0 MyD-       pi+            TSS;
+Enddecay
+CDecay My2460
+
+Decay My1270+
+0.24 MyK*      pi+            VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.32 MyK0*     pi+            PHSP;
+0.44 Myrho     K+             VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay My1270-
+
+Decay My1400+
+0.97 MyK*      pi+            VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.03 Myrho     K+             VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay My1400-
+
+Decay My1410+
+0.97 MyK*      pi+            VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.03 Myrho     K+             VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay My1410-
+
+Decay My1460+
+0.35 MyK0*     pi+            PHSP;
+0.30 MyK*      pi+            SVS;
+0.35 Myrho     K+             SVS;
+Enddecay
+CDecay My1460-
+
+Decay MyK*
+1.0  K+  pi-                  VSS;
+Enddecay
+CDecay MyK*b
+
+Decay MyK2*
+1.0  K+  pi-                  TSS;
+Enddecay
+CDecay MyK2*b
+
+Decay MyK0*
+1.0  K+  pi-                  PHSP;
+Enddecay
+CDecay MyK0*b
+
+Decay Myrho
+1.0  pi+  pi-                 VSS;
+Enddecay
+
+End
+

@@ -1,0 +1,64 @@
+# EventType: 27184412
+#
+# Descriptor: [D*0 -> (D0 -> K- pi+) (pi0 -> e+ e- gamma)]cc
+#
+# NickName: Dst0_D0pi0,Kpi=TightCut,e+e-g=Dalitz,2
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# signal = Generation().SignalPlain
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+#
+# tightCut = signal.TightCut
+# tightCut.Decay = '^[D*(2007)0 => ^(D0 ==> ^K- ^pi+) (pi0 ==> ^e+ ^e- gamma)]CC'
+# tightCut.Preambulo += [
+#   'from GaudiKernel.SystemOfUnits import MeV',
+#   ]
+# tightCut.Cuts = {
+#   '[D*(2007)0]cc'   : '(GPT >  2000 * MeV)',
+#   '[D0]cc'          : '(GPT >  1900 * MeV)',
+#   '[K-]cc'          : '(GP >  2900 * MeV) & (GPT > 400 * MeV) & (in_range(0.010, GTHETA, 0.400))',
+#   '[pi+]cc'         : '(GP >  2900 * MeV) & (GPT > 400 * MeV) & (in_range(0.010, GTHETA, 0.400))',
+#   '[e+]cc'          : '(GP >  1200 * MeV) & (GPT > 40 * MeV)  & (in_range(0.010, GTHETA, 0.400))'
+#   }
+#
+# EndInsertPythonCode
+#
+# Documentation:
+# D*0 -> D0pi0 decay file, with pi0 -> e+ e- gamma (Dalitz), all Decay products down to stable particles in LHCb acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Carlos Eduardo Cocha Toapaxi
+# Email: carlos.eduardo.cocha.toapaxi@cern.ch
+# Date: 20250525
+# CPUTime: < 1min
+#
+
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+ChargeConj MyD0        Myanti-D0
+Alias      MyPi0       pi0
+ChargeConj MyPi0       MyPi0
+
+##
+Decay D*0sig
+1. MyD0  MyPi0        VSS;
+Enddecay
+CDecay anti-D*0sig
+#
+Decay MyD0
+1.     K-  pi+        PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyPi0
+1.  e+ e- gamma       PI0_DALITZ;
+Enddecay
+#
+End
+

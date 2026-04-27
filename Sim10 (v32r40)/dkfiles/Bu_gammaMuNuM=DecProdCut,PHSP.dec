@@ -1,0 +1,25 @@
+# EventType: 12511201
+#
+# Descriptor: [B+ => gamma nu_mu mu+]cc
+#
+# NickName: Bu_gammaMuNuM=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ => gamma nu_mu mu+ PHSP decay file. Daughters in Acceptance 
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Fabian Christoph Glaser
+# Email: fabian.christoph.glaser@cern.ch
+# Date: 20230623
+#
+#
+Decay B+sig
+   1.0000 mu+ nu_mu gamma PHSP;
+Enddecay
+CDecay B-sig
+#
+End

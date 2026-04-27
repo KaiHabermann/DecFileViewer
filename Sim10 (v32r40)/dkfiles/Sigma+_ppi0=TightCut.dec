@@ -1,0 +1,42 @@
+# EventType: 32101401
+#
+# Descriptor: [Sigma+ => p+ pi0]cc
+#
+# NickName: Sigma+_ppi0=TightCut
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# Documentation: Sigma+-> p+ pi0 with phase space model, TightCut on proton
+# EndDocumentation
+#
+# CPUTime: < 1min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Francesco Dettori 
+# Email: francesco.dettori@cern.ch
+# Date: 20230403
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = "^[Sigma+ => ^p+ ^pi0]CC"
+# tightCut.Cuts      =    {
+#     '[Sigma+]cc'         : '( GPT > 200 * MeV )  ' ,
+#     '[p+]cc'             : ' inAcc & ( GPT > 900 * MeV )  ' ,
+#     '[pi0]cc'             : 'inAcc & ( GPT > 200 * MeV )  ' }
+# tightCut.Preambulo += [
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' ]
+#
+# EndInsertPythonCode
+
+Decay       Sigma+sig
+  1.000         p+        pi0        PHSP;
+Enddecay
+CDecay anti-Sigma-sig
+#
+End
+#

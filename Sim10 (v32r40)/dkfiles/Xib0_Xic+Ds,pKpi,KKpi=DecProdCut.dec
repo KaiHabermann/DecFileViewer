@@ -1,0 +1,52 @@
+# EventType: 16296040
+# 
+# Descriptor: [Xi_b0 -> (Xic+ -> p+ K- pi+) (D_s- -> K+ K- pi-)]cc
+# 
+# NickName: Xib0_Xic+Ds,pKpi,KKpi=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Xib0 -> Xic+ Ds with Xic+ -> p K pi and Ds -> K K pi, decay products in acceptance. Xic+ decays to p+ K- pi+ (p+ K*(892)0 resonance included).
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Yiduo Shang
+# Email: yshang@cern.ch
+# Date: 20201206
+#
+Alias      MyD_s-               D_s-
+Alias      Myanti-D_s+          D_s+
+ChargeConj MyD_s-               Myanti-D_s+
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias      MyXic+              Xi_c+
+Alias      MyantiXic-          anti-Xi_c-
+ChargeConj MyXic+              MyantiXic-
+#
+Decay MyXic+
+  0.116000000        p+        Myanti-K*0             PHSP;
+  0.094000000        p+        K-        pi+          PHSP;
+Enddecay
+CDecay MyantiXic-
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Xi_b0sig
+ 1.00 MyXic+	MyD_s-		PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyD_s-
+ 1.00 K-	K+	pi-		D_DALITZ;
+Enddecay
+CDecay Myanti-D_s+
+#
+End

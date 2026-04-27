@@ -1,0 +1,67 @@
+# EventType: 11198099
+# NickName: Bd_D0D0Kpi,K3Pi=TightCut,AMPGEN
+# Descriptor: (B0 -> [([D0]cc -> K- pi+ pi+ pi-)]CC [([D~0]cc -> K+ pi-)]CC K+ pi-)||(B~0 -> [([D0]cc -> K- pi+ pi+ pi-)]CC [([D~0]cc -> K+ pi-)]CC K- pi+)
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+##
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool( LoKi__GenCutTool , 'TightCut' )
+##
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = ' ^(B0 ==> ^[([D0]cc => ^K- ^pi+ ^pi+ ^pi-)]CC ^[([D~0]cc => ^K+ ^pi-)]CC ^K+ ^pi-)||^(B~0 ==> ^[([D0]cc => ^K- ^pi+ ^pi+ ^pi-)]CC ^[([D~0]cc => ^K+ ^pi-)]CC ^K- ^pi+)'
+# tightCut.Preambulo += [
+#     'inAcc = in_range (0.005, GTHETA , 0.400) & in_range (1.8 , GETA , 5.2)',
+#     'goodFinalState = (GPT > 80 * MeV) & inAcc',
+#     'goodB = (GPT > 4000 * MeV)',
+#     'goodD0daughter = goodFinalState & (GP > 800 * MeV)',
+#     'goodD0pi2b = GDECTREE ("[D0 ==> K- pi+]CC") & (GNINTREE( ("pi+"==GABSID) & goodD0daughter) == 1) & (GNINTREE( ("K-"==GABSID) & goodD0daughter) == 1)',
+#     'goodD0pi4b = GDECTREE ("[D0 ==> K- pi+ pi+ pi-]CC") & (GNINTREE( ("pi+"==GABSID) & goodD0daughter) == 3 ) & (GNINTREE( ("K-"==GABSID) & goodD0daughter) == 1)',
+#     'goodD0pi = ( goodD0pi2b | goodD0pi4b ) '
+# ]
+##
+# tightCut.Cuts = {
+#     '[B0]cc'  : 'goodB' , 
+#     '[D0]cc'  : 'goodD0pi', 
+#     '[K+]cc'  : 'goodFinalState',     
+#     '[pi+]cc' : 'goodFinalState'
+# }
+# EndInsertPythonCode
+#
+# Documentation: Decay products in acceptance
+#    Decay file for B0 -> D0 D~0 K+ pi- with both D0 and D~0 decaying to a 3pi state seperately. P and PT cuts applied on decay products and B0.
+# EndDocumentation
+# 
+# Date: 20210210
+# Responsible: Jake Amey
+# Email: wq20892@bristol.ac.uk
+# PhysicsWG: B2OC
+# CPUTime: < 1 min 
+# Tested: Yes
+
+Alias My_D0_Kpi   		D0
+Alias My_anti-D0_Kpi 	anti-D0
+Alias My_D0_K3pi   		D0
+Alias My_anti-D0_K3pi 	anti-D0
+
+ChargeConj My_anti-D0_Kpi 	My_D0_Kpi
+ChargeConj My_anti-D0_K3pi 	My_D0_K3pi 
+
+Decay My_D0_Kpi
+  1.000 K- pi+   PHSP;
+Enddecay
+CDecay My_anti-D0_Kpi
+
+Decay My_D0_K3pi
+  1.000 K- pi+ pi+ pi-   LbAmpGen DtoKpipipi;
+Enddecay
+CDecay My_anti-D0_K3pi
+
+Decay B0sig
+  0.5 My_D0_Kpi My_anti-D0_K3pi K+ pi-  PHSP;
+  0.5 My_D0_K3pi My_anti-D0_Kpi K+ pi-  PHSP;
+Enddecay
+CDecay anti-B0sig
+End

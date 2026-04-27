@@ -1,0 +1,86 @@
+# EventType: 16467034
+# NickName: Xib_Xic0,3pi,pKKpi,PDG24=TightCut
+# Descriptor: [Xi_b- -> (Xi_c0 -> p+ K- K- pi+) pi- pi+ pi-]cc
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# ParticleValue: "Xi_b-   122   5132  -1.0  5.797  1.572000e-012  Xi_b-   5132  0.000000e+000", "Xi_b~+  123  -5132  1.0  5.797  1.572000e-012  anti-Xi_b+  -5132  0.000000e+000", "Xi_c0   106   4132  0.0  2.47044  0.150400e-012  Xi_c0   4132  0.000000", "Xi_c~0  107  -4132  0.0  2.47044  0.15040000e-012  anti-Xi_c0  -4132  0.00000"
+# 
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# 
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay     = '[Xi_b- ==> (Xi_c0 ==> ^p+ ^K- ^K- ^pi+ ) ^pi- ^pi+ ^pi- ]CC'
+# tightCut.Cuts      =    {
+#     '[K-]cc'   : ' goodHad ' ,
+#     '[p+]cc'   : ' goodHad ' ,
+#     '[pi-]cc'  : ' goodPion  ' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import GeV',
+#     'inAcc    = in_range ( 0.010 , GTHETA , 0.400 ) ' ,
+#     'goodHad = ( GPT > 0.1 * GeV ) & ( GP > 1.2 * GeV ) & inAcc ' ,
+#     'goodPion = ( GPT > 0.1 * GeV ) & ( GP > 0.5 * GeV ) & inAcc ']
+# EndInsertPythonCode
+#
+# Documentation: Decay file for [Xi_b- -> (Xi_c0 -> p+ K- K- pi+) pi- pi+ pi-]cc, no excited Xic0*
+# EndDocumentation
+#
+# Email: biplab.dey@cern.ch
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible:  Biplab Dey
+# Date: 20241123
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias      MyXic0        Xi_c0
+Alias      Myanti-Xic0   anti-Xi_c0
+ChargeConj Myanti-Xic0   MyXic0
+#
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+Alias      MyK_0*0    K_0*0
+Alias      Myanti-K_0*0 anti-K_0*0
+ChargeConj MyK_0*0   Myanti-K_0*0 
+#
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay Xi_b-sig
+  0.58    MyXic0            Mya_1-         PHSP;
+  0.14    MyXic0            rho0  pi-      PHSP;
+  0.16    MyXic0            Myf_2  pi-    PHSP;
+  0.12    MyXic0            pi+ pi-  pi-    PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyXic0
+  0.5   p+  K-     Myanti-K*0                           PHSP;
+  0.5   p+   K-  K-  pi+                                 PHSP;
+Enddecay
+CDecay Myanti-Xic0
+#
+Decay Myf_2
+  1.0000  pi+ pi-                                  TSS ;
+Enddecay
+#
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+End

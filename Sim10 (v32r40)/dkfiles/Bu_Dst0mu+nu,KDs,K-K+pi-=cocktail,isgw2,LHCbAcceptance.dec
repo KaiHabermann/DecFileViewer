@@ -1,0 +1,55 @@
+# EventType: 12575021
+#
+# Descriptor: [B+ -> K+ (D_(*)s- => K- K+ pi-) mu+ nu_mu]cc
+#
+# NickName: Bu_Dst0mu+nu,KDs,K-K+pi-=cocktail,isgw2,LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: LHCb Acceptance, B+ -> D_(*)s- K+ mu+ nu_mu, with D_0*0->K+ D_(*)s- forced to get better generator behavior via ISGW2 model; D_s*- resonance included; D_s- forced into KKpi with resonances via D_DALITZ
+# EndDocumentation
+#
+# CPUTime: <4min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Wren Vetens (Syracuse University)
+# Email: wsvetens@syr.edu
+# Date: 20241011
+#
+Alias      MyD_0*0       D_0*0
+Alias      Myanti-D_0*0  anti-D_0*0
+ChargeConj MyD_0*0       Myanti-D_0*0
+#
+Alias      MyD_s-        D_s-
+Alias      MyD_s+        D_s+
+ChargeConj MyD_s-        MyD_s+
+#
+Alias      MyD_s*-        D_s*-
+Alias      MyD_s*+        D_s*+
+ChargeConj MyD_s*-        MyD_s*+
+#
+Decay B+sig
+  1.00         Myanti-D_0*0 mu+          nu_mu        ISGW2;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-D_0*0
+  0.030         MyD_s-       K+                        PHSP;
+  0.029         MyD_s*-      K+                        SVS;
+Enddecay
+CDecay MyD_0*0
+#
+Decay MyD_s*+
+  0.9360   MyD_s+  gamma               PHOTOS VSP_PWAVE;
+  0.0577   MyD_s+  pi0                 PHOTOS VSS;
+  0.0067   MyD_s+  e+ e-               PHOTOS PHSP;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s-
+  1.00         K-           K+           pi-          PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+End
+#

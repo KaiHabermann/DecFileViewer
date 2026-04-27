@@ -1,0 +1,58 @@
+# EventType: 12583022
+#
+# Descriptor: [B+ -> (D~0 -> K+ e- anti-nu_e) e+ nu_e]cc
+#
+# NickName: Bu_D0enu,Kenu=TightCut
+#
+# Documentation: D chain background for B+ -> Kee. m(Kee) > 4000 MeV, pt > 200 MeV
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Vitalii Lisovskyi
+# Email: vitalii.lisovskyi@cern.ch
+# Date: 20200610
+# CPUTime: 2 min
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+#
+# tightCut.Decay     = "[^(B+ ==> (D~0 ==> ^K+ ^e- nu_e~) ^e+ nu_e)]CC"
+# tightCut.Cuts      =    {
+#     '[e-]cc'             : " inAcc & ( GPT > 200 * MeV )  " ,
+#     '[K+]cc'             : " inAcc & ( GPT > 200 * MeV )  " ,
+#     '[e+]cc'             : " inAcc & ( GPT > 200 * MeV )  " ,
+#     '[B+]cc'             : " massCut "
+# }
+# tightCut.Preambulo += [
+#     "from LoKiCore.functions import in_range",
+#     "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#     "inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ",
+#     "massCut    = GMASS('e-'==GID,'e+'==GID,'K+'==GABSID) > 4000 * MeV "]
+#
+# EndInsertPythonCode
+#
+#
+Alias           My_D0           D0
+Alias           My_anti-D0      anti-D0
+ChargeConj      My_D0           My_anti-D0
+#
+Decay B+sig
+1.000        My_anti-D0     e+  nu_e               PHOTOS ISGW2;
+Enddecay
+CDecay B-sig
+#
+#
+Decay My_anti-D0
+1.000        K+        e-      anti-nu_e           PHOTOS ISGW2;
+Enddecay
+CDecay My_D0
+#	
+End
+#

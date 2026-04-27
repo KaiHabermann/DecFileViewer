@@ -1,0 +1,58 @@
+# EventType: 11104085
+#
+# Descriptor: {[B0 -> (K*(1410)+ -> K+ pi+ pi-) pi-]cc}
+#
+# NickName: Bd_Kpipipi=TightCut,sqDalitz
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool,'TightCut')
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "^[B0 => (K*(1410)+ => ^K+ ^pi+ ^pi-) ^pi-]CC"
+# tightCut.Preambulo += [
+#    'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV',
+#    'inAcc     = in_range (0.005, GTHETA, 0.400) & in_range ( 2.0 , GETA , 5.0)',
+#    'goodB     = (GP > 25000 * MeV) & (GPT > 3000 * MeV)',
+#    'goodPi   = (GPT >  300 * MeV) & inAcc',
+#    'goodK    = in_range ( 2.0 * GeV , GP , 400 * GeV) & (GPT >  300 * MeV) & inAcc',
+#    'B_FD      = (GTIME > 70 * micrometer)',
+# ]
+# tightCut.Cuts = {
+#    '[B0]cc'   : 'goodB & B_FD',
+#    '[K+]cc'   : 'goodK',
+#    '[pi+]cc'  : 'goodPi',
+#    '[pi-]cc'  : 'goodPi'
+# }
+#
+# EndInsertPythonCode
+#
+# Documentation: flat in square Dalitz, pi0 forced to gamma gamma, acceptance and pT cuts on decay products. For CP violation measurement.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: 2 mins 
+# Responsible: Yintong Song
+# Email: yintong.song@cern.ch
+# Date: 20241018
+#
+Alias      MyK*(1410)+  K'*+
+Alias      MyK*(1410)-  K'*-
+ChargeConj MyK*(1410)+  MyK*(1410)-
+
+#
+Decay B0sig
+1.000    MyK*(1410)+    pi-     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*(1410)+
+1.000   K+   pi+     pi-     PHSP;
+Enddecay
+CDecay MyK*(1410)-
+#
+End

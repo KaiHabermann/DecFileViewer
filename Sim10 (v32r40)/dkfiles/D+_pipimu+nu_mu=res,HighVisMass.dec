@@ -1,0 +1,59 @@
+# EventType: 21613070
+# Descriptor: [D+ -> pi+ pi- mu+]cc
+# NickName: D+_pipimu+nu_mu=res,HighVisMass
+# Cuts: 'LoKi::GenCutTool/TightCut'
+# PhysicsWG:   Charm
+# Responsible: Serena Maccolini
+# Email:       serena.maccolini@cern.ch
+# Date:        20231010
+# Tested:      Yes
+# CPUTime: <1min
+#
+# Documentation:
+# This decay behaves as low-mass background for D+ -> pi+ mu- mu+ decays, therefore a cut on the visible invariant mass is applied to cover the range of interest. Visible decay products are in acceptance and with tight cinematic cuts.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[ D+ ==> ^pi+ ^pi- ^mu+ nu_mu ]CC'
+# tightCut.Preambulo += [
+#     "inAcc = in_range ( 0.010, GTHETA, 0.400 ) " , 
+#     "daughcuts = ( (GPT > 250 * MeV) & ( GP > 2000 * MeV))",
+#     "MassRange      = ( ( GMASS('pi-' == GID ,'pi+' == GID, 'mu+' == GABSID) ) > 1750 *MeV)", 
+# ]
+# tightCut.Cuts      =    {
+#     '[pi+]cc'  : ' inAcc & daughcuts',
+#     '[mu+]cc'  : ' inAcc & daughcuts',
+#     '[D+]cc'  : 'MassRange',
+#	}
+# EndInsertPythonCode
+#
+#
+Alias      Myrho0      rho0
+ChargeConj Myrho0      Myrho0
+
+Alias      Myomega      omega
+ChargeConj Myomega      Myomega
+
+Decay D+sig
+  0.0024        Myrho0         mu+       nu_mu      PHSP;
+  0.000027081        Myomega         mu+       nu_mu      PHSP; #0.00177*0.0153
+Enddecay
+
+Decay Myrho0
+  1.0000      pi+       pi-            VSS;
+Enddecay
+
+Decay Myomega
+  1.0000      pi+       pi-            VSS;
+Enddecay
+
+
+CDecay D-sig
+#
+End

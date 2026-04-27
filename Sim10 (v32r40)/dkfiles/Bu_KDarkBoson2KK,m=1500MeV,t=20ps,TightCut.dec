@@ -1,0 +1,59 @@
+# $Id: Bu_KDarkBoson2KK,m=1500MeV,t=20ps,TightCut.dec  $
+#
+# EventType: 12103048
+#
+# Descriptor: [B+ -> K+ (Higgs0 -> K+ K-)]cc
+#
+# NickName: Bu_KDarkBoson2KK,m=1500MeV,t=20ps,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+#from Gauss.Configuration import *
+#from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+#from Configurables import Gauss, PrintMCTree, PrintMCDecayTreeTool, HistogramPersistencySvc, NTupleSvc, DumpHepMCDecay, DumpHepMCTree, GaussMonitor__CheckLifeTimeHepMC, GaussMonitor__CheckLifeTimeMC, GiGa, GiGaPhysListModular, GiGaHiggsParticles, GenerationToSimulation, PythiaProduction
+#
+#ParticlePropertySvc().Particles = [ "H_10     87      25  0.0        1.500   20e-12      Higgs0   25   0.000000e+000" ]
+#ApplicationMgr().ExtSvc    += [ ParticlePropertySvc() ]
+#
+#gigaHiggsPart = GiGaHiggsParticles()
+#gigaHiggsPart.Higgses = ["H_10"] # H_10, H_20, H_30
+#GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]#
+#
+#from Configurables import LoKi__GenCutTool
+#signal = Generation(genAlgName).SignalRepeatedHadronization
+#signal.addTool(LoKi__GenCutTool, 'TightCut')
+#
+#tightCut = signal.TightCut
+#tightCut.Decay = "[B+ => ^K+ (H_10 => ^K+ ^K-)]CC"
+#tightCut.Cuts = {
+#   "[K+]cc" : "inAcc"}
+#tightCut.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import MeV",
+#   "inAcc = in_range(0.005, GTHETA, 0.450)"]
+#EndInsertPythonCode
+#
+# Documentation:Studying a B+ -> Dark Boson (-> K+ K-) K+
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: <1 min
+# Responsible: Eleanor Whiter
+# Email: eleanor.whiter@cern.ch
+# Date: 20240717
+#
+Alias       MyS   Higgs0
+ChargeConj  MyS   MyS
+#
+Decay B+sig
+      1.0	K+ MyS	PHSP;
+Enddecay
+#
+CDecay B-sig
+#
+Decay MyS
+      1.0	K+    K-	PHSP;
+Enddecay
+#
+End
+#

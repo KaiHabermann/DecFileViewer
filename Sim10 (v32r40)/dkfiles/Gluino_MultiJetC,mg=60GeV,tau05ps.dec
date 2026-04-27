@@ -1,0 +1,59 @@
+# EventType: 40000086
+#
+# Descriptor: (Gluino -> qqq)
+#
+# NickName: Gluino_MultiJetC,mg=60GeV,tau05ps
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/QuarksFromGInAcceptance
+#
+#
+# InsertPythonCode:                                                                          
+# from Configurables import Generation                                                            
+# from Gaudi.Configuration import *
+# Generation(genAlgName).PileUpTool = "FixedLuminosityForRareProcess"
+# importOptions( "$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py" )
+# from Configurables import Special, Pythia8Production
+# Generation(genAlgName).addTool( Special )
+# Generation(genAlgName).Special.addTool( Pythia8Production )
+# ## Pythia8 production commands                                                                            
+# Generation(genAlgName).Special.Pythia8Production.Commands += [
+#                                                     "SpaceShower:rapidityOrder = off" # pT ordering
+#                                                     ,"SUSY:gg2gluinogluino = on"
+#                                                     ,"SUSY:qqbar2gluinogluino = on"
+#                                                     ,"SLHA:file = $DECFILESROOT/lhafiles/slha_GluinoC_Detached.scp"
+#                                                     ,"PartonLevel:FSR=on" # FSR by PYTHIA8 (NOT PHOTOS)
+#                                                     ]
+#
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "QuarksFromGInAcceptance" )
+# QuarksInAcc = Generation(genAlgName).QuarksFromGInAcceptance
+# QuarksInAcc.Code = " count ( isGoodG ) > 0 "
+# QuarksInAcc.Preambulo += [
+#       "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#     , "isG           = ( '~g' == GID )"
+#     , "isGoodDaughterQuarkC = ( ( GTHETA < 400.0*mrad ) & ( GPT > 10*GeV ) & ( 'c' == GABSID ) )"
+#     , "isGoodDaughterQuarkD = ( ( GTHETA < 400.0*mrad ) & ( GPT > 10*GeV ) & ( 'd' == GABSID ) )"
+#     , "isGoodDaughterQuarkS = ( ( GTHETA < 400.0*mrad ) & ( GPT > 10*GeV ) & ( 's' == GABSID ) )"
+#     , "isGoodG = ( isG & ( GNINTREE( isGoodDaughterQuarkC, 1 ) == 1 ) & ( GNINTREE( isGoodDaughterQuarkD, 1 ) == 1 ) & ( GNINTREE( isGoodDaughterQuarkS, 1 ) == 1 ) )"
+#     ]
+# EndInsertPythonCode
+#
+# ParticleValue: "~g 883 1000021 0.0 60.0 0.5e-12 unknown 1000021 0.0e+00"
+#
+# Documentation: G->qqq. Simulated using Pythia's ~g particle redefined for our needs.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Xabier Cid Vidal
+# Email: xabier.cid.vidal@cern.ch
+# Date: 20180501
+# CPUTime: < 1 min
+#
+#                                                                                                  
+#
+
+
+End
+#

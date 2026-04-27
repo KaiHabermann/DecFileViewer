@@ -1,0 +1,35 @@
+# EventType: 14153010
+#
+# Descriptor: [B_c+ -> (psi(2S) -> e+ e-) pi+]cc
+#
+# NickName: Bc_psi2Spi,ee=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc+ decay to psi(2S)(to e+ e-) and pi+ with SVS model. Decay products in acceptance.
+# EndDocumentation
+#
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Harry Cliff
+# Email: harry.victor.cliff@cern.ch
+# Date: 20230427
+# CPUTime: < 1 min
+#
+Alias      Mypsi2S psi(2S)
+ChargeConj Mypsi2S Mypsi2S
+#
+Decay B_c+sig
+  1.000     Mypsi2S   pi+             SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mypsi2S
+  1.000     e+       e-             PHOTOS   VLL;
+Enddecay
+#
+End
+#

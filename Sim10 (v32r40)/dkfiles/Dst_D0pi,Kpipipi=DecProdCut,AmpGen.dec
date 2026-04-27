@@ -1,0 +1,37 @@
+# EventType: 27165073
+#
+# Descriptor: [D*+ -> (D0 -> K- pi- pi+ pi+) pi+]cc
+#
+# NickName: Dst_D0pi,Kpipipi=DecProdCut,AmpGen
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+#   Cabibbo favoured D decay. Intended to be a copy of 27165071 without momentum cuts.
+# EndDocumentation
+#
+# CPUTime: <1min
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Aodhan Burke
+# Email: aodhan.burke@cern.ch
+# Date: 20210325
+#
+Alias MyD0         D0
+Alias Myanti-D0    anti-D0
+ChargeConj MyD0    Myanti-D0
+
+Decay D*+sig
+  1.000 MyD0 pi+  VSS;
+Enddecay
+CDecay D*-sig
+
+noPhotos
+Decay MyD0
+  1.0 K- pi+ pi+ pi- LbAmpGen DtoKpipipi;
+Enddecay
+CDecay Myanti-D0
+#
+End
+#

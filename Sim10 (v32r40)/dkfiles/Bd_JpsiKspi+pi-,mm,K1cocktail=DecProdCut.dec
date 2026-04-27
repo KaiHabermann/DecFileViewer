@@ -1,0 +1,98 @@
+# EventType: 11246110
+#
+# Descriptor: [B0 -> (J/psi -> mu+ mu-) (K_10 -> (K_S0 -> pi+ pi-) (rho0 -> pi+ pi-)) ]
+#
+# NickName: Bd_JpsiKspi+pi-,mm,K1cocktail=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: 1 min
+#
+# Documentation: Bd->JpsiKspipi,  Kres as PHSP + K1(1270) ->K*pi and rhoK, to be reweighted back to PHSP 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email:  biplab.dey@.cern.ch
+# Date: 20200423
+#
+Alias      MyK_10       K_10
+Alias      Myanti-K_10  anti-K_10
+ChargeConj MyK_10       Myanti-K_10
+#
+Alias      MyK*-      K*-
+Alias      MyK*+      K*+
+ChargeConj MyK*+      MyK*-
+#
+Alias      MyK0s  K_S0
+ChargeConj MyK0s  MyK0s
+#
+Alias      Myrho0     rho0
+ChargeConj Myrho0     Myrho0
+#
+Alias       MyJ/psi   J/psi
+ChargeConj  MyJ/psi   MyJ/psi
+#
+
+LSNONRELBW Myrho0
+BlattWeisskopf Myrho0 0.0
+Particle Myrho0 0.775 0.15
+ChangeMassMin Myrho0 0.2
+ChangeMassMax Myrho0 2.0
+
+LSNONRELBW MyK_10
+BlattWeisskopf MyK_10 0.0
+Particle MyK_10 1.272 0.15
+ChangeMassMin MyK_10 0.5
+ChangeMassMax MyK_10 3.6
+
+LSNONRELBW Myanti-K_10
+BlattWeisskopf Myanti-K_10 0.0
+Particle Myanti-K_10 1.272 0.15
+ChangeMassMin Myanti-K_10 0.5
+ChangeMassMax Myanti-K_10 3.6
+
+LSNONRELBW MyK*-
+BlattWeisskopf MyK*- 0.0
+Particle MyK*- 0.892 0.06
+ChangeMassMin MyK*- 0.5
+ChangeMassMax MyK*- 3.5
+
+LSNONRELBW MyK*+
+BlattWeisskopf MyK*+ 0.0
+Particle MyK*+ 0.892 0.06
+ChangeMassMin MyK*+ 0.5
+ChangeMassMax MyK*+ 3.5
+
+
+Decay B0sig
+ 0.34   MyJ/psi MyK0s pi+ pi- PHSP;
+ 0.66   MyJ/psi MyK_10 PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK_10
+  0.5   MyK*+    pi-       PHSP;
+  0.5   MyK0s    Myrho0       PHSP;
+Enddecay
+CDecay Myanti-K_10
+#
+Decay MyK*+
+  1.0   MyK0s    pi+       PHSP;
+Enddecay
+CDecay MyK*-
+#
+Decay MyK0s
+  1.0   pi+      pi-       PHSP;
+Enddecay
+#
+Decay Myrho0
+  1.0   pi+      pi-       PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.0000   mu+   mu-   PHOTOS    PHSP;
+Enddecay
+#
+
+End

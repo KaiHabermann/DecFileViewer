@@ -1,0 +1,51 @@
+# EventType: 49000072
+# 
+# Descriptor: pp -> ccbar ...
+# NickName: dijet=c,m110GeV
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/twoToTwoInAcc
+# Production: Pythia8
+# 
+# InsertPythonCode:
+# # Switch off all Pythia 8 options.
+# from Gaudi.Configuration import importOptions
+# importOptions( "$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py" )
+#
+# # Pythia 8 options.
+# from Configurables import Pythia8Production
+# Generation(genAlgName).Special.addTool( Pythia8Production )
+# Generation(genAlgName).Special.Pythia8Production.Commands += [
+#     "HardQCD::hardccbar = on",     # Hard process.
+#     "PhaseSpace:mHatMin = 110.0"]   # Minimum invariant mass.
+# Generation(genAlgName).PileUpTool = "FixedLuminosityForRareProcess"
+# 
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut, 'twoToTwoInAcc')
+# cutTool = Generation(genAlgName).twoToTwoInAcc
+# cutTool.Code = '(count(out1)==1) & (count(out2)==1)'
+# cutTool.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import ns, GeV, mrad',
+#     'out1 = ((GBARCODE == 5) & (GTHETA<400.0*mrad))',
+#     'out2 = ((GBARCODE == 6) & (GTHETA<400.0*mrad))'
+#     ]
+# 
+# # Keep 2 -> 2 hard process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = (
+#     "( GBARCODE >= 1 ) & ( GBARCODE <= 6 )")
+# EndInsertPythonCode
+# 
+# 
+# Documentation:
+# c-dijet production, hard process in acceptance,
+# hard process mass above 110 GeV.
+# EndDocumentation
+# 
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Matthew Bradley
+# Email: mbradley@cern.ch
+# Date: 20200318
+# 
+End

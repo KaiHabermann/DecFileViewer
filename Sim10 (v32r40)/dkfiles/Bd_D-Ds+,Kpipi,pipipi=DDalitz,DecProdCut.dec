@@ -1,0 +1,43 @@
+# EventType: 11196017
+#
+# Descriptor: [B0 -> (D_s+ -> pi+ pi- pi+) (D- -> K+ pi- pi-)]cc
+#
+# NickName: Bd_D-Ds+,Kpipi,pipipi=DDalitz,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb Acceptance. Ds->3pi with D_DALITZ.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: A. Romero Vidal
+# Email: antonio.romero@usc.es
+# Date:   20200324
+#
+Alias      MyD_s+  D_s+
+Alias      MyD_s-  D_s-
+ChargeConj MyD_s+  MyD_s-
+
+Alias      MyD-        D-
+Alias      MyD+        D+
+ChargeConj MyD-        MyD+
+
+Decay B0sig
+  1.000     MyD-       MyD_s+               PHSP;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD_s+
+  1.000     pi-          pi+        pi+     D_DALITZ;
+Enddecay
+CDecay MyD_s-
+
+Decay MyD-
+  1.000     pi-          K+         pi-     D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End
+

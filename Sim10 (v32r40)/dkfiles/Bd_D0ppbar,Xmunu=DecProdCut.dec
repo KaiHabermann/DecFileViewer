@@ -1,0 +1,36 @@
+# EventType: 11774000
+#
+# Descriptor: {[[B0]nos -> p+ p~- (D~0 -> X mu- anti-nu_mu)]cc, [[B0]os -> p+ p~- (D0 -> X mu+ nu_mu)]cc}
+#
+# NickName: Bd_D0ppbar,Xmunu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: B0 decay with phase space model in acceptance, D decays semileptonically
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Mark Smith 
+# Email: mark.smith@cern.ch
+# Date: 20180206
+
+Alias MyD0       D0
+Alias Myanti-D0  anti-D0
+ChargeConj MyD0  Myanti-D0
+
+
+Decay B0sig
+1.0   Myanti-D0 p+ anti-p-              PHSP;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyD0
+0.0331  K-  mu+ nu_mu                     PHOTOS ISGW2;
+0.0191  K*- mu+ nu_mu                     PHOTOS ISGW2;
+Enddecay
+CDecay Myanti-D0
+
+End

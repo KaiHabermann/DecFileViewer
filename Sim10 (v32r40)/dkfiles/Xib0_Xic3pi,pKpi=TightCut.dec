@@ -1,0 +1,146 @@
+# EventType: 16466040
+# NickName: Xib0_Xic3pi,pKpi=TightCut
+# Descriptor: [Xi_b0 -> (Xi_c+ -> p+ K- pi+) pi- pi+ pi-]cc
+#
+# PhysicsWG: Onia
+# 
+# Cuts: LoKi::GenCutTool/TightCut
+
+# Documentation: 
+#    Decay file for [Xi_b0 -> (Xi_c+ -> p+ K- pi+) pi- pi+ pi-]cc
+##  EndDocumentation
+# 
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# 
+#
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay     = '[Xi_b0 ==> (Xi_c+ --> ^p+ ^K- ^pi+ ) ^pi- ^pi+ ^pi- ]CC'
+# tightCut.Cuts      =    {
+#     '[K-]cc'   : ' goodKaon ' ,
+#     '[p+]cc'   : ' goodProton ' ,
+#     '[pi+]cc'  : ' goodpi  ' ,
+#     '[pi-]cc'  : ' goodpi  ' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import GeV',
+#     'inAcc    = in_range ( 0.010 , GTHETA , 0.400 ) ' ,
+#     'goodKaon = ( GPT > 0.09 * GeV ) & ( GP > 1.5 * GeV ) & inAcc ' ,
+#     'goodProton = ( GPT > 0.09 * GeV ) & ( GP > 1.5 * GeV ) & inAcc ' ,
+#     'goodpi  = ( GPT > 0.09 * GeV ) & ( GP > 1.5 * GeV ) & inAcc ' ]
+#
+# EndInsertPythonCode
+#
+## ParticleValue: "Xi_c*+              496        4324  1.0        2.8170000   0.000000e+000                   Xi_c*+        4324   0.000000e+000", "Xi_c*~-             497       -4324 -1.0        2.8170000   0.000000e+000              anti-Xi_c*-       -4324   0.000000e+000"
+#
+# Email: sblusk@syr.edu
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1min
+# Responsible:  Steve Blusk
+# Date: 20200429
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias      MyXic+        Xi_c+
+Alias      Myanti-Xic-   anti-Xi_c-
+ChargeConj Myanti-Xic-   MyXic+
+
+Alias      MyXic*+        Xi_c*+
+Alias      Myanti-Xic*-   anti-Xi_c*-
+ChargeConj Myanti-Xic*-   MyXic*+
+
+Alias      MyXic*0        Xi_c*0
+Alias      Myanti-Xic*0   anti-Xi_c*0
+ChargeConj Myanti-Xic*0   MyXic*0
+
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+#
+Alias      MyK_0*0    K_0*0
+Alias      Myanti-K_0*0 anti-K_0*0
+ChargeConj MyK_0*0   Myanti-K_0*0 
+#
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+#
+Alias MyLambda(1690)0 Lambda(1690)0
+Alias Myanti-Lambda(1690)0 anti-Lambda(1690)0
+ChargeConj  MyLambda(1690)0 Myanti-Lambda(1690)0
+
+Alias MyLambda(1520)0 Lambda(1520)0
+Alias Myanti-Lambda(1520)0 anti-Lambda(1520)0
+ChargeConj  MyLambda(1520)0 Myanti-Lambda(1520)0
+
+
+Decay Xi_b0sig
+  0.58    MyXic+            Mya_1-         PHSP;
+  0.14    MyXic+            rho0  pi-      PHSP;
+  0.16    MyXic+            Myf_2  pi-    PHSP;
+  0.06    MyXic*0           pi+  pi-       PHSP;
+  0.06    MyXic*+           pi-           PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+
+Decay MyXic+
+  0.12   Delta++ K-                                      PHSP;
+  0.40   p+      Myanti-K*0                              PHSP;
+  0.25   p+      Myanti-K_0*0                            PHSP; 
+  0.13   MyLambda(1690)0 pi+                             PHSP;
+  0.02   MyLambda(1520)0 pi+                             PHSP;
+  0.08   p+   K-  pi+                                    PHSP;
+Enddecay
+CDecay Myanti-Xic-
+
+Decay Myf_2
+  1.0000  pi+ pi-                                  TSS ;
+Enddecay
+#
+
+Decay MyK*0
+  1.000 K+   pi-                   VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+
+Decay MyXic*+
+1.0000    MyXic*0  pi+                     PHSP;
+Enddecay
+CDecay Myanti-Xic*-
+
+Decay MyXic*0
+1.0000    MyXic+  pi-                      PHSP;
+Enddecay
+CDecay Myanti-Xic*0
+
+Decay MyK_0*0
+  1.000 K+ pi-                    PHSP;
+Enddecay
+CDecay Myanti-K_0*0
+#
+#
+Decay MyLambda(1690)0
+  1.0      p+  K-               PHSP;
+Enddecay
+CDecay Myanti-Lambda(1690)0
+
+Decay MyLambda(1520)0
+  1.0      p+  K-               PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+
+
+End
+

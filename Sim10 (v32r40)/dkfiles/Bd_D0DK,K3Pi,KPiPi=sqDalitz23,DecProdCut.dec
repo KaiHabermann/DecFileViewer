@@ -1,0 +1,43 @@
+# EventType: 11198070
+# 
+# Descriptor: [B0 -> (D0 -> K- pi+ pi+ pi-) (D- -> K+ pi- pi-) K+]cc
+# 
+# NickName: Bd_D0DK,K3Pi,KPiPi=sqDalitz23,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+#  Decay File for B0 -> D0 D- K+ , D- to K+ pi- pi- D_Dalitz , D0 to K- pi+ pi+ pi- PHSP. Flat in B0 2-3 sq Dalitz.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Pavol Stefko
+# Email: pavol.stefko@cern.ch
+# Date: 20171219
+# CPUTime: <1min
+
+Alias My_D0_K3pi   		D0
+Alias My_anti-D0_K3pi 	anti-D0
+Alias My_D+   			D+
+Alias My_D-   			D-
+ChargeConj My_D0_K3pi 	My_anti-D0_K3pi
+ChargeConj My_D- 		My_D+
+
+Decay My_D0_K3pi
+  1.0 K- pi+ pi+ pi- PHSP;
+Enddecay
+CDecay My_anti-D0_K3pi
+
+Decay My_D-
+  1.0 K+ pi- pi- D_DALITZ;
+Enddecay
+CDecay My_D+
+
+Decay B0sig
+  1.0 My_D0_K3pi K+ My_D- FLATSQDALITZ;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#

@@ -1,0 +1,120 @@
+# $Id: 11234401
+#
+# EventType: 11234401
+# NickName: Bd_JpsiKst,pppi0,Kpi=DecProdCut
+# Descriptor: [B0 -> (K*(892)0 -> K+ pi- ) (J/psi(1S) -> p+ p~- (pi0 -> gamma gamma) )]cc
+#
+# Cuts: DaughtersInLHCb 
+#
+# Documentation: Decay file for B0 -> K*(892)0 (->K+pi-) J/psi (-> p+ p~- pi0)  - pi0 in two photons
+# J/psi decay includes several N* resonances roughly reproducing the Partial Waves Amplitude analysis from BES (PRD 80 05 2004, hep-ex:0905.1562v4)
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Olivier Deschamps
+# Email: odescham@in2p3.fr
+# Date: 20250313
+#
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+Alias      Mypi0   pi0
+ChargeConj Mypi0   Mypi0
+Alias      MyK*0   K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0   Myanti-K*0
+
+
+# ==== pi0 -> gamma gamma ==== #
+Decay Mypi0
+  1.000     gamma   gamma             PHSP;
+Enddecay
+
+# === K*0 -> K+ pi- ==== #
+Decay MyK*0
+  1.000         K+        pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+
+# ==== N's -> p pi0 ==== #
+# .. N(1440)
+Alias MyN(1440)+ N(1440)+
+Alias Myanti-N(1440)- anti-N(1440)-
+ChargeConj MyN(1440)+ Myanti-N(1440)-
+Decay Myanti-N(1440)-  
+  1.000   anti-p-          Mypi0        PHSP;              
+Enddecay
+CDecay MyN(1440)+  
+
+# .. N(1520)
+Alias MyN(1520)+ N(1520)+
+Alias Myanti-N(1520)- anti-N(1520)-
+ChargeConj MyN(1520)+ Myanti-N(1520)-
+Decay Myanti-N(1520)-  
+  1.000   anti-p-          Mypi0        PHSP;              
+Enddecay
+CDecay MyN(1520)+  
+
+# .. N(1535)
+Alias MyN(1535)+ N(1535)+
+Alias Myanti-N(1535)- anti-N(1535)-
+ChargeConj MyN(1535)+ Myanti-N(1535)-
+Decay Myanti-N(1535)-  
+  1.000   anti-p-          Mypi0        PHSP;              
+Enddecay
+CDecay MyN(1535)+  
+
+
+# .. N(1650)
+Alias MyN(1650)+ N(1650)+
+Alias Myanti-N(1650)- anti-N(1650)-
+ChargeConj MyN(1650)+ Myanti-N(1650)-
+Decay Myanti-N(1650)-  
+  1.000   anti-p-          Mypi0        PHSP;              
+Enddecay
+CDecay MyN(1650)+  
+
+# .. N(1710)
+Alias MyN(1710)+ N(1710)+
+Alias Myanti-N(1710)- anti-N(1710)-
+ChargeConj MyN(1710)+ Myanti-N(1710)-
+Decay Myanti-N(1710)-  
+  1.000   anti-p-          Mypi0        PHSP;              
+Enddecay
+CDecay MyN(1710)+  
+
+# .. missing N(2040) to replaced with p+p-pi0 PHSP !
+
+# === J/psi decay - roughly reproducing the J/psi->pppi0 PWA from BES (3/2 => PHSP !) === #
+Decay MyJ/psi
+  0.082 p+ Myanti-N(1440)- VLL; 
+  0.082 anti-p- MyN(1440)+ VLL; 
+  0.040 p+ Myanti-N(1520)- PHSP; 
+  0.040 anti-p- MyN(1520)+ PHSP; 
+  0.038 p+ Myanti-N(1535)- VLL; 
+  0.038 anti-p- MyN(1535)+ VLL; 
+  0.045 p+ Myanti-N(1650)- VLL; 
+  0.045 anti-p- MyN(1650)+ VLL; 
+  0.127 p+ Myanti-N(1710)- PHSP; 
+  0.127 anti-p- MyN(1710)+ PHSP; 
+  0.234 p+ anti-p- Mypi0   PHSP; 
+Enddecay
+
+# ==== SIGNAL DECAY ===== #
+
+Define Hp 0.159
+Define Hz 0.775
+Define Hm 0.612
+Define pHp 1.563
+Define pHz 0.0
+Define pHm 2.712
+
+Decay B0sig
+  1.000         MyJ/psi   MyK*0          SVV_HELAMP Hp pHp Hz pHz Hm pHm;
+Enddecay
+CDecay anti-B0sig
+
+
+End
+#

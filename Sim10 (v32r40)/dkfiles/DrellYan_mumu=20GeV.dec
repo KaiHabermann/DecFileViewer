@@ -1,0 +1,23 @@
+# EventType: 42112014
+# CPUTime: < 1 min
+#
+# Descriptor: pp -> (Z0/gamma* -> mu+ mu-) ... 
+#
+# NickName: DrellYan_mumu=20GeV
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonIsFromMother true NumberOfbquarks -1 LeptonPtMin 1.0*GeV
+# ExtraOptions: DrellYanmumu20GeV
+#
+# Documentation: muon PT>1GeV, dimuon invarmass > 20GeV.
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Stephen Farry ( from file by Karol Hennessy )
+# Email: stephen.farry@cern.ch
+# Date: 20191212
+#
+End
+#

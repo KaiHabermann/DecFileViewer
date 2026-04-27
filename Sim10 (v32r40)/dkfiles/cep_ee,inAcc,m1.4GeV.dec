@@ -1,0 +1,38 @@
+# EventType: 49122000
+#
+# Descriptor: e+ e-
+# NickName: cep_ee,inAcc,m1.4GeV
+# Cuts: None
+# Production: SuperChic2
+#
+# InsertPythonCode:
+# 
+# # SuperChic2 options.
+# from Configurables import SuperChic2Production
+# Generation(genAlgName).Special.addTool(SuperChic2Production)
+# Generation(genAlgName).Special.SuperChic2Production.Commands += [
+#     "SuperChic2:proc    = 56",   # e,e production.
+#     "SuperChic2:mmin    = 1.4", # min mass dielectron 1.4 GeV
+#     "SuperChic2:gencuts = true", # Apply cuts below on pseudorapidity
+#     "SuperChic2:etaamin = 1.95", # e+ pseudorapidity min
+#     "SuperChic2:etaamax = 5.05", # e+ pseudorapidity max
+#     "SuperChic2:etabmin = 1.95", # e- pseudorapidity min
+#     "SuperChic2:etabmax = 5.05"] # e- pseudorapidity max
+#
+# # Keep the CEP process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+# Documentation:
+# Central exclusive production of [e e] with electrons in the acceptance, min mass dielectron 1.4 GeV
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Cristina Sanchez Gras
+# Email: cristina.sanchez.gras@cern.ch
+# Date: 20201012
+#
+End

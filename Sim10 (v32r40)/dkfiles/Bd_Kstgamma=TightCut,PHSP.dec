@@ -1,0 +1,53 @@
+# EventType: 11102203  
+#
+# Descriptor: [Beauty -> (K*(892)0 -> K+ pi-) gamma]cc
+#
+# NickName: Bd_Kstgamma=TightCut,PHSP
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# CPUTime: 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool as GenCutTool 
+#
+# gen = Generation(genAlgName) 
+# gen.SignalRepeatedHadronization.addTool ( GenCutTool , 'TightCut' ) 
+# 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[Beauty => (K*(892)0 => ^K+ ^pi-) ^gamma]CC'
+# tightCut.Cuts      =    {
+#     '[pi+]cc'        : ' inAcc' , 
+#     '[K-]cc'         : ' inAcc' , 
+#     'gamma'          : ' goodPhoton' } 
+#
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter',
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodPhoton = ( GPT > 1.5 * GeV ) & inAcc' ]
+#
+# EndInsertPythonCode
+#
+# Documentation: for PHSP decays, with gamma PT > 1.5
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email:  biplab.dey@.cern.ch
+# Date: 20180228
+#
+Alias      MyK*0   K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0 Myanti-K*0
+#
+Decay B0sig
+  1.000   MyK*0      gamma         PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000   K+         pi-       PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+End

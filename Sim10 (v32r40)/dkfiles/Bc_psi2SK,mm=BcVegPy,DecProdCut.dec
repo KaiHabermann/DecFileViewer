@@ -1,0 +1,35 @@
+# EventType: 14143026
+#
+# Descriptor: [B_c+ => (psi(2S) => mu+ mu-) K+]cc
+#
+# NickName: Bc_psi2SK,mm=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay Bc+ -> psi(2S)(-> Mu+ Mu- {,gamma} {,gamma}) K+ with SVS model, all daughters in acceptance
+# EndDocumentation
+#
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Fernando Abudinen
+# Email: fernando.abudinen@cern.ch
+# Date: 20230302
+# CPUTime: < 1 min
+#
+Alias       Mypsi2S   psi(2S)
+ChargeConj  Mypsi2S   Mypsi2S
+#
+Decay B_c+sig
+  1.000     Mypsi2S   K+             SVS;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mypsi2S
+  1.000     mu+       mu-                    PHOTOS   VLL;
+Enddecay
+#
+End
+#

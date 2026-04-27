@@ -1,0 +1,40 @@
+# EventType: 11146115
+#
+# Descriptor: [B0 => (J/psi(1S) -> mu+ mu-) (KS0 -> pi+ pi-) pi+ pi-]cc
+#
+# NickName: Bd_JpsiKspipi,mm=DecProdCut,pCut1600MeV,PHSP
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Bd to final states Jpsi KS0 pi+ pi-. 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Kai Habermann
+# Email: kai.habermann@cern.ch
+# Date: 20250304
+# CPUTime: < 2 min
+#
+Alias		my_K_S0		K_S0
+ChargeConj	my_K_S0	    	my_K_S0
+
+Alias      	my_J/psi    	J/psi
+ChargeConj 	my_J/psi    	my_J/psi
+#
+Decay B0sig
+1.0             my_J/psi        my_K_S0         pi+      	pi-      	PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay my_J/psi
+1.0         	mu+		mu-    			        		VLL;
+Enddecay
+#
+Decay my_K_S0
+1.0		pi+		pi-			        		PHSP;
+Enddecay
+#
+End 

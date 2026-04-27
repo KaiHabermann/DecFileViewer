@@ -1,0 +1,43 @@
+# EventType: 15174024
+#
+# Descriptor: [Lambda_b0 -> ( Sigma_c+ -> (J/psi(1S) -> mu+ mu-) pi+) pi- ]cc
+#
+# NickName: Lb_Zc4200++pi,Jpsip=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# ParticleValue: "Sigma_c+ 83 4212 1.0 4.196 1.779e-24 Sigma_c+ 4212 1.5" , "Sigma_c~- 84 -4212 -1.0 4.196 1.779e-24 anti-Sigma_c- -4212 1.5"
+#
+# Documentation: This is the decay file for the decay Lb -> Zc4200+ (->(J/psi(1S) -> mu+ mu-) pi+)  pi-
+# Sigma_c+ is used for this Zc4200 generation.
+# EndDocumentation
+#
+# PhysicsWG:   Onia
+# Tested:      Yes
+# Responsible: Qingnian Xu
+# Email:       qingnian.xu@cern.ch
+# Date:        20190103
+# CPUTime:     <1min
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+#
+Alias MySigma_c+       Sigma_c+
+Alias Myanti-Sigma_c-  anti-Sigma_c-
+ChargeConj MySigma_c+  Myanti-Sigma_c-
+#
+#
+Decay Lambda_b0sig
+  1.000    MySigma_c+    pi-    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                      PHOTOS  VLL;
+Enddecay
+#
+Decay MySigma_c+
+  1.000    MyJ/psi          pi+  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c- 
+#
+End

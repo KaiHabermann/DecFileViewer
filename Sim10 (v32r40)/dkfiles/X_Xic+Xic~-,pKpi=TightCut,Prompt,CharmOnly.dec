@@ -1,0 +1,116 @@
+# EventType: 28196042
+#
+# Descriptor: [X => (Xi_c+ ==> p+ K- pi+) (Xi_c~- ==> p~- K+ pi-)]CC
+#
+# ParticleValue: "chi_c1(1P) 765 20443 0.0 4.937 -0.092 chi_c1 20443 0"
+#
+# NickName: X_Xic+Xic~-,pKpi=TightCut,Prompt,CharmOnly
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation:
+# X-> Xic Xic, Xic -> pKpi;
+# X declared as chi_c1(1P), but width taken from arXiv:0807.4458;
+# mean is twice PDG m(Xic) + error + extra;
+# prompt only;
+# only necessary charm processes in Pythia
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool, ToolSvc, EvtGenDecayWithCutTool
+# from Gauss.Configuration import *
+#
+# generation = Generation(genAlgName)
+# signal = generation.SignalPlain
+#
+# signal.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+#
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/LcLongLived"
+# evtgendecay.addTool(LoKi__GenCutTool, 'LcLongLived')
+# evtgendecay.LcLongLived.Decay = 'Meson => ^(Xi_c+ ==> p+ K- pi+) ^(Xi_c~- ==> p~- K+ pi-)'
+# evtgendecay.LcLongLived.Preambulo += ['from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV']
+# evtgendecay.LcLongLived.Cuts = {'[Xi_c+]cc': '75 * micrometer < GTIME'}
+#
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = signal.TightCut
+# tightCut.Decay = 'Meson => ^(Xi_c+ ==> ^p+ ^K- ^pi+) ^(Xi_c~- ==> ^p~- ^K+ ^pi-)'
+# assert evtgendecay.LcLongLived.Decay.replace('^', '') == tightCut.Decay.replace('^', '')
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer, MeV, GeV',
+#     'inAcc = in_range(0.005, GTHETA, 0.400)',  # DInLHCb charged req.
+#     'fastTrack = (GPT > 220 * MeV) & (GP > 3.0 * GeV)',  # looser than LambdaCForPromptCharm Stripping line
+#     'goodTrack = inAcc & fastTrack',
+#     'Bancestors = GNINTREE(GBEAUTY, HepMC.ancestors)',
+#     'prompt = (0 == Bancestors)',
+#     'goodXic = (GPT > 0.9 * GeV) & prompt',  # looser than LambdaCForPromptCharm Stripping line
+# ]
+# tightCut.Cuts = {
+#     '[Xi_c+]cc': 'goodXic',
+#     '[K+]cc': 'goodTrack',
+#     '[pi+]cc': 'goodTrack',
+#     '[p+]cc': 'goodTrack & (GP > 9 * GeV)',  # looser than LambdaCForPromptCharm Stripping line
+# }
+#
+# # -- modify Pythia8 to only generate from Charmonium processes -- #
+# from Configurables import Generation, MinimumBias, Pythia8Production, Inclusive, SignalPlain, SignalRepeatedHadronization, Special
+#
+# Pythia8TurnOffMinbias = ["SoftQCD:all = off"]
+# Pythia8TurnOffMinbias += ["Bottomonium:all = off"]
+# Pythia8TurnOffMinbias += ["Charmonium:all = on"]
+#
+# gen = Generation(genAlgName)
+# gen.addTool(MinimumBias, name="MinimumBias")
+# gen.MinimumBias.ProductionTool = "Pythia8Production"
+# gen.MinimumBias.addTool(Pythia8Production, name="Pythia8Production")
+# gen.MinimumBias.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool(Inclusive, name="Inclusive")
+# gen.Inclusive.ProductionTool = "Pythia8Production"
+# gen.Inclusive.addTool(Pythia8Production, name="Pythia8Production")
+# gen.Inclusive.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool(SignalPlain, name="SignalPlain")
+# gen.SignalPlain.ProductionTool = "Pythia8Production"
+# gen.SignalPlain.addTool(Pythia8Production, name="Pythia8Production")
+# gen.SignalPlain.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool(SignalRepeatedHadronization, name="SignalRepeatedHadronization")
+# gen.SignalRepeatedHadronization.ProductionTool = "Pythia8Production"
+# gen.SignalRepeatedHadronization.addTool(Pythia8Production, name="Pythia8Production")
+# gen.SignalRepeatedHadronization.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool(Special, name="Special")
+# gen.Special.ProductionTool = "Pythia8Production"
+# gen.Special.addTool(Pythia8Production, name="Pythia8Production")
+# gen.Special.Pythia8Production.Commands += Pythia8TurnOffMinbias
+# # -- END  -- #
+# EndInsertPythonCode
+#
+# CPUTime: < 1 min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Michael Wilkinson (Syracuse University)
+# Email: miwilkin@syr.edu
+# Date: 20200414
+#
+
+Alias      MyXi_c+          Xi_c+
+Alias      Myanti-Xi_c-     anti-Xi_c-
+ChargeConj MyXi_c+          Myanti-Xi_c-
+
+#
+Decay chi_c1sig
+  1.00 MyXi_c+ Myanti-Xi_c-     PHSP;
+Enddecay
+#
+Decay MyXi_c+
+  1.00 p+      K-           pi+ PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+#
+End
+#

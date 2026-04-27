@@ -1,0 +1,21 @@
+// Created by https://github.com/scikit-hep/decaylanguage
+digraph DecayChainGraph {
+	graph [comment="Created by https://github.com/scikit-hep/decaylanguage" engine=dot format=png name=DecayChainGraph rankdir=LR]
+	node [fontname=Helvetica fontsize=11 shape=oval]
+	edge [fontcolor="#4c4c4c" fontsize=11]
+	mother [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#568dba"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">B_s0sig</TD></TR></TABLE>> shape=none]
+	dec300774 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyD_s-</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03bc;<SUP>+</SUP></TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p2">&#x03bd;<SUB>&#x03bc;</SUB></TD></TR></TABLE>> shape=none]
+	mother -> dec300774 [label=0.0231]
+	dec300775 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">K<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">K<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec300774:p0 -> dec300775 [label=0.0545]
+	dec300776 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyD_s*-</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03bc;<SUP>+</SUP></TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p2">&#x03bd;<SUB>&#x03bc;</SUB></TD></TR></TABLE>> shape=none]
+	mother -> dec300776 [label=0.0505]
+	dec300777 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyD_s-</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03b3;</TD></TR></TABLE>> shape=none]
+	dec300776:p0 -> dec300777 [label=0.935]
+	dec300778 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">K<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">K<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec300777:p0 -> dec300778 [label=0.0545]
+	dec300779 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyD_s-</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03c0;<SUP>0</SUP></TD></TR></TABLE>> shape=none]
+	dec300776:p0 -> dec300779 [label=0.058]
+	dec300780 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">K<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">K<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec300779:p0 -> dec300780 [label=0.0545]
+}

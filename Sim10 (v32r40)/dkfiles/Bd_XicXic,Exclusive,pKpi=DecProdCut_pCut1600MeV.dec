@@ -1,0 +1,38 @@
+# EventType: 11196026
+#
+# Descriptor: [B0 -> (Xi_c+ -> p+ K- pi+) (Xi_c~- -> p~- K+ pi-)]cc
+#
+# NickName: Bd_XicXic,Exclusive,pKpi=DecProdCut_pCut1600MeV 
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: B0 -> Xi_c+ Xi_c~-, Xi_c+ -> p+K-Pi+ with intermediate states
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime:< 1min
+# Responsible: wangla
+# Email: wangla@cern.ch
+# Date: 20220129
+#
+Alias MyXi_c+ Xi_c+
+Alias Myanti-Xi_c- anti-Xi_c-
+ChargeConj MyXi_c+ Myanti-Xi_c-
+
+
+Decay B0sig
+  1.000    MyXi_c+        Myanti-Xi_c-         PHSP;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyXi_c+
+ 1.000 p+      K-      pi+                             PHSP;
+Enddecay
+CDecay Myanti-Xi_c-
+
+End
+#
+

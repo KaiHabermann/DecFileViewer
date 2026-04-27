@@ -1,0 +1,64 @@
+# EventType: 27163905
+#
+# Descriptor: [D*+ -> (D0 -> pi+ pi-) pi+]cc
+#
+# NickName: Dst_D0pi,pipi=TightCut,3
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: D0 -> pi+ pi- from prompt D*+ only, tight cuts to match Run2 HLT requirements of D02HH.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal     = generation.SignalPlain
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[D*(2010)+ => ^( D0 => ^pi+ ^pi- ) pi+]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import micrometer, MeV, GeV                    ',
+#     'from LoKiCore.math import atan2                                               ',
+#     'inAccLoose   =  in_range ( 0.012 , GTHETA , 0.35 ) & in_range ( -0.3  , atan2(GPX , GPZ), 0.3  ) & in_range ( -0.26 , atan2(GPY , GPZ), 0.26 ) ',
+#     'inAcc        =  in_range ( 0.014 , GTHETA , 0.30 ) & in_range ( -0.28 , atan2(GPX , GPZ), 0.28 ) & in_range ( -0.24 , atan2(GPY , GPZ), 0.24 ) ',
+#     'fastTrack    =  ( GPT > 775 * MeV ) & ( GP  > 4.85 * GeV )                    ',
+#     'goodTrack    =  inAccLoose & fastTrack                                        ',
+#     'longLived    =  GTIME > 0.15 * 122.95 * micrometer                            ',
+#     'goodD0       =  inAcc & longLived & ( GPT > 1.94 * GeV )                      ',
+#     'Bancestors   =  GNINTREE ( GBEAUTY , HepMC.ancestors )                        ',
+#     'notFromB     =  0 == Bancestors                                               ',
+#     'goodSlowPion =  ( GPT > 190 * MeV ) & ( GP > 0.97 * GeV ) & inAcc             ',
+#     'goodDst      =  GCHILDCUT ( goodSlowPion , "[ D*(2010)+ =>  Charm ^pi+ ]CC" ) '
+# ]
+# tightCut.Cuts     =    {
+#     '[D*(2010)+]cc' : 'goodDst & notFromB ' ,
+#     '[D0]cc'        : 'goodD0             ' ,
+#     '[pi+]cc'       : 'goodTrack          ' ,
+#     '[pi-]cc'       : 'goodTrack          '
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Tommaso Pajero, Guillaume Pietrzyk
+# Email: tommaso.pajero@cern.ch, guillaume.pietrzyk@cern.ch
+# Date: 20200529
+# CPUTime: < 1 min
+#
+Alias      MyD0     D0
+Alias      MyantiD0 anti-D0
+ChargeConj MyD0     MyantiD0
+
+Decay D*+sig
+  1.0   MyD0  pi+   VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.0   pi+ pi-     PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End

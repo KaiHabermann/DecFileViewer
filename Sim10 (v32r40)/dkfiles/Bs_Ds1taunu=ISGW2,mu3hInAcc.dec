@@ -1,0 +1,88 @@
+# EventType: 13774637
+# Descriptor: {[[B_s0]nos => (D_s- => K+ K- pi-) nu_mu mu+]cc, [[B_s0]os => (D_s+ => K- K+ pi+) anti_nu_mu mu-]cc}
+# NickName: Bs_Ds1taunu=ISGW2,mu3hInAcc
+# Cuts: BeautyTomuCharmTo3h
+# CutsOptions: MuonPMin 2.5*GeV HadronPtMin 0.25*GeV HadronPMin 4.5*GeV
+# FullEventCuts: LoKi::FullGenEventCut/TightCuts
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "TightCuts" )
+# tightCuts = Generation(genAlgName).TightCuts
+# tightCuts.Code = "( count ( DsDaughPt ) > 0 )"
+# tightCuts.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import GeV",
+# "DsDaughPt     = (('D_s-' == GABSID) & (GCHILD(GPT,('K+'==GABSID))+GCHILD(GPT,('K-'==GABSID))+GCHILD(GPT,('pi-'==GABSID)) > 2.0*GeV))"
+#  ]
+# EndInsertPythonCode
+#
+# CPUTime: <1 min 
+# Documentation: Sum of D(*(*))_s mu nu_mu tau nu_tau, includes resonances in Ds decay
+#                Requires that the mu from tau and the 3h from charm are in acc. 
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Stefano Cali
+# Email: stefano.cali@cern.ch
+# Date: 20190611
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Alias      MyD_s1+    D_s1+
+Alias      MyD_s1-    D_s1-
+ChargeConj MyD_s1-    MyD_s1+
+#
+Alias      MyD_s0*+   D_s0*+
+Alias      MyD_s0*-   D_s0*-
+ChargeConj MyD_s0*+   MyD_s0*-
+#
+Alias      Mytau+     tau+
+Alias      Mytau-     tau-
+ChargeConj Mytau+     Mytau-
+#
+Decay B_s0sig
+  0.0041    MyD_s1-    Mytau+    nu_tau       PHOTOS  ISGW2;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s+
+  0.0545     K+    K-     pi+          PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+  0.935   MyD_s+  gamma               PHOTOS VSP_PWAVE;
+  0.058   MyD_s+  pi0                 PHOTOS VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s1+
+  0.48    MyD_s*+ pi0                  PHOTOS PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.18    MyD_s+  gamma                PHOTOS VSP_PWAVE;
+  0.043   MyD_s+  pi+ pi-              PHOTOS PHSP;
+  0.065   MyD_s*+ gamma                PHOTOS VVP;
+  0.037	  MyD_s0*+ gamma               PHOTOS VSP_PWAVE;  
+  0.047   MyD_s+  pi0                  PHOTOS VSS;       # not measured. Set to be 5% of the total BR accordingly to a similar DecFile.
+  0.047   MyD_s+  pi0 pi0              PHOTOS PHSP;      # not measured. Set to be 5% of the total BR accordingly to a similar DecFile.
+  0.047   MyD_s+  gamma gamma          PHOTOS PHSP;      # not measured. Set to be 5% of the total BR accordingly to a similar DecFile.
+Enddecay
+CDecay MyD_s1-
+#
+Decay MyD_s0*+
+  1.000   MyD_s+   pi0                 PHOTOS PHSP;
+Enddecay
+CDecay MyD_s0*-
+#
+Decay Mytau+
+  0.1731     mu+  nu_mu   anti-nu_tau  PHOTOS  TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

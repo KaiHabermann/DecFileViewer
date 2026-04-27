@@ -1,0 +1,44 @@
+# EventType: 12123478
+#
+# Descriptor: [B+ -> (rho(770)+ -> pi+ (pi0 -> e+ e- gamma))  (pi0 -> gamma gamma)]cc
+#
+# NickName: Bu_rhopi0,Dalitz2gamma=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ decay with phase space model - DaughtersInLHCb required
+# EndDocumentation
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Vincent Tisserand
+# Email: vincent.tisserand@clermont.in2p3.fr
+# Date: 20230310
+#
+
+
+Alias MyPi0_1 pi0
+Alias MyPi0_2 pi0
+Alias      My_rho+     rho+
+Alias      My_rho-     rho-
+ChargeConj My_rho+ My_rho-
+
+Decay B+sig
+ 1.0   My_rho+ MyPi0_1              SVS;
+Enddecay
+CDecay B-sig
+#
+Decay My_rho+
+  1.000      pi+ MyPi0_2       VSS;
+Enddecay
+CDecay My_rho-
+#
+Decay MyPi0_1
+  1.000      gamma gamma       PHSP;
+Enddecay
+#
+Decay MyPi0_2
+ 1.0000      e+      e-      gamma                           PI0_DALITZ;
+Enddecay
+
+End

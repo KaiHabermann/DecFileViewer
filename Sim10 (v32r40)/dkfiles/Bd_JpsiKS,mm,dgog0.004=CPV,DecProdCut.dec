@@ -1,0 +1,46 @@
+# EventType: 11144107
+#
+# Descriptor: [B0 -> (J/psi(1S) -> mu+ mu-) (KS0 -> pi+ pi-)]cc
+#
+# NickName: Bd_JpsiKS,mm,dgog0.004=CPV,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bd -> J/PsiKs with non-zero deltaGammaD
+# EndDocumentation
+#
+# PhysicsWG: B2Ch
+# Tested: Yes
+# Responsible: Daniel Magdalinski
+# Email: daniel.magdalinski@cern.ch
+# Date: 20250616
+# CPUTime: < 1 min
+#
+# P(1) = deltaM = 0.502e12
+# P(2) = dg/g = 0.004 ~SM theory prediction
+# P(3) = |q/p| = 1
+# P(4) = arg(q/p) = -0.775
+# P(5) = |Af| = 1.0
+# P(6) = arg(Af) = 0.
+# P(7) = |Abarf| = -1.0 
+# P(8) = arg(Abarf) = 0.
+#
+Alias      MyJ/psi  J/psi
+ChargeConj MyJ/psi  MyJ/psi
+Alias      MyKs     K_S0
+ChargeConj MyKs     MyKs
+#
+Decay B0sig
+  1.000    MyKs     MyJ/psi   SSD_CP 0.502e12 0.004 1.0 -0.775 1.0 0. -1.0 0.;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyKs
+  1.000         pi+       pi-            PHSP;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         mu+       mu-            PHOTOS VLL;
+Enddecay
+End
+

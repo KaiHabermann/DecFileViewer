@@ -1,0 +1,60 @@
+# EventType: 13774221
+# Descriptor: {[[B_s0]nos => (D_s- => K+ K- pi-) nu_mu mu+]cc, [[B_s0]os => (D_s+ => K- K+ pi+) anti_nu_mu mu-]cc}
+# NickName: Bs_Dsmunu=Ds+Dsst=hqet2,mu3hInAcc
+# Cuts: BeautyTomuCharmTo3h
+# CutsOptions: MuonPMin 2.5*GeV HadronPtMin 0.25*GeV HadronPMin 4.5*GeV
+# FullEventCuts: LoKi::FullGenEventCut/TightCuts
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "TightCuts" )
+# tightCuts = Generation(genAlgName).TightCuts
+# tightCuts.Code = "( count ( DsDaughPt ) > 0 )"
+# tightCuts.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import GeV",
+# "DsDaughPt     = (('D_s-' == GABSID) & (GCHILD(GPT,('K+'==GABSID))+GCHILD(GPT,('K-'==GABSID))+GCHILD(GPT,('pi-'==GABSID)) > 2.0*GeV))"
+#  ]
+# EndInsertPythonCode
+#
+# CPUTime: <1 min
+# Documentation: Sum of Dsmunu and Ds*munu.
+#                Requires that the mu from beauty and the 3h from charm are in acc. 
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Stefano Cali
+# Email: stefano.cali@cern.ch
+# Date: 20190611
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Decay B_s0sig
+  #such that the Ds*/Ds = 2.42
+  #HQET2 parameter as for B->D(*)mu nu (assuming SU(3)), 
+  #taken from 2019 HFLAV averages: 
+  #https://hflav-eos.web.cern.ch/hflav-eos/semi/spring19/html/ExclusiveVcb/exclBtoD.html
+  #https://hflav-eos.web.cern.ch/hflav-eos/semi/spring19/html/ExclusiveVcb/exclBtoDstar.html
+  0.0231   MyD_s-     mu+    nu_mu       PHOTOS  HQET2 1.131 1.074; #rho^2 as of HFLAV 2019, v1 unchanged
+  0.0505   MyD_s*-    mu+    nu_mu       PHOTOS  HQET2 1.122 0.921 1.270 0.852; #rho^2 (ha1 unchanged) R1 and R2 as of HFLAV 2019
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s+
+  0.0545     K+    K-     pi+          PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+  0.935   MyD_s+  gamma               PHOTOS VSP_PWAVE;
+  0.058   MyD_s+  pi0                 PHOTOS VSS;
+Enddecay
+CDecay MyD_s*-
+#
+End

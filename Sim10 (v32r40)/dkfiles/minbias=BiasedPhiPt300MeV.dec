@@ -1,0 +1,40 @@
+# EventType: 39000000
+#
+# Descriptor: pp => ?
+#
+# NickName: minbias=BiasedPhiPt300MeV
+#
+# Cuts: None
+# Sample: MinimumBias
+#
+# Documentation: BiasedPhiPt300MeV
+# EndDocumentation
+#
+# SpecialGeneration: BeamGasGeneration
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).FullGenEventCutTool = "LoKi::FullGenEventCut/PbarCut"
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "PbarCut" )
+# PbarCut = Generation(genAlgName).PbarCut
+# PbarCut.OutputLevel=2
+# PbarCut.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import GeV, mrad, meter"    ,
+#    "mineta = -3.3"                                          ,
+#    "maxeta = 1.1"                                           ,
+#    "isPhi = ( ('phi(1020)' == GABSID) & (GPT > 0.3 *GeV) & (in_range(mineta, GETA, maxeta)) & (GCHILDCUT(in_range( mineta, GETA, maxeta), 1)) & (GCHILDCUT( in_range(mineta, GETA, maxeta), 2) )) "
+#
+# ]
+#
+# PbarCut.Code = " ( has ( isPhi ) ) "
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Marco Santimaria
+# Email: marco.santimaria@cern.ch
+# Date: 20210507
+# CPUTime: < 1 min
+End

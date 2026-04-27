@@ -1,0 +1,52 @@
+# EventType: 49142110
+#
+# Descriptor: chi_c0 -> (psi(1S) -> mu+ mu-) gamma
+# NickName: cep_chic0_psi1Sgamma,mumu
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/cepInAcc
+# Production: SuperChic2
+#
+# InsertPythonCode:
+# # Stop pile-up generation.
+# Generation(genAlgName).PileUpTool = "FixedNInteractions"
+#
+# # SuperChic options.
+# from Configurables import SuperChicProduction
+# Generation(genAlgName).Special.addTool(SuperChicProduction)
+# Generation(genAlgName).Special.SuperChicProduction.Commands += [
+#     "xflag chic",  # Chi_c production.
+#     "chiflag 0",   # Produce the 0++ chi_c state.
+#     "decay 1"]     # Use the Jpsi[mu,mu] gamma decay for the chi_c.
+# 
+# # SuperChic2 options.
+# from Configurables import SuperChic2Production
+# Generation(genAlgName).Special.addTool(SuperChic2Production)
+# Generation(genAlgName).Special.SuperChic2Production.Commands += [
+#     "SuperChic2:proc = 21"] # Chic_c0[psi(1S)[mu,mu],gamma] production.
+#
+# # Cuts on the chi_c0.
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool(LoKi__FullGenEventCut, "cepInAcc")
+# cepInAcc = Generation(genAlgName).cepInAcc
+# cepInAcc.Code = "( count( out1 ) == 1 )"
+# cepInAcc.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import GeV, mrad",
+#     "out1 = ( ( GABSID == 10441 ) & ( GETA > 1.0 ) & ( GETA < 6.0 ) )"]
+# 
+# # Keep the CEP process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+# Documentation:
+# central exclusive production of chi_c0[psi(1S)[mu mu] gamma]
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Philip Ilten
+# Email: philten@cern.ch
+# Date: 20150717
+#
+End

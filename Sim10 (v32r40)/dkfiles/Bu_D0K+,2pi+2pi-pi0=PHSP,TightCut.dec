@@ -1,0 +1,63 @@
+# EventType: 12165400
+#
+# Descriptor: [B- -> K- (D0 -> pi+ pi+ pi- pi- pi0)]cc
+#
+# NickName: Bu_D0K+,2pi+2pi-pi0=PHSP,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '^[ B- -> ^K- ^(D0 => ^pi+ ^pi+ ^pi- ^pi- ^pi0)]CC'
+# tightCut.Preambulo += [
+#     'GVZ = LoKi.GenVertices.PositionZ() ' ,	
+#     'from GaudiKernel.SystemOfUnits import millimeter',
+#     'from GaudiKernel.SystemOfUnits import MeV',
+#     'inAcc = (in_range(0.005, GTHETA, 0.400))',
+#     'goodB = ((GP > 55000 * MeV) & (GPT > 5000 * MeV) & (GTIME > 0.135 * millimeter))',
+#     'goodD        = ((GP > 25000 * MeV) & (GPT > 2500 * MeV))',
+#     'goodDDaugPi  = (GNINTREE (("pi+" == GABSID) & (GP > 2000 * MeV) & inAcc, 4) > 3.5)',
+#     'goodBachPiOrK   = (GNINTREE (("K+" == GABSID) & (GP > 5000 * MeV) & (GPT > 500 * MeV) & inAcc, 1) > 0.5)',
+#     'goodPi0      = ((GPT > 400 * MeV) & inAcc)'
+# ]
+# tightCut.Cuts  = { 
+#     '[B-]cc'       : 'goodB & goodBachPiOrK',
+#     '[D0]cc'       : 'goodD  & goodDDaugPi',
+#     '[pi+]cc'        : 'inAcc',
+#     '[K+]cc'         : 'inAcc',
+#     '[pi0]cc'        : 'goodPi0'
+# }
+#
+# EndInsertPythonCode
+#
+# Documentation: Tight Cuts
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1min
+# Responsible: Jessy Daniel
+# Email: jessy.daniel@cern.ch
+# Date: 20230322
+#
+Alias MyD0 D0
+Alias Myanti-D0 anti-D0
+ChargeConj MyD0 Myanti-D0
+#
+Decay B-sig
+1.000  K-  MyD0  PHSP;
+Enddecay
+CDecay B+sig
+#
+Decay MyD0
+1.000  pi+  pi+	 pi-  pi-  pi0  PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End
+

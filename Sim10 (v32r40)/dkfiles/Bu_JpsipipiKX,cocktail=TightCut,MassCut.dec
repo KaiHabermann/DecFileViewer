@@ -1,0 +1,179 @@
+# EventType: 12435600
+#
+# Descriptor: [B+  -> ( J/psi(1S) -> mu+ mu-) pi+ pi- K+ {pi0} {gamma} {gamma} ]cc
+#
+#
+# ParticleValue: "X_1(3872) 317 9920443  0.0 3.87169 -1.e-3  X_1(3872) 9920443 0.010", "chi_c0(1P) 129 10441  0.0 3.922 -20.e-3  chi_c0 10441 0.1"
+#
+# NickName: Bu_JpsipipiKX,cocktail=TightCut,MassCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool, ToolSvc, EvtGenDecayWithCutTool 
+# from Gauss.Configuration import *
+#
+# ToolSvc().addTool ( EvtGenDecayWithCutTool )
+# evtgen = ToolSvc().EvtGenDecayWithCutTool  
+# evtgen.DecayFile = "$DECFILESROOT/dkfiles/Bu_JpsipipiKX,cocktail=TightCut,MassCut.dec"
+# evtgen.CutTool   = "LoKi::GenCutTool/MassCut"
+# evtgen.addTool( LoKi__GenCutTool , 'MassCut' )
+# massCut = evtgen.MassCut 
+# massCut.Decay      = ' ^( (B+|B-) ==> ( J/psi(1S) => mu+ mu- ) pi+ pi- (K+|K-) {pi0} )'
+# massCut.Preambulo += [ 
+#     "from GaudiKernel.SystemOfUnits import MeV ",  
+#     "sel_pi1    = ('pi+' == GID) ",
+#     "sel_pi2    = ('pi-' == GID) ",
+#     "sel_k      = ('K+' == GABSID) ",
+#     "sel_jpsi   = ('J/psi(1S)' == GID)",
+#     "mPiPi      = GMASS(sel_pi1, sel_pi2) < 600 * MeV",
+#     "mJpsiPiPi  = GMASS(sel_jpsi, sel_pi1, sel_pi2) < 3750 * MeV ",
+#     "mJpsiPiPiK = in_range( 4660 * MeV, GMASS(sel_jpsi, sel_pi1, sel_pi2, sel_k), 5025 * MeV)",
+#     ]
+# massCut.Cuts       = { 
+#     "[B+]cc" : "mPiPi & mJpsiPiPi & mJpsiPiPiK",
+# }
+# 
+#
+# gen = Generation(genAlgName) 
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# gen.SignalRepeatedHadronization.DecayTool = "EvtGenDecayWithCutTool"
+# 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '^[ B+  ==> ^( J/psi(1S) => ^mu+ ^mu-) ^pi+ ^pi- ^K+ {pi0} ]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import micrometer,MeV,GeV",
+#     "inAcc      = in_range ( 0.005 , GTHETA , 0.400 )" , 
+#     "inEta      = in_range ( 1.95  , GETA   , 5.050 )" ,
+#     "inY        = in_range ( 1.8 , GY , 4.5 )",
+#     "goodTrack  = inAcc & inEta" ,
+#     "goodMuon   = ( GPT > 500  * MeV ) & ( GP > 6 * GeV ) & goodTrack" , 
+#     "goodKaon   = ( GPT > 190  * MeV ) & ( GP > 3.1 * GeV ) & goodTrack" , 
+#     "goodPion   = ( GPT > 150  * MeV ) & ( GP > 2.9 * GeV ) & goodTrack" , 
+#     "goodPsi    = ( GPT > 500  * MeV ) & inY",
+#     "goodB      = (GTIME > 75 * micrometer) & inY" ,
+# ]
+# tightCut.Cuts      =    {
+#     "[mu+]cc"     : "goodMuon  " , 
+#     "[K+]cc"      : "goodKaon  " , 
+#     "[pi+]cc"     : "goodPion  " , 
+#     "J/psi(1S)"   : "goodPsi   " ,
+#     "[B+]cc"      : "goodB     " ,
+#     }
+#
+# EndInsertPythonCode
+#
+# Documentation:
+#   To model background for B+ -> X(3872) K_, X(3872) -> chi_c1 pi+ pi-, chi_c1 -> J/psi gamma
+#   decay with missing gamma.
+#   Tight generator level cuts applied for all final state particles,
+#   including cuts on M(pipi) and M(Jpsipipi) which increases the statistics with a factor of ~100.
+#   Implementing mass cuts in EvtGenDecayWithCutTool is ~8 faster than in TightCuts.
+# EndDocumentation
+#
+# PhysicsWG:   Onia
+# Tested:      Yes
+# Responsible: Ivan Polyakov
+# Email:       Ivan.Polyakov@cern.ch
+# Date:        20250319
+# CPUTime:     <1min 
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi     MyJ/psi
+Alias      MyPsi2S     psi(2S)
+ChargeConj MyPsi2S     MyPsi2S
+#
+Alias      MyX3872   X_1(3872)
+ChargeConj MyX3872   MyX3872
+Alias      MyX3915     chi_c0
+ChargeConj MyX3915     MyX3915
+#
+Alias      MyChi_c1   chi_c1
+ChargeConj MyChi_c1 MyChi_c1
+Alias      MyChi_c2   chi_c2
+ChargeConj MyChi_c2 MyChi_c2
+#
+Alias      MyKstp   K*+
+Alias      MyKstm   K*-
+ChargeConj MyKstp   MyKstm
+#
+Alias      MyRho0   rho0
+Alias      MyEta    eta
+Alias      MyEta'   eta'
+Alias      MyOmega  omega
+ChargeConj MyRho0   MyRho0
+ChargeConj MyEta    MyEta
+ChargeConj MyEta'   MyEta'
+ChargeConj MyOmega  MyOmega
+
+Decay B+sig
+  ## BRs from PDG multiplied by 1000, sum gives 2.362
+  #
+  # with missing pi0
+  0.810     MyJ/psi pi+ pi-  K+ pi0    PHSP; # BR = 8.1e-4
+  0.944     MyJ/psi pi+ pi-  MyKstp    PHSP; # BR = 1.43e-3 * 0.66
+  0.285     MyJ/psi MyOmega  K+        PHSP; # BR = 3.2e-4 * 0.892
+  0.027     MyX3915          K+        PHSP; # BR = 3.0e-5 * 1 * 0.892
+  0.012     MyX3872          K+        PHSP; # BR = 1.2e-5 * 1.16 * 0.892
+  #
+  # with missing gamma
+  0.128     MyChi_c1 pi+ pi- K+        PHSP; # BR = 3.74e-4 * 0.343 
+  0.026     MyChi_c2 pi+ pi- K+        PHSP; # BR = 1.34e-4 * 0.195
+  0.081     MyJ/psi pi+ pi-  K+ gamma  PHSP; # BR = 8.1e-4 * 1/10
+  0.009     MyJ/psi MyEta'   K+        PHSP; # BR = 3.1e-5 * 0.295
+  #
+  # either pi0 or gamma
+  0.034     MyJ/psi MyEta    K+        PHSP; # BR = 1.24e-4 * 0.273
+  0.006     MyPsi2S          K+        PHSP; # BR = 6.24e-4 * 0.034 * 0.273
+Enddecay
+CDecay B-sig
+#
+Decay MyChi_c1
+  1.000     MyJ/psi  gamma  VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0; # real BR = 0.343
+Enddecay
+#
+Decay MyChi_c2
+  1.000     MyJ/psi  gamma  PHSP; # real BR = 0.195
+Enddecay
+#
+Decay MyPsi2S
+  1.000     MyJ/psi  MyEta  PHSP; # real BR = 0.034
+Enddecay
+#
+Decay MyX3872
+  1.000     MyJ/psi  MyOmega PHSP;
+Enddecay
+#
+Decay MyX3915
+  1.000     MyJ/psi  MyOmega PHSP;
+Enddecay
+#
+Decay MyRho0
+  1.000     pi+  pi-    VSS;	# real BR = 1
+Enddecay
+#
+Decay MyKstp
+  1.000     K+  pi0     VSS;	# real BR = 2/3
+Enddecay
+CDecay MyKstm
+#
+Decay MyEta
+  0.2302     pi+ pi-  pi0     ETA_DALITZ; # real BR = 0.2302
+  0.0428     pi+ pi-  gamma   PHSP;	  # real BR = 0.0428
+Enddecay
+#
+Decay MyEta'
+  0.9     MyRho0   gamma   SVP_HELAMP  1.0 0.0 1.0 0.0; # real BR = 0.295
+  0.1     pi+ pi-  gamma   PHSP;       	       	   	# may not exist or highly suppressed
+Enddecay
+#
+Decay MyOmega
+  1.000     pi+ pi-  pi0     OMEGA_DALITZ; # real BR = 0.892
+Enddecay
+#
+Decay MyJ/psi
+  1.000     mu+  mu-  PHOTOS  VLL;
+Enddecay
+#
+End

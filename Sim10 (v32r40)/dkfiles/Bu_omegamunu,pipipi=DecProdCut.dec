@@ -1,0 +1,36 @@
+# EventType: 12513410
+#
+# Descriptor: [B+ -> (omega(782) -> pi+ pi- pi0) mu+ nu_mu]cc
+#
+# NickName: Bu_omegamunu,pipipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ -> (omega(782) -> pi+ pi- pi0) mu+ nu_mu (PHSP)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Marcus Madurai
+# Email:       marcus.madurai@cern.ch
+# Date:        20250804
+#
+Alias Myomega omega
+ChargeConj Myomega  Myomega
+#
+Decay B+sig
+1.000       Myomega       mu+       nu_mu       PHOTOS PHSP;
+Enddecay
+CDecay B-sig
+#
+#
+Decay Myomega
+1.000       pi-           pi+      pi0        OMEGA_DALITZ;
+Enddecay
+#
+End
+#
+

@@ -1,0 +1,82 @@
+# EventType: 16145938
+#
+# Descriptor: [Xi_b- -> (B- -> (J/psi(1S) -> mu+ mu-) K-) (Lambda0 -> p+ pi-)]cc
+#
+# NickName: Xibmprime6486_BmL0,Bm=JpsiKm,L0=ppi,TightCut
+#
+# ParticleValue: "Xi_b- 122 5132 -1.0 6.486 2.765597e-22 Xi_b- 5132 0.", "Xi_b~+ 123 -5132 1.0 2.765597e-22 1.0e-23 anti-Xi_b+ -5132 0."
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#InsertPythonCode:
+# 
+#from Configurables import LoKi__GenCutTool 
+#from Gauss.Configuration import *
+#gen = Generation(genAlgName) 
+#gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay = "[ ^(Xi_b- => ( B- => ( J/psi(1S) => mu+ mu- ) K-) ( Lambda0 => p+ pi- ) )]CC"
+#
+#tightCut.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import MeV, meter",
+# "InAcc = in_range( 0.001 , GTHETA , 0.390 ) & in_range( 1.8 , GETA , 5.2 )",
+# "InAcc_DD = in_range( 0.001 , GTHETA , 0.390 ) & in_range( 1.8 , GETA , 7.5 )",
+# "good_L0_pvx = in_range( -1.1 * meter, GFAEVX ( LoKi.GenVertices.PositionZ(), 100 * meter ), 3 * meter ) ",
+# "good_muon = ( GP > 2750 * MeV ) & ( GPT > 450 * MeV) & InAcc",
+# "good_k = ( GP > 2500 * MeV ) & ( GPT > 500 * MeV) & InAcc",
+# "good_L0p = ( GPT > 500 * MeV) & InAcc_DD",
+# "good_L0pi = ( GPT > 100 * MeV) & InAcc_DD",
+# "good_L0 = ( (GNINTREE( good_L0p, 1 ) > 0 ) & ( GNINTREE( good_L0pi, 1 ) > 0 )  )",
+# "good_Jpsi = ( ( 'J/psi(1S)' == GABSID ) & (GNINTREE( good_muon, 1 ) > 1 ) )",
+# "good_B = ( (GNINTREE( good_Jpsi, 1 ) > 0 ) & ( GNINTREE( good_k, 1 ) > 0 ) )",
+# "good_Xibm = ( (GNINTREE( good_B, 1 ) > 0 ) & ( GNINTREE( good_L0, 1 ) > 0 )  )",
+#]
+#
+#tightCut.Cuts = {
+#'[Xi_b-]cc' :'good_Xibm',
+#}
+#
+#EndInsertPythonCode
+#
+# Documentation: Xib'-(6486) decays to BmL0 final state with Bm decaying into JpsiKm. L0 decays into ppi 
+# EndDocumentation
+#
+# PhysicsWG:    Onia
+# CPUTime:      < 1 min
+# Tested: Yes
+# Responsible:  Miroslav Saur 
+# Email:        miroslav.saur@cern.ch
+# Date:         20240127
+#
+Alias      MyBm           B-
+Alias      MyantiBm       B+
+ChargeConj MyBm           MyantiBm
+#
+Alias      MyJpsi         J/psi
+ChargeConj MyJpsi         MyJpsi
+#
+Alias      MyLambda       Lambda0
+Alias      MyantiLambda   anti-Lambda0
+ChargeConj MyLambda       MyantiLambda
+#
+Decay Xi_b-sig
+  1.000 MyBm MyLambda PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyBm
+  1.000 MyJpsi K- PHSP;
+Enddecay
+CDecay MyantiBm
+#
+Decay MyJpsi
+  1.000 mu+ mu- PHOTOS VLL;
+Enddecay
+#
+Decay MyLambda
+  1.000 p+ pi- HELAMP 0.936 0.0 0.351 0.0;
+Enddecay
+CDecay MyantiLambda
+#
+End
+#

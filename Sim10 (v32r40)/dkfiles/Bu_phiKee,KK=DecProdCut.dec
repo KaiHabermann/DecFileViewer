@@ -1,0 +1,35 @@
+# EventType: 12125040
+#
+# Descriptor: [B+ -> (phi -> K+ K-) K+ e+ e-]cc
+#
+# NickName: Bu_phiKee,KK=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B-> phi K e+ e-, phi-> KK
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: La Wang
+# Email: wangla@hnu.edu.cn
+# Date: 20210525
+#
+# CPUTime: < 1min
+#
+
+Alias       MyPhi       phi
+ChargeConj  MyPhi       MyPhi
+
+#  PDG Id = 521
+Decay B+sig
+ 1.0000   MyPhi   K+   e+   e-   PHOTOS  PHSP;
+Enddecay
+CDecay B-sig
+
+#  PDG Id = 333
+Decay MyPhi
+ 1.0000    K+ K-                 VSS;
+Enddecay
+
+End

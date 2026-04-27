@@ -1,0 +1,110 @@
+# EventType: 11366111
+# 
+# Descriptor: [ B0 -> (anti-Lambda_c- -> p~- K+ pi-)  (Lambda0 -> p+ pi-) K+]cc 
+# 
+# NickName: Bd_LcbarLambdaK,pKpi=HELAMP,TightCut
+#
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[B0 ==> (anti-Lambda_c- ==> ^p~- ^K+ pi-)  (Lambda0 => ^p+ ^pi-) ^K+]CC"
+# tightCut.Preambulo += [
+# "from GaudiKernel.SystemOfUnits import MeV",
+# "InAcc = in_range ( 0.005 , GTHETA , 0.400 )",
+# "goodpi  = ( GP > 1000 * MeV ) & ( GPT > 100 * MeV ) & InAcc",
+# "goodp   = ( GP > 5000 * MeV ) & ( GPT > 200 * MeV ) & InAcc"
+# ]
+# tightCut.Cuts = {
+# '[pi-]cc' : "goodpi",
+# '[p+]cc'  : "goodp"
+# }
+#
+# EndInsertPythonCode
+# 
+# Documentation:
+#                 Lambda0 forced into p pi.
+#                 Lambda0 -> p pi helicity amplitude from 2019 combination in PRL 123, 182301.
+#                 Lc -> Lambda pi helicity amplitude set to -0.86 (higher than current PDG to compensate for the fact that BESIII dominates and used larger alpha(L->ppi) than here) #Copied from Lc_Lambdapi=HELAMP,TightCut.dec
+#                 All charged final state tracks are required to be within the LHCb acceptance.
+#
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Liang Sun
+# Email: lsun@cern.ch
+# Date: 20230301
+#
+#
+
+Alias       MyLambda      Lambda0
+Alias       MyantiLambda  anti-Lambda0
+ChargeConj  MyLambda      MyantiLambda
+Alias       MyLambda_c+   Lambda_c+
+Alias       Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj  MyLambda_c+ Myanti-Lambda_c-
+
+# Define Lambda(1520)0
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+
+# Define K*0
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+
+# Define Delta++
+Alias      MyDelta++      Delta++
+Alias      Myanti-Delta-- anti-Delta--
+ChargeConj MyDelta++      Myanti-Delta--
+
+#
+Decay B0sig
+  1.000     Myanti-Lambda_c-  MyLambda  K+        PHSP; 
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyLambda
+  1.000     p+            pi-                HELAMP 0.9276 0.0 0.3735 0.0;
+Enddecay
+CDecay MyantiLambda
+#
+# Define Lambda_c+ decay
+# Resonant contributions taken from 2012 PDG
+Decay MyLambda_c+
+  0.02800 p+              K-         pi+ PHSP;
+  0.01600 p+              Myanti-K*0     PHSP;
+  0.00860 MyDelta++       K-             PHSP;
+  0.01800 MyLambda(1520)0 pi+            PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+
+#Define Lambda(1520)0 decay
+Decay MyLambda(1520)0
+  1.000 p+ K- PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0 
+
+# Define K*0 decay
+Decay MyK*0
+  1.000 K+ pi- VSS;
+Enddecay
+CDecay Myanti-K*0
+
+#Define Delta++ decay
+Decay MyDelta++
+  1.000 p+ pi+ PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+End
+#
+

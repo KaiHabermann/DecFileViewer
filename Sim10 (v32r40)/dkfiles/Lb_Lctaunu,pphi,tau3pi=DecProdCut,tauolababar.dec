@@ -1,0 +1,60 @@
+# EventType: 15566080
+#
+# Descriptor: [ Lambda_b0 -> (Lambda_c+ -> p+ (phi(1020) -> K+ K-)) (tau- -> pi- pi+ pi- nu_tau) anti-nu_tau ]cc
+#
+# NickName: Lb_Lctaunu,pphi,tau3pi=DecProdCut,tauolababar 
+#
+# Cuts: DaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+#
+# CPUTime: <1 min
+#
+# Documentation: Lb -> Lc tau nu_tau with Lc->pphi and tau->3pi.
+# Includes Daughters in LHCb acceptance cut except the neutral ones.
+# Tau lepton decays in the 3-prong charged pion mode using the Tauola BaBar model.
+# EndDocumentation
+#
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email: biplab.dey@cern.ch
+# Date:   20240717
+#
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias      Mytau+         tau+
+Alias      Mytau-         tau-
+ChargeConj Mytau+         Mytau-
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Decay Lambda_b0sig
+  1.0    MyLambda_c+        Mytau-  anti-nu_tau     PHOTOS   Lb2Baryonlnu  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+# BR = 1
+Decay MyLambda_c+
+  1.0    p+  MyPhi     PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyPhi
+  1.000   K+         K-         VSS;
+Enddecay
+# BR = 1
+#
+# tau -> pi- pi+ pi- nu_tau
+Decay Mytau-
+ 1. TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+End

@@ -1,0 +1,86 @@
+# EventType: 17364253
+#
+# Descriptor: [B_s1(L)0 -> (B_s0 -> (D_s- -> K+ K- pi-) pi+) gamma {gamma} {gamma}]cc
+#
+# NickName: Bsprime1_BsgammaX,Dspi,KKpi=cocktail,TightCut
+#
+# Documentation: 
+# Excited Bs Spectroscopy, using nominal Bs1(5830) mass
+# Assumed radiative decay for B_s1(5830), ie Bs gamma, Bs* gamma, Bs* pi0
+# EndDocumentation
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName) 
+# signal     = generation.SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[B_s1(L)0 --> (B_s0 => (D_s- => ^K+ ^K- ^pi-) ^pi+) {X} {X} {X} ]CC'
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV",
+#     "inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )               " ,
+#     "fastTrack    =  ( GPT > 200 * MeV ) & ( GP  > 1.9 * GeV )         " , 
+#     "goodTrack    =  inAcc &  fastTrack                                " ,
+#     "goodPhoton   = GINTREE( ('gamma' == GABSID) & ( GPT > 0.25  * GeV ) & inAcc )"     
+# ]
+#
+# tightCut.Cuts     =    {
+#     '[K+]cc'  : 'goodTrack ' , 
+#     '[pi+]cc' : 'goodTrack ' ,
+#     '[B_s1(L)0]cc'   : 'goodPhoton'
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: 1.4 min
+# Responsible:     Liming Zhang
+# Email: liming.zhang@cern.ch
+# Date: 20181001
+#
+Alias MyBs     B_s0
+Alias MyantiBs anti-B_s0
+ChargeConj MyBs      MyantiBs
+#
+Alias MyBsst     B_s*0
+Alias MyantiBsst anti-B_s*0
+ChargeConj MyBsst      MyantiBsst
+#
+Alias      Mypi0   pi0
+ChargeConj Mypi0   Mypi0
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Decay B_s10sig
+0.3300     MyBs    gamma      PHSP;
+0.3300     MyBsst  gamma      PHSP;
+0.3300     MyBsst    Mypi0      PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay anti-B_s10sig
+#
+Decay MyBsst
+1.0000    MyBs  gamma                   VSP_PWAVE;
+Enddecay
+CDecay MyantiBsst
+#
+Decay MyBs
+  1.000     MyD_s-     pi+      PHSP;
+Enddecay
+CDecay MyantiBs
+#
+Decay MyD_s-
+  1.000        K-        K+        pi-             D_DALITZ;
+Enddecay
+CDecay MyD_s+
+#
+Decay Mypi0
+  1.000     gamma      gamma               PHSP;
+Enddecay
+#
+End

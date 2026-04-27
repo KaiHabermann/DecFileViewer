@@ -1,0 +1,32 @@
+# EventType: 12153030
+#
+# Descriptor: [B+ -> pi+ (psi(2S) -> ( e+ e- {,gamma} {,gamma}))]cc 
+#
+# NickName: Bu_psi2SPi,ee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Harry Cliff (University of Cambridge)
+# Email:       harry.victor.cliff@cern.ch
+# Date:        20220208
+# CPUTime: <1 min
+#
+Alias      Mypsi2S  psi(2S)
+ChargeConj Mypsi2S  Mypsi2S
+#
+Decay B+sig
+  1.000   Mypsi2S  pi+   SVS;
+Enddecay
+CDecay B-sig
+#
+Decay Mypsi2S
+ 1.000         e+          e-         PHOTOS VLL; 
+Enddecay
+#
+End
+

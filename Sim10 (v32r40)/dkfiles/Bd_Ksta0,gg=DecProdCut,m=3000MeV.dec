@@ -1,0 +1,45 @@
+# EventType: 11102265
+# InsertPythonCode:
+#from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+#ParticlePropertySvc().Particles = ["H_30                   89          36   0.0    3.000      9.400000e-26                        A0          36      0.00000000"]
+# from Gauss.Configuration import *
+# ApplicationMgr().ExtSvc += [ParticlePropertySvc() ]
+# EndInsertPythonCode
+# Descriptor: [B0 -> (K*(892)0 -> K+ pi-) (A0 -> gamma gamma)]cc
+# NickName: Bd_Ksta0,gg=DecProdCut,m=3000MeV
+# Cuts: DaughtersInLHCb
+#
+# Documentation: daughters in acceptance.
+# EndDocumentation
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Subrahmanya Pemmaraju
+# Email: spemmara@cern.ch
+# Date: 20221121
+#
+Alias       MyK*0      K*0
+Alias       Myanti-K*0 anti-K*0
+ChargeConj  MyK*0      Myanti-K*0
+Alias       MyA0       A0
+ChargeConj  MyA0       MyA0
+#
+Decay B0sig
+  1.000         MyK*0     MyA0        SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay B0sig
+  1.000         MyK*0     MyA0        SVS;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK*0
+  1.000        K+   pi-              VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyA0
+  1.000         gamma       gamma        PHSP;
+Enddecay
+End

@@ -1,0 +1,125 @@
+# EventType: 15202241
+#
+# Descriptor: [Lambda_b0 -> (Lambda(1520)0 -> p+ K-) gamma]cc
+#
+# NickName: Lb_pKgamma,L1465,L1700=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# CPUTime: 1 min
+#
+# InsertPythonCode:
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+#
+# gen = Generation()
+# gen.SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/mhhCut"
+# evtgendecay.addTool(LoKi__GenCutTool ,'mhhCut')
+# evtgendecay.mhhCut.Decay = "[Beauty => ^(Lambda(1520)0 => p+ K-) gamma]CC"
+# evtgendecay.mhhCut.Cuts  = {
+#     '[Lambda(1520)0]cc'  : ' (in_range( 1015.0 * MeV , mkk, 1025.0 * MeV) | in_range( 865. * MeV , mkpi, 925.0 * MeV))' , 
+#     }
+# evtgendecay.mhhCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import MeV",
+#     "from LoKiCore.math import sqrt",
+#     "from LoKiCore.functions import *" ,
+#     "from LoKiGen.decorators import *" ,
+#     "K_PX          = GCHILD(GPX,'K+' == GABSID)",
+#     "K_PY          = GCHILD(GPY,'K+' == GABSID)",
+#     "K_PZ          = GCHILD(GPZ,'K+' == GABSID)",
+#     "K_PE          = GCHILD(GE,'K+' == GABSID)",
+#     "p_PX          = GCHILD(GPX,'p+' == GABSID)",
+#     "p_PY          = GCHILD(GPY,'p+' == GABSID)",
+#     "p_PZ          = GCHILD(GPZ,'p+' == GABSID)",
+#     "p_PE_k        = sqrt(p_PX*p_PX + p_PY*p_PY + p_PZ*p_PZ + (493.7*MeV)*(493.7*MeV))",
+#     "p_PE_pi       = sqrt(p_PX*p_PX + p_PY*p_PY + p_PZ*p_PZ + (139.6*MeV)*(139.6*MeV))",
+#     "mkk           = sqrt((K_PE+p_PE_k )*(K_PE+p_PE_k ) - (K_PX+p_PX)*(K_PX+p_PX) - (K_PY+p_PY)*(K_PY+p_PY) - (K_PZ+p_PZ)*(K_PZ+p_PZ) )",
+#     "mkpi          = sqrt((K_PE+p_PE_pi)*(K_PE+p_PE_pi) - (K_PX+p_PX)*(K_PX+p_PX) - (K_PY+p_PY)*(K_PY+p_PY) - (K_PZ+p_PZ)*(K_PZ+p_PZ) )",
+#     ]
+#
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[Beauty => (Lambda(1520)0 => ^p+ ^K-) ^gamma]CC'
+# tightCut.Cuts      =    {
+#     '[K+]cc'         : ' inAcc' , 
+#     '[p+]cc'         : ' inAcc' , 
+#     'gamma'          : ' goodPhoton'
+#     }
+#
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter",
+#     "from LoKiCore.functions import *" ,
+#     "from LoKiGen.decorators import *" ,
+#     "inAcc         = in_range ( 0.005 , GTHETA , 0.400 ) " ,
+#     "inEcalX       =   abs ( GPX / GPZ ) < 4.5  / 12.5",
+#     "inEcalY       =   abs ( GPY / GPZ ) < 3.5  / 12.5",
+#     "inEcalHole    = ( abs ( GPX / GPZ ) < 0.25 / 12.5 ) & ( abs ( GPY / GPZ ) < 0.25 / 12.5 )",
+#     "InEcal        = inEcalX & inEcalY & ~inEcalHole ",
+#     "goodPhoton    = ( GPT > 2.4 * GeV ) & InEcal"
+#     ]
+#
+# EndInsertPythonCode
+#
+# Documentation: hadron-misid bkgd for KstG(895+-30) / PhiG(1020+-5), gamma PT > 2.4 GeV, inAcceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email:  biplab.dey@.cern.ch
+# Date: 20240107
+#
+Alias      MyL1465   Lambda(1520)0
+Alias      Myanti-L1465  anti-Lambda(1520)0 
+ChargeConj MyL1465 Myanti-L1465
+#
+LSNONRELBW MyL1465
+BlattWeisskopf MyL1465 0.0
+Particle MyL1465 1.465 0.2
+ChangeMassMin MyL1465 1.4
+ChangeMassMax MyL1465 1.65
+#
+LSNONRELBW Myanti-L1465
+BlattWeisskopf Myanti-L1465 0.0
+Particle Myanti-L1465 1.465 0.2
+ChangeMassMin Myanti-L1465 1.4
+ChangeMassMax Myanti-L1465 1.65
+#
+Alias      MyL1700   Lambda(1520)0
+Alias      Myanti-L1700  anti-Lambda(1520)0 
+ChargeConj MyL1700 Myanti-L1700
+#
+LSNONRELBW MyL1700
+BlattWeisskopf MyL1700 0.0
+Particle MyL1700 1.7 0.2
+ChangeMassMin MyL1700 1.5
+ChangeMassMax MyL1700 1.9
+#
+LSNONRELBW Myanti-L1700
+BlattWeisskopf Myanti-L1700 0.0
+Particle Myanti-L1700 1.7 0.2
+ChangeMassMin Myanti-L1700 1.5
+ChangeMassMax Myanti-L1700 1.9
+#
+Decay Lambda_b0sig
+ 0.7   MyL1465 gamma PHSP;
+ 0.3   MyL1700 gamma PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyL1465 
+  1.000        p+        K-      PHSP;
+Enddecay
+CDecay Myanti-L1465
+#
+Decay MyL1700 
+  1.000        p+        K-      PHSP;
+Enddecay
+CDecay Myanti-L1700
+#
+End

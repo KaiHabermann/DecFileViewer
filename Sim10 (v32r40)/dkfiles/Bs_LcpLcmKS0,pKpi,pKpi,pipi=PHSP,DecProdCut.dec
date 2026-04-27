@@ -1,0 +1,43 @@
+# EventType: 13198150
+#
+# Descriptor: {[[B_s0]nos -> (KS0 -> pi+ pi-) (Lambda_c+ -> p+ K- pi+) (Lambda_c~- -> p~- K+ pi-)]cc, [[B_s0]os -> (KS0 -> pi+ pi-) (Lambda_c+ -> p+ K- pi+) (Lambda_c~- -> p~- K+ pi-)]cc}
+# 
+# NickName: Bs_LcpLcmKS0,pKpi,pKpi,pipi=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+# Documentation: This is the decay file for the decay Bs0 -> Lambda_c+ anti-Lambda_c- KS0
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Shuqi Sheng
+# Email: shuqi.sheng@cern.ch
+# Date: 20240918
+#
+
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+Alias MyKS0 K_S0
+ChargeConj MyKS0 MyKS0
+
+Decay B_s0sig
+  1.000  MyKS0 MyLambda_c+  Myanti-Lambda_c-  PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+
+Decay MyLambda_c+
+  1.000         p+      K-      pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+
+Decay MyKS0
+  1.000         pi+     pi-     PHSP;
+Enddecay
+
+End
+
+

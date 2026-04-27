@@ -1,0 +1,94 @@
+# EventType: 11268001
+#
+# Descriptor: [B0 ==> (D*(2010)- => (D~0 ==> K+ pi- pi+ pi-) pi-) pi+ pi- pi+]cc
+#
+# NickName: Bd_Dst-pipipi,D0pi,K3pi=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation()
+# signal = generation.SignalRepeatedHadronization
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = signal.TightCut
+# tightCut.Decay = '[ [B~0]cc --> (D0 ==> K- pi+ pi- pi+) ... ]CC'
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,'inAcc = ( 0 < GPZ )  &  ( 200 * MeV < GPT ) & ( 900 * MeV < GP ) & in_range ( 1.8 , GETA , 5.2 )'
+#     ,"nPiB = GNINTREE(('pi+' == GABSID) & inAcc & ( GNINTREE ( ('KS0' == GABSID) | ('KL0' == GABSID), HepMC.parents)==0 ), HepMC.descendants)"
+#     ,"nKB = GNINTREE(('K+' == GABSID) & inAcc, HepMC.descendants)"
+#     ,"npB = GNINTREE(('p+' == GABSID) & inAcc , HepMC.descendants)"
+#     ,"nMuB = GNINTREE(('mu+' == GABSID) & inAcc & ( GNINTREE ( ('KS0' == GABSID) | ('KL0' == GABSID), HepMC.parents)==0 ), HepMC.descendants)"
+#     ,"neB = GNINTREE(('e+' == GABSID) & inAcc & ( GNINTREE ( ('KS0' == GABSID) | ('KL0' == GABSID), HepMC.parents)==0 ), HepMC.descendants)"
+#     ,"goodD0 = GINTREE(( 'D0'  == GABSID ) & (GP>19000*MeV) & (GPT>1900*MeV) & ( GNINTREE(( 'K-' == GABSID ) & ( GPT > 350*MeV ) & ( GP > 3900*MeV ) & inAcc, HepMC.descendants) == 1 ) & ( GNINTREE(( 'pi+' == GABSID ) & ( GPT > 200*MeV ) & ( GP > 1900*MeV ) & inAcc, HepMC.descendants) == 3 ))"
+#     ,"goodB = ( goodD0 & (nPiB+nKB+nMuB+neB+npB >= 7) )"
+# ]
+# tightCut.Cuts = {
+#     '[B~0]cc': 'goodB'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: B0->D*-3pi, D*+->D0pi,D0->K3pi
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: A. Romero Vidal
+# Email: antonio.romero@usc.es
+# Date: 20221130
+# CPUTime: < 1 min
+#
+Alias      MyD*-       D*-
+Alias      MyD*+       D*+
+ChargeConj MyD*+       MyD*-
+#
+Alias      MyD0        D0
+Alias      Myanti-D0   anti-D0
+ChargeConj MyD0        Myanti-D0
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Alias      Myrho0     rho0
+ChargeConj Myrho0    Myrho0
+#
+Alias Myf_2          f_2
+ChargeConj Myf_2 Myf_2
+#
+Decay B0sig
+0.70   MyD*-  Mya_1+                      SVV_HELAMP 0.200 0.0 0.866 0.0 0.458 0.0; 
+0.13   MyD*-  Myf_2  pi+                  PHSP;
+0.12   MyD*-  Myrho0  pi+                 PHSP;
+0.05   MyD*-  pi+ pi- pi+                 PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD0
+1.00      K-           pi+        pi+        pi-      LbAmpGen DtoKpipipi; # (0.0822 +- 0.0014) incl.;
+Enddecay
+CDecay Myanti-D0
+#
+Decay Mya_1+
+  1.000   Myrho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay MyD*-
+  1.000        Myanti-D0 pi-                    VSS;
+Enddecay
+CDecay MyD*+
+#
+Decay Myf_2
+  1.0000  pi+ pi-                               TSS ;
+Enddecay
+#
+Decay Myrho0
+  1.000        pi+        pi-     PHOTOS VSS;
+Enddecay
+#
+End
+

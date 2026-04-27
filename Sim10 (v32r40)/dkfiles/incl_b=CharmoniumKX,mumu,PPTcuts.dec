@@ -1,0 +1,47 @@
+# EventType: 10040042
+#
+# Descriptor: inclb -> (Charmonium -> mu+ mu-) K X  
+# CPUTime: 800 s
+# NickName: incl_b=CharmoniumKX,mumu,PPTcuts
+# Documentation: Inclusive high momentum Kmu events from b->JpsiX decays, only one muon in acceptance
+# EndDocumentation 
+# PhysicsWG: B2SL
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/b2Jpsi2mumuplusKFilterPPTcuts
+# 
+# 
+# InsertPythonCode: 
+# from Configurables import LoKi__FullGenEventCut 
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "b2Jpsi2mumuplusKFilterPPTcuts" ) 
+# SignalFilter = Generation(genAlgName).b2Jpsi2mumuplusKFilterPPTcuts 
+# SignalFilter.Code = " has(isB2CharmoniumKPPTcuts)" 
+# SignalFilter.Preambulo += [ 
+#  "from GaudiKernel.SystemOfUnits import  GeV", 
+#  "from LoKiCore.functions import in_range",
+#  "isB2JpsiKcuts = (GBEAUTY & (GDECTREE('[(Beauty & LongLived) --> (J/psi(1S) => mu- mu+)  K+  ...]CC')))",
+#  "isB2PsiKcuts = (GBEAUTY & (GDECTREE('[(Beauty & LongLived) --> (psi(2S) => mu- mu+) K+  ...]CC')))", 
+#  "inAcc = in_range(0.010, GTHETA, 0.400)",
+#  "mukincuts = ( (GP > 5 * GeV) &  (GPT > 1 * GeV)  )", 
+#  "Kkincuts = ( (GP > 7 * GeV) & (GPT > 0.3 * GeV)  )",
+#  "KminusMuplus = (GINTREE(('mu+' == GID) & mukincuts & inAcc)) & (GINTREE(('K-' == GID) & Kkincuts & inAcc))",
+#  "KplusMuminus = (GINTREE(('mu-' == GID) & mukincuts & inAcc)) & (GINTREE(('K+' == GID) & Kkincuts & inAcc))",
+#  "isB2CharmoniumKPPTcuts = ((isB2JpsiKcuts | isB2PsiKcuts) & (KminusMuplus | KplusMuminus))" 
+#    ] 
+# EndInsertPythonCode
+#
+#
+# Tested: Yes
+# Responsible: Svende Braun
+# Email: svende.braun@cern.ch
+# Date: 20181031
+#
+Decay J/psi
+  1.000  mu+  mu-  VLL;               
+Enddecay
+#
+Decay psi(2S)
+  1.000  mu+  mu-  VLL;               
+Enddecay
+#
+End
+#

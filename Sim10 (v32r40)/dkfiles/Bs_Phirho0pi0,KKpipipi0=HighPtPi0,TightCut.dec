@@ -1,0 +1,84 @@
+# EventType: 13204412
+#
+# Descriptor: [B_s0 -> (phi(1020) -> K+ K-) (rho(770)0 -> pi+ pi-) (pi0->gamma gamma)]cc
+#
+# NickName: Bs_Phirho0pi0,KKpipipi0=HighPtPi0,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation(genAlgName).SignalRepeatedHadronization.addTool( LoKi__GenCutTool, "TightCut" )
+# tightCut = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[^(B_s0 ==> ^K+ ^K- ^pi+ ^pi- ^(pi0 -> gamma gamma))]CC"
+# tightCut.Preambulo += [
+#    "from GaudiKernel.SystemOfUnits import  GeV, mrad,MeV",
+#    'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5 ' ,
+#    'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5 ' ,
+#    'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) ' ,
+#    'goodTrack = inAcc & (GPT >150*MeV) ' ,
+#    "goodPi0   = ('pi0' == GABSID) & ( GPT > 1.5 * GeV ) & inEcalX & inEcalY",
+#    "isGoodB    = (GBEAUTY)"
+#    ]
+# tightCut.Cuts = {
+#    'pi0' : 'goodPi0',
+#    '[K+]cc'    : ' goodTrack ' , 
+#    '[pi+]cc'   : ' goodTrack ' ,
+#    '[B_s0]cc' : 'isGoodB'
+#    }
+# EndInsertPythonCode 
+#
+# Documentation: Bs decays to K+ K- pi+ pi- pi0,pi0 forced into gamma gamma,hadrons in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime:  3 min
+# Responsible: ranyu zhang
+# Email: ranyu.zhang@cern.ch
+# Date: 20240220
+#
+Alias      Myrho0     rho0
+ChargeConj Myrho0     Myrho0
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Alias      MyPi0   pi0
+ChargeConj MyPi0   MyPi0
+#
+LSNONRELBW Myrho0
+BlattWeisskopf Myrho0 0.0
+Particle Myrho0 0.775 0.15
+ChangeMassMin Myrho0 0.35
+ChangeMassMax Myrho0 2.0
+#
+LSNONRELBW MyPhi
+BlattWeisskopf MyPhi 0.0
+Particle MyPhi 1.02 0.004
+ChangeMassMin MyPhi 1.0
+ChangeMassMax MyPhi 1.04
+#
+Decay B_s0sig
+  0.25       K+      K-      pi+     pi-  MyPi0            PHSP; 	
+  0.25       MyPhi   pi+     pi-     MyPi0            PHSP; 	
+  0.25       Myrho0  K+      K-   MyPi0            PHSP; 	
+  0.25       MyPhi   Myrho0  MyPi0                 PHSP;
+Enddecay
+CDecay  anti-B_s0sig
+#
+Decay MyPhi
+  1.000     K+    K-            PHSP;
+Enddecay
+#
+Decay Myrho0
+  1.0   pi+      pi-       PHSP;
+Enddecay
+#
+Decay MyPi0
+  1.000          gamma     gamma                PHSP;
+Enddecay
+#
+End
+
+

@@ -1,0 +1,51 @@
+# EventType: 15104371
+#
+# Descriptor: [Beauty -> p+ pi- (KS0 -> pi+ pi-) gamma]cc
+#
+# NickName: Lb_Ksppi-gamma=TightCut,PHSP
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# CPUTime: 3 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool as GenCutTool 
+#
+# gen = Generation(genAlgName) 
+# gen.SignalPlain.addTool ( GenCutTool , 'TightCut' ) 
+# 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[Beauty => ^p+ ^pi- (KS0 => ^pi+ ^pi-) ^gamma]CC'
+# tightCut.Cuts      =    {
+#     '[p+]cc'        : ' inAcc' , 
+#     '[pi+]cc'        : ' inAcc' , 
+#     'gamma'          : ' goodPhoton' } 
+#
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter',
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodPhoton = ( GPT > 1.5 * GeV ) & inAcc' ]
+#
+# EndInsertPythonCode
+#
+# Documentation: Bkgd for Kspipigamma, all in PHSP, pi pi in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email:  biplab.dey@.cern.ch
+# Date: 20180528
+#
+Alias      MyK0s  K_S0
+ChargeConj MyK0s  MyK0s
+#
+Decay Lambda_b0sig
+  1.000   p+  pi-    MyK0s      gamma         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyK0s
+  1.000   pi+         pi-       PHSP;
+Enddecay
+#
+End

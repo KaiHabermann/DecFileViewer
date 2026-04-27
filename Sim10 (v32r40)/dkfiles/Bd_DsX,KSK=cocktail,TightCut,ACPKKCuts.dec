@@ -1,0 +1,113 @@
+# EventType: 11493300
+#
+# Descriptor: [ B0 --> ^(D_s- => (K_S0 => pi+ pi-) K-) ... ]CC
+# NickName: Bd_DsX,KSK=cocktail,TightCut,ACPKKCuts
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Inclusive D_s => (K_S0 => pi pi) K produced in B0 decays, with cuts optimized for ACPKK
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# signal     = Generation(genAlgName).SignalRepeatedHadronization
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[ [B0]cc --> ^(D_s- => ^(KS0 => pi+ pi-) ^K-) ... ]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import MeV, GeV, micrometer ',
+#     'import math',
+#     'LL_KS0      = ( GNINTREE( ("pi+" == GABSID ) & in_range( 2 , GETA , 4.5 ) ) > 1.5 ) & ( GFAEVX(GVZ,0) > -100.0 * mm ) & ( GFAEVX(GVZ,0) < 500.0 * mm ) & ( GFAEVX(abs(GVX),0) < 40.0 * mm ) & ( GFAEVX(abs(GVY),0) < 40.0 * mm ) & GVEV',
+#     'HarmCuts_Kp   = in_range (2 , GETA ,  4.5) & (GPT > 1.4 *GeV) & (GP > 4.9 *GeV)',
+#     'HarmCuts_KS0  = in_range (2 , GETA ,  4.5)',
+#     'HarmCuts_Dp  =  in_range (2 , GETA ,  4.5) & ( GPT > 2.9 *GeV )',
+# ]		   
+# tightCut.Cuts      =    {
+#     '[K-]cc'         : 'HarmCuts_Kp',
+#     'KS0'             : 'LL_KS0 & HarmCuts_KS0',
+#     '[D_s-]cc'          : 'HarmCuts_Dp',
+# }
+# EndInsertPythonCode
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Federico Betti
+# Email: federico.betti@cern.ch
+# Date: 20200910
+# CPUTime: 2.5 min
+#
+#
+Alias        MyK0s   K_S0
+ChargeConj   MyK0s   MyK0s
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      MyD_s*+    D_s*+
+Alias      MyD_s*-    D_s*-
+ChargeConj MyD_s*+    MyD_s*-
+#
+Alias      MyD_s1+    D_s1+
+Alias      MyD_s1-    D_s1-
+ChargeConj MyD_s1-    MyD_s1+
+#
+Alias      MyD_s0*+   D_s0*+
+Alias      MyD_s0*-   D_s0*-
+ChargeConj MyD_s0*+   MyD_s0*-
+#
+Decay B0sig
+ 0.0000216 MyD_s+    pi-                                     PHSP;
+ 0.000027  MyD_s-    K+                                      PHSP;
+ 0.000021  MyD_s*+   pi-                                     SVS;
+ 0.0000219 MyD_s*-   K+                                      SVS;
+ 0.000035  K*+     MyD_s-                                    SVS;
+ 0.000041  MyD_s*+   rho-                                    SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+ 0.000032  MyD_s*-   K*+                                     SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+ 0.00017   MyD_s-    K+ pi+ pi-				     PHSP;
+ 0.0072	   D-      MyD_s+                                    PHSP;
+ 0.008	   D*-     MyD_s+                                    SVS;
+ 0.0074	   MyD_s*+   D-                                      SVS;
+ 0.0177	   MyD_s*+   D*-                                     SVV_HELAMP 0.4904 0.0 0.7204 0.0 0.4904 0.0;
+ 0.00106   MyD_s0*+  D-			       		     PHSP;
+ 0.0015	   D*-	   MyD_s0*+ 			       	     SVS;
+ 0.0035	   MyD_s1+   D-                                      SVS;
+ 0.0093	   D*-     MyD_s1+                                   SVV_HELAMP 0.4904 0. 0.7204 0. 0.4904 0.;
+ 0.000097  MyD_s-    pi+     K0                              PHSP;
+ 0.000042  MyD_s0*-  K+	   				     PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD_s*+
+  0.935   MyD_s+  gamma                VSP_PWAVE;
+  0.058   MyD_s+  pi0                  VSS;
+  0.0067  MyD_s+  e+ e-		       PHSP;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s1+ # from PDG 2019
+  0.48	MyD_s*+	pi0	 PARTWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+  0.18	MyD_s+ gamma	 VSP_PWAVE;
+  0.043	MyD_s+ pi+ pi-	 PHSP;
+  0.08	MyD_s*+ gamma	 PHSP;
+  0.037	MyD_s0*+ gamma	 PHSP;
+Enddecay
+CDecay MyD_s1-
+#
+Decay MyD_s0*+
+  1.000   MyD_s+   pi0                  PHSP;
+Enddecay
+CDecay MyD_s0*-
+#
+Decay MyD_s+
+  1.000        MyK0s         K+               PHSP;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyK0s
+  1.000        pi+           pi-              PHSP;
+Enddecay
+#
+End

@@ -1,0 +1,56 @@
+# This is the decay file for the decay B+ -> (eta -> mu+ mu- gamma) e+ nu_e
+#
+# EventType: 12513210
+#
+# Descriptor: [B+ -> (eta -> mu+ mu- gamma) e+ nu_e]cc
+#
+# NickName: Bu_etaenu,mumugamma=TightCut,ISGW2
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# gen = Generation().SignalRepeatedHadronization
+# gen.addTool( LoKi__GenCutTool, 'TightCut' )
+# SignalFilter = gen.TightCut
+# SignalFilter.Decay = '[B+ ==> ^mu+ ^mu- gamma ^e+ nu_e]CC'
+# SignalFilter.Preambulo += [
+#   'from GaudiKernel.SystemOfUnits import  GeV',
+#   'inAcc                = in_range(0.010, GTHETA, 0.400)',
+#   'muCuts               = (GP > 2.5 * GeV) & inAcc',
+#   'eCuts                = (GP > 1.5 * GeV) & inAcc'
+#   ]
+# SignalFilter.Cuts = {
+#   '[mu+]cc' : 'muCuts',
+#   '[e+]cc'  : 'eCuts'
+#   }
+#
+# EndInsertPythonCode
+#
+# Documentation: Decay file for B+ -> (eta -> mu+ mu- gamma) e+ nu_e.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible:  Raphael van Laak
+# Email: raphael.van.laak@cern.ch
+# Date: 20240115
+# CPUTime: <1min
+#
+Alias      MyEta  eta
+ChargeConj MyEta  MyEta
+#
+Decay B+sig
+  1.       MyEta      e+    nu_e    PHOTOS  ISGW2;
+Enddecay
+CDecay B-sig
+#
+Decay MyEta
+  1.       mu+         mu-       gamma   PHOTOS  PI0_DALITZ;
+Enddecay
+#
+End
+#
+
+

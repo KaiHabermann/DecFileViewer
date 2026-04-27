@@ -1,0 +1,34 @@
+# EventType: 15524010
+#
+# Descriptor: [Lambda_b0 -> p+ K- (tau+ -> e+ nu_mu anti-nu_tau) e-]cc
+#
+# NickName: Lb_pKtaue,e=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lambda_b to p K tau e decay, with taus decaying to electrons
+# EndDocumentation
+#
+# CPUTime: 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Lakshan Madhan 
+# Email: lakshan.madhan@cern.ch
+# Date: 20230705
+#
+Alias        Mytau+    tau+
+Alias        Mytau-    tau-
+ChargeConj   Mytau+    Mytau-
+#
+Decay Lambda_b0sig
+    0.500     p+     K-    Mytau+     e-            PHSP;
+    0.500     p+     K-    e+        Mytau-         PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mytau+
+    1.000     e+          nu_mu      anti-nu_tau    TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

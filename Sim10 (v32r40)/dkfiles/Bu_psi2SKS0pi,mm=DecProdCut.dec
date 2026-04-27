@@ -1,0 +1,44 @@
+# EventType: 12145121
+#
+# Descriptor: [B+ -> (psi(2S) -> mu+ mu-) (K_S0 -> pi+ pi-) pi+]cc
+#
+# NickName: Bu_psi2SKS0pi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B decay to psi(2S), K short and pi. psi(2S) to mu+ mu-, K_S to pi+ pi-.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Zhihong Shen
+# Email: zhihong.shen@cern.ch
+# Date: 20200714
+# CPUTime: <1min
+#
+
+Alias      Mypsi(2S)    psi(2S)
+ChargeConj Mypsi(2S)  Mypsi(2S)
+
+Alias      MyKs       K_S0
+ChargeConj MyKs       MyKs
+
+
+#
+Decay B+sig
+1.000     Mypsi(2S)  MyKs   pi+       PHSP;
+Enddecay
+CDecay B-sig
+
+#
+Decay Mypsi(2S)
+1.000   mu+  mu-           PHOTOS  VLL;
+Enddecay
+
+#
+Decay MyKs
+1.000      pi+  pi-                  PHSP;
+Enddecay
+#
+End
+

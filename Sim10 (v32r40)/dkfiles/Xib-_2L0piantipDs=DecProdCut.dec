@@ -1,0 +1,53 @@
+# EventType: 16169131
+#
+# Descriptor: [Xi_b- -> (Lambda0 -> p+ pi-) (Lambda0 -> p+ pi-) pi- anti-p- (D_s+ -> K+ K- pi+)]CC
+#
+# NickName: Xib-_2L0piantipDs=DecProdCut
+#
+# Documentation:
+#   Decay a Xi_b- to two Lambda0, a bachelor pion, an anti-proton, and a D_s+.
+#   Lambda0 decays to p+ pi- (VSS model).
+#   D_s+ decays to K+ K- pi+ (Dalitz model).
+# EndDocumentation
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: <1min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Brais Fernández Rodiño
+# Email: brais@cern.ch
+# Date: 20250918
+#
+Alias       MyLambda_0_1      Lambda0
+Alias       Myanti-Lambda_0_1 anti-Lambda0
+ChargeConj  MyLambda_0_1      Myanti-Lambda_0_1
+#
+Alias       MyLambda_0_2      Lambda0
+Alias       Myanti-Lambda_0_2 anti-Lambda0
+ChargeConj  MyLambda_0_2      Myanti-Lambda_0_2
+#
+Alias       MyDs+       D_s+
+Alias       MyDs-       D_s-
+ChargeConj  MyDs+       MyDs-
+#
+Decay Xi_b-sig
+1.000   MyLambda_0_1  MyLambda_0_2  pi-  anti-p-  MyDs+   PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyLambda_0_1
+1.000   p+  pi-   PHSP;
+Enddecay
+CDecay Myanti-Lambda_0_1
+#
+Decay MyLambda_0_2
+1.000   p+  pi-   PHSP;
+Enddecay
+CDecay Myanti-Lambda_0_2
+#
+Decay MyDs+
+1.000   K+  K-  pi+   D_DALITZ;
+Enddecay
+CDecay MyDs-
+#
+End

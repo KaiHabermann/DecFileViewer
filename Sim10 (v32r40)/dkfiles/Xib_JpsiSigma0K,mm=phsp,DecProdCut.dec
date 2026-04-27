@@ -1,0 +1,49 @@
+# EventType: 16145331
+#
+# Descriptor: [Xi_b- -> K- (J/psi -> mu+ mu-) (Sigma0 -> (Lambda0 -> p+ pi-) gamma)]cc
+# NickName: Xib_JpsiSigma0K,mm=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: J/psi force to go to mu mu, Sigma0 force to go to Lambda0, with Lambda0 force to go to p pi, includes radiative mode.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Bo Fang
+# Email: bo.fang@cern.ch
+# Date: 20180507
+#
+Alias      MySigma      Sigma0
+Alias      Myanti-Sigma anti-Sigma0
+ChargeConj Myanti-Sigma MySigma
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+#
+Decay Xi_b-sig
+  1.000       MyJ/psi      MySigma      K-     PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MySigma
+  1.000       MyLambda gamma            PHSP;
+Enddecay
+CDecay Myanti-Sigma
+#
+Decay MyJ/psi
+  1.000      mu+   mu-            PHOTOS VLL;
+Enddecay
+#
+Decay MyLambda
+  1.000     p+     pi-               PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#

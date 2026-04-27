@@ -1,0 +1,51 @@
+# $Id: Bd_Kstaromega,pi0pipi,gg=DecProdCut.dec  $
+#
+# This is the decay file for the decay B0 -> OMEGA (-> PI+ PI- PI0 (-> gamma gamma)) K* 
+#
+# EventType: 11104480
+#
+# Descriptor: [B0 -> (K*(892)0 -> K+ pi-) (omega(782) -> pi+ pi- (pi0 -> gamma gamma))]cc
+#
+# NickName: Bd_Kstaromega,pi0pipi,gg=DecProdCut
+#
+#
+# Cuts: DaughtersInLHCb
+# 
+# Documentation: File for B0 -> K*(892)0 (-> K+ pi-) omega(782) (-> pi+ pi- pi0 (-> gamma gamma))
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# Responsible: Daniel Craik
+# Email: dcraik@cern.ch 
+# Date:   20200616
+# CPUTime: <1min
+
+#
+Alias      MyOmega     omega
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+Alias      MyPiz       pi0
+
+ChargeConj Myanti-K*0  MyK*0
+#
+Decay MyPiz
+1.000      gamma gamma       PHSP;             
+Enddecay
+#
+Decay MyOmega
+1.000       pi+     pi-    MyPiz       OMEGA_DALITZ;
+Enddecay
+#
+Decay MyK*0
+1.000        K+        pi-         VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay B0sig
+1.000         MyK*0  MyOmega       PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+End
+#

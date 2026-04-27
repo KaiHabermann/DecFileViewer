@@ -1,0 +1,55 @@
+# EventType: 14145291
+#
+# Descriptor: [B_c*(2S)+ -> (B_c*+ -> (B_c+ -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) pi+ ) gamma) pi+ pi-]cc
+#
+# NickName: Bc2Sst_Bcstpipi,Bcgamma,Jpsipi,mm=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+# ExtraOptions: Bc2SstVegPyOpts
+# Cuts: BcDaughtersInLHCb
+# CutsOptions: BcPdgId 100543
+#
+
+# Documentation: Bc(2^3S_1) decay to Bc* pi pi with phase space model.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:    Liupan An 
+# Email: liupan.an@cern.ch
+# Date: 20210416
+# CPUTime: <1 min
+#
+Alias       MyB_c*+      B_c*+
+Alias       MyB_c*-      B_c*-
+ChargeConj  MyB_c*+      MyB_c*-
+Alias       MyB_c+       B_c+
+Alias       MyB_c-       B_c-
+ChargeConj  MyB_c+       MyB_c-
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+Decay B_c*(2S)+sig
+1.0000     MyB_c*+    pi+   pi-      VVPIPI;
+Enddecay
+Decay B_c*(2S)-sig
+1.0000     MyB_c*-    pi+   pi-      VVPIPI;
+Enddecay
+#
+Decay MyB_c*+
+  1.000     MyB_c+    gamma           PHSP;
+Enddecay
+CDecay MyB_c*-
+#
+Decay MyB_c+
+1.0000   MyJ/psi   pi+                SVS;
+Enddecay
+CDecay MyB_c-
+#
+Decay MyJ/psi
+  1.000         mu+          mu-           PHOTOS VLL;
+Enddecay
+#
+End
+#
+

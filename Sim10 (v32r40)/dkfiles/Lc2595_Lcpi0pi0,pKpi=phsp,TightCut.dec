@@ -1,0 +1,81 @@
+# EventType: 26163472
+#
+# Descriptor: [Sigma_c*+ -> (Lambda_c+ -> p+ K- pi+ ) (pi0 => gamma gamma) (pi0 => gamma gamma)]cc
+#
+# NickName: Lc2595_Lcpi0pi0,pKpi=phsp,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# ParticleValue: "Sigma_c*+  62  4214 1.0 2.59525 2.5359e-022      Sigma_c*+  4214 0.054", "Sigma_c*~- 63 -4214 -1.0 2.59525 2.5359e-022 anti-Sigma_c*- -4214 0.054"
+#
+# Documentation: (prompt) Lambda_c(2625)+ forced to Lambda_c+ pi0 pi0. Sigma_c*+ used as a proxy to mimic Lambda_c(2595)+. Only one pi0 required in the LHCb acceptance
+# EndDocumentation
+#
+# Sample: SignalRepeatedHadronization
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName) 
+# #signal     = generation.SignalPlain 
+# signal     = generation.SignalRepeatedHadronization 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[ Sigma_c*+ => ^( Lambda_c+ ==> ^p+ ^K- ^pi+) (pi0 => ^gamma ^gamma) (pi0 => gamma gamma)]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity () ## to be sure ' , 
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'fastTrack    =  ( GPT > 220 * MeV ) & ( GP  > 3.0 * GeV )   ' , 
+#     'goodTrack    =  inAcc & inEta & fastTrack                   ' ,     
+#     'longLived    =  75 * micrometer < GTIME                     ' , 
+#     'inY          =  in_range ( 1.9   , GY     , 4.6   )         ' , 
+#     'goodLc       =  inY & longLived     & ( GPT > 0.9 * GeV )   ' ,
+#     'Bancestors   =  GNINTREE ( GBEAUTY , HepMC.ancestors )      ' , 
+#     'notFromB     =  0 == Bancestors                             ' ,
+#     'inEcalX        =  abs ( GPX / GPZ ) < 4.5 / 12.5            ' ,
+#     'inEcalY        =  abs ( GPY / GPZ ) < 3.5 / 12.5            ' ,
+#     'inEcalHole     = (abs ( GPX / GPZ ) < 0.25 / 12.5) & (abs ( GPY / GPY ) < 0.25 / 12.5)' ,
+#     'goodGamma      = ( 0 < GPZ ) & ( 150 * MeV < GPT ) & inEcalX & inEcalY & ~inEcalHole' 
+# ]
+# tightCut.Cuts     =    {
+#     '[Lambda_c+]cc'  : 'goodLc & notFromB ' ,
+#     '[K+]cc'         : 'goodTrack ' , 
+#     '[pi+]cc'        : 'goodTrack ' , 
+#     '[p+]cc'         : 'goodTrack & ( GP > 9 * GeV ) ',
+#     'gamma'          : 'goodGamma'
+#     }
+# 
+# EndInsertPythonCode
+#
+# PhysicsWG:   Onia
+# Tested:      Yes
+# Responsible: Marco Pappagallo 
+# Email:       marco.pappagallo@cern.ch
+# Date:        20250424
+# CPUTime:     5min
+#
+Alias            MyLambda_c+        Lambda_c+
+Alias       anti-MyLambda_c-   anti-Lambda_c-
+ChargeConj       MyLambda_c+ anti-MyLambda_c-
+#                                                          
+Alias      Mypi0   pi0
+ChargeConj Mypi0   Mypi0
+#
+Decay Sigma_c*+sig
+  1.000         MyLambda_c+  Mypi0  Mypi0  PHSP;
+Enddecay
+CDecay anti-Sigma_c*-sig
+#
+Decay MyLambda_c+
+  1.000         p+      K-      pi+     PHSP;
+Enddecay
+CDecay anti-MyLambda_c-
+#
+Decay Mypi0
+  1.000     gamma      gamma               PHSP;
+Enddecay
+#
+End 

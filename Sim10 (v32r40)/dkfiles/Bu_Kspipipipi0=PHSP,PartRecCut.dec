@@ -1,0 +1,49 @@
+# EventType: 12105501
+#
+# Descriptor: [B+ -> (KS0 -> pi+ pi-) pi+ pi- pi+ pi0]CC
+#
+# NickName: Bu_Kspipipipi0=PHSP,PartRecCut
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# Documentation:
+# B+ decay K0s pi0 pi+ pi+ pi- in flat PHSP, Tight cuts adapted for partially reconstructed decays in B2Kspipipi AmAn
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Pablo Baladron Rodriguez
+# Email: pablo.baladron.rodriguez@cern.ch
+# Date: 20211016
+# CPUTime: < 1 min
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '^[B+ => (KS0 => pi+ pi-) pi+ pi- pi+ pi0]CC'
+# tightCut.Preambulo += [ "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#                          , "inAcc = in_range(1.9, GETA, 5.0)" 
+#                          , "isGoodPi      = ( ( GPT > 0.5*GeV ) & inAcc & ( 'pi+' == GABSID ) )"
+#                          , "isGoodPiKs      = ( ( GP > 2.*GeV ) & inAcc & ( 'pi+' == GABSID ) )"
+#                          , "isGoodKs      = ( ( 'KS0' == GABSID ) & (GNINTREE( isGoodPiKs, 1 ) > 1 ))"
+#                          , "isGoodB        = ( ( 'B+' == GABSID ) & ( GNINTREE( isGoodPi, 1 ) > 2 ) & ( GNINTREE( isGoodKs, 1 ) > 0 ))" ]
+# tightCut.Cuts	= {
+#	'[B+]cc' : 'isGoodB'}
+# EndInsertPythonCode
+#
+Alias myK_S0      K_S0
+ChargeConj myK_S0 myK_S0
+#
+Decay B+sig
+  1.000     myK_S0       pi0    pi+    pi-     pi+     PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay myK_S0
+ 1.000     pi+  pi-               PHSP;
+Enddecay
+#
+End
+

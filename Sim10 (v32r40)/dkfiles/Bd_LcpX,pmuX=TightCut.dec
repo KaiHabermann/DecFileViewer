@@ -1,0 +1,63 @@
+# EventType: 11874110
+#
+# Descriptor: [B0 -> Myanti-Lambda_c- p+ X]cc
+#
+# NickName: Bd_LcpX,pmuX=TightCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: This is the decay file for the decay B0 -> (anti-Lambda_c- -> p~- mu+ X) p+ X.
+# The B0 is forced to decay hadronically to Lambda_c- p+ X.
+# The Lambda_c is forced to the p+ K- pi+ final state, through several intermediate resonances.
+# All charged final state tracks are required to be within the LHCb acceptance.
+# EndDocumentation
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# Generation(genAlgName).SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut  = Generation(genAlgName).SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[ B0 ==>  (anti-Lambda_c- ==> ^mu- {X} {X} {X} {X}) ^p+  {X} {X} {X} {X}  ]CC"
+# tightCut.Preambulo += [
+# "from LoKiCore.functions import in_range"  ,
+# "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#  ]
+# tightCut.Cuts      =    {
+#'[p+]cc'   : " in_range( 0.010 , GTHETA , 0.400 )& ( GPT > 750 * MeV ) & (GP > 14600 * MeV)" ,
+#'[mu-]cc'  : " in_range( 0.010 , GTHETA , 0.400 ) &  (GP > 2900 * MeV) ",
+#   }
+# EndInsertPythonCode
+#
+# CPUTime: < 1 min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Mark Smith
+# Email: mark.smith@cern.ch
+# Date: 20190821
+#
+
+# Define Lambda_c
+Alias      MyLambda_c+      Lambda_c+
+Alias      Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+      Myanti-Lambda_c-
+
+
+# Define B0 decay
+Decay B0sig
+  0.0013 Myanti-Lambda_c- p+  pi- pi+ PHSP;
+  0.00019 Myanti-Lambda_c- p+  pi0 PHSP;
+  0.000020 Myanti-Lambda_c- p+ PHSP;
+  
+Enddecay
+CDecay anti-B0sig
+
+# Define Lambda_c+ decay
+# Estimated from difference between inclusive and exclusive measurements.
+Decay MyLambda_c+
+  0.0363  Lambda0 mu+ nu_mu PHSP;
+  0.003  p+ K- mu+ nu_mu PHSP;
+  0.00015  p+ pi- mu+ nu_mu PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+
+
+End

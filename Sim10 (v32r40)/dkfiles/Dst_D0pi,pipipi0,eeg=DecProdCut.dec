@@ -1,0 +1,40 @@
+# EventType: 27185204
+
+# Descriptor: [D*(2010)+ -> (D0 -> pi- pi+ (pi0 => e+ e- gamma)) pi+]cc
+#
+# NickName: Dst_D0pi,pipipi0,eeg=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance. The pi0 is forced to decay into e+ e- gamma
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: 90 sec
+# Responsible: Alessandro Scarabotto
+# Email: alessandro.scarabotto@cern.ch
+# Date: 20220124
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+Alias      Mypi0  pi0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.0  pi-  pi+  Mypi0   PHSP;
+Enddecay
+CDecay MyantiD0
+
+Decay Mypi0
+  1.00    e+  e- gamma        PHSP;
+Enddecay
+
+#
+End

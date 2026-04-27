@@ -1,0 +1,41 @@
+# EventType: 15176066 
+# 
+# Descriptor: [Lambdab_b0 -> (Lambda_c+ -> p+ K- pi+) (J/psi(1s) -> mu+ mu-) pi-]cc
+# 
+# NickName: Lb_LcJpsipi,pKpimumupi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb -> Lc Jpsi pi with Lc (to p+ K+ pi-), Jpsi (to mu+ mu-), with decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Kai Kang
+# Email: kai.kang@cern.ch
+# Date: 20230717
+#
+
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+#
+Alias       MyJ/psi      J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+#
+Decay Lambda_b0sig
+ 1.000        MyLambda_c+ MyJ/psi pi-     PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda_c+
+ 1.000 p+      K-      pi+                PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyJ/psi
+ 1.000      mu+  mu-                       VLL;
+Enddecay
+End

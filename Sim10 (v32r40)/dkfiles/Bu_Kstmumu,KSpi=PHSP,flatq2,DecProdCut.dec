@@ -1,0 +1,43 @@
+# EventType: 12115180
+#
+# Descriptor: [B+ -> (K*(892)+ -> (KS0 -> pi+ pi-) pi+) mu+ mu-]cc
+#
+# NickName: Bu_Kstmumu,KSpi=PHSP,flatq2,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ => (K*(892)+ => (KS0 => pi+ pi-) pi+) mu+ mu- (KS0 forced to pipi, PHSP, FLATQ2)
+# EndDocumentation
+#
+#
+# CPUTime: <1 min
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Thomas Oeser
+# Email:       thomas.oeser@cern.ch
+# Date:        20231009
+#
+Alias MyKst+ K*+
+Alias MyKst- K*-
+ChargeConj MyKst+ MyKst-
+#
+Alias MyKs K_S0
+ChargeConj MyKs MyKs
+#
+Decay B+sig
+ 1.0     MyKst+ mu+ mu- FLATQ2 1;
+Enddecay
+CDecay B-sig
+#
+Decay MyKst+
+ 1.0 MyKs pi+ PHSP;
+Enddecay
+CDecay MyKst-
+#
+Decay MyKs 
+ 1.0 pi+ pi- PHSP;
+Enddecay
+#
+End
+#

@@ -1,0 +1,25 @@
+# EventType: 37113020
+#
+# Descriptor: {[K+ => pi+ e- mu+]cc, [K+ => pi+ mu- e+]cc}
+#
+# NickName: K+_pi+e-mu+=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces a K+ to pi+ e- mu+ (LFV)
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Lukas Calefice
+# Email: lukas.calefice@cern.ch
+# Date:   20210117
+# CPUTime: 2 min
+#
+Decay       K+sig
+  0.500      pi+ e- mu+     PHSP;
+  0.500      pi+ e+ mu-     PHSP;
+Enddecay
+CDecay K-sig
+#
+End

@@ -1,0 +1,71 @@
+# EventType: 13994203
+#
+# Descriptor: [B_s0 -> (D*_s- -> (D_s- -> K- K+ pi-) gamma) (D*_s+ -> (D_s+ -> eta mu+ nu_mu) gamma)]cc
+#
+# NickName: Bs_Ds-Ds+,KKpi,Xmunu=LHCbAcceptance
+#
+# Cuts: LHCbAcceptance
+#
+# Documentation: Bs0 decaying to two Ds mesons, one Ds forced to KKpi, the second forced to semileptonic.
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Scott Ely
+# Email: seely@syr.edu
+# Date: 20180327
+#
+Alias		MyD_s+		D_s+
+Alias		MyD_s-		D_s-
+ChargeConj	MyD_s+		MyD_s-
+#
+Alias		MyD_s*+		D_s*+
+Alias		MyD_s*-		D_s*-
+ChargeConj	MyD_s*+		MyD_s*-
+#
+Alias		MySL_D_s+		D_s+
+Alias		MySL_D_s-		D_s-
+ChargeConj	MySL_D_s+		MySL_D_s-
+#
+Alias		MySL_D_s*+		D_s*+
+Alias		MySL_D_s*-		D_s*-
+ChargeConj	MySL_D_s*+		MySL_D_s*-
+#
+Decay B_s0sig
+ 0.00440        MyD_s-          MySL_D_s+          PHSP;
+ 0.00645        MyD_s*-         MySL_D_s+          SVS;
+ 0.00645        MyD_s*+         MySL_D_s-          SVS;
+ 0.01430        MyD_s*-         MySL_D_s*+         SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0;
+#changed D*D* from 0.01860 to 0.01430
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s+
+ 1.0000		K+	K-	pi+		PHOTOS D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+ 0.93500        MyD_s+  gamma           VSP_PWAVE;
+ 0.05800        MyD_s+  pi0             VSS;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MySL_D_s*+
+ 0.93500        MySL_D_s+  gamma           VSP_PWAVE;
+ 0.05800        MySL_D_s+  pi0             VSS;
+Enddecay
+CDecay MySL_D_s*-
+#
+Decay MySL_D_s+
+ 0.00550	mu+       nu_mu		PHOTOS SLN;
+ 0.02390        phi       mu+	nu_mu	PHOTOS ISGW2;
+ 0.02290	eta       mu+	nu_mu	PHOTOS ISGW2;
+ 0.00740	eta'      mu+	nu_mu	PHOTOS ISGW2;
+ 0.00390	anti-K0	  mu+	nu_mu	PHOTOS ISGW2;
+ 0.00180	anti-K*0  mu+	nu_mu	PHOTOS ISGW2;
+Enddecay
+CDecay MySL_D_s-
+#
+End

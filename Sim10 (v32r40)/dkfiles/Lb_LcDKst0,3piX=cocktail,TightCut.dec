@@ -1,0 +1,255 @@
+# EventType: 15298111
+#
+# Descriptor: [Lambda_b0 -> MyD*- (Lambda_c+ -> Lambda0 pi+ pi+ pi-) Myanti-K*0_f]cc
+#
+# NickName: Lb_LcDKst0,3piX=cocktail,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = "[Lambda_b0 ==> ^(Charm) ^(Charm) (K*(892)~0 ==> ^K- ^pi+)]CC"
+# tightCut.Preambulo += [
+#   'from LoKiCore.functions import in_range'  ,
+#   'from GaudiKernel.SystemOfUnits import GeV, MeV',
+#   'goodcharm   = (GNINTREE(("pi+"==GABSID) & ( GPT > 250 * MeV ) & (GP > 3000 * MeV) & in_range( 0.010 , GTHETA , 0.400 ) & (GNINTREE(("K0" == GABSID), HepMC.ancestors)==0), HepMC.descendants) > 2.5)',]
+# tightCut.Cuts  = {
+#  '[K+]cc'   : 'in_range( 0.010 , GTHETA , 0.400 ) & ( GPT > 250 * MeV ) & (GP > 3000 * MeV) & in_range( 0.010 , GTHETA , 0.400 )',
+#  '[pi-]cc'  : 'in_range( 0.010 , GTHETA , 0.400 ) & ( GPT > 250 * MeV ) & (GP > 3000 * MeV) & in_range( 0.010 , GTHETA , 0.400 )',
+#  '[D+]cc'           : 'goodcharm',
+#  '[D*(2010)+]cc'    : 'goodcharm',
+#  '[Lambda_c+]cc'    : 'goodcharm',}
+# EndInsertPythonCode
+#
+# Documentation: Lb to LcDKst and excited states of D meson. Charms go to any possible 3 charged pion final state.
+#                Generator cuts to ensure both charms produce 3pi final state.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: <8min
+# Responsible: Harris Bernstein
+# Email: hcbernst@syr.edu
+# Date: 20200501
+#
+Alias MyLambda_c+ Lambda_c+
+Alias MyLambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ MyLambda_c-
+#
+Alias Myrho0 rho0
+ChargeConj Myrho0 Myrho0
+#
+Alias Myeta eta
+ChargeConj Myeta Myeta
+#
+Alias Myomega omega
+ChargeConj Myomega Myomega
+#
+Alias Myanti-Sigma*+ anti-Sigma*+
+Alias MySigma*- Sigma*-
+ChargeConj Myanti-Sigma*+ MySigma*-
+#
+Alias MyD+ D+
+Alias MyD- D-
+ChargeConj MyD+ MyD-
+#
+Alias Myeta' eta'
+ChargeConj Myeta' Myeta'
+#
+Alias Mya_1+ a_1+
+Alias Mya_1- a_1-
+ChargeConj Mya_1+ Mya_1-
+#
+Alias MyK*0_f K*0
+Alias Myanti-K*0_f anti-K*0
+ChargeConj MyK*0_f Myanti-K*0_f
+#
+Alias MyK'_10 K'_10
+Alias Myanti-K'_10 anti-K'_10
+ChargeConj MyK'_10 Myanti-K'_10
+#
+Alias MyK*0 K*0
+Alias Myanti-K*0 anti-K*0
+ChargeConj MyK*0 Myanti-K*0
+#
+Alias Myrho+ rho+
+Alias Myrho- rho-
+ChargeConj Myrho+ Myrho-
+#
+Alias MyD*+ D*+
+Alias MyD*- D*-
+ChargeConj MyD*+ MyD*-
+#
+Alias MyD0 D0
+Alias Myanti-D0 anti-D0
+ChargeConj MyD0 Myanti-D0
+#
+Alias Myf_0 f_0
+ChargeConj Myf_0 Myf_0
+#
+Alias Myf'_0 f'_0
+ChargeConj Myf'_0 Myf'_0
+#
+Alias MyK*-_f K*-
+Alias MyK*+_f K*+
+ChargeConj MyK*-_f MyK*+_f
+#
+Alias MyK_0*- K_0*-
+Alias MyK_0*+ K_0*+
+ChargeConj MyK_0*- MyK_0*+
+#
+Decay Lambda_b0sig
+1 MyLambda_c+ MyD- Myanti-K*0_f PHSP;
+1 MyLambda_c+ MyD*- Myanti-K*0_f PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Myomega
+1.0 pi+ pi- pi0 OMEGA_DALITZ;
+Enddecay
+#
+Decay MyD+
+0.38 K0 pi+ Myeta' PHSP;
+0.93 Mya_1+ Myanti-K*0_f  SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+1.55 K0 pi+ pi+ pi- PHSP;
+3.1 Mya_1+ anti-K0  SVS;
+1.55 MyK'_10 pi+ SVS;
+1.55 anti-K0 Myrho0 pi+ PHSP;
+0.58 Mya_1+ pi0 SVS;
+0.58 Myrho+ Myrho0 SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+0.166 pi+ pi+ pi+ pi- pi- PHSP;
+0.377 Myeta pi+ PHSP;
+0.138 Myeta pi+ pi0 PHSP;
+0.497 Myeta' pi+  PHSP;
+0.16 Myeta' pi+ pi0 PHSP;
+Enddecay
+CDecay MyD-
+#
+Decay MyD*+
+0.677 MyD0 pi+ VSS;
+0.307 MyD+ pi0 VSS;
+0.016 MyD+ gamma VSP_PWAVE;
+Enddecay
+CDecay MyD*-
+#
+Decay MyK*-_f
+1.0 K_S0 pi- VSS;
+Enddecay
+CDecay MyK*+_f
+#
+Decay Myrho0
+1.0 pi+ pi- VSS;
+Enddecay
+#
+Decay Myeta
+0.3941 gamma gamma PHSP;
+0.3268 pi0 pi0 pi0 PHSP;
+0.2292 pi+ pi- pi0 PHSP;
+0.422 pi+ pi- gamma PHSP;
+Enddecay
+#
+Decay MyK_0*-
+1.0 K_S0 pi- PHSP;
+Enddecay
+CDecay MyK_0*+
+#
+Decay Myanti-Sigma*+
+1.0 Lambda0 pi+ PHSP;
+Enddecay
+CDecay MySigma*-
+#
+Decay MyK*0_f
+1.0 K+ pi- VSS;
+Enddecay
+CDecay Myanti-K*0_f
+#
+Decay MyLambda_c+
+1.04 Lambda0 pi+ pi+ pi- PHSP;
+1.5 Lambda0 Myrho0 pi+ PHSP;
+2.2 Lambda0 pi+ Myeta PHSP;
+1.5 Lambda0 pi+ Myomega PHSP;
+1.11 Sigma0 pi+ pi+ pi- PHSP;
+1.1 Myanti-Sigma*+ pi+ pi- PHSP;
+Enddecay
+CDecay MyLambda_c-
+#
+Decay Mya_1+
+1.0 Myrho0 pi+ VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+Decay MyK*0
+0.666 K+ pi- VSS;
+0.333 K0 pi0 VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyK'_10
+1.0 MyK*0 pi0 VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Myanti-K'_10
+#
+Decay MyD0
+1.26 Myrho0 K0  SVS;
+0.24 K0 Myf_0 PHSP;
+0.56 K0 Myf'_0 PHSP;
+1.64 MyK*-_f pi+ SVS;
+0.534 MyK_0*- pi+ PHSP;
+7.161999999999999 K0 pi+ pi- pi0 PHSP;
+4.441535776614311 Myeta K0  PHSP;
+2.22 Myomega K0  SVS;
+1.01 Myrho+ pi- SVS;
+0.386 Myrho0 pi0 SVS;
+0.515 Myrho- pi+ SVS;
+0.488 K0 K0 pi+ pi- PHSP;
+1.02 pi+ pi- pi0 pi0 PHSP;
+1.81 K- pi+ pi+ pi- PHSP;
+1.01 Myanti-K*0_f Myrho0 SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+5.86 K- pi+ Myrho0 PHSP;
+3.13 Mya_1+ K-  SVS;
+1.9 Myanti-K*0_f pi+ pi- pi0 PHSP;
+2.15 K- pi+ Myomega PHSP;
+0.65 Myanti-K*0_f Myomega SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+1.14 K0 Myeta pi0 PHSP;
+0.22 K0 Myrho0 pi+ pi- PHSP;
+1.898 K0 Myeta' PHSP;
+0.504 K0 Myeta' pi0 PHSP;
+0.11699999999999999 pi+ pi+ pi- pi- PHSP;
+0.454 Mya_1+ pi- SVS;
+0.185 Myrho0 Myrho0 SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+0.198 Myomega Myeta PHSP;
+0.151 pi+ pi+ pi- pi- pi0 PHSP;
+0.109 Myeta pi+ pi- PHSP;
+0.16 Myomega pi+ pi- PHSP;
+2.11 Myeta Myeta PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay Myeta'
+0.426 pi+ pi- Myeta PHSP;
+0.289 Myrho0 gamma SVP_HELAMP 1.0 0.0 1.0 0.0;
+0.228 pi0 pi0 Myeta PHSP;
+0.262 Myomega gamma SVP_HELAMP 1.0 0.0 1.0 0.0;
+0.222 gamma gamma PHSP;
+Enddecay
+#
+Decay Myf_0
+1.0 pi+ pi- PHSP;
+Enddecay
+#
+Decay Myrho+
+1.0 pi+ pi0 VSS;
+Enddecay
+CDecay Myrho-
+#
+Decay Myf'_0
+1.0 pi+ pi- PHSP;
+Enddecay
+#
+End
+#

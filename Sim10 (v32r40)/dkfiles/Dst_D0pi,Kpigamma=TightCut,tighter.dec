@@ -1,0 +1,70 @@
+# EventType:  27163207
+# 
+# Descriptor: [D*+ -> ( D0 -> (anti-K*0 -> K- pi+) gamma ) pi+]cc
+#
+# NickName: Dst_D0pi,Kpigamma=TightCut,tighter
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Dst+ -> (D0 -> K*(892)~0 (-> K- pi+) gamma ) pi+
+# D0 decaying into K*(892)~0  gamma
+# K*(892)~0 decaying into K- pi+
+# All final-state products in the acceptance.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+#
+# Tested: Yes
+# Responsible: Jolanta Brodzicka
+# Email: Jolanta.Brodzicka@cern.ch
+# Date: 20181012
+# CPUTime: <1min
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ D*(2010)+ => ^( D0 => (K*(892)~0 => ^K- ^pi+) ^gamma ) ^pi+]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import MeV     ',
+#     'inAcc       = in_range ( 0.005 , GTHETA , 0.400 ) ',
+#     'inCaloAcc   = ( in_range(0.000, abs(GPX/GPZ), 0.300) & in_range(0.000, abs(GPY/GPZ), 0.250) & (GPZ > 0) )',
+#     'goodD0Gamma = ( ("gamma"==GABSID) & (GPT > 1200 * MeV) & inAcc & inCaloAcc )',
+#     'goodD0Pi    = ( ("pi+"==GABSID) & (GPT > 400 * MeV) & inAcc )',
+#     'goodD0K     = ( ("K-"==GABSID) & (GPT > 400 * MeV) & inAcc )',
+#     'goodD0      = ( (GPT > 1600 * MeV) & GINTREE(goodD0K) & GINTREE(goodD0Pi) & GINTREE(goodD0Gamma) )'
+# ]
+# tightCut.Cuts      =    {
+#     '[pi+]cc'  : 'inAcc ',
+#     '[D0]cc'   : 'goodD0 '
+#     }
+# EndInsertPythonCode
+
+Alias myD0 D0
+Alias myantiD0 anti-D0
+ChargeConj myD0 myantiD0
+Alias      MyK*       K*0
+Alias      Myanti-K*  anti-K*0
+ChargeConj MyK*       Myanti-K*
+#
+Decay D*+sig
+  1.000 myD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay myD0
+  1.0  Myanti-K*        gamma      SVP_HELAMP 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay myantiD0
+
+#
+Decay Myanti-K*
+  1.000     K-    pi+        VSS;
+Enddecay
+CDecay MyK*
+#
+End
+

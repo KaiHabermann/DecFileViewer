@@ -1,0 +1,116 @@
+# EventType: 15496200
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ K- pi+) (D*_s- -> (D_s- ->  K+ K- pi-) X)]cc
+# NickName: Lb_LcDsst,pKpi,KKpi=TightCut
+# Cuts: LoKi::GenCutTool/GenSigCut
+# #
+# InsertPythonCode:
+# from Configurables import (ToolSvc, EvtGenDecayWithCutTool, LoKi__GenCutTool)
+# Generation(genAlgName).SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool( EvtGenDecayWithCutTool )
+# EvtGenCut = ToolSvc().EvtGenDecayWithCutTool
+# EvtGenCut.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# EvtGenCut.CutTool = "LoKi::GenCutTool/LbLTCut"
+# EvtGenCut.addTool(LoKi__GenCutTool,"LbLTCut")
+# EvtGenCut.LbLTCut.Decay = "[^(Lambda_b0 => Lambda_c+ D*_s-)]CC"
+# EvtGenCut.LbLTCut.Preambulo += [ "from GaudiKernel.PhysicalConstants import c_light", "from GaudiKernel.SystemOfUnits import ns" ]
+# EvtGenCut.LbLTCut.Cuts = { "[Lambda_b0]cc" : "(GCTAU>0.00015*ns*c_light)" }
+# #
+# Generation(genAlgName).SignalPlain.addTool(LoKi__GenCutTool,'GenSigCut')
+# SigCut = Generation(genAlgName).SignalPlain.GenSigCut
+# SigCut.Decay = "[^(Lambda_b0 => ^(Lambda_c+ ==> ^p+ ^K- ^pi+) (D*_s- => ^(D_s- ==> ^K- ^K+ ^pi-) X))]CC"
+# SigCut.Filter = True
+# SigCut.Preambulo += [
+#   "from LoKiCore.functions import in_range"  ,
+#   "from GaudiKernel.SystemOfUnits import GeV, MeV, mrad, mm",
+#   "inAcc = in_range(10*mrad,GTHETA,400*mrad) & in_range(1.95,GETA,5.05)",
+#   "inY   = in_range(1.9,LoKi.GenParticles.Rapidity(),4.6)",
+#   "EVZ   = GFAEVX(GVZ,0)",
+#   "OVZ   = GFAPVX(GVZ,0)"
+#  ]
+# SigCut.Cuts = {
+#   '[Lambda_b0]cc' : "(GP>31*GeV) & (GPT>3.9*GeV) & (EVZ-OVZ>0.18*mm) & inY",
+#   '[Lambda_c+]cc' : "(GP>11.8*GeV) & (GPT>980*MeV) & inY",
+#   '[D_s-]cc'      : "(GP>10.8*GeV) & (GPT>880*MeV) & inY",
+#   '[p+]cc'        : "(GP>3.95*GeV) & (GPT>190*MeV) & inAcc",
+#   '[K+]cc'        : "(GP>2.45*GeV) & (GPT>140*MeV) & inAcc",
+#   '[pi+]cc'       : "(GP>1.45*GeV) & (GPT>90*MeV) & inAcc"
+# }
+# #
+# EndInsertPythonCode
+# #
+# Documentation: Lb -> Lc Ds* with semi-realistic Lc -> p K pi model and Ds -> K K pi using D_DALITZ. Includes all three Ds* decay modes known to date.
+#                Two-body Lb -> Lc Ds* helicity amplitude chosen to resemble shape of partially reconstructed decay. Cut efficiency about 1/8.
+# EndDocumentation
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: 5 min
+# Responsible: Marian Stahl
+# Email: marian.stahl@{nospam}cern.ch
+# Date: 20201222
+# #
+Alias      MyDst_s-              D_s*-
+Alias      Myanti-Dst_s+         D_s*+
+ChargeConj MyDst_s-              Myanti-Dst_s+
+#
+Alias      MyD_s-                D_s-
+Alias      Myanti-D_s+           D_s+
+ChargeConj MyD_s-                Myanti-D_s+
+#
+Alias      MyLambda_c+           Lambda_c+
+Alias      Myanti-Lambda_c-      anti-Lambda_c-
+ChargeConj MyLambda_c+           Myanti-Lambda_c-
+#
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+Alias      MyK*0                 K*0
+Alias      Myanti-K*0            anti-K*0
+ChargeConj MyK*0                 Myanti-K*0
+#
+Alias      MyDelta++             Delta++
+Alias      Myanti-Delta--        anti-Delta--
+ChargeConj MyDelta++             Myanti-Delta--
+#
+Decay Lambda_b0sig
+  1  MyLambda_c+ MyDst_s-  HELAMP  1 0 1 0 0 0 0 0;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyDst_s-
+  93.5  MyD_s- gamma  VSP_PWAVE;
+  5.8   MyD_s- pi0    VSS;
+  0.67  MyD_s- e+ e-  PHSP;
+Enddecay
+CDecay Myanti-Dst_s+
+#
+Decay MyD_s-
+  1 K- K+ pi- D_DALITZ;
+Enddecay
+CDecay Myanti-D_s+
+#
+# Define Lambda_c+ decay
+# Branching ratios from PDG 2016
+Decay MyLambda_c+
+  0.03500 p+              K-         pi+ PHSP;
+  0.01980 p+              Myanti-K*0     PHSP;
+  0.01090 MyDelta++       K-             PHSP;
+  0.02200 MyLambda(1520)0 pi+            PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyLambda(1520)0
+  1 p+ K- PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay MyK*0
+  1 K+ pi-  VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyDelta++
+  1 p+ pi+  PHSP;
+Enddecay
+CDecay Myanti-Delta--
+End

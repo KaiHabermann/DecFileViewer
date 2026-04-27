@@ -1,0 +1,36 @@
+# EventType: 10005000
+#
+# Descriptor: pp => [<Xb>]cc ...
+#
+# NickName: incl_b=ChargedTracksCut
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/ChargedTracksCut
+#
+# InsertPythonCode:                                                                    
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "ChargedTracksCut" )
+# chargedTracksCut = Generation(genAlgName).ChargedTracksCut                                                      
+# chargedTracksCut.Code = " ( count(isGoodB) > 0 ) "                                          
+#                                                                                        
+# chargedTracksCut.Preambulo += [                                                                                          
+#      "from GaudiKernel.SystemOfUnits import  GeV, millimeter",
+#      "inAcc         = (in_range( 0.010 , GTHETA , 0.400 ) & in_range( 1.9 , GETA , 5.1 ))",
+#      "GVZ           = GFAPVX(LoKi.GenVertices.PositionZ(), 0)",
+#      "ChargedTracks = ( GNINTREE( (('mu+' == GABSID) | ('pi+' == GABSID) | ('K+' == GABSID) | ('p+' == GABSID))  & (GP > 2 * GeV) & inAcc & (abs(GVZ) < 50 * millimeter), HepMC.descendants) > 4 )",
+#      "notCascade    = (GNINTREE(GBEAUTY, HepMC.descendants)==0)",
+#      "isGoodB       = GBEAUTY & ChargedTracks & notCascade"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: b inclusive events with at least 5 charged tracks in acceptance
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Alison Tully
+# Email: alison.tully@cern.ch
+# Date:   20191023
+#
+End

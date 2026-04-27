@@ -1,0 +1,41 @@
+# EventType: 15574105
+# #
+# # Descriptor: {[Lambda_b0 -> (Lambda_c+ -> (Lambda0 -> p+ pi-) pi+) mu- anti-nu_mu]cc}
+# NickName: Lb_Lcmunu,L0Pi=LHCbAcceptance,Baryonlnu
+
+# Cuts: LHCbAcceptance
+
+# Documentation: Lb -> Lc mu nu_mu with Lc-> L0 pi
+# EndDocumentation
+#
+# CPUTime: <2min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Shuchong Ding
+# Email: shuchong.ding@cern.ch
+# Date:   20240425
+#
+Alias      MyLambda0      Lambda0
+Alias      Myanti-Lambda0 anti-Lambda0
+ChargeConj MyLambda0      Myanti-Lambda0
+#
+Alias MyLambda_c+       Lambda_c+
+Alias Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj MyLambda_c+  Myanti-Lambda_c-
+###
+Decay Lambda_b0sig
+  1.0000    MyLambda_c+        mu-  anti-nu_mu     PHOTOS   Lb2Baryonlnu  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+# BR = 1
+Decay MyLambda_c+
+  1.0000        MyLambda0       pi+	PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+# BR = 1
+Decay MyLambda0
+  1.0000      p+         pi-	PHSP;
+Enddecay
+CDecay Myanti-Lambda0
+#
+End

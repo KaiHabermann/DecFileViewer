@@ -1,0 +1,50 @@
+# EventType: 11104360  
+#
+# Descriptor: [Beauty -> pi+ pi- (KS0 -> pi+ pi-) gamma]cc
+#
+# NickName: Bd_Kspi+pi-gamma=TightCut,PHSP
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# CPUTime: 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool as GenCutTool 
+#
+# gen = Generation(genAlgName) 
+# gen.SignalRepeatedHadronization.addTool ( GenCutTool , 'TightCut' ) 
+# 
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay     = '[Beauty => ^pi+ ^pi- (KS0 => ^pi+ ^pi-) ^gamma]CC'
+# tightCut.Cuts      =    {
+#     '[pi+]cc'        : ' inAcc' , 
+#     'gamma'          : ' goodPhoton' } 
+#
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import ns, GeV, mrad, millimeter',
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodPhoton = ( GPT > 1.5 * GeV ) & inAcc' ]
+#
+# EndInsertPythonCode
+#
+# Documentation: for TD-CPV, all in PHSP, pi pi in acceptance, with gamma PT > 1.5
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Biplab Dey
+# Email:  biplab.dey@.cern.ch
+# Date: 20180228
+#
+Alias      MyK0s  K_S0
+ChargeConj MyK0s  MyK0s
+#
+Decay B0sig
+  1.000   pi+  pi-    MyK0s      gamma         PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyK0s
+  1.000   pi+         pi-       PHSP;
+Enddecay
+#
+End

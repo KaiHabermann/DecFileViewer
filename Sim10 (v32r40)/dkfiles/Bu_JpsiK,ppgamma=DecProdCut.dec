@@ -1,0 +1,35 @@
+# $Id: 12133201
+#
+# EventType: 12133201
+# NickName: Bu_JpsiK,ppgamma=DecProdCut
+# Descriptor: [B+ -> K+ (J/psi(1S) -> p+ p~- gamma )]cc
+#
+# Cuts: DaughtersInLHCb 
+#
+# Documentation: Decay file for B+-> K+- J/psi (-> p+ p~- gamma)  
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Olivier Deschamps
+# Email: odescham@in2p3.fr
+# Date: 20251017
+#
+
+Alias      MyJ/psi J/psi
+ChargeConj MyJ/psi MyJ/psi
+
+# ==== J/psi -> p+ p~- gamma ==== #
+Decay MyJ/psi
+  1.0   p+ anti-p- gamma PHSP; 
+Enddecay
+
+# ==== B+ -> J/psi K+ ==== #
+Decay B+sig
+  1.000 MyJ/psi K+ SVS;
+Enddecay
+CDecay B-sig
+
+End
+#

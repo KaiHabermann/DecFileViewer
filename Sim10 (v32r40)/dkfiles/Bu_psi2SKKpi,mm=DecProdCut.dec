@@ -1,0 +1,57 @@
+# EventType: 12245013
+#
+# Descriptor: [B+ -> (psi(2S) -> mu+ mu-) K+ K- pi+]cc
+#
+# NickName: Bu_psi2SKKpi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:   B+ decay to psi(2S) K K pi [20% K*K, 20% f0 pi, 20% f2pi & 40% NR) a la EventType 12245003
+# EndDocumentation
+#
+# PhysicsWG:   Onia 
+# Tested:      Yes
+# Responsible: Dmitry Golubkov
+# Email:       dmitry.yu.golubkov@cern.ch
+# Date:        20250324
+# CPUTime: < 1 min
+#
+Alias       Mypsi      psi(2S)
+ChargeConj  Mypsi      Mypsi
+#
+Alias       MyK*0              K*0
+Alias       Myanti-K*0    anti-K*0
+ChargeConj  MyK*0       Myanti-K*0
+
+Alias       Myf_0         f_0
+ChargeConj  Myf_0       Myf_0
+
+Alias       Myf_2         f_2
+ChargeConj  Myf_2       Myf_2
+#
+Decay       B-sig
+  0.200     Mypsi MyK*0 K-   PHSP ;
+  0.200     Mypsi Myf_0 pi-  PHSP ;
+  0.200     Mypsi Myf_2 pi-  PHSP ;
+  0.400     Mypsi K+ K- pi-  PHSP ;
+Enddecay
+CDecay      B+sig
+#
+Decay       Mypsi
+  1.0000    mu+  mu-           VLL  ;
+Enddecay
+#
+Decay       MyK*0
+  1.000     K+  pi-            VSS  ;
+Enddecay
+CDecay      Myanti-K*0
+#
+Decay       Myf_0
+  1.000     K+  K-             PHSP ; 
+Enddecay
+#
+Decay       Myf_2
+  1.000     K+  K-             TSS  ; 
+Enddecay
+#
+End

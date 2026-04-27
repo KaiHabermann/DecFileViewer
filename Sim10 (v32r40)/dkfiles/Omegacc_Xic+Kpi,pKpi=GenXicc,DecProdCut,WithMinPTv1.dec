@@ -1,0 +1,44 @@
+# EventType: 26165857
+#
+# Descriptor: [Omega_cc+ -> (Xi_c+ -> p+ K- pi+) K- pi+ ]cc
+#
+# NickName: Omegacc_Xic+Kpi,pKpi=GenXicc,DecProdCut,WithMinPTv1
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCbAndWithMinPT
+#
+# CutsOptions: MinXiccPT 2000*MeV MinDaughterPT 200*MeV
+#
+# CPUTime: < 1 min
+#
+# ParticleValue: "Omega_cc+ 510 4432 1.0 3.738 0.80e-13 Omega_cc+ 4432 0.", "Omega_cc~- 511 -4432 -1.0 3.738 0.80e-13 anti-Omega_cc- -4432 0."
+#
+# Documentation: Omegacc decay to Xic+ K- pi+ by  phase space model. XiC+ decay to P+ K- pi+.
+# all daughters of Omegacc are required to be in the acceptance of LHCb and with minimum PT 200 MeV
+# Omegacc is required to be generated with the lifetime of 80fs and mass of 3738 MeV
+# Omegacc PT is required to be larger than 2000 MeV.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Lars Eklund
+# Email: lars.eklund@cern.ch
+# Date: 20180405
+#
+Alias      MyXic+              Xi_c+
+Alias      MyantiXic-          anti-Xi_c-
+ChargeConj MyXic+              MyantiXic-
+#
+Decay Omega_cc+sig
+  1.000    MyXic+   K-   pi+                                PHSP;
+Enddecay
+CDecay anti-Omega_cc-sig
+#
+Decay MyXic+
+  1.000        p+        K-        pi+             PHSP;
+Enddecay
+CDecay MyantiXic-
+#
+End
+#

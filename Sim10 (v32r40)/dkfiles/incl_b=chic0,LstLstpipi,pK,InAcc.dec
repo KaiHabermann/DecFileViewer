@@ -1,0 +1,54 @@
+# EventType: 10136002
+#
+# Descriptor: chi_c0 => ( Lambda(1520)0 => p+ K- ) ( anti-Lambda(1520)0 => p~- K+ ) pi+ pi-
+#
+# NickName: incl_b=chic0,LstLstpipi,pK,InAcc
+#
+# Cuts: DaughtersInLHCb
+# FullEventCuts: LoKi::FullGenEventCut/b2Chic0Filter
+# Sample: RepeatDecay.Inclusive
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation().addTool( LoKi__FullGenEventCut, "b2Chic0Filter" )
+# SignalFilter = Generation().b2Chic0Filter
+# SignalFilter.Code = " has(isB2ccTcuts)"
+# SignalFilter.Preambulo += [
+#  "from GaudiKernel.SystemOfUnits import MeV, GeV, mrad",
+#  "inAcc = (in_range(  0.010 , GTHETA , 0.400 ))",
+#  "isB2cc = ((GDECTREE('(Beauty & LongLived) --> chi_c0(1P) ...')))",
+#  "ppcuts = (GINTREE( (('p+'  == GID ) & (GPT > 250 * MeV) & inAcc) ) )",
+#  "pmcuts = (GINTREE( (('p~-' == GID ) & (GPT > 250 * MeV) & inAcc) ) )",
+#  "Kpcuts = (GINTREE( (('K+'  == GID ) & (GPT > 250 * MeV) & inAcc) ) )",
+#  "Kmcuts = (GINTREE( (('K-'  == GID ) & (GPT > 250 * MeV) & inAcc) ) )",
+#  "isB2ccTcuts = (isB2cc & ppcuts & pmcuts & Kpcuts & Kmcuts)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: chi_c0 decay to Lst Lst, keep only particles in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Vsevolod Yeroshenko
+# Email: vsevolod.yeroshenko@cern.ch
+# Date: 20231116
+#
+Alias      MyLst     Lambda(1520)0
+Alias      MyantiLst anti-Lambda(1520)0
+ChargeConj MyLst     MyantiLst
+#
+Decay chi_c0
+  1.000    MyLst  MyantiLst  pi+ pi-    PHSP;
+Enddecay
+#
+Decay MyLst
+  1.000  p+      K-    PHSP; 
+Enddecay
+CDecay MyantiLst
+#
+End
+#
+

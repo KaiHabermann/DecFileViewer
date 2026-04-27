@@ -1,0 +1,72 @@
+# EventType: 27265009
+#
+# Descriptor: [D*(2010)+ -> (D0 -> {pi+ pi- pi+ pi-}) pi+]cc
+#
+# NickName: Dst_D0pi,pipipipi=DecProdCut,TightCuts
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: (prompt) D* decays according to amplitude model with tight cuts
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal     = generation.SignalPlain
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[D*(2010)+ => ^(D0 => ^pi+ ^pi- ^pi+ ^pi-) pi+]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'GY           =  LoKi.GenParticles.Rapidity () ## to be sure ' ,
+#     'inAcc        =  in_range ( 0.015 , GTHETA , 0.295 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 4.800 )         ' ,
+#     'fastTrack    =  ( GPT > 300 * MeV ) & ( GP  > 3.0 * GeV )   ' ,# to end
+#     'slowTrack    =  ( GPT > 200 * MeV ) & ( GP  > 1.5 * GeV )   ' ,# to end
+#     'goodTrack    =  inAcc & inEta & fastTrack                   ' ,
+#     'looseTrack   =  inAcc & inEta & slowTrack                   ' ,
+#     'longLived    =  50 * micrometer < GTIME                     ' ,
+#     'inY          =  in_range ( 2.0   , GY     , 4.6   )         ' ,
+#     'fastDz       =  ( GPT > 2900 * MeV ) & ( GP  > 29.0 * GeV ) ' ,# to end
+#     'goodDz       =  inY & longLived & fastDz                    ' ,
+#     'Bancestors   =  GNINTREE ( GBEAUTY , HepMC.ancestors )      ' ,
+#     'notFromB     =  0 == Bancestors                             ' ,
+#     'D0ancestors  =  GNINTREE ( GABSID=="D0" , HepMC.ancestors ) ' ,
+# ]
+# tightCut.Cuts     =    {
+#     '[D*(2010)+]cc'  : 'GCHILDCUT ( looseTrack, "[D*(2010)+ => D0 ^pi+]CC" ) ' ,
+#     '[D0]cc'         : 'goodDz & notFromB ' ,
+#     '[K+]cc'         : 'goodTrack ' ,
+#     '[pi+]cc'        : 'goodTrack ' ,
+#     }
+# EndInsertPythonCode
+#
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events
+# Requires products to be in LHCb acceptance and has some generation cuts
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Maurizio Martinelli
+# Email: Maurizio.Martinelli@cern.ch
+# Date: 20180723
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.000 pi+ pi- pi+ pi-   PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End

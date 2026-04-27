@@ -1,0 +1,41 @@
+# EventType: 12145240
+#
+# Descriptor: [B+ -> K+ K- K+ (chi_c1 -> (J/psi -> mu+ mu- ) gamma) ]cc
+#
+# NickName: Bu_chic1KKK,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B+ decay to the: chic1 (-> Jpsi (mu+ mu-) gamma) K+ K- K+,
+# using phase space model, all dauthers in LHCb acceptance.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Onia 
+# Tested: Yes
+# Responsible: Zihan Wang 
+# Email: zihan.wang@cern.ch
+# Date: 20200307
+#
+Alias      MyJ/psi  J/psi
+Alias      MyChic1  chi_c1 
+ChargeConj MyJ/psi  MyJ/psi
+#
+#
+#
+Decay B+sig
+  1.000    MyChic1   K+ K- K+        PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyChic1
+  1.000  MyJ/psi  gamma                VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay 
+#
+Decay MyJ/psi
+  1.000         mu+        mu-        PHOTOS VLL;
+Enddecay
+#
+End
+#

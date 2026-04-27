@@ -1,0 +1,69 @@
+# EventType: 14503000
+#
+# Descriptor: [B_c+ => (tau+ ==> pi+ pi+ pi- nu_tau~) nu_tau]cc 
+#
+# NickName: Bc_TauNu,pipipi=BcVegPy,TightCut,LargeFD
+#
+# Documentation: Bc => tau nu and tau forced into pi+ pi+ pi- nu_tau via CLEO TAUOLA model 
+#                with large transverse flight distance and high transverse momentum (e.g. for heavy flavour tracking)
+# EndDocumentation
+#
+# Production: BcVegPy
+#
+# Cuts: LoKi::GenCutToolWithDecay/TightCut
+#
+# CPUTime: < 10 min
+#
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutToolWithDecay, BcVegPyProduction
+# gen = Generation().Special
+# # adapt to have minimum parton PT for fast generation
+# # to cope with inefficiency of generator cuts
+# gen.addTool( BcVegPyProduction, name = 'BcVegPyProduction' )
+# gen.BcVegPyProduction.Commands += [ 'confine ptcut 10.0' ]
+# gen.addTool( LoKi__GenCutToolWithDecay, "TightCut" )
+# gen.CutTool = "LoKi::GenCutToolWithDecay/TightCut"
+# tightCut = gen.TightCut
+# tightCut.SignalPID = "B_c+"
+# tightCut.Decay = '^([B_c+ ==> (tau+ ==> ^pi+ ^pi+ ^pi- nu_tau~) nu_tau]CC)'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'from LoKiCore.math import sqrt, pow2',
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.5  , GETA   , 5.5 )            ' ,
+#     'goodTrack    =  ( inAcc & inEta )                          ' ,
+#     "largeFD      =  ( sqrt( pow2( GCHILD( GFAEVX( GVX, 0 ), ( 'tau+' == GABSID ) ) - GFAPVX(GVX,0) ) + pow2( GCHILD( GFAEVX( GVY, 0 ), ( 'tau+' == GABSID ) ) - GFAPVX(GVY,0) ) ) > 4.0 * mm ) " ,
+# ]
+# tightCut.Cuts     =    {
+#     '[B_c+]cc'    : 'inEta & largeFD' ,
+#     '[pi+]cc'   : 'goodTrack ',
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Maarten van Veghel
+# Email: m.van.veghel@cern.ch
+# Date: 20250501
+
+# Tauola steering options
+Define TauolaCurrentOption 0
+Define TauolaBR1 1.0
+#
+Alias		MyTau+	tau+
+Alias		MyTau-	tau-
+ChargeConj	MyTau+	MyTau-
+#
+Decay B_c+sig
+      1.0	MyTau+	nu_tau	PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyTau+
+      1.0	TAUOLA 5;
+Enddecay
+CDecay MyTau-
+#
+End
+#

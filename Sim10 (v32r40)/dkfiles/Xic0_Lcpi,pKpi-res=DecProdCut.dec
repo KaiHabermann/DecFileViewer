@@ -1,0 +1,92 @@
+# EventType: 26264080
+#
+# Descriptor: {[Xi_c0 -> (Lambda_c+ -> p K- pi+) pi- ]cc}
+#
+# NickName: Xic0_Lcpi,pKpi-res=DecProdCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 5 min
+#
+# Documentation: Xi_c0 forced to Lambda_c+ pi-,
+#                daughters required to be in the acceptance of LHCb
+#                and with minimum PT of 200 MeV
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal     = generation.SignalPlain
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[Xi_c0 => ^( Lambda_c+ ==> ^p+ ^K- ^pi+ ) ^pi- ]CC'
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,'inAcc        =  in_range ( 0.010 , GTHETA , 0.400 ) '
+#     ,'fastTrack    =  ( GPT > 200 * MeV )'
+# ]
+# tightCut.Cuts     =    {
+#      '[p+]cc'     : 'inAcc & fastTrack'
+#     ,'[K-]cc'     : 'inAcc & fastTrack'
+#     ,'[pi+]cc'    : 'inAcc & fastTrack'
+#     }
+# EndInsertPythonCode
+#
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Jibo He
+# Email:       jibo.he@cern.ch
+# Date:        20180911
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+# Define Lambda(1520)0
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+# Define K*0
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+# Define Delta++
+Alias      MyDelta++      Delta++
+Alias      Myanti-Delta-- anti-Delta--
+ChargeConj MyDelta++      Myanti-Delta--
+#
+Decay Xi_c0sig
+  1.00   MyLambda_c+  pi-                        PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+#
+Decay MyLambda_c+
+    0.02800         p+      K-      pi+          PHSP;
+    0.01065         p+      Myanti-K*0           PHSP;
+    0.00860         MyDelta++ K-                 PHSP;
+    0.00414         MyLambda(1520)0 pi+          PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+    0.6657      K+  pi-                          VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyLambda(1520)0
+  0.23   p+     K-                             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+Decay MyDelta++
+  1.000 p+ pi+ PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#      
+End

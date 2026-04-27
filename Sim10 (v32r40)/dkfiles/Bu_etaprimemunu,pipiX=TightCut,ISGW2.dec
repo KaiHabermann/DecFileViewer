@@ -1,0 +1,69 @@
+# EventType: 12813405
+#
+# Descriptor: [B+ -> eta' mu+ nu_mu]cc
+#
+# NickName: Bu_etaprimemunu,pipiX=TightCut,ISGW2
+#
+# Documentation: Decay file for [B+ -> eta' mu+ nu_mu]cc with ISGW2 form factors. eta' --> pi+ pi- X .
+# EndDocumentation
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName).SignalRepeatedHadronization
+# gen.addTool( LoKi__GenCutTool, "TightCut" )
+# SignalFilter = gen.TightCut
+# SignalFilter.Decay = "[B+ => (eta_prime --> ^pi+ ^pi- ...) ^mu+ nu_mu]CC"
+# SignalFilter.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import  GeV",
+#   "inAcc                = in_range ( 0.005 , GTHETA , 0.400 ) &  in_range ( 1.9 , GETA , 5.1 )", 
+#   "muCuts               = (GP > 5 * GeV) &  (GPT > 1.2 * GeV) & inAcc",
+#   "piCuts               = (GP > 1.5 * GeV) & (GPT > 0.05 * GeV) & inAcc",
+#   ]
+# SignalFilter.Cuts =  { "[mu+]cc" : "muCuts",
+#                        "[pi+]cc" : "piCuts" }
+# EndInsertPythonCode
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible:   Michel De Cian
+# Email: michel.de.cian@cern.ch
+# Date: 20201212
+#
+Alias      MyEtaPrime  eta'
+ChargeConj MyEtaPrime  MyEtaPrime
+#
+Alias      MyEta  eta
+ChargeConj MyEta  MyEta
+#
+Alias      MyOmega  omega
+ChargeConj MyOmega  MyOmega
+#
+Decay B+sig
+  1.    MyEtaPrime        mu+    nu_mu    PHOTOS  ISGW2;
+Enddecay
+CDecay B-sig
+#
+Decay MyEtaPrime
+  0.4320   pi+       pi-     eta            PHOTOS PHSP; # don't force the eta, as we have 2 charged pions already
+  0.2170   pi0       pi0     MyEta          PHOTOS PHSP; # force the eta to have 2 charged pions
+  0.293511 rho0      gamma                  PHOTOS SVP_HELAMP  1.0 0.0 1.0 0.0;
+  0.0275   MyOmega   gamma                  PHOTOS SVP_HELAMP  1.0 0.0 1.0 0.0; # force the omega to have 2 charged pions
+  0.0036   pi+       pi-     pi0            PHOTOS PHSP;  
+  0.0024   pi+       pi-     e+      e-     PHOTOS PHSP;  
+Enddecay
+#
+Decay MyEta
+  0.2292        pi-      pi+      pi0       PHOTOS ETA_DALITZ;
+  0.0422        pi-      pi+      gamma     PHOTOS PHSP;
+Enddecay
+#
+Decay MyOmega
+  0.893        pi-      pi+      pi0        PHOTOS OMEGA_DALITZ;
+  0.0153       pi-      pi+                 PHOTOS VSS;
+Enddecay
+#
+End
+#

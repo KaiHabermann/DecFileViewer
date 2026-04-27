@@ -1,0 +1,34 @@
+# EventType: 11164094
+#
+# Descriptor: [B0 -> (Lambda_c+ -> p+ K- pi+) p~-]cc
+#
+# NickName: Bd_Lcpbar,pKpi=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: < 1 min 
+#
+# Documentation: B0 decay to Lcpbar, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Haoqiang Zhao
+# Email: haoqiang@cern.ch
+# Date: 20220228
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+# Define B0 decay
+Decay B0sig
+  1.00   MyLambda_c+  anti-p-                  PHSP;
+Enddecay
+CDecay anti-B0sig
+# Define Lambda_c+ decay
+Decay MyLambda_c+
+  1.000    p+   K-  pi+    PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+End
+

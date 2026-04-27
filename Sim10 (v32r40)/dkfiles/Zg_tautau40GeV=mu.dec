@@ -1,0 +1,23 @@
+# EventType: 42100004
+# CPUTime: < 1 min
+#
+# Descriptor: pp -> [Z0/gamma* -> tau+ tau- -> anti-nu_tau mu+ nu_mu tau-]cc ...    
+#
+# NickName: Zg_tautau40GeV=mu
+#
+# Cuts: PythiaHiggsType                                                        
+#                                                                              
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 10*GeV LeptonIsFromMother true NumberOfbquarks -1                                  
+# ExtraOptions: Zgtautau=mu
+#
+# Documentation: At least 1 muon with pT > 10 GeV,invariant mass of tau pair > 40GeV
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# Responsible: Stephen Farry
+# Email: stephen.farry@cern.ch
+# Date: 20191212
+#
+End
+#

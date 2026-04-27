@@ -1,0 +1,51 @@
+# EventType: 16165730
+#
+# Descriptor: [Xi_b- -> (Xi_b0 -> Lambda0 Lambda0 p~- (D_s+ -> K+ K- pi+)) pi-]cc
+#
+# NickName: Xibprime_Xib0pi-,LambdaLambdap-Ds+=DecProdCut
+# 
+# Documentation:
+#   Decay a Xi_b- to a Xi_b0 ( -> Lambda Lambda p- D_s+) and pi-
+#   Xi_b- as stand in for Xi'_b- as its not known to pythia
+#   Background for Sexaquark analysis
+#   Neutrals flag is set to 7 as all eventtypes of 16165030 are already in use
+# EndDocumentation
+# 
+# 
+# Cuts: DaughtersInLHCb
+# 
+# ParticleValue: " Xi_b-  122     5132    -1.0    5.93502     0.000000e+00    Xi_b-  5132    0.000000e+00", " Xi_b~+ 123     -5132   1.0     5.93502     0.000000e+00     anti-Xi_b+    -5132   0.000000e+00"
+# 
+# 
+# CPUTime: <1min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Ellinor Eckstein
+# Email: ellinor.eckstein@cern.ch
+# Date: 20230322
+#
+Alias       MyXi_b0      Xi_b0
+Alias       Myanti-Xi_b0 anti-Xi_b0
+ChargeConj  MyXi_b0      Myanti-Xi_b0
+#
+Alias       MyDs+       D_s+
+Alias       MyDs-       D_s-
+ChargeConj  MyDs+       MyDs-
+
+
+# Force Xi_b- (stand in for Xi'_b-) to decay to Xi_b0 pi-:
+Decay Xi_b-sig
+1.000   MyXi_b0  pi-     PHSP;
+Enddecay
+CDecay anti-Xi_b+sig 
+#
+Decay MyXi_b0
+1.000   Lambda0  Lambda0  anti-p-  MyDs+      PHSP;
+Enddecay
+CDecay  Myanti-Xi_b0
+#
+Decay   MyDs+
+1.000   K+  K-  pi+     D_DALITZ;
+Enddecay
+CDecay  MyDs-
+End

@@ -1,0 +1,62 @@
+# EventType: 42911003
+#                                                                               
+# Descriptor: pp -> (W-> mu nu) (c c~)
+#                                                                               
+# NickName: W_munucc_Madgraph
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/TwoCOneMuonFromW
+# Production: Madgraph
+#                                                                               
+# InsertPythonCode:
+# # Configure the event type.
+# from Configurables import (Generation, Special)
+# from GaudiKernel import SystemOfUnits
+# from Gaudi.Configuration import importOptions
+#
+# # Generation options.
+# Generation(genAlgName).PileUpTool           = "FixedLuminosityForRareProcess"
+# Generation(genAlgName).DecayTool            = ""
+# Generation(genAlgName).SampleGenerationTool = "Special"
+#
+# # Special options.
+# Generation(genAlgName).addTool(Special)
+# Generation(genAlgName).Special.CutTool        = ""
+# Generation(genAlgName).Special.DecayTool      = ""
+#
+# # Madgraph options.
+# from Configurables import Gauss
+# from GaudiKernel import SystemOfUnits
+# 
+# sampleGenToolsOpts = {
+#     "Commands": ["generate p p > mu+ vm c c~ [QCD]", 
+#     		   " add process p p > mu- vm~ c c~ [QCD]"
+#              	  ],
+#     "DecEff": 0.1506 # The decfile level efficiency.
+# }
+# Gauss().SampleGenerationToolOptions.update(sampleGenToolsOpts)
+# 
+# # Generation cut
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "TwoCOneMuonFromW" )
+# tracksInAcc = Generation(genAlgName).TwoCOneMuonFromW
+# tracksInAcc.Code = " ( (count ( isGoodcquark ) > 1) & (count ( isGoodLepton ) > 0)) "
+# tracksInAcc.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#     , "isGoodcquark   = ( GINTREE( GCHARM & ( GTHETA < 400.0*mrad )))"
+#     , "isGoodLepton   = ((  'W+' == GABSID ) & GINTREE( ( GABSID=='mu-' ) & ( GTHETA < 400.0*mrad )))"
+# ]
+#
+# EndInsertPythonCode
+#                                                                               
+# Documentation: 2 c-quarks and 1 muon from W in the LHCb acceptance. Warning: generation is performed using MadGraph, so the first event may take a very long time to generate due to initialization. 
+# EndDocumentation                                                              
+#                                                                               
+# PhysicsWG: Exotica                                                            
+# Tested: Yes                                                                   
+# CPUTime: < 5 min                                                              
+# Responsible: Mateusz Goncerz                                                 
+# Email: mateusz.goncerz@cern.ch                                               
+# Date: 20240414                                                                
+#                                                                               
+End
+#

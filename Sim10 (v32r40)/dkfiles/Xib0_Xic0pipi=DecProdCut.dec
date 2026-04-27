@@ -1,0 +1,34 @@
+# EventType: 16166045
+#
+# Descriptor: [Xi_b0- -> (Xi_c0 -> p+ K- K- pi+) pi+ pi-]cc
+#
+# NickName: Xib0_Xic0pipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase space decays of Xib0 to Xic0 pi pi 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Qucheng Qian
+# Email:  qucheng.qian@cern.ch
+# Date: 20240131
+#
+Alias MyXi_c0 Xi_c0
+Alias Myanti-Xi_c0 anti-Xi_c0
+ChargeConj MyXi_c0 Myanti-Xi_c0
+#
+Decay Xi_b0sig
+  1.0    MyXi_c0  pi+  pi-                 PHSP;
+Enddecay
+CDecay anti-Xi_b0sig
+#
+Decay MyXi_c0
+  1.0   p+  K-  K-  pi+                                 PHSP;
+Enddecay
+CDecay Myanti-Xi_c0
+#
+End
+

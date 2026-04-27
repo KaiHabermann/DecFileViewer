@@ -1,0 +1,40 @@
+# EventType: 27163478
+
+# Descriptor: [D*(2010)+ -> (D0 -> pi- pi+ (eta -> gamma gamma)) pi+]cc
+#
+# NickName: Dst_D0pi,pipieta,gg=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces the D* decay in generic b-bbar / c-cbar events + Requires products to be in LHCb acceptance. The eta is forced to decay into gamma gamma (asking for electron conversion with SplitSim)
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: 90 sec
+# Responsible: Alessandro Scarabotto
+# Email: alessandro.scarabotto@cern.ch
+# Date: 20220124
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+Alias      Myeta  eta
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.0  pi-  pi+  Myeta   PHSP;
+Enddecay
+CDecay MyantiD0
+
+Decay Myeta
+  1.00    gamma gamma        PHSP;
+Enddecay
+
+#
+End

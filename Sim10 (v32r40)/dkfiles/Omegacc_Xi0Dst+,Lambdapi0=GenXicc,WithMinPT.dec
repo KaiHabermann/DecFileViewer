@@ -1,0 +1,81 @@
+# EventType: 26165555
+#
+# Descriptor: [Omega_cc+ -> (Xi0 -> (Lambda0 -> p+ pi-) (pi0 -> gamma gamma )) ( D*(2010)+ -> (D0 -> K- pi+) pi+ ) ]cc
+#
+# NickName: Omegacc_Xi0Dst+,Lambdapi0=GenXicc,WithMinPT
+#
+# Production: GenXicc
+#
+# Cuts: XiccDaughtersInLHCbAndWithMinPT
+#
+# CutsOptions: MinXiccPT 2500*MeV 
+#
+# CPUTime: < 1 min
+#
+# ParticleValue: "Omega_cc+ 510 4432  1.0  3.738    0.08e-12   Omega_cc+ 4432 0.0", "Omega_cc~- 511 -4432 -1.0 3.738  0.08e-12 anti-Omega_cc- -4432 0."
+# Documentation: Omega_cc+ decay to Sigma0 D*(2010)+ by phase space model,
+# Xi0 decay to Lambda0 pi0,
+# Lambda0 decay to p+ pi-,
+# D*(2010)+ decay to D0 pi+,
+# D0 decay to K- pi+,
+# all daughters of Omega_cc+ are required to be in the acceptance of LHCb,
+# and the Omega_cc+ PT is required to be larger than 2500 MeV,
+# Omega_cc+ is required to be generated with the lifetime of 80fs.
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Xingyu Tong
+# Email: xingyu.tong@cern.ch
+# Date: 20250418
+#
+Alias             MyD*+       D*+
+Alias             MyD0        D0
+Alias             MyD*-       D*-
+Alias             Myanti-D0   anti-D0
+ChargeConj        MyD*+       MyD*-
+ChargeConj        MyD0        Myanti-D0
+#
+Alias      MyXi0         Xi0
+Alias      MyantiXi0    anti-Xi0
+ChargeConj MyXi0         MyantiXi0
+Alias       MyLambda      Lambda0
+Alias       MyantiLambda  anti-Lambda0
+ChargeConj  MyLambda      MyantiLambda
+Alias      MyPi0         pi0 
+ChargeConj MyPi0         MyPi0
+
+#
+Decay Omega_cc+sig
+    1.000             MyXi0     MyD*+          PHSP;
+Enddecay
+CDecay anti-Omega_cc-sig
+#
+Decay MyD*+
+    1.000             MyD0        pi+            VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+    1.000             K-          pi+            PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+Decay MyXi0
+    1.000      MyLambda    MyPi0         PHSP;
+Enddecay
+CDecay MyantiXi0
+#
+Decay MyLambda
+    1.000               p+            pi-                PHSP;
+Enddecay
+CDecay MyantiLambda
+
+Decay MyPi0
+    1.000     gamma	    gamma        PHSP;
+Enddecay
+
+#
+End
+#
+

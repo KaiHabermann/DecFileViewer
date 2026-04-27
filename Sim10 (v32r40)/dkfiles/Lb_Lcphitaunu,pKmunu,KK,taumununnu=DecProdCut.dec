@@ -1,0 +1,50 @@
+# EventType: 15576041
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ K- mu+ nu_mu) (phi(1020) -> K+ K-) (tau- -> mu- anti-nu_mu nu_tau ) anti-nu_tau]cc
+#
+# NickName: Lb_Lcphitaunu,pKmunu,KK,taumununnu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Lb -> Lc+ phi tau- anti-nu_tau decays, with Lc+ -> p+ K- mu+ nu_mu, phi -> K+ K- and muonic tau decay. pKKKmumu in acceptance.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: J. Bex
+# Email: joshua.james.bex@cern.ch
+# Date: 20240319
+#
+Alias       MyLcp      Lambda_c+
+Alias       MyLcm      anti-Lambda_c-
+ChargeConj  MyLcp      MyLcm
+#
+Alias       MyPhi      phi
+ChargeConj  MyPhi      MyPhi
+#
+#
+Alias        Mytau+    tau+
+Alias        Mytau-    tau-
+ChargeConj   Mytau+    Mytau-
+#
+Decay Lambda_b0sig
+  1.000     MyLcp   MyPhi   Mytau-   anti-nu_tau      PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLcp
+  1.000     p+   K-    mu+   nu_mu    PHSP;
+Enddecay
+CDecay MyLcm
+#
+Decay MyPhi
+  1.000    K+    K-    VSS;
+Enddecay
+#
+Decay Mytau-
+  1.000     mu-      anti-nu_mu      nu_tau    TAULNUNU;
+Enddecay
+CDecay Mytau+
+#
+End

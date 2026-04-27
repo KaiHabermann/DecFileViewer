@@ -1,0 +1,76 @@
+# EventType: 15144501
+#
+# Descriptor: [Lambda_b0 -> (J/psi(1S) -> mu+ mu-) (Lambda0 -> p+ pi-) (eta -> gamma gamma) ]cc
+#
+# NickName: Lb_JpsiLambdaeta,mm,gg=phsp,TightCut 
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# PolarizedLambdab: no 
+#
+# Documentation: Lambda_b0 to three-body J/psi Lambda eta with J/psi to dimuons and eta to gamma gamma.
+# EndDocumentation
+#
+# PhysicsWG: B2Ch 
+# CPUTime: 5 min
+# Tested: Yes
+# Responsible: Michal Kreps 
+# Email:  michal.kreps@cern.ch
+# Date: 20210804
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ Lambda_b0  ==>  ^(J/psi(1S) => ^mu+ ^mu-) ^(eta -> ^gamma ^gamma) ^(Lambda0 => p+ pi-) ]CC'
+# tightCut.Cuts      =    {
+#     'gamma'           : ' goodGamma ' ,
+#     '[mu+]cc'         : ' goodMuon  ' , 
+#     'J/psi(1S)'       : ' goodPsi   ' ,
+#     '[Lambda0]cc'     : ' goodL0    ' ,
+#     'eta'             : ' goodEta   ' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, MeV, GeV                             ' ,
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) & in_range(1.8, GETA, 5.2)             ' , 
+#     'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5                                             ' , 
+#     'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5                                             ' , 
+#     'inEcalHole = ( abs ( GPX / GPZ ) < 0.25 / 12.5 ) & ( abs ( GPY / GPZ ) < 0.25 / 12.5 ) ' ,
+#     'goodMuon  = ( GPT > 490  * MeV ) & ( GP > 5.4 * GeV )             & inAcc              ' , 
+#     'goodGamma = ( 0 < GPZ ) & ( 140 * MeV < GPT ) & inEcalX & inEcalY & ~inEcalHole        ' ,
+#     'goodPsi   = in_range ( 1.8 , GY , 4.5 )                                                ' ,
+#     "goodL0 = (GFAEVX(abs(GVZ),0) < 2500.0 * millimeter) & (GINTREE ( ( 'pi+' == GABSID ) & ( GP > 1.3 * GeV ) )) & (GINTREE ( ( 'p+' == GABSID ) & ( GP > 1.3 * GeV ) ))",
+#     'goodEta   = ( GPT > 590  * MeV )                                                       ']
+#
+# EndInsertPythonCode
+#
+Alias      MyJ/psi       J/psi
+ChargeConj MyJ/psi       MyJ/psi
+Alias      MyXi-         Xi-
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias      Myeta         eta
+ChargeConj Myeta         Myeta
+#
+Decay Lambda_b0sig
+  1.000    MyJ/psi  MyLambda Myeta           PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyJ/psi
+  1.000     mu+  mu-                    PHOTOS  VLL;
+Enddecay
+#
+Decay MyLambda
+  1.000   p+          pi-                      PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+Decay Myeta
+  1.0  gamma gamma   PHSP;
+Enddecay 
+#
+End
+#

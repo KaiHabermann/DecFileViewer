@@ -1,0 +1,64 @@
+# EventType: 13874030
+#
+# Descriptor: [B_s0  -> (D_s- => mu- anti-nu_mu X ) pi+ pi- pi+]cc
+#
+# NickName: Bs_DsPiPiPi,DsSL=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut 
+# 
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation()
+# gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+# SignalFilter = gen.SignalRepeatedHadronization.TightCut
+# SignalFilter.Decay = "^( Beauty --> (Charm --> [mu+]cc ...) [pi+]cc  ...)"
+# SignalFilter.Preambulo += [
+#  "from GaudiKernel.SystemOfUnits import  GeV",
+#  "inAcc                = in_range ( 0.005 , GTHETA , 0.400 ) &  in_range ( 1.9 , GETA , 5.1 )", 
+#  "muCuts               = (0 < GNINTREE ( ('mu-' == GABSID ) & (GP > 5 * GeV) &  (GPT > 1.2 * GeV)  & inAcc))",
+#  ]
+# SignalFilter.Cuts =  { "Beauty" : "muCuts" }
+# EndInsertPythonCode
+#
+# Documentation: Bs -> Ds pi pi pi, including resonances in the pi pi pi system, and the Ds decaying (semi)leptonically. Require a high-pT muon.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: 4min
+# Responsible: Michel De Cian
+# Email: michel.de.cian@cern.ch
+# Date: 20230509
+#
+Alias      MyD_s-     D_s-
+Alias      MyD_s+     D_s+
+ChargeConj MyD_s+     MyD_s-
+#
+Alias      Mya_1-     a_1-
+Alias      Mya_1+     a_1+
+ChargeConj Mya_1+     Mya_1-
+#
+Decay B_s0sig
+  0.070      Mya_1+        MyD_s-                  SVS; # the 0.7 / 0.3 are a guess
+  0.030      MyD_s-        rho0        pi+        PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s-
+  0.0190     phi   mu-     anti-nu_mu   PHOTOS  ISGW2;
+  0.0240     eta   mu-     anti-nu_mu   PHOTOS  ISGW2;
+  0.0110     eta'  mu-     anti-nu_mu   PHOTOS  ISGW2;
+  0.0034     K0    mu-     anti-nu_mu   PHOTOS  ISGW2; # using Ds -> K0 e nu
+  0.0022     K*0   mu-     anti-nu_mu   PHOTOS  ISGW2; # using Ds -> K*0 e nu
+  0.0054           mu-     anti-nu_mu   PHOTOS  SLN;	
+Enddecay
+CDecay MyD_s+
+#
+Decay Mya_1+
+  1.000   rho0 pi+                        VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+#
+End
+

@@ -1,0 +1,34 @@
+# EventType: 24104101
+#
+# Descriptor: J/psi(1S) => (Lambda0 => p pi-) (Lambda~0 => p~- pi+)
+#
+# NickName: incl_Jpsi,LambdaLambdabar=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: 1min
+#
+# Documentation: Jpsi decay to Lambda Lambdabar phase space
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Andrea Merli
+# Email: andrea.merli@cern.ch
+# Date: 20210507
+#
+#
+Alias      MyLambda0      Lambda0
+Alias      MyAntiLambda0  anti-Lambda0
+ChargeConj MyLambda0      MyAntiLambda0
+#
+Decay MyLambda0
+  1.000   p+          pi-        PHSP;
+Enddecay
+CDecay MyAntiLambda0
+#
+Decay J/psisig
+  1.000    MyLambda0    MyAntiLambda0     PHSP;
+Enddecay
+#
+End
+#

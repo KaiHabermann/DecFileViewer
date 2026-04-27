@@ -1,0 +1,36 @@
+# EventType: 16165931
+#
+# Descriptor: [Xi_b- -> (Xi_c0 -> p+ K- K- pi+) pi-]cc
+#
+# NickName: Xibm_Xic0pim,pKmKmpip=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: <1 min
+# Responsible: Mikhail Mikhasenko
+# Email:  mikhail.mikhasenko@cern.ch
+# Date: 20250605
+#
+#
+Alias MyXi_c0 Xi_c0
+Alias Myanti-Xi_c0 anti-Xi_c0
+ChargeConj MyXi_c0 Myanti-Xi_c0
+#
+#
+Decay Xi_b-sig
+  1.0    MyXi_c0  pi-                  PHSP;
+Enddecay
+CDecay anti-Xi_b+sig
+#
+Decay MyXi_c0
+  1.0   p+ K- K- pi+                   PHSP;
+Enddecay
+CDecay Myanti-Xi_c0
+#
+
+End

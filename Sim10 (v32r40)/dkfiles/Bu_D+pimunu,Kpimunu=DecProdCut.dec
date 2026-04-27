@@ -1,0 +1,33 @@
+# EventType: 12575062
+#
+# Descriptor: [B+ -> (D- -> K+ pi- mu- anti-nu_mu) pi+ mu+ nu_mu]cc
+#
+# NickName: Bu_D+pimunu,Kpimunu=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ -> D- pi+ mu+ nu_mu decays, with D- -> K+ pi- mu- anti-nu_mu. Kpipimumu in acceptance.
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: J. Bex
+# Email: joshua.james.bex@cern.ch
+# Date: 20240319
+#
+Alias       MyD-       D-
+Alias       MyD+       D+
+ChargeConj  MyD-       MyD+
+#
+Decay B+sig
+  1.000     MyD-  pi+   mu+   nu_mu       PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD-
+  1.000     K+    pi-   mu-   anti-nu_mu  PHSP;
+Enddecay
+CDecay MyD+
+#
+End

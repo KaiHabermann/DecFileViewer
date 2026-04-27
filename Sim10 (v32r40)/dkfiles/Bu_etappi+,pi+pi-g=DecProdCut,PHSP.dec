@@ -1,0 +1,31 @@
+# EventType: 12103214
+#
+# Descriptor: [B+ -> (eta' -> pi+ pi- gamma) pi+]cc
+#
+# NickName: Bu_etappi+,pi+pi-g=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: eta' forced into pi+ pi- gamma, multi-body decays uniformly in phase space
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Jeremy Dalseno
+# Email: jeremy.peter.dalseno@cern.ch
+# Date: 20200406
+
+Alias		MyEta'	eta'
+ChargeConj	MyEta'	MyEta'
+
+Decay B+sig
+      1.0	MyEta'	pi+	PHSP;
+Enddecay
+CDecay B-sig
+
+Decay MyEta'
+      1.0	pi+	pi-	gamma	PHSP;
+Enddecay
+
+End

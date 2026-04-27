@@ -1,0 +1,34 @@
+# EventType:  26103180
+#
+# Descriptor: [Xi_c+ -> (KS0 -> pi+ pi-) p+]cc
+#
+# NickName: Xic+_pKS0,pipi=pshp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Xi_c+ decay to p+ KS0 by phase space model
+# EndDocumentation
+
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: Miroslav Saur
+# Email: miroslav.saur@cern.ch
+# Date: 20210206
+#
+#
+Alias      MyKS0		K_S0
+ChargeConj MyKS0        MyKS0
+Decay Xi_c+sig
+  1.000	p+	MyKS0 	PHSP;
+Enddecay
+CDecay anti-Xi_c-sig
+#
+Decay MyKS0
+ 1.000    pi+       pi-      PHSP;
+Enddecay
+#
+End
+#

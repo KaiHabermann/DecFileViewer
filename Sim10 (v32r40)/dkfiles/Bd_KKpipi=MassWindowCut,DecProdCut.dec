@@ -1,0 +1,28 @@
+# EventType: 11104056
+#
+# Descriptor: [B0 -> K+ K- pi+ pi-]cc
+#
+# NickName: Bd_KKpipi=MassWindowCut,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Flat Phase Space with a mass window to isolate the intermediate states of a four body decay with no c quarks, No CP violation
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Pablo Baladrón Rodríguez
+# Email: pablo.baladron.rodriguez@cern.ch
+# Date: 20200220
+#
+#
+Decay B0sig
+  1.000       K+      K-      pi+     pi-              BNOCBPTOKSHHH; 	
+Enddecay
+CDecay anti-B0sig
+#
+#
+End
+
+

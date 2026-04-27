@@ -1,0 +1,52 @@
+# EventType: 14175052
+#
+# Descriptor:  [B_c+ -> (J/psi(1S) -> mu+ mu-) (D_s2*+ -> (D0 -> K- pi+) K+) ]cc
+#
+# NickName:  Bc_JpsiDsst2573,mmKKpi=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts:  BcDaughtersInLHCb
+#
+# Documentation:  Decay file for Bc -> J/psi Ds2*(2573) decays where J/psi decays to mu+ mu-, Ds2*(2573) decays to D0 K+ and D0 further decays to K- pi+  
+# EndDocumentation
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Niladri Sahoo
+# Email:       Niladri.Sahoo@cern.ch
+# Date:        20220629
+# 
+# CPUTime:     < 1min
+#
+
+Alias        MyJ/psi    J/psi
+ChargeConj   MyJ/psi    MyJ/psi
+Alias        MyD_s2*+   D_s2*+
+Alias        MyD_s2*-   D_s2*-
+ChargeConj   MyD_s2*+   MyD_s2*-
+Alias	     MyD0	D0
+Alias        Myanti-D0  anti-D0
+ChargeConj   MyD0       Myanti-D0 
+
+Decay B_c+sig
+  1.000     MyJ/psi    MyD_s2*+       PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyJ/psi
+  1.000     mu+        mu-            PHOTOS VLL ;
+Enddecay
+#
+Decay MyD_s2*+
+  1.000     MyD0 K+                   TSS;
+Enddecay
+CDecay MyD_s2*-
+#
+Decay MyD0
+  1.000     K-  pi+                   PHSP;
+Enddecay
+CDecay Myanti-D0
+#
+End
+#

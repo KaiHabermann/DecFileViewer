@@ -1,0 +1,38 @@
+# EventType: 49142115
+#
+# Descriptor: chi_c2 -> (psi(1S) -> mu+ mu-) gamma
+# NickName: cep_chic2_psi1Sgamma,mumu=Psi,MuMuInAcc
+# Cuts: None
+# Production: SuperChic2
+#
+# InsertPythonCode:
+#
+# # SuperChic2 options.
+# from Configurables import SuperChic2Production
+# Generation(genAlgName).Special.addTool(SuperChic2Production)
+# Generation(genAlgName).Special.SuperChic2Production.Commands += [
+#     "SuperChic2:proc    = 23",   # Chi_c2[psi(1S)[mu,mu],gamma] production
+#     "SuperChic2:gencuts = true", # Apply cuts below on pseudorapidity
+#     "SuperChic2:etabmin = 1.95", # mu- pseudorapidity min
+#     "SuperChic2:etabmax = 5.00", # mu- pseudorapidity max
+#     "SuperChic2:etacmin = 1.95", # mu+ pseudorapidity min
+#     "SuperChic2:etacmax = 5.00", # mu+ pseudorapidity max
+#     "SuperChic2:mmin = 2.0"] # QCD-induced processes must have mmin > 2 GeV
+#
+# # Keep the CEP process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = ("( GBARCODE >= 2 )")
+# EndInsertPythonCode
+#
+# Documentation:
+# Central exclusive production of chi_c2[psi(1S)[mu mu] gamma] with muons in the acceptance
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: 2 min
+# Responsible: Cristina Sanchez Gras
+# Email: cristina.sanchez.gras@cern.ch
+# Date: 20201012
+#
+End

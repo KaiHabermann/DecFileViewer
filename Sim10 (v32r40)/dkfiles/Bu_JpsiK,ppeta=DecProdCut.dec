@@ -1,0 +1,89 @@
+# $Id: 12233402
+#
+# EventType: 12233402
+# NickName: Bu_JpsiK,ppeta=DecProdCut
+# Descriptor: [B+ -> K+ (J/psi(1S) -> p~- p+ (eta -> gamma gamma) )]cc
+#
+# Cuts: DaughtersInLHCb 
+#
+# Documentation: Decay file for B+-> K+- J/psi (-> p+ p~- eta)  - eta in two photons
+# J/psi decay includes several N* resonances roughly reproducing the Partial Waves Amplitude analysis from BES (PLB 510,75(2001), hep-ex/0105011v1)
+# EndDocumentation
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Olivier Deschamps
+# Email: odescham@in2p3.fr
+# Date: 20250313
+#
+
+Alias      MyJ/psi J/psi
+Alias      Myeta   eta
+ChargeConj MyJ/psi MyJ/psi
+ChargeConj Myeta   Myeta
+
+
+# ==== eta -> gamma gamma === #
+Decay Myeta
+  1.000     gamma   gamma             PHSP;
+Enddecay
+
+# ==== N's -> peta ====# 
+# .. N(1440)
+Alias MyN(1440)+ N(1440)+
+Alias Myanti-N(1440)- anti-N(1440)-
+ChargeConj MyN(1440)+ Myanti-N(1440)-
+Decay Myanti-N(1440)-
+  1.000   anti-p-          Myeta        PHSP;              
+Enddecay
+CDecay MyN(1440)+
+
+# .. N(1535)
+Alias MyN(1535)+ N(1535)+
+Alias Myanti-N(1535)- anti-N(1535)-
+ChargeConj MyN(1535)+ Myanti-N(1535)-
+Decay Myanti-N(1535)-
+  1.000   anti-p-          Myeta        PHSP;              
+Enddecay
+CDecay MyN(1535)+
+
+# .. N(1650)
+Alias MyN(1650)+ N(1650)+
+Alias Myanti-N(1650)- anti-N(1650)-
+ChargeConj MyN(1650)+ Myanti-N(1650)-
+Decay Myanti-N(1650)-
+  1.000   anti-p-          Myeta        PHSP;              
+Enddecay
+CDecay MyN(1650)+
+
+# .. N(1710)
+Alias MyN(1710)+ N(1710)+
+Alias Myanti-N(1710)- anti-N(1710)-
+ChargeConj MyN(1710)+ Myanti-N(1710)-
+Decay Myanti-N(1710)-
+  1.000   anti-p-          Myeta        PHSP;              
+Enddecay
+CDecay MyN(1710)+
+# .. N(1710) replace the M~1800 from BES PWA
+
+# ==== J/psi -> p+ N-(p-eta) + cc -  roughly reproducing the J/psi->ppeta PWA from BES (only spin 1/2 in BES model) ==== #
+Decay MyJ/psi
+  0.04 p+ Myanti-N(1440)- VLL; 
+  0.28 p+ Myanti-N(1535)- VLL; 
+  0.12 p+ Myanti-N(1650)- VLL; 
+  0.06 p+ Myanti-N(1710)- VLL; 
+  0.04 anti-p- MyN(1440)+ VLL; 
+  0.28 anti-p- MyN(1535)+ VLL; 
+  0.12 anti-p- MyN(1650)+ VLL; 
+  0.06 anti-p- MyN(1710)+ VLL; 
+Enddecay
+
+# ==== B+ -> J/psi K+ ==== #
+Decay B+sig
+  1.000 MyJ/psi K+ SVS;
+Enddecay
+CDecay B-sig
+
+End
+#

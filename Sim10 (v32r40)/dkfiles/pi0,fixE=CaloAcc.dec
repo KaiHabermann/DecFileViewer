@@ -1,0 +1,29 @@
+# EventType: 56200001
+#
+# Descriptor: pi0 => gamma gamma 
+#
+# NickName: pi0,fixE=CaloAcc
+#
+# Cuts: LHCbAcceptance
+#
+# Momentum: 1.0*GeV 5.0*GeV  10.0*GeV  16.8*GeV  33.8*GeV  50.0*GeV  100.0*GeV  168.0*GeV
+#
+# Documentation: Decay file for (particle gun) gammas of different energies in Calorimeters acceptance
+# EndDocumentation
+#
+# PhysicsWG: Sim
+# Tested: Yes
+# Responsible:     Liming Zhang, Adam Davis
+# Email: lzhang@cern.ch
+# Date:   20180923
+# CPUTime: < 1min 
+#
+
+Alias pi0sig pi0
+
+Decay pi0sig
+  1.00  gamma   gamma    PHSP;
+Enddecay
+#
+End
+#

@@ -1,0 +1,63 @@
+# EventType: 12562410
+#
+# Descriptor: [B+ -> (anti-D*0 -> pi0 (anti-D0 -> K+ pi-)) (tau+ -> pi+ pi- pi+ anti-nu_tau) nu_tau]cc
+#
+# NickName: Bu_Dst0taunu,D0pi0,D0gamma,Kpi,3pinu,tauolababar,chargedInAcc=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CutsOptions: NeutralThetaMin 0. NeutralThetaMax 10.
+# 
+# Documentation: D*0 -> D0 {pi0,gamma} , D0 -> K pi. The {pi0,gamma} are not forced
+# to be in the LHCb acceptance.
+# Tau lepton decays in 3pi nu mode using the Tauola BaBar model.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Beatriz Garcia Plana, Antonio Romero Vidal
+# Email: beatriz.garcia.plana@cern.ch, antonio.romero@usc.es
+# Date: 20180202
+#
+
+# Tauola steering options
+# The following forces the tau to decay into 3 charged pions (not pi+2pi0)
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         MyD0	        D0
+Alias         Myanti-D0         anti-D0
+ChargeConj    MyD0              Myanti-D0
+#
+Alias         MyD*0             D*0
+Alias         Myanti-D*0        anti-D*0
+ChargeConj    MyD*0             Myanti-D*0
+#
+Alias         MyTau+    	tau+
+Alias         MyTau-     	tau-
+ChargeConj    MyTau+     	MyTau-
+#
+Decay B+sig
+  1.000       Myanti-D*0        MyTau+   nu_tau   ISGW2;
+Enddecay
+CDecay B-sig
+#
+Decay Myanti-D*0
+  0.647  Myanti-D0   pi0        VSS;
+  0.353  Myanti-D0   gamma      VSP_PWAVE;
+Enddecay
+CDecay MyD*0
+#
+Decay Myanti-D0
+  1.00   K+          pi-        PHSP;
+Enddecay
+CDecay MyD0
+#    
+Decay MyTau-
+  1.00  TAUOLA       5;
+Enddecay
+CDecay MyTau+
+#   
+End
+#

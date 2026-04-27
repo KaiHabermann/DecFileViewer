@@ -1,0 +1,61 @@
+#
+# This is the decay file for the decay Bc+ -> E+ Majorana neutrino (-> PI+ Mu-) OS
+#
+# EventType: 14113049
+#
+# Descriptor: [B_c+ -> e+ (Higgs0 -> pi+ mu-) ]cc
+#
+# NickName: Bc_EMajoranaNeutrino2MuPiOS,m=1000MeV,t=0ps,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+# InsertPythonCode:
+# from Gauss.Configuration import *
+# from Configurables import LHCb__ParticlePropertySvc as ParticlePropertySvc
+# from Configurables import GiGaPhysListModular, GiGaHiggsParticles
+#
+#
+# ParticlePropertySvc().Particles = [ "H_10     87     25     0.0     1.00     0.0000e+00     Higgs0     25     0.000000e+000" ]
+# ApplicationMgr().ExtSvc    += [ ParticlePropertySvc() ]
+#
+# gigaHiggsPart = GiGaHiggsParticles()
+# gigaHiggsPart.Higgses = ["H_10"] # H_10, H_20, H_30
+# GiGaPhysListModular("ModularPL").PhysicsConstructors += [ gigaHiggsPart ]#
+#
+#
+# EndInsertPythonCode
+#
+#
+#
+# Documentation:  Decay B_c+ -> E+ Majorana neutrino (-> Pi+Mu-)
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Lisa Fantini, Valeriia Lukashenko
+# Email: lisa.fantini@cern.ch, valeriia.lukashenko@cern.ch
+# Date: 20230630
+# CPUTime: <1min
+#
+Alias      MyHNL  Higgs0
+Alias      Myanti-HNL  Higgs0
+ChargeConj MyHNL Myanti-HNL
+#
+#
+Decay MyHNL
+  1.000         mu-      pi+       PHSP;
+Enddecay
+Decay Myanti-HNL
+  1.000         mu+      pi-       PHSP;
+Enddecay
+#
+#
+Decay B_c+sig
+  1.000         e+    MyHNL         PHSP;
+Enddecay
+CDecay B_c-sig
+#
+#
+End
+#

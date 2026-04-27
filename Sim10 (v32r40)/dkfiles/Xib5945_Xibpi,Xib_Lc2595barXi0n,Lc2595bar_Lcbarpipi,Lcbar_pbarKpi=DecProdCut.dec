@@ -1,0 +1,57 @@
+# EventType: 16166010
+#
+# Descriptor: [Sigma_b0 -> (Xi_b- -> (Lambda_c(2595)~- -> (Lambda_c~- -> p~- K+ pi-) pi+ pi-) Xi0 n0) pi+ ]cc
+#
+# NickName: Xib5945_Xibpi,Xib_Lc2595barXi0n,Lc2595bar_Lcbarpipi,Lcbar_pbarKpi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "Sigma_b0    112    5212   0.0      5.9523      7.3e-22    Sigma_b0        5212      0.00000000", "Sigma_b~0   113    -5212   0.0      5.9523      7.3e-22     anti-Sigma_b0       -5212      0.00000000"
+#
+# Documentation:
+#   Decaying a Sigma_b0 (standin for Xib(5945)0) to Xib- pi+, Xib- decays to anti-Lambdac(2595) Xi0 n,
+#   This decay is used as background for Sexaquark DM searches where Xi0 n is a background for the sexaquark S (uuddss)
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Ellinor Eckstein, Xabier Cid Vidal
+# Email: ellinor.eckstein@cern.ch, xabier.cid.vidal@cern.ch
+# Date: 20231004
+#
+#
+Alias      MyLambda_c(2593)+       Lambda_c(2593)+
+Alias      Myanti-Lambda_c(2593)-       anti-Lambda_c(2593)-
+ChargeConj MyLambda_c(2593)+       Myanti-Lambda_c(2593)-
+#
+Alias       MyLambda_c+        Lambda_c+
+Alias  Myanti-Lambda_c-        anti-Lambda_c-
+ChargeConj      MyLambda_c+    Myanti-Lambda_c-
+#
+Alias   MyXi_b-      Xi_b-
+Alias   Myanti-Xi_b+        anti-Xi_b+
+ChargeConj  MyXi_b-     Myanti-Xi_b+
+#
+#
+Decay Sigma_b0sig
+    1.000   MyXi_b-   pi+    PHSP;
+Enddecay
+CDecay anti-Sigma_b0sig
+#
+Decay MyXi_b-
+    1.000   Myanti-Lambda_c(2593)-   Xi0     n0      PHSP;
+Enddecay
+CDecay Myanti-Xi_b+
+#
+Decay Myanti-Lambda_c(2593)-
+    1.000      Myanti-Lambda_c-  pi+    pi-    PHSP;
+Enddecay
+CDecay MyLambda_c(2593)+
+#
+Decay Myanti-Lambda_c-
+    1.000       anti-p-  K+  pi-      PHSP;
+Enddecay
+CDecay MyLambda_c+
+#
+End

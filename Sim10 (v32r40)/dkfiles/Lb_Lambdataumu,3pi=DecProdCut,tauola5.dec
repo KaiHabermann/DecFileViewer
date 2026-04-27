@@ -1,0 +1,52 @@
+# EventType: 15516100 
+#
+# Descriptor:  {[Lambda_b0 -> mu+ (tau- -> pi+ pi- pi- nu_tau) (Lambda0 -> p+ pi-)]cc, [Lambda_b0 -> (tau+ -> pi+ pi- pi+ anti-nu_tau) mu- (Lambda0 -> p+ pi-)]cc} 
+#
+# NickName: Lb_Lambdataumu,3pi=DecProdCut,tauola5 
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: Lambda_b decay to Lambda0 tau mu (LFV)
+# Lambda0 decays to pipi phase space.
+# Tau lepton decay in the 3-prong charged pion mode using the Tauola 5 model (BaBar).
+# All final-state products in the acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Francesco Polci
+# Email: francesco.polci@lpnhe.in2p3.fr
+# Date: 20241217
+#
+
+# Tauola steering options
+Define TauolaCurrentOption 1
+Define TauolaBR1 1.0
+#
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+Alias      MyLambda0      Lambda0
+Alias      Myanti-Lambda0 anti-Lambda0
+ChargeConj MyLambda0      Myanti-Lambda0
+#
+Decay Lambda_b0sig
+  0.500       MyLambda0      Mytau+    mu-         PHSP;
+  0.500       MyLambda0      mu+        Mytau-     PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda0
+  1.000   p+          pi-        PHSP;
+Enddecay
+CDecay Myanti-Lambda0
+#
+Decay Mytau-
+  1.00        TAUOLA 5;
+Enddecay
+CDecay Mytau+
+#
+End

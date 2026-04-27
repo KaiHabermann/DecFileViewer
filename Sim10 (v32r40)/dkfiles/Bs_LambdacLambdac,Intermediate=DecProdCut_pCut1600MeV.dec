@@ -1,0 +1,73 @@
+# EventType: 13296060
+#
+# Descriptor: [B_s0 -> Lambda_c+  Lambda_c~-]cc
+#
+# NickName: Bs_LambdacLambdac,Intermediate=DecProdCut_pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation: Bs->LcLc, Lc->pKpi with intermediate states
+# EndDocumentation
+#
+# CPUTime: < 1 min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: La Wang
+# Email: la.wang@cern.ch
+# Date: 20230224
+
+#
+Alias MyLambda_c+ Lambda_c+
+Alias Myanti-Lambda_c- anti-Lambda_c-
+ChargeConj MyLambda_c+ Myanti-Lambda_c-
+#
+# Define K*(892)
+Alias      MyK*0      K*0
+Alias      Myanti-K*0 anti-K*0
+ChargeConj MyK*0      Myanti-K*0
+#
+# Define Delta++
+Alias      MyDelta++      Delta++
+Alias      Myanti-Delta-- anti-Delta--
+ChargeConj MyDelta++      Myanti-Delta--
+#
+# Define Lambda(1520)0
+Alias      MyLambda(1520)0       Lambda(1520)0
+Alias      Myanti-Lambda(1520)0  anti-Lambda(1520)0
+ChargeConj MyLambda(1520)0       Myanti-Lambda(1520)0
+#
+
+Decay B0sig
+  1.000    MyLambda_c+        Myanti-Lambda_c-         PHSP;
+Enddecay
+CDecay anti-B0sig
+
+
+
+Decay MyLambda_c+
+    0.01940       p+              Myanti-K*0     PHSP;
+    0.01070       MyDelta++       K-             PHSP;
+    0.02200       MyLambda(1520)0 pi+            PHSP;
+    0.03400       p+              K-         pi+ PHSP;
+Enddecay
+CDecay Myanti-Lambda_c-
+#
+Decay MyK*0
+    1.00000       K+              pi-            VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyDelta++
+    0.99400       p+              pi+            PHSP;
+Enddecay
+CDecay Myanti-Delta--
+#
+Decay MyLambda(1520)0
+    0.45000       p+              K-             PHSP;
+Enddecay
+CDecay Myanti-Lambda(1520)0
+#
+End
+#

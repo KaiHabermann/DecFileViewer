@@ -1,0 +1,42 @@
+# EventType: 18444201 
+#
+# Descriptor: Upsilon(1S) -> (J/psi(1S) -> mu+ mu-) (J/psi(1S) -> mu+ mu-) gamma || Upsilon(1S) -> (chi_c1(1P) -> (J/psi(1S) -> mu+ mu-) gamma) (J/psi(1S) -> mu+ mu-) gamma
+#
+# NickName: Upsilon_JpsiJpsigamma,mm=DecProdCut 
+#
+# Cuts: UpsilonDaughtersInLHCb
+#
+# ExtraOptions: Upsilon
+#
+# Documentation: Upsilon to Jpsi Jpsi gamma 
+# EndDocumentation
+# 
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Liupan An
+# Email: liupan.an@cern.ch
+# Date: 20191007
+#
+#
+Alias       Mychi_c1  chi_c1
+ChargeConj  Mychi_c1  Mychi_c1
+Alias       MyJ/psi   J/psi
+ChargeConj  MyJ/psi   MyJ/psi
+#
+Decay Upsilonsig
+0.500     MyJ/psi    MyJ/psi    gamma      PHSP ;
+0.500     Mychi_c1    MyJ/psi    gamma      PHSP ;
+Enddecay
+#
+Decay Mychi_c1
+1.000     MyJ/psi   gamma     PHSP ; 
+Enddecay
+#
+Decay MyJ/psi
+1.000     mu+       mu-      PHOTOS   VLL;
+Enddecay
+#
+End
+#
+

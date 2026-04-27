@@ -1,0 +1,38 @@
+# EventType: 12155030
+#
+# Descriptor: [B+ -> K+ (psi(2S) -> (J/psi(1S) -> e+ e-) pi+ pi-)]cc 
+#
+# NickName: Bu_psi2SK,Jpsipipi,ee=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Includes radiative mode, decay products in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Johannes Heuel
+# Email: johannes.heuel@cern.ch
+# Date: 20180214
+# CPUTime: < 1min
+#
+Alias      Mypsi(2S)  psi(2S)
+Alias      MyJ/psi  J/psi
+ChargeConj Mypsi(2S)  Mypsi(2S)
+ChargeConj MyJ/psi  MyJ/psi
+#
+Decay B+sig
+  1.000   Mypsi(2S)  K+   SVS;
+Enddecay
+CDecay B-sig
+#
+Decay Mypsi(2S)
+  1.000         MyJ/psi         pi+   pi-         VVPIPI;
+Enddecay
+#
+Decay MyJ/psi
+  1.000         e+         e-     PHOTOS     VLL;
+Enddecay
+#
+End
+

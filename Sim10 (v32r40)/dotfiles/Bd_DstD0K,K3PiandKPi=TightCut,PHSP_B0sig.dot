@@ -1,0 +1,23 @@
+// Created by https://github.com/scikit-hep/decaylanguage
+digraph DecayChainGraph {
+	graph [comment="Created by https://github.com/scikit-hep/decaylanguage" engine=dot format=png name=DecayChainGraph rankdir=LR]
+	node [fontname=Helvetica fontsize=11 shape=oval]
+	edge [fontcolor="#4c4c4c" fontsize=11]
+	mother [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#568dba"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">B0sig</TD></TR></TABLE>> shape=none]
+	dec403038 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">My_D*-_Kpi</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">My_D0_K3pi</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p2">K<SUP>+</SUP></TD></TR></TABLE>> shape=none]
+	mother -> dec403038 [label=0.5]
+	dec403039 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">My_anti-D0_Kpi</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> shape=none]
+	dec403038:p0 -> dec403039 [label=1.0]
+	dec403040 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">K<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec403039:p0 -> dec403040 [label=1.0]
+	dec403041 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">K<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec403038:p1 -> dec403041 [label=1.0]
+	dec403042 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">My_D*-_K3pi</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">My_D0_Kpi</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p2">K<SUP>+</SUP></TD></TR></TABLE>> shape=none]
+	mother -> dec403042 [label=0.5]
+	dec403043 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">My_anti-D0_K3pi</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03c0;<SUP>-</SUP></TD></TR></TABLE>> shape=none]
+	dec403042:p0 -> dec403043 [label=1.0]
+	dec403044 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">K<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec403043:p0 -> dec403044 [label=1.0]
+	dec403045 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">K<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec403042:p1 -> dec403045 [label=1.0]
+}

@@ -1,0 +1,34 @@
+# EventType: 14543023
+#
+# Descriptor: [B_c+ => (psi(2S) => mu+ mu-) mu+ nu_mu]cc
+#
+# NickName: Bc_psi2SMuNu,mm=BcVegPy,ffKiselev,DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation: Bc+ -> psi(2S)(-> Mu+ Mu- {,gamma} {,gamma}) mu+. Form factor model by Kiselev [hep-ph/0211021].
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Xuhao Yuan
+# Email: xuhao.yuan@cern.ch
+# Date: 20190410
+#
+Alias       Mypsi2S   psi(2S)
+ChargeConj  Mypsi2S   Mypsi2S
+#
+Decay B_c+sig
+  1.00000   Mypsi2S   mu+           nu_mu               PHOTOS BC_VMN 1;
+Enddecay
+CDecay B_c-sig
+#
+Decay Mypsi2S
+  1.000     mu+       mu-                    PHOTOS   VLL;
+Enddecay
+#
+End
+#

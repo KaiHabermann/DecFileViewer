@@ -1,0 +1,46 @@
+# EventType: 12513200
+#
+# Descriptor: [B+ => (eta_prime => e+ e- gamma) mu+ nu_mu]cc
+#
+# NickName: Bu_etapmunu,eegamma=TightCut,ISGW2
+#
+# Documentation: Decay file for B+ -> eta' mu+ nu_mu with eta' -> e+ e- gamma. The muon is required to be high momentum and in the LHCb acceptance.
+# EndDocumentation
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation().SignalRepeatedHadronization
+# gen.addTool( LoKi__GenCutTool, "TightCut" )
+# SignalFilter = gen.TightCut
+# SignalFilter.Decay = "[B+ => eta_prime ^mu+ nu_mu]CC"
+# SignalFilter.Preambulo += [
+#   "from GaudiKernel.SystemOfUnits import  GeV",
+#   "inAcc                = in_range ( 0.005 , GTHETA , 0.400 )", 
+#   "muCuts               = (GP > 5 * GeV) &  (GPT > 1.2 * GeV) & inAcc",
+#   ]
+# SignalFilter.Cuts =  { "[mu+]cc" : "muCuts" }
+# EndInsertPythonCode
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible:  Fabian Christoph Glaser
+# Email: fabian.christoph.glaser@cern.ch
+# Date: 20230623
+#
+Alias      MyEta'  eta'
+ChargeConj MyEta'  MyEta'
+#
+Decay B+sig
+  1.       MyEta'      mu+    nu_mu    PHOTOS  ISGW2;
+Enddecay
+CDecay B-sig
+#
+Decay MyEta'
+  1.       e+         e-       gamma   PHOTOS  PI0_DALITZ;
+Enddecay
+#
+End
+#

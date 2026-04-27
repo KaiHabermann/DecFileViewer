@@ -1,0 +1,70 @@
+# EventType: 11563012
+#
+# Descriptor: [B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) tau+  nu_tau]cc
+# NickName: Bd_DstTauNu=DecProdCut,TightCut,inclusive_tau_decays
+#
+# Cuts: 'LoKi::GenCutTool/TightCut'
+# InsertPythonCode:
+#
+#from Configurables import LoKi__GenCutTool
+#from Gauss.Configuration import *
+#gen = Generation(genAlgName)
+#gen.SignalRepeatedHadronization.addTool ( LoKi__GenCutTool , 'TightCut' )
+#tightCut = gen.SignalRepeatedHadronization.TightCut
+#tightCut.Decay = "[B0 => ^(D*(2010)- => pi- ^(D~0 => K+ pi-)) tau+  nu_tau]CC"
+#tightCut.Preambulo += [
+#  "from LoKiCore.functions import in_range" ,
+#  "from GaudiKernel.SystemOfUnits import GeV, MeV",
+#  "inAcc = ( 0 < GPZ ) & in_range ( 0.005 , GTHETA , 0.400 ) & ( GP > 1.6 * GeV )",
+#  "good_slow_pion = ('pi+' == GABSID) & ( GPT > 100 * MeV ) & inAcc",
+#  "good_D0_pion   = ('pi+' == GABSID) & ( GPT > 240 * MeV ) & inAcc",
+#  "good_D0_kaon   = ('K+' == GABSID)  & ( GPT > 240 * MeV ) & inAcc",
+#  "good_D0        = ('D0' == GABSID) & ( GPT > 1.5 * GeV ) & ( GP > 15. * GeV ) & GCHILDCUT(good_D0_kaon, 'Charm => ^(K+|K-) (pi+|pi-)') & GCHILDCUT(good_D0_pion, 'Charm => (K+|K-) ^(pi+|pi-)')",
+#  "good_Dstar     = ('D*(2010)+' == GABSID) & GCHILDCUT(good_slow_pion, 'Charm => Charm ^(pi+|pi-)')",
+#]
+#tightCut.Cuts = {
+#  "[D*(2010)-]cc" : "good_Dstar",
+#     "[D0]cc" : "good_D0",
+#}
+# EndInsertPythonCode
+#
+# Documentation: Bd to D* tau, with D* to pi D0 and D0 to Kpi final state, and inclusive tau decays. Cuts for B -> D* tau nu, tau-> 3pi 2015+2016 analysis.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# CPUTime: < 1 min
+# Tested: Yes
+# Responsible: Adam Morris
+# Email: adam.morris@cern.ch
+# Date: 20181122
+#
+
+Alias             MyD0        D0
+Alias             anti-MyD0   anti-D0
+ChargeConj        MyD0        anti-MyD0
+
+Alias         MyD*+   D*+
+Alias         MyD*- D*-
+ChargeConj    MyD*+ MyD*-
+
+
+
+Decay B0sig
+  1.000       MyD*-       tau+        nu_tau             ISGW2;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD*+
+  1.000     MyD0      pi+                 VSS;
+Enddecay
+CDecay MyD*-
+#
+Decay MyD0
+  1.0000      K-     pi+     PHSP;
+Enddecay
+CDecay anti-MyD0
+#    
+
+#   
+End
+#

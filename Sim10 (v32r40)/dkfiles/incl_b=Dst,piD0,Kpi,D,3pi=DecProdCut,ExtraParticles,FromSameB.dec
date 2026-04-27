@@ -1,0 +1,61 @@
+# EventType: 27163971
+#
+# Descriptor: [D*(2010)+ -> (D0 -> K- pi+) pi+]cc
+# Cuts: DaughtersInLHCbAndCutsForDstarFromB
+# CutsOptions: D0PtCuts 1.500*GeV DaughtersPtMinCut 240*MeV DaughtersPtMaxCut 240*MeV DaughtersPMinCut 1.60*GeV SoftPiPtCut 100*MeV
+# FullEventCuts: ExtraParticlesInAcceptance
+#
+# CPUTime: 4 min
+#
+# NickName: incl_b=Dst,piD0,Kpi,D,3pi=DecProdCut,ExtraParticles,FromSameB
+# Documentation: Inclusive D*3pi events from b decays. Differs from 27163077 by tighter kinematic cuts and the requirement that the extra particles originate from the same b-hadron.
+#                The 3pi must come from a stable b-hadron and are in LHCb acceptance.
+#                Requires another D0 or D+ from that same b-hadron.
+# EndDocumentation
+#
+# InsertPythonCode:
+#
+# from Configurables import ExtraParticlesInAcceptance
+# from GaudiKernel.SystemOfUnits import mm, mrad, MeV
+#
+# stable_b_hadrons = [511, 521, 531, 5122, 541, 5112, 5212, 5222, 5132, 5232, 5312, 5322, 5332, 5142, 5242, 5412, 5342, 5442, 5512, 5522, 5532, 5542, 5554]
+# stable_b_hadrons += [-pid for pid in stable_b_hadrons]
+#
+# Generation(genAlgName).FullGenEventCutTool = "ExtraParticlesInAcceptance"
+# Generation(genAlgName).addTool( ExtraParticlesInAcceptance )
+# Generation(genAlgName).ExtraParticlesInAcceptance.WantedIDs = [211, -211]
+# Generation(genAlgName).ExtraParticlesInAcceptance.NumWanted = 3
+# Generation(genAlgName).ExtraParticlesInAcceptance.RequiredAncestors = stable_b_hadrons
+# Generation(genAlgName).ExtraParticlesInAcceptance.AtLeast = True
+# Generation(genAlgName).ExtraParticlesInAcceptance.ExcludeSignalDaughters = True
+# Generation(genAlgName).ExtraParticlesInAcceptance.AllFromSameB = True
+# Generation(genAlgName).ExtraParticlesInAcceptance.ZPosMax = 200.*mm
+# Generation(genAlgName).ExtraParticlesInAcceptance.PtMin = 240.*MeV
+# Generation(genAlgName).ExtraParticlesInAcceptance.ExtraIDs = [411, -411, 421, -421]
+# Generation(genAlgName).ExtraParticlesInAcceptance.NumExtra = 1
+# Generation(genAlgName).ExtraParticlesInAcceptance.AtLeastExtra = True
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Adam Morris
+# Email: adam.morris@cern.ch
+# Date: 20181115
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+  1.0   K-  pi+    PHSP;
+Enddecay
+CDecay MyantiD0
+#
+End

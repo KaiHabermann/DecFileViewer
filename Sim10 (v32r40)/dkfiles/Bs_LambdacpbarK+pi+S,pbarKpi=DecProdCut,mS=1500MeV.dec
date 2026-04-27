@@ -1,0 +1,39 @@
+# EventType: 13166061 
+# 
+# Descriptor: {[[B_s0]nos -> (anti-Lambda_c- -> anti-p- K+ pi-)  anti-p- K+ pi+ H_30]cc, [[B_s0]os -> (anti-Lambda_c- -> anti-p- K+ pi-)  anti-p- K+ pi+ H_30]cc}
+# 
+# NickName: Bs_LambdacpbarK+pi+S,pbarKpi=DecProdCut,mS=1500MeV
+#
+# Documentation: Decay Bs0 to a Lambdacbar Lambdabar pi+ and H_30 
+# H_30 as stand in for a Sexaquark (uuddss) as stable DM candidate
+# EndDocumentation
+#
+# Cuts: DaughtersInLHCb
+#
+# ParticleValue: "H_30     89       36      0.0     1.500        1.000000e+16    A0      36      0.00"
+#
+#
+# CPUTime: < 1 min
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Fernanda Goncalves Abrantes 
+# Email: goncalvf@cern.ch
+# Date: 20231109
+#
+Alias       MyLambdac       Lambda_c+
+Alias       MyantiLambdac   anti-Lambda_c-
+ChargeConj  MyLambdac       MyantiLambdac
+#
+Decay B_s0sig
+  1.000     MyantiLambdac    anti-p-    K+    pi+    A0    PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyantiLambdac
+  1.000     anti-p-          K+          pi-               PHSP;
+Enddecay
+CDecay MyLambdac
+#
+End
+#
+

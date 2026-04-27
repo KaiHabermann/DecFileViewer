@@ -1,0 +1,68 @@
+# EventType: 18100200
+#
+# Descriptor: Upsilon => gamma gamma
+#
+# NickName: incl_etab,gammagamma=UpsilonDaughtersInLHCb
+#
+# Documentation: etab decay to two photons with phase space model, daughters in acceptance
+# EndDocumentation
+#
+# Cuts:          UpsilonDaughtersInLHCb
+# ExtraOptions:  Upsilon
+#
+# ParticleValue: "Upsilon(1S)   387    553   0.0   9.40300000    6.5821196e-23    Upsilon   553    0.00000000"
+#
+# InsertPythonCode: 
+# from Configurables import Generation, MinimumBias, Pythia8Production, Inclusive, SignalPlain, SignalRepeatedHadronization, Special
+#
+# gen = Generation(genAlgName)
+# # -- modify Pythia8 to only generate from bottomonium processes -- #
+#
+# Pythia8TurnOffMinbias  = [ "SoftQCD:all     = off"]
+# Pythia8TurnOffMinbias += [ "Bottomonium:all = on" ]
+# Pythia8TurnOffMinbias += [ "Charmonium:all  = off"]
+#
+# gen.addTool( MinimumBias , name = "MinimumBias" )
+# gen.MinimumBias.ProductionTool = "Pythia8Production"
+# gen.MinimumBias.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.MinimumBias.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Inclusive , name = "Inclusive" )
+# gen.Inclusive.ProductionTool = "Pythia8Production"
+# gen.Inclusive.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Inclusive.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalPlain , name = "SignalPlain" )
+# gen.SignalPlain.ProductionTool = "Pythia8Production"
+# gen.SignalPlain.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalPlain.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( SignalRepeatedHadronization , name = "SignalRepeatedHadronization" )
+# gen.SignalRepeatedHadronization.ProductionTool = "Pythia8Production"
+# gen.SignalRepeatedHadronization.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.SignalRepeatedHadronization.Pythia8Production.Commands += Pythia8TurnOffMinbias
+#
+# gen.addTool( Special , name = "Special" )
+# gen.Special.ProductionTool = "Pythia8Production"
+# gen.Special.addTool( Pythia8Production , name = "Pythia8Production" )
+# gen.Special.Pythia8Production.Commands += Pythia8TurnOffMinbias
+# # -- END  -- #
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Andrii Usachov
+# Email: andrii.usachov@cern.ch
+# Date: 20210312
+# CPUTime: <1 min
+#
+Decay    Upsilonsig
+  1.000  gamma   gamma   	PHSP;
+Enddecay
+#
+End
+#
+
+
+

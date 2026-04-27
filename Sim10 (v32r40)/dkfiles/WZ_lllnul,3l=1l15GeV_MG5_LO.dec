@@ -1,0 +1,42 @@
+# EventType: 42923003
+#
+# Descriptor: pp -> [mu- mu+ e- nu_e~]cc ... 
+#
+# NickName:  WZ_lllnul,3l=1l15GeV_MG5_LO
+# Production: Madgraph
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 15*GeV LeptonIsFromMother true NumberOfbquarks -1 
+#
+# InsertPythonCode:
+# #Configure the event type.
+# from Configurables import Gauss, Generation, MadgraphProduction
+# from GaudiKernel import SystemOfUnits
+# from Gaudi.Configuration import importOptions
+#
+# Generation(genAlgName).Special.addTool(MadgraphProduction)
+#
+# # Madgraph options.
+# #Generation().Special.addTool(MadgraphProduction)
+# sampleGenToolsOpts = {
+#     "Commands": ["define w = w+ w-",
+#                  "define l = l+ l-",
+#                  "define vlvlbar = vl vl~",
+#                  "generate p p > l+ l- w, w > l vlvlbar"],
+#      "DecEff": 1.0}
+# Gauss().SampleGenerationToolOptions.update(sampleGenToolsOpts)
+# EndInsertPythonCode
+# CPUTime: < 1 min
+# Documentation: 1 lepton with pT > 15 GeV.  Madgraph WZ LO DecFile.
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Gabe Nowak
+# Email: ganowak@cern.ch
+# Date: 20240819
+#
+End
+#
+

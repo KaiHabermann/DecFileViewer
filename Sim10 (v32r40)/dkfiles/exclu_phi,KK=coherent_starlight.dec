@@ -1,0 +1,32 @@
+# EventType: 47102010
+#
+# Descriptor: phi(1020)0 -> K+ K-
+#
+# NickName: exclu_phi,KK=coherent_starlight
+# Cuts: None
+# Documentation: phitoKK with STARlight
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import Generation, Special, StarLightProduction
+# Generation().SampleGenerationTool = 'Special'
+# Generation().addTool(Special)
+# Generation().Special.CutTool = ''
+# Generation().Special.ProductionTool = 'StarLightProduction'
+# Generation().Special.addTool(StarLightProduction)
+# Generation().Special.StarLightProduction.Commands += ['PROD_PID = 333']
+# Generation().Special.StarLightProduction.Decays = True
+# Generation().Special.StarLightProduction.Commands += ['PROD_MODE = 2']
+# EndInsertPythonCode
+#
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible: Daniel Craik
+# Email: dcraik@cern.ch
+# Date: 20221216
+
+#
+End

@@ -1,0 +1,62 @@
+# EventType: 26104984
+#
+# Descriptor: [Xi_c0 -> (Xi- -> (Lambda0 -> p+ pi-) pi-) K+ ]cc
+#
+# NickName: Omegac0_XimKp,L0pi,ppi=phsp,DecProdCut,tau=274fs
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: (prompt) Omega_c0 decays to Xi K with phase space decay model
+#                 Xi_c0 is used to mimic Omegac0
+# EndDocumentation
+#
+# ParticleValue: "Xi_c0               106        4132  0.0        2.69520000      2.745e-13            Xi_c0        4132   0.000", "Xi_c~0              107       -4132  0.0        2.69520000      2.745e-13          anti-Xi_c0       -4132   0.000"
+# 
+# PhysicsWG: Charm
+# Tested: Yes
+# Responsible: Chuangxin Lin, Ziyi Wang, Jinlin Fu, Xiaorui Lyu
+# Email:       chuangxin.lin@cern.ch, ziyi.wang@cern.ch
+# Date: 20211003
+#
+#
+Alias      MyXi         Xi-
+Alias      Myanti-Xi    anti-Xi+
+ChargeConj MyXi         Myanti-Xi
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+#
+Decay Xi_c0sig
+1.000      MyXi     K+  PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+#
+Decay MyXi
+1.000     MyLambda  pi-                 PHSP;
+Enddecay
+CDecay Myanti-Xi
+#
+Decay MyLambda
+1.000    p+         pi-                PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+#
+##### Overwrite forbidden decays
+Decay Xi'_c0
+1.0000    gamma Sigma_c0                     PHSP;
+Enddecay
+Decay anti-Xi'_c0
+1.0000    gamma anti-Sigma_c0                PHSP;
+Enddecay 
+#
+Decay Xi_c*0
+0.5000    Sigma_c0  pi0                     PHSP;
+0.5000    Sigma_c0  gamma                   PHSP;
+Enddecay
+CDecay anti-Xi_c*0
+#
+End

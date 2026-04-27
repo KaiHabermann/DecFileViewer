@@ -1,0 +1,79 @@
+# EventType: 36105102
+# 
+# Descriptor: [Omega- -> (Xi- -> (Lambda0 -> p+ pi-) pi-) pi+ pi-]cc
+# 
+# NickName: Omega_XiPiPi=TightCut,inUT
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Omega forced through Xi- pi pi, then Xi forced to Lambda pi, with Lambda -> p pi exclusively, LHCb acceptance.
+# As positive proton ID will be used for the Lambda decay, the proton
+# momentum is required to be above 9 GeV.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName) 
+# signal     = generation.SignalPlain 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[(Omega- => (Xi- => ^(Lambda0 => ^p+ ^pi-) pi-) pi+ pi-)]CC'
+# tightCut.Preambulo += [
+#     "GVX = LoKi.GenVertices.PositionX() " ,
+#     "GVY = LoKi.GenVertices.PositionY() " ,
+#     "GVZ = LoKi.GenVertices.PositionZ() " ,
+#     "from GaudiKernel.SystemOfUnits import meter, GeV" ,
+#     "inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )     " ,
+#     "inEta       =  in_range ( 1.5  , GETA   , 5.5 )        " , 
+#     "inP_pi       =  ( GP > 2.5  *  GeV ) ",
+#     "inPT_pi      =  ( GPT > 0.05  *  GeV ) ",
+#     "inP_p        =  ( GP > 9.0 *  GeV ) ",
+#     "inPT_p      =  ( GPT > 0.4  *  GeV ) ",
+#     "goodPion     =  inAcc & inP_pi & inPT_pi & inEta" ,
+#     "goodProton   =  inAcc & inP_p  & inPT_p & inEta" ,
+#     "decay =  GFAEVX ( GVZ, 100 * meter )  < (2.5 * meter)",
+# ]
+# tightCut.Cuts      =    {
+#     "[Lambda0]cc"      : "decay", 
+#     "[pi-]cc"      : "goodPion" , 
+#     "[p+]cc"       : "goodProton",
+#                         }
+# EndInsertPythonCode
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Ulrik Egede
+# Email: ulrik.egede@monash.edu
+# Date: 20250516
+# CPUTime: < 4 min
+#
+#Alias      Omega-sig       Omega-
+#Alias      anti-Omega+sig       anti-Omega+ 
+#ChargeConj Omega-sig       anti-Omega+sig
+#
+Alias      MyXi-          Xi-
+Alias      MyXi+          anti-Xi+
+ChargeConj MyXi-          MyXi+
+#
+Alias      MyLambda       Lambda0
+Alias      Myanti-Lambda  anti-Lambda0
+ChargeConj Myanti-Lambda  MyLambda
+#
+Decay Omega-sig
+1.000      MyXi-   pi+   pi-    PHSP;
+Enddecay
+CDecay anti-Omega+sig
+#
+Decay MyXi-
+1.000      MyLambda     pi-    PHSP;
+Enddecay
+CDecay MyXi+
+#
+Decay MyLambda
+1.000      p+           pi-    PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#

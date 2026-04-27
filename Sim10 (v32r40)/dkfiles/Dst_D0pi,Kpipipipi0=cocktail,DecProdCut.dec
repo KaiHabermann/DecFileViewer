@@ -1,0 +1,76 @@
+# EventType: 27265400
+#
+# Descriptor: [D*(2010)+ -> (D0 -> K- pi- pi+ pi+ pi0) pi+]cc
+#
+# NickName: Dst_D0pi,Kpipipipi0=cocktail,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation:
+#   This is the decay file for the decay D* -> D0 pi+
+#   D0 decays to mode (K- pi- pi+ pi+ pi0) with a D* tag. 
+#   Fractions of different contributing intermediate channels from PDG [Phys.Rev.D98,030001(2018)]
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Liang Sun
+# Email: liang.sun [at] cern.ch
+# Date: 20200530
+#
+
+Alias MyD0 D0
+Alias MyantiD0 anti-D0
+ChargeConj MyD0 MyantiD0
+Alias myKstm K*-
+Alias myKstp K*+
+ChargeConj myKstm myKstp
+Alias myKst0bar anti-K*0
+Alias myKst0 K*0
+ChargeConj myKst0 myKst0bar
+Alias myrho0 rho0
+Alias myeta eta
+Alias myomega omega
+
+Decay D*+sig
+  1.000 MyD0  pi+    VSS;
+Enddecay
+CDecay D*-sig
+
+Decay MyD0
+# Sum of BFs = 0.043061765978
+0.034  myKst0bar  myeta                   SVS; # 0.0096*0.2274*0.6657 = 0.00145, ratio = 3.4%
+0.470  K-  pi+  myomega                  PHSP; # 0.0227*0.8920 = 0.0202, ratio = 47.0%
+0.152   myKst0bar myomega                 SVV_HELAMP  1.0 0.0 1.0 0.0 1.0 0.0; # 0.0110*0.8920*0.6657 = 0.00653, ratio = 15.2%
+0.039  myKstm myrho0 pi+                    PHSP; # 0.0051*0.9895*0.3330 = 0.00168, ratio = 3.9%
+0.012  myKstm pi+ pi+ pi-                 PHSP; # 0.0015*0.3330 = 0.0005, ratio = 1.2%
+0.293   myKst0bar pi+ pi- pi0    PHSP; # 0.019*0.6657 = 0.0126, ratio = 29.4%
+Enddecay
+CDecay MyantiD0
+#
+
+Decay myeta
+0.2274    pi- pi+ pi0                        ETA_DALITZ;
+Enddecay
+
+Decay myrho0
+0.9895    pi+ pi-                             VSS;
+Enddecay
+
+Decay myomega
+0.8920    pi-  pi+  pi0                      OMEGA_DALITZ;
+Enddecay
+
+Decay myKst0bar
+0.6657    K-  pi+                       VSS;
+Enddecay
+CDecay myKst0
+
+Decay myKstm
+0.3330      K-  pi0                        VSS;
+Enddecay
+CDecay myKstp
+
+End
+ 

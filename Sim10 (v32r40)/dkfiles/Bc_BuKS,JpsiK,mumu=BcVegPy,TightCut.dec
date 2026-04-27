@@ -1,0 +1,76 @@
+# EventType: 14145100
+#
+# Descriptor: [B_c+ -> (B+ -> (J/psi -> mu+ mu-) K+ ) (KS0 -> pi- pi+) ]cc
+#
+# NickName: Bc_BuKS,JpsiK,mumu=BcVegPy,TightCut
+#
+# Production: BcVegPy
+#
+# Cuts: LoKi::GenCutToolWithDecay/TightCut
+#
+# Documentation: Bc decays, uses BcVegPy generator
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: M. Kreps
+# Email: michal.kreps@cern.ch
+# Date: 20210804
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutToolWithDecay
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.Special.addTool ( LoKi__GenCutToolWithDecay , 'TightCut' )
+# gen.Special.CutTool = 'LoKi::GenCutToolWithDecay/TightCut'
+# #
+# tightCut = gen.Special.TightCut
+# tightCut.SignalPID = 'B_c+'
+# tightCut.Decay = '[B_c+ => (B+ => ^(J/psi(1S) => ^mu+ ^mu-) K+ ) ^(KS0 => pi+ pi-)]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, MeV, GeV                             ' ,
+#     'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) & in_range(1.8, GETA, 5.2)             ' , 
+#     'goodMuon  = ( GPT > 490  * MeV ) & ( GP > 5.4 * GeV )             & inAcc              ' , 
+#     'goodKaon  = ( GPT > 140  * MeV ) & in_range(2.9*GeV, GP, 210*GeV) & inAcc             ' , 
+#     'goodPsi   = in_range ( 1.8 , GY , 4.5 )                                                ' ,
+#     "goodKS0 = (GFAEVX(abs(GVZ),0) < 2500.0 * millimeter) & (GINTREE ( ( 'pi+' == GABSID ) & ( GP > 1.3 * GeV ) )) & (GINTREE ( ( 'pi+' == GABSID ) & ( GP > 1.3 * GeV ) ))",
+#     ]
+# tightCut.Cuts = {
+#     '[mu+]cc'         : ' goodMuon  ' , 
+#     '[K+]cc'          : ' goodKaon  ' , 
+#     'J/psi(1S)'       : ' goodPsi   ' ,
+#     'KS0'             : ' goodKS0   ' ,
+#     }
+# 
+# EndInsertPythonCode
+#
+#
+Alias       MyB+        B+
+Alias       MyB-        B-
+ChargeConj  MyB+        MyB-
+Alias       MyKS        K_S0
+ChargeConj  MyKS        MyKS
+Alias       MyJ/psi     J/psi
+ChargeConj  MyJ/psi     MyJ/psi
+#
+Decay B_c+sig
+  1.000    MyB+  MyKS   PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay MyB+
+  1.000     MyJ/psi     K+       SVS;
+Enddecay
+CDecay MyB-
+#
+Decay MyJ/psi
+  1.000     mu+         mu-     PHOTOS VLL;
+Enddecay
+#
+Decay MyKS
+  1.000     pi+         pi-     PHSP;
+Enddecay
+#
+End

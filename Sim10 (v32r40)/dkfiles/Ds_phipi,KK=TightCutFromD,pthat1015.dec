@@ -1,0 +1,66 @@
+# EventType: 23103050
+# 
+# Descriptor: [D_s+ -> ( phi(1020) -> K+ K- ) pi+]cc
+#
+# NickName: Ds_phipi,KK=TightCutFromD,pthat1015
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# # 
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[ D_s+ => ( (phi(1020) => ^K+ ^K-) ) ^pi+ ]CC'
+# tightCut.Cuts      =    {
+#     '[K+]cc'   : ' goodKaon ' , 
+#     '[pi+]cc'   : ' goodPion ' , 
+#     '[D_s+]cc'  : ' notFromB  ' } 
+# tightCut.Preambulo += [
+#     'inAcc        = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodKaon     =  inAcc ' , 
+#     'goodPion     =  inAcc ' , 
+#     'Bancestors   =  GNINTREE ( GBEAUTY , HepMC.ancestors )',
+#     'notFromB     =  0 == Bancestors' ] 
+#
+# from Gaudi.Configuration import importOptions
+# importOptions('$DECFILESROOT/options/SwitchOffAllPythiaProcesses.py')
+# from Configurables import Pythia8Production
+# gen.SignalPlain.addTool(Pythia8Production)
+# gen.SignalPlain.Pythia8Production.Commands+=[
+#     "HardQCD:all = on",
+#     "PhaseSpace:pTHatMin = 10.0",
+#     "PhaseSpace:pTHatMax = 15.0"]
+#
+# # Keep 2 -> 2 hard process in MCParticles.
+# from Configurables import GenerationToSimulation
+# GenerationToSimulation("GenToSim").KeepCode = (
+#     "( GBARCODE >= 1 ) & ( GBARCODE <= 6 )")
+#
+# EndInsertPythonCode
+
+# Documentation: Forces a Ds+ from c quarks to ( phi -> K+ K- ) pi+ with generator level cuts with pthatmin equal to 20
+# EndDocumentation
+#
+# PhysicsWG: QCD
+# Tested: Yes
+# Responsible: Ibrahim Chahrour
+# Email: chahrour@umich.edu
+# Date: 20240227
+# CPUTime: <1min
+#
+Alias       my_phi   phi
+ChargeConj  my_phi   my_phi
+#
+Decay  D_s+sig
+  1.000     my_phi   pi+    PHOTOS SVS ;
+Enddecay
+CDecay D_s-sig
+#
+Decay  my_phi
+  1.000     K+      K-    PHOTOS VSS ;
+Enddecay
+#
+End

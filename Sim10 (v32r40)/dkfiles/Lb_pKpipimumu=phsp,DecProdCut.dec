@@ -1,0 +1,25 @@
+# EventType: 15116000
+#
+# Descriptor: [Lambda_b0 -> p+ K- pi+ pi- mu+ mu-]cc
+#
+# NickName: Lb_pKpipimumu=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Six body Lambda_b0 to  p K pi+ pi- mu mu decay with generic phase space
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes 
+# Responsible: Qi Shi
+# Email: qi.shi@cern.ch
+# Date: 20250427
+# CPUTime: 2 min
+
+Decay Lambda_b0sig
+  1.000   p+ K- pi+ pi- mu+  mu- PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+End
+#

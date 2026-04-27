@@ -1,0 +1,31 @@
+# EventType: 25103401
+#
+# Descriptor: [Lambda_c+ -> p+ K- K+ pi0]cc
+#
+# NickName: Lc_pKKpi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Phase space decay model or with phi resonance
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# CPUTime: <1min
+# Responsible: Mengzhen Wang
+# Email:       mengzhen.wang@cern.ch
+# Date:        20180302
+#
+Alias Myphi phi
+
+Decay Lambda_c+sig
+  0.50000 p+     Myphi      pi0         PHSP;
+  0.50000 p+     K+ K-      pi0         PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+
+Decay Myphi
+  1.0 K+ K- VSS;
+Enddecay
+#
+End 

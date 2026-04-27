@@ -1,0 +1,56 @@
+# EventType: 10134008
+#
+# Descriptor: psi(2S) => ( Lambda(1520)0 => p+ K- ) ( anti-Lambda(1520)0 => p~- K+ ) 
+#
+# NickName: incl_b=psi3823,LstLst,pK,InAcc
+#
+# Cuts: DaughtersInLHCb
+# FullEventCuts: LoKi::FullGenEventCut/b2CCbarFilter
+# Sample: RepeatDecay.Inclusive
+#
+# ParticleValue: "psi(2S)              126       100443   0      3.8327      2.2696964031034486e-22           psi(2S)           100443      0.0"
+#
+# CPUTime: < 1 min
+#
+# InsertPythonCode:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "b2CCbarFilter" )
+# SignalFilter = Generation(genAlgName).b2CCbarFilter
+# SignalFilter.Code = " has(isB2ccTcuts)"
+# SignalFilter.Preambulo += [
+#  "from GaudiKernel.SystemOfUnits import MeV, GeV, mrad",
+#  "inAcc = (in_range(  0.010 , GTHETA , 0.400 ))",
+#  "isB2cc = ((GDECTREE('(Beauty & LongLived) --> psi(2S) ...')))",
+#  "ppcuts = (GINTREE( (('p+'  == GID ) & (GPT > 250 * MeV) & inAcc) ) )",
+#  "pmcuts = (GINTREE( (('p~-' == GID ) & (GPT > 250 * MeV) & inAcc) ) )",
+#  "Kpcuts = (GINTREE( (('K+'  == GID ) & (GPT > 250 * MeV) & inAcc) ) )",
+#  "Kmcuts = (GINTREE( (('K-'  == GID ) & (GPT > 250 * MeV) & inAcc) ) )",
+#  "isB2ccTcuts = (isB2cc & ppcuts & pmcuts & Kpcuts & Kmcuts)"
+#    ]
+# EndInsertPythonCode
+#
+# Documentation: psi2(3823) decay to Lst Lst, keep only particles in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Vsevolod Yeroshenko
+# Email: vsevolod.yeroshenko@cern.ch
+# Date: 20240313
+#
+Alias      MyLst     Lambda(1520)0
+Alias      MyantiLst anti-Lambda(1520)0
+ChargeConj MyLst     MyantiLst
+#
+Decay psi(2S)
+  1.000    MyLst  MyantiLst      PHSP;
+Enddecay
+#
+Decay MyLst
+  1.000  p+      K-    PHSP; 
+Enddecay
+CDecay MyantiLst
+#
+End
+#
+

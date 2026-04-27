@@ -1,0 +1,50 @@
+# EventType: 12775400
+#
+# Descriptor: [B- -> (D_1(2420)0 -> (D*(2010)+ -> (D+ -> K- pi+ pi+) pi0) pi-) mu- anti-nu_mu]cc || [B- -> (D_1(2420)0 -> (D*(2010)+ -> (D+ -> K- pi+ pi+) gamma) pi-) mu- anti-nu_mu]cc
+#
+# NickName: Bu_D_10munu,Kpipi=DecProdCut,cocktail
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Daughters in LHCb, B- forced into D_10 mu- anti-nu_mu. D_10 forced into D*+ pi-. D*+ forced into D+gamma or D+pi0. D+ forced into K- pi+ pi+. Serves as Feeddown mode for SL analysis.
+# EndDocumentation
+#
+# CPUTime: <1min
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Piet Nogga (University of Bonn)
+# Email: piet.nogga@cern.ch
+# Date: 20250402
+#
+
+Alias      MyDp       D+
+Alias      MyDm       D-
+Alias      MyD*+      D*+
+Alias      MyD*-      D*-
+Alias      MyD*1      D_10
+Alias      MyantiD*1  anti-D_10
+ChargeConj MyDp       MyDm
+ChargeConj MyD*+      MyD*-
+ChargeConj MyD*1      MyantiD*1
+#
+Decay B-sig
+  1.00         MyD*1 mu- anti-nu_mu        ISGW2;
+Enddecay
+CDecay B+sig
+#
+Decay MyD*1
+  1.000   MyD*+ pi-               PHSP;
+Enddecay
+CDecay MyantiD*1
+#
+Decay MyD*+
+  0.921    MyDp  pi0               VSS;
+  0.048    MyDp  gamma             VSP_PWAVE;
+Enddecay
+CDecay MyD*-
+#
+Decay MyDp
+  1.00         K- pi+ pi+          D_DALITZ;
+Enddecay
+CDecay MyDm
+End
+#

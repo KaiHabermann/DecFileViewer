@@ -1,0 +1,51 @@
+# EventType: 24104110
+#
+# NickName: Jpsi_LambdaLambda=TightCut
+#
+# Descriptor: J/psi(1S) -> (Lambda0 -> p+ pi-) (anti-Lambda0 -> anti-p- pi+)
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: J/psi decaying into two Lambda0, and then Lambda0 forced into p pi. Lambdas should be in the LHCb acceptance and they should decay before UT.
+# EndDocumentation
+#
+#InsertPythonCode:
+##
+#from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName) 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = 'J/psi(1S) => ^(Lambda0 => p+ pi-) ^(Lambda~0 => p~- pi+)'
+# tightCut.Cuts      =    {
+#     'Lambda0': ' goodLambda ' , 
+#     'Lambda~0': ' goodLambda '}
+# tightCut.Preambulo += [
+#     'inAcc     = in_range ( 0.010 , GTHETA , 0.300 ) ' , 
+#     'goodLambda    = inAcc & (GFAEVX( abs( GVZ  ) , 0 ) < 2500 * mm)' ] 
+#
+# EndInsertPythonCode
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Giulia Tuci
+# Email: giulia.tuci@cern.ch
+# Date: 20210505
+#
+#
+Alias      MyLambda     Lambda0
+Alias      MyantiLambda anti-Lambda0
+ChargeConj MyLambda     MyantiLambda
+#
+Decay J/psisig
+  1.000        MyLambda    MyantiLambda      PHSP;
+Enddecay
+#
+Decay MyLambda
+  1.000        p+      pi-                   HELAMP   0.936   0.0   0.351   0.0;
+Enddecay
+CDecay MyantiLambda
+#
+End
+#

@@ -1,0 +1,63 @@
+# EventType: 14147091
+#
+# Descriptor: [B_c(2S)+ -> (B_c+ -> (J/psi(1S) -> mu+ mu- {,gamma} {,gamma}) pi+ pi- pi+) pi+ pi-]cc
+#
+# NickName: Bc2S_Bcpipi,Jpsipipipi,mm=BcVegPy,DecProdCut
+#
+# Production: BcVegPy
+# ExtraOptions: Bc2SVegPyOpts
+# Cuts: BcDaughtersInLHCb
+# CutsOptions: BcPdgId 100541
+#
+
+# Documentation: Bc(2^1S_0) decay to Bc pi pi with Bc decay to Jpsi pi pi pi.
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible:    Liupan An 
+# Email: liupan.an@cern.ch
+# Date: 20210416
+# CPUTime: <1 min
+#
+Alias       MyB_c+      B_c+
+Alias       MyB_c-      B_c-
+ChargeConj  MyB_c+      MyB_c-
+Alias       MyPsi(2S)   psi(2S)
+ChargeConj  MyPsi(2S)   MyPsi(2S)
+Alias       MyJ/psi     J/psi
+ChargeConj  MyJ/psi     MyJ/psi
+Alias       Mya_1+      a_1+
+Alias       Mya_1-      a_1-
+ChargeConj  Mya_1+      Mya_1-
+#
+Decay B_c(2S)+sig
+1.0000     MyB_c+    pi+   pi-      PHSP;
+Enddecay
+CDecay B_c(2S)-sig
+#
+Decay MyB_c+
+  0.2000   MyPsi(2S)   pi+                 SVS;
+  0.8000   MyJ/psi     Mya_1+              SVV_HELAMP 0.458 0.0 0.866 0.0 0.200 0.0;
+Enddecay
+CDecay MyB_c-
+
+#  PDG Id = 100443
+Decay MyPsi(2S)
+  1.0000   MyJ/psi  pi+  pi-       VVPIPI;
+Enddecay
+
+#  PDG Id = 443
+Decay MyJ/psi
+  1.0000   mu+   mu-               PHOTOS   VLL;
+Enddecay
+
+#  PDG Id = 20213
+Decay Mya_1+
+  1.0000   rho0 pi+                VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+#
+End
+#
+

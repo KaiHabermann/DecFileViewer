@@ -1,0 +1,67 @@
+# EventType: 15154704
+#
+# Descriptor: [Lambda_b0 -> (psi(2S) -> e+ e-) (Lambda(1520)0 -> (Sigma0 -> (Lambda0 -> p+ pi-) gamma) (pi0 -> gamma gamma))]cc
+#
+# NickName: Lb_psi2SLambdast1520,ee,Sigmapi,Lambdagamma=phsp,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# PolarizedLambdab: yes
+#
+# Documentation: Lambda0 forced into p pi, includes radiative mode
+# EndDocumentation
+#
+# CPUTime: 2 min
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Niladri Sahoo
+# Email:  Niladri.Sahoo@cern.ch
+# Date: 20211018
+#
+Alias	   Mypsi2s	 psi(2S)
+Alias      MyLambda1520  Lambda(1520)0
+Alias      MySigma       Sigma0
+Alias      MyLambda      Lambda0
+Alias      Mypi0         pi0
+Alias      Myanti-Lambda anti-Lambda0
+Alias      Myanti-Sigma	 anti-Sigma0
+Alias 	   Myanti-Lambda1520 anti-Lambda(1520)0
+ChargeConj Myanti-Lambda MyLambda
+ChargeConj Myanti-Sigma  MySigma
+ChargeConj Myanti-Lambda1520 MyLambda1520
+ChargeConj Mypsi2s	 Mypsi2s
+ChargeConj Mypi0         Mypi0
+#
+Decay Lambda_b0sig
+  1.000    MyLambda1520          Mypsi2s                PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyLambda1520
+  1.000    MySigma               Mypi0                   PHSP;
+Enddecay
+CDecay Myanti-Lambda1520
+#
+Decay MySigma
+  1.000    MyLambda              gamma                   PHSP;
+Enddecay
+CDecay Myanti-Sigma
+#
+Decay Mypi0
+  1.000    gamma                 gamma                   PHSP;
+Enddecay
+#
+Decay Mypsi2s
+  1.000     e+  e-                                       PHOTOS  VLL;
+Enddecay
+#
+Decay MyLambda
+  1.000        p+          pi-        HELAMP 0.936 0.0 0.351 0.0;
+Enddecay
+#
+Decay Myanti-Lambda
+  1.000   anti-p-          pi+        HELAMP 0.351 0.0 0.936 0.0;
+Enddecay
+#
+End
+#

@@ -1,0 +1,34 @@
+# EventType: 11146050
+#
+# Descriptor: [B0 -> (psi(2S) -> mu+ mu-) K+ pi- pi+ pi-]cc
+#
+# NickName: Bd_psi2SKpipipi,mm=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for B0 -> psi(2S) (-> mu+ mu-) K+ pi- pi+ pi- (PHSP)
+# EndDocumentation
+#
+#
+# PhysicsWG:   RD
+# Tested:      Yes
+# Responsible: Harry Cliff
+# Email:       harry.victor.cliff@cern.ch
+# Date:        20210217
+# CPUTime: <1 min
+#
+#
+Alias      Mypsi2S  psi(2S)
+ChargeConj Mypsi2S  Mypsi2S
+#
+Decay B0sig
+ 1.0     Mypsi2S K+ pi- pi+ pi-    PHSP;
+Enddecay
+CDecay anti-B0sig
+#
+Decay Mypsi2S
+  1.000        mu+       mu-         PHOTOS  VLL;
+Enddecay
+#
+End
+#

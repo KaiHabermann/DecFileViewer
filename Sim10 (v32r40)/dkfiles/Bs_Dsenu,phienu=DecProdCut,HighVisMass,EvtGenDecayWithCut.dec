@@ -1,0 +1,65 @@
+# EventType: 13584000
+#
+# Descriptor: [B_s0 -> (D_s- -> (phi -> K+ K-) e- anti-nu_e) e+ nu_e]cc
+#
+# NickName: Bs_Dsenu,phienu=DecProdCut,HighVisMass,EvtGenDecayWithCut
+# Cuts: DaughtersInLHCb
+#
+# InsertPythonCode:
+# #
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation(genAlgName)
+# #
+# gen.SignalRepeatedHadronization.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/HighVisMass"
+# evtgendecay.addTool(LoKi__GenCutTool ,'HighVisMass')
+# evtgendecay.HighVisMass.Decay   = '[^(B_s0 => (D_s- => (phi(1020) => K+ K-) e- nu_e~) e+ nu_e)]CC'
+# evtgendecay.HighVisMass.Cuts    = { '[B_s0]cc' : "visMass" }
+# evtgendecay.HighVisMass.Preambulo += [
+#     "visMass = ( ( GMASS ( 'e+' == GID , 'e-' == GID, 'K+' == GID, 'K-' == GID ) ) > 4200 * MeV )",
+# ]
+# EndInsertPythonCode
+#
+# Documentation: background for the R_phi LFU test
+# selected to have a visible mass larger than 4.2 GeV using EvtGenDecayWithCutTool
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Jan-Marc Basels
+# Email: jan-marc.basels@cern.ch
+# Date: 20190826
+# CPUTime: < 1 min
+#
+
+Alias      My_phi   phi
+ChargeConj My_phi   My_phi
+
+Alias      MyD_s+   D_s+
+Alias      MyD_s-   D_s-
+ChargeConj MyD_s+   MyD_s-
+
+Decay B_s0sig
+  #HQET2 parameter as for B->Dlnu, taken from Spring 2019 HFLAV averages:
+  #https://hflav-eos.web.cern.ch/hflav-eos/semi/spring19/html/ExclusiveVcb/exclBtoD.html
+  1.000    MyD_s- e+ nu_e              PHOTOS HQET2 1.131 1.081; #rho^2 as of HFLAV 2019 Spring, v1 unchanged (normalisation factor, no impact on kinematics)
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyD_s-
+  1.000    My_phi e- anti-nu_e         PHOTOS ISGW2;
+Enddecay
+CDecay MyD_s+
+#
+Decay My_phi
+  1.000    K+ K-                       PHOTOS VSS;
+Enddecay
+#
+End
+#

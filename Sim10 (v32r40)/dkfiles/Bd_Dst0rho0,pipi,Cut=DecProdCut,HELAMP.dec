@@ -1,0 +1,73 @@
+# EventType: 11364463
+#
+# Descriptor: [B0 -> (D*(2007)~0 -> {(D~0 -> pi+ pi-) pi0, (D~0 -> pi+ pi-) gamma}) (rho(770)0 -> pi+ pi-) ]cc
+#
+# NickName: Bd_Dst0rho0,pipi,Cut=DecProdCut,HELAMP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: D0 forced to pi+ pi-, Dst0 forced to D0 gamma or D0 pi0, rho forced to pi+ pi-, HELAMP
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Jonah Blank
+# Email: jonah.evan.blank@cern.ch
+# Date: 20230323
+
+
+# ---------------
+# DEFINE THE D*, D0 and D0bar
+# ---------------
+Alias      Myanti-D0   anti-D0
+Alias      MyD0        D0
+Alias      Myrho0      rho0
+ChargeConj MyD0        Myanti-D0
+Alias MyD*0 D*0
+Alias Myanti-D*0 anti-D*0
+ChargeConj MyD*0 Myanti-D*0
+
+
+# ---------------
+# DECAY OF THE B0
+# ---------------
+Decay B0sig
+1.000    Myanti-D*0  Myrho0                SVV_HELAMP 0.228 0.0 0.932 0.0 0.283 0.0; 
+Enddecay
+CDecay anti-B0sig
+
+
+# ---------------
+# DECAY OF THE rho0
+# ---------------
+Decay Myrho0
+1.000    pi+     pi-              VSS;
+Enddecay
+
+
+# ---------------
+# DECAY OF THE D*
+# ---------------
+Decay MyD*0
+0.647    MyD0  pi0                        VSS;
+0.353    MyD0  gamma                      VSP_PWAVE;
+Enddecay
+Decay Myanti-D*0
+0.647    Myanti-D0  pi0                        VSS;
+0.353    Myanti-D0  gamma                      VSP_PWAVE;
+Enddecay
+
+
+# ---------------
+# DECAY OF THE D0
+# ---------------
+Decay MyD0
+1.000     pi-  pi+                         PHSP;
+Enddecay
+Decay Myanti-D0
+1.000     pi+  pi-                         PHSP;
+Enddecay
+
+
+End

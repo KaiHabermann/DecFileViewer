@@ -1,0 +1,38 @@
+# EventType: 25103430
+#
+# Descriptor: [Lambda_c+ -> (eta -> pi+ pi- (pi0 -> gamma gamma)) p+ ]cc
+#
+# NickName: Lc_etap,pipipi0,gg=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Forces a Lambda_c+ to (eta -> pi+ pi- (pi0 -> gamma gamma)) p+, with daughters in LHCb. 
+# EndDocumentation
+#
+# CPUTime: < 1 min
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Giulia Tuci 
+# Email:       giulia.tuci@cern.ch
+# Date:        20211209
+#
+Alias      MyEta         eta
+ChargeConj MyEta         MyEta
+Alias      MyPi0         pi0
+ChargeConj MyPi0         MyPi0
+#
+Decay Lambda_c+sig                                                                                                                                                                                       
+  1.000  MyEta    p+  PHSP; 
+Enddecay                                                                                                                                                                                                 
+CDecay anti-Lambda_c-sig  
+#
+Decay MyEta
+  1.000   pi+            pi-           MyPi0          PHSP;
+Enddecay
+#
+Decay MyPi0 
+  1.000   gamma          gamma        PHSP;
+Enddecay
+#
+End

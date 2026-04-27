@@ -1,0 +1,59 @@
+# EventType: 15564002
+#
+# Descriptor: [Lambda_b0 -> ( D- -> K+ pi- pi-) K+  H_30 ]cc
+#
+# NickName: Lambda0_PsiDMDK,D_pipiK=FullGenEvtCut,mPsiDM=2000MeV
+#
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/LbtoDKDM
+#
+# Documentation:
+#    Decay a L0 to a K D -> Kpipi and a redefined H_30 for our need, acting the latter as stable Dark Matter candidate of 2.0 GeV.
+# EndDocumentation
+#
+# PhysicsWG: Exotica
+# Tested: Yes
+# CPUTime: 3 min
+# Responsible: Saul Lopez
+# Email: saul.lopez.solino@cern.ch
+# Date: 20210927
+#
+#
+# InsertPythonCode:
+# from Configurables import LHCb__ParticlePropertySvc, LoKi__GenCutTool
+# LHCb__ParticlePropertySvc().Particles = [
+# "H_30     89       36      0.0     2.000000        1.000000e+16    A0      36      0.00"
+# ]
+# ## Generator level cuts:
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "LbtoDKDM" )
+# tracksInAcc = Generation(genAlgName).LbtoDKDM
+# tracksInAcc.Code = " count ( isGoodLb ) > 0 "
+# ### - HepMC::IteratorRange::descendants   4
+# tracksInAcc.Preambulo += [ "from GaudiKernel.SystemOfUnits import GeV, mrad"
+#                          , "inAcc = in_range(1.9, GETA, 5.0)" 
+#                          , "isGoodKaon = ( ( GPT > 0.25*GeV ) & inAcc & ( 'K+' == GABSID ) )"
+#                          , "isGoodPi   = ( ( GPT > 0.25*GeV ) & inAcc & ( 'pi+' == GABSID ) )"
+#                          , "isGoodD    = ( ( 'D+' == GABSID ) & ( GNINTREE( isGoodKaon, 1 ) > 0 ) & ( GNINTREE( isGoodPi, 1 ) > 1 ) )"
+#                          , "isGoodLb   = ( ( 'Lambda_b0' == GABSID ) & ( GNINTREE( isGoodKaon, 1 ) > 0 ) & ( GNINTREE( isGoodD, 1 ) > 0 ) )" ]
+# EndInsertPythonCode
+#
+Alias      MyD-      D-
+Alias      MyD+      D+
+ChargeConj MyD-    MyD+
+#
+Alias  MyH_30     A0
+Alias  Myanti-H_30    A0
+ChargeConj MyH_30   Myanti-H_30
+#
+Decay Lambda_b0sig
+    1.000    MyD-     K+   MyH_30    PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay MyD-
+    1.000    K+    pi-   pi-          D_DALITZ;
+Enddecay
+CDecay MyD+
+#
+End

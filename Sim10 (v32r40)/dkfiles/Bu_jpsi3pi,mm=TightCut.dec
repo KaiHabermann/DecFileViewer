@@ -1,0 +1,106 @@
+# EventType: 12245012
+#
+# Descriptor: [B+ ==> ( J/psi(1S) => mu+ mu- ) pi+ pi+ pi- ]cc
+#
+# ParticleValue: "X_1(3872) 317 9920443  0.0 3.87169 -1.e-3  X_1(3872) 9920443 0.010 "
+#
+# NickName: Bu_jpsi3pi,mm=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: B+ decay to J/psi pi+ pi+ pi- [20% psi(2S) pi+, 20% X3872 pi+, 55% J/psi a_1+, 5% NR]
+#                with psi(2S) and X(3872) decaying to J/psi[-> mu+ mu-] pi+ pi-.
+#                The branchings are based on preliminary results of real data analysis
+#                (giving roughly [10% psi(2S) pi+, 1% X3872 pi+, 75% J/psi a_1+, 14% NR]),
+#                with psi(2S) and X3872 fractions artificially increased to 20%
+#                in order to allow both re-weighting back to realisting branching fractions,
+#                and also to provide sufficient statistics for measurement of the psi(2S) and X3872 sub-channels.
+#                Width of X3872 is set to be 1MeV.
+# EndDocumentation
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName) 
+# signal     = generation.SignalRepeatedHadronization 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '[ ^( B+ ==> ^( J/psi(1S) => mu+ mu- ) ^pi+ ^pi+ ^pi- ) ]CC'
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import millimeter, micrometer,MeV,GeV',
+#     'inAcc        =  in_range ( 0.005 , GTHETA , 0.400 )         ' ,
+#     'inEta        =  in_range ( 1.95  , GETA   , 5.050 )         ' ,
+#     'inY          =  in_range ( 1.9   , GY     , 4.6   )         ' , 
+#     'fastTrack    =  ( GPT > 180 * MeV ) & ( GP  > 2.9 * GeV )   ' , 
+#     'goodTrack    =  inAcc & inEta & fastTrack                   ' , 
+#     'goodPsi      =  inY                                         ' ,         
+#     'longLived    =  75 * micrometer < GTIME                     ' , 
+#     'goodB        =  inY & longLived                             ' ,
+# ]
+# tightCut.Cuts     =    {
+#     '[B+]cc'      : 'goodB     ' ,
+#     'J/psi(1S)'   : 'goodPsi   ' , 
+#     '[pi+]cc'     : 'goodTrack ' , 
+#     '[mu+]cc'     : 'goodTrack & ( GPT > 500 * MeV ) '
+# }
+# tightCut.XAxis = ( "GPT/GeV" , 1.0 , 20.0 , 38  )
+# tightCut.YAxis = ( "GY     " , 2.0 ,  4.5 , 10  )
+#
+# EndInsertPythonCode
+#
+# PhysicsWG:   Onia 
+# Tested:      Yes
+# Responsible: Dmitry Golubkov
+# Email:       dmitry.yu.golubkov@cern.ch
+# Date:        20250416
+# CPUTime:     <1min 
+#
+
+#
+Alias       MyJ/psi        J/psi
+ChargeConj  MyJ/psi      MyJ/psi
+#
+Alias       MyPsi(2S)     psi(2S)
+ChargeConj  MyPsi(2S)   MyPsi(2S)
+#
+Alias      MyX3872       X_1(3872)
+ChargeConj MyX3872       MyX3872
+#
+Alias      MyRho0        rho0
+ChargeConj MyRho0        MyRho0
+#
+Alias      Mya_1+        a_1+
+Alias      Mya_1-        a_1-
+ChargeConj Mya_1+        Mya_1-
+#
+Decay       B+sig
+  0.050     MyJ/psi   pi+ pi+ pi- PHSP ;
+  0.550     MyJ/psi   Mya_1+      SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+  0.200     MyPsi(2S) pi+         SVS  ;
+  0.200     MyX3872   pi+         SVS  ;
+Enddecay
+CDecay      B-sig
+#
+Decay       MyJ/psi
+  1.0000    mu+  mu-          PHOTOS  VLL  ;
+Enddecay
+#
+Decay MyPsi(2S)
+  1.0000    MyJ/psi     pi+  pi-  VVPIPI ;
+Enddecay
+#
+Decay MyX3872
+  1.000    MyJ/psi  MyRho0     HELAMP 0.707107 0  0.707107 0  0.707107 0  0 0  -0.707107 0  -0.707107 0  -0.707107 0;
+Enddecay
+#
+Decay MyRho0
+  1.000    pi+ pi-                  VSS;
+Enddecay
+#
+Decay Mya_1+
+  1.000   MyRho0 pi+                VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay    Mya_1-
+
+End

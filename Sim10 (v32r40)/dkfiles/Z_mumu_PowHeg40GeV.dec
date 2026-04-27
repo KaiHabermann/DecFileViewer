@@ -1,0 +1,56 @@
+# EventType: 42112005
+#
+# Descriptor: pp -> (Z0/gamma* -> mu+ mu-) ... 
+#
+# NickName: Z_mumu_PowHeg40GeV
+# Cuts: None
+# FullEventCuts: LoKi::FullGenEventCut/ParsInAcc
+# Production: Powheg
+#
+# InsertPythonCode:
+# # Configure the event type.
+# from Configurables import (Generation, Special)
+# from GaudiKernel import SystemOfUnits
+# from Gaudi.Configuration import importOptions
+#
+# # Generation options.
+# Generation(genAlgName).PileUpTool           = "FixedLuminosityForRareProcess"
+#
+# # Powheg options.
+# from Configurables import Gauss
+# from GaudiKernel import SystemOfUnits
+# 
+# sampleGenToolsOpts = {
+#     "Commands": ["lhans1 10770",
+#                  "lhans2 10770",
+#                  "vdecaymode 2",
+#                  "mass_low  40"
+#                 ],
+#     "Process" : "Z"
+# }
+# Gauss().SampleGenerationToolOptions.update(sampleGenToolsOpts)
+# 
+#
+# # Generation cut
+# from Configurables import LoKi__FullGenEventCut
+# Generation(genAlgName).addTool( LoKi__FullGenEventCut, "ParsInAcc" )
+# tracksInAcc = Generation(genAlgName).ParsInAcc
+# tracksInAcc.Code = " ( ( count ( isGoodLepton ) > 0 ) ) "
+# tracksInAcc.Preambulo += [
+#      "from GaudiKernel.SystemOfUnits import  GeV, mrad"
+#    , "isGoodLepton   = ( ( 13 == GABSID ) & GCHARGED & ( GTHETA < 400.0*mrad ) & (GTHETA > 10.0*mrad) & ( GPT > 4.*GeV ) )"
+#    ]
+# EndInsertPythonCode
+#
+#
+# Documentation:  Z decay into two muons, and at least one muon must within LHCb acceptance with pT greater than 4 GeV.
+# EndDocumentation
+#
+# PhysicsWG: EW
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Hang Yin
+# Email: hang.yin@cern.ch
+# Date: 20200911
+#
+End

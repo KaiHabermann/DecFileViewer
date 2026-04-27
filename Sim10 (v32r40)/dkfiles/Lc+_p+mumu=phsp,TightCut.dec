@@ -1,0 +1,49 @@
+# EventType: 25113033
+# 
+# Descriptor: [Lambda_c+ -> p+ mu- mu+]cc
+# 
+# NickName: Lc+_p+mumu=phsp,TightCut
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: 
+# Lambda_c -> p mu mu PHSP, m(mumu) > 600 MeV
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Serena Maccolini
+# Email:       serena.maccolini@cern.ch
+# Date:        20231010
+#
+# CPUTime: <1min
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '^[ Lambda_c+ =>  ^p+ ^mu+ ^mu- ]CC'
+# tightCut.Cuts      =    {
+#     '[mu+]cc'       : ' goodMuon & inAcc   ' , 
+#     '[p+]cc'        : ' goodProton & inAcc ' , 
+#     '[Lambda_c+]cc' : ' goodLambdac & MassRange' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import ns, GeV, MeV, mrad, millimeter, micrometer',
+#     'inAcc      = in_range ( 0.010 , GTHETA , 0.400 ) ' , 
+#     'goodProton = ( GPT > 0.5 * GeV ) & ( GP > 5 * GeV ) ' , 
+#     'goodMuon = ( GPT > 0.2 * GeV ) & ( GP > 2 * GeV ) ' , 
+#     'goodLambdac  = ( (GPT > 2 * GeV) & ( GP > 1.5 * GeV)) ',
+#     'MassRange      = ( ( GMASS("mu-" == GID ,"mu+" == GID) ) > 600 *MeV )', 
+# ]
+#
+# EndInsertPythonCode
+
+Decay Lambda_c+sig
+  1.00000         p+      mu-      mu+     PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+ 
+#
+End

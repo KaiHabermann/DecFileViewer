@@ -1,0 +1,39 @@
+# EventType: 15574041
+#
+# Descriptor: [Lambda_b0 -> (Lambda_c+ -> p+ K+ K-) mu- anti-nu_mu]cc
+#
+# NickName: Lb_Lcmunu,pKK=AmpGen,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# CPUTime: < 1 min
+#
+# Documentation: Lb -> Lc mu nu_mu with Lc -> p K K
+#                with preliminary LHCb model 
+#                with children in the LHCb acceptance,
+#                based on Lb_Lcmunu,pKK=phsp,DecProdCut
+# EndDocumentation
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Tim Evans
+# Email:       timothy.david.evans@cern.ch
+# Date:        20190714
+
+Alias MyLambda_c+       Lambda_c+
+Alias MyLambda_c-       anti-Lambda_c-
+
+ChargeConj MyLambda_c+  MyLambda_c-
+
+Decay Lambda_b0sig
+  1.0 MyLambda_c+ mu- anti-nu_mu PHOTOS BaryonPCR 1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+
+noPhotos
+Decay MyLambda_c+
+  1.0 p+ K- K+ LbAmpGen LctopKK 0.0 0.0 0.0;
+Enddecay
+CDecay MyLambda_c-
+
+End

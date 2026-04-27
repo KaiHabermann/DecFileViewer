@@ -1,0 +1,34 @@
+# EventType: 12515020
+#
+# Descriptor: [B+ -> (tau+ -> pi+ pi+ pi- anti-nu_tau) nu_tau mu+ mu-]cc
+#
+# NickName: Bu_mumunutau,pipipi=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Decay file for [B+ -> mu+ mu- tau+ nu_tau]cc
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible:   Miguel Fernandez Gomez
+# Email: miguel.fernandez.gomez@cern.ch
+# Date: 20250228
+#
+Alias		MyTau+	tau+
+Alias		MyTau-	tau-
+ChargeConj	MyTau+	MyTau-
+#
+Decay B+sig
+  1.     mu+     mu-     MyTau+    nu_tau          PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyTau+
+  1.000     pi+     pi+      pi-     anti-nu_tau                TAUHADNU -0.108 0.775 0.149 1.364 0.400 1.23 0.4;
+Enddecay
+CDecay MyTau-
+#
+End
+#

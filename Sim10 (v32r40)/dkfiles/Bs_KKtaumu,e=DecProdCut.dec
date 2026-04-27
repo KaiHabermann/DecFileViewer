@@ -1,0 +1,35 @@
+# EventType: 13514090
+#
+# Descriptor: {[[B_s0]nos -> K+ K- mu+ (tau- -> e- nu_e~ nu_tau)]cc, [[B_s0]os -> K+ K- mu- (tau+ -> e+ nu_e nu_tau~)]cc}
+#
+# NickName: Bs_KKtaumu,e=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: Bs -> K K tau mu, with taus decaying to electrons
+# EndDocumentation
+#
+# PhysicsWG: RD
+#
+# CPUTime: 1 min
+# Tested: Yes
+# Responsible: Lais Lavra
+# Email: lais.soares.lavra@cern.ch
+# Date: 20230711
+#
+Alias         Mytau+     tau+
+Alias         Mytau-     tau-
+ChargeConj    Mytau+     Mytau-
+#
+Decay B_s0sig
+  0.500       K+         K-        Mytau+    mu-        PHSP;
+  0.500       K+         K-        mu+       Mytau-     PHSP;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay Mytau+
+  1.000       e+        nu_e     anti-nu_tau          TAULNUNU;
+Enddecay
+CDecay Mytau-
+#
+End

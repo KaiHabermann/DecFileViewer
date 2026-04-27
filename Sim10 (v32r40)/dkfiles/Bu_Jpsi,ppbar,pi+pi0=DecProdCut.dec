@@ -1,0 +1,31 @@
+# EventType: 12133402
+#
+# Descriptor: [B+ ->  (J/psi(1S) -> p+ p~-) pi+ pi0 ]cc
+#
+# NickName: Bu_Jpsi,ppbar,pi+pi0=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: < 1 min
+# Documentation: Decay file for B+-> J/psi (-> p+ p~-) pi+ pi0
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Diego Torres Machado
+# Email: diego.torres.machado@cern.ch
+# Date: 20230214
+#
+
+Alias      MyJ/psi    J/psi
+ChargeConj MyJ/psi    MyJ/psi
+#
+Decay B+sig
+  1.000         MyJ/psi   pi+   pi0       PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyJ/psi
+  1.000 p+ anti-p- VLL;
+Enddecay
+#
+End

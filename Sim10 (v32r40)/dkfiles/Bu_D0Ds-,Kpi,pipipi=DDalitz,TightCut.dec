@@ -1,0 +1,64 @@
+# EventType: 12195049
+#
+# Descriptor: [B+ -> (D_s+ -> pi+ pi- pi+) (anti-D0 -> K+ pi-)]cc
+#
+# NickName: Bu_D0Ds-,Kpi,pipipi=DDalitz,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName)
+# signal = generation.SignalRepeatedHadronization
+# signal.addTool(LoKi__GenCutTool, 'TightCut')
+# tightCut = signal.TightCut
+# tightCut.Decay = '[( B- => ^(D0 => K- pi+) ^(D_s- => pi- pi+ pi-) ) ]CC'
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,"CS  = LoKi.GenChild.Selector"
+#     ,"goodD0 = ( (GP>8000*MeV) & (GPT>1000*MeV) & ( (GCHILD(GPT,('K+' == GABSID )) > 1400*MeV) & (GCHILD(GP,('K+' == GABSID )) > 4000*MeV) & in_range ( 0.010 , GCHILD(GTHETA,('K+' == GABSID )) , 0.400 ) ) & ( (GCHILD(GPT,('pi+' == GABSID )) > 200*MeV) & (GCHILD(GP,('pi+' == GABSID )) > 1600*MeV) & in_range ( 0.010 , GCHILD(GTHETA,('pi+' == GABSID )) , 0.400 ) ) )"
+#     ,'goodDs = ( ( (GCHILD(GPT,CS("[D_s- => ^pi- pi+ pi- ]CC")) > 200*MeV) & (GCHILD(GP,CS("[D_s- => ^pi- pi+ pi- ]CC")) > 1200*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[D_s- => ^pi- pi+ pi-]CC")), 0.400 ) ) & ( (GCHILD(GPT,CS("[D_s- => pi- ^pi+ pi- ]CC")) > 200*MeV) & (GCHILD(GP,CS("[D_s- => pi- ^pi+ pi- ]CC")) > 1200*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[D_s- => pi- ^pi+ pi- ]CC")) , 0.400 ) ) & ( (GCHILD(GPT,CS("[D_s- => pi- pi+ ^pi- ]CC")) > 200*MeV) & (GCHILD(GP,CS("[D_s- => pi- pi+ ^pi-]CC")) > 1200*MeV) & in_range ( 0.010 , GCHILD(GTHETA,CS("[D_s- => pi- pi+ ^pi-]CC")) , 0.400 ) ) )'
+# ]
+# tightCut.Cuts = {
+#     '[D0]cc': 'goodD0'
+#     ,'[D_s-]cc': 'goodDs'
+#     }
+# EndInsertPythonCode
+#
+# Documentation: B+ -> (D0 -> K pi) (Ds -> 3pi). Ds->3pi with D_DALITZ.
+# Daughters in LHCb Acceptance and passing StrippingBu2D0TauNuForB2XTauNuAllLines cuts.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# CPUTime: 2 min
+# Responsible: Antonio Romero Vidal, Alessandra Gioventu
+# Email: antonio.romero@usc.es, alessandra.gioventu@cern.ch
+# Date:   20210621
+#
+Alias      MyD_s+  D_s+
+Alias      MyD_s-  D_s-
+ChargeConj MyD_s+  MyD_s-
+
+Alias      MyD0        D0
+Alias Myanti-D0   anti-D0
+ChargeConj        MyD0       Myanti-D0
+
+Decay B+sig
+  1.000     MyD_s+       Myanti-D0          PHSP;
+Enddecay
+CDecay B-sig
+
+Decay MyD_s+
+  1.000     pi-          pi+        pi+     D_DALITZ;
+Enddecay
+CDecay MyD_s-
+
+Decay Myanti-D0
+  1.000     K+          pi-                 PHSP;
+Enddecay
+CDecay MyD0
+#
+End

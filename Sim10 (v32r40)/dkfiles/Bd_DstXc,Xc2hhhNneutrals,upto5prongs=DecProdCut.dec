@@ -1,0 +1,243 @@
+# EventType: 11896612
+#
+# Descriptor: {[B0 -> (D*- -> pi- (anti-D0 -> K+ pi-)) (D_s+ -> pi- pi+ pi+)... ]cc}
+# NickName: Bd_DstXc,Xc2hhhNneutrals,upto5prongs=DecProdCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName).SignalRepeatedHadronization
+# gen.addTool( LoKi__GenCutTool, "TightCut" )
+# tightCut = gen.TightCut
+# tightCut.Decay = "[(Beauty & LongLived) --> ^(D*(2010)+ => ^(D0 => K- pi+) pi+) pi- pi+ pi- ...]CC"
+# tightCut.Cuts = {
+#     "(Beauty & LongLived)" : "good_B",
+#     "[D*(2010)+]cc" : "good_Dstar",
+#     "[D0]cc" : "good_D0",
+# }
+# tightCut.Preambulo += [
+#     "from GaudiKernel.SystemOfUnits import MeV, GeV",
+#     "inAcc = ( GPZ > 0 ) & ( GPT > 40 * MeV ) & ( GP > 1.6 * GeV ) & in_range ( 1.8, GETA, 5.0 ) & in_range ( 0.005, GTHETA, 0.400 )",
+#     "nPi = GCOUNT(('pi+' == GABSID) & inAcc, HepMC.descendants)",
+#     "nK  = GCOUNT(('K-'  == GABSID) & inAcc, HepMC.descendants)",
+#     "good_slow_pion = ('pi+' == GABSID) & (GPT >  40 * MeV) & inAcc",
+#     "good_D0_pion   = ('pi+' == GABSID) & (GPT > 140 * MeV) & inAcc",
+#     "good_D0_kaon   = ('K+'  == GABSID) & (GPT > 140 * MeV) & inAcc",
+#     "good_D0        = ('D0'  == GABSID) & (GPT > 1.5 * GeV) & ( GP > 15. * GeV ) & GCHILDCUT(good_D0_kaon, 'Charm => ^(K+|K-) (pi+|pi-)') & GCHILDCUT(good_D0_pion, 'Charm => (K+|K-) ^(pi+|pi-)')",
+#     "good_Dstar     = ('D*(2010)+' == GABSID) & GCHILDCUT(good_slow_pion, 'Charm => Charm ^(pi+|pi-)')",
+#     "good_B         = (nK >= 1) & (nPi >= 5)",
+# ]
+# EndInsertPythonCode
+
+# Documentation: B0 -> D* Ds X cocktail, where Ds decays to final states with at least 3 charged pions and may come from D_s*, D_s*(2317), D_s(2457) or D_s(2536).
+# Background for B2XTauNu analyses.
+# EndDocumentation
+#
+# CPUTime: <1 min 
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Adam Morris
+# Email: adam.morris@cern.ch
+# Date: 20191125
+#
+Alias           Myphi           phi
+ChargeConj      Myphi           Myphi
+#
+Alias           Myf0            f_0
+ChargeConj      Myf0            Myf0
+#
+Alias           Myf2            f_2
+ChargeConj      Myf2            Myf2
+#
+Alias           Mya1+        a_1+
+Alias           Mya1-        a_1-
+ChargeConj      Mya1+        Mya1-
+#
+Alias           MyD_s+          D_s+
+Alias           MyD_s-          D_s-
+ChargeConj      MyD_s+          MyD_s-
+#
+Alias           MyD_s*(2317)+   D_s0*+
+Alias           MyD_s*(2317)-   D_s0*-
+ChargeConj      MyD_s*(2317)+   MyD_s*(2317)-
+#
+Alias           MyD_s*+         D_s*+
+Alias           MyD_s*-         D_s*-
+ChargeConj      MyD_s*+         MyD_s*-
+#
+#
+Alias           MyD_s*(2457)+   D_s1+
+Alias           MyD_s*(2457)-   D_s1-
+ChargeConj      MyD_s*(2457)+   MyD_s*(2457)-
+#
+Alias           MyD_s*(2536)+   D'_s1+
+Alias           MyD_s*(2536)-   D'_s1-
+ChargeConj      MyD_s*(2536)+   MyD_s*(2536)-
+#
+Alias           MyMainD*+       D*+
+Alias           MyMainD*-       D*-
+ChargeConj      MyMainD*+       MyMainD*-
+#
+Alias           MyD0            D0
+Alias           anti-MyD0       anti-D0
+ChargeConj      MyD0            anti-MyD0
+#
+Alias           Myeta           eta
+ChargeConj      Myeta           Myeta
+#
+Alias           Mytau+          tau+
+Alias           Mytau-          tau-
+ChargeConj      Mytau+          Mytau-
+#
+Alias           Myetap          eta'
+ChargeConj      Myetap          Myetap
+#
+Alias           Myomega         omega
+ChargeConj      Myomega         Myomega
+#
+Alias           MyK*0           K*0
+Alias           Myanti-K*0      anti-K*0
+ChargeConj      MyK*0           Myanti-K*0
+#
+#
+Decay B0sig
+0.171           MyMainD*-       MyD_s+          SVS;
+0.378           MyMainD*-       MyD_s*+         SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+0.032           MyMainD*-       MyD_s*(2317)+   SVS;
+0.199           MyMainD*-       MyD_s*(2457)+   SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+0.006           MyMainD*-       MyD_s*(2536)+   SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+Enddecay
+CDecay anti-B0sig
+#
+Decay MyD_s+
+#0.011          pi+             pi-     pi+
+ 0.004          pi+             pi-     pi+     PHSP;
+ 0.006          Myf0            pi+             PHSP;
+ 0.001          Myf2            pi+             PHSP;
+#0.045          0.1532*phi      pi+             SVS;
+#0.084          0.1532*phi      rho+            PHSP;
+ 0.00689        Myphi           pi+             SVS;
+ 0.01287        Myphi           rho+            PHSP;
+#0.0023         0.9073*omega    pi+             SVS;
+#0.028          0.9073*omega    rho+            PHSP;
+ 0.0021         Myomega         pi+             SVS;
+ 0.0254         Myomega         rho+            PHSP;
+#0.0183         0.2734*eta      pi+             PHSP;
+#0.089          rho+            0.2734*eta      SVS;
+ 0.005          Myeta           pi+             PHSP;
+ 0.0243         rho+            Myeta           SVS;
+ 0.0065         K+              pi-     pi+     D_DALITZ;
+#0.0394         0.6718*etap     pi+             PHSP;
+#0.125          rho+            0.6718*etap     SVS;
+ 0.0265         Myetap          pi+             PHSP;
+ 0.04           rho+            Myetap          SVS;
+ 0.02           Mya1+           eta             SVS;
+ 0.02           Mya1+           eta'            SVS;
+ 0.016          Mya1+           omega           SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+ 0.012          Mya1+           phi             SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0;
+ 0.006          Mya1+           K0              SVS;
+ 0.007          Mya1+           Myf0            SVS;
+ 0.001          pi+  pi-  pi+  pi-  pi+         PHSP;
+#0.0543         0.14*tau+       nu_tau          SLN;
+ 0.0076         Mytau+          nu_tau          SLN;
+
+# Following decays are prescaled by a factor 4
+ 0.00183        Myeta   e+      nu_e            ISGW2;
+ 0.00165        Myetap  e+      nu_e            ISGW2;
+ 0.00050        Myf0    e+      nu_e            ISGW2;
+ 0.00030        MyK*0   e+      nu_e            ISGW2;
+ 0.00095        Myphi   e+      nu_e            ISGW2;
+ 0.00183        Myeta   mu+     nu_mu           ISGW2;
+ 0.00165        Myetap  mu+     nu_mu           ISGW2;
+ 0.00050        Myf0    mu+     nu_mu           ISGW2;
+ 0.00030        MyK*0   mu+     nu_mu           ISGW2;
+ 0.00095        Myphi   mu+     nu_mu           ISGW2;
+Enddecay
+CDecay MyD_s-
+#
+Decay MyD_s*+
+ 0.942          MyD_s+  gamma                   VSP_PWAVE;
+ 0.058          MyD_s+  pi0                     PHSP;
+Enddecay
+CDecay MyD_s*-
+#
+Decay MyD_s*(2317)+
+ 1.000          MyD_s+  pi0                     PHSP;
+Enddecay
+CDecay MyD_s*(2317)-
+#
+Decay MyD_s*(2457)+
+ 0.18           MyD_s+          gamma           VSP_PWAVE;
+ 0.48           MyD_s*+         pi0             PHSP;
+ 0.043          MyD_s+          pi+     pi-     PHSP;
+ 0.022          MyD_s+          pi0     pi0     PHSP;
+ 0.04           MyD_s*(2317)+   gamma           VSP_PWAVE;
+Enddecay
+CDecay MyD_s*(2457)-
+#
+Decay MyD_s*(2536)+
+ 0.25           MyD_s+          pi+     pi-     PHSP;
+ 0.125          MyD_s+          pi0     pi0     PHSP;
+ 0.1            MyD_s*+         gamma           PHSP;
+Enddecay
+CDecay MyD_s*(2536)-
+#
+Decay MyMainD*+
+ 1.000          MyD0    pi+                     VSS;
+Enddecay
+CDecay MyMainD*-
+#
+Decay MyD0
+ 1.000          K-      pi+                     PHSP;
+Enddecay
+CDecay anti-MyD0
+#
+Decay Mytau+
+ 0.09                                           TAUOLA 5;
+ 0.05                                           TAUOLA 8;
+Enddecay
+CDecay Mytau-
+#
+Decay Myeta
+ 0.2292         pi-     pi+     pi0             ETA_DALITZ;
+ 0.0422         pi-     pi+     gamma           PHSP;
+Enddecay
+#
+Decay Myomega
+ 0.892          pi-     pi+     pi0             OMEGA_DALITZ;
+ 0.0153         pi-     pi+                     PHSP;
+Enddecay
+#
+Decay MyK*0
+ 0.6657         K+      pi-                     VSS;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay Mya1+
+ 1.00           rho0    pi+                     VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya1-
+#
+Decay Myetap
+ 0.293          rho0            gamma           SVP_HELAMP 1.0 0.0 1.0 0.0;
+ 0.41           eta             pi+     pi-     PHSP;
+#0.0275         0.9073*omega    gamma           PHSP;
+#0.216          0.2734*eta      pi0     pi0     PHSP;
+ 0.025          Myomega         gamma           PHSP;
+ 0.059          Myeta           pi0     pi0     PHSP;
+Enddecay
+#
+Decay Myf0
+ 1.000          pi+     pi-                     PHSP;
+Enddecay
+#
+Decay Myf2
+ 1.000          pi+     pi-                     PHSP;
+Enddecay
+#
+Decay Myphi
+ 0.1532         pi+     pi-     pi0             PHI_DALITZ;
+Enddecay
+#
+End

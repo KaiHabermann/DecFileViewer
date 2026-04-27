@@ -1,0 +1,71 @@
+# EventType: 26104086
+#
+# Descriptor: [Xi_c0 -> p+ K- K- pi+ ]cc
+#
+# NickName: Omegac_pKKpi=phsp,DecProdCut,TightCut,tau=250fs
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# CPUTime: < 5 min
+#
+# Documentation: (prompt) Omega_c0 decays according to phase space decay model,
+# Xi_c0 is used to mimic Omega_c0,
+# daughters are required to be in the acceptance of LHCb
+# and with minimum PT of 400 MeV and minimum P of 800 MeV,
+# signal is generated with the lifetime of 250fs.
+#                 
+# EndDocumentation
+#
+#
+# ParticleValue: "Xi_c0               106        4132  0.0        2.69520000      2.5e-13            Xi_c0        4132   0.000", "Xi_c~0              107       -4132  0.0        2.69520000      2.5e-13          anti-Xi_c0       -4132   0.000"
+# 
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# generation = Generation(genAlgName) 
+# signal     = generation.SignalPlain 
+# signal.addTool ( LoKi__GenCutTool , 'TightCut' )
+# tightCut   = signal.TightCut
+# tightCut.Decay     = '^[Xi_c0 ==> ^p+ ^K- ^K- ^pi+]CC'
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,'inAcc        =  in_range ( 0.010 , GTHETA , 0.400 ) '
+#     ,'fastTrack    =  ( GPT > 400 * MeV ) & ( GP  > 800 * MeV ) ' 
+# ]
+# tightCut.Cuts     =    {
+#      '[p+]cc'     : 'inAcc & fastTrack'
+#     ,'[K-]cc'     : 'inAcc & fastTrack'
+#     ,'[pi+]cc'    : 'inAcc & fastTrack'
+#     }
+# EndInsertPythonCode
+#
+# PhysicsWG:   Charm
+# Tested:      Yes
+# Responsible: Ao Xu
+# Email:       ao.xu@cern.ch
+# Date:        20180701
+#
+#
+#
+Decay Xi_c0sig
+ 1.000        p+  K-  K-  pi+  PHSP;
+Enddecay
+CDecay anti-Xi_c0sig
+#
+###### Overwrite forbidden decays
+Decay Xi'_c0
+1.0000    gamma Sigma_c0                     PHSP;
+Enddecay
+Decay anti-Xi'_c0
+1.0000    gamma anti-Sigma_c0                PHSP;
+Enddecay 
+#
+Decay Xi_c*0
+0.5000    Sigma_c0  pi0                     PHSP;
+0.5000    Sigma_c0  gamma                   PHSP;
+Enddecay
+CDecay anti-Xi_c*0
+#
+End 

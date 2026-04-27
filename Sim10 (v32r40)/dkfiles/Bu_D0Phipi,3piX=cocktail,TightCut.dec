@@ -1,0 +1,182 @@
+# EventType: 12366000
+# 
+# Descriptor: [B+ -> anti-D0 (phi -> K- K+) pi+]cc
+# 
+# NickName: Bu_D0Phipi,3piX=cocktail,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation().SignalRepeatedHadronization.addTool( LoKi__GenCutTool , 'TightCut')
+# tightCut = Generation().SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[Beauty ==> ^(Charm) (phi(1020) ==> ^K+ ^K-) ^pi+]CC"
+# tightCut.Preambulo += [ "from LoKiCore.functions import in_range",
+#                           "from GaudiKernel.SystemOfUnits import  GeV, mrad",
+#   'goodcharm   = (GNINTREE(("pi+"==GABSID) & ( GPT > 250 * MeV ) & in_range( 0.010 , GTHETA , 0.400 ) & (GNINTREE(("K0" == GABSID), HepMC.ancestors)==0), HepMC.descendants) > 2.5)',]
+#tightCut.Cuts      =    {
+# '[pi+]cc'   : " in_range( 0.010 , GTHETA , 0.400 ) & ( GPT > 250 * MeV )",
+# '[K-]cc'   : "  in_range( 0.010 , GTHETA , 0.400 )  & ( GPT > 250 * MeV )",
+# '[D0]cc'   : 'goodcharm',
+#    }
+# EndInsertPythonCode
+#
+# Documentation: B+ -> D~0 phi pi with D0 -> 3piX, with tight cuts.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Matt Rudolph
+# Email: matthew.scott.rudolph@cern.ch
+# Date: 20221010
+#
+#
+Alias      MyD0b    anti-D0
+Alias      MyD0     D0
+ChargeConj MyD0     MyD0b
+#
+Alias      MyPhi      phi
+ChargeConj MyPhi      MyPhi
+#
+# K*0 -> K+ pi-
+Alias MyK*0_f K*0
+Alias Myanti-K*0_f anti-K*0
+ChargeConj MyK*0_f Myanti-K*0_f
+#
+# K*- -> KS0 pi-
+Alias MyK*-_f K*-
+Alias MyK*+_f K*+
+ChargeConj MyK*-_f MyK*+_f
+#
+# K_1(1270)-  -> K- pi+ pi-
+Alias MyK_1+ K_1+
+Alias MyK_1- K_1-
+ChargeConj MyK_1+ MyK_1-
+#
+# a1+ -> rho0 pi+
+Alias Mya_1+ a_1+
+Alias Mya_1- a_1-
+ChargeConj Mya_1+ Mya_1-
+#
+# eta -> 2piX
+Alias Myeta_2piX eta
+ChargeConj Myeta_2piX Myeta_2piX
+#
+# omega -> 2piX
+Alias Myomega_2piX omega
+ChargeConj Myomega_2piX Myomega_2piX
+#
+# eta' -> 2piX
+Alias Myeta'_2piX eta'
+ChargeConj Myeta'_2piX Myeta'_2piX
+
+#
+Decay B+sig
+  1.000    MyD0b     MyPhi    pi+    PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyD0
+
+#Breakup of Gamma_71 (PDG 2021 update) D0 -> K- 2pi+ pi- 
+# Gamma_71 inclusive is 8.23
+# it is split into Gamma_72 (inclusive) = 6.87, Gamma_77 = 0.39, Gamma_81 = 1.81. 
+# Due to interference effects, these add up to 9.07, greater than the inclusive 8.23
+# So I rescale Gamma_72 to 6.23, Gamma_77 to 0.35, Gamma_81 to 1.64 to maintain relative proportions and have it sum to 8.23
+
+#Gamma_72 further splits into Gamma_73 = 0.61, Gamma_74 = 1.01, Gamma_76 = 4.32 (before rescaling)
+# Rescale Gamma_72 to 0.63, Gamma_73 to 1.13, Gamma_75 to 4.47, so they sum to 6.23
+
+0.63 K- pi+ rho0 PHSP;                                     #Gamma_73 (PDG 2021 update) Rescaled                         [3piX]
+1.13 Myanti-K*0_f rho0 SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; #Gamma_74 (PDG 2021 update) Rescaled, K*0bar -> K- pi+       [3piX]
+4.47 Mya_1+ K-  SVS;                                       #Gamma_76 (PDG 2021 update) Rescaled, a1 -> rho0 pi+         [3piX]
+0.35 MyK_1- pi+ SVS;                                       #Gamma_77 (PDG 2021 update), K1(1270) -> K- pi+ pi- Rescaled [3piX]
+1.64 K- pi+ pi+ pi- PHSP;                                  #Gamma_81 (PDG 2021 update), Rescaled                        [3piX]
+#
+
+#Breakup of Gamma_86 (PDG 2021 update) D0 -> K- 2pi+ pi- pi0 4.3%
+
+1.3 Myanti-K*0_f pi+ pi- pi0 PHSP;                            #Gamma_87 (PDG 2021 update), K*0bar -> K- pi+                         [3piX]
+2.15 K- pi+ Myomega_2piX PHSP;                                     #Gamma_88-Gamma_89 (PDG 2021 update), omega -> pi+ pi- pi0            [3piX]
+0.65 Myanti-K*0_f Myomega_2piX SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; #Gamma_89 (PDG 2021 update), K*0bar -> K- pi+, omega -> pi+ pi- pi0   [3piX]
+0.2 K- pi+ pi+ pi- pi0 PHSP;                                  #Adding by hand to get to 4.3%                                        [3piX]
+#
+
+0.51 K- pi+ Myeta_2piX PHSP;       #Gamma_93 (PDG 2021 update) = 1.88 * B(eta -> 2piX)      [3piX]
+0.12 K- pi+ pi0 Myeta_2piX PHSP;   #Gamma_97 (PDG 2021 update) = 0.449 * B(eta -> 2piX)     [3piX]
+0.15 K0 pi+ pi- Myeta_2piX PHSP;   #Gamma_98 (PDG 2021 update)*2 = 0.56 * B(eta -> 2piX)    [3piX]
+0.22 K0 rho0 pi+ pi- PHSP;         #Gamma_101 (PDG 2021 update)*2                           [3piX]
+0.32 MyK*-_f rho0 pi+ PHSP;        #Gamma_103 (PDG 2021 update)*2, K*- forced to KS0 pi-    [3piX]
+
+0.28 K- pi+ Myeta'_2piX PHSP;      #Gamma_114 (PDG 2021 update) = 0.643 * B(eta' -> 2piX)                     [3piX]
+#Gamma_108 (PDG 2021 update), Gamma_112 (PDG 2021 update) too small, ignoring
+
+0.117 pi+ pi+ pi- pi- PHSP;                         #Gamma_151 - Gamma_152 - Gamma_164  (PDG 2021 update)    [3piX]
+0.454 Mya_1+ pi- SVS;                               #Gamma_152 (PDG 2021 update)                             [3piX]
+0.185 rho0 rho0 SVV_HELAMP 1.0 0.0 1.0 0.0 1.0 0.0; #Gamma_164 (PDG 2021 update)                             [3piX]
+
+#0.05 Myomega_2piX Myeta_2piX PHSP;    #Gamma_173 (PDG 2021 update) = 0.198 * B(omega->2piX) * B(eta->2piX)   [3piX]
+
+0.42 pi+ pi+ pi- pi- pi0 PHSP;       #Gamma_182  (PDG 2021 update), ignoring the breakup into Gamma_183 & Gamma_184, too small  [3piX]
+0.09 pi+ pi- pi0 Myeta_2piX PHSP;    #Gamma_187 (PDG 2021 update) = 0.323 * B(eta -> 2piX)                                      [3piX]
+
+#0.015 Myeta_2piX Myeta_2piX PHSP;   #Gamma_191 (PDG 2021 update) = 0.21 * B(eta->2piX)^2                 [3piX]
+
+#0.01 Myeta_2piX Myeta'_2piX PHSP;    #Gamma_194 (PDG 2021 update) = 0.10 * B(eta->2piX) * B(eta'->2piX)  [3piX]
+Enddecay
+CDecay MyD0b
+######################
+# For more info, see D0DKst0 3piX=cocktail file. 2piX modes removed here
+######################
+#
+Decay MyPhi
+  1.000    K+         K-              VSS;
+Enddecay
+
+#
+Decay MyK*0_f
+1.0 K+ pi- VSS;
+Enddecay
+CDecay Myanti-K*0_f
+
+#
+Decay MyK*-_f
+1.0 K_S0 pi- VSS;
+Enddecay
+CDecay MyK*+_f
+
+#
+Decay MyK_1+
+1.0 K+ pi+ pi- PHSP;
+Enddecay
+CDecay MyK_1-
+
+#
+Decay Mya_1+
+1.0 rho0 pi+ VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+CDecay Mya_1-
+
+#
+Decay Myeta_2piX
+0.2292 pi- pi+ pi0 ETA_DALITZ;
+0.0422 gamma pi- pi+ PHSP;
+Enddecay
+
+#
+Decay Myeta'_2piX
+0.115 pi+ pi- Myeta_2piX PHSP; #B(eta'->pi+pi- eta)=0.425 * B(eta -> 2piX)
+0.06  pi0 pi0 Myeta_2piX PHSP; #B(eta'->pi0 pi0 eta)=0.224 * B(eta -> 2piX)
+0.295 rho0 gamma SVP_HELAMP 1.0 0.0 1.0 0.0;
+0.023 Myomega_2piX gamma SVP_HELAMP 1.0 0.0 1.0 0.0; #B(eta' -> omega gamma) = 0.0252 * B(omega -> 2piX)
+Enddecay
+
+#
+Decay Myomega_2piX
+0.892 pi- pi+ pi0 OMEGA_DALITZ;
+0.0153 pi- pi+ VSS;
+Enddecay
+
+End

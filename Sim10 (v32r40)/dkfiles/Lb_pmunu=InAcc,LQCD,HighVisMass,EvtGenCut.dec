@@ -1,0 +1,59 @@
+# EventType: 15512021
+#
+# Descriptor: [Lambda_b0 -> p+ mu- anti-nu_mu]cc
+#
+# NickName: Lb_pmunu=InAcc,LQCD,HighVisMass,EvtGenCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# Documentation: Decay file for Lb->pmunu using LQCD form factor predicitons 
+#                (form factor from 15512014). M(pmu) > 4.0 GeV
+# EndDocumentation
+#
+#
+# InsertPythonCode:
+# #
+# from Configurables import EvtGenDecayWithCutTool
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# from Configurables import ToolSvc
+# gen = Generation()
+#
+# gen.SignalPlain.DecayTool = "EvtGenDecayWithCutTool"
+# ToolSvc().addTool(EvtGenDecayWithCutTool)
+# ToolSvc().EvtGenDecayWithCutTool.DecayFile = "$DECFILESROOT/dkfiles/DECAY.DEC"
+# evtgendecay = ToolSvc().EvtGenDecayWithCutTool
+# evtgendecay.CutTool = "LoKi::GenCutTool/HighVisMass"
+# evtgendecay.addTool(LoKi__GenCutTool ,'HighVisMass')
+# evtgendecay.HighVisMass.Decay   = "[Lambda_b0 => p+ mu- nu_mu~]CC"
+# evtgendecay.HighVisMass.Cuts    = { '[Lambda_b0]cc' : "visMass" }
+# evtgendecay.HighVisMass.Preambulo += ["visMass  = ( ( GMASS ( 'p+' == GABSID , 'mu-' == GABSID ) ) > 4000 * MeV ) " ]
+#
+# gen.SignalPlain.addTool(LoKi__GenCutTool ,'TightCut')
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay   = '[Lambda_b0 => ^p+ ^mu- nu_mu~]CC' 
+# tightCut.Cuts    =    {
+#     '[p+]cc'     : "inAcc",
+#     '[mu-]cc'     : "inAcc"}
+# tightCut.Preambulo += [
+#     "inAcc   = in_range ( 0.005 , GTHETA , 0.400 ) " 
+#     ]
+#
+# EndInsertPythonCode
+#
+# PhysicsWG: RD 
+# Tested: Yes
+# Responsible: Camille Normand
+# Email: camille.normand@cern.ch
+# Date: 20230406
+# CPUTime: 1 min
+#
+#
+
+Decay Lambda_b0sig
+  1.000    p+     mu-  anti-nu_mu   PHOTOS   Lb2plnuLQCD  1 1 1 1;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+End
+#

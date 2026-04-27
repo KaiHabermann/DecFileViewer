@@ -1,0 +1,32 @@
+# EventType: 12105312
+#
+# Descriptor: [B+ -> pi+ pi- pi+ (KS0 -> pi+ pi-) gamma]cc
+#
+# NickName: Bu_Kspi+pi-pi+gamma=DecProdCut,PHSP 
+#
+# Cuts: DaughtersInLHCb
+# CPUTime: < 1 min
+#
+# Documentation: for Bkg for Kspipipi, all in PHSP. Daughters in LHCb.
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# Responsible: Pablo Baladron Rodriguez
+# Email:  pablo.baladron.rodriguez@cern.ch
+# Date: 20210619
+#
+Alias      MyK0s  K_S0
+ChargeConj MyK0s  MyK0s
+#
+Decay B+sig
+  1.000   pi+  pi- pi+   MyK0s      gamma         PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay MyK0s
+  1.000   pi+         pi-       PHSP;
+Enddecay
+#
+End
+

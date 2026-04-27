@@ -1,0 +1,44 @@
+# EventType: 17143211
+#
+# Descriptor: [B*+ -> (B+ -> K+ (J/psi(1S) -> mu+ mu- )) gamma]cc
+#
+# NickName: Bst_Bugamma,JpsiK,mm=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B*+ decay 
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Liupan An 
+# Email: liupan.an@cern.ch
+# Date: 20190611
+#
+Alias B*+sig B*+
+Alias B*-sig B*-
+ChargeConj B*+sig B*-sig
+Alias MyB+     B+
+Alias MyB-     B-
+ChargeConj MyB+      MyB-
+Alias MyJpsi  J/psi
+Alias MyD0  D0
+Alias Myanti-D0  anti-D0
+ChargeConj MyD0 Myanti-D0
+#
+Decay B*+sig
+1.0000    MyB+  gamma                       VSP_PWAVE;
+Enddecay
+CDecay B*-sig
+#
+Decay MyB+
+  1.000    MyJpsi    K+                         SVS;
+Enddecay
+CDecay MyB-
+#
+Decay MyJpsi
+1.000   mu+  mu-               PHOTOS   VLL;
+Enddecay
+#
+End

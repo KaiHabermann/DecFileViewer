@@ -1,0 +1,39 @@
+# EventType: 42124011
+#
+# Descriptor: pp -> [mu- mu+ e- e+]cc ... 
+#
+# NickName:  ZZ_mumuee,4l=1l15GeV_MG5_LO
+# Production: Madgraph
+#
+# Cuts: PythiaHiggsType
+#
+# CutsOptions: NumberOfLepton 1 LeptonPtMin 15*GeV LeptonIsFromMother true NumberOfbquarks -1 
+#
+# InsertPythonCode:
+# #Configure the event type.
+# from Configurables import Gauss, Generation, MadgraphProduction
+# from GaudiKernel import SystemOfUnits
+# from Gaudi.Configuration import importOptions
+#
+# Generation(genAlgName).Special.addTool(MadgraphProduction)
+#
+# # Madgraph options.
+# #Generation().Special.addTool(MadgraphProduction)
+# sampleGenToolsOpts = {
+#     "Commands": ["generate p p > mu+ mu- e+ e-"],
+#      "DecEff": 1.0}
+# Gauss().SampleGenerationToolOptions.update(sampleGenToolsOpts)
+# EndInsertPythonCode
+# CPUTime: < 1 min
+# Documentation: 1 lepton with pT > 15 GeV.  Madgraph ZZ LO DecFile.
+# EndDocumentation
+#
+# PhysicsWG: EW 
+# Tested: Yes
+# Responsible: Gabe Nowak
+# Email: ganowak@cern.ch
+# Date: 20240903
+#
+End
+#
+

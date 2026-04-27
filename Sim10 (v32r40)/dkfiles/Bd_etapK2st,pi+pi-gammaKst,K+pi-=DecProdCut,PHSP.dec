@@ -1,0 +1,51 @@
+# EventType: 11104602
+#
+# Descriptor: [B0 -> (eta' -> pi+ pi- gamma) (K*_2(1430)0 -> {K*(892)0 -> K+ pi- } pi0)]cc
+#
+# NickName: Bd_etapK2st,pi+pi-gammaKst,K+pi-=DecProdCut,PHSP
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: eta' forced into eta pi+ pi- gamma,K*_2(1430)0 forced into K*(892)0 pi0,K*(892)0 into K+ pi-, multi-body decays uniformly in phase space
+# EndDocumentation
+#
+# PhysicsWG: BnoC
+# Tested: Yes
+# CPUTime: <1min
+# Responsible: Longfei Ji
+# Email: longfei.ji@cern.ch
+# Date: 20250211
+
+Alias           MyEta'          eta'
+Alias           MyK2*0          K_2*0
+Alias           Myanti-K2*0     anti-K_2*0  
+Alias           MyK*0           K*0
+Alias           Myanti-K*0      anti-K*0
+
+
+ChargeConj      MyEta'          MyEta'
+ChargeConj      MyK2*0          Myanti-K2*0  
+ChargeConj      MyK*0           Myanti-K*0
+
+Decay B0sig
+      1.0       MyK2*0    MyEta'  STS;
+Enddecay
+CDecay anti-B0sig
+
+Decay MyK2*0
+      1.0       MyK*0     pi0     TVS_PWAVE 0.0 0.0 1.0 0.0 0.0 0.0;
+Enddecay
+CDecay Myanti-K2*0
+
+Decay MyK*0
+      1.0       K+        pi-     VSS;
+Enddecay
+CDecay Myanti-K*0
+
+Decay MyEta'
+      1.0       pi+       pi-     gamma  PHSP;
+Enddecay
+
+
+End
+

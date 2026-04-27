@@ -1,0 +1,464 @@
+# EventType: 15876430
+#
+# Descriptor: {[Lambda_b0 -> (Lambda_c+ -> 2h + X) pi+ pi- mu- anti-nu_mu]cc}
+#
+# NickName: Lb_Lcpipimunu,2hX=cocktail,mu4hinAcc
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# #
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )
+# #
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay = '^[ Lambda_b0 --> X ... ]CC'
+# tightCut.Cuts  = { '[Lambda_b0]cc' : 'goodB' }
+# tightCut.Preambulo += [
+#     'from GaudiKernel.SystemOfUnits import MeV',
+#     "inAcc = (0 < GPZ) & (100 * MeV < GPT) & in_range(1.8, GETA, 5.0) & in_range(0.005, GTHETA, 0.400)",
+#     "PiOrK = ( GABSID == 'pi+' ) | ( GABSID == 'K+')",
+#     "hasMu = 1 <= GNINTREE ( (GABSID == 'mu-') & inAcc , HepMC.descendants )",
+#     'goodB = hasMu & (4 <= GNINTREE ( PiOrK & inAcc , HepMC.descendants ))' ]
+#
+# EndInsertPythonCode
+#
+# Documentation: Sum of Lb->Lcpipimunu modes with (Lc -> 2 mesons ...) final state, including Lc* and non resonant modes. TightCut.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Joao Coelho
+# Email: coelho@lal.in2p3.fr
+# Date: 20190121
+# CPUTime: < 1 min
+#
+
+Alias  MyLambda_c(2593)+  Lambda_c(2593)+
+Alias  Myanti-Lambda_c(2593)-  anti-Lambda_c(2593)-
+ChargeConj  MyLambda_c(2593)+  Myanti-Lambda_c(2593)-
+#
+Alias  MyLambda_c(2625)+  Lambda_c(2625)+
+Alias  Myanti-Lambda_c(2625)-  anti-Lambda_c(2625)-
+ChargeConj  MyLambda_c(2625)+  Myanti-Lambda_c(2625)-
+#
+Alias  MySigma_c0  Sigma_c0
+Alias  Myanti-Sigma_c0  anti-Sigma_c0
+ChargeConj  MySigma_c0  Myanti-Sigma_c0
+#
+Alias  MySigma_c++  Sigma_c++
+Alias  Myanti-Sigma_c--  anti-Sigma_c--
+ChargeConj  MySigma_c++  Myanti-Sigma_c--
+#
+Alias  MySigma_c*0  Sigma_c*0
+Alias  Myanti-Sigma_c*0  anti-Sigma_c*0
+ChargeConj  MySigma_c*0  Myanti-Sigma_c*0
+#
+Alias  MySigma_c*++  Sigma_c*++
+Alias  Myanti-Sigma_c*--  anti-Sigma_c*--
+ChargeConj  MySigma_c*++  Myanti-Sigma_c*--
+#
+Alias  MyLambda_c+  Lambda_c+
+Alias  Myanti-Lambda_c-  anti-Lambda_c-
+ChargeConj  MyLambda_c+  Myanti-Lambda_c-
+#
+Alias  MySigma*0  Sigma*0
+Alias  Myanti-Sigma*0  anti-Sigma*0
+ChargeConj  MySigma*0  Myanti-Sigma*0
+#
+Alias  MyDelta++  Delta++
+Alias  Myanti-Delta--  anti-Delta--
+ChargeConj  MyDelta++  Myanti-Delta--
+#
+Alias  MyK*+  K*+
+Alias  MyK*-  K*-
+ChargeConj  MyK*+  MyK*-
+#
+Alias  MyDelta0  Delta0
+Alias  Myanti-Delta0  anti-Delta0
+ChargeConj  MyDelta0  Myanti-Delta0
+#
+Alias  MyDelta+  Delta+
+Alias  Myanti-Delta-  anti-Delta-
+ChargeConj  MyDelta+  Myanti-Delta-
+#
+Alias  MyK*0  K*0
+Alias  Myanti-K*0  anti-K*0
+ChargeConj  MyK*0  Myanti-K*0
+#
+Alias  MySigma*+  Sigma*+
+Alias  Myanti-Sigma*-  anti-Sigma*-
+ChargeConj  MySigma*+  Myanti-Sigma*-
+#
+Alias  MyLambda0  Lambda0
+Alias  Myanti-Lambda0  anti-Lambda0
+ChargeConj  MyLambda0  Myanti-Lambda0
+#
+Alias  MySigma0  Sigma0
+Alias  Myanti-Sigma0  anti-Sigma0
+ChargeConj  MySigma0  Myanti-Sigma0
+#
+Alias  MySigma+  Sigma+
+Alias  Myanti-Sigma-  anti-Sigma-
+ChargeConj  MySigma+  Myanti-Sigma-
+#
+Alias  MySigma-  Sigma-
+Alias  Myanti-Sigma+  anti-Sigma+
+ChargeConj  MySigma-  Myanti-Sigma+
+#
+Alias  MyXi*0  Xi*0
+Alias  Myanti-Xi*0  anti-Xi*0
+ChargeConj  MyXi*0  Myanti-Xi*0
+#
+Alias  MyXi-  Xi-
+Alias  Myanti-Xi+  anti-Xi+
+ChargeConj  MyXi-  Myanti-Xi+
+#
+Alias  Myrho0  rho0
+ChargeConj  Myrho0  Myrho0
+#
+Alias  Myrho+  rho+
+Alias  Myrho-  rho-
+ChargeConj  Myrho+  Myrho-
+#
+Alias  Myeta  eta
+ChargeConj  Myeta  Myeta
+#
+Alias  Myeta0  eta
+ChargeConj  Myeta0  Myeta0
+#
+Alias  Myeta'  eta'
+ChargeConj  Myeta'  Myeta'
+#
+Alias  Myomega  omega
+ChargeConj  Myomega  Myomega
+#
+Alias  Myphi  phi
+ChargeConj  Myphi  Myphi
+#
+Alias  Myf_0  f_0
+ChargeConj  Myf_0  Myf_0
+
+
+#
+# Total Lambda_b0sig = 0.017804517
+#
+Decay Lambda_b0sig
+0.000653346  MyLambda_c(2593)+  mu-  anti-nu_mu  BaryonPCR 1 1 1 1; #[Reconstructed PDG2011][PHSP->BaryonPCR];
+0.001994700  MyLambda_c(2625)+  mu-  anti-nu_mu  BaryonPCR 1 1 1 1; #[Reconstructed PDG2011][PHSP->BaryonPCR];
+0.015156472  MyLambda_c+  pi+  pi-  mu-  anti-nu_mu  PHSP; #[New mode added] #[Reconstructed PDG2011];
+Enddecay
+CDecay anti-Lambda_b0sig
+
+#
+# Total MyLambda_c(2593)+ = 0.103705649
+#
+Decay MyLambda_c(2593)+
+0.026140953  MySigma_c++  pi-  PHSP; #[Reconstructed PDG2011];
+0.026140953  MySigma_c0  pi+  PHSP; #[Reconstructed PDG2011];
+0.051423743  MyLambda_c+  pi+  pi-  PHSP; #[Reconstructed PDG2011];
+# These modes seem to violate energy conservation
+#0.240000000 MySigma_c*++  pi-       PHSP;  #[New mode added] #[Reconstructed PDG2011];
+#0.240000000 MySigma_c*0   pi+       PHSP;  #[New mode added] #[Reconstructed PDG2011];
+Enddecay
+CDecay Myanti-Lambda_c(2593)-
+
+#
+# Total MyLambda_c(2625)+ = 0.181336357
+#
+Decay MyLambda_c(2625)+
+0.181336357  MyLambda_c+  pi+  pi-  PHSP; #[Reconstructed PDG2011];
+Enddecay
+CDecay Myanti-Lambda_c(2625)-
+
+#
+# Total MySigma_c0 = 0.270651280
+#
+Decay MySigma_c0
+0.270651280  MyLambda_c+  pi-  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c0
+
+#
+# Total MySigma_c++ = 0.270651280
+#
+Decay MySigma_c++
+0.270651280  MyLambda_c+  pi+  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c--
+
+#
+# Total MySigma_c*0 = 0.270651280
+#
+Decay MySigma_c*0
+0.270651280  MyLambda_c+  pi-  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c*0
+
+#
+# Total MySigma_c*++ = 0.270651280
+#
+Decay MySigma_c*++
+0.270651280  MyLambda_c+  pi+  PHSP;
+Enddecay
+CDecay Myanti-Sigma_c*--
+
+#
+# Total MyLambda_c+ = 0.270651280
+#
+Decay MyLambda_c+
+0.008600000  MyDelta++  K-  PYTHIA 0;
+0.025000000  MyDelta++  MyK*-  PYTHIA 0;
+0.001000000  MyDelta++  pi-  PYTHIA 0;
+0.001000000  MyDelta++  Myrho-  PYTHIA 0;
+0.000479988  MySigma*0  pi+  PHSP;
+0.000479988  MySigma*0  Myrho+  PHSP;
+0.000119997  MySigma*0  K+  PHSP;
+0.000119997  MySigma*0  MyK*+  PHSP;
+0.000623517  MyXi*0  K+  PYTHIA 0;
+0.000993000  MyDelta0  pi+  PYTHIA 0;
+0.000993000  MyDelta0  Myrho+  PYTHIA 0;
+0.005391924  MyLambda0  pi+  pi+  pi-  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.003954078  MyLambda0  pi+  Myrho0  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.002968688  MySigma0  pi+  pi+  pi-  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000898854  MyXi-  K+  pi+  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.010651200  p+  Myanti-K*0  PYTHIA 0;
+0.000273400  p+  Myeta  PYTHIA 0;
+0.000692072  p+  Myeta'  PYTHIA 0;
+0.002000000  p+  Myrho0  PYTHIA 0;
+0.001817852  p+  Myomega  PYTHIA 0;
+0.000529322  p+  Myphi  PYTHIA 0;
+0.001866760  p+  Myf_0  PYTHIA 0;
+0.025400000  p+  K-  pi+  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.003280800  p+  anti-K0  Myeta  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.026000000  p+  anti-K0  pi+  pi-  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.023000000  p+  K-  pi+  pi0  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.011000000  p+  MyK*-  pi+  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.008000000  p+  K-  pi+  pi0  pi0  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000700000  p+  pi+  pi-  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.003328500  MyDelta+  Myanti-K*0  PYTHIA 0;
+0.000273400  MyDelta+  Myeta  PYTHIA 0;
+0.000692072  MyDelta+  Myeta'  PYTHIA 0;
+0.001000000  MyDelta+  Myrho0  PYTHIA 0;
+0.000908926  MyDelta+  Myomega  PYTHIA 0;
+0.001503681  MySigma+  Myeta  PYTHIA 0;
+0.001384128  MySigma+  Myeta'  PYTHIA 0;
+0.003999950  MySigma+  Myrho0  PYTHIA 0;
+0.024540688  MySigma+  Myomega  PYTHIA 0;
+0.001863937  MySigma+  MyK*0  PYTHIA 0;
+0.035999548  MySigma+  pi+  pi-  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.016999376  MySigma-  pi+  pi+  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.002001069  MySigma+  Myphi  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000924415  MySigma*+  Myeta  PYTHIA 0;
+0.001193358  MySigma*+  Myrho0  PYTHIA 0;
+0.001084673  MySigma*+  Myomega  PYTHIA 0;
+0.000264806  MySigma*+  MyK*0  PYTHIA 0;
+0.000933630  MyLambda0  pi+  Myeta  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.003920687  MyLambda0  pi+  Myomega  PHSP; #[New mode added] #[Reconstructed PDG2011];
+Enddecay
+CDecay Myanti-Lambda_c-
+
+#
+# Total MySigma*0 = 0.119997045
+#
+Decay MySigma*0
+0.059999247  MySigma+  pi-  PHSP;
+0.059997798  MySigma-  pi+  PHSP;
+Enddecay
+CDecay Myanti-Sigma*0
+
+#
+# Total MyDelta++ = 1.000000000
+#
+Decay MyDelta++
+1.000000000  p+  pi+  PHSP;
+Enddecay
+CDecay Myanti-Delta--
+
+#
+# Total MyK*+ = 1.000000000
+#
+Decay MyK*+
+0.665700000  K0  pi+  VSS;
+0.332300000  K+  pi0  VSS;
+0.002000000  K+  gamma  VSP_PWAVE;
+Enddecay
+CDecay MyK*-
+
+#
+# Total MyDelta0 = 0.331000000
+#
+Decay MyDelta0
+0.331000000  p+  pi-  PHSP;
+Enddecay
+CDecay Myanti-Delta0
+
+#
+# Total MyDelta+ = 1.000000000
+#
+Decay MyDelta+
+0.663000000  p+  pi0  PHSP;
+0.331000000  n0  pi+  PHSP;
+0.006000000  p+  gamma  PHSP;
+Enddecay
+CDecay Myanti-Delta-
+
+#
+# Total MyK*0 = 0.665700000
+#
+Decay MyK*0
+0.665700000  K+  pi-  VSS;
+Enddecay
+CDecay Myanti-K*0
+
+#
+# Total MySigma*+ = 0.397785842
+#
+Decay MySigma*+
+0.316326201  MyLambda0  pi+  PHSP;
+0.021460394  MySigma0  pi+  PHSP;
+0.059999247  MySigma+  pi0  PHSP;
+Enddecay
+CDecay Myanti-Sigma*-
+
+#
+# Total MyLambda0 = 0.359461592
+#
+Decay MyLambda0
+0.357719992  n0  pi0  PHSP; #[Reconstructed PDG2011];
+0.001741600  n0  gamma  PHSP; #[Reconstructed PDG2011];
+Enddecay
+CDecay Myanti-Lambda0
+
+#
+# Total MySigma0 = 0.357673226
+#
+Decay MySigma0
+0.357673226  gamma  MyLambda0  PHSP; #[Reconstructed PDG2011];
+Enddecay
+CDecay Myanti-Sigma0
+
+#
+# Total MySigma+ = 0.999987452
+#
+Decay MySigma+
+0.515454300  p+  pi0  PHSP; #[Reconstructed PDG2011];
+0.482854300  n0  pi+  PHSP; #[Reconstructed PDG2011];
+0.001225905  p+  gamma  PHSP; #[Reconstructed PDG2011];
+0.000445905  n0  pi+  gamma  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000007042  MyLambda0  e+  nu_e  PHSP; #[New mode added] #[Reconstructed PDG2011];
+Enddecay
+CDecay Myanti-Sigma-
+
+#
+# Total MySigma- = 0.999963297
+#
+Decay MySigma-
+0.998015700  n0  pi-  PHSP; #[Reconstructed PDG2011];
+0.000460000  n0  pi-  gamma  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.001017000  n0  e-  anti-nu_e  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000450000  n0  mu-  anti-nu_mu  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000020597  MyLambda0  e-  anti-nu_e  PHSP; #[New mode added] #[Reconstructed PDG2011];
+Enddecay
+CDecay Myanti-Sigma+
+
+#
+# Total MyXi*0 = 0.239814315
+#
+Decay MyXi*0
+0.239814315  MyXi-  pi+  PHSP;
+Enddecay
+CDecay Myanti-Xi*0
+
+#
+# Total MyXi- = 0.359541702
+#
+Decay MyXi-
+0.359055400  MyLambda0  pi-  PHSP; #[Reconstructed PDG2011];
+0.000126995  MySigma-  gamma  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000202377  MyLambda0  e-  anti-nu_e  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000125812  MyLambda0  mu-  anti-nu_mu  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000031118  MySigma0  e-  anti-nu_e  PHSP; #[New mode added] #[Reconstructed PDG2011];
+Enddecay
+CDecay Myanti-Xi+
+
+#
+# Total Myrho0 = 1.000000000
+#
+Decay Myrho0
+1.000000000  pi+  pi-  VSS;
+Enddecay
+
+#
+# Total Myrho+ = 1.000000000
+#
+Decay Myrho+
+1.000000000  pi+  pi0  VSS;
+Enddecay
+CDecay Myrho-
+
+#
+# Total Myeta = 0.273400000
+#
+Decay Myeta
+0.227400000  pi-  pi+  pi0  ETA_DALITZ; #[Reconstructed PDG2011];
+0.046000000  gamma  pi-  pi+  PHSP; #[Reconstructed PDG2011];
+Enddecay
+
+#
+# Total Myeta0 = 0.719070000
+#
+Decay Myeta0
+0.393100000  gamma  gamma  PHSP; #[Reconstructed PDG2011];
+0.325700000  pi0  pi0  pi0  PHSP; #[Reconstructed PDG2011];
+0.000270000  gamma  gamma  pi0  PHSP; #[Reconstructed PDG2011];
+Enddecay
+
+#
+# Total Myeta' = 0.692072499
+#
+Decay Myeta'
+0.310638240  pi+  pi-  Myeta0  PHSP; #[Reconstructed PDG2011];
+0.059327800  pi0  pi0  Myeta  PHSP; #[Reconstructed PDG2011];
+0.293511000  Myrho0  gamma  SVP_HELAMP 1.0 0.0 1.0 0.0; #[Reconstructed PDG2011];
+0.024995459  Myomega  gamma  SVP_HELAMP 1.0 0.0 1.0 0.0; #[Reconstructed PDG2011];
+0.003600000  pi+  pi-  pi0  PHSP; #[New mode added] #[Reconstructed PDG2011];
+Enddecay
+
+#
+# Total Myomega = 0.908925764
+#
+Decay Myomega
+0.892000000  pi-  pi+  pi0  OMEGA_DALITZ; #[Reconstructed PDG2011];
+0.015300000  pi-  pi+  VSS; #[Reconstructed PDG2011];
+0.000125764  Myeta  gamma  VSP_PWAVE; #[Reconstructed PDG2011];
+0.001500000  pi+  pi-  gamma  PHSP;
+Enddecay
+
+#
+# Total Myphi = 0.645514334
+#
+Decay Myphi
+0.489000000  K+  K-  VSS; #[Reconstructed PDG2011];
+0.042500000  Myrho+  pi-  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.042500000  Myrho0  pi0  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.042500000  Myrho-  pi+  VVS_PWAVE 1.0 0.0 0.0 0.0 0.0 0.0;
+0.025000000  pi+  pi-  pi0  PHSP;
+0.003578806  Myeta  gamma  VSP_PWAVE; #[Reconstructed PDG2011];
+0.000214677  Myf_0  gamma  PHSP; #[Reconstructed PDG2011];
+0.000074000  pi+  pi-  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000042720  Myomega  pi0  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000041000  pi+  pi-  gamma  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000019876  pi0  Myeta  gamma  PHSP; #[New mode added] #[Reconstructed PDG2011];
+0.000043255  Myeta'  gamma  PHSP; #[New mode added] #[Reconstructed PDG2011];
+Enddecay
+
+#
+# Total Myf_0 = 0.666700000
+#
+Decay Myf_0
+0.666700000  pi+  pi-  PHSP;
+Enddecay
+
+End

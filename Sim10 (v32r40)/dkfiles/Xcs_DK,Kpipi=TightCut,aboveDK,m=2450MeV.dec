@@ -1,0 +1,58 @@
+# EventType: 27164045
+#
+# Descriptor: [D*_2(2460)0 -> (D+ -> K- pi+ pi+) K-]cc
+#
+# NickName: Xcs_DK,Kpipi=TightCut,aboveDK,m=2450MeV
+# CPUTime: < 1 min
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# ParticleValue: "D*_2(2460)0 170 425 0.0 2.450 1.530726e-023 D_2*0 425 0.3090000","D*_2(2460)~0 166 -425 0.0 2.450 1.530726e-023 anti-D_2*0 -425 0.3090000"
+#
+# Documentation: Search for tetraquark X_cs (c s ubar dbar) strongly decaying into D+ K-, predicted by 1709.02571
+# EndDocumentation 
+#
+# InsertPythonCode:
+#
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation(genAlgName) 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# # 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ D*_2(2460)0 -> (D+ -> K- pi+ pi+) K- ]CC'
+# tightCut.Cuts      =    {
+#     '[K-]cc'       : ' goodKaon' , 
+#     '[pi+]cc'        : ' goodPion  ' , 
+#     '[D*_2(2460)0]cc' : ' goodD20' }
+# tightCut.Preambulo += [
+#     'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' , 
+#     'goodKaon= ( GPT > 0.2 * GeV ) & ( GP > 2. * GeV ) & inAcc ' , 
+#     'goodPion = ( GPT > 0.2 * GeV ) & ( GP > 2. * GeV ) & inAcc ' , 
+#     'goodD20= ~GHAS (GBEAUTY, HepMC.ancestors) ' ]
+#
+# EndInsertPythonCode
+
+#
+# PhysicsWG: Charm 
+# Tested: Yes
+# Responsible: Mengzhen Wang
+# Email: mengzhen.wang@cern.ch
+# Date: 20180207
+
+Alias      myD+             D+
+Alias      myD-             D-
+ChargeConj myD+             myD-
+#
+
+#
+Decay D_2*0sig
+  1.00  myD+ K-         PHSP;
+Enddecay
+CDecay anti-D_2*0sig
+#
+Decay myD+
+  1.00  K- pi+ pi+         D_DALITZ;
+Enddecay
+CDecay myD-
+
+End
+

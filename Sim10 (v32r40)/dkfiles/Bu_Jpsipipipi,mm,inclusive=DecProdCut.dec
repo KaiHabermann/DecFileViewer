@@ -1,0 +1,195 @@
+# EventType: 12445401
+#
+# Descriptor: [B+ -> (J/psi -> mu+ mu-) pi+ pi- pi+ X ]cc
+#
+# NickName: Bu_Jpsipipipi,mm,inclusive=DecProdCut 
+#
+# Cuts: DaughtersInLHCb
+#
+#
+# Documentation: [B+ -> (Jpsi -> mu mu) pi+ pi- pi+ X]cc, inclusive mode to 3pi final state.
+# EndDocumentation
+#
+# PhysicsWG: B2SL
+# Tested: Yes
+# Responsible: Wenqian HUANG
+# Email: wenqian.huang@cern.ch
+# Date: 20190328
+# CPUTime: < 1 min
+#
+Alias    MyJpsi    J/psi                                                
+ChargeConj    MyJpsi    MyJpsi                                                
+#                                                        
+Alias    Myf_1    f_1                                                
+ChargeConj    Myf_1    Myf_1                                                
+#                                                        
+Alias    Myphi    phi                                                
+ChargeConj    Myphi    Myphi                                                
+#                                                        
+Alias    Myeta'    eta'                                                
+ChargeConj    Myeta'    Myeta'                                                
+#                                                        
+Alias    MyK0    K0                                                
+Alias    Myanti-K0    anti-K0                                                
+ChargeConj    MyK0    Myanti-K0                                                
+#                                                        
+Alias    Myomega    omega                                                
+ChargeConj    Myomega    Myomega                                                
+#                                                        
+Alias    Mya_00    a_00                                                
+ChargeConj    Mya_00    Mya_00                                                
+#                                                        
+Alias    Mya_1+    a_1+                                                
+Alias    Mya_1-    a_1-
+ChargeConj    Mya_1+    Mya_1-                                                
+#
+Alias    Mya_0+    a_0+                                                
+Alias    Mya_0-    a_0-                                                
+ChargeConj    Mya_0+    Mya_0-                                                
+#                                                        
+Alias    MyK_S0    K_S0                                                
+ChargeConj    MyK_S0    MyK_S0                                                
+#                                                        
+Alias    Myeta    eta                                                
+ChargeConj    Myeta    Myeta                                                
+#                                                        
+Alias    Myf_0    f_0                                                
+ChargeConj    Myf_0    Myf_0                                                
+#                                                        
+Alias    Myf_2    f_2                                                
+ChargeConj    Myf_2    Myf_2 
+#                                               
+Alias    Myrho+    rho+                                                
+Alias    Myrho-    rho-                                                
+ChargeConj    Myrho+    Myrho-
+#                                                        
+Alias    Myrho0    rho0                                                
+ChargeConj    Myrho0    Myrho0
+#
+Decay B+sig
+0.000500000     MyJpsi    pi-    pi+    pi+             PHSP;                        
+0.017600000     MyJpsi    pi+    pi+    pi-    pi0      PHSP;                        
+0.011000000     MyJpsi    Mya_1+                        SVV_HELAMP    0.2    0    0.866    0    0.458    0.0;
+0.040000000     MyJpsi    Mya_1+    pi0                 PHSP;
+0.002500000     MyJpsi    Mya_1+    Myrho0              PHSP;                        
+0.002728278     MyJpsi    Mya_1+    Myomega             PHSP;                        
+0.001600000     MyJpsi    pi+    Myrho0                 PHSP;                        
+0.002628241     MyJpsi    pi+    Myomega                PHSP;                        
+0.001082087     MyJpsi    pi+    Myf_2                  PHSP;                        
+0.001566239     MyJpsi    pi+    Myf_1                  PHSP;                        
+0.004700000     MyJpsi    pi+    pi+    pi+    pi-    pi-    PHSP;                        
+Enddecay                                                        
+CDecay B-sig
+#                                                        
+Decay MyJpsi                                                    
+1.000000000     mu+    mu-                        PHOTOS    VLL;                    
+Enddecay                                                        
+#                                                        
+Decay Myf_1                                                    
+0.110000000     Myrho0    pi+    pi-                    PHSP;                        
+0.043364159     Myrho0    pi0    pi0                    PHSP;                        
+0.043442860     Myrho+    pi-    pi0                    PHSP;                        
+0.043442860     Myrho-    pi+    pi0                    PHSP;                        
+0.024389753     Mya_00    pi0                        VSS;                        
+0.026528039     Mya_0+    pi-                        VSS;                        
+0.026528039     Mya_0-    pi+                        VSS;                        
+0.023687032     Myeta    pi+    pi-                    PHSP;                        
+0.011843516     Myeta    pi0    pi0                    PHSP;                        
+0.005815713     MyK0    Myanti-K0    pi0                    PHSP;                        
+0.007006848     Myanti-K0    K+    pi-                    PHSP;                        
+0.007006848     MyK0    K-    pi+                    PHSP;                        
+0.055000000     gamma    Myrho0                        PHSP;                        
+0.220000000     pi0    pi0    pi+    pi-                PHSP;                        
+0.000291187     Myphi    gamma                        PHSP;                        
+Enddecay                                                        
+#                                                        
+Decay Myf_2                                                    
+0.565000000     pi+    pi-                        TSS;                        
+0.071000000     pi+    pi-    pi0    pi0                PHSP;                        
+0.028000000     pi+    pi-    pi+    pi-                PHSP;                        
+0.010415089     MyK_S0    MyK_S0                        TSS;                        
+0.001889455     Myeta    Myeta                        TSS;                        
+Enddecay                                                        
+#                                                        
+Decay Myphi                                                    
+0.236955271     K_L0    MyK_S0                        VSS;                        
+0.042500000     Myrho+    pi-                        VVS_PWAVE    1    0    0    0    0    0.0;
+0.042500000     Myrho0    pi0                        VVS_PWAVE    1    0    0    0    0    0.0;
+0.042500000     Myrho-    pi+                        VVS_PWAVE    1    0    0    0    0    0.0;
+0.025000000     pi+    pi-    pi0                    PHSP;                        
+0.003581610     Myeta    gamma                        VSP_PWAVE;                        
+0.000031466     Myeta    e+    e-                    PHSP;                        
+0.000214677     Myf_0    gamma                        PHSP;                        
+0.000074000     pi+    pi-                        PHSP;                        
+0.000042743     Myomega    pi0                        PHSP;                        
+0.000041000     pi+    pi-    gamma                    PHSP;                        
+0.000004000     pi+    pi-    pi+    pi-                PHSP;                        
+0.000019892     pi0    Myeta    gamma                    PHSP;                        
+0.000031381     Myeta'    gamma                        PHSP;                        
+Enddecay                                                        
+#                                                        
+Decay Myeta'                                                    
+0.118201334     pi+    pi-    Myeta                    PHSP;                        
+0.059374281     pi0    pi0    Myeta                    PHSP;                        
+0.293511000     Myrho0    gamma                        SVP_HELAMP    1    0    1    0.0;        
+0.025009211     Myomega    gamma                        SVP_HELAMP    1    0    1    0.0;        
+0.003600000     pi+    pi-    pi0                    PHSP;                        
+0.002400000     pi+    pi-    e+    e-                PHSP;                        
+Enddecay                                                        
+#                                                        
+Decay Mya_00                                                    
+0.246252780     Myeta    pi0                        PHSP;                        
+0.012001086     MyK_S0    MyK_S0                        PHSP;                        
+Enddecay                                                        
+#                                                        
+Decay Mya_0+                                                    
+0.246252780     Myeta    pi+                        PHSP;                        
+0.034642583     Myanti-K0    K+                        PHSP;                        
+Enddecay                                                        
+CDecay Mya_0-                                                    
+#                                                        
+Decay MyK0                                                    
+0.346425835     MyK_S0                            PHSP;                        
+Enddecay                                                        
+CDecay Myanti-K0                                                    
+#                                                        
+Decay Myomega                                                    
+0.892000000     pi-    pi+    pi0                    OMEGA_DALITZ;                        
+0.015300000     pi-    pi+                        VSS;                        
+0.000125863     Myeta    gamma                        VSP_PWAVE;                        
+0.001500000     pi+    pi-    gamma                    PHSP;                        
+0.000500000     pi+    pi-    pi+    pi-                PHSP;                        
+Enddecay                                                        
+#                                                        
+Decay MyK_S0                                                    
+0.691086452     pi+    pi-                        PHSP;                        
+0.000000201     pi+    pi-    pi0                    PHSP;                        
+0.001722185     pi+    pi-    gamma                    PHSP;                        
+0.000042831     pi+    pi-    e+    e-                PHSP;                        
+Enddecay                                                        
+#                                                        
+Decay Myeta                                                    
+0.227400000     pi-    pi+    pi0                    ETA_DALITZ;                        
+0.046000000     gamma    pi-    pi+                    PHSP;                        
+0.000214200     pi+    pi-    e+    e-                PHSP;                        
+Enddecay                                                        
+#                                                        
+Decay Myf_0                                                    
+0.666700000     pi+    pi-                        PHSP;                        
+Enddecay
+#
+Decay    Mya_1+
+0.492000000     Myrho0    pi+                        VVS_PWAVE    1    0    0    0    0    0.0;
+Enddecay
+CDecay    Mya_1-
+#
+Decay Myrho0
+1.000000000     pi+    pi-                        VSS;
+Enddecay
+#
+Decay Myrho+
+1.000000000     pi+    pi0                        VSS;
+Enddecay
+CDecay Myrho-
+#
+End                                                        

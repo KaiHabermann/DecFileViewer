@@ -1,0 +1,92 @@
+# EventType: 11198013
+# 
+# Descriptor: [(B0 -> (D*(2010)- -> (D~0 -> K+ pi- pi- pi+) pi-) (D0 -> K- pi+) K+) || (B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) (D0 -> K- pi+ pi+ pi-) K+)]CC
+#
+# 
+# NickName: Bd_DstD0K,K3PiandKPi=TightCut,PHSP
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+##
+# from Configurables import LoKi__GenCutTool
+# gen = Generation(genAlgName)
+# gen.SignalRepeatedHadronization.addTool( LoKi__GenCutTool , 'TightCut' )
+##
+# tightCut = gen.SignalRepeatedHadronization.TightCut
+# tightCut.Decay = '[^(B0 ==> (D*(2010)- ==> ^(D~0 => ^K+ ^pi- ^pi- ^pi+) ^pi-) ^(D0 => ^K- ^pi+) ^K+) || ^(B0 ==> (D*(2010)- ==> ^(D~0 => ^K+ ^pi-) ^pi-) ^(D0 => ^K- ^pi+ ^pi+ ^pi-) ^K+)]CC'
+# tightCut.Preambulo += [
+#     'inAcc = in_range (0.005, GTHETA , 0.400) & in_range (1.8 , GETA , 5.2)',
+#     'goodFinalState = (GPT > 80 * MeV) & inAcc',
+#     'goodB = (GPT > 4000 * MeV)',
+#     'goodD0pi2b = (GNINTREE( ("pi+"==GABSID) & (GP > 800 * MeV) & goodFinalState) == 1 ) & (GNINTREE( ("K-"==GABSID) & (GP > 800 * MeV) & goodFinalState) == 1)',
+#     'goodD0pi4b = (GNINTREE( ("pi+"==GABSID) & (GP > 800 * MeV) & goodFinalState) == 3 ) & (GNINTREE( ("K-"==GABSID) & (GP > 800 * MeV) & goodFinalState) == 1)',
+#     'goodD0pi =  goodD0pi2b | goodD0pi4b '
+# ]
+##
+# tightCut.Cuts = {
+#     '[B0]cc'  : 'goodB' , 
+#     '[D0]cc'  : 'goodD0pi' , 
+#     '[K+]cc'  : 'goodFinalState' ,     
+#     '[pi+]cc' : 'goodFinalState' ,
+# }
+# EndInsertPythonCode
+#
+# Documentation:
+#  Decay File for B0 -> D*(2010)- D0 K+ +c.c in LHCb Acceptance, D0 forced to decay into K3pi or Kpi and D* into D0 pi. Generator level cuts applied to daughter particles P, PT, cut on B0 PT.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# Responsible: Jake Amey
+# Email: wq20892@bristol.ac.uk
+# Date: 20210209
+# CPUTime: < 1 min  
+
+Alias My_D*+_Kpi  D*+
+Alias My_D*-_Kpi  D*-
+Alias My_D*+_K3pi  D*+
+Alias My_D*-_K3pi  D*-
+Alias My_anti-D0_Kpi 	anti-D0
+Alias My_D0_K3pi   		D0
+Alias My_anti-D0_K3pi 	anti-D0
+Alias My_D0_Kpi                 D0
+
+ChargeConj My_D*-_Kpi My_D*+_Kpi
+ChargeConj My_D*-_K3pi My_D*+_K3pi
+ChargeConj My_anti-D0_Kpi My_D0_Kpi
+ChargeConj My_anti-D0_K3pi My_D0_K3pi
+
+#D0 Decay
+Decay My_D0_Kpi
+  1.0 K- pi+   PHSP;
+Enddecay
+CDecay My_anti-D0_Kpi
+
+#D0 K3pi Decay
+Decay My_D0_K3pi
+  1.0 K- pi+ pi+ pi-  PHSP;
+Enddecay
+CDecay My_anti-D0_K3pi
+
+#D*- Decay
+Decay My_D*-_Kpi
+  1.0 My_anti-D0_Kpi pi-  VSS;
+Enddecay
+CDecay My_D*+_Kpi
+
+#D*- Decay where D0 goess to K3pi
+Decay My_D*-_K3pi
+  1.0 My_anti-D0_K3pi pi-  VSS;
+Enddecay
+CDecay My_D*+_K3pi
+
+#B0 Decay
+Decay B0sig
+  0.5 My_D*-_Kpi My_D0_K3pi K+ PHSP;
+  0.5 My_D*-_K3pi My_D0_Kpi K+ PHSP;
+Enddecay
+CDecay anti-B0sig
+
+
+End

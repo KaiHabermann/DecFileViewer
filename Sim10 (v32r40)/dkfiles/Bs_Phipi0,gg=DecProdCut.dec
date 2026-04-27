@@ -1,0 +1,40 @@
+# EventType: 13102465
+#
+# Descriptor: [B_s0 -> (phi(1020) -> K+ K-) (pi0 -> gamma gamma)]cc
+#
+# NickName: Bs_Phipi0,gg=DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: daughters in acceptance.
+# EndDocumentation
+
+#
+# CPUTime: < 1 min
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Gaelle Khreich
+# Email: gaelle.khreich@cern.ch
+# Date: 20230328
+#
+Alias       MyPhi      phi
+ChargeConj  MyPhi      MyPhi
+Alias       MyPi0      pi0
+ChargeConj  MyPi0      MyPi0
+#
+
+Decay B_s0sig
+  1.000         MyPhi     MyPi0        SVS;
+Enddecay
+CDecay anti-B_s0sig
+#
+Decay MyPhi
+  1.000        K+       K-              VSS;
+Enddecay
+#
+Decay MyPi0
+  1.000         gamma       gamma        PHSP;
+Enddecay
+#
+End
+#

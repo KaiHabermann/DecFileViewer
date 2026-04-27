@@ -1,0 +1,48 @@
+# EventType: 13196004
+#
+# Descriptor: [B_s0 -> (D0 -> K- pi+) (D~0 -> K+ pi- pi- pi+)]cc
+#
+# NickName: Bs_D0D0bar,Kpipipi=AmpGen,Cut=DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation:  B_s0->D0D0bar, D0 and D0bar decaying into a kaon and a pion.
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Jonah Blank
+# Email: jonah.evan.blank@cern.ch
+# Date: 20230323
+
+# -----------------------
+# DEFINE THE D0 AND D0bar
+# -----------------------
+Alias      MyD0  D0
+Alias      Myanti-D0  anti-D0
+ChargeConj MyD0  Myanti-D0
+
+
+# ---------------
+# DECAY OF THE B0
+# ---------------
+Decay B_s0sig
+  1.000     MyD0       Myanti-D0            PHSP;
+Enddecay
+CDecay anti-B_s0sig
+
+
+# ---------------
+# DECAY OF THE D0
+# ---------------
+Decay MyD0
+  1.000 K-  pi+                    PHSP;
+Enddecay
+Decay Myanti-D0
+  1.000 K+ pi- pi- pi+             LbAmpGen DtoKpipipi;
+Enddecay
+
+End

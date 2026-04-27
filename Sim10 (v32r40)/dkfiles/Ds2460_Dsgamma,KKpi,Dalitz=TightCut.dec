@@ -1,0 +1,60 @@
+# EventType: 27163284
+#
+# Descriptor: [D_s1(2460)+ -> (D_s+ ->  K+ K- pi+ ) gamma ]cc
+#
+# NickName: Ds2460_Dsgamma,KKpi,Dalitz=TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+#
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation() 
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' ) 
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay     = '[ ^( D_s1(2460)+ =>  ^( D_s+ => ^K+ ^K- ^pi+ ) gamma ) ]CC'
+# tightCut.Cuts      =    {
+#     '[D_s1(2460)+]cc': ' goodDs1 ' , 
+#     '[D_s+]cc'       : ' goodDs ' , 
+#     '[K+]cc'         : ' goodKaon ' , 
+#     '[pi+]cc'        : ' goodPion ' , 
+#     } 
+#
+# tightCut.Preambulo += [
+#      'from GaudiKernel.SystemOfUnits import MeV'
+#     ,"CS  = LoKi.GenChild.Selector"
+#     ,'inAcc      = in_range ( 0.005 , GTHETA , 0.400 ) ' 
+#     ,"inCaloAcc    = ( (in_range(  0.025 , abs ( GPX/GPZ ) , 0.310 ) | in_range(  0.015 , abs ( GPY/GPZ ) , 0.260 )) & (GPZ > 0.0) )"
+#     ,'goodKaon   = ( GP > 1.9 * GeV ) & ( GPT > 200 * MeV ) & inAcc ' 
+#     ,'goodPion   = ( GP > 1.9 * GeV ) & ( GPT > 200 * MeV ) & inAcc ' 
+#     ,'goodDs     = ( GPT > 2.2 * GeV ) & ( GCHILD(GPT,CS("[D_s+ => ^K+ K- pi+ ]CC")) + GCHILD(GPT,CS("[D_s+ => K+ ^K- pi+ ]CC")) + GCHILD(GPT,CS("[D_s+ => K+ K- ^pi+ ]CC")) > 2.7*GeV )' 
+#     ,"goodDs1 =  ( GNINTREE(( 'gamma' == GABSID ) & ( GPT > 200*MeV ) & inCaloAcc, HepMC.descendants) > 0 )"
+#     ] 
+#
+# EndInsertPythonCode
+#
+# Documentation: D_s1(2460) decaying into Ds gamma with tight cuts for DsJ production vs multiplicity analysis
+# EndDocumentation
+#
+# CPUTime:  < 2 min
+#
+# PhysicsWG: IFT
+# Tested: Yes
+# Responsible:     Jose Ivan Cambon Bouzas
+# Email: joseivan.cambon.bouzas@usc.es
+# Date: 20231124
+#
+Alias        MyD_s-         D_s-
+Alias        MyD_s+         D_s+
+ChargeConj   MyD_s+         MyD_s-
+#
+Decay D_s1+sig
+ 1.000       MyD_s+         gamma   VSP_PWAVE;
+Enddecay
+CDecay D_s1-sig
+#
+Decay  MyD_s+
+ 1.000       K+      K-      pi+    D_DALITZ;
+Enddecay
+CDecay MyD_s-
+#
+End

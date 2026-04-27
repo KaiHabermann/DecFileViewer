@@ -1,0 +1,23 @@
+// Created by https://github.com/scikit-hep/decaylanguage
+digraph DecayChainGraph {
+	graph [comment="Created by https://github.com/scikit-hep/decaylanguage" engine=dot format=png name=DecayChainGraph rankdir=LR]
+	node [fontname=Helvetica fontsize=11 shape=oval]
+	edge [fontcolor="#4c4c4c" fontsize=11]
+	mother [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#568dba"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">B_c+sig</TD></TR></TABLE>> shape=none]
+	dec508255 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyJ/psi</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">MyD_s+</TD></TR></TABLE>> shape=none]
+	mother -> dec508255 [label=0.0017]
+	dec508256 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03bc;<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bc;<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec508255:p0 -> dec508256 [label=1.0]
+	dec508257 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyTau+</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03bd;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> shape=none]
+	dec508255:p1 -> dec508257 [label=0.0311]
+	dec508258 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>0</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;&#773;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec508257:p0 -> dec508258 [label=1.0]
+	dec508259 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyJ/psi</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">MyD+</TD></TR></TABLE>> shape=none]
+	mother -> dec508259 [label="9e-05"]
+	dec508260 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03bc;<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bc;<SUP>-</SUP></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec508259:p0 -> dec508260 [label=1.0]
+	dec508261 [label=<<TABLE BORDER="0" CELLSPACING="0" BGCOLOR="#9abad6"><TR><TD BORDER="1" CELLPADDING="5" PORT="p0">MyTau+</TD></TR><TR><TD BORDER="1" CELLPADDING="5" PORT="p1">&#x03bd;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> shape=none]
+	dec508259:p1 -> dec508261 [label=0.000770283]
+	dec508262 [label=<<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="0" BGCOLOR="#eef3f8"><TR><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>+</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>-</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03c0;<SUP>0</SUP></TD><TD BORDER="0" CELLPADDING="2">&#x03bd;&#773;<SUB>&#x03c4;</SUB></TD></TR></TABLE>> fillcolor="#eef3f8" style=filled]
+	dec508261:p0 -> dec508262 [label=1.0]
+}

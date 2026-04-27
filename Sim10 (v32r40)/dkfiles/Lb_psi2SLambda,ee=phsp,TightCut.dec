@@ -1,0 +1,59 @@
+# EventType: 15154116
+#
+# Descriptor: [Lambda_b0 => (Lambda0 => p+ pi-) (psi(2S) => e+ e- )]cc
+#
+# NickName: Lb_psi2SLambda,ee=phsp,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# PolarizedLambdab: no 
+#
+# InsertPythonCode:
+# 
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# gen = Generation(genAlgName)
+# gen.SignalPlain.addTool(LoKi__GenCutTool ,'TightCut')
+# tightCut = gen.SignalPlain.TightCut
+# tightCut.Decay   =  '[^(Lambda_b0 => ^(Lambda0 => ^p+ ^pi-) ^(psi(2S) => ^e+ ^e- ) )]CC'
+# tightCut.Cuts    =    {
+#     '[p+]cc'     : "tightCut",
+#     '[pi-]cc'    : "tightCut",
+#     'e+'         : "tightCut",
+#     'e-'         : "tightCut"}
+# tightCut.Preambulo += [
+#     "tightCut   = (240 * MeV < GPT )& in_range ( 1.85 , GETA , 5.05 ) " 
+#     ]
+# EndInsertPythonCode
+# Documentation: Lambda0 forced into p pi, includes radiative mode
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# Responsible: Mick Mulder 
+# Email:  mick.mulder@cern.ch
+# Date: 20180824
+#
+# CPUTime: 2 min
+#
+Alias      MyLambda      Lambda0
+Alias      Myanti-Lambda anti-Lambda0
+ChargeConj Myanti-Lambda MyLambda
+Alias      Mypsi2S       psi(2S)
+ChargeConj Mypsi2S       Mypsi2S
+#
+Decay Lambda_b0sig
+  1.000    MyLambda          Mypsi2S                 PHSP;
+Enddecay
+CDecay anti-Lambda_b0sig
+#
+Decay Mypsi2S
+  1.000     e+  e-                      PHOTOS  VLL;
+Enddecay
+#
+Decay MyLambda
+  1.000   p+          pi-                      PHSP;
+Enddecay
+CDecay Myanti-Lambda
+#
+End
+#

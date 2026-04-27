@@ -1,0 +1,85 @@
+# EventType: 11204278
+#
+# Descriptor: [B0 -> (phi(1020) -> K+ K-) (K*(892)0 -> K+ pi-)gamma]cc
+#
+# NickName: Bd_PhiKst0,KKKpigamma=HighPTGamma,TightCut
+#
+# Cuts: LoKi::GenCutTool/TightCut
+# InsertPythonCode:
+# from Configurables import LoKi__GenCutTool
+# from Gauss.Configuration import *
+# Generation().SignalRepeatedHadronization.addTool( LoKi__GenCutTool, "TightCut" )
+# tightCut = Generation().SignalRepeatedHadronization.TightCut
+# tightCut.Decay = "[(B0 ==> ^K+ ^K- ^K+ ^pi- ^gamma)]CC"
+# tightCut.Preambulo += [
+#    "from GaudiKernel.SystemOfUnits import  GeV, mrad,MeV",
+#    'inEcalX   = abs ( GPX / GPZ ) < 4.5 / 12.5 ' ,
+#    'inEcalY   = abs ( GPY / GPZ ) < 3.5 / 12.5 ' ,
+#    'inAcc     = in_range ( 0.005 , GTHETA , 0.400 ) ' ,
+#    'goodTrack = inAcc & (GPT >150*MeV) ' ,
+#    "GoodGamma = ('gamma' == GABSID) & (GPT >1.5*GeV) & inEcalX & inEcalY",
+#    "isGoodB    = (GBEAUTY)"
+#    ]
+# tightCut.Cuts = {
+#    'gamma' : 'GoodGamma',
+#    '[K+]cc'    : ' goodTrack ' , 
+#    '[pi+]cc'   : ' goodTrack ' ,
+#    '[B0]cc' : 'isGoodB'
+#    }
+# EndInsertPythonCode 
+#
+# Documentation: B0 decays to K+ K- K+ pi- gamma,hadrons in acceptance.
+# EndDocumentation
+#
+# PhysicsWG: RD
+# Tested: Yes
+# CPUTime:  2 min
+# Responsible: ranyu zhang
+# Email: ranyu.zhang@cern.ch
+# Date: 20230530
+#
+Alias      MyPhi   phi
+ChargeConj MyPhi   MyPhi
+#
+Alias      MyK*0       K*0
+Alias      Myanti-K*0  anti-K*0
+ChargeConj Myanti-K*0  MyK*0
+#
+LSNONRELBW MyPhi
+BlattWeisskopf MyPhi 0.0
+Particle MyPhi 1.02 0.004
+ChangeMassMin MyPhi 1.0
+ChangeMassMax MyPhi 1.04
+#
+LSNONRELBW MyK*0
+BlattWeisskopf MyK*0 0.0
+Particle MyK*0 0.892 0.06
+ChangeMassMin MyK*0 0.5
+ChangeMassMax MyK*0 3.0
+#
+LSNONRELBW Myanti-K*0
+BlattWeisskopf Myanti-K*0 0.0
+Particle Myanti-K*0 0.892 0.06
+ChangeMassMin Myanti-K*0 0.5
+ChangeMassMax Myanti-K*0 3.0
+#
+Decay B0sig
+  0.25       K+      K-      K+     pi-  gamma            PHSP; 	
+  0.25       MyK*0   K+     K-     gamma            PHSP; 	
+  0.25       MyPhi  K+      pi-   gamma            PHSP; 	
+  0.25       MyPhi  MyK*0  gamma                 PHSP;
+Enddecay
+CDecay  anti-B0sig
+#
+Decay MyK*0
+  1.000     K+    pi-            PHSP;
+Enddecay
+CDecay Myanti-K*0
+#
+Decay MyPhi
+  1.000     K+    K-            PHSP;
+Enddecay
+#
+End
+
+

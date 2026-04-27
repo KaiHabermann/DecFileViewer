@@ -1,0 +1,51 @@
+# EventType: 25103101
+#
+# Descriptor: [Lambda_c+ => ( KS0 => pi+ pi-) p+]cc
+#
+# NickName: Lc_KSp=TightCut 
+#
+# Cuts: LoKi::GenCutTool/TightCut         
+#                                        
+# InsertPythonCode:                       
+#                                         
+# from Configurables import LoKi__GenCutTool 
+# gen = Generation()                         
+# gen.SignalPlain.addTool ( LoKi__GenCutTool , 'TightCut' )  
+# tightCut = gen.SignalPlain.TightCut        
+# tightCut.Decay     = '^[Lambda_c+ => ( KS0 => ^pi+ ^pi-) ^p+]CC'                      
+# tightCut.Cuts      =    {                                  
+#     '[pi+]cc'    : ' inAcc ',                     
+#     '[p+]cc'     : ' inAcc & protonCuts',                    
+#     '[KS0]cc'     : ' ksCuts',                    
+#     '[Lambda_c+]cc'   : 'Lcuts' }                               
+# tightCut.Preambulo += [                                  
+#     'inAcc = in_range ( 0.005, GTHETA, 0.400 ) ' ,       
+#     'protonCuts = ( (GPT > 200 * MeV) & ( GP > 600 * MeV))',
+#     'ksCuts = (GPT > 400 * MeV) ',
+#     'Lcuts = (GPT > 1000 * MeV)' ]                  
+# EndInsertPythonCode  
+#   
+#
+# Documentation: Forces a Lambda_c+ to ( KS0 => pi+ pi- ) p+ with generator level cuts 
+# EndDocumentation
+#
+# PhysicsWG: Charm
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Giulia Tuci
+# Email: giulia.tuci@cern.ch
+# Date: 20220404
+#
+Alias       my_ks   K_S0
+ChargeConj  my_ks   my_ks
+#
+Decay  Lambda_c+sig
+1.00000  my_ks  p+         PHSP;
+Enddecay
+CDecay anti-Lambda_c-sig
+#
+Decay  my_ks
+  1.000     pi+      pi-    PHSP ;
+Enddecay
+#
+End

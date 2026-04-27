@@ -1,0 +1,40 @@
+# EventType: 12147002
+#
+# Descriptor: [B+ -> K+ (psi(2S) -> (J/psi(1S) -> mu+ mu-) pi+ pi-) pi+ pi-]cc
+#
+# NickName: Bu_ccKPiPi,Jpsi,mm=PHSP,DecProdCut
+#
+# Cuts: DaughtersInLHCb
+#
+# Documentation: B+ decay to psi(2S)(to Jpsi(to mu+ mu-)pi+ pi-) and pi- pi+ K+ with PHSP model, all daughters in acceptance
+# EndDocumentation
+#
+# PhysicsWG: Onia
+# Tested: Yes
+# Responsible: Rashi Sharma, Tomasz Skwarnicki
+# Email: rsharm18@syr.edu
+# Date: 20231113
+# CPUTime: < 1 min
+#
+Alias      MyJ/psi      J/psi
+ChargeConj MyJ/psi      MyJ/psi
+Alias      Mypsi2s      psi(2S)
+ChargeConj Mypsi2s      Mypsi2s
+#
+#
+#
+Decay B+sig
+      1.000 Mypsi2s K+ pi+ pi-  PHSP;
+Enddecay
+CDecay B-sig
+#
+Decay Mypsi2s
+      1.000 MyJ/psi pi+ pi- PHOTOS VVPIPI;
+Enddecay
+#
+Decay MyJ/psi
+      1.000     mu+ mu- PHOTOS VLL;
+Enddecay
+#
+End
+#

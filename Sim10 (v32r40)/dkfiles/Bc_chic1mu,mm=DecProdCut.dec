@@ -1,0 +1,41 @@
+# EventType: 14543201
+#
+# Descriptor: [B_c+ -> (chi_c1 -> (J/psi -> mu+ mu-) gamma) mu+ nu_mu]cc 
+#
+# NickName: Bc_chic1mu,mm=DecProdCut
+#
+# Production: BcVegPy
+#
+# Cuts: BcDaughtersInLHCb
+#
+# Documentation:  Bc->chic1 mu+, forced into chic1 to J/psi gamma and J/psi->mu+ mu-, using BcVegPy generator and cuts of BcDaughtersInLHCb.
+# EndDocumentation
+#
+# PhysicsWG:   B2SL
+# Tested:      Yes
+# Responsible: Wenqian Huang
+# Email:       wenqian.huang@cern.ch
+# Date:        20190308
+# CPUTime:     <1min 
+#
+Alias      MyJ/psi      J/psi
+ChargeConj MyJ/psi    MyJ/psi
+#
+Alias      Mychi_c1    chi_c1
+ChargeConj Mychi_c1  Mychi_c1
+#
+Decay B_c+sig
+  1.000    Mychi_c1   mu+   nu_mu              PHOTOS PHSP;
+Enddecay
+CDecay B_c-sig
+#
+Decay  Mychi_c1 
+  1.000    MyJ/psi    gamma  VVP 1.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0;
+Enddecay
+#
+Decay  MyJ/psi
+  1.000     mu+       mu-    VLL ;
+Enddecay
+#
+End
+

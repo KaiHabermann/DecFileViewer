@@ -1,0 +1,53 @@
+# EventType: 11494010
+#
+# Descriptor: [B0-> {(D0 -> K- pi+) || (D0 -> pi- pi+) || (D0 -> K- K+) || (D0 -> K- pi+ pi+ pi-) || (D0 -> K+ K- pi+ pi-) || (D0 -> pi+ pi- pi+ pi-)} {(anti-D0 -> K+ pi-) || (anti-D0 -> pi+ pi-) || (anti-D0 -> K+ K-) || (anti-D0 -> K+ pi- pi- pi+) || (anti-D0 -> K- K+ pi- pi+) || (anti-D0 -> pi- pi+ pi- pi+)}]cc
+#
+# NickName: Bd_D0D0bar,hh,hhhh=AmpGen,MINT,DecProdCut,pCut1600MeV
+#
+# Cuts: DaughtersInLHCbAndWithMinP
+#
+# ExtraOptions: TracksInAccWithMinP
+#
+# Documentation:  B0->D0D0, D0 decaying into two hadrons or four hadrons with LbAmpGen or MINT model
+# EndDocumentation
+#
+# PhysicsWG: B2OC
+# Tested: Yes
+# CPUTime: < 1 min
+# Responsible: Sophie Hollitt
+# Email: sophie.hollitt@cern.ch
+# Date: 20191210
+
+# -----------------------
+# DEFINE THE D0 AND D0bar
+# -----------------------
+Alias      MyD0  D0
+Alias      Myanti-D0  anti-D0
+ChargeConj MyD0  Myanti-D0
+
+
+# ---------------
+# DECAY OF THE B0
+# ---------------
+Decay B0sig
+  1.000     MyD0       Myanti-D0            PHSP;
+Enddecay
+CDecay anti-B0sig
+
+
+# ---------------
+# DECAY OF THE D0
+# ---------------
+Decay MyD0
+  0.500  K-  pi+                    PHSP;
+  0.100  pi-  pi+                   PHSP;
+  0.100  K-  K+                     PHSP;
+  0.200  K- pi+ pi+ pi-             LbAmpGen DtopiKpipi;
+  0.050  K+ K- pi+ pi-              LbAmpGen DtoKKpipi;
+  0.050	 pi+ pi- pi+ pi-	    D_hhhh 10;
+Enddecay
+CDecay Myanti-D0
+
+
+End
+
