@@ -165,6 +165,13 @@ function findMatches(decayStructure, filterObject) {
                 if (index !== -1) {
                     filterObject.searchDaughters.splice(index, 1);
                 }
+                else {
+                  // quick abort in case any daughter is not found
+                  // only a perfect match can count. 
+                  // returning 0 early makes this faster and ensures, that the final count will be off
+                  // leading to mismatch of the current search, which is what we want
+                  return 0;
+                }
             }
             return getWeight(decayStructure);
         }
