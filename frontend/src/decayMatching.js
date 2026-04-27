@@ -86,21 +86,22 @@ export function extractDaughters(decay) {
 }
   
 // Main function to check if a decay structure contains a search decay
-// This is the primary function used for matching decays in the search
-export function decayContains(decayStructure, searchDecay) {
+// topLevel: if true, return false immediately when the root mothers don't match (no descent)
+export function decayContains(decayStructure, searchDecay, topLevel = false) {
   if (!decayStructure || !searchDecay) return false;
-  
+
   // Both must be arrays (decays)
   if (!Array.isArray(decayStructure) || !Array.isArray(searchDecay)) {
     return false;
   }
-  
+
   // Check if mothers match
   const structureMother = normalizeParticleName(decayStructure[0]);
   const searchMother = normalizeParticleName(searchDecay[0]);
-  
+
   if (structureMother.replace(/sig$/, "") !== searchMother.replace(/sig$/, "")) {
-    // Mothers don't match, but check sub-decays
+    if (topLevel) return false;
+    // Mothers don't match, check sub-decays
     for (const item of decayStructure.slice(1)) {
       if (Array.isArray(item)) {
         if (decayContains(item, searchDecay)) {
