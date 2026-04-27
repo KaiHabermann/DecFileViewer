@@ -86,21 +86,22 @@ export function extractDaughters(decay) {
 }
   
 // Main function to check if a decay structure contains a search decay
-// This is the primary function used for matching decays in the search
-export function decayContains(decayStructure, searchDecay) {
+// topLevel: if true, return false immediately when the root mothers don't match (no descent)
+export function decayContains(decayStructure, searchDecay, topLevel = false) {
   if (!decayStructure || !searchDecay) return false;
-  
+
   // Both must be arrays (decays)
   if (!Array.isArray(decayStructure) || !Array.isArray(searchDecay)) {
     return false;
   }
-  
+
   // Check if mothers match
   const structureMother = normalizeParticleName(decayStructure[0]);
   const searchMother = normalizeParticleName(searchDecay[0]);
-  
+
   if (structureMother.replace(/sig$/, "") !== searchMother.replace(/sig$/, "")) {
-    // Mothers don't match, but check sub-decays
+    if (topLevel) return false;
+    // Mothers don't match, check sub-decays
     for (const item of decayStructure.slice(1)) {
       if (Array.isArray(item)) {
         if (decayContains(item, searchDecay)) {
@@ -150,28 +151,23 @@ function nodeName(decayStructure) {
 // TODO: Add branching with reset
 function findMatches(decayStructure, filterObject) {
     if (!(typeof decayStructure === 'string')){
+        // At any given traversal depth we will first check, if the mother of a subtree is in our search object
+        // if so, we will immediately terminate any further exploration
         const mother = nodeName(decayStructure);
         const daughters = decayStructure.slice(1);
         if (filterObject.searchDaughters.includes(mother)) {
             filterObject.searchDaughters.splice(filterObject.searchDaughters.indexOf(mother), 1);
             return getWeight(decayStructure);
         }
-        if (daughters.every(daughter => filterObject.searchDaughters.includes(nodeName(daughter)))) {
-            // all daughters are found, so we can return the weight of the mother. Also it is only legal to find all or none of the daughters.
-            // now we need to remove the daughters from the search daughters list. BUT names acan appear multiple times in both lists. We need to remove on a 1-1 basis.
-            for (const daughter of daughters) {
-                const daughterName = nodeName(daughter);
-                const index = filterObject.searchDaughters.indexOf(daughterName);
-                if (index !== -1) {
-                    filterObject.searchDaughters.splice(index, 1);
-                }
-            }
-            return getWeight(decayStructure);
-        }
-        else {
-            return daughters.reduce((acc, daughter) => acc + findMatches(daughter, filterObject), 0);
-        }
 
+        return daughters.reduce((acc, daughter) => acc + findMatches(daughter, filterObject), 0);
+    }
+
+    // DecayStructure is a single particle. So we simply check if it is in the list and shorten the list
+    if (filterObject.searchDaughters.includes(nodeName(decayStructure))) {
+      const index = filterObject.searchDaughters.indexOf(decayStructure);
+      filterObject.searchDaughters.splice(index, 1);
+      return 1;
     }
     return 0;
 
