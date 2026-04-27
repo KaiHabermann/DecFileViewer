@@ -979,7 +979,8 @@ function App() {
                   {(() => {
                     const descriptors = item.descriptors || [];
                     const firstDesc = descriptors[0] || '';
-                    return firstDesc && firstDesc.length > 20 ? firstDesc.substring(0, 20) + '...' : firstDesc;
+                    const preview = firstDesc && firstDesc.length > 20 ? firstDesc.substring(0, 20) + '...' : firstDesc;
+                    return `(${descriptors.length}) ${preview}`;
                   })()}
                 </td>
               </tr>
