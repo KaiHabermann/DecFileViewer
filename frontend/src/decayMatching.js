@@ -159,31 +159,7 @@ function findMatches(decayStructure, filterObject) {
             return getWeight(decayStructure);
         }
 
-        // Edit 27.04.2026: I am quite certain, that this code is not needed. The combination of the two cases: Mother is in search object and if not check daughters is sufficient, as we now also have the final check, that triggers, when we are down to single particle level.
-
-        // if (daughters.every(daughter => filterObject.searchDaughters.includes(nodeName(daughter)))) {
-        //     // all daughters are found, so we can return the weight of the mother. Also it is only legal to find all or none of the daughters.
-        //     // now we need to remove the daughters from the search daughters list. BUT names acan appear multiple times in both lists. We need to remove on a 1-1 basis.
-        //     for (const daughter of daughters) {
-        //         const daughterName = nodeName(daughter);
-        //         const index = filterObject.searchDaughters.indexOf(daughterName);
-        //         if (index !== -1) {
-        //             filterObject.searchDaughters.splice(index, 1);
-        //         }
-        //         else {
-        //           // quick abort in case any daughter is not found
-        //           // only a perfect match can count. 
-        //           // returning 0 early makes this faster and ensures, that the final count will be off
-        //           // leading to mismatch of the current search, which is what we want
-        //           return 0;
-        //         }
-        //     }
-        //     return getWeight(decayStructure);
-        // }
-        // else {
         return daughters.reduce((acc, daughter) => acc + findMatches(daughter, filterObject), 0);
-        // }
-
     }
 
     // DecayStructure is a single particle. So we simply check if it is in the list and shorten the list
