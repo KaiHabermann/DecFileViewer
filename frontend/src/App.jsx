@@ -259,7 +259,7 @@ function App() {
       item.filename.toLowerCase().includes(searchTerm.toLowerCase());
       
     // 2. Particle/Decay Filter (AND logic: must contain ALL selected filters)
-    const matchesFilters = selectedFilters.length === 0 || 
+    const matchesFilters = selectedFilters.length === 0 ||
       selectedFilters.every(filter => {
         // If filter is a string (particle)
         if (typeof filter === 'string') {
@@ -267,19 +267,17 @@ function App() {
           const itemParticlesLower = itemParticles.map(p => p.toLowerCase());
           return itemParticlesLower.includes(filter.toLowerCase());
         }
-        // If filter is an array (decay)
-        else if (Array.isArray(filter)) {
+        // If filter is a decay object { decay, topLevel }
+        else if (filter?.decay) {
           const decayStructures = item.decay_structures || [];
           if (decayStructures.length === 0) return false;
-          
-          // decay_structures is always a list of lists (each inner list is one mode)
-          // Structure: [[decay1_mode1, decay2_mode1], [decay1_mode2, ...]]
-          // Even single mode: [[decay1, decay2, ...]]
-          // Check if any mode contains the search decay
+
           return decayStructures.some(modeDecays => {
-            // modeDecays is a list of decay structures for one mode
             if (!Array.isArray(modeDecays)) return false;
-            return modeDecays.some(decay => decayContains(decay, filter));
+            if (filter.topLevel) {
+              return modeDecays.slice(0, 1).some(decay => decayContains(decay, filter.decay, true, filter.direct));
+            }
+            return modeDecays.some(decay => decayContains(decay, filter.decay, false, filter.direct));
           });
         }
         return false;
@@ -361,18 +359,19 @@ function App() {
   };
 
   const addFilter = (filter) => {
-    // Check if filter already exists (for particles, simple comparison; for decays, use decay matching)
+    // Wrap decay arrays in { decay, topLevel } objects
+    const entry = Array.isArray(filter) ? { decay: filter, topLevel: false, direct: false } : filter;
     const exists = selectedFilters.some(f => {
-      if (typeof f === 'string' && typeof filter === 'string') {
-        return f.toLowerCase() === filter.toLowerCase();
-      } else if (Array.isArray(f) && Array.isArray(filter)) {
-        return decaysMatch(f, filter);
+      if (typeof f === 'string' && typeof entry === 'string') {
+        return f.toLowerCase() === entry.toLowerCase();
+      } else if (f?.decay && entry?.decay) {
+        return decaysMatch(f.decay, entry.decay);
       }
       return false;
     });
-    
+
     if (!exists) {
-      setSelectedFilters([...selectedFilters, filter]);
+      setSelectedFilters([...selectedFilters, entry]);
     }
     setParticleSearch('');
     setShowSuggestions(false);
@@ -390,12 +389,30 @@ function App() {
     setSelectedFilters(selectedFilters.filter(f => {
       if (typeof f === 'string' && typeof filterToRemove === 'string') {
         return f !== filterToRemove;
-      } else if (Array.isArray(f) && Array.isArray(filterToRemove)) {
-        return !decaysMatch(f, filterToRemove);
+      } else if (f?.decay && filterToRemove?.decay) {
+        return !decaysMatch(f.decay, filterToRemove.decay);
       }
       return true;
     }));
     setDisplayLimit(100);
+  };
+
+  const toggleTopLevel = (filterEntry) => {
+    setSelectedFilters(selectedFilters.map(f => {
+      if (f?.decay && filterEntry?.decay && decaysMatch(f.decay, filterEntry.decay)) {
+        return { ...f, topLevel: !f.topLevel };
+      }
+      return f;
+    }));
+  };
+
+  const toggleDirect = (filterEntry) => {
+    setSelectedFilters(selectedFilters.map(f => {
+      if (f?.decay && filterEntry?.decay && decaysMatch(f.decay, filterEntry.decay)) {
+        return { ...f, direct: !f.direct };
+      }
+      return f;
+    }));
   };
 
   // Handle input changes and detect decay mode triggers
@@ -533,22 +550,18 @@ function App() {
 
   // Handle double-click on a filter to edit it
   const handleFilterDoubleClick = (filter) => {
-    if (Array.isArray(filter) && filter.length > 0) {
-      // It's a decay - enter decay mode with the existing decay
+    if (filter?.decay) {
+      const decay = filter.decay;
       setDecayMode(true);
-      setDecayMother(filter[0]);
-      // Extract all direct daughters (flatten sub-decays)
-      const daughters = filter.slice(1).map(d => {
+      setDecayMother(decay[0]);
+      const daughters = decay.slice(1).map(d => {
         if (Array.isArray(d)) {
-          // For sub-decays, we'll just use the mother particle for now
-          // Or we could format it as a string representation
           return formatFilter(d);
         }
         return d;
       });
       setDecayDaughters(daughters);
       setParticleSearch('');
-      // Remove the filter so user can re-add it after editing
       removeFilter(filter);
       // Focus the input
       setTimeout(() => {
@@ -654,9 +667,11 @@ function App() {
   const formatFilter = (filter) => {
     if (typeof filter === 'string') {
       return filter;
-    } else if (Array.isArray(filter) && filter.length > 0) {
-      const mother = filter[0];
-      const daughters = filter.slice(1).map(d => 
+    }
+    const decay = filter?.decay ?? filter;
+    if (Array.isArray(decay) && decay.length > 0) {
+      const mother = decay[0];
+      const daughters = decay.slice(1).map(d =>
         Array.isArray(d) ? `(${formatFilter(d)})` : d
       ).join(' ');
       return `${mother} -> ${daughters}`;
@@ -790,18 +805,54 @@ function App() {
           <div className="particle-filter-container" ref={wrapperRef}>
             <div className="selected-particles">
               {selectedFilters.map((filter, idx) => (
-                <span 
-                  key={idx} 
-                  className="particle-tag" 
-                  style={{ 
-                    fontFamily: Array.isArray(filter) ? 'monospace' : 'inherit',
-                    fontSize: Array.isArray(filter) ? '0.85em' : 'inherit',
+                <span
+                  key={idx}
+                  className="particle-tag"
+                  style={{
+                    fontFamily: filter?.decay ? 'monospace' : 'inherit',
+                    fontSize: filter?.decay ? '0.85em' : 'inherit',
                     cursor: 'pointer'
                   }}
                   onDoubleClick={() => handleFilterDoubleClick(filter)}
                   title="Double-click to edit"
                 >
                   {formatFilter(filter)}
+                  {filter?.decay && (
+                    <>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); toggleTopLevel(filter); }}
+                        title={filter.topLevel ? 'Top-level only (click to allow sub-decays)' : 'Matches at any depth (click to require top-level)'}
+                        style={{
+                          marginLeft: '4px',
+                          marginRight: '2px',
+                          background: filter.topLevel ? '#1976D2' : 'transparent',
+                          color: filter.topLevel ? 'white' : 'inherit',
+                          border: '1px solid currentColor',
+                          borderRadius: '3px',
+                          padding: '0 3px',
+                          fontSize: '0.8em',
+                          cursor: 'pointer',
+                          lineHeight: '1.4'
+                        }}
+                      >{filter.topLevel ? 'top' : 'T'}</button>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); toggleDirect(filter); }}
+                        title={filter.direct ? 'Direct decay only (click to allow intermediate resonances)' : 'Allows intermediate resonances (click to require direct decay)'}
+                        style={{
+                          marginLeft: '2px',
+                          marginRight: '2px',
+                          background: filter.direct ? '#1976D2' : 'transparent',
+                          color: filter.direct ? 'white' : 'inherit',
+                          border: '1px solid currentColor',
+                          borderRadius: '3px',
+                          padding: '0 3px',
+                          fontSize: '0.8em',
+                          cursor: 'pointer',
+                          lineHeight: '1.4'
+                        }}
+                      >{filter.direct ? 'direct' : 'D'}</button>
+                    </>
+                  )}
                   <button onClick={() => removeFilter(filter)}>&times;</button>
                 </span>
               ))}
@@ -979,7 +1030,8 @@ function App() {
                   {(() => {
                     const descriptors = item.descriptors || [];
                     const firstDesc = descriptors[0] || '';
-                    return firstDesc && firstDesc.length > 20 ? firstDesc.substring(0, 20) + '...' : firstDesc;
+                    const preview = firstDesc && firstDesc.length > 20 ? firstDesc.substring(0, 20) + '...' : firstDesc;
+                    return `(${descriptors.length}) ${preview}`;
                   })()}
                 </td>
               </tr>
