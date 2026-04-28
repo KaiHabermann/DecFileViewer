@@ -275,7 +275,7 @@ function App() {
           return decayStructures.some(modeDecays => {
             if (!Array.isArray(modeDecays)) return false;
             if (filter.topLevel) {
-              return modeDecays.slice(0, 1).some(decay => decayContains(decay, filter.decay, true, filter.direct));
+              return modeDecays.some(decay => decayContains(decay, filter.decay, true, filter.direct));
             }
             return modeDecays.some(decay => decayContains(decay, filter.decay, false, filter.direct));
           });

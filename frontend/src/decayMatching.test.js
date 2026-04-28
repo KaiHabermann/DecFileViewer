@@ -214,6 +214,23 @@ describe('decayContains — deep chains', () => {
   })
 })
 
+describe('decayContains — B0sig -> (D- -> (K_S0 -> pi+ pi-) pi-) pi+', () => {
+  // file: B0sig -> (D- -> (K_S0 -> pi+ pi-) pi-) pi+
+  // search: B0 -> K_S0 pi- pi+
+  const file = ['B0sig', ['D-', ['K_S0', 'pi+', 'pi-'], 'pi-'], 'pi+']
+  const search = ['B0', 'K_S0', 'pi-', 'pi+']
+
+  it('normal mode: matches by folding D- daughters into B0 and treating K_S0 as a resonance', () => {
+    expect(decayContains(file, search)).toBe(true)
+  })
+  it('topLevel mode: matches at root level by folding sub-decays', () => {
+    expect(decayContains(file, search, true)).toBe(true)
+  })
+  it('direct mode: does not match because K_S0 and pi- are inside D-, not direct daughters of B0', () => {
+    expect(decayContains(file, search, false, true)).toBe(false)
+  })
+})
+
 describe('decayContains — topLevel + direct combined', () => {
   const file = ['B+', ['D0', 'K-', 'pi+'], 'pi+']
 
